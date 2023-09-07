@@ -8,7 +8,7 @@
 - H2 Database for Local Instances
 - PostgreSQL for Docker Deployment
 
-## Repository Name: [ravi-safehealth/gRPCTemplate](https://github.com/ravi-safehealth/gRPCTemplate)
+## Repository Name: [opencdx/opencdx](https://github.com/opencdx/opencdx)
 
 ## Description
 
