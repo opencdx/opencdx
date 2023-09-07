@@ -1,0 +1,42 @@
+plugins {
+	id("application")
+}
+
+
+dependencies {
+	implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+	implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+	implementation "org.springframework.cloud:spring-cloud-config-server"
+	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+	implementation "de.codecentric:spring-boot-admin-starter-client"
+
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ["src/main/java", "build/generated/sources/annotationProcessor/java/main"]
+		}
+		resources {
+			srcDirs = ["src/main/resources"]
+		}
+
+	}
+	test {
+		java {
+			srcDirs = ["src/test/java", "build/generated/sources/annotationProcessor/java/test"]
+		}
+		resources {
+			srcDirs = ["src/test/resources"]
+		}
+	}
+}
+
+bootJar {
+	enabled = true
+}
+
+application {
+	// Define the main class for the application.
+	mainClass = "health.safe.opencdx.config.Application"
+}

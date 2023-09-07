@@ -1,0 +1,231 @@
+import se.solrike.sonarlint.SonarlintListRules
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    ext {
+        SEMANTIC_RELEASE_VERSION = "0.0." + (System.env.CIRCLE_BUILD_NUM ?: "0")
+    }
+    dependencies {
+        classpath "se.solrike.sonarlint:sonarlint-gradle-plugin:1.0.0-beta.15"
+        classpath "se.solrike.otsswinfo:ots-sw-info-gradle-plugin:1.0.0-beta.10"
+        classpath "org.owasp:dependency-check-gradle:${owaspVersion}"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:6.20.0"
+    }
+}
+
+plugins {
+    id "java"
+    id "maven-publish"
+    id "jacoco"
+    id "org.springframework.boot" version "3.1.3"
+    id "io.freefair.lombok" version "6.5.0"
+    id "eclipse"
+    id "idea"
+    id "se.solrike.sonarlint" version "1.0.0-beta.15"
+    id "se.solrike.otsswinfo" version "1.0.0-beta.10"
+    id "io.spring.dependency-management" version "1.1.3"
+    id "org.owasp.dependencycheck" version "8.4.0"
+    id "com.diffplug.spotless" version "6.21.0"
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "application"
+    apply plugin: "jacoco"
+    apply plugin: "maven-publish"
+    apply plugin: "io.freefair.lombok"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "idea"
+    apply plugin: "se.solrike.sonarlint"
+    apply plugin: "se.solrike.otsswinfo"
+    apply plugin: "org.owasp.dependencycheck"
+    apply plugin: "com.diffplug.spotless"
+}
+
+bootJar {
+    enabled = false
+}
+
+// Configuration for JaCoCo Report Summary
+tasks.register("jacocoRootReport", JacocoReport) {
+    description = "Generates an aggregate report from all subprojects"
+    dependsOn(subprojects.test)
+
+    additionalSourceDirs.from = files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.from = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.from = files(subprojects.sourceSets.main.output)
+    executionData.from = files(subprojects.jacocoTestReport.executionData)
+
+    reports {
+        html.required = true
+    }
+}
+
+jacocoRootReport {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: [
+                "**/grpc/**/*.class"
+        ])
+    }))
+}
+
+// Configuration for All Tests reporting
+tasks.register("testReport", TestReport) {
+    destinationDir = file("$buildDir/reports/allTests")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
+}
+
+// SonarLint Rules Task configuration.
+tasks.register("sonarlintListRules", SonarlintListRules) {
+    description = "List sonarlint rules"
+    group = "verification"
+}
+
+// Dependency Check Configuration
+check.dependsOn dependencyCheckAggregate
+
+dependencyCheck {
+    analyzers.assemblyEnabled = false
+    suppressionFile = "./config/owasp_suppression.xml"
+}
+
+// License Check
+otsSwInfo {
+    extraVersionInfo = [
+            "SBOM for $project.name $project.version",
+            "ID: $project.group:$project.name:$project.version",
+            "Timestamp: ${new Date()}"
+    ]
+
+}
+
+def exportedProjects = [
+        ":opencdx-commons",
+        ":opencdx-helloworld",
+        ":opencdx-client",
+        ":opencdx-tinkar"
+]
+
+task allJavadoc(type: Javadoc) {
+    source exportedProjects.collect { project(it).sourceSets.main.allJava }
+    classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
+    destinationDir = file("${buildDir}/docs/javadoc-all")
+    options.addBooleanOption("Xwerror", true)
+}
+
+allprojects {
+
+    group "health.safe"
+    version "${SEMANTIC_RELEASE_VERSION}"
+    sourceCompatibility = JavaVersion.VERSION_20
+    targetCompatibility = JavaVersion.VERSION_20
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        sonarlintPlugins "org.sonarsource.html:sonar-html-plugin:3.6.0.3106"
+        sonarlintPlugins "org.sonarsource.java:sonar-java-plugin:7.20.0.31692"
+
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    tasks.named("compileJava") {
+        inputs.files(tasks.named("processResources"))
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+
+    // Project Level JaCoCo configuration
+    jacocoTestReport {
+        dependsOn test
+    }
+
+    jacoco {
+        toolVersion = "0.8.9"
+    }
+
+    jacocoTestReport {
+        dependsOn test // tests are required to run before generating the report
+        reports {
+            xml.required = true
+            html.required = true
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/Application.class"
+                ])
+            }))
+        }
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                limit {
+                    minimum = 0.9
+                }
+            }
+        }
+    }
+
+    check.dependsOn jacocoTestCoverageVerification
+
+    // Project Level SonarLint Configuration
+    sonarlintMain {
+        reports {
+            text.enabled = false
+            html.enabled = true
+            xml.enabled = true
+            sarif.enabled = false
+        }
+        exclude "build/generated/**"
+        exclude "build/generated/*"
+    }
+    sonarlint {
+        excludeRules = ["java:S4032"]
+        includeRules = []
+        ignoreFailures = false
+        maxIssues = 0
+        // note that rule parameter names are case sensitive
+        ruleParameters = [
+                "java:S1176": [
+//                        "forClasses":"**.api.**",      // need javadoc for public methods in package matching "api"
+"exclusion": "**.private.**"] // do not need javadoc for classes under "private". Default is **.internal.**
+        ]
+        showIssues = true // default true
+    }
+
+    // Project Level Code Formatting configuration
+    spotless {
+        java {
+            importOrder()
+            removeUnusedImports()
+            cleanthat()          // has its own section below
+            palantirJavaFormat()
+            formatAnnotations()  // fixes formatting of type annotations, see below
+            licenseHeaderFile("${project.rootDir}/license.header")
+        }
+    }
+}
+

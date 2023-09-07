@@ -1,0 +1,19 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package health.safe.api.opencdx.grpc.tinkar;
+
+// The greeting service definition.
+service Tinkar {
+  // Sends a greeting
+  rpc sayTinkar (TinkarRequest) returns (TinkarReply) {}
+}
+
+// The request message containing the user's name.
+message TinkarRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message TinkarReply {
+  string message = 1;
+}

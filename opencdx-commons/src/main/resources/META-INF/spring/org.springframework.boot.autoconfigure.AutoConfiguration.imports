@@ -1,0 +1,2 @@
+health.safe.api.opencdx.commons.config.CommonsConfig
+io.nats.spring.boot.autoconfigure.NatsAutoConfiguration

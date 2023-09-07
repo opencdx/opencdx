@@ -1,0 +1,107 @@
+version: '3'
+services:
+  helloworld:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/helloworld:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      config:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+    ports:
+      - "8081:8081"
+      - "9090:9090"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/opencdx
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER=org.postgresql.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
+
+  tinkar:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/tinkar:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      config:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    ports:
+      - "8180:8180"
+      - "9190:9190"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/opencdx
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER=org.postgresql.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
+
+  admin:
+    image: opencdx/admin:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:8761/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+    ports:
+      - "8761:8761"
+
+  config:
+    image: opencdx/config:latest
+    ports:
+      - "8888:8888"
+    depends_on:
+      admin:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8888/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=opencdx
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+  nats:
+    image: nats
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"

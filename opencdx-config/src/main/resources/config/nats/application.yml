@@ -1,0 +1,6 @@
+# Properties for NATS go here.
+
+# See https://github.com/nats-io/spring-nats/blob/main/nats-spring/src/main/java/io/nats/spring/boot/autoconfigure/NatsConnectionProperties.java
+nats:
+  spring:
+    server: nats://nats:4222

@@ -1,0 +1,22 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package health.safe.api.opencdx.grpc.helloworld;
+
+// The greeting service definition.
+service Greeter {
+  // This is the description for the grpc SayHello Greeter Service. This takes in a HelloRequest as message and returns
+  // a HelloReply greeting message. Used to Send a greeting.
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  // This is the description for the name attribute of the HelloRequest message.
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  // This is the description for the message attribute of the HelloReply message.
+  string message = 1;
+}

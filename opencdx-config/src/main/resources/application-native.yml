@@ -1,0 +1,39 @@
+# Properties for a Managed Environment go here.
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    health:
+      safe: debug
+spring:
+  application:
+    name: Config
+  boot:
+    admin:
+      client:
+        url: http://admin:761/admin/
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config/{profile}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:8761/eureka/
+
+server:
+  port: 8888
+
+
