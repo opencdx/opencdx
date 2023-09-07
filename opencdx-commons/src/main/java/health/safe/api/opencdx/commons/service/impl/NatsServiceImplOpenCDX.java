@@ -80,7 +80,7 @@ public class NatsServiceImplOpenCDX implements OpenCDXMessageService {
         }
     }
 
-    private class NatsMessageHandler implements MessageHandler {
+    protected class NatsMessageHandler implements MessageHandler {
         OpenCDXMessageHandler handler;
 
         public NatsMessageHandler(OpenCDXMessageHandler handler) {
