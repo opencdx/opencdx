@@ -80,10 +80,17 @@ public class NatsServiceImplOpenCDX implements OpenCDXMessageService {
         }
     }
 
+    /**
+     * Handler wrapper for NATS
+     */
     protected class NatsMessageHandler implements MessageHandler {
         OpenCDXMessageHandler handler;
 
-        public NatsMessageHandler(OpenCDXMessageHandler handler) {
+        /**
+         * Constructor for wrapping a OpenCDXMessageHandler
+         * @param handler OpenCDXMessageHandler to wrap.
+         */
+        protected NatsMessageHandler(OpenCDXMessageHandler handler) {
             this.handler = handler;
         }
 
