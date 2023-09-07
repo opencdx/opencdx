@@ -13,34 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.audit.model;
+package health.safe.api.opencdx.audit.service.impl;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import health.safe.api.opencdx.audit.service.AuditService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- * Person record from database.
+ * Service for processing HelloWorld Requests
  */
-@Data
-@AllArgsConstructor
-@Builder
-@Entity
-public class Person {
+@Service
+public class AuditServiceImpl implements AuditService {
+
     /**
      * Default Constructor
      */
-    public Person() {
+    @Autowired
+    public AuditServiceImpl() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String name;
 }

@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.audit.repository;
-
-import health.safe.api.opencdx.audit.model.Person;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+package health.safe.api.opencdx.audit.service;
 
 /**
- * Repository for interacting the "person" records
+ * Interface for the HelloWorldService
  */
-@Repository
-public interface PersonRepository extends CrudRepository<Person, Long> {}
+public interface AuditService {}

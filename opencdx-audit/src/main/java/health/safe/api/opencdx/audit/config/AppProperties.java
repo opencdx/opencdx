@@ -22,7 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Applicaiton Properties
  */
 @Data
-@ConfigurationProperties("opencdx.helloworld")
+@ConfigurationProperties("opencdx.audit")
 public class AppProperties {
     /**
      * Default Constructor
@@ -30,6 +30,4 @@ public class AppProperties {
     public AppProperties() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
-
-    private String format;
 }

@@ -44,8 +44,7 @@ class AppConfigTest {
     }
 
     @Test
-    void testFormat() {
-        AppConfig appConfig = new AppConfig();
-        Assertions.assertEquals("Hello %s!", appConfig.format(this.appProperties));
+    void nullCheck() {
+        Assertions.assertNotNull(this.appProperties);
     }
 }

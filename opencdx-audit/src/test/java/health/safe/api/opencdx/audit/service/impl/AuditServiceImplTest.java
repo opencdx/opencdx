@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.audit.service;
+package health.safe.api.opencdx.audit.service.impl;
 
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import health.safe.api.opencdx.audit.service.AuditService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/**
- * Interface for the HelloWorldService
- */
-public interface HelloWorldService {
-    /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
-     */
-    String sayHello(HelloRequest request);
+class AuditServiceImplTest {
+    AuditService auditService;
+
+    @BeforeEach
+    void beforeEach() {
+        this.auditService = new AuditServiceImpl();
+    }
+
+    @Test
+    void nullCheck() {
+        Assertions.assertNotNull(this.auditService);
+    }
 }
