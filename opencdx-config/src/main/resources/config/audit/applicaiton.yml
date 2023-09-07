@@ -2,12 +2,6 @@
 spring:
   application:
     name: Audit
-grpc:
-  port: 9290
 
 server:
   port: 8280
-
-opencdx:
-  audit:
-    format: "Hello %s!"

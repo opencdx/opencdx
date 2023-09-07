@@ -53,15 +53,6 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
-    ports:
-      - "8280:8280"
-      - "9290:9290"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/opencdx
-      - SPRING_DATASOURCE_USERNAME=sa
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_DATASOURCE_DRIVER=org.postgresql.Driver
-      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
 
   tinkar:
     deploy:

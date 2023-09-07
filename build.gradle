@@ -110,7 +110,8 @@ def exportedProjects = [
         ":opencdx-commons",
         ":opencdx-helloworld",
         ":opencdx-client",
-        ":opencdx-tinkar"
+        ":opencdx-tinkar",
+        ":opencdx-audit"
 ]
 
 task allJavadoc(type: Javadoc) {
