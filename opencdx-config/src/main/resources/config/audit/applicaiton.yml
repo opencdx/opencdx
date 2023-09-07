@@ -1,13 +1,13 @@
 # Properties for a Managed Environment go here.
 spring:
   application:
-    name: HelloWorld
+    name: Audit
 grpc:
-  port: 9090
+  port: 9290
 
 server:
-  port: 8080
+  port: 8280
 
 opencdx:
-  helloworld:
+  audit:
     format: "Hello %s!"

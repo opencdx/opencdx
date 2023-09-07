@@ -11,5 +11,13 @@ plugins {
 }
 
 rootProject.name = 'OpenCDX'
-include('opencdx-helloworld', 'opencdx-tinkar', 'opencdx-proto','opencdx-commons','opencdx-client','opencdx-admin','opencdx-config')
+include('opencdx-helloworld',
+        'opencdx-tinkar',
+        'opencdx-proto',
+        'opencdx-commons',
+        'opencdx-client',
+        'opencdx-admin',
+        'opencdx-config',
+        'opencdx-audit'
+)
 
