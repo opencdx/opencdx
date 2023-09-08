@@ -13,15 +13,15 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
-    implementation "io.github.lognet:grpc-spring-boot-starter:5.1.4"
+    implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
 
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "de.codecentric:spring-boot-admin-starter-client"
 
 
     // Database Drivers
-    runtimeOnly "com.h2database:h2:2.2.220"
-    runtimeOnly "org.postgresql:postgresql:42.6.0"
+    runtimeOnly "com.h2database:h2:${h2databaseVersion}"
+    runtimeOnly "org.postgresql:postgresql:${postgressqlVersion}"
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
@@ -32,7 +32,7 @@ dependencies {
     implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
 
-    testImplementation "io.nats:nats-spring:0.5.6"
+    testImplementation "io.nats:nats-spring:${natsSpringVersion}"
 }
 
 sourceSets {
