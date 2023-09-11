@@ -17,6 +17,8 @@ logging:
     health:
       safe: DEBUG
 spring:
+  application:
+    name: Tinkar
   datasource:
     url: jdbc:h2:mem:opencdx
     driverClassName: org.h2.Driver
