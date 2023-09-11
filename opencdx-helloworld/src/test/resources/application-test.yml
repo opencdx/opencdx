@@ -17,6 +17,8 @@ logging:
     health:
       safe: DEBUG
 spring:
+  application:
+    name: HelloWorld
   cloud:
     config:
       enabled: false
