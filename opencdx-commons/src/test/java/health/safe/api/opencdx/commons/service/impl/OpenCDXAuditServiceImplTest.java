@@ -15,28 +15,21 @@
  */
 package health.safe.api.opencdx.commons.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
-import health.safe.api.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import io.nats.client.Connection;
-import io.nats.client.Dispatcher;
+
 import java.util.UUID;
-import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
-@SpringBootTest(classes = {CommonsConfig.class, OpenCDXAuditServiceImpl.class, NoOpOpenCDXMessageService.class})
+@SpringBootTest(classes = {CommonsConfig.class, OpenCDXAuditServiceImpl.class, NoOpOpenCDXMessageServiceImpl.class})
 @ExtendWith(SpringExtension.class)
 class OpenCDXAuditServiceImplTest {
 

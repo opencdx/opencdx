@@ -18,8 +18,8 @@ package health.safe.api.opencdx.commons.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
-import health.safe.api.opencdx.commons.service.impl.NatsServiceImplOpenCDX;
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageService;
+import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
+import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -57,12 +57,12 @@ public class CommonsConfig {
     @Bean("noop")
     @ConditionalOnMissingBean(OpenCDXMessageService.class)
     OpenCDXMessageService noOpOpenCDXMessageService() {
-        return new NoOpOpenCDXMessageService();
+        return new NoOpOpenCDXMessageServiceImpl();
     }
 
     @Bean("nats")
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
     OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
-        return new NatsServiceImplOpenCDX(natsConnection,objectMapper);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection,objectMapper);
     }
 }
