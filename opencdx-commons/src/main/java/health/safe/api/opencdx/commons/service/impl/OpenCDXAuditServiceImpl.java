@@ -36,12 +36,6 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
 
     private String applicationName;
     /**
-     * Default Constructor
-     */
-    public OpenCDXAuditServiceImpl() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-    /**
      * Constructor based on the OpenCDXMessageService
      * @param messageService Messaging Service to use,
      * @param applicationName Applicaiton name to set.
