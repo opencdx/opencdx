@@ -17,6 +17,8 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import health.safe.api.opencdx.commons.config.CommonsConfig;
+import health.safe.api.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
@@ -25,38 +27,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ActiveProfiles("test")
+@SpringBootTest(classes = {CommonsConfig.class, OpenCDXAuditServiceImpl.class, NoOpOpenCDXMessageService.class})
+@ExtendWith(SpringExtension.class)
 class OpenCDXAuditServiceImplTest {
-    @Mock
-    Connection connection;
 
-    @Mock
-    Dispatcher dispatcher;
-
-    ObjectMapper objectMapper;
-
-    NatsServiceImplOpenCDX natsService;
-
+    @Autowired
     OpenCDXAuditService auditService;
-
-    @BeforeEach
-    void setUp() {
-        this.connection = Mockito.mock(Connection.class);
-        this.dispatcher = Mockito.mock(Dispatcher.class);
-
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new ProtobufModule());
-
-        Mockito.when(this.connection.createDispatcher()).thenReturn(this.dispatcher);
-        this.natsService = new NatsServiceImplOpenCDX(this.connection, this.objectMapper);
-
-        this.auditService = new OpenCDXAuditServiceImpl(natsService, "Test");
-    }
-
-    @AfterEach
-    void tearDown() {}
 
     @Test
     void userLoginSucceed() {

@@ -33,8 +33,6 @@ import org.springframework.stereotype.Service;
  * NATS based implementation of OpenCDXMessageService
  */
 @Slf4j
-@ConditionalOnProperty(prefix = "nats.spring", name = "server")
-@Service("NATS")
 public class NatsServiceImplOpenCDX implements OpenCDXMessageService {
 
     private final Connection natsConnection;
