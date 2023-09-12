@@ -115,3 +115,5 @@ services:
       - "4222:4222"
       - "6222:6222"
       - "8222:8222"
+    environment:
+      NATS_STREAM_MAX_AGE: 86400s
