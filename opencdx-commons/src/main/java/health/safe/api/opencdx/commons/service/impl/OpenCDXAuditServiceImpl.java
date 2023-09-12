@@ -47,142 +47,155 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     }
 
     @Override
-    public void userLoginSucceed(UUID actor) {
+    public void userLoginSucceed(UUID actor, AgentType agentType) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.USER_LOGIN_SUCCEEDED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void userLoginFailure(UUID actor) {
+    public void userLoginFailure(UUID actor, AgentType agentType) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.USER_LOGIN_FAIL)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void userLogout(UUID actor) {
+    public void userLogout(UUID actor, AgentType agentType) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.USER_LOGOUT)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void userAccessChange(UUID actor, UUID auditEntity) {
+    public void userAccessChange(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.USER_ACCESS_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void passwordChange(UUID actor, UUID auditEntity) {
+    public void passwordChange(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.USER_PASSWORD_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void piiAccessed(UUID actor, UUID auditEntity) {
+    public void piiAccessed(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PII_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void piiCreated(UUID actor, UUID auditEntity) {
+    public void piiCreated(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PII_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void piiUpdated(UUID actor, UUID auditEntity) {
+    public void piiUpdated(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PII_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void piiDeleted(UUID actor, UUID auditEntity) {
+    public void piiDeleted(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PII_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void phiAccessed(UUID actor, UUID auditEntity) {
+    public void phiAccessed(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PHI_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void phiCreated(UUID actor, UUID auditEntity) {
+    public void phiCreated(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PHI_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void phiUpdated(UUID actor, UUID auditEntity) {
+    public void phiUpdated(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PHI_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
     @Override
-    public void phiDeleted(UUID actor, UUID auditEntity) {
+    public void phiDeleted(UUID actor, AgentType agentType, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.PHI_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAgentType(agentType)
                 .build());
     }
 
