@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.tinkar.config;
 
+import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import io.nats.client.Connection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(
+        properties = "spring.cloud.config.enabled=false",
+        classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
 class AppConfigTest {
 
     @Autowired
