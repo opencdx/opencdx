@@ -10,6 +10,7 @@ opencdx/tinkar
 - Grpc > Host 9190 : Container 9190
 
 ## Links
+_**Links are part of the build not available from GitHub.**_
 - [All Test Results](build/reports/tests/test/index.html)
 - [All Code Coverage](build/reports/jacoco/test/html/index.html)
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)

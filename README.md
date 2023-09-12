@@ -34,8 +34,9 @@ ZERO Tolerance means for any code to be accepted at in a Pull Request, it must m
 - O Dependency Check issues.
 
 ## Reports
+_**Reports are part of the build not available from GitHub.**_
 
-If a failure occurs during the build process, these reports will be generated showing the results collected.
+If a failure occurs during the build process, these reports will be generated showing the results collected. 
 
 - [All Test Results](build/reports/allTests/index.html)
 - [All Code Coverage](build/reports/jacoco/jacocoRootReport/html/index.html)
