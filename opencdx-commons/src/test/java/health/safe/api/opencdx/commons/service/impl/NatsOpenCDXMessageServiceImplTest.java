@@ -18,9 +18,11 @@ package health.safe.api.opencdx.commons.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.dto.StatusMessage;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
+import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.Message;
@@ -49,6 +51,8 @@ class NatsOpenCDXMessageServiceImplTest {
 
     ObjectMapper objectMapper;
 
+    CommonsConfig commonsConfig;
+
     @BeforeEach
     void setUp() {
         this.connection = Mockito.mock(Connection.class);
@@ -58,6 +62,8 @@ class NatsOpenCDXMessageServiceImplTest {
         this.objectMapper.registerModule(new ProtobufModule());
 
         Mockito.when(this.connection.createDispatcher()).thenReturn(this.dispatcher);
+
+        this.commonsConfig = new CommonsConfig();
     }
 
     @AfterEach
@@ -65,7 +71,8 @@ class NatsOpenCDXMessageServiceImplTest {
 
     @Test
     void subscribe() {
-        NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper);
+        OpenCDXMessageService service =
+                this.commonsConfig.natsOpenCDXMessageService(this.connection, this.objectMapper);
 
         OpenCDXMessageHandler handler = new OpenCDXMessageHandler() {
             @Override
