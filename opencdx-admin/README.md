@@ -8,5 +8,6 @@ opencdx/admin
 Host 8761 : Container 8761
 
 ## Links
+_**Links are part of the build not available from GitHub.**_
 - [Spring Admin Wallboard](http://localhost:8761/admin/wallboard)
 - [Spring Discovery Server](http://localhost:8761)
