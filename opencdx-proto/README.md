@@ -1,7 +1,7 @@
 # OpenCDX Proto
-> This module enables the generation of various classes from proto files. 
+> Module for generating the gRPC from Protobuf files for use in the OpenCDX services and libraries. 
 
-## Links to the reports : Tests, Jacoco, Sonarlint
+## Links
 - [All Generated Class files](build/generated/src/**)
 
 ## Interfaces

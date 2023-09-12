@@ -1,5 +1,6 @@
 # OpenCDX Tinkar Microservice
-> This module has both grpc and rest controllers to use the OpenCDX services.
+> Module for interfacing with TINKAR and gathering the required information
+> for TINKAR use in OpenCDX.
 
 ## Docker Image
 opencdx/tinkar
@@ -8,7 +9,7 @@ opencdx/tinkar
 - RestAPI > Host 8180 : Container 8180
 - Grpc > Host 9190 : Container 9190
 
-## Links to the reports : Tests, Jacoco, Sonarlint
+## Links
 - [All Test Results](build/reports/tests/test/index.html)
 - [All Code Coverage](build/reports/jacoco/test/html/index.html)
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)

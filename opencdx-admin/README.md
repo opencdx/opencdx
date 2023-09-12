@@ -1,5 +1,5 @@
 # OpenCDX Admin Microservice
-> This module enables the discovery of various microservices used in OpenCDX project. 
+> This module is our implementation of Spring Admin server and Spring Disocvery server. Used for processes to find each other and for monitoring of services.
 
 ## Docker Image
 opencdx/admin
@@ -7,9 +7,6 @@ opencdx/admin
 ## Docker Port
 Host 8761 : Container 8761
 
-## Links to the reports : Tests, Jacoco, Sonarlint
-- [All Test Results](build/reports/tests/test/index.html)
-- [All Code Coverage](build/reports/jacoco/test/html/index.html)
-- [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)
-
-## Interfaces
+## Links
+- [Spring Admin Wallboard](http://localhost:8761/admin/wallboard)
+- [Spring Discovery Server](http://localhost:8761)

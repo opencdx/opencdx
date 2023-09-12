@@ -1,5 +1,5 @@
 # OpenCDX HelloWorld
-> This module is for Hello world example in OpenCDX. 
+> Template Module for an OpenCDX Service. Used to quickly setup new services.
 
 ## Docker Image
 opencdx/helloworld
@@ -8,7 +8,7 @@ opencdx/helloworld
 - RestAPI > Host 8080 : Container 8080
 - Grpc > Host 9090 : Container 9090
 
-## Links to the reports : Tests, Jacoco, Sonarlint
+## Links
 - [All Test Results](build/reports/tests/test/index.html)
 - [All Code Coverage](build/reports/jacoco/test/html/index.html)
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)
