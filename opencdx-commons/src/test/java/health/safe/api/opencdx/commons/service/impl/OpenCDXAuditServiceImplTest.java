@@ -32,96 +32,96 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class OpenCDXAuditServiceImplTest {
 
     @Autowired
-    OpenCDXAuditService auditService;
+    OpenCDXAuditService openCDXAuditService;
 
     @Test
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.userLoginSucceed(UUID.randomUUID());
+            this.openCDXAuditService.userLoginSucceed(UUID.randomUUID());
         });
     }
 
     @Test
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.userLoginFailure(UUID.randomUUID());
+            this.openCDXAuditService.userLoginFailure(UUID.randomUUID());
         });
     }
 
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.userLogout(UUID.randomUUID());
+            this.openCDXAuditService.userLogout(UUID.randomUUID());
         });
     }
 
     @Test
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.userAccessChange(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.userAccessChange(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void passwordChange() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.passwordChange(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.passwordChange(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.piiAccessed(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiAccessed(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.piiCreated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiCreated(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.piiUpdated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiUpdated(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.piiDeleted(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiDeleted(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.phiAccessed(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiAccessed(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.phiCreated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiCreated(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.phiUpdated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiUpdated(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.auditService.phiDeleted(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiDeleted(UUID.randomUUID(), UUID.randomUUID());
         });
     }
 }

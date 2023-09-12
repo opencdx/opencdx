@@ -17,11 +17,14 @@ package health.safe.api.opencdx.commons.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
+import health.safe.api.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -64,5 +67,11 @@ public class CommonsConfig {
     @ConditionalOnMissingBean(OpenCDXMessageService.class)
     OpenCDXMessageService noOpOpenCDXMessageService() {
         return new NoOpOpenCDXMessageServiceImpl();
+    }
+
+    @Bean
+    OpenCDXAuditService openCDXAuditService(
+            OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+        return new OpenCDXAuditServiceImpl(messageService, applicationName);
     }
 }
