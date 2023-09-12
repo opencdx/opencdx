@@ -54,15 +54,15 @@ public class CommonsConfig {
         return mapper;
     }
 
-    @Bean("noop")
-    @ConditionalOnMissingBean(OpenCDXMessageService.class)
-    OpenCDXMessageService noOpOpenCDXMessageService() {
-        return new NoOpOpenCDXMessageServiceImpl();
-    }
-
     @Bean("nats")
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
     OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
         return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper);
+    }
+
+    @Bean("noop")
+    @ConditionalOnMissingBean(OpenCDXMessageService.class)
+    OpenCDXMessageService noOpOpenCDXMessageService() {
+        return new NoOpOpenCDXMessageServiceImpl();
     }
 }
