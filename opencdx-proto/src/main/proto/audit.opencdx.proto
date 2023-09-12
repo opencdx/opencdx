@@ -93,7 +93,6 @@ message AuditEvent {
   string purpose_of_use = 5; // Description of use of this data.
   AuditSource audit_source = 6; // Where did the event originate
   AuditEntity audit_entity = 7; // Identifies whose data is being acted on.
-  AgentType agent_type = 8; // identifies the type of actor
 }
 
 

@@ -52,8 +52,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.USER_LOGIN_SUCCEEDED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
-                .setAgentType(agentType)
+                .setActor(this.getActor(actor, agentType))
                 .build());
     }
 
@@ -63,8 +62,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.USER_LOGIN_FAIL)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
-                .setAgentType(agentType)
+                .setActor(this.getActor(actor, agentType))
                 .build());
     }
 
@@ -74,8 +72,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.USER_LOGOUT)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
-                .setAgentType(agentType)
+                .setActor(this.getActor(actor, agentType))
                 .build());
     }
 
@@ -85,9 +82,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.USER_ACCESS_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -97,9 +93,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.USER_PASSWORD_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -109,9 +104,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PII_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -121,9 +115,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PII_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -133,9 +126,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PII_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -145,9 +137,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PII_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -157,9 +148,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PHI_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -169,9 +159,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PHI_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -181,9 +170,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PHI_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -193,9 +181,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setEventType(AuditEventType.PHI_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor))
+                .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setAgentType(agentType)
                 .build());
     }
 
@@ -214,8 +201,11 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
         return AuditSource.newBuilder().setSystemInfo(applicationName).build();
     }
 
-    private Actor getActor(UUID actor) {
-        return Actor.newBuilder().setIdentity(actor.toString()).build();
+    private Actor getActor(UUID actor, AgentType agentType) {
+        return Actor.newBuilder()
+                .setIdentity(actor.toString())
+                .setAgentType(agentType)
+                .build();
     }
 
     private AuditEntity getAuditEntity(UUID auditEntity) {
