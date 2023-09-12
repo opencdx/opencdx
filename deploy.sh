@@ -109,6 +109,7 @@ build_docker() {
     docker build -t opencdx/config ./opencdx-config || handle_error "Docker opencdx-config build failed."
     docker build -t opencdx/tinkar ./opencdx-tinkar || handle_error "Docker opencdx-tinkar build failed."
     docker build -t opencdx/audit ./opencdx-audit || handle_error "Docker opencdx-audit build failed."
+    docker build -t opencdx/communications ./opencdx-communications || handle_error "Docker opencdx-communications build failed."
 }
 
 # Function to start Docker services

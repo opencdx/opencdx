@@ -25,6 +25,31 @@ services:
     ports:
       - "8080:8080"
       - "9090:9090"
+  communications:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/communications:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      config:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+    ports:
+      - "8380:8380"
+      - "9390:9390"
   audit:
     deploy:
       restart_policy:
@@ -34,7 +59,7 @@ services:
         window: 60s
     image: opencdx/audit:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      test: "curl --fail --silent localhost:8280/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
@@ -57,7 +82,7 @@ services:
         window: 60s
     image: opencdx/tinkar:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      test: "curl --fail --silent localhost:8180/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
