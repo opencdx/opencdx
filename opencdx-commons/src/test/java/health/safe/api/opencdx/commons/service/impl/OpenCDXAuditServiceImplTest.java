@@ -17,9 +17,7 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-
 import java.util.UUID;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -78,7 +78,8 @@ class NatsOpenCDXMessageServiceImplTest {
                 new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
 
         Mockito.when(this.dispatcher.subscribe(
-                        Mockito.eq("Test-Message"), Mockito.any(NatsOpenCDXMessageServiceImpl.NatsMessageHandler.class)))
+                        Mockito.eq("Test-Message"),
+                        Mockito.any(NatsOpenCDXMessageServiceImpl.NatsMessageHandler.class)))
                 .thenAnswer(new Answer<Object>() {
                     @Override
                     public Object answer(InvocationOnMock invocation) throws Throwable {

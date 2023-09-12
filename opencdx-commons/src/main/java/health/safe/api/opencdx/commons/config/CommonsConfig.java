@@ -63,6 +63,6 @@ public class CommonsConfig {
     @Bean("nats")
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
     OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
-        return new NatsOpenCDXMessageServiceImpl(natsConnection,objectMapper);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper);
     }
 }
