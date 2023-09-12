@@ -58,6 +58,12 @@ public class CommonsConfig {
         return mapper;
     }
 
+    /**
+     * OpenCDXMessageService Bean based on NATS
+     * @param natsConnection NATS Connection
+     * @param objectMapper Object Mapper to use.
+     * @return OpenCDXMessageService to use for messaginging.
+     */
     @Bean("nats")
     @Primary
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
