@@ -4,91 +4,70 @@
 
 # Function to handle errors
 handle_error() {
-    echo "Error: $1"
+    echo "Error: $1" >&2
     exit 1
 }
 
 # Function to open reports and documentation
 open_reports() {
+    local base_url="http://localhost:"
+    local port
+    local dashboard
+
     case $1 in
     nats)
-        echo "Opening NATS Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:8222/ || handle_error "Failed to open NATS Dashboard."
-        else
-            open http://localhost:8222/ || handle_error "Failed to open NATS Dashboard."
-        fi
+        port=8222
+        dashboard="NATS Dashboard"
         ;;
     admin)
-        echo "Opening Admin Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
-        else
-            open http://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
-        fi
+        port=8761
+        dashboard="Admin Dashboard"
         ;;
-   discovery)
-        echo "Opening Discovery Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
-        else
-            open http://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
-        fi
+    discovery)
+        port=8761
+        dashboard="Discovery Dashboard"
         ;;
-
     test)
-        echo "Opening Test Report..."
+        port=""
+        dashboard="Test Report"
         ./gradlew testReport || handle_error "Failed to generate the test report."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/allTests/index.html || handle_error "Failed to open the test report."
-        else
-            open build/reports/allTests/index.html || handle_error "Failed to open the test report."
-        fi
         ;;
     dependency)
-        echo "Opening Dependency Check Report..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/dependency-check-report.html || handle_error "Failed to open the dependency check report."
-        else
-            open build/reports/dependency-check-report.html || handle_error "Failed to open the dependency check report."
-        fi
+        port=""
+        dashboard="Dependency Check Report"
         ;;
     jacoco)
-        echo "Opening JaCoCo Report..."
+        port=""
+        dashboard="JaCoCo Report"
         ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/jacoco/jacocoRootReport/html/index.html || handle_error "Failed to open the JaCoCo report."
-        else
-            open build/reports/jacoco/jacocoRootReport/html/index.html || handle_error "Failed to open the JaCoCo report."
-        fi
         ;;
     javadoc)
-        echo "Opening JavaDoc..."
+        port=""
+        dashboard="JavaDoc"
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/docs/javadoc-all/index.html || handle_error "Failed to open the JavaDoc."
-        else
-            open build/docs/javadoc-all/index.html || handle_error "Failed to open the JavaDoc."
-        fi
         ;;
     proto)
-       echo "Opening Proto Doc..."
-           read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
+        port=""
+        dashboard="Proto Doc"
+        read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
 
-           if [ -n "$proto_gen_doc_path" ]; then
-               mkdir -p ./build/reports/proto
-               protoc -I. --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
-               if [[ "$OSTYPE" == "msys" ]]; then
-                   start ./build/reports/proto/index.html || handle_error "Failed to open Proto documentation."
-               else
-                   open ./build/reports/proto/index.html || handle_error "Failed to open Proto documentation."
-               fi
-           else
-               echo "Skipping Proto documentation generation."
-           fi
+        if [ -n "$proto_gen_doc_path" ]; then
+            mkdir -p ./build/reports/proto
+            protoc -I. --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+        else
+            echo "Skipping Proto documentation generation."
+        fi
         ;;
     esac
+
+    echo "Opening $dashboard..."
+    if [[ "$OSTYPE" == "msys" ]]; then
+        start "${base_url}${port}/" || handle_error "Failed to open $dashboard."
+    else
+        open "${base_url}${port}/" || handle_error "Failed to open $dashboard."
+    fi
 }
+
 # Print usage instructions
 print_usage() {
     echo "Usage: $0 [--skip] [--clean] [--no_menu] [--all] [--help]"
@@ -114,6 +93,7 @@ build_docker() {
 # Function to start Docker services
 start_docker() {
     echo "Starting Docker services..."
+    build_docker
     (cd docker && docker compose --project-name opencdx up -d) || handle_error "Failed to start Docker services."
 }
 
@@ -127,22 +107,19 @@ stop_docker() {
 docker_menu() {
     while true; do
         echo "Docker Menu:"
-        echo "1. Build Docker Image"
-        echo "2. Start Docker"
-        echo "3. Stop Docker"
-        echo "4. Open Admin Dashboard"
-        echo "5. Open Discovery Dashboard"
-        echo "6. Open NATS Dashboard"
+        echo "1. Start Docker"
+        echo "2. Stop Docker"
+        echo "3. Open Admin Dashboard"
+        echo "4. Open Discovery Dashboard"
+        echo "5. Open NATS Dashboard"
+        echo "x. Exit Docker Menu"
 
-        read -r -p "Enter your choice (x to Exit Docker Menu): " docker_choice
+        read -r -p "Enter your choice: " docker_choice
 
         case $docker_choice in
-        1) build_docker ;;
-        2) build_docker; start_docker ;;
-        3) stop_docker ;;
-        4) open_reports "admin" ;;
-        5) open_reports "discovery" ;;
-        6) open_reports "nats" ;;
+        1) start_docker ;;
+        2) stop_docker ;;
+        3 | 4 | 5) open_reports "${docker_choice}" ;;
         x)
             echo "Exiting Docker Menu..."
             break
@@ -154,6 +131,7 @@ docker_menu() {
     done
 }
 
+# Stop Docker services at the beginning of the script
 stop_docker
 
 # Initialize flags
@@ -169,7 +147,7 @@ for arg in "$@"; do
     --skip)
         skip=true
         ;;
-    --clean)
+    --clean|--check)
         clean=true
         ;;
     --no_menu)
@@ -179,29 +157,38 @@ for arg in "$@"; do
         open_all=true
         no_menu=true
         ;;
-    --check)
-        check=true
-        no_menu=true
-        clean=true;
-        ;;
     --help)
         print_usage
         ;;
     *)
         echo "Unknown option: $arg"
-        exit 1
+        print_usage
         ;;
     esac
 done
 
-# Clean the project if --clean is specified
-if [ "$clean" = true ]; then
-    ./gradlew clean || handle_error "Failed to clean the project."
+# Check if Docker and Git are installed
+if ! command -v docker &> /dev/null; then
+    handle_error "Docker is not installed or not in the PATH."
 fi
 
-# Build the project unless --skip is specified
-if [ "$skip" = false ]; then
-    if ./gradlew spotlessApply && ./gradlew build publish versionUpToDateReport versionReport; then
+if ! command -v git &> /dev/null; then
+    handle_error "Git is not installed or not in the PATH."
+fi
+
+# Clean the project if --clean is specified
+if [ "$clean" = true ] && [ "$skip" = true ]; then
+    ./gradlew clean || handle_error "Failed to clean the project."
+elif [ "$clean" = true ] && [ "$skip" = false ]; then
+    if ./gradlew clean spotlessApply build publish versionUpToDateReport versionReport; then
+        # Build Completed Successfully
+        echo "Build & Clean completed successfully"
+    else
+        # Build Failed
+        handle_error "Build failed. Please review output to determine the issue."
+    fi
+elif [ "$clean" = false ] && [ "$skip" = false ]; then
+    if ./gradlew spotlessApply build publish versionUpToDateReport versionReport; then
         # Build Completed Successfully
         echo "Build completed successfully"
     else
