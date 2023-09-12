@@ -5,23 +5,22 @@ plugins {
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
-    implementation "com.google.api.grpc:proto-google-common-protos:2.23.0"
-    implementation "io.github.lognet:grpc-spring-boot-starter:5.1.4"
+    implementation "com.google.api.grpc:proto-google-common-protos:${protoGoogleCommonLibraryVersion}"
+    implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
 
-    implementation "org.springframework:spring-context:6.0.10"
-    implementation "org.springframework:spring-context-support:6.0.10"
+    implementation "org.springframework:spring-context:${springContextVersion}"
+    implementation "org.springframework:spring-context-support:${springContextVersion}"
 
-    implementation "com.hubspot.jackson:jackson-datatype-protobuf:0.9.14"
+    implementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
 
     implementation project(":opencdx-proto")
+    implementation "io.nats:nats-spring:${natsSpringVersion}"
 
-    implementation "io.nats:nats-spring:0.5.6"
-
-    testImplementation platform("org.junit:junit-bom:5.9.1")
+    testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
     testImplementation "org.junit.jupiter:junit-jupiter"
 
     testImplementation project(":opencdx-proto")
