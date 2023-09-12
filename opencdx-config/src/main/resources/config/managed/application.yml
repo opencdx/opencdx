@@ -1,7 +1,4 @@
 # Properties for a Managed Environment go here.
-grpc:
-  port: 9090
-
 management:
   endpoint:
     health:
@@ -30,5 +27,3 @@ eureka:
     service-url:
       defaultZone: http://admin:8761/eureka/
 
-server:
-  port: 8081

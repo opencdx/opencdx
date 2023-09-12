@@ -23,7 +23,7 @@ services:
       nats:
         condition: service_started
     ports:
-      - "8081:8081"
+      - "8080:8080"
       - "9090:9090"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/opencdx
@@ -31,6 +31,28 @@ services:
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_DATASOURCE_DRIVER=org.postgresql.Driver
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
+  audit:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/audit:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      config:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
 
   tinkar:
     deploy:

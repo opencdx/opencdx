@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.helloworld;
 
+import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient
 @SpringBootApplication
 @ComponentScan(basePackages = {"health.safe"})
+@ExcludeFromJacocoGeneratedReport
 public class Application {
     /**
      * Default Constructor
@@ -54,6 +56,7 @@ public class Application {
  * Rest Controller for Discovery Client
  */
 @RestController
+@ExcludeFromJacocoGeneratedReport
 class ServiceInstanceRestController {
 
     @Autowired

@@ -1,0 +1,21 @@
+# Properties for a local development environment go here.
+server:
+  port: 8080
+  servlet:
+    context-path: /service/v1
+
+management:
+  endpoint:
+    health:
+      enabled: true
+logging:
+  level:
+    root: TRACE
+    health:
+      safe: DEBUG
+spring:
+  application:
+    name: Audit
+  cloud:
+    config:
+      enabled: false

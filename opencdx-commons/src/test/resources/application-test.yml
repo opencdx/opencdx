@@ -17,6 +17,8 @@ logging:
     health:
       safe: DEBUG
 spring:
+  application:
+    name: Commons
   cloud:
     config:
       enabled: false
