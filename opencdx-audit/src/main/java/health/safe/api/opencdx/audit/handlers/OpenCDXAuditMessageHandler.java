@@ -26,12 +26,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Message Handler for Audit Microservice.
+ */
 @Slf4j
 public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     private ObjectMapper objectMapper;
 
     private OpenCDXMessageService openCDXMessageService;
 
+    /**
+     * Constructor for the Audit microservice
+     * @param objectMapper Object mapper used for conversion
+     * @param openCDXMessageService Message service used for receiving messages.
+     */
     public OpenCDXAuditMessageHandler(ObjectMapper objectMapper, OpenCDXMessageService openCDXMessageService) {
         this.objectMapper = objectMapper;
         this.openCDXMessageService = openCDXMessageService;

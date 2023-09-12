@@ -36,6 +36,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     /**
      * Constructor taking the a PersonRepository
      * @param personRepository repository for interacting with the database.
+     * @param openCDXAuditService Audit service for tracking FDA requirements
      */
     @Autowired
     public HelloWorldServiceImpl(PersonRepository personRepository, OpenCDXAuditService openCDXAuditService) {

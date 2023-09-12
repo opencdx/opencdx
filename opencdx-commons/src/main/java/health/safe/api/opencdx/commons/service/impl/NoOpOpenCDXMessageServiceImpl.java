@@ -19,8 +19,19 @@ import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * No Operation Message service for use in Testing
+ */
 @Slf4j
 public class NoOpOpenCDXMessageServiceImpl implements OpenCDXMessageService {
+
+    /**
+     * Default Constructor
+     */
+    public NoOpOpenCDXMessageServiceImpl() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     @Override
     public void subscribe(String subject, OpenCDXMessageHandler handler) {
         log.warn("NoOpOpenCDXMessageServiceImpl::subscribe Called");
