@@ -17,6 +17,7 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,91 +38,91 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginSucceed(UUID.randomUUID());
+            this.openCDXAuditService.userLoginSucceed(UUID.randomUUID(), AgentType.HUMAN_USER);
         });
     }
 
     @Test
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginFailure(UUID.randomUUID());
+            this.openCDXAuditService.userLoginFailure(UUID.randomUUID(), AgentType.OTHER_ENTITY);
         });
     }
 
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLogout(UUID.randomUUID());
+            this.openCDXAuditService.userLogout(UUID.randomUUID(), AgentType.SYSTEM);
         });
     }
 
     @Test
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userAccessChange(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.userAccessChange(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void passwordChange() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.passwordChange(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.passwordChange(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiAccessed(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiAccessed(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiCreated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiUpdated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiUpdated(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiDeleted(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.piiDeleted(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiAccessed(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiAccessed(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiCreated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiCreated(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiUpdated(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiUpdated(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiDeleted(UUID.randomUUID(), UUID.randomUUID());
+            this.openCDXAuditService.phiDeleted(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         });
     }
 }

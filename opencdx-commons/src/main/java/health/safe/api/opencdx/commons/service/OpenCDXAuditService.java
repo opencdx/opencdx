@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.commons.service;
 
+import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 
 /**
@@ -31,88 +32,101 @@ public interface OpenCDXAuditService {
     /**
      * Record User Login successful to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      */
-    void userLoginSucceed(UUID actor);
+    void userLoginSucceed(UUID actor, AgentType agentType);
 
     /**
      * Record User Login failed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      */
-    void userLoginFailure(UUID actor);
+    void userLoginFailure(UUID actor, AgentType agentType);
 
     /**
      * Record user Logout to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      */
-    void userLogout(UUID actor);
+    void userLogout(UUID actor, AgentType agentType);
 
     /**
      * Record user acccess changed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void userAccessChange(UUID actor, UUID auditEntity);
+    void userAccessChange(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record user password changed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void passwordChange(UUID actor, UUID auditEntity);
+    void passwordChange(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record User PII information accessed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiAccessed(UUID actor, UUID auditEntity);
+    void piiAccessed(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record User PII information created to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiCreated(UUID actor, UUID auditEntity);
+    void piiCreated(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record user PII information updated to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiUpdated(UUID actor, UUID auditEntity);
+    void piiUpdated(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record user PII Information deleted to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiDeleted(UUID actor, UUID auditEntity);
+    void piiDeleted(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record user PHI information accessed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiAccessed(UUID actor, UUID auditEntity);
+    void phiAccessed(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record user PHI information created ot audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiCreated(UUID actor, UUID auditEntity);
+    void phiCreated(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record User PHI information updated to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiUpdated(UUID actor, UUID auditEntity);
+    void phiUpdated(UUID actor, AgentType agentType, UUID auditEntity);
 
     /**
      * Record user PHI information deleted to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiDeleted(UUID actor, UUID auditEntity);
+    void phiDeleted(UUID actor, AgentType agentType, UUID auditEntity);
 }
