@@ -17,6 +17,7 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "de.codecentric:spring-boot-admin-starter-client"
 
+    testImplementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
