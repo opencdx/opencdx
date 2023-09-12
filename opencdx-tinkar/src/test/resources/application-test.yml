@@ -5,7 +5,7 @@ server:
     context-path: /service/v1
 
 grpc:
-  port: 9090
+  port: 0
 
 management:
   endpoint:

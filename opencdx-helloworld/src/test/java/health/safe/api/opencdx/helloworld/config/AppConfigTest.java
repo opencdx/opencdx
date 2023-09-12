@@ -15,33 +15,24 @@
  */
 package health.safe.api.opencdx.helloworld.config;
 
-import io.nats.client.Connection;
+import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(
+        properties = "spring.cloud.config.enabled=false",
+        classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
 class AppConfigTest {
 
     @Autowired
     AppProperties appProperties;
-
-    @MockBean
-    Connection connection;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testFormat() {

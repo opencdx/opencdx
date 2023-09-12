@@ -204,7 +204,7 @@ allprojects {
         exclude "build/generated/*"
     }
     sonarlint {
-        excludeRules = ["java:S4032"]
+        excludeRules = ["java:S4032","java:S2187"]
         includeRules = []
         ignoreFailures = false
         maxIssues = 0

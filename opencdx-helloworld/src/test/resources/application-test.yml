@@ -1,11 +1,9 @@
 # Properties for a local development environment go here.
 server:
   port: 8080
-  servlet:
-    context-path: /service/v1
 
 grpc:
-  port: 9090
+  port: 0
 
 management:
   endpoint:
