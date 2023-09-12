@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.helloworld.controller;
 
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
@@ -24,11 +25,22 @@ import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ActiveProfiles("test")
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class GrpcHelloWorldControllerTest {
+
+    @Autowired
+    OpenCDXAuditService openCDXAuditService;
 
     @Mock
     PersonRepository personRepository;
@@ -41,7 +53,7 @@ class GrpcHelloWorldControllerTest {
     void setUp() {
         this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository);
+        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService);
         this.grpcHelloWorldController = new GrpcHelloWorldController(this.helloWorldService);
     }
 

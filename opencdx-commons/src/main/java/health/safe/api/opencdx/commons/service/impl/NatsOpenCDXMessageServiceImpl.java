@@ -26,16 +26,12 @@ import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * NATS based implementation of OpenCDXMessageService
  */
 @Slf4j
-@ConditionalOnProperty(prefix = "nats.spring", name = "server")
-@Service("NATS")
-public class NatsServiceImplOpenCDX implements OpenCDXMessageService {
+public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     private final Connection natsConnection;
     private final Dispatcher dispatcher;
@@ -47,7 +43,7 @@ public class NatsServiceImplOpenCDX implements OpenCDXMessageService {
      * @param natsConnection NATS Connection
      * @param objectMapper Jackson Object Mapper
      */
-    public NatsServiceImplOpenCDX(Connection natsConnection, ObjectMapper objectMapper) {
+    public NatsOpenCDXMessageServiceImpl(Connection natsConnection, ObjectMapper objectMapper) {
         this.natsConnection = natsConnection;
         this.objectMapper = objectMapper;
         this.dispatcher = this.natsConnection.createDispatcher();
@@ -72,7 +68,7 @@ public class NatsServiceImplOpenCDX implements OpenCDXMessageService {
             natsConnection.publish(subject, this.objectMapper.writeValueAsBytes(object));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
-                    "NatsServiceImplOpenCDX", 1, "Failed NATS Publish on: " + object.toString(), e);
+                    "NatsOpenCDXMessageServiceImpl", 1, "Failed NATS Publish on: " + object.toString(), e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("Subject", subject);
             openCDXNotAcceptable.getMetaData().put("Object", object.toString());

@@ -15,10 +15,12 @@
  */
 package health.safe.api.opencdx.helloworld.service.impl;
 
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
 import health.safe.api.opencdx.helloworld.repository.PersonRepository;
 import health.safe.api.opencdx.helloworld.service.HelloWorldService;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +31,17 @@ import org.springframework.stereotype.Service;
 public class HelloWorldServiceImpl implements HelloWorldService {
 
     private final PersonRepository personRepository;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor taking the a PersonRepository
      * @param personRepository repository for interacting with the database.
+     * @param openCDXAuditService Audit service for tracking FDA requirements
      */
     @Autowired
-    public HelloWorldServiceImpl(PersonRepository personRepository) {
+    public HelloWorldServiceImpl(PersonRepository personRepository, OpenCDXAuditService openCDXAuditService) {
         this.personRepository = personRepository;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     /**
@@ -48,7 +53,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
-
+        this.openCDXAuditService.piiCreated(UUID.randomUUID(), UUID.randomUUID());
         return String.format("Hello %s!", request.getName().trim());
     }
 }

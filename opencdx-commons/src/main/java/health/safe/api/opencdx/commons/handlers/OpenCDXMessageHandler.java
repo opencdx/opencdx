@@ -22,7 +22,7 @@ package health.safe.api.opencdx.commons.handlers;
 public interface OpenCDXMessageHandler {
     /**
      * Method to receive the byte array of data for the message being
-     * handled. This handler is responsible for converting the bytes
+     * handled. This handlers is responsible for converting the bytes
      * to the appropriate representation.
      * @param message Byte array containing the message
      */

@@ -1,11 +1,9 @@
 # Properties for a local development environment go here.
 server:
   port: 8080
-  servlet:
-    context-path: /service/v1
 
 grpc:
-  port: 9090
+  port: 0
 
 management:
   endpoint:
@@ -17,6 +15,8 @@ logging:
     health:
       safe: DEBUG
 spring:
+  application:
+    name: Tinkar
   datasource:
     url: jdbc:h2:mem:opencdx
     driverClassName: org.h2.Driver
@@ -29,7 +29,5 @@ spring:
       enabled: true
 
 opencdx:
-  helloworld:
-    format: "Hello %s!"
   tinkar:
     format: "Hello %s!"
