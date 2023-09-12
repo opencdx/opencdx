@@ -14,6 +14,8 @@ logging:
     health:
       safe: DEBUG
 spring:
+  application:
+    name: Audit
   cloud:
     config:
       enabled: false
