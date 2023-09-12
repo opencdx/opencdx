@@ -16,12 +16,9 @@
 package health.safe.api.opencdx.audit.config;
 
 import io.nats.client.Connection;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
@@ -32,19 +29,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class AppConfigTest {
 
-    @Autowired
-    AppProperties appProperties;
-
     @MockBean
     Connection connection;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void nullCheck() {
-        Assertions.assertNotNull(this.appProperties);
     }
 }

@@ -9,4 +9,4 @@
  * @version 1.0
  * @since 1.0
  */
-package health.safe.api.opencdx.audit.service;
+package health.safe.api.opencdx.audit.handlers;

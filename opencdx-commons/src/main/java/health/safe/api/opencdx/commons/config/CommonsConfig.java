@@ -30,6 +30,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -58,6 +59,7 @@ public class CommonsConfig {
     }
 
     @Bean("nats")
+    @Primary
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
     OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
         return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper);

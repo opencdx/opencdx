@@ -15,21 +15,27 @@
  */
 package health.safe.api.opencdx.audit.config;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.EnableCaching;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Applicaiton Configuration
  */
 @Configuration
-@EnableCaching
-@EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
     /**
      * Default Constructor
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    OpenCDXAuditMessageHandler openCDXAuditMessageHandler(
+            ObjectMapper objectMapper, OpenCDXMessageService openCDXMessageService) {
+        return new OpenCDXAuditMessageHandler(objectMapper, openCDXMessageService);
     }
 }

@@ -22,7 +22,10 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
     implementation "org.springdoc:springdoc-openapi-javadoc:${springDocVersion}"
 
-    //GRPC - To enable the GRPC uncomment the following two lines
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
+    implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+
+    implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
 
     testImplementation "io.nats:nats-spring:0.5.6"

@@ -23,7 +23,7 @@ import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
  */
 public interface OpenCDXMessageService {
     /**
-     * Subscribe to a message subject and the handler for received those messages
+     * Subscribe to a message subject and the handlers for received those messages
      * for processing.
      * @param subject String indicating the subject to subscribe to.
      * @param handler OpenCDXMessageHandler for processing the messages.
