@@ -57,9 +57,6 @@ public class CommonsConfig {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
-
-        new SimpleModule().add
-
         return mapper;
     }
 
