@@ -21,6 +21,10 @@ open_reports() {
             open build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
         fi
         ;;
+    jmeter_edit)
+        echo "Opening JMeter Test Script in Editor"
+        jmeter -t ./jmeter/OpenCDX.jmx
+        ;;
     nats)
         echo "Opening NATS Dashboard..."
         if [[ "$OSTYPE" == "msys" ]]; then
@@ -144,7 +148,8 @@ docker_menu() {
         echo "4. Open Admin Dashboard"
         echo "5. Open Discovery Dashboard"
         echo "6. Open NATS Dashboard"
-        echo "7. Open JMeter Dashboard"
+        echo "7. Run JMeter Test Script"
+        echo "8. Open JMeter Test Script"
 
         read -r -p "Enter your choice (x to Exit Docker Menu): " docker_choice
 
@@ -156,6 +161,7 @@ docker_menu() {
         5) open_reports "discovery" ;;
         6) open_reports "nats" ;;
         7) open_reports "jmeter" ;;
+        8) open_reports "jmeter_edit"  ;;
         x)
             echo "Exiting Docker Menu..."
             break
