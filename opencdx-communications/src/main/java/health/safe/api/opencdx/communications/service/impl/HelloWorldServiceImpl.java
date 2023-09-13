@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.helloworld.service.impl;
+package health.safe.api.opencdx.communications.service.impl;
 
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.communications.model.Person;
+import health.safe.api.opencdx.communications.repository.PersonRepository;
+import health.safe.api.opencdx.communications.service.HelloWorldService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
-import health.safe.api.opencdx.helloworld.model.Person;
-import health.safe.api.opencdx.helloworld.repository.PersonRepository;
-import health.safe.api.opencdx.helloworld.service.HelloWorldService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
-        this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.SYSTEM, UUID.randomUUID());
+        this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.HUMAN_USER, UUID.randomUUID());
         return String.format("Hello %s!", request.getName().trim());
     }
 }

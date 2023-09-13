@@ -14,6 +14,18 @@
 
 Template for creating Java Based REST/gRPC Microservices.
 
+## Modules
+
+- [OpenCdx Admin](opencdx-admin/README.md)
+- [OpenCdx Audit](opencdx-audit/README.md)
+- [OpenCdx Client](opencdx-client/README.md)
+- [OpenCdx Commons](opencdx-commons/README.md)
+- [OpenCDx Communications](opencdx-communications/README.md)
+- [OpenCdx Config](opencdx-config/README.md)
+- [OpenCdx Hello World](opencdx-helloworld/README.md)
+- [OpenCdx Proto](opencdx-proto/README.md)
+- [OpenCdx Tinkar](opencdx-tinkar/README.md)
+
 ## Build Results
 
 ## ZERO Tolerance
@@ -23,8 +35,9 @@ ZERO Tolerance means for any code to be accepted at in a Pull Request, it must m
 - O Dependency Check issues.
 
 ## Reports
+_**Reports are part of the build not available from GitHub.**_
 
-If a failure occurs during the build process, these reports will be generated showing the results collected.
+If a failure occurs during the build process, these reports will be generated showing the results collected. 
 
 - [All Test Results](build/reports/allTests/index.html)
 - [All Code Coverage](build/reports/jacoco/jacocoRootReport/html/index.html)

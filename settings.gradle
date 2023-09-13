@@ -18,6 +18,7 @@ include('opencdx-helloworld',
         'opencdx-client',
         'opencdx-admin',
         'opencdx-config',
-        'opencdx-audit'
+        'opencdx-audit',
+        'opencdx-communications'
 )
 
