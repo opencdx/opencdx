@@ -15,11 +15,10 @@
  */
 package health.safe.api.opencdx.audit.controller;
 
-import com.google.rpc.Code;
-import com.google.rpc.Status;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
 import health.safe.api.opencdx.grpc.audit.AuditEvent;
 import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
+import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
@@ -47,11 +46,11 @@ public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
-    public void event(AuditEvent request, StreamObserver<Status> responseObserver) {
+    public void event(AuditEvent request, StreamObserver<AuditStatus> responseObserver) {
 
         this.openCDXAuditMessageHandler.processAuditEvent(request);
 
-        responseObserver.onNext(Status.newBuilder().setCode(Code.OK_VALUE).build());
+        responseObserver.onNext(AuditStatus.newBuilder().setSuccess(true).build());
         responseObserver.onCompleted();
     }
 }

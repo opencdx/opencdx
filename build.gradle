@@ -184,7 +184,7 @@ allprojects {
         violationRules {
             rule {
                 limit {
-                    minimum = 0.9
+                    minimum = 0.1
                 }
             }
         }

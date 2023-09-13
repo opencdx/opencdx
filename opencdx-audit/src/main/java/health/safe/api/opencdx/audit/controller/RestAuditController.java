@@ -15,10 +15,9 @@
  */
 package health.safe.api.opencdx.audit.controller;
 
-import com.google.rpc.Code;
-import com.google.rpc.Status;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
 import health.safe.api.opencdx.grpc.audit.AuditEvent;
+import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,10 +53,10 @@ public class RestAuditController {
      * @return HelloReply with the hello message.
      */
     @PostMapping(value = "/event")
-    public ResponseEntity<Status> hello(@RequestBody AuditEvent request) {
+    public ResponseEntity<AuditStatus> hello(@RequestBody AuditEvent request) {
 
         this.openCDXAuditMessageHandler.processAuditEvent(request);
 
-        return new ResponseEntity<>(Status.newBuilder().setCode(Code.OK_VALUE).build(), HttpStatus.OK);
+        return new ResponseEntity<>(AuditStatus.newBuilder().setSuccess(true).build(), HttpStatus.OK);
     }
 }
