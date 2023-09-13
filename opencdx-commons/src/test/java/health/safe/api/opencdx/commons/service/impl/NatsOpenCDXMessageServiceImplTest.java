@@ -17,6 +17,7 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.dto.StatusMessage;
@@ -60,6 +61,7 @@ class NatsOpenCDXMessageServiceImplTest {
 
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new ProtobufModule());
+        this.objectMapper.registerModule(new JavaTimeModule());
 
         Mockito.when(this.connection.createDispatcher()).thenReturn(this.dispatcher);
 

@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.commons.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
@@ -54,6 +55,7 @@ public class CommonsConfig {
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
+        mapper.registerModule(new JavaTimeModule());
 
         return mapper;
     }
