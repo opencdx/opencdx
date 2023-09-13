@@ -4,6 +4,7 @@ package health.safe.api.opencdx.grpc.audit;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
 
 /**
  * Indicates the type of Audit event that is being recorded.
@@ -95,4 +96,7 @@ message AuditEvent {
   AuditEntity audit_entity = 7; // Identifies whose data is being acted on.
 }
 
+service AuditService {
+  rpc Event(AuditEvent) returns (google.rpc.Status);
+}
 

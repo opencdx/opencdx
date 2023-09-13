@@ -72,6 +72,9 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    ports:
+      - "8280:8280"
+      - "9290:9290"
 
   tinkar:
     deploy:
