@@ -32,6 +32,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,11 +92,12 @@ class RestCommunicationsControllerTest {
         log.info("Received\n {}", content);
     }
 
-    @Test
-    void getEmailTemplate() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = {"/communications/email/", "/communications/sms/", "/communications/event/"})
+    void testGets(String url) throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(get("/communications/email/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get(url + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -114,11 +117,12 @@ class RestCommunicationsControllerTest {
         log.info("Received\n {}", content);
     }
 
-    @Test
-    void deleteEmailTemplate() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = {"/communications/email/", "/communications/sms/", "/communications/event/"})
+    void testDeletes(String url) throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(delete("/communications/email/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete(url + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -139,18 +143,6 @@ class RestCommunicationsControllerTest {
     }
 
     @Test
-    void getSMSTemplate() throws Exception {
-        String uuid = UUID.randomUUID().toString();
-        MvcResult result = this.mockMvc
-                .perform(get("/communications/sms/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}", content);
-        Assertions.assertTrue(content.contains(uuid));
-    }
-
-    @Test
     void updateSMSTemplate() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/communications/sms")
@@ -160,18 +152,6 @@ class RestCommunicationsControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         log.info("Received\n {}", content);
-    }
-
-    @Test
-    void deleteSMSTemplate() throws Exception {
-        String uuid = UUID.randomUUID().toString();
-        MvcResult result = this.mockMvc
-                .perform(delete("/communications/sms/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}", content);
-        Assertions.assertEquals("{\"success\":true}", content);
     }
 
     @Test
@@ -187,18 +167,6 @@ class RestCommunicationsControllerTest {
     }
 
     @Test
-    void getNotificationEvent() throws Exception {
-        String uuid = UUID.randomUUID().toString();
-        MvcResult result = this.mockMvc
-                .perform(get("/communications/event/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}", content);
-        Assertions.assertTrue(content.contains(uuid));
-    }
-
-    @Test
     void updateNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/communications/event")
@@ -208,18 +176,6 @@ class RestCommunicationsControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         log.info("Received\n {}", content);
-    }
-
-    @Test
-    void deleteNotificationEvent() throws Exception {
-        String uuid = UUID.randomUUID().toString();
-        MvcResult result = this.mockMvc
-                .perform(delete("/communications/event/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}", content);
-        Assertions.assertEquals("{\"success\":true}", content);
     }
 
     @Test

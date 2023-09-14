@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CommunicationServiceImpl implements CommunicationService {
+    @SuppressWarnings("javaL:S1068")
     private final OpenCDXAuditService openCDXAuditService;
 
     /**
