@@ -1,0 +1,120 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package health.safe.api.opencdx.grpc.communication;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+// Enum for template types
+enum TemplateType {
+  NOTIFICATION = 0;
+  WELCOME = 1;
+  NEWSLETTER = 2;
+  ALERT = 3;
+  REMINDER = 4;
+  CONFIRMATION = 5;
+}
+
+/**
+Defines the structure for representing email templates.
+*/
+message EmailTemplate {
+  string template_id = 1;            // Unique identifier for the email template.
+  string subject = 2;                // Subject line of the email template.
+  string content = 3;                // Content of the email template.
+  repeated string variables = 4;     // Placeholder variables within the template.
+  TemplateType template_type = 5; // Type of the email template.
+}
+
+/**
+
+Defines the structure for representing SMS templates.
+*/
+message SMSTemplate {
+  string template_id = 1;            // Unique identifier for the SMS template.
+  string message = 2;                // Content of the SMS template.
+  repeated string variables = 3;     // Placeholder variables within the SMS template.
+  TemplateType template_type = 4; // Type of the SMS template.
+}
+
+/**
+
+Defines the structure for notification events.
+*/
+message NotificationEvent {
+  string event_id = 1;               // Unique identifier for the notification event.
+  string event_name = 2;             // Human-readable name of the event.
+  string event_description = 3;      // Brief description of the event.
+  string email_template_id = 4;      // ID of the associated email template.
+  string sms_template_id = 5;        // ID of the associated SMS template.
+  repeated string event_parameters = 6; // Event-specific parameters.
+}
+
+/**
+Defines the structure for attachments.
+ */
+message Attachment {
+  string filename = 1;             // Filename of the attachment.
+  bytes data = 2;                 // Binary data of the attachment.
+  string mime_type = 3;           // MIME type of the attachment.
+}
+
+/**
+Representation of a notification that can be sent through the communication service.
+*/
+message Notification {
+  string queue_id = 1;               // Unique identifier for the notification within the queue.
+  string event_id = 2;               // Event or trigger associated with this notification.
+  string status = 3;                 // Status of the notification (e.g., pending, sent, failed).
+  int64 timestamp = 4;               // Timestamp when the notification was added to the queue.
+
+  // Store additional custom data associated with the notification.
+  map<string, string> custom_data = 5;
+
+  // Email attributes
+  repeated string to_email = 6;      // Recipients' email addresses.
+  repeated string cc_email = 7;      // Carbon copy (Cc) recipients' email addresses.
+  repeated string bcc_email = 8;     // Blind carbon copy (Bcc) recipients' email addresses.
+  repeated Attachment email_attachments = 9; // Email attachments.
+
+  // SMS attributes
+  repeated string to_phone_number = 10; // Recipients' phone numbers.
+  repeated string sms_variables = 11;   // SMS-specific variables or placeholders.
+}
+
+/**
+Defines the template identification for the operation
+ */
+message TemplateRequest{
+  string template_id = 1;
+}
+/**
+Indicates if the operation was successful.
+ */
+message SuccessResponse{
+  bool success = 1;
+}
+
+// Service API
+service CommunicationService {
+  // Email Template Management
+  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate);
+  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate);
+  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate);
+  rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse);
+
+  // SMS Template Management
+  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate);
+  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+  rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse);
+
+  // Notification Event Management
+  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent);
+  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+  rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse);
+
+  // Notification Queue Operations
+  rpc SendNotification(Notification) returns (SuccessResponse);
+}
