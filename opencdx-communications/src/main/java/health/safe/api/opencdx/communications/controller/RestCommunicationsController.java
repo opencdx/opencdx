@@ -16,17 +16,13 @@
 package health.safe.api.opencdx.communications.controller;
 
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import health.safe.api.opencdx.grpc.communication.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the /greeting api's
@@ -34,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping(
-        value = "/greeting",
+        value = "/communications",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestCommunicationsController {
@@ -43,6 +39,7 @@ public class RestCommunicationsController {
 
     /**
      * Constructor that takes a CommunicationService
+     *
      * @param communicationService service for processing requests.
      */
     @Autowired
@@ -51,17 +48,203 @@ public class RestCommunicationsController {
     }
 
     /**
-     * Post Hello Rest API
-     * @param request HelloRequest indicating who to say hello to.
-     * @return HelloReply with the hello message.
+     * Create an EmailTemplate.
+     *
+     * @param emailTemplate the EmailTemplate to create
+     * @return the created EmailTemplate
      */
-    @PostMapping(value = "/hello")
-    public ResponseEntity<HelloReply> hello(@RequestBody HelloRequest request) {
+    @PostMapping(value = "/email")
+    public ResponseEntity<EmailTemplate> createEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
+        return new ResponseEntity<>(this.communicationService.createEmailTemplate(emailTemplate), HttpStatus.OK);
+    }
 
+    /**
+     * Gets an EmailTemplate
+     *
+     * @param id the EmailTemplate ID to retrieve
+     * @return the requested EmailTemplate.
+     */
+    @GetMapping("/email/{id}")
+    public ResponseEntity<EmailTemplate> getEmailTemplate(@PathVariable String id) {
         return new ResponseEntity<>(
-                HelloReply.newBuilder()
-                        .setMessage(communicationService.sayHello(request))
-                        .build(),
+                this.communicationService.getEmailTemplate(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
                 HttpStatus.OK);
+    }
+
+    /**
+     * Update the EmailTemplate
+     *
+     * @param emailTemplate the EmailTemplate to update
+     * @return the updated EmailTemplate
+     */
+    @PutMapping("/email")
+    public ResponseEntity<EmailTemplate> updateEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
+        return new ResponseEntity<>(this.communicationService.updateEmailTemplate(emailTemplate), HttpStatus.OK);
+    }
+
+    /**
+     * Delete the EmailTemplate with the id.
+     *
+     * @param id the id of the EmailTemplate to delete
+     * @return a SuccessResponse indicating if successful.
+     */
+    @DeleteMapping("/email/{id}")
+    public ResponseEntity<SuccessResponse> deleteEmailTemplate(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.communicationService.deleteEmailTemplate(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Create a SMSTemplate.
+     *
+     * @param smsTemplate the SMSTemplate to create
+     * @return the created SMSTemplate
+     */
+    @PostMapping("/sms")
+    public ResponseEntity<SMSTemplate> createSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
+        return new ResponseEntity<>(this.communicationService.createSMSTemplate(smsTemplate), HttpStatus.OK);
+    }
+
+    /**
+     * Gets SMSTemplate with the id.
+     *
+     * @param id the id of the SMSTemplate to retrieve.
+     * @return the requested SMSTemplate
+     */
+    @GetMapping("/sms/{id}")
+    public ResponseEntity<SMSTemplate> getSMSTemplate(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.communicationService.getSMSTemplate(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Update the SMSTemplate
+     *
+     * @param smsTemplate the SMSTemplate to update
+     * @return the updated SMSTemplate.
+     */
+    @PutMapping("/sms")
+    public ResponseEntity<SMSTemplate> updateSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
+        return new ResponseEntity<>(this.communicationService.updateSMSTemplate(smsTemplate), HttpStatus.OK);
+    }
+
+    /**
+     * Delete SMSTemplate with the id.
+     *
+     * @param id the id of the SMSTemplate to delete.
+     * @return a SuccessResponse to indicate if successful.
+     */
+    @DeleteMapping("/sms/{id}")
+    public ResponseEntity<SuccessResponse> deleteSMSTemplate(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.communicationService.deleteSMSTemplate(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Create a NotificationEvent.
+     *
+     * @param notificationEvent the NotificationEvent to create.
+     * @return the created NotificationEvent.
+     */
+    @PostMapping("/event")
+    public ResponseEntity<NotificationEvent> createNotificationEvent(@RequestBody NotificationEvent notificationEvent) {
+        return new ResponseEntity<>(
+                this.communicationService.createNotificationEvent(notificationEvent), HttpStatus.OK);
+    }
+
+    /**
+     * Gets NotificationEvent with this id.
+     *
+     * @param id the id of the NotificationEvent to retrieve.
+     * @return the requested NotificationEvent.
+     */
+    @GetMapping("/event/{id}")
+    public ResponseEntity<NotificationEvent> getNotificationEvent(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.communicationService.getNotificationEvent(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Update a NotificationEvent.
+     *
+     * @param notificationEvent the NotificationEvent to update.
+     * @return the updated NotificationEvent
+     */
+    @PutMapping("/event")
+    public ResponseEntity<NotificationEvent> updateNotificationEvent(@RequestBody NotificationEvent notificationEvent) {
+        return new ResponseEntity<>(
+                this.communicationService.updateNotificationEvent(notificationEvent), HttpStatus.OK);
+    }
+
+    /**
+     * Delete NotificationEvent with id.
+     *
+     * @param id the id of the NotificationEvent to delete.
+     * @return a SuccessResponse indicating if successful.
+     */
+    @DeleteMapping("/event/{id}")
+    public ResponseEntity<SuccessResponse> deleteNotificationEvent(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.communicationService.deleteNotificationEvent(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Trigger a NotificationEvent to send messages
+     *
+     * @param notification the Notification for the event.
+     * @return a SuccessResponse indicating if successful.
+     */
+    @PostMapping("/notification")
+    public ResponseEntity<SuccessResponse> sendNotification(@RequestBody Notification notification) {
+        return new ResponseEntity<>(this.communicationService.sendNotification(notification), HttpStatus.OK);
+    }
+
+    /**
+     * List SMSTemplates
+     *
+     * @param smsTemplateListRequest request for SMSTemplates
+     * @return the requested SMSTemplates.
+     */
+    @PostMapping("/sms/list")
+    public ResponseEntity<SMSTemplateListResponse> listSMSTemplates(
+            @RequestBody SMSTemplateListRequest smsTemplateListRequest) {
+        return new ResponseEntity<>(this.communicationService.listSMSTemplates(smsTemplateListRequest), HttpStatus.OK);
+    }
+
+    /**
+     * List EmailTemplates
+     *
+     * @param emailTemplateListRequest request for EmailTemplates.
+     * @return the requested EmailTemplates.
+     */
+    @PostMapping("/email/list")
+    public ResponseEntity<EmailTemplateListResponse> listEmailTemplates(
+            @RequestBody EmailTemplateListRequest emailTemplateListRequest) {
+        return new ResponseEntity<>(
+                this.communicationService.listEmailTemplates(emailTemplateListRequest), HttpStatus.OK);
+    }
+
+    /**
+     * List NotificationEvents
+     *
+     * @param notificaitonEventListRequest request for NotificationEvents.
+     * @return the requested NotificationEvents.
+     */
+    @PostMapping("/event/list")
+    public ResponseEntity<NotificationEventListResponse> listNotificationEvents(
+            @RequestBody NotificaitonEventListRequest notificaitonEventListRequest) {
+        return new ResponseEntity<>(
+                this.communicationService.listNotificationEvents(notificaitonEventListRequest), HttpStatus.OK);
     }
 }

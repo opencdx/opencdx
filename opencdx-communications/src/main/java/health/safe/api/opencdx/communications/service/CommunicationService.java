@@ -16,13 +16,11 @@
 package health.safe.api.opencdx.communications.service;
 
 import health.safe.api.opencdx.grpc.communication.*;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 
 /**
  * Interface for the CommunicationService
  */
 public interface CommunicationService {
-    String sayHello(HelloRequest request);
 
     /**
      * Create an Email Template
