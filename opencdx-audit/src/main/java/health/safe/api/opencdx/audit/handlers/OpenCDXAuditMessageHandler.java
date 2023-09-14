@@ -50,7 +50,7 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     @Override
     public void receivedMessage(byte[] message) {
         try {
-            log.info("Audit Event:\n {}", objectMapper.readValue(message, AuditEvent.class));
+            this.processAuditEvent(objectMapper.readValue(message, AuditEvent.class));
         } catch (IOException e) {
             OpenCDXInternal exception =
                     new OpenCDXInternal("OpenCDXAuditMessageHandler", 1, "Failed to parse message to AuditEvent", e);
@@ -58,5 +58,9 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
             exception.getMetaData().put("message", Arrays.toString(message));
             throw exception;
         }
+    }
+
+    public void processAuditEvent(AuditEvent event) {
+        log.info("Audit Event:\n {}", event);
     }
 }
