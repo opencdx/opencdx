@@ -97,72 +97,88 @@ message SuccessResponse{
   bool success = 1;
 }
 
+/**
+Request Message to list SMSTemplates
+ */
 message SMSTemplateListRequest{
-  int32 page_size = 1;
-  int32 page_number = 2;
-  bool sort_ascending = 3;
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
 }
+
+/**
+Request Message to list EmailTemplates
+ */
 message EmailTemplateListRequest{
-  int32 page_size = 1;
-  int32 page_number = 2;
-  bool sort_ascending = 3;
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
 }
+
+/**
+Request Message to list NotificationEvents
+ */
 message NotificaitonEventListRequest{
-  int32 page_size = 1;
-  int32 page_number = 2;
-  bool sort_ascending = 3;
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
 }
 
+/**
+Response containing the requested list of SMSTemplates
+ */
 message SMSTemplateListResponse {
-  int32 page_size = 1;
-  int32 page_number = 2;
-  bool sort_ascending = 3;
-  int32 page_count = 4;
-  repeated SMSTemplate templates = 5;
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
+  int32 page_count = 4; // Total number of available pages.
+  repeated SMSTemplate templates = 5; // List of SMSTemplates
 }
 
+/**
+Response containing the requested list of EmailTemplates
+ */
 message EmailTemplateListResponse {
-  int32 page_size = 1;
-  int32 page_number = 2;
-  bool sort_ascending = 3;
-  int32 page_count = 4;
-  repeated EmailTemplate templates = 5;
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
+  int32 page_count = 4; // Total number of available pages.
+  repeated EmailTemplate templates = 5; // List of EmailTemplates
 }
 
+/**
+Response containing the requested list of NotificaitonEvents
+ */
 message NotificationEventListResponse {
-  int32 page_size = 1;
-  int32 page_number = 2;
-  bool sort_ascending = 3;
-  int32 page_count = 4;
-  repeated NotificationEvent templates = 5;
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
+  int32 page_count = 4; // Total number of available pages.
+  repeated NotificationEvent templates = 5; //List of NotificationEvents
 }
 
 
 // Service API
 service CommunicationService {
   // Email Template Management
-  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate);
-  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate);
-  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate);
-  rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse);
-
+  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate); // Create a new email template.
+  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate); // Retrieve an email template by ID.
+  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate); // Update an email template.
+  rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse); // Delete an email template.
   // SMS Template Management
-  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate);
-  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate);
-  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate);
-  rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse);
-
+  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate); // Create a new SMS template.
+  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate); // Retrieve an SMS template by ID.
+  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate); // Update an SMS template.
+  rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse); // Delete an SMS template.
   // Notification Event Management
-  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent);
-  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent);
-  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent);
-  rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse);
-
+  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent); // Create a new notification event.
+  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent); // Retrieve a notification event by ID.
+  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent); // Update a notification event.
+  rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse); // Delete a notification event.
   // Notification Queue Operations
-  rpc SendNotification(Notification) returns (SuccessResponse);
-
-  // RetrieveLists
-  rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse);
-  rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse);
-  rpc listNotificationEvents(NotificaitonEventListRequest) returns (NotificationEventListResponse);
+  rpc SendNotification(Notification) returns (SuccessResponse); // Send a notification.
+  // Retrieve Lists
+  rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse); // Retrieve a list of SMS templates.
+  rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse); // Retrieve a list of email templates.
+  rpc listNotificationEvents(NotificaitonEventListRequest) returns (NotificationEventListResponse); // Retrieve a list of notification events.
 }

@@ -130,4 +130,25 @@ public class GrpcCommunicationsController extends CommunicationServiceGrpc.Commu
         responseObserver.onCompleted();
         ;
     }
+
+    @Override
+    public void listSMSTemplates(
+            SMSTemplateListRequest request, StreamObserver<SMSTemplateListResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.listSMSTemplates(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void listEmailTemplates(
+            EmailTemplateListRequest request, StreamObserver<EmailTemplateListResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.listEmailTemplates(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void listNotificationEvents(
+            NotificaitonEventListRequest request, StreamObserver<NotificationEventListResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.listNotificationEvents(request));
+        responseObserver.onCompleted();
+    }
 }

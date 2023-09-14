@@ -114,4 +114,24 @@ public interface CommunicationService {
      * @return SuccessResponse indicating if the action was successful.
      */
     SuccessResponse sendNotification(Notification notification);
+
+    /**
+     * List of all SMSTemplates
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested SMSTemplates with page, sorting, and page size
+     */
+    SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request);
+
+    /**
+     * List of all EmailTemplates
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested EmailTemplates with page, sorting, and page size
+     */
+    EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request);
+    /**
+     * List of all NotificationEvent
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested NotificationEvent with page, sorting, and page size
+     */
+    NotificationEventListResponse listNotificationEvents(NotificaitonEventListRequest request);
 }

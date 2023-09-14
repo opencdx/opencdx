@@ -118,4 +118,19 @@ public class CommunicationServiceImpl implements CommunicationService {
     public SuccessResponse sendNotification(Notification notification) {
         return null;
     }
+
+    @Override
+    public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
+        return null;
+    }
+
+    @Override
+    public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
+        return null;
+    }
+
+    @Override
+    public NotificationEventListResponse listNotificationEvents(NotificaitonEventListRequest request) {
+        return null;
+    }
 }
