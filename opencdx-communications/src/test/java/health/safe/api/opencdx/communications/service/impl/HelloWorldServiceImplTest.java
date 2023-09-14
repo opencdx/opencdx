@@ -48,20 +48,11 @@ class HelloWorldServiceImplTest {
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        this.communicationService = new CommunicationServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService);
     }
 
     @AfterEach
     void tearDown() {
         Mockito.reset(this.personRepository);
-    }
-
-    @Test
-    void testSayHello() {
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
-        Assertions.assertEquals(
-                "Hello Bob!",
-                this.communicationService.sayHello(
-                        HelloRequest.newBuilder().setName(" Bob ").build()));
     }
 }

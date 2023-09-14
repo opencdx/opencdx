@@ -31,11 +31,10 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     /**
      * Constructor taking a PersonRepository
-     * @param personRepository repository for interacting with the database.
      * @param openCDXAuditService Audit service for tracking FDA requirements
      */
     @Autowired
-    public CommunicationServiceImpl(PersonRepository personRepository, OpenCDXAuditService openCDXAuditService) {
+    public CommunicationServiceImpl(OpenCDXAuditService openCDXAuditService) {
         this.openCDXAuditService = openCDXAuditService;
     }
 
