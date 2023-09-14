@@ -1,11 +1,31 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package health.safe.api.opencdx.communications.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.grpc.communication.EmailTemplate;
-import health.safe.api.opencdx.grpc.communication.Notification;
-import health.safe.api.opencdx.grpc.communication.NotificationEvent;
-import health.safe.api.opencdx.grpc.communication.SMSTemplate;
+import health.safe.api.opencdx.grpc.communication.*;
 import io.nats.client.Connection;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -25,21 +45,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @Slf4j
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class RestCommunicationsControllerTest {
-
 
     @Autowired
     private WebApplicationContext context;
@@ -77,19 +87,18 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void getEmailTemplate() throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(get("/communications/email/"+uuid)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/communications/email/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
         Assertions.assertTrue(content.contains(uuid));
     }
 
@@ -102,19 +111,18 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void deleteEmailTemplate() throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(delete("/communications/email/"+uuid)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/communications/email/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
         Assertions.assertEquals("{\"success\":true}", content);
     }
 
@@ -127,21 +135,19 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void getSMSTemplate() throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(get("/communications/sms/"+uuid)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/communications/sms/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
         Assertions.assertTrue(content.contains(uuid));
-
     }
 
     @Test
@@ -153,19 +159,18 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void deleteSMSTemplate() throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(delete("/communications/sms/"+uuid)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/communications/sms/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
         Assertions.assertEquals("{\"success\":true}", content);
     }
 
@@ -178,21 +183,19 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void getNotificationEvent() throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(get("/communications/event/"+uuid)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/communications/event/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
         Assertions.assertTrue(content.contains(uuid));
-
     }
 
     @Test
@@ -204,19 +207,18 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void deleteNotificationEvent() throws Exception {
         String uuid = UUID.randomUUID().toString();
         MvcResult result = this.mockMvc
-                .perform(delete("/communications/event/"+uuid)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/communications/event/" + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
         Assertions.assertEquals("{\"success\":true}", content);
     }
 
@@ -229,40 +231,46 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
-
+        log.info("Received\n {}", content);
     }
 
     @Test
     void listSMSTemplates() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/communications/sms/list")
+                .perform(post("/communications/sms/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(SMSTemplateListRequest.getDefaultInstance()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void listEmailTemplates() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/communications/email/list")
+                .perform(post("/communications/email/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(EmailTemplateListRequest.getDefaultInstance()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 
     @Test
     void listNotificationEvents() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/communications/event/list")
+                .perform(post("/communications/event/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(
+                                this.objectMapper.writeValueAsString(NotificaitonEventListRequest.getDefaultInstance()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("Received\n {}",content);
+        log.info("Received\n {}", content);
     }
 }

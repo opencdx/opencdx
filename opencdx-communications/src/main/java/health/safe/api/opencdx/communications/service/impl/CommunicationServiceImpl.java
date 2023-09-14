@@ -16,13 +16,11 @@
 package health.safe.api.opencdx.communications.service.impl;
 
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.communications.repository.PersonRepository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.communication.*;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 /**
  * Service for processing HelloWorld Requests
@@ -42,12 +40,16 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) {
-        return EmailTemplate.newBuilder(emailTemplate).setTemplateId(UUID.randomUUID().toString()).build();
+        return EmailTemplate.newBuilder(emailTemplate)
+                .setTemplateId(UUID.randomUUID().toString())
+                .build();
     }
 
     @Override
     public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) {
-        return EmailTemplate.newBuilder().setTemplateId(templateRequest.getTemplateId()).build();
+        return EmailTemplate.newBuilder()
+                .setTemplateId(templateRequest.getTemplateId())
+                .build();
     }
 
     @Override
@@ -62,12 +64,16 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) {
-        return SMSTemplate.newBuilder(smsTemplate).setTemplateId(UUID.randomUUID().toString()).build();
+        return SMSTemplate.newBuilder(smsTemplate)
+                .setTemplateId(UUID.randomUUID().toString())
+                .build();
     }
 
     @Override
     public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) {
-        return SMSTemplate.newBuilder().setTemplateId(templateRequest.getTemplateId()).build();
+        return SMSTemplate.newBuilder()
+                .setTemplateId(templateRequest.getTemplateId())
+                .build();
     }
 
     @Override
@@ -82,12 +88,16 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) {
-        return NotificationEvent.newBuilder(notificationEvent).setEventId(UUID.randomUUID().toString()).build();
+        return NotificationEvent.newBuilder(notificationEvent)
+                .setEventId(UUID.randomUUID().toString())
+                .build();
     }
 
     @Override
     public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) {
-        return NotificationEvent.newBuilder().setEventId(templateRequest.getTemplateId()).build();
+        return NotificationEvent.newBuilder()
+                .setEventId(templateRequest.getTemplateId())
+                .build();
     }
 
     @Override
@@ -107,16 +117,34 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
-        return SMSTemplateListResponse.newBuilder().setPageCount(1).setPageNumber(1).setPageSize(request.getPageSize()).setSortAscending(request.getSortAscending()).addTemplates(SMSTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString())).build();
+        return SMSTemplateListResponse.newBuilder()
+                .setPageCount(1)
+                .setPageNumber(1)
+                .setPageSize(request.getPageSize())
+                .setSortAscending(request.getSortAscending())
+                .addTemplates(
+                        SMSTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString()))
+                .build();
     }
 
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
-        return EmailTemplateListResponse.newBuilder().setPageCount(1).setPageNumber(1).setPageSize(request.getPageSize()).setSortAscending(request.getSortAscending()).addTemplates(EmailTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString()).build()).build();
+        return EmailTemplateListResponse.newBuilder()
+                .setPageCount(1)
+                .setPageNumber(1)
+                .setPageSize(request.getPageSize())
+                .setSortAscending(request.getSortAscending())
+                .addTemplates(EmailTemplate.newBuilder()
+                        .setTemplateId(UUID.randomUUID().toString())
+                        .build())
+                .build();
     }
 
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificaitonEventListRequest request) {
-        return NotificationEventListResponse.newBuilder().setPageCount(1).setPageNumber(1).build();
+        return NotificationEventListResponse.newBuilder()
+                .setPageCount(1)
+                .setPageNumber(1)
+                .build();
     }
 }

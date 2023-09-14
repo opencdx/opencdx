@@ -16,14 +16,10 @@
 package health.safe.api.opencdx.communications.service.impl;
 
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.communications.model.Person;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
