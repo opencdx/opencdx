@@ -18,7 +18,7 @@ package health.safe.api.opencdx.communications.controller;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.Person;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
-import health.safe.api.opencdx.communications.service.impl.HelloWorldServiceImpl;
+import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
@@ -37,7 +37,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class GrpcHelloWorldControllerTest {
+class GrpcCommunicationsControllerTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
@@ -45,16 +45,16 @@ class GrpcHelloWorldControllerTest {
     @Mock
     PersonRepository personRepository;
 
-    HelloWorldServiceImpl helloWorldService;
+    CommunicationServiceImpl helloWorldService;
 
-    GrpcHelloWorldController grpcHelloWorldController;
+    GrpcCommunicationsController grpcCommunicationsController;
 
     @BeforeEach
     void setUp() {
         this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService);
-        this.grpcHelloWorldController = new GrpcHelloWorldController(this.helloWorldService);
+        this.helloWorldService = new CommunicationServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.grpcCommunicationsController = new GrpcCommunicationsController(this.helloWorldService);
     }
 
     @AfterEach
@@ -68,7 +68,7 @@ class GrpcHelloWorldControllerTest {
         HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
         HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
 
-        this.grpcHelloWorldController.sayHello(helloRequest, responseObserver);
+        this.grpcCommunicationsController.sayHello(helloRequest, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(helloReply);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

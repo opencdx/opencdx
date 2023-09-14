@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
-import health.safe.api.opencdx.communications.service.HelloWorldService;
+import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -37,17 +37,17 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/greeting",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestHelloWorldController {
+public class RestCommunicationsController {
 
-    private final HelloWorldService helloWorldService;
+    private final CommunicationService communicationService;
 
     /**
-     * Constructor that takes a HelloWorldService
-     * @param helloWorldService service for processing requests.
+     * Constructor that takes a CommunicationService
+     * @param communicationService service for processing requests.
      */
     @Autowired
-    public RestHelloWorldController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
+    public RestCommunicationsController(CommunicationService communicationService) {
+        this.communicationService = communicationService;
     }
 
     /**
@@ -60,7 +60,7 @@ public class RestHelloWorldController {
 
         return new ResponseEntity<>(
                 HelloReply.newBuilder()
-                        .setMessage(helloWorldService.sayHello(request))
+                        .setMessage(communicationService.sayHello(request))
                         .build(),
                 HttpStatus.OK);
     }

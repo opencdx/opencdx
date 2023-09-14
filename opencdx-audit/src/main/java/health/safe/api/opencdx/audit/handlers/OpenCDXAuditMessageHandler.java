@@ -60,6 +60,10 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
         }
     }
 
+    /**
+     * Method to directory call to process an AuditEvent
+     * @param event AuditEvent to process.
+     */
     public void processAuditEvent(AuditEvent event) {
         log.info("Audit Event:\n {}", event);
     }

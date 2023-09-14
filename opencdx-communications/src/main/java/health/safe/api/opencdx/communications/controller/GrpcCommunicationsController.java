@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
-import health.safe.api.opencdx.communications.service.HelloWorldService;
+import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
@@ -29,17 +29,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 @GRpcService
-public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
+public class GrpcCommunicationsController extends GreeterGrpc.GreeterImplBase {
 
-    private final HelloWorldService helloWorldService;
+    private final CommunicationService communicationService;
 
     /**
      * Constructor using the HelloworldService
-     * @param helloWorldService service to use for processing
+     * @param communicationService service to use for processing
      */
     @Autowired
-    public GrpcHelloWorldController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
+    public GrpcCommunicationsController(CommunicationService communicationService) {
+        this.communicationService = communicationService;
     }
 
     /**
@@ -51,7 +51,7 @@ public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
 
         HelloReply reply = HelloReply.newBuilder()
-                .setMessage(this.helloWorldService.sayHello(request))
+                .setMessage(this.communicationService.sayHello(request))
                 .build();
 
         responseObserver.onNext(reply);

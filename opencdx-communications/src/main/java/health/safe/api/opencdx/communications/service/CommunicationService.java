@@ -18,9 +18,9 @@ package health.safe.api.opencdx.communications.service;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 
 /**
- * Interface for the HelloWorldService
+ * Interface for the CommunicationService
  */
-public interface HelloWorldService {
+public interface CommunicationService {
     /**
      * Process the HelloRequest
      * @param request request the process

@@ -18,7 +18,7 @@ package health.safe.api.opencdx.communications.service.impl;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.Person;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
-import health.safe.api.opencdx.communications.service.HelloWorldService;
+import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -40,7 +40,7 @@ class HelloWorldServiceImplTest {
     @Mock
     PersonRepository personRepository;
 
-    HelloWorldService helloWorldService;
+    CommunicationService communicationService;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
@@ -48,7 +48,7 @@ class HelloWorldServiceImplTest {
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.communicationService = new CommunicationServiceImpl(this.personRepository, this.openCDXAuditService);
     }
 
     @AfterEach
@@ -61,7 +61,7 @@ class HelloWorldServiceImplTest {
         Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
         Assertions.assertEquals(
                 "Hello Bob!",
-                this.helloWorldService.sayHello(
+                this.communicationService.sayHello(
                         HelloRequest.newBuilder().setName(" Bob ").build()));
     }
 }
