@@ -31,8 +31,10 @@ Template for creating Java Based REST/gRPC Microservices.
 ## ZERO Tolerance
 ZERO Tolerance means for any code to be accepted at in a Pull Request, it must meet the following requirements:
 - 0 Sonarlint issues found
+- O JavaDoc errors/warnings
+- Protobuf fully documented
 - Jacoco reporting 90% code coverage.
-- O Dependency Check issues.
+- Spotless code formatter.
 
 ## Reports
 _**Reports are part of the build not available from GitHub.**_

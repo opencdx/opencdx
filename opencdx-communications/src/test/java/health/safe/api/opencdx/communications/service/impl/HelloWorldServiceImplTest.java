@@ -16,14 +16,10 @@
 package health.safe.api.opencdx.communications.service.impl;
 
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.communications.model.Person;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
-import health.safe.api.opencdx.communications.service.HelloWorldService;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import health.safe.api.opencdx.communications.service.CommunicationService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -40,7 +36,7 @@ class HelloWorldServiceImplTest {
     @Mock
     PersonRepository personRepository;
 
-    HelloWorldService helloWorldService;
+    CommunicationService communicationService;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
@@ -48,20 +44,11 @@ class HelloWorldServiceImplTest {
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService);
     }
 
     @AfterEach
     void tearDown() {
         Mockito.reset(this.personRepository);
-    }
-
-    @Test
-    void testSayHello() {
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
-        Assertions.assertEquals(
-                "Hello Bob!",
-                this.helloWorldService.sayHello(
-                        HelloRequest.newBuilder().setName(" Bob ").build()));
     }
 }
