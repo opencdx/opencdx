@@ -187,6 +187,7 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n {}",this.objectMapper.writeValueAsString(Notification.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 
@@ -200,6 +201,7 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}",this.objectMapper.writeValueAsString(SMSTemplateListRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 
@@ -213,6 +215,7 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}",this.objectMapper.writeValueAsString(EmailTemplateListRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 
@@ -227,6 +230,7 @@ class RestCommunicationsControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}",this.objectMapper.writeValueAsString(NotificaitonEventListRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 }
