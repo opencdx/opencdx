@@ -97,6 +97,47 @@ message SuccessResponse{
   bool success = 1;
 }
 
+message SMSTemplateListRequest{
+  int32 page_size = 1;
+  int32 page_number = 2;
+  bool sort_ascending = 3;
+}
+message EmailTemplateListRequest{
+  int32 page_size = 1;
+  int32 page_number = 2;
+  bool sort_ascending = 3;
+}
+message NotificaitonEventListRequest{
+  int32 page_size = 1;
+  int32 page_number = 2;
+  bool sort_ascending = 3;
+}
+
+message SMSTemplateListResponse {
+  int32 page_size = 1;
+  int32 page_number = 2;
+  bool sort_ascending = 3;
+  int32 page_count = 4;
+  repeated SMSTemplate templates = 5;
+}
+
+message EmailTemplateListResponse {
+  int32 page_size = 1;
+  int32 page_number = 2;
+  bool sort_ascending = 3;
+  int32 page_count = 4;
+  repeated EmailTemplate templates = 5;
+}
+
+message NotificationEventListResponse {
+  int32 page_size = 1;
+  int32 page_number = 2;
+  bool sort_ascending = 3;
+  int32 page_count = 4;
+  repeated NotificationEvent templates = 5;
+}
+
+
 // Service API
 service CommunicationService {
   // Email Template Management
@@ -119,4 +160,9 @@ service CommunicationService {
 
   // Notification Queue Operations
   rpc SendNotification(Notification) returns (SuccessResponse);
+
+  // RetrieveLists
+  rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse);
+  rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse);
+  rpc listNotificationEvents(NotificaitonEventListRequest) returns (NotificationEventListResponse);
 }
