@@ -53,7 +53,7 @@ public class RestAuditController {
      * @return HelloReply with the hello message.
      */
     @PostMapping(value = "/event")
-    public ResponseEntity<AuditStatus> hello(@RequestBody AuditEvent request) {
+    public ResponseEntity<AuditStatus> event(@RequestBody AuditEvent request) {
 
         this.openCDXAuditMessageHandler.processAuditEvent(request);
 
