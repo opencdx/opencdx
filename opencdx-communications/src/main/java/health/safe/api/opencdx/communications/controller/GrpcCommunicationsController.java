@@ -16,25 +16,23 @@
 package health.safe.api.opencdx.communications.controller;
 
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import health.safe.api.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * gRPC Controller for Hello World
+ * gRPC Controller for Communications service
  */
 @Slf4j
 @GRpcService
-public class GrpcCommunicationsController extends GreeterGrpc.GreeterImplBase {
+public class GrpcCommunicationsController extends CommunicationServiceGrpc.CommunicationServiceImplBase {
 
     private final CommunicationService communicationService;
 
     /**
-     * Constructor using the HelloworldService
+     * Constructor using the gRPC Communications Controller.
      * @param communicationService service to use for processing
      */
     @Autowired
@@ -42,19 +40,94 @@ public class GrpcCommunicationsController extends GreeterGrpc.GreeterImplBase {
         this.communicationService = communicationService;
     }
 
-    /**
-     * sayHello gRPC Service Call
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
-     */
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-
-        HelloReply reply = HelloReply.newBuilder()
-                .setMessage(this.communicationService.sayHello(request))
-                .build();
-
-        responseObserver.onNext(reply);
+    public void createEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
+        responseObserver.onNext(this.communicationService.createEmailTemplate(request));
         responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void getEmailTemplate(TemplateRequest request, StreamObserver<EmailTemplate> responseObserver) {
+        responseObserver.onNext(this.communicationService.getEmailTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void updateEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
+        responseObserver.onNext(this.communicationService.updateEmailTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void deleteEmailTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.deleteEmailTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void createSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
+        responseObserver.onNext(this.communicationService.createSMSTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void getSMSTemplate(TemplateRequest request, StreamObserver<SMSTemplate> responseObserver) {
+        responseObserver.onNext(this.communicationService.getSMSTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void updateSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
+        responseObserver.onNext(this.communicationService.updateSMSTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void deleteSMSTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.deleteSMSTemplate(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void createNotificationEvent(NotificationEvent request, StreamObserver<NotificationEvent> responseObserver) {
+        responseObserver.onNext(this.communicationService.createNotificationEvent(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void getNotificationEvent(TemplateRequest request, StreamObserver<NotificationEvent> responseObserver) {
+        responseObserver.onNext(this.communicationService.getNotificationEvent(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void updateNotificationEvent(NotificationEvent request, StreamObserver<NotificationEvent> responseObserver) {
+        responseObserver.onNext(this.communicationService.updateNotificationEvent(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void deleteNotificationEvent(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.deleteNotificationEvent(request));
+        responseObserver.onCompleted();
+        ;
+    }
+
+    @Override
+    public void sendNotification(Notification request, StreamObserver<SuccessResponse> responseObserver) {
+        responseObserver.onNext(this.communicationService.sendNotification(request));
+        responseObserver.onCompleted();
+        ;
     }
 }

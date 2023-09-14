@@ -20,6 +20,7 @@ import health.safe.api.opencdx.communications.model.Person;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
+import health.safe.api.opencdx.grpc.communication.*;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     private final OpenCDXAuditService openCDXAuditService;
 
     /**
-     * Constructor taking the a PersonRepository
+     * Constructor taking a PersonRepository
      * @param personRepository repository for interacting with the database.
      * @param openCDXAuditService Audit service for tracking FDA requirements
      */
@@ -45,16 +46,76 @@ public class CommunicationServiceImpl implements CommunicationService {
         this.openCDXAuditService = openCDXAuditService;
     }
 
-    /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
-     */
     @Override
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
         this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
         return String.format("Hello %s!", request.getName().trim());
+    }
+
+    @Override
+    public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) {
+        return null;
+    }
+
+    @Override
+    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) {
+        return null;
+    }
+
+    @Override
+    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) {
+        return null;
+    }
+
+    @Override
+    public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) {
+        return null;
+    }
+
+    @Override
+    public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) {
+        return null;
+    }
+
+    @Override
+    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) {
+        return null;
+    }
+
+    @Override
+    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) {
+        return null;
+    }
+
+    @Override
+    public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) {
+        return null;
+    }
+
+    @Override
+    public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) {
+        return null;
+    }
+
+    @Override
+    public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) {
+        return null;
+    }
+
+    @Override
+    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) {
+        return null;
+    }
+
+    @Override
+    public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) {
+        return null;
+    }
+
+    @Override
+    public SuccessResponse sendNotification(Notification notification) {
+        return null;
     }
 }

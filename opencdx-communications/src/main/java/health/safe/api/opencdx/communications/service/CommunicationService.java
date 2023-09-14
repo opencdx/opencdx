@@ -15,16 +15,103 @@
  */
 package health.safe.api.opencdx.communications.service;
 
+import health.safe.api.opencdx.grpc.communication.*;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 
 /**
  * Interface for the CommunicationService
  */
 public interface CommunicationService {
-    /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
-     */
     String sayHello(HelloRequest request);
+
+    /**
+     * Create an Email Template
+     * @param emailTemplate EmailTemplate to create.
+     * @return the created EmailTemplate.
+     */
+    EmailTemplate createEmailTemplate(EmailTemplate emailTemplate);
+
+    /**
+     * Retrieve an Email Template
+     * @param templateRequest Request ID of email template to retrieve.
+     * @return the requested EmailTemplate.
+     */
+    EmailTemplate getEmailTemplate(TemplateRequest templateRequest);
+
+    /**
+     * Update an Email Template
+     * @param emailTemplate Updated EmailTemplate.
+     * @return updated EmailTemplate.
+     */
+    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate);
+
+    /**
+     * Delete an Email Template
+     * @param templateRequest Request ID of the email template to delete
+     * @return SuccessResponse indicating if the action was successful.
+     */
+    SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest);
+
+    /**
+     * Create an SMS Template
+     * @param smsTemplate SMSTemplate to create
+     * @return the created SMSTemplate.
+     */
+    SMSTemplate createSMSTemplate(SMSTemplate smsTemplate);
+
+    /**
+     * Get an SMS Template
+     * @param templateRequest Request ID of the SMSTemplate to retrieve.
+     * @return the requested SMSTemplate
+     */
+    SMSTemplate getSMSTemplate(TemplateRequest templateRequest);
+
+    /**
+     * Update SMS Template
+     * @param smsTemplate SMSTemplate to update.
+     * @return the updated SMSTemplate.
+     */
+    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate);
+
+    /**
+     * Delete SMS Template
+     * @param templateRequest Request ID of the SMSTemplate to delete.
+     * @return SuccessResponse indicating if the action was successsful.
+     */
+    SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest);
+
+    /**
+     * Create a Notification Event
+     * @param notificationEvent NotificationEvent to create.
+     * @return the created NotificationEvent.
+     */
+    NotificationEvent createNotificationEvent(NotificationEvent notificationEvent);
+
+    /**
+     * Get a Notification Event
+     * @param templateRequest Request ID of the NotificationEvent to retrieve.
+     * @return the requested NotificationEvent.
+     */
+    NotificationEvent getNotificationEvent(TemplateRequest templateRequest);
+
+    /**
+     * Update Notification Event
+     * @param notificationEvent NotificationEvent to update.
+     * @return the updated NotificationEvent.
+     */
+    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent);
+
+    /**
+     * Delete Notification Event
+     * @param templateRequest Request ID of NotificationEvent to delete.
+     * @return SuccessResponse indicating if the action was successful.
+     */
+    SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest);
+
+    /**
+     * Send Notification
+     * @param notification Notification information to trigger.
+     * @return SuccessResponse indicating if the action was successful.
+     */
+    SuccessResponse sendNotification(Notification notification);
 }
