@@ -22,6 +22,8 @@ import health.safe.api.opencdx.grpc.communication.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * Service for processing HelloWorld Requests
  */
@@ -40,81 +42,81 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) {
-        return null;
+        return EmailTemplate.newBuilder(emailTemplate).setTemplateId(UUID.randomUUID().toString()).build();
     }
 
     @Override
     public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) {
-        return null;
+        return EmailTemplate.newBuilder().setTemplateId(templateRequest.getTemplateId()).build();
     }
 
     @Override
     public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) {
-        return null;
+        return emailTemplate;
     }
 
     @Override
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) {
-        return null;
+        return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
     @Override
     public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) {
-        return null;
+        return SMSTemplate.newBuilder(smsTemplate).setTemplateId(UUID.randomUUID().toString()).build();
     }
 
     @Override
     public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) {
-        return null;
+        return SMSTemplate.newBuilder().setTemplateId(templateRequest.getTemplateId()).build();
     }
 
     @Override
     public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) {
-        return null;
+        return smsTemplate;
     }
 
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) {
-        return null;
+        return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
     @Override
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) {
-        return null;
+        return NotificationEvent.newBuilder(notificationEvent).setEventId(UUID.randomUUID().toString()).build();
     }
 
     @Override
     public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) {
-        return null;
+        return NotificationEvent.newBuilder().setEventId(templateRequest.getTemplateId()).build();
     }
 
     @Override
     public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) {
-        return null;
+        return notificationEvent;
     }
 
     @Override
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) {
-        return null;
+        return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
     @Override
     public SuccessResponse sendNotification(Notification notification) {
-        return null;
+        return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
-        return null;
+        return SMSTemplateListResponse.newBuilder().setPageCount(1).setPageNumber(1).setPageSize(request.getPageSize()).setSortAscending(request.getSortAscending()).addTemplates(SMSTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString())).build();
     }
 
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
-        return null;
+        return EmailTemplateListResponse.newBuilder().setPageCount(1).setPageNumber(1).setPageSize(request.getPageSize()).setSortAscending(request.getSortAscending()).addTemplates(EmailTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString()).build()).build();
     }
 
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificaitonEventListRequest request) {
-        return null;
+        return NotificationEventListResponse.newBuilder().setPageCount(1).setPageNumber(1).build();
     }
 }

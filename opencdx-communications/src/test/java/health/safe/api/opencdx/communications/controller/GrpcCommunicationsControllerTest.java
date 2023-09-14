@@ -46,7 +46,7 @@ class GrpcCommunicationsControllerTest {
         EmailTemplate emailTemplate = getTestEmailTemplate();
         this.grpcCommunicationsController.createEmailTemplate(emailTemplate,responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(emailTemplate);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -80,7 +80,7 @@ class GrpcCommunicationsControllerTest {
         SMSTemplate smsTemplate = getTestSMSTemplate();
         this.grpcCommunicationsController.createSMSTemplate(smsTemplate,responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(smsTemplate);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -114,7 +114,7 @@ class GrpcCommunicationsControllerTest {
         NotificationEvent notificationEvent = getTestNotificationEvent();
         this.grpcCommunicationsController.createNotificationEvent(notificationEvent,responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(notificationEvent);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
