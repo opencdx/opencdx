@@ -1,4 +1,23 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package health.safe.api.opencdx.audit.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.nats.client.Connection;
 import org.junit.jupiter.api.AfterEach;
@@ -18,10 +37,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -50,11 +65,13 @@ class RestAuditControllerTest {
     void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
         Assertions.assertNotNull(mockMvc);
     }
+
     @Test
     void event() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/audit/event")
-                        .content("""
+                        .content(
+                                """
                                 {
                                   "created" : "1970-01-01T00:00:00Z",
                                   "eventType" : "PHI_CREATED",
