@@ -95,4 +95,11 @@ message AuditEvent {
   AuditEntity audit_entity = 7; // Identifies whose data is being acted on.
 }
 
+message AuditStatus {
+  bool success = 1;
+}
+
+service AuditService {
+  rpc Event(AuditEvent) returns (AuditStatus);
+}
 

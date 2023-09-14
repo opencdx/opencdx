@@ -15,7 +15,14 @@
  */
 package health.safe.api.opencdx.commons.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
 import health.safe.api.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
+import health.safe.api.opencdx.grpc.audit.Actor;
+import health.safe.api.opencdx.grpc.audit.AuditEvent;
+import health.safe.api.opencdx.grpc.audit.AuditEventType;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@Slf4j
 @ActiveProfiles("test")
 @SpringBootTest(classes = OpenCDXGrpcExceptionHandler.class)
 @ExtendWith(SpringExtension.class)
@@ -43,6 +51,20 @@ class CommonsConfigTest {
     @Test
     void objectMapper() {
         Assertions.assertNotNull(this.commonsConfig.objectMapper());
+    }
+
+    @Test
+    void auditEventPrint() throws JsonProcessingException {
+        ObjectMapper mapper = this.commonsConfig.objectMapper();
+        log.info("*********************************");
+        log.info(mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(AuditEvent.newBuilder()
+                        .setEventType(AuditEventType.PHI_CREATED)
+                        .setCreated(Timestamp.newBuilder().build())
+                        .setActor(Actor.newBuilder()
+                                .setNetworkAddress("192.198.0.1")
+                                .build())));
+        log.info("*********************************");
     }
 
     @Test
