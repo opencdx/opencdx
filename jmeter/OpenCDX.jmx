@@ -10,13 +10,13 @@
       </elementProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">500</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -118,37 +118,27 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;actor&quot;: {
-        &quot;agentType&quot;: &quot;OTHER_ENTITY&quot;,
-        &quot;identity&quot;: &quot;elit adipisicing laboris ex irure&quot;,
-        &quot;network_address&quot;: &quot;ex&quot;,
-        &quot;role&quot;: &quot;ipsum quis nulla cupidatat aliqua&quot;
-    },
-    &quot;audit_entity&quot;: {
-        &quot;patient_identifier&quot;: &quot;proident aliquip ad&quot;,
-        &quot;user_identifier&quot;: &quot;pariatur dolore deserunt dolor&quot;
-    },
-    &quot;audit_source&quot;: {
-        &quot;configuration&quot;: &quot;enim ad&quot;,
-        &quot;system_info&quot;: &quot;reprehenderit commodo voluptate&quot;
-    },
-    &quot;created&quot;: {
-        &quot;nanos&quot;: 951259198,
-        &quot;seconds&quot;: &quot;2&quot;
-    },
-    &quot;data_object&quot;: {
-        &quot;data&quot;: {
-            &quot;type_url&quot;: &quot;ut sint incididunt in commodo&quot;,
-            &quot;value&quot;: &quot;+8wJuDdddNkYGCziUV3fgacihDo&quot;
-        },
-        &quot;resource&quot;: &quot;irure eu anim dolore&quot;,
-        &quot;sensitivity&quot;: 0
-    },
-    &quot;event_type&quot;: &quot;PHI_DELETED&quot;,
-    &quot;purpose_of_use&quot;: &quot;dolore&quot;
+  &quot;created&quot; : &quot;1970-01-01T00:00:00Z&quot;,
+  &quot;eventType&quot; : &quot;PHI_CREATED&quot;,
+  &quot;actor&quot; : {
+    &quot;identity&quot; : &quot;&quot;,
+    &quot;role&quot; : &quot;&quot;,
+    &quot;networkAddress&quot; : &quot;192.198.0.1&quot;,
+    &quot;agenttype&quot; : &quot;HUMAN_USER&quot;
+  },
+  &quot;purposeOfUse&quot; : &quot;&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree/>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script"></stringProp>
+            <stringProp name="scriptLanguage">java</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
@@ -174,34 +164,15 @@
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-    &quot;actor&quot;: {&#xd;
-        &quot;agentType&quot;: &quot;OTHER_ENTITY&quot;,&#xd;
-        &quot;identity&quot;: &quot;elit adipisicing laboris ex irure&quot;,&#xd;
-        &quot;network_address&quot;: &quot;ex&quot;,&#xd;
-        &quot;role&quot;: &quot;ipsum quis nulla cupidatat aliqua&quot;&#xd;
-    },&#xd;
-    &quot;audit_entity&quot;: {&#xd;
-        &quot;patient_identifier&quot;: &quot;proident aliquip ad&quot;,&#xd;
-        &quot;user_identifier&quot;: &quot;pariatur dolore deserunt dolor&quot;&#xd;
-    },&#xd;
-    &quot;audit_source&quot;: {&#xd;
-        &quot;configuration&quot;: &quot;enim ad&quot;,&#xd;
-        &quot;system_info&quot;: &quot;reprehenderit commodo voluptate&quot;&#xd;
-    },&#xd;
-    &quot;created&quot;: {&#xd;
-        &quot;nanos&quot;: 951259198,&#xd;
-        &quot;seconds&quot;: &quot;2&quot;&#xd;
-    },&#xd;
-    &quot;data_object&quot;: {&#xd;
-        &quot;data&quot;: {&#xd;
-            &quot;type_url&quot;: &quot;ut sint incididunt in commodo&quot;,&#xd;
-            &quot;value&quot;: &quot;+8wJuDdddNkYGCziUV3fgacihDo&quot;&#xd;
-        },&#xd;
-        &quot;resource&quot;: &quot;irure eu anim dolore&quot;,&#xd;
-        &quot;sensitivity&quot;: 0&#xd;
-    },&#xd;
-    &quot;event_type&quot;: &quot;PHI_DELETED&quot;,&#xd;
-    &quot;purpose_of_use&quot;: &quot;dolore&quot;&#xd;
+  &quot;created&quot; : &quot;1970-01-01T00:00:00Z&quot;,&#xd;
+  &quot;eventType&quot; : &quot;PHI_CREATED&quot;,&#xd;
+  &quot;actor&quot; : {&#xd;
+    &quot;identity&quot; : &quot;&quot;,&#xd;
+    &quot;role&quot; : &quot;&quot;,&#xd;
+    &quot;networkAddress&quot; : &quot;192.198.0.1&quot;,&#xd;
+    &quot;agenttype&quot; : &quot;HUMAN_USER&quot;&#xd;
+  },&#xd;
+  &quot;purposeOfUse&quot; : &quot;&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
