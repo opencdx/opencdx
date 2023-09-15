@@ -198,6 +198,19 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
                 .build());
     }
 
+    @Override
+    public void communication(UUID actor, AgentType agentType, String purpose, UUID auditEntity, String jsonRecord) {
+        this.sendMessage(AuditEvent.newBuilder()
+                .setEventType(AuditEventType.COMMUNICATION)
+                .setCreated(this.getTimeStamp(Instant.now()))
+                .setAuditSource(this.getAuditSource(this.applicationName))
+                .setActor(this.getActor(actor, agentType))
+                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setPurposeOfUse(purpose)
+                .setDataObject(this.getDataObject(jsonRecord))
+                .build());
+    }
+
     private Timestamp getTimeStamp(Instant time) {
         return Timestamp.newBuilder()
                 .setSeconds(time.getEpochSecond())
@@ -222,23 +235,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
                 .build();
     }
 
-    @Override
-    public void communication(UUID actor, AgentType agentType, String purpose, UUID auditEntity, String jsonRecord) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.COMMUNICATION)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .setDataObject(this.getDataObject(jsonRecord))
-                .build());
-    }
-
     private DataObject getDataObject(String jsonRecord) {
-        if (jsonRecord == null) {
-            return null;
-        }
         return DataObject.newBuilder().setData(jsonRecord).build();
     }
 }
