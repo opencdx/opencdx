@@ -22,15 +22,27 @@ import java.time.Instant;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Abstract class for handling Audit message types that is connection independent.
+ */
 @Slf4j
 public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService {
 
     private String applicationName;
 
+    /**
+     * Constrctor for receiving the required Application name
+     * @param applicationName Name of the applicaiton for sytem on record.
+     */
     protected OpenCDXAuditServiceAbstract(String applicationName) {
         this.applicationName = applicationName;
     }
 
+    /**
+     * Abstract class that allows for replacement of communication system
+     * @param event Event to send to Audit Service
+     * @return indicates if successfully sent.
+     */
     protected abstract AuditStatus sendMessage(AuditEvent event);
 
     @Override

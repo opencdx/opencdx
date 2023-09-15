@@ -18,6 +18,10 @@ package health.safe.api.opencdx.client.service;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 
+/**
+ * Audit Service for interfacing to the service. Used for both direct gRPC client
+ * and Message based Client.
+ */
 public interface OpenCDXAuditService {
     /**
      * Record User Login successful to audit log.

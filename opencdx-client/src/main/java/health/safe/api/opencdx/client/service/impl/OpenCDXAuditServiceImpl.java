@@ -19,10 +19,18 @@ import health.safe.api.opencdx.grpc.audit.AuditEvent;
 import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
 import health.safe.api.opencdx.grpc.audit.AuditStatus;
 
+/**
+ * gRPC Client implementation of the Audit System.
+ */
 public class OpenCDXAuditServiceImpl extends OpenCDXAuditServiceAbstract {
 
     private final AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
 
+    /**
+     * OpenCDXAuditService Implementation for the audit system based on shared client code.
+     * @param applicationName Name of the application
+     * @param auditServiceBlockingStub gRPC Client stub
+     */
     public OpenCDXAuditServiceImpl(
             String applicationName, AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub) {
         super(applicationName);
