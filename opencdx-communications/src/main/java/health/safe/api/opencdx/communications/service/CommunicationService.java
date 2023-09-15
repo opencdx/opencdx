@@ -131,5 +131,5 @@ public interface CommunicationService {
      * @param request Request indicating pagination, sorting, and page size.
      * @return requested NotificationEvent with page, sorting, and page size
      */
-    NotificationEventListResponse listNotificationEvents(NotificaitonEventListRequest request);
+    NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request);
 }

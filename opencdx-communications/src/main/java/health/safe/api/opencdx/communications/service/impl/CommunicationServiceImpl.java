@@ -142,7 +142,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public NotificationEventListResponse listNotificationEvents(NotificaitonEventListRequest request) {
+    public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
         return NotificationEventListResponse.newBuilder()
                 .setPageCount(1)
                 .setPageNumber(1)
