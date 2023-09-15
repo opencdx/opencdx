@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service;
 
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.grpc.communication.*;
 
 /**
@@ -27,7 +28,7 @@ public interface CommunicationService {
      * @param emailTemplate EmailTemplate to create.
      * @return the created EmailTemplate.
      */
-    EmailTemplate createEmailTemplate(EmailTemplate emailTemplate);
+    EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable;
 
     /**
      * Retrieve an Email Template
