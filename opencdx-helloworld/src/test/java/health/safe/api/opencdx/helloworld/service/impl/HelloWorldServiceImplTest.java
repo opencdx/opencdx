@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.helloworld.service.impl;
 
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
 import health.safe.api.opencdx.helloworld.repository.PersonRepository;
@@ -43,7 +42,7 @@ class HelloWorldServiceImplTest {
     HelloWorldService helloWorldService;
 
     @Autowired
-    OpenCDXAuditService openCDXAuditService;
+    OpenCDXOpenCDXAuditService openCDXAuditService;
 
     @BeforeEach
     void beforeEach() {

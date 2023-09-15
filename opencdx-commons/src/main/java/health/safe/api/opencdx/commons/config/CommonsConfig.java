@@ -18,7 +18,7 @@ package health.safe.api.opencdx.commons.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
@@ -83,7 +83,7 @@ public class CommonsConfig {
     }
 
     @Bean
-    @Description("OpenCDXAuditService for submitting audit messages through the message system.")
+    @Description("OpenCDXOpenCDXAuditService for submitting audit messages through the message system.")
     OpenCDXAuditService openCDXAuditService(
             OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
         return new OpenCDXAuditServiceImpl(messageService, applicationName);

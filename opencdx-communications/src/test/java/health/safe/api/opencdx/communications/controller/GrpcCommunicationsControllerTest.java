@@ -15,9 +15,6 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import health.safe.api.opencdx.grpc.communication.*;
@@ -38,7 +35,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class GrpcCommunicationsControllerTest {
 
     @Autowired
-    OpenCDXAuditService openCDXAuditService;
+    OpenCDXOpenCDXAuditService openCDXAuditService;
 
     CommunicationService communicationService;
 

@@ -15,26 +15,22 @@
  */
 package health.safe.api.opencdx.commons.service.impl;
 
-import com.google.protobuf.Timestamp;
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.impl.OpenCDXAuditServiceAbstract;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.grpc.audit.*;
-import java.time.Instant;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * OpenCDX-Audit based implementation of OpenCDXAuditService
+ * OpenCDX-Audit based implementation of OpenCDXOpenCDXAuditService
  */
 @Slf4j
 @Service
-public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
+public class OpenCDXAuditServiceImpl extends OpenCDXAuditServiceAbstract {
 
     private OpenCDXMessageService messageService;
 
-    private String applicationName;
     /**
      * Constructor based on the OpenCDXMessageService
      * @param messageService Messaging Service to use,
@@ -42,188 +38,12 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
      */
     public OpenCDXAuditServiceImpl(
             OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+        super(applicationName);
         this.messageService = messageService;
-        this.applicationName = applicationName;
     }
 
-    @Override
-    public void userLoginSucceed(UUID actor, AgentType agentType, String purpose) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_LOGIN_SUCCEEDED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void userLoginFailure(UUID actor, AgentType agentType, String purpose) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_LOGIN_FAIL)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void userLogout(UUID actor, AgentType agentType, String purpose) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_LOGOUT)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void userAccessChange(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_ACCESS_CHANGE)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void passwordChange(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_PASSWORD_CHANGE)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void piiAccessed(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_ACCESSED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void piiCreated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_CREATED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void piiUpdated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_UPDATED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void piiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_DELETED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void phiAccessed(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_ACCESSED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void phiCreated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_CREATED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void phiUpdated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_UPDATED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    @Override
-    public void phiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
-        this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_DELETED)
-                .setCreated(this.getTimeStamp(Instant.now()))
-                .setAuditSource(this.getAuditSource(this.applicationName))
-                .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
-                .setPurposeOfUse(purpose)
-                .build());
-    }
-
-    private void sendMessage(AuditEvent event) {
-        this.messageService.send(OpenCDXAuditService.AUDIT_MESSAGE_SUBJECT, event);
-    }
-
-    private Timestamp getTimeStamp(Instant time) {
-        return Timestamp.newBuilder()
-                .setSeconds(time.getEpochSecond())
-                .setNanos(time.getNano())
-                .build();
-    }
-
-    private AuditSource getAuditSource(String applicationName) {
-        return AuditSource.newBuilder().setSystemInfo(applicationName).build();
-    }
-
-    private Actor getActor(UUID actor, AgentType agentType) {
-        return Actor.newBuilder()
-                .setIdentity(actor.toString())
-                .setAgentType(agentType)
-                .build();
-    }
-
-    private AuditEntity getAuditEntity(UUID auditEntity) {
-        return AuditEntity.newBuilder()
-                .setPatientIdentifier(auditEntity.toString())
-                .build();
+    protected AuditStatus sendMessage(AuditEvent event) {
+        this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
+        return AuditStatus.newBuilder().setSuccess(true).build();
     }
 }

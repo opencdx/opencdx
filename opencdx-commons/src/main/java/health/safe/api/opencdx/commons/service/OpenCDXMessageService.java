@@ -22,6 +22,12 @@ import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
  * agnostic interface.
  */
 public interface OpenCDXMessageService {
+
+    /**
+     * OpenCDXMessage Subject for Audit messages.
+     */
+    public static final String AUDIT_MESSAGE_SUBJECT = "opencdx-audit-message";
+
     /**
      * Subscribe to a message subject and the handlers for received those messages
      * for processing.

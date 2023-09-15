@@ -18,7 +18,6 @@ package health.safe.api.opencdx.audit.handlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.grpc.audit.AuditEvent;
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
         this.objectMapper = objectMapper;
         this.openCDXMessageService = openCDXMessageService;
 
-        this.openCDXMessageService.subscribe(OpenCDXAuditService.AUDIT_MESSAGE_SUBJECT, this);
+        this.openCDXMessageService.subscribe(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, this);
     }
 
     @Override

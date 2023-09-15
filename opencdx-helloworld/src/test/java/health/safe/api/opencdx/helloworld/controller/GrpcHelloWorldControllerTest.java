@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.helloworld.controller;
 
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
@@ -40,7 +39,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class GrpcHelloWorldControllerTest {
 
     @Autowired
-    OpenCDXAuditService openCDXAuditService;
+    OpenCDXOpenCDXAuditService openCDXAuditService;
 
     @Mock
     PersonRepository personRepository;

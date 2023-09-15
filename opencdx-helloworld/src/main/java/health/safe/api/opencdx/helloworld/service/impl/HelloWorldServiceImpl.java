@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.helloworld.service.impl;
 
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
@@ -32,7 +31,7 @@ import org.springframework.stereotype.Service;
 public class HelloWorldServiceImpl implements HelloWorldService {
 
     private final PersonRepository personRepository;
-    private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXOpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor taking the a PersonRepository
@@ -40,7 +39,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
      * @param openCDXAuditService Audit service for tracking FDA requirements
      */
     @Autowired
-    public HelloWorldServiceImpl(PersonRepository personRepository, OpenCDXAuditService openCDXAuditService) {
+    public HelloWorldServiceImpl(PersonRepository personRepository, OpenCDXOpenCDXAuditService openCDXAuditService) {
         this.personRepository = personRepository;
         this.openCDXAuditService = openCDXAuditService;
     }

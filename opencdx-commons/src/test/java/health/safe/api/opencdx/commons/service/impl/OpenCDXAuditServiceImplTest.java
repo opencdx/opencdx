@@ -15,8 +15,8 @@
  */
 package health.safe.api.opencdx.commons.service.impl;
 
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
