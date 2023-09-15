@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 
 /**
  * Provides the Client configuration to create gRPC Clients to communicate with
@@ -41,6 +42,7 @@ public class ClientConfig {
     }
 
     @Bean
+    @Description("gRPC Client for HelloWorld")
     @ConditionalOnProperty(prefix = "opencdx.client", name = "helloworld", havingValue = "true")
     HelloworldClient helloworldClient(
             @GrpcClient("helloworld-server") GreeterGrpc.GreeterBlockingStub greeterBlockingStub) {

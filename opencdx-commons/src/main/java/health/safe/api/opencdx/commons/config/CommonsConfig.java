@@ -31,6 +31,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
 
 /**
@@ -52,6 +53,7 @@ public class CommonsConfig {
      * @return ObjectMapper bean for use.
      */
     @Bean
+    @Description("Jackson ObjectMapper with all required registered modules.")
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
@@ -66,6 +68,7 @@ public class CommonsConfig {
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")
+    @Description("NATS implementation of the OpenCDXMessageService.")
     @Primary
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
     public OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
@@ -73,12 +76,14 @@ public class CommonsConfig {
     }
 
     @Bean("noop")
+    @Description("The NOOP implementation of the OpenCDXMessage Service.")
     @ConditionalOnMissingBean(OpenCDXMessageService.class)
     OpenCDXMessageService noOpOpenCDXMessageService() {
         return new NoOpOpenCDXMessageServiceImpl();
     }
 
     @Bean
+    @Description("OpenCDXAuditService for submitting audit messages through the message system.")
     OpenCDXAuditService openCDXAuditService(
             OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
         return new OpenCDXAuditServiceImpl(messageService, applicationName);
