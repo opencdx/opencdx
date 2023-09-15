@@ -33,6 +33,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommunicationServiceImpl implements CommunicationService {
 
+    private static final String DOMAIN = "CommunicationServiceImpl";
+    private static final String OBJECT = "Object";
+    private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
     private final OpenCDXAuditService openCDXAuditService;
 
     private final ObjectMapper objectMapper;
@@ -59,9 +62,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 1, "Failed to convert EmailTemplate", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert EmailTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", emailTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
         return EmailTemplate.newBuilder(emailTemplate)
@@ -87,9 +90,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 2, "Failed to convert EmailTemplate", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert EmailTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", emailTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
         return emailTemplate;
@@ -106,9 +109,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 3, "Failed to convert TemplateRequest", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_TEMPLATE_REQUEST, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", templateRequest.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
         return SuccessResponse.newBuilder().setSuccess(true).build();
@@ -125,9 +128,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(smsTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 4, "Failed to convert SMSTemplate", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 4, "Failed to convert SMSTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", smsTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
         return SMSTemplate.newBuilder(smsTemplate)
@@ -153,9 +156,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(smsTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 5, "Failed to convert SMSTemplate", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 5, "Failed to convert SMSTemplate", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", smsTemplate.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
         return smsTemplate;
@@ -172,9 +175,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 8, "Failed to convert TemplateRequest", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 8, FAILED_TO_CONVERT_TEMPLATE_REQUEST, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", templateRequest.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
         return SuccessResponse.newBuilder().setSuccess(true).build();
@@ -191,9 +194,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 6, "Failed to convert NotificationEvent", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 6, "Failed to convert NotificationEvent", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", notificationEvent.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
         return NotificationEvent.newBuilder(notificationEvent)
@@ -219,9 +222,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 7, "Failed to convert NotificationEvent", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 7, "Failed to convert NotificationEvent", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", notificationEvent.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
         return notificationEvent;
@@ -238,9 +241,9 @@ public class CommunicationServiceImpl implements CommunicationService {
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("CommunicationServiceImpl", 9, "Failed to convert TemplateRequest", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 9, FAILED_TO_CONVERT_TEMPLATE_REQUEST, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("Object", templateRequest.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
         return SuccessResponse.newBuilder().setSuccess(true).build();
