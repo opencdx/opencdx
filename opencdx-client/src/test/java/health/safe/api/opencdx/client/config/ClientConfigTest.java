@@ -16,6 +16,8 @@
 package health.safe.api.opencdx.client.config;
 
 import health.safe.api.opencdx.client.service.HelloworldClient;
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
@@ -85,6 +87,20 @@ class ClientConfigTest {
                 .run(context -> {
                     HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
                     Assertions.assertNotNull(helloworldClient);
+                });
+    }
+
+    @Test
+    void auditClient() {
+        final ApplicationContextRunner contextRunner = new ApplicationContextRunner();
+
+        contextRunner
+                .withPropertyValues("opencdx.client.audit=true")
+                .withUserConfiguration(ClientConfig.class)
+                .withBean(AuditServiceGrpc.AuditServiceBlockingStub.class, this.channel, this.callOptions)
+                .run(context -> {
+                    OpenCDXAuditService auditClient = context.getBean(OpenCDXAuditService.class);
+                    Assertions.assertNotNull(auditClient);
                 });
     }
 }

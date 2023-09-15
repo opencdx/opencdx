@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.communication.*;
 import java.util.UUID;

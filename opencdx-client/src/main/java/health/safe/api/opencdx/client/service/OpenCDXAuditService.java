@@ -13,22 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.commons.service;
+package health.safe.api.opencdx.client.service;
 
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 
-/**
- * Interface for implementing OpenCDXAuditService. Used to record audit events.
- * An implementation agnostic interface.
- */
 public interface OpenCDXAuditService {
-
-    /**
-     * OpenCDXMessage Subject for Audit messages.
-     */
-    public static final String AUDIT_MESSAGE_SUBJECT = "opencdx-audit-message";
-
     /**
      * Record User Login successful to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.

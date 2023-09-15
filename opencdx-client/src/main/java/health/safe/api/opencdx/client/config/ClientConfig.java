@@ -16,10 +16,14 @@
 package health.safe.api.opencdx.client.config;
 
 import health.safe.api.opencdx.client.service.HelloworldClient;
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.client.service.impl.HelloworldClientImpl;
+import health.safe.api.opencdx.client.service.impl.OpenCDXAuditServiceImpl;
+import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -47,5 +51,14 @@ public class ClientConfig {
     HelloworldClient helloworldClient(
             @GrpcClient("helloworld-server") GreeterGrpc.GreeterBlockingStub greeterBlockingStub) {
         return new HelloworldClientImpl(greeterBlockingStub);
+    }
+
+    @Bean
+    @Description("gRPC Client for Audit")
+    @ConditionalOnProperty(prefix = "opencdx.client", name = "audit", havingValue = "true")
+    OpenCDXAuditService auditClient(
+            @Value("${spring.application.name}") String applicationName,
+            @GrpcClient("audit-service") AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub) {
+        return new OpenCDXAuditServiceImpl(applicationName, auditServiceBlockingStub);
     }
 }

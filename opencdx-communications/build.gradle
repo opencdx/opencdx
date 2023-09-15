@@ -32,6 +32,7 @@ dependencies {
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
+    implementation project(":opencdx-client")
 
     testImplementation "io.nats:nats-spring:${natsSpringVersion}"
 }
