@@ -215,7 +215,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void config(UUID actor, AgentType agentType, String purpose, String resource, String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.COMMUNICATION)
+                .setEventType(AuditEventType.CONFIG)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
