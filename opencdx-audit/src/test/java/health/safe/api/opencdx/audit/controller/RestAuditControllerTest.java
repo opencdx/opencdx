@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.communications.controller;
+package health.safe.api.opencdx.audit.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,8 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class RestHelloWorldControllerTest {
-
+class RestAuditControllerTest {
     @Autowired
     private WebApplicationContext context;
 
@@ -67,14 +67,27 @@ class RestHelloWorldControllerTest {
     }
 
     @Test
-    void testGreetingHello() throws Exception {
+    void event() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/greeting/hello")
-                        .content("{\"name\": \"jeff\"}")
+                .perform(post("/audit/event")
+                        .content(
+                                """
+                                {
+                                  "created" : "1970-01-01T00:00:00Z",
+                                  "eventType" : "PHI_CREATED",
+                                  "actor" : {
+                                    "identity" : "",
+                                    "role" : "",
+                                    "networkAddress" : "192.198.0.1",
+                                    "agenttype" : "HUMAN_USER"
+                                  },
+                                  "purposeOfUse" : ""
+                                }
+                                """)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"message\":\"Hello jeff!\"}", content);
+        Assertions.assertEquals("{\"success\":true}", content);
     }
 }

@@ -14,16 +14,18 @@ dependencies {
     implementation "org.springframework:spring-context-support:${springContextVersion}"
 
     implementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDataTypeJsr310}"
+
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
 
     implementation project(":opencdx-proto")
+    implementation project(":opencdx-client")
     implementation "io.nats:nats-spring:${natsSpringVersion}"
 
     testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
     testImplementation "org.junit.jupiter:junit-jupiter"
 
-    testImplementation project(":opencdx-proto")
 }
 
 bootJar {

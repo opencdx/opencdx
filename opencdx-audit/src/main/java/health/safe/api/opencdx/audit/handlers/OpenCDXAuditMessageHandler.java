@@ -18,7 +18,6 @@ package health.safe.api.opencdx.audit.handlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.grpc.audit.AuditEvent;
 import java.io.IOException;
@@ -44,13 +43,13 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
         this.objectMapper = objectMapper;
         this.openCDXMessageService = openCDXMessageService;
 
-        this.openCDXMessageService.subscribe(OpenCDXAuditService.AUDIT_MESSAGE_SUBJECT, this);
+        this.openCDXMessageService.subscribe(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, this);
     }
 
     @Override
     public void receivedMessage(byte[] message) {
         try {
-            log.info("Audit Event:\n {}", objectMapper.readValue(message, AuditEvent.class));
+            this.processAuditEvent(objectMapper.readValue(message, AuditEvent.class));
         } catch (IOException e) {
             OpenCDXInternal exception =
                     new OpenCDXInternal("OpenCDXAuditMessageHandler", 1, "Failed to parse message to AuditEvent", e);
@@ -58,5 +57,13 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
             exception.getMetaData().put("message", Arrays.toString(message));
             throw exception;
         }
+    }
+
+    /**
+     * Method to directory call to process an AuditEvent
+     * @param event AuditEvent to process.
+     */
+    public void processAuditEvent(AuditEvent event) {
+        log.info("Audit Event:\n {}", event);
     }
 }

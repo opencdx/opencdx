@@ -13,27 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.commons.service.impl;
+package health.safe.api.opencdx.client.service.impl;
 
-import health.safe.api.opencdx.client.service.OpenCDXAuditService;
-import health.safe.api.opencdx.commons.config.CommonsConfig;
+import static org.junit.jupiter.api.Assertions.*;
+
 import health.safe.api.opencdx.grpc.audit.AgentType;
+import health.safe.api.opencdx.grpc.audit.AuditEvent;
+import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
+import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
-@ActiveProfiles("test")
-@SpringBootTest(classes = {CommonsConfig.class, OpenCDXAuditServiceImpl.class, NoOpOpenCDXMessageServiceImpl.class})
-@ExtendWith(SpringExtension.class)
 class OpenCDXAuditServiceImplTest {
 
-    @Autowired
-    OpenCDXAuditService openCDXAuditService;
+    @Mock
+    AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
+
+    OpenCDXAuditServiceImpl openCDXAuditService;
+
+    @BeforeEach
+    void setUp() {
+        this.auditServiceBlockingStub = Mockito.mock(AuditServiceGrpc.AuditServiceBlockingStub.class);
+        Mockito.when(this.auditServiceBlockingStub.event(Mockito.any(AuditEvent.class)))
+                .thenReturn(AuditStatus.newBuilder().setSuccess(true).build());
+        this.openCDXAuditService = new OpenCDXAuditServiceImpl("test", this.auditServiceBlockingStub);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.auditServiceBlockingStub);
+    }
 
     @Test
     void userLoginSucceed() {

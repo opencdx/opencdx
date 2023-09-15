@@ -10,9 +10,10 @@ services:
     image: opencdx/helloworld:latest
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
-      interval: 20s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -35,9 +36,10 @@ services:
     image: opencdx/communications:latest
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
-      interval: 20s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -60,9 +62,10 @@ services:
     image: opencdx/audit:latest
     healthcheck:
       test: "curl --fail --silent localhost:8280/actuator/health | grep UP || exit 1"
-      interval: 20s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -72,6 +75,9 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    ports:
+      - "8280:8280"
+      - "9290:9290"
 
   tinkar:
     deploy:
@@ -83,9 +89,10 @@ services:
     image: opencdx/tinkar:latest
     healthcheck:
       test: "curl --fail --silent localhost:8180/actuator/health | grep UP || exit 1"
-      interval: 20s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -101,9 +108,10 @@ services:
     image: opencdx/admin:latest
     healthcheck:
       test: "curl --fail --silent localhost:8761/actuator/health | grep UP || exit 1"
-      interval: 20s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
 
     ports:
       - "8761:8761"
@@ -117,9 +125,10 @@ services:
         condition: service_healthy
     healthcheck:
       test: "curl --fail --silent localhost:8888/actuator/health | grep UP || exit 1"
-      interval: 20s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
 
   database:
     image: postgres
@@ -129,9 +138,10 @@ services:
       - POSTGRES_DB=opencdx
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 10s
+      interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
     ports:
       - "5432:5432"
   nats:

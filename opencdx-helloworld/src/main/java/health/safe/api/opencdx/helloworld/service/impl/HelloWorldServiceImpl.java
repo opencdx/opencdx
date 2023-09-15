@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.helloworld.service.impl;
 
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
@@ -54,7 +54,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
-        this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.SYSTEM, UUID.randomUUID());
+        this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.SYSTEM, "purpose", UUID.randomUUID());
         return String.format("Hello %s!", request.getName().trim());
     }
 }

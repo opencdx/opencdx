@@ -18,6 +18,7 @@ package health.safe.api.opencdx.tinkar.config;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 
 /**
  * Applicaiton Configuration.
@@ -38,6 +39,7 @@ public class AppConfig {
      * @return String providing the format.
      */
     @Bean
+    @Description("Demonstration on how to document a bean.")
     public String format(AppProperties appProperties) {
         return appProperties.getFormat();
     }

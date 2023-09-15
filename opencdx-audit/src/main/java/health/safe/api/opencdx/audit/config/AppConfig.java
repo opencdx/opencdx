@@ -20,6 +20,7 @@ import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 
 /**
  * Applicaiton Configuration
@@ -34,6 +35,8 @@ public class AppConfig {
     }
 
     @Bean
+    @Description(
+            "OpenCDXAuditMessageHandler that is specific for handling Audit messages being received over messaging.")
     OpenCDXAuditMessageHandler openCDXAuditMessageHandler(
             ObjectMapper objectMapper, OpenCDXMessageService openCDXMessageService) {
         return new OpenCDXAuditMessageHandler(objectMapper, openCDXMessageService);

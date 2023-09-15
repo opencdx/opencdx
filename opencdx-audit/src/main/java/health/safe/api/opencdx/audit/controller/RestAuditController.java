@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.communications.controller;
+package health.safe.api.opencdx.audit.controller;
 
-import health.safe.api.opencdx.communications.service.HelloWorldService;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import health.safe.api.opencdx.grpc.audit.AuditEvent;
+import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,25 +28,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for the /greeting api's
+ * Controller for mapping /audit/
  */
 @Slf4j
 @RestController
 @RequestMapping(
-        value = "/greeting",
+        value = "/audit",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestHelloWorldController {
-
-    private final HelloWorldService helloWorldService;
+public class RestAuditController {
+    private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
 
     /**
-     * Constructor that takes a HelloWorldService
-     * @param helloWorldService service for processing requests.
+     * Constructor to handle processing by using the OpenCDXAuditMessageHandler.
+     * @param openCDXAuditMessageHandler Handler for processing AuditEvents
      */
-    @Autowired
-    public RestHelloWorldController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
+    public RestAuditController(OpenCDXAuditMessageHandler openCDXAuditMessageHandler) {
+        this.openCDXAuditMessageHandler = openCDXAuditMessageHandler;
     }
 
     /**
@@ -55,13 +52,11 @@ public class RestHelloWorldController {
      * @param request HelloRequest indicating who to say hello to.
      * @return HelloReply with the hello message.
      */
-    @PostMapping(value = "/hello")
-    public ResponseEntity<HelloReply> hello(@RequestBody HelloRequest request) {
+    @PostMapping(value = "/event")
+    public ResponseEntity<AuditStatus> event(@RequestBody AuditEvent request) {
 
-        return new ResponseEntity<>(
-                HelloReply.newBuilder()
-                        .setMessage(helloWorldService.sayHello(request))
-                        .build(),
-                HttpStatus.OK);
+        this.openCDXAuditMessageHandler.processAuditEvent(request);
+
+        return new ResponseEntity<>(AuditStatus.newBuilder().setSuccess(true).build(), HttpStatus.OK);
     }
 }

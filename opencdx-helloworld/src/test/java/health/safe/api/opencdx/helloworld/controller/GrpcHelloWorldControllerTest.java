@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.helloworld.controller;
 
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;

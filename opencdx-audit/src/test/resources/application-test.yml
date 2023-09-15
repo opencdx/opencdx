@@ -1,4 +1,7 @@
 # Properties for a local development environment go here.
+grpc:
+  port: 0
+
 server:
   port: 8080
   servlet:
