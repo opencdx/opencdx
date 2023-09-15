@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import org.junit.jupiter.api.AfterEach;
@@ -38,7 +39,7 @@ class HelloWorldServiceImplTest {
     CommunicationService communicationService;
 
     @Autowired
-    OpenCDXOpenCDXAuditService openCDXAuditService;
+    OpenCDXAuditService openCDXAuditService;
 
     @BeforeEach
     void beforeEach() {

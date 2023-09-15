@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
+import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.communication.*;
 import java.util.UUID;
@@ -27,14 +28,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommunicationServiceImpl implements CommunicationService {
     @SuppressWarnings("javaL:S1068")
-    private final OpenCDXOpenCDXAuditService openCDXAuditService;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor taking a PersonRepository
      * @param openCDXAuditService Audit service for tracking FDA requirements
      */
     @Autowired
-    public CommunicationServiceImpl(OpenCDXOpenCDXAuditService openCDXAuditService) {
+    public CommunicationServiceImpl(OpenCDXAuditService openCDXAuditService) {
         this.openCDXAuditService = openCDXAuditService;
     }
 
