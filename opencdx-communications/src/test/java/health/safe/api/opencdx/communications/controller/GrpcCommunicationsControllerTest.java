@@ -237,7 +237,7 @@ class GrpcCommunicationsControllerTest {
     @Test
     void listNotificationEvents() {
         StreamObserver<NotificationEventListResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        NotificaitonEventListRequest request = NotificaitonEventListRequest.getDefaultInstance();
+        NotificationEventListRequest request = NotificationEventListRequest.getDefaultInstance();
         this.grpcCommunicationsController.listNotificationEvents(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());

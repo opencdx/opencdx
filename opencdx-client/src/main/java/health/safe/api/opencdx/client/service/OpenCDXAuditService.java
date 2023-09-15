@@ -136,4 +136,14 @@ public interface OpenCDXAuditService {
      * @param auditEntity User that data was accessed in the system or modified.
      */
     void phiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+
+    /**
+     * Record User Communication.
+     * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
+     * @param purpose purpose of use
+     * @param auditEntity User that data was accessed in the system or modified.
+     * @param jsonRecord JSON used to record communications with Audit.
+     */
+    void communication(UUID actor, AgentType agentType, String purpose, UUID auditEntity, String jsonRecord);
 }
