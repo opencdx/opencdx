@@ -143,7 +143,19 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Communication Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      */
-    void communication(UUID actor, AgentType agentType, String purpose, UUID auditEntity, String jsonRecord);
+    void communication(
+            UUID actor, AgentType agentType, String purpose, UUID auditEntity, String resource, String jsonRecord);
+
+    /**
+     * Record Configuraiton Change
+     * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
+     * @param purpose purpose of use
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
+     */
+    void config(UUID actor, AgentType agentType, String purpose, String resource, String jsonRecord);
 }

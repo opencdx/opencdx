@@ -136,6 +136,19 @@ class OpenCDXAuditServiceImplTest {
                     AgentType.HUMAN_USER,
                     "purpose",
                     UUID.randomUUID(),
+                    "COMMUNICATION: id",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+        });
+    }
+
+    @Test
+    void config() {
+        Assertions.assertDoesNotThrow(() -> {
+            this.openCDXAuditService.config(
+                    UUID.randomUUID(),
+                    AgentType.HUMAN_USER,
+                    "purpose",
+                    "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
