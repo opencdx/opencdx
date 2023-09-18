@@ -18,11 +18,16 @@ package health.safe.api.opencdx.tinkar.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import health.safe.api.opencdx.tinkar.model.Person;
+import health.safe.api.opencdx.tinkar.repository.PersonRepository;
 import io.nats.client.Connection;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,12 +51,23 @@ class RestTinkarControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    PersonRepository personRepository;
+
+    @MockBean
     Connection connection;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        this.personRepository = Mockito.mock(PersonRepository.class);
+        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.connection);
+        Mockito.reset(this.personRepository);
     }
 
     @Test
