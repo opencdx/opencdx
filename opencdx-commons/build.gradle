@@ -4,15 +4,25 @@ plugins {
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.api.grpc:proto-google-common-protos:${protoGoogleCommonLibraryVersion}"
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
+    implementation "org.springframework:spring-aop:6.0.11"
+    implementation "org.springframework:spring-core:4.3.30.RELEASE"
+    implementation "org.aspectj:aspectjweaver:1.9.20"
+    implementation "org.aspectj:aspectjrt:1.9.20"
+
 
     implementation "org.springframework:spring-context:${springContextVersion}"
     implementation "org.springframework:spring-context-support:${springContextVersion}"
-
     implementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDataTypeJsr310}"
 
@@ -25,7 +35,6 @@ dependencies {
 
     testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
     testImplementation "org.junit.jupiter:junit-jupiter"
-
 }
 
 bootJar {
