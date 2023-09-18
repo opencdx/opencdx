@@ -23,6 +23,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for OpecCDXEmailTemplate in Mongo.  Features conversions
@@ -32,9 +35,12 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Document("email-template")
 public class OpenCDXEmailTemplateModel {
 
-    private String id;
+    @Id
+    private ObjectId id;
+
     private TemplateType templateType;
     private String subject;
     private String content;
@@ -45,7 +51,7 @@ public class OpenCDXEmailTemplateModel {
      * @param template EmailTemplate to base this model on.
      */
     public OpenCDXEmailTemplateModel(EmailTemplate template) {
-        this.id = template.getTemplateId();
+        this.id = new ObjectId(template.getTemplateId());
         this.templateType = template.getTemplateType();
         this.subject = template.getSubject();
         this.content = template.getContent();
@@ -59,7 +65,7 @@ public class OpenCDXEmailTemplateModel {
     public EmailTemplate getProtobufMessage() {
         EmailTemplate.Builder builder = EmailTemplate.newBuilder();
         if (id != null) {
-            builder.setTemplateId(this.id);
+            builder.setTemplateId(this.id.toHexString());
         }
         if (templateType != null) {
             builder.setTemplateType(this.templateType);

@@ -21,6 +21,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for OpenCDXNotificationEvent in Mongo.  Features conversions
@@ -30,12 +33,15 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Document("notification-event")
 public class OpenCDXNotificationEventModel {
-    private String id;
+    @Id
+    private ObjectId id;
+
     private String eventName;
     private String eventDescription;
-    private String emailTemplateId;
-    private String smsTemplateId;
+    private ObjectId emailTemplateId;
+    private ObjectId smsTemplateId;
     List<String> parameters;
 
     /**
@@ -43,11 +49,11 @@ public class OpenCDXNotificationEventModel {
      * @param event NotificationEvent to base this model on.
      */
     public OpenCDXNotificationEventModel(NotificationEvent event) {
-        this.id = event.getEventId();
+        this.id = new ObjectId(event.getEventId());
         this.eventName = event.getEventName();
         this.eventDescription = event.getEventDescription();
-        this.emailTemplateId = event.getEmailTemplateId();
-        this.smsTemplateId = event.getSmsTemplateId();
+        this.emailTemplateId = new ObjectId(event.getEmailTemplateId());
+        this.smsTemplateId = new ObjectId(event.getSmsTemplateId());
         this.parameters = event.getEventParametersList();
     }
 
@@ -59,7 +65,7 @@ public class OpenCDXNotificationEventModel {
         NotificationEvent.Builder builder = NotificationEvent.newBuilder();
 
         if (id != null) {
-            builder.setEventId(this.id);
+            builder.setEventId(this.id.toHexString());
         }
         if (eventName != null) {
             builder.setEventName(this.eventName);
@@ -68,10 +74,10 @@ public class OpenCDXNotificationEventModel {
             builder.setEventDescription(this.eventDescription);
         }
         if (emailTemplateId != null) {
-            builder.setEmailTemplateId(this.emailTemplateId);
+            builder.setEmailTemplateId(this.emailTemplateId.toHexString());
         }
         if (smsTemplateId != null) {
-            builder.setSmsTemplateId(this.smsTemplateId);
+            builder.setSmsTemplateId(this.smsTemplateId.toHexString());
         }
         if (parameters != null) {
             builder.addAllEventParameters(this.parameters);

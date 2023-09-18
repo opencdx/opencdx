@@ -22,6 +22,7 @@ import health.safe.api.opencdx.communications.service.impl.CommunicationServiceI
 import health.safe.api.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import java.util.UUID;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,7 +65,7 @@ class GrpcCommunicationsControllerTest {
 
     private static EmailTemplate getTestEmailTemplate() {
         return EmailTemplate.newBuilder()
-                .setTemplateId(UUID.randomUUID().toString())
+                .setTemplateId(new ObjectId().toHexString())
                 .build();
     }
 
@@ -116,7 +117,7 @@ class GrpcCommunicationsControllerTest {
 
     private static SMSTemplate getTestSMSTemplate() {
         return SMSTemplate.newBuilder()
-                .setTemplateId(UUID.randomUUID().toString())
+                .setTemplateId(new ObjectId().toHexString())
                 .build();
     }
 
@@ -125,7 +126,7 @@ class GrpcCommunicationsControllerTest {
         StreamObserver<SMSTemplate> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcCommunicationsController.getSMSTemplate(
                 TemplateRequest.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
+                        .setTemplateId(new ObjectId().toHexString())
                         .build(),
                 responseObserver);
 
@@ -168,7 +169,9 @@ class GrpcCommunicationsControllerTest {
 
     private static NotificationEvent getTestNotificationEvent() {
         return NotificationEvent.newBuilder()
-                .setEventId(UUID.randomUUID().toString())
+                .setEventId(new ObjectId().toHexString())
+                .setEmailTemplateId(new ObjectId().toHexString())
+                .setSmsTemplateId(new ObjectId().toHexString())
                 .build();
     }
 
@@ -177,7 +180,7 @@ class GrpcCommunicationsControllerTest {
         StreamObserver<NotificationEvent> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcCommunicationsController.getNotificationEvent(
                 TemplateRequest.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
+                        .setTemplateId(new ObjectId().toHexString())
                         .build(),
                 responseObserver);
 

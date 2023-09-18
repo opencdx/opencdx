@@ -27,7 +27,6 @@ import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.communication.*;
 import java.util.HashMap;
 import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

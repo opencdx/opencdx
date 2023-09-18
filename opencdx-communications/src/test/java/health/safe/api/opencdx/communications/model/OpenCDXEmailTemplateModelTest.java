@@ -18,6 +18,7 @@ package health.safe.api.opencdx.communications.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import health.safe.api.opencdx.grpc.communication.EmailTemplate;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,9 @@ class OpenCDXEmailTemplateModelTest {
 
     @Test
     void getProtobufMessage_1() {
-        EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
 
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
 
@@ -34,7 +37,9 @@ class OpenCDXEmailTemplateModelTest {
 
     @Test
     void getProtobufMessage_2() {
-        EmailTemplate emailTemplate = EmailTemplate.newBuilder().build();
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
 
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
 

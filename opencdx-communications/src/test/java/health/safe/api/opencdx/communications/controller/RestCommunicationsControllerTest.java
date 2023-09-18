@@ -27,6 +27,7 @@ import health.safe.api.opencdx.grpc.communication.*;
 import io.nats.client.Connection;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +85,10 @@ class RestCommunicationsControllerTest {
     void createEmailTemplate() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/email")
-                        .content(this.objectMapper.writeValueAsString(EmailTemplate.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(
+                                EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
+                                        .setTemplateId(new ObjectId().toHexString())
+                                        .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -109,7 +113,10 @@ class RestCommunicationsControllerTest {
     void updateEmailTemplate() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/communications/email")
-                        .content(this.objectMapper.writeValueAsString(EmailTemplate.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(
+                                EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
+                                        .setTemplateId(new ObjectId().toHexString())
+                                        .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -134,7 +141,10 @@ class RestCommunicationsControllerTest {
     void createSMSTemplate() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/sms")
-                        .content(this.objectMapper.writeValueAsString(SMSTemplate.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(
+                                SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
+                                        .setTemplateId(new ObjectId().toHexString())
+                                        .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -146,7 +156,10 @@ class RestCommunicationsControllerTest {
     void updateSMSTemplate() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/communications/sms")
-                        .content(this.objectMapper.writeValueAsString(SMSTemplate.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(
+                                SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
+                                        .setTemplateId(new ObjectId().toHexString())
+                                        .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -158,7 +171,12 @@ class RestCommunicationsControllerTest {
     void createNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/event")
-                        .content(this.objectMapper.writeValueAsString(NotificationEvent.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(
+                                NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
+                                        .setEventId(new ObjectId().toHexString())
+                                        .setEmailTemplateId(new ObjectId().toHexString())
+                                        .setSmsTemplateId(new ObjectId().toHexString())
+                                        .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -170,7 +188,12 @@ class RestCommunicationsControllerTest {
     void updateNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(put("/communications/event")
-                        .content(this.objectMapper.writeValueAsString(NotificationEvent.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(
+                                NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
+                                        .setEventId(new ObjectId().toHexString())
+                                        .setEmailTemplateId(new ObjectId().toHexString())
+                                        .setSmsTemplateId(new ObjectId().toHexString())
+                                        .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

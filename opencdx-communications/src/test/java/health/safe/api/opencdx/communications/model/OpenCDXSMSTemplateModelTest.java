@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import health.safe.api.opencdx.grpc.communication.SMSTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,9 @@ class OpenCDXSMSTemplateModelTest {
 
     @Test
     void getProtobufMessage_1() {
-        SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
 
@@ -36,7 +39,9 @@ class OpenCDXSMSTemplateModelTest {
 
     @Test
     void getProtobufMessage_2() {
-        SMSTemplate smsTemplate = SMSTemplate.newBuilder().build();
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
         log.info(model.toString());

@@ -23,6 +23,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for OpecCDXSMSTemplate in Mongo.  Features conversions
@@ -32,8 +35,12 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Document("sms-template")
 public class OpenCDXSMSTemplateModel {
-    private String id;
+
+    @Id
+    private ObjectId id;
+
     private TemplateType templateType;
     private String message;
     private List<String> variables;
@@ -43,7 +50,7 @@ public class OpenCDXSMSTemplateModel {
      * @param template SMSTemplate for this model
      */
     public OpenCDXSMSTemplateModel(SMSTemplate template) {
-        this.id = template.getTemplateId();
+        this.id = new ObjectId(template.getTemplateId());
         this.templateType = template.getTemplateType();
         this.message = template.getMessage();
         this.variables = new ArrayList<>(template.getVariablesList());
@@ -57,7 +64,7 @@ public class OpenCDXSMSTemplateModel {
         SMSTemplate.Builder builder = SMSTemplate.newBuilder();
 
         if (id != null) {
-            builder.setTemplateId(this.id);
+            builder.setTemplateId(this.id.toHexString());
         }
         if (templateType != null) {
             builder.setTemplateType(this.templateType);
