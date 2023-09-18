@@ -138,7 +138,7 @@ services:
     ports:
         - "27017:27017"
     healthcheck:
-      test: "echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1"
+      test: "echo 'db.runCommand({serverStatus:1}).ok' | mongosh localhost:27017/test --quiet"
       interval: 5s
       timeout: 5s
       retries: 5
