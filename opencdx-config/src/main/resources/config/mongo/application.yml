@@ -1,0 +1,2 @@
+spring.data.mongodb:
+  uri: mongodb://root:root@database:27017/opencdx?authSource=admin

@@ -15,13 +15,12 @@
  */
 package health.safe.api.opencdx.helloworld.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Person record from database.
@@ -29,7 +28,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-@Entity
+@Document("persons")
 public class Person {
     /**
      * Default Constructor
@@ -39,8 +38,7 @@ public class Person {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private ObjectId id;
 
     private String name;
 }

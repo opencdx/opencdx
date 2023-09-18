@@ -5,8 +5,7 @@
 - Gradle > version 8.3
 - Docker
 - Spring 3.1.2
-- H2 Database for Local Instances
-- PostgreSQL for Docker Deployment
+- MongoDb for Docker Deployment
 
 ## Repository Name: [opencdx/opencdx](https://github.com/opencdx/opencdx)
 
