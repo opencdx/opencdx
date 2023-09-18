@@ -52,7 +52,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
      */
     @Override
     public String sayHello(HelloRequest request) {
-        Person person = Person.builder().name(request.getName()).build();
+        Person person = Person.builder().id(1L).name(request.getName()).build();
         this.personRepository.save(person);
         this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.SYSTEM, "purpose", UUID.randomUUID());
         return String.format("Hello %s!", request.getName().trim());
