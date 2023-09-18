@@ -19,6 +19,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.communication.*;
@@ -67,9 +70,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return EmailTemplate.newBuilder(emailTemplate)
-                .setTemplateId(UUID.randomUUID().toString())
-                .build();
+        OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
+
+        return model.getProtobufMessage();
     }
 
     @Override
@@ -95,7 +98,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return emailTemplate;
+        OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
+
+        return model.getProtobufMessage();
     }
 
     @Override
@@ -133,9 +138,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return SMSTemplate.newBuilder(smsTemplate)
-                .setTemplateId(UUID.randomUUID().toString())
-                .build();
+        OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
+
+        return model.getProtobufMessage();
     }
 
     @Override
@@ -161,7 +166,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return smsTemplate;
+        OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
+
+        return model.getProtobufMessage();
     }
 
     @Override
@@ -199,9 +206,10 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        return NotificationEvent.newBuilder(notificationEvent)
-                .setEventId(UUID.randomUUID().toString())
-                .build();
+
+        OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
+
+        return model.getProtobufMessage();
     }
 
     @Override
@@ -227,7 +235,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        return notificationEvent;
+        OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
+
+        return model.getProtobufMessage();
     }
 
     @Override
