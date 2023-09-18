@@ -27,12 +27,15 @@ import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.communication.*;
 import java.util.HashMap;
 import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing Communications Requests.
  */
+@Slf4j
 @Service
 public class CommunicationServiceImpl implements CommunicationService {
 
