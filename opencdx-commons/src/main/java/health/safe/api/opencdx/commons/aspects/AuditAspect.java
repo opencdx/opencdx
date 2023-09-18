@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.Ordered;
+
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
@@ -33,8 +35,8 @@ public class AuditAspect {
         this.parser = new SpelExpressionParser();
     }
 
-    @Order(Ordered.LOWEST_PREDEDENCE)
-    @Around(value = "annotation()")
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    //@Around(value = "annotation()")
     public void auditUser(Joinpoint joinPoint) {
     }
 
