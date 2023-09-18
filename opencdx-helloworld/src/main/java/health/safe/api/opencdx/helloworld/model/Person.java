@@ -22,6 +22,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Person record from database.
@@ -30,6 +31,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 @Entity
+@Document("persons")
 public class Person {
     /**
      * Default Constructor

@@ -1,9 +1,9 @@
 spring:
   datasource:
     url: jdbc:postgresql://database:5432/opencdx
-    driverClassName: org.postgresql.Driver
-    username: sa
-    password: password
+    driverClassName: mongodb.jdbc.MongoDriver
+    username: root
+    password: root
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:

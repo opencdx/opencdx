@@ -16,11 +16,9 @@
 package health.safe.api.opencdx.helloworld.repository;
 
 import health.safe.api.opencdx.helloworld.model.Person;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Repository for interacting the "person" records
  */
-@Repository
-public interface PersonRepository extends CrudRepository<Person, Long> {}
+public interface PersonRepository extends MongoRepository<Person, Long> {}

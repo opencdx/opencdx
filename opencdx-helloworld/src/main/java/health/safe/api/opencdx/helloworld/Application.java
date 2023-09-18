@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @ComponentScan(basePackages = {"health.safe"})
 @ExcludeFromJacocoGeneratedReport
+// @EnableMongoRepositories("health.safe.api.opencdx.helloworld.repository")
 public class Application {
     /**
      * Default Constructor
