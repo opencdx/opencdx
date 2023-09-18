@@ -65,7 +65,7 @@ public class OpenCDXEmailTemplateModel {
             builder.setTemplateType(this.templateType);
         }
         if (subject != null) {
-            builder.setContent(this.subject);
+            builder.setSubject(this.subject);
         }
         if (content != null) {
             builder.setContent(this.content);
