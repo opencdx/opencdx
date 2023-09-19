@@ -15,9 +15,9 @@
  */
 package health.safe.api.opencdx.communications.service;
 
+import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
-import health.safe.api.opencdx.grpc.communication.*;
 
 /**
  * Interface for the CommunicationService

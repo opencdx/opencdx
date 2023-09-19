@@ -15,8 +15,8 @@
  */
 package health.safe.api.opencdx.communications.model;
 
-import health.safe.api.opencdx.grpc.communication.EmailTemplate;
-import health.safe.api.opencdx.grpc.communication.TemplateType;
+import cdx.open_communication.v2alpha.EmailTemplate;
+import cdx.open_communication.v2alpha.TemplateType;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;

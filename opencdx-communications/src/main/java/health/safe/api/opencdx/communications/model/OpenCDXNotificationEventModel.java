@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.communications.model;
 
-import health.safe.api.opencdx.grpc.communication.NotificationEvent;
+import cdx.open_communication.v2alpha.NotificationEvent;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

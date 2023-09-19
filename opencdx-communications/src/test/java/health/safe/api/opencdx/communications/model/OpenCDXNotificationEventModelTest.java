@@ -17,7 +17,7 @@ package health.safe.api.opencdx.communications.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import health.safe.api.opencdx.grpc.communication.NotificationEvent;
+import cdx.open_communication.v2alpha.NotificationEvent;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

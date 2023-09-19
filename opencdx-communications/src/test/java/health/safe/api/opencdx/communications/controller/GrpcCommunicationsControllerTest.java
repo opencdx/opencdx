@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
+import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -26,7 +27,6 @@ import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEven
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
-import health.safe.api.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
 import org.bson.types.ObjectId;

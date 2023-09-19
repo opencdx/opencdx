@@ -15,8 +15,8 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
+import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.communication.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.communications.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
@@ -28,7 +29,6 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.communication.*;
 import java.util.HashMap;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;

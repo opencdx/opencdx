@@ -15,6 +15,10 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
+import cdx.open_communication.v2alpha.EmailTemplate;
+import cdx.open_communication.v2alpha.NotificationEvent;
+import cdx.open_communication.v2alpha.SMSTemplate;
+import cdx.open_communication.v2alpha.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
@@ -26,10 +30,6 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.communication.EmailTemplate;
-import health.safe.api.opencdx.grpc.communication.NotificationEvent;
-import health.safe.api.opencdx.grpc.communication.SMSTemplate;
-import health.safe.api.opencdx.grpc.communication.TemplateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -17,7 +17,7 @@ package health.safe.api.opencdx.communications.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import health.safe.api.opencdx.grpc.communication.EmailTemplate;
+import cdx.open_communication.v2alpha.EmailTemplate;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
