@@ -10,7 +10,7 @@
       </elementProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -89,7 +89,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -214,7 +214,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -239,7 +239,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -266,7 +266,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -291,7 +291,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -316,7 +316,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -341,7 +341,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -368,7 +368,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -393,7 +393,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -418,7 +418,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -443,7 +443,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -470,7 +470,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -495,7 +495,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -520,7 +520,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -545,7 +545,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/DeleteEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -572,7 +572,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/DeleteNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -599,7 +599,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.communication.CommunicationService/DeleteSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
