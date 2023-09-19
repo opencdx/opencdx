@@ -620,7 +620,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -995,7 +995,7 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/event/${emailTemplateId}</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/event/${eventId}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1033,7 +1033,7 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/email/${eventId}</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/email/${emailTemplateId}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
