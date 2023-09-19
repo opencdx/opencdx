@@ -16,7 +16,6 @@
 package health.safe.api.opencdx.commons.aspects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
