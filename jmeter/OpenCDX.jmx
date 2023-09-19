@@ -110,7 +110,7 @@
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
           <stringProp name="GRPCSampler.port">9290</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.audit.AuditService/Event</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.open_audit.v2alpha.AuditService/Event</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">false</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
@@ -119,12 +119,12 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
   &quot;created&quot; : &quot;1970-01-01T00:00:00Z&quot;,
-  &quot;eventType&quot; : &quot;PHI_CREATED&quot;,
+  &quot;eventType&quot; : &quot;AUDIT_EVENT_TYPE_USER_PII_CREATED&quot;,
   &quot;actor&quot; : {
     &quot;identity&quot; : &quot;&quot;,
     &quot;role&quot; : &quot;&quot;,
     &quot;networkAddress&quot; : &quot;192.198.0.1&quot;,
-    &quot;agenttype&quot; : &quot;HUMAN_USER&quot;
+    &quot;agentType&quot; : &quot;AGENT_TYPE_HUMAN_USER&quot;
   },
   &quot;purposeOfUse&quot; : &quot;&quot;
 }</stringProp>
@@ -165,12 +165,12 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
   &quot;created&quot; : &quot;1970-01-01T00:00:00Z&quot;,&#xd;
-  &quot;eventType&quot; : &quot;PHI_CREATED&quot;,&#xd;
+  &quot;eventType&quot; : &quot;AUDIT_EVENT_TYPE_USER_PII_CREATED&quot;,&#xd;
   &quot;actor&quot; : {&#xd;
     &quot;identity&quot; : &quot;&quot;,&#xd;
     &quot;role&quot; : &quot;&quot;,&#xd;
     &quot;networkAddress&quot; : &quot;192.198.0.1&quot;,&#xd;
-    &quot;agenttype&quot; : &quot;HUMAN_USER&quot;&#xd;
+    &quot;agentType&quot; : &quot;AGENT_TYPE_HUMAN_USER&quot;&#xd;
   },&#xd;
   &quot;purposeOfUse&quot; : &quot;&quot;&#xd;
 }</stringProp>
@@ -196,10 +196,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Communications" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">500</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
