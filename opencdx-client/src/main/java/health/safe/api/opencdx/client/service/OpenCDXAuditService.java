@@ -18,6 +18,10 @@ package health.safe.api.opencdx.client.service;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 
+/**
+ * Audit Service for interfacing to the service. Used for both direct gRPC client
+ * and Message based Client.
+ */
 public interface OpenCDXAuditService {
     /**
      * Record User Login successful to audit log.
@@ -132,4 +136,26 @@ public interface OpenCDXAuditService {
      * @param auditEntity User that data was accessed in the system or modified.
      */
     void phiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+
+    /**
+     * Record User Communication.
+     * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
+     * @param purpose purpose of use
+     * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Communication Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
+     */
+    void communication(
+            UUID actor, AgentType agentType, String purpose, UUID auditEntity, String resource, String jsonRecord);
+
+    /**
+     * Record Configuraiton Change
+     * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param agentType type of agent for this request
+     * @param purpose purpose of use
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
+     */
+    void config(UUID actor, AgentType agentType, String purpose, String resource, String jsonRecord);
 }

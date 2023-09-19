@@ -118,7 +118,7 @@ message EmailTemplateListRequest{
 /**
 Request Message to list NotificationEvents
  */
-message NotificaitonEventListRequest{
+message NotificationEventListRequest{
   int32 page_size = 1; // Size of each page.
   int32 page_number = 2; // The page being requested.
   bool sort_ascending = 3; // indicating if the results should ascending.
@@ -157,6 +157,12 @@ message NotificationEventListResponse {
   repeated NotificationEvent templates = 5; //List of NotificationEvents
 }
 
+message CommunicationAuditRecord{
+  Notification notification = 1;
+  string emailContent = 2;
+  string smsContent = 3;
+}
+
 
 // Service API
 service CommunicationService {
@@ -180,5 +186,5 @@ service CommunicationService {
   // Retrieve Lists
   rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse); // Retrieve a list of SMS templates.
   rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse); // Retrieve a list of email templates.
-  rpc listNotificationEvents(NotificaitonEventListRequest) returns (NotificationEventListResponse); // Retrieve a list of notification events.
+  rpc listNotificationEvents(NotificationEventListRequest) returns (NotificationEventListResponse); // Retrieve a list of notification events.
 }

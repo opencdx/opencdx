@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.repository.PersonRepository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
@@ -41,10 +42,13 @@ class HelloWorldServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService);
+        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService, objectMapper);
     }
 
     @AfterEach

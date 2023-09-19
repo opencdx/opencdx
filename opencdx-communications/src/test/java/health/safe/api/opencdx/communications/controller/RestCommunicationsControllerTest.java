@@ -225,12 +225,12 @@ class RestCommunicationsControllerTest {
                 .perform(post("/communications/event/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(
-                                this.objectMapper.writeValueAsString(NotificaitonEventListRequest.getDefaultInstance()))
+                                this.objectMapper.writeValueAsString(NotificationEventListRequest.getDefaultInstance()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(NotificaitonEventListRequest.getDefaultInstance()));
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(NotificationEventListRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 }

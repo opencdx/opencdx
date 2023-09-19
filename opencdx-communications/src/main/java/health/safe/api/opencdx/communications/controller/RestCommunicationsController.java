@@ -238,13 +238,13 @@ public class RestCommunicationsController {
     /**
      * List NotificationEvents
      *
-     * @param notificaitonEventListRequest request for NotificationEvents.
+     * @param notificationEventListRequest request for NotificationEvents.
      * @return the requested NotificationEvents.
      */
     @PostMapping("/event/list")
     public ResponseEntity<NotificationEventListResponse> listNotificationEvents(
-            @RequestBody NotificaitonEventListRequest notificaitonEventListRequest) {
+            @RequestBody NotificationEventListRequest notificationEventListRequest) {
         return new ResponseEntity<>(
-                this.communicationService.listNotificationEvents(notificaitonEventListRequest), HttpStatus.OK);
+                this.communicationService.listNotificationEvents(notificationEventListRequest), HttpStatus.OK);
     }
 }
