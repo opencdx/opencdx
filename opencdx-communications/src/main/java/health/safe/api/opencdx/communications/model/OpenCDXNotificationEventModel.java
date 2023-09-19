@@ -49,11 +49,17 @@ public class OpenCDXNotificationEventModel {
      * @param event NotificationEvent to base this model on.
      */
     public OpenCDXNotificationEventModel(NotificationEvent event) {
-        this.id = new ObjectId(event.getEventId());
+        if (event.hasEventId()) {
+            this.id = new ObjectId(event.getEventId());
+        }
         this.eventName = event.getEventName();
         this.eventDescription = event.getEventDescription();
-        this.emailTemplateId = new ObjectId(event.getEmailTemplateId());
-        this.smsTemplateId = new ObjectId(event.getSmsTemplateId());
+        if (event.hasEmailTemplateId()) {
+            this.emailTemplateId = new ObjectId(event.getEmailTemplateId());
+        }
+        if (event.hasSmsTemplateId()) {
+            this.smsTemplateId = new ObjectId(event.getSmsTemplateId());
+        }
         this.parameters = event.getEventParametersList();
     }
 

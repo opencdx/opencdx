@@ -50,7 +50,9 @@ public class OpenCDXSMSTemplateModel {
      * @param template SMSTemplate for this model
      */
     public OpenCDXSMSTemplateModel(SMSTemplate template) {
-        this.id = new ObjectId(template.getTemplateId());
+        if (template.hasTemplateId()) {
+            this.id = new ObjectId(template.getTemplateId());
+        }
         this.templateType = template.getTemplateType();
         this.message = template.getMessage();
         this.variables = new ArrayList<>(template.getVariablesList());

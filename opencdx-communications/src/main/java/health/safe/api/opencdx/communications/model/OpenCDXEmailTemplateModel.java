@@ -52,7 +52,9 @@ public class OpenCDXEmailTemplateModel {
      */
     public OpenCDXEmailTemplateModel(EmailTemplate template) {
 
-        this.id = new ObjectId(template.getTemplateId());
+        if (template.hasTemplateId()) {
+            this.id = new ObjectId(template.getTemplateId());
+        }
         this.templateType = template.getTemplateType();
         this.subject = template.getSubject();
         this.content = template.getContent();

@@ -8,19 +8,19 @@ import "google/protobuf/wrappers.proto";
 
 // Enum for template types
 enum TemplateType {
-  TEMPLATE_TYPE_NOTIFICATION = 0;
-  TEMPLATE_TYPE_WELCOME = 1;
-  TEMPLATE_TYPE_NEWSLETTER = 2;
-  TEMPLATE_TYPE_ALERT = 3;
-  TEMPLATE_TYPE_REMINDER = 4;
-  TEMPLATE_TYPE_CONFIRMATION = 5;
+  TEMPLATE_TYPE_NOTIFICATION = 0; //Template is a Notification
+  TEMPLATE_TYPE_WELCOME = 1; //Template is a welcome
+  TEMPLATE_TYPE_NEWSLETTER = 2; //Template is a newsletter.
+  TEMPLATE_TYPE_ALERT = 3; // Template is an alert.
+  TEMPLATE_TYPE_REMINDER = 4; // Template is a reminder.
+  TEMPLATE_TYPE_CONFIRMATION = 5; // Template is a confirmaiton.
 }
 
 /**
 Defines the structure for representing email templates.
 */
 message EmailTemplate {
-  string template_id = 1;            // Unique identifier for the email template.
+  optional string template_id = 1;            // Unique identifier for the email template.
   string subject = 2;                // Subject line of the email template.
   string content = 3;                // Content of the email template.
   repeated string variables = 4;     // Placeholder variables within the template.
@@ -32,7 +32,7 @@ message EmailTemplate {
 Defines the structure for representing SMS templates.
 */
 message SMSTemplate {
-  string template_id = 1;            // Unique identifier for the SMS template.
+  optional string template_id = 1;            // Unique identifier for the SMS template.
   string message = 2;                // Content of the SMS template.
   repeated string variables = 3;     // Placeholder variables within the SMS template.
   TemplateType template_type = 4; // Type of the SMS template.
@@ -43,11 +43,11 @@ message SMSTemplate {
 Defines the structure for notification events.
 */
 message NotificationEvent {
-  string event_id = 1;               // Unique identifier for the notification event.
+  optional string event_id = 1;               // Unique identifier for the notification event.
   string event_name = 2;             // Human-readable name of the event.
   string event_description = 3;      // Brief description of the event.
-  string email_template_id = 4;      // ID of the associated email template.
-  string sms_template_id = 5;        // ID of the associated SMS template.
+  optional string email_template_id = 4;      // ID of the associated email template.
+  optional string sms_template_id = 5;        // ID of the associated SMS template.
   repeated string event_parameters = 6; // Event-specific parameters.
 }
 

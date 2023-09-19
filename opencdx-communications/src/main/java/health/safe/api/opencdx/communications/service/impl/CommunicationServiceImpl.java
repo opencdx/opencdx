@@ -20,6 +20,7 @@ import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
@@ -107,12 +108,15 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) {
+    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition {
+        if (!emailTemplate.hasTemplateId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Deleting Email Template",
+                    "Updating Email Template",
                     emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
@@ -181,7 +185,10 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) {
+    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition {
+        if (!smsTemplate.hasTemplateId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -255,7 +262,11 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) {
+    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
+            throws OpenCDXFailedPrecondition {
+        if (!notificationEvent.hasEventId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),

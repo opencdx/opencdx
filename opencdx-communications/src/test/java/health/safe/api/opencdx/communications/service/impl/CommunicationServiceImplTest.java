@@ -22,6 +22,7 @@ import cdx.open_communication.v2alpha.TemplateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
@@ -30,6 +31,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,8 +108,18 @@ class CommunicationServiceImplTest {
 
     @Test
     void updateEmailTemplate() {
-        EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
+            this.communicationService.updateEmailTemplate(emailTemplate);
+        });
+    }
+
+    @Test
+    void updateEmailTemplateFail() {
+        EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
+        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.updateEmailTemplate(emailTemplate);
         });
     }
@@ -130,8 +142,18 @@ class CommunicationServiceImplTest {
 
     @Test
     void updateSMSTemplate() {
-        SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
+            this.communicationService.updateSMSTemplate(smsTemplate);
+        });
+    }
+
+    @Test
+    void updateSMSTemplateFail() {
+        SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
+        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.updateSMSTemplate(smsTemplate);
         });
     }
@@ -154,8 +176,18 @@ class CommunicationServiceImplTest {
 
     @Test
     void updateNotificationEvent() {
-        NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
+        NotificationEvent notificationEvent = NotificationEvent.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
+            this.communicationService.updateNotificationEvent(notificationEvent);
+        });
+    }
+
+    @Test
+    void updateNotificationEventFail() {
+        NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
+        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.updateNotificationEvent(notificationEvent);
         });
     }
