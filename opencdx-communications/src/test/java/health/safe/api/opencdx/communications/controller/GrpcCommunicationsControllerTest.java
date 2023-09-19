@@ -17,6 +17,7 @@ package health.safe.api.opencdx.communications.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
@@ -27,9 +28,10 @@ import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import health.safe.api.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
-import java.util.UUID;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,8 +56,10 @@ class GrpcCommunicationsControllerTest {
 
     @Mock
     OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+
     @Mock
     OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
+
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
 
@@ -69,10 +73,12 @@ class GrpcCommunicationsControllerTest {
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
 
-        Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class))).then(AdditionalAnswers.returnsFirstArg());
-
+        Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
 
         this.communicationService = new CommunicationServiceImpl(
                 this.openCDXAuditService,
@@ -85,7 +91,10 @@ class GrpcCommunicationsControllerTest {
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.openCDXEmailTemplateRepository,this.openCDXNotificationEventRepository,this.openCDXSMSTemplateRespository);
+        Mockito.reset(
+                this.openCDXEmailTemplateRepository,
+                this.openCDXNotificationEventRepository,
+                this.openCDXSMSTemplateRespository);
     }
 
     @Test
@@ -107,14 +116,32 @@ class GrpcCommunicationsControllerTest {
     @Test
     void getEmailTemplate() {
         StreamObserver<EmailTemplate> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));
         this.grpcCommunicationsController.getEmailTemplate(
                 TemplateRequest.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
+                        .setTemplateId(new ObjectId().toHexString())
                         .build(),
                 responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getEmailTemplateFail() {
+        StreamObserver<EmailTemplate> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        TemplateRequest templateRequest = TemplateRequest.newBuilder()
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.grpcCommunicationsController.getEmailTemplate(templateRequest, responseObserver));
+
+        Mockito.verify(responseObserver, Mockito.times(0)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(0)).onCompleted();
     }
 
     @Test
@@ -132,7 +159,7 @@ class GrpcCommunicationsControllerTest {
         StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcCommunicationsController.deleteEmailTemplate(
                 TemplateRequest.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
+                        .setTemplateId(new ObjectId().toHexString())
                         .build(),
                 responseObserver);
 
@@ -159,6 +186,8 @@ class GrpcCommunicationsControllerTest {
     @Test
     void getSMSTemplate() {
         StreamObserver<SMSTemplate> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXSMSTemplateModel()));
         this.grpcCommunicationsController.getSMSTemplate(
                 TemplateRequest.newBuilder()
                         .setTemplateId(new ObjectId().toHexString())
@@ -167,6 +196,22 @@ class GrpcCommunicationsControllerTest {
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getSMSTemplateFail() {
+        StreamObserver<SMSTemplate> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        TemplateRequest templateRequest = TemplateRequest.newBuilder()
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.grpcCommunicationsController.getSMSTemplate(templateRequest, responseObserver));
+
+        Mockito.verify(responseObserver, Mockito.times(0)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(0)).onCompleted();
     }
 
     @Test
@@ -184,7 +229,7 @@ class GrpcCommunicationsControllerTest {
         StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcCommunicationsController.deleteSMSTemplate(
                 TemplateRequest.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
+                        .setTemplateId(new ObjectId().toHexString())
                         .build(),
                 responseObserver);
 
@@ -213,6 +258,8 @@ class GrpcCommunicationsControllerTest {
     @Test
     void getNotificationEvent() {
         StreamObserver<NotificationEvent> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
         this.grpcCommunicationsController.getNotificationEvent(
                 TemplateRequest.newBuilder()
                         .setTemplateId(new ObjectId().toHexString())
@@ -221,6 +268,22 @@ class GrpcCommunicationsControllerTest {
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getNotificationEventFail() {
+        StreamObserver<NotificationEvent> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        TemplateRequest templateRequest = TemplateRequest.newBuilder()
+                .setTemplateId(new ObjectId().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.grpcCommunicationsController.getNotificationEvent(templateRequest, responseObserver));
+
+        Mockito.verify(responseObserver, Mockito.times(0)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(0)).onCompleted();
     }
 
     @Test
@@ -238,7 +301,7 @@ class GrpcCommunicationsControllerTest {
         StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcCommunicationsController.deleteNotificationEvent(
                 TemplateRequest.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
+                        .setTemplateId(new ObjectId().toHexString())
                         .build(),
                 responseObserver);
 

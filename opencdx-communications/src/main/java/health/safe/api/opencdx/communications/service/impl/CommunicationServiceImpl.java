@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
@@ -31,6 +32,7 @@ import health.safe.api.opencdx.grpc.communication.*;
 import java.util.HashMap;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -96,10 +98,12 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) {
-        return EmailTemplate.newBuilder()
-                .setTemplateId(templateRequest.getTemplateId())
-                .build();
+    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
+        return this.openCDXEmailTemplateRepository
+                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find email template: " + templateRequest.getTemplateId()))
+                .getProtobufMessage();
     }
 
     @Override
@@ -140,6 +144,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
+
+        this.openCDXEmailTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -166,10 +172,12 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) {
-        return SMSTemplate.newBuilder()
-                .setTemplateId(templateRequest.getTemplateId())
-                .build();
+    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
+        return this.openCDXSMSTemplateRespository
+                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find sms template: " + templateRequest.getTemplateId()))
+                .getProtobufMessage();
     }
 
     @Override
@@ -210,6 +218,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
+        this.openCDXSMSTemplateRespository.deleteById(new ObjectId(templateRequest.getTemplateId()));
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -237,10 +246,12 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) {
-        return NotificationEvent.newBuilder()
-                .setEventId(templateRequest.getTemplateId())
-                .build();
+    public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound {
+        return this.openCDXNotificationEventRepository
+                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find event notification: " + templateRequest.getTemplateId()))
+                .getProtobufMessage();
     }
 
     @Override
@@ -281,6 +292,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
+        this.openCDXNotificationEventRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 

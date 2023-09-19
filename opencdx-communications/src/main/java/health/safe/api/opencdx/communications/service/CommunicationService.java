@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.communications.service;
 
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.grpc.communication.*;
 
 /**
@@ -34,8 +35,9 @@ public interface CommunicationService {
      * Retrieve an Email Template
      * @param templateRequest Request ID of email template to retrieve.
      * @return the requested EmailTemplate.
+     * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    EmailTemplate getEmailTemplate(TemplateRequest templateRequest);
+    EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
 
     /**
      * Update an Email Template
@@ -62,8 +64,9 @@ public interface CommunicationService {
      * Get an SMS Template
      * @param templateRequest Request ID of the SMSTemplate to retrieve.
      * @return the requested SMSTemplate
+     * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    SMSTemplate getSMSTemplate(TemplateRequest templateRequest);
+    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
 
     /**
      * Update SMS Template
@@ -90,8 +93,9 @@ public interface CommunicationService {
      * Get a Notification Event
      * @param templateRequest Request ID of the NotificationEvent to retrieve.
      * @return the requested NotificationEvent.
+     * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    NotificationEvent getNotificationEvent(TemplateRequest templateRequest);
+    NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound;
 
     /**
      * Update Notification Event

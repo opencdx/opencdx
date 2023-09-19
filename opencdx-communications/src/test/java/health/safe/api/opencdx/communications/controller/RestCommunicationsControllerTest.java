@@ -42,7 +42,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.AdditionalAnswers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,16 +74,21 @@ class RestCommunicationsControllerTest {
 
     @MockBean
     OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+
     @MockBean
     OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
+
     @MockBean
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
 
     @BeforeEach
     public void setup() {
-        Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
-        Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class))).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -92,7 +96,11 @@ class RestCommunicationsControllerTest {
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.connection,this.openCDXEmailTemplateRepository,this.openCDXNotificationEventRepository,this.openCDXSMSTemplateRespository);
+        Mockito.reset(
+                this.connection,
+                this.openCDXEmailTemplateRepository,
+                this.openCDXNotificationEventRepository,
+                this.openCDXSMSTemplateRespository);
     }
 
     @Test
