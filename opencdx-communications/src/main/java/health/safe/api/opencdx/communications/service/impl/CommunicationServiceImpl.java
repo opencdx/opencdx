@@ -16,20 +16,35 @@
 package health.safe.api.opencdx.communications.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
+import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
+import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.communication.*;
 import java.util.HashMap;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing Communications Requests.
  */
+@Slf4j
 @Service
 public class CommunicationServiceImpl implements CommunicationService {
 
@@ -37,17 +52,31 @@ public class CommunicationServiceImpl implements CommunicationService {
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
+    private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
+    private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
 
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking a PersonRepository
      *
-     * @param openCDXAuditService Audit service for tracking FDA requirements
+     * @param openCDXAuditService                Audit service for tracking FDA requirements
+     * @param openCDXEmailTemplateRepository
+     * @param openCDXNotificationEventRepository
+     * @param openCDXSMSTemplateRespository
      * @param objectMapper
      */
     @Autowired
-    public CommunicationServiceImpl(OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper) {
+    public CommunicationServiceImpl(
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
+        this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
+        this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
         this.objectMapper = objectMapper;
     }
 
@@ -67,25 +96,34 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return EmailTemplate.newBuilder(emailTemplate)
-                .setTemplateId(UUID.randomUUID().toString())
-                .build();
+        OpenCDXEmailTemplateModel model =
+                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
+
+        log.info("Created Email Template: {}", model.getId());
+        return model.getProtobufMessage();
     }
 
+    @Cacheable(value = "email_templates", key = "#templateRequest.templateId")
     @Override
-    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) {
-        return EmailTemplate.newBuilder()
-                .setTemplateId(templateRequest.getTemplateId())
-                .build();
+    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
+        return this.openCDXEmailTemplateRepository
+                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find email template: " + templateRequest.getTemplateId()))
+                .getProtobufMessage();
     }
 
+    @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
     @Override
-    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) {
+    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition {
+        if (!emailTemplate.hasTemplateId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Deleting Email Template",
+                    "Updating Email Template",
                     emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
@@ -95,9 +133,14 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return emailTemplate;
+        OpenCDXEmailTemplateModel model =
+                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
+
+        log.info("Updated Email Template: {}", model.getId());
+        return model.getProtobufMessage();
     }
 
+    @CacheEvict(value = "email_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) {
         try {
@@ -114,6 +157,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
+
+        this.openCDXEmailTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        log.info("Deleted email template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -133,20 +179,28 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return SMSTemplate.newBuilder(smsTemplate)
-                .setTemplateId(UUID.randomUUID().toString())
-                .build();
+        OpenCDXSMSTemplateModel model =
+                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
+        log.info("Created SMS template: {}", model.getId());
+        return model.getProtobufMessage();
     }
 
+    @Cacheable(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
-    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) {
-        return SMSTemplate.newBuilder()
-                .setTemplateId(templateRequest.getTemplateId())
-                .build();
+    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
+        return this.openCDXSMSTemplateRespository
+                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find sms template: " + templateRequest.getTemplateId()))
+                .getProtobufMessage();
     }
 
+    @CacheEvict(value = "sms_templates", key = "#smsTemplate.templateId")
     @Override
-    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) {
+    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition {
+        if (!smsTemplate.hasTemplateId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -161,9 +215,14 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        return smsTemplate;
+        OpenCDXSMSTemplateModel model =
+                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
+
+        log.info("Updated SMS Template: {}", model.getId());
+        return model.getProtobufMessage();
     }
 
+    @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) {
         try {
@@ -180,6 +239,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
+        this.openCDXSMSTemplateRespository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        log.info("Deleted SMS Template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -199,20 +260,31 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        return NotificationEvent.newBuilder(notificationEvent)
-                .setEventId(UUID.randomUUID().toString())
-                .build();
+
+        OpenCDXNotificationEventModel model =
+                this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
+
+        log.info("Created Notification Event: {}", model.getId());
+        return model.getProtobufMessage();
     }
 
+    @Cacheable(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
-    public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) {
-        return NotificationEvent.newBuilder()
-                .setEventId(templateRequest.getTemplateId())
-                .build();
+    public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound {
+        return this.openCDXNotificationEventRepository
+                .findById(new ObjectId(templateRequest.getTemplateId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 1, "Failed to find event notification: " + templateRequest.getTemplateId()))
+                .getProtobufMessage();
     }
 
+    @CacheEvict(value = "notificaiton_event", key = "#notificationEvent.eventId")
     @Override
-    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) {
+    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
+            throws OpenCDXFailedPrecondition {
+        if (!notificationEvent.hasEventId()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -227,9 +299,14 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        return notificationEvent;
+        OpenCDXNotificationEventModel model =
+                this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
+
+        log.info("Updated Notification Event: {}", model.getId());
+        return model.getProtobufMessage();
     }
 
+    @CacheEvict(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) {
         try {
@@ -246,6 +323,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
             throw openCDXNotAcceptable;
         }
+        this.openCDXNotificationEventRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        log.info("Deleted Notification Event: {}", templateRequest);
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -256,34 +335,47 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
+
+        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize()));
+
         return SMSTemplateListResponse.newBuilder()
-                .setPageCount(1)
-                .setPageNumber(1)
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addTemplates(
-                        SMSTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString()))
+                .addAllTemplates(all.get()
+                        .map(OpenCDXSMSTemplateModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
+        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize()));
         return EmailTemplateListResponse.newBuilder()
-                .setPageCount(1)
-                .setPageNumber(1)
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addTemplates(EmailTemplate.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
-                        .build())
+                .addAllTemplates(all.get()
+                        .map(OpenCDXEmailTemplateModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
+        Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageNumber()));
         return NotificationEventListResponse.newBuilder()
-                .setPageCount(1)
-                .setPageNumber(1)
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
+                .setPageSize(request.getPageSize())
+                .addAllTemplates(all.get()
+                        .map(OpenCDXNotificationEventModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 }

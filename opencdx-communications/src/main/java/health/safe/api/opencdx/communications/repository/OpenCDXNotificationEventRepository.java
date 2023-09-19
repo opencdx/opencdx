@@ -15,12 +15,10 @@
  */
 package health.safe.api.opencdx.communications.repository;
 
-import health.safe.api.opencdx.communications.model.Person;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * Repository for interacting the "person" records
- */
 @Repository
-public interface PersonRepository extends MongoRepository<Person, Long> {}
+public interface OpenCDXNotificationEventRepository extends MongoRepository<OpenCDXNotificationEventModel, ObjectId> {}

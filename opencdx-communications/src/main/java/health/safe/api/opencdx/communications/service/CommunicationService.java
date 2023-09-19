@@ -15,8 +15,10 @@
  */
 package health.safe.api.opencdx.communications.service;
 
+import cdx.open_communication.v2alpha.*;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import health.safe.api.opencdx.grpc.communication.*;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 
 /**
  * Interface for the CommunicationService
@@ -34,15 +36,17 @@ public interface CommunicationService {
      * Retrieve an Email Template
      * @param templateRequest Request ID of email template to retrieve.
      * @return the requested EmailTemplate.
+     * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    EmailTemplate getEmailTemplate(TemplateRequest templateRequest);
+    EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
 
     /**
      * Update an Email Template
      * @param emailTemplate Updated EmailTemplate.
      * @return updated EmailTemplate.
+     * @exception OpenCDXFailedPrecondition Missing template id.
      */
-    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate);
+    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition;
 
     /**
      * Delete an Email Template
@@ -62,15 +66,17 @@ public interface CommunicationService {
      * Get an SMS Template
      * @param templateRequest Request ID of the SMSTemplate to retrieve.
      * @return the requested SMSTemplate
+     * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    SMSTemplate getSMSTemplate(TemplateRequest templateRequest);
+    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
 
     /**
      * Update SMS Template
      * @param smsTemplate SMSTemplate to update.
      * @return the updated SMSTemplate.
+     * @exception OpenCDXFailedPrecondition Missing template id.
      */
-    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate);
+    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition;
 
     /**
      * Delete SMS Template
@@ -90,15 +96,17 @@ public interface CommunicationService {
      * Get a Notification Event
      * @param templateRequest Request ID of the NotificationEvent to retrieve.
      * @return the requested NotificationEvent.
+     * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    NotificationEvent getNotificationEvent(TemplateRequest templateRequest);
+    NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound;
 
     /**
      * Update Notification Event
      * @param notificationEvent NotificationEvent to update.
      * @return the updated NotificationEvent.
+     * @exception OpenCDXFailedPrecondition Missing event id.
      */
-    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent);
+    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXFailedPrecondition;
 
     /**
      * Delete Notification Event
