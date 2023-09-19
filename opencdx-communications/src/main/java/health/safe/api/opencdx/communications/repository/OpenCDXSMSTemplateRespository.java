@@ -20,5 +20,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * MongoRepository for the sms-template collection.
+ */
 @Repository
 public interface OpenCDXSMSTemplateRespository extends MongoRepository<OpenCDXSMSTemplateModel, ObjectId> {}
