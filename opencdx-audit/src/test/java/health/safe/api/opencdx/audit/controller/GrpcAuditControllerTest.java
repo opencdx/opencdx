@@ -15,12 +15,12 @@
  */
 package health.safe.api.opencdx.audit.controller;
 
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditEventType;
+import cdx.open_audit.v2alpha.AuditSource;
+import cdx.open_audit.v2alpha.AuditStatus;
 import com.google.protobuf.Timestamp;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
-import health.safe.api.opencdx.grpc.audit.AuditEventType;
-import health.safe.api.opencdx.grpc.audit.AuditSource;
-import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class GrpcAuditControllerTest {
     void event() {
         StreamObserver<AuditStatus> responseObserver = Mockito.mock(StreamObserver.class);
         AuditEvent event = AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_CREATED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
                 .setCreated(Timestamp.getDefaultInstance())
                 .setAuditSource(AuditSource.getDefaultInstance())
                 .build();

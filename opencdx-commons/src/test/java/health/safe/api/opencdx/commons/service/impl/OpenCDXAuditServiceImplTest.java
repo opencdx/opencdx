@@ -15,9 +15,9 @@
  */
 package health.safe.api.opencdx.commons.service.impl;
 
+import cdx.open_audit.v2alpha.AgentType;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
-import health.safe.api.opencdx.grpc.audit.AgentType;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,21 +38,21 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginSucceed(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose");
+            this.openCDXAuditService.userLoginSucceed(UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginFailure(UUID.randomUUID(), AgentType.OTHER_ENTITY, "purpose");
+            this.openCDXAuditService.userLoginFailure(UUID.randomUUID(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
         });
     }
 
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLogout(UUID.randomUUID(), AgentType.SYSTEM, "purpose");
+            this.openCDXAuditService.userLogout(UUID.randomUUID(), AgentType.AGENT_TYPE_SYSTEM, "purpose");
         });
     }
 
@@ -60,7 +60,7 @@ class OpenCDXAuditServiceImplTest {
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userAccessChange(
-                    UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
@@ -68,63 +68,71 @@ class OpenCDXAuditServiceImplTest {
     void passwordChange() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.passwordChange(
-                    UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiAccessed(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.piiAccessed(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiCreated(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.piiCreated(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiUpdated(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.piiUpdated(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiDeleted(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.piiDeleted(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiAccessed(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.phiAccessed(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiCreated(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.phiCreated(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiUpdated(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.phiUpdated(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiDeleted(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
+            this.openCDXAuditService.phiDeleted(
+                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
 
@@ -133,7 +141,7 @@ class OpenCDXAuditServiceImplTest {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.communication(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     UUID.randomUUID(),
                     "COMMUNICATION: id",
@@ -146,7 +154,7 @@ class OpenCDXAuditServiceImplTest {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");

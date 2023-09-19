@@ -74,12 +74,12 @@ class RestAuditControllerTest {
                                 """
                                 {
                                   "created" : "1970-01-01T00:00:00Z",
-                                  "eventType" : "PHI_CREATED",
+                                  "eventType" : "AUDIT_EVENT_TYPE_USER_PHI_CREATED",
                                   "actor" : {
                                     "identity" : "",
                                     "role" : "",
                                     "networkAddress" : "192.198.0.1",
-                                    "agenttype" : "HUMAN_USER"
+                                    "agentType" : "AGENT_TYPE_HUMAN_USER"
                                   },
                                   "purposeOfUse" : ""
                                 }

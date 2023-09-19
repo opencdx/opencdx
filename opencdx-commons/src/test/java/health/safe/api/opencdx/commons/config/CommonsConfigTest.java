@@ -15,13 +15,13 @@
  */
 package health.safe.api.opencdx.commons.config;
 
+import cdx.open_audit.v2alpha.Actor;
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditEventType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import health.safe.api.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
-import health.safe.api.opencdx.grpc.audit.Actor;
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
-import health.safe.api.opencdx.grpc.audit.AuditEventType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -59,7 +59,7 @@ class CommonsConfigTest {
         log.info("*********************************");
         log.info(mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(AuditEvent.newBuilder()
-                        .setEventType(AuditEventType.PHI_CREATED)
+                        .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
                         .setCreated(Timestamp.newBuilder().build())
                         .setActor(Actor.newBuilder()
                                 .setNetworkAddress("192.198.0.1")
