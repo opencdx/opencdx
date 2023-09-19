@@ -25,5 +25,5 @@ import java.lang.annotation.Target;
  * the JaCoCo coverage report.  Should only be used sparingly.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.METHOD})
 public @interface OpenCDXAuditUser {}

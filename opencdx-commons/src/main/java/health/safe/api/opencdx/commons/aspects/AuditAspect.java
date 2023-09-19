@@ -16,12 +16,13 @@
 package health.safe.api.opencdx.commons.aspects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.Joinpoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -43,13 +44,14 @@ public class AuditAspect {
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
 
     public AuditAspect() {
+
         this.objectMapper = new ObjectMapper();
         this.parser = new SpelExpressionParser();
     }
 
     @Order(Ordered.LOWEST_PRECEDENCE)
-    @Around(value = "annotation()")
-    public void auditUser(Joinpoint joinPoint) {}
+    @Around(value = "@annotation(health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser)")
+    public void auditUser(ProceedingJoinPoint proceedingJoinPoint) {}
 
     public static RequestActorAttributes getCurrentThreadInfo() {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
