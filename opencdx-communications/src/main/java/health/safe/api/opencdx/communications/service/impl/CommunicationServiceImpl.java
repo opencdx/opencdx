@@ -35,6 +35,8 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -95,6 +97,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         OpenCDXEmailTemplateModel model =
                 this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
+        log.info("Created Email Template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -129,6 +132,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         OpenCDXEmailTemplateModel model =
                 this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
+        log.info("Updated Email Template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -150,6 +154,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
 
         this.openCDXEmailTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        log.info("Deleted email template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -171,7 +176,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
         OpenCDXSMSTemplateModel model =
                 this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
-
+        log.info("Created SMS template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -206,6 +211,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         OpenCDXSMSTemplateModel model =
                 this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
 
+        log.info("Updated SMS Template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -226,6 +232,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             throw openCDXNotAcceptable;
         }
         this.openCDXSMSTemplateRespository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        log.info("Deleted SMS Template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -249,6 +256,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         OpenCDXNotificationEventModel model =
                 this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
+        log.info("Created Notification Event: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -284,6 +292,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         OpenCDXNotificationEventModel model =
                 this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
+        log.info("Updated Notification Event: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -304,6 +313,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             throw openCDXNotAcceptable;
         }
         this.openCDXNotificationEventRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
+        log.info("Deleted Notification Event: {}", templateRequest);
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
@@ -314,34 +324,47 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
+
+        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize()));
+
         return SMSTemplateListResponse.newBuilder()
-                .setPageCount(1)
-                .setPageNumber(1)
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addTemplates(
-                        SMSTemplate.newBuilder().setTemplateId(UUID.randomUUID().toString()))
+                .addAllTemplates(all.get()
+                        .map(OpenCDXSMSTemplateModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
+        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageSize()));
         return EmailTemplateListResponse.newBuilder()
-                .setPageCount(1)
-                .setPageNumber(1)
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addTemplates(EmailTemplate.newBuilder()
-                        .setTemplateId(UUID.randomUUID().toString())
-                        .build())
+                .addAllTemplates(all.get()
+                        .map(OpenCDXEmailTemplateModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
+        Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(
+                PageRequest.of(request.getPageNumber(), request.getPageNumber()));
         return NotificationEventListResponse.newBuilder()
-                .setPageCount(1)
-                .setPageNumber(1)
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
+                .setPageSize(request.getPageSize())
+                .addAllTemplates(all.get()
+                        .map(OpenCDXNotificationEventModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 }

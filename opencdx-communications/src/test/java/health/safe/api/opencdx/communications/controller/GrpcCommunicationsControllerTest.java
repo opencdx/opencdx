@@ -28,6 +28,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespo
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import io.grpc.stub.StreamObserver;
+import java.util.Collections;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +41,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -79,6 +83,13 @@ class GrpcCommunicationsControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
+
+        Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        Mockito.when(this.openCDXSMSTemplateRespository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        Mockito.when(this.openCDXNotificationEventRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         this.communicationService = new CommunicationServiceImpl(
                 this.openCDXAuditService,
@@ -322,7 +333,11 @@ class GrpcCommunicationsControllerTest {
     @Test
     void listSMSTemplates() {
         StreamObserver<SMSTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        SMSTemplateListRequest request = SMSTemplateListRequest.getDefaultInstance();
+        SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .build();
         this.grpcCommunicationsController.listSMSTemplates(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
@@ -332,7 +347,11 @@ class GrpcCommunicationsControllerTest {
     @Test
     void listEmailTemplates() {
         StreamObserver<EmailTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        EmailTemplateListRequest request = EmailTemplateListRequest.getDefaultInstance();
+        EmailTemplateListRequest request = EmailTemplateListRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .build();
         this.grpcCommunicationsController.listEmailTemplates(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
@@ -342,7 +361,11 @@ class GrpcCommunicationsControllerTest {
     @Test
     void listNotificationEvents() {
         StreamObserver<NotificationEventListResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        NotificationEventListRequest request = NotificationEventListRequest.getDefaultInstance();
+        NotificationEventListRequest request = NotificationEventListRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .build();
         this.grpcCommunicationsController.listNotificationEvents(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());

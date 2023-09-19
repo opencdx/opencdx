@@ -305,7 +305,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:0,&quot;pageNumber&quot;:0,&quot;sortAscending&quot;:false}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -414,7 +414,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:0,&quot;pageNumber&quot;:0,&quot;sortAscending&quot;:false}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -523,7 +523,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:0,&quot;pageNumber&quot;:0,&quot;sortAscending&quot;:false}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -742,7 +742,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;pageSize&quot;:0,&quot;pageNumber&quot;:0,&quot;sortAscending&quot;:false}</stringProp>
+                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -844,7 +844,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;pageSize&quot;:0,&quot;pageNumber&quot;:0,&quot;sortAscending&quot;:false}</stringProp>
+                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -946,7 +946,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;pageSize&quot;:0,&quot;pageNumber&quot;:0,&quot;sortAscending&quot;:false}</stringProp>
+                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>

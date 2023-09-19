@@ -31,6 +31,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import io.nats.client.Connection;
+import java.util.Collections;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -47,6 +48,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -97,6 +101,13 @@ class RestCommunicationsControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
+
+        Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        Mockito.when(this.openCDXSMSTemplateRespository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        Mockito.when(this.openCDXNotificationEventRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -254,7 +265,11 @@ class RestCommunicationsControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/sms/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(SMSTemplateListRequest.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(SMSTemplateListRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -268,7 +283,11 @@ class RestCommunicationsControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/email/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(EmailTemplateListRequest.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(EmailTemplateListRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -282,8 +301,11 @@ class RestCommunicationsControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/event/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(
-                                this.objectMapper.writeValueAsString(NotificationEventListRequest.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(NotificationEventListRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
