@@ -2,6 +2,8 @@ syntax = "proto3";
 option java_multiple_files = true;
 package health.safe.api.opencdx.grpc.unit.test;
 
+import "google/protobuf/wrappers.proto";
+
 // This proto is for use in unit testing gRPC Services and messages through out
 // the OpenCDx project.
 service UnitTest {

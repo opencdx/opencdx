@@ -22,6 +22,9 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
+import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.communication.*;
@@ -42,17 +45,31 @@ public class CommunicationServiceImpl implements CommunicationService {
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
+    private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
+    private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
 
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking a PersonRepository
      *
-     * @param openCDXAuditService Audit service for tracking FDA requirements
+     * @param openCDXAuditService                Audit service for tracking FDA requirements
+     * @param openCDXEmailTemplateRepository
+     * @param openCDXNotificationEventRepository
+     * @param openCDXSMSTemplateRespository
      * @param objectMapper
      */
     @Autowired
-    public CommunicationServiceImpl(OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper) {
+    public CommunicationServiceImpl(
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
+        this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
+        this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
         this.objectMapper = objectMapper;
     }
 
@@ -72,7 +89,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
+        OpenCDXEmailTemplateModel model =
+                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
         return model.getProtobufMessage();
     }
@@ -100,7 +118,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
+        OpenCDXEmailTemplateModel model =
+                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
         return model.getProtobufMessage();
     }
@@ -140,7 +159,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
+        OpenCDXSMSTemplateModel model =
+                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
 
         return model.getProtobufMessage();
     }
@@ -168,7 +188,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
+        OpenCDXSMSTemplateModel model =
+                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
 
         return model.getProtobufMessage();
     }
@@ -209,7 +230,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             throw openCDXNotAcceptable;
         }
 
-        OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
+        OpenCDXNotificationEventModel model =
+                this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
         return model.getProtobufMessage();
     }
@@ -237,7 +259,8 @@ public class CommunicationServiceImpl implements CommunicationService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, notificationEvent.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
+        OpenCDXNotificationEventModel model =
+                this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
         return model.getProtobufMessage();
     }

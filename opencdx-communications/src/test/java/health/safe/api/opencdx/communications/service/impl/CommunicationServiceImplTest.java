@@ -19,6 +19,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
+import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.grpc.communication.EmailTemplate;
 import health.safe.api.opencdx.grpc.communication.NotificationEvent;
@@ -29,6 +35,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,18 +53,38 @@ class CommunicationServiceImplTest {
     @Mock
     ObjectMapper objectMapper;
 
+    @Mock
+    OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+    @Mock
+    OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
+    @Mock
+    OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
+
     CommunicationService communicationService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
+        this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
+        this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
+        this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
+
+        Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class))).then(AdditionalAnswers.returnsFirstArg());
+
         this.objectMapper = Mockito.mock(ObjectMapper.class);
-        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService, objectMapper);
+        this.communicationService = new CommunicationServiceImpl(
+                this.openCDXAuditService,
+                openCDXEmailTemplateRepository,
+                openCDXNotificationEventRepository,
+                openCDXSMSTemplateRespository,
+                objectMapper);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
     }
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.objectMapper);
+        Mockito.reset(this.objectMapper,this.openCDXEmailTemplateRepository,this.openCDXNotificationEventRepository,this.openCDXSMSTemplateRespository);
     }
 
     @Test

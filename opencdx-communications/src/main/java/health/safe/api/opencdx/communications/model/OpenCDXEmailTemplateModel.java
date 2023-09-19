@@ -51,10 +51,12 @@ public class OpenCDXEmailTemplateModel {
      * @param template EmailTemplate to base this model on.
      */
     public OpenCDXEmailTemplateModel(EmailTemplate template) {
+
         this.id = new ObjectId(template.getTemplateId());
         this.templateType = template.getTemplateType();
         this.subject = template.getSubject();
         this.content = template.getContent();
+
         this.variables = new ArrayList<>(template.getVariablesList());
     }
 

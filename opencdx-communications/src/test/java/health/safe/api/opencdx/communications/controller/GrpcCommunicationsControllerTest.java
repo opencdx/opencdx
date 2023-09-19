@@ -17,15 +17,24 @@ package health.safe.api.opencdx.communications.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
+import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import health.safe.api.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import java.util.UUID;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,14 +52,40 @@ class GrpcCommunicationsControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Mock
+    OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+    @Mock
+    OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
+    @Mock
+    OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
+
     CommunicationService communicationService;
 
     GrpcCommunicationsController grpcCommunicationsController;
 
     @BeforeEach
     void setUp() {
-        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService, objectMapper);
+        this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
+        this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
+        this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
+
+        Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class))).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class))).then(AdditionalAnswers.returnsFirstArg());
+
+
+        this.communicationService = new CommunicationServiceImpl(
+                this.openCDXAuditService,
+                openCDXEmailTemplateRepository,
+                openCDXNotificationEventRepository,
+                openCDXSMSTemplateRespository,
+                objectMapper);
         this.grpcCommunicationsController = new GrpcCommunicationsController(this.communicationService);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.openCDXEmailTemplateRepository,this.openCDXNotificationEventRepository,this.openCDXSMSTemplateRespository);
     }
 
     @Test
