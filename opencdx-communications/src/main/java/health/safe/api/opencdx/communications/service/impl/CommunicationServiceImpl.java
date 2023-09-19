@@ -35,6 +35,8 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -101,6 +103,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return model.getProtobufMessage();
     }
 
+    @Cacheable(value = "email_templates", key = "#templateRequest.templateId")
     @Override
     public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXEmailTemplateRepository
@@ -110,6 +113,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                 .getProtobufMessage();
     }
 
+    @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
     @Override
     public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition {
         if (!emailTemplate.hasTemplateId()) {
@@ -136,6 +140,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return model.getProtobufMessage();
     }
 
+    @CacheEvict(value = "email_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) {
         try {
@@ -180,6 +185,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return model.getProtobufMessage();
     }
 
+    @Cacheable(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
     public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXSMSTemplateRespository
@@ -189,6 +195,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                 .getProtobufMessage();
     }
 
+    @CacheEvict(value = "sms_templates", key = "#smsTemplate.templateId")
     @Override
     public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition {
         if (!smsTemplate.hasTemplateId()) {
@@ -215,6 +222,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return model.getProtobufMessage();
     }
 
+    @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) {
         try {
@@ -260,6 +268,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return model.getProtobufMessage();
     }
 
+    @Cacheable(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
     public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXNotificationEventRepository
@@ -269,6 +278,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                 .getProtobufMessage();
     }
 
+    @CacheEvict(value = "notificaiton_event", key = "#notificationEvent.eventId")
     @Override
     public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
             throws OpenCDXFailedPrecondition {
@@ -296,6 +306,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return model.getProtobufMessage();
     }
 
+    @CacheEvict(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) {
         try {
