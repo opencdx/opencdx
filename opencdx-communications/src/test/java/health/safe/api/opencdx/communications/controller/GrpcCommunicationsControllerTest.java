@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
@@ -38,13 +39,16 @@ class GrpcCommunicationsControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     CommunicationService communicationService;
 
     GrpcCommunicationsController grpcCommunicationsController;
 
     @BeforeEach
     void setUp() {
-        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService);
+        this.communicationService = new CommunicationServiceImpl(this.openCDXAuditService, objectMapper);
         this.grpcCommunicationsController = new GrpcCommunicationsController(this.communicationService);
     }
 
@@ -237,7 +241,7 @@ class GrpcCommunicationsControllerTest {
     @Test
     void listNotificationEvents() {
         StreamObserver<NotificationEventListResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        NotificaitonEventListRequest request = NotificaitonEventListRequest.getDefaultInstance();
+        NotificationEventListRequest request = NotificationEventListRequest.getDefaultInstance();
         this.grpcCommunicationsController.listNotificationEvents(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());

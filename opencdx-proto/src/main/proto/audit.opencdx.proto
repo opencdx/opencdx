@@ -25,7 +25,8 @@ enum AuditEventType {
   PHI_UPDATED = 13; // Personal Health Information updated.
   PHI_CREATED = 14; // Personal Health Information created.
   PHI_DELETED = 15; // Personal Health Information deleted.
-  CONFIG = 16; // Configuration information changed.
+  COMMUNICATION = 16; // Record Communication to user.
+  CONFIG = 17; // Configuration information changed.
 }
 
 /**
@@ -62,7 +63,7 @@ message Actor {
  */
 message DataObject {
   string resource = 1; //
-  google.protobuf.Any data = 2; // Data block recorded for Audit System
+  string data = 2; // Data block recorded for Audit System
   SensitivityLevel sensitivity = 3; // Indicates the sensitivity level of this data.
 }
 

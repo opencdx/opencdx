@@ -141,4 +141,29 @@ class OpenCDXAuditServiceImplTest {
             this.openCDXAuditService.phiDeleted(UUID.randomUUID(), AgentType.HUMAN_USER, "purpose", UUID.randomUUID());
         });
     }
+
+    @Test
+    void communication() {
+        Assertions.assertDoesNotThrow(() -> {
+            this.openCDXAuditService.communication(
+                    UUID.randomUUID(),
+                    AgentType.HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+        });
+    }
+
+    @Test
+    void config() {
+        Assertions.assertDoesNotThrow(() -> {
+            this.openCDXAuditService.config(
+                    UUID.randomUUID(),
+                    AgentType.HUMAN_USER,
+                    "purpose",
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+        });
+    }
 }

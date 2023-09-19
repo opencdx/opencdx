@@ -134,7 +134,7 @@ public class GrpcCommunicationsController extends CommunicationServiceGrpc.Commu
 
     @Override
     public void listNotificationEvents(
-            NotificaitonEventListRequest request, StreamObserver<NotificationEventListResponse> responseObserver) {
+            NotificationEventListRequest request, StreamObserver<NotificationEventListResponse> responseObserver) {
         responseObserver.onNext(this.communicationService.listNotificationEvents(request));
         responseObserver.onCompleted();
     }

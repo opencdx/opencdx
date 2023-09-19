@@ -22,15 +22,27 @@ import java.time.Instant;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Abstract class for handling Audit message types that is connection independent.
+ */
 @Slf4j
 public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService {
 
     private String applicationName;
 
+    /**
+     * Constrctor for receiving the required Application name
+     * @param applicationName Name of the applicaiton for sytem on record.
+     */
     protected OpenCDXAuditServiceAbstract(String applicationName) {
         this.applicationName = applicationName;
     }
 
+    /**
+     * Abstract class that allows for replacement of communication system
+     * @param event Event to send to Audit Service
+     * @return indicates if successfully sent.
+     */
     protected abstract AuditStatus sendMessage(AuditEvent event);
 
     @Override
@@ -186,6 +198,32 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
                 .build());
     }
 
+    @Override
+    public void communication(
+            UUID actor, AgentType agentType, String purpose, UUID auditEntity, String resource, String jsonRecord) {
+        this.sendMessage(AuditEvent.newBuilder()
+                .setEventType(AuditEventType.COMMUNICATION)
+                .setCreated(this.getTimeStamp(Instant.now()))
+                .setAuditSource(this.getAuditSource(this.applicationName))
+                .setActor(this.getActor(actor, agentType))
+                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setPurposeOfUse(purpose)
+                .setDataObject(this.getDataObject(jsonRecord, resource))
+                .build());
+    }
+
+    @Override
+    public void config(UUID actor, AgentType agentType, String purpose, String resource, String jsonRecord) {
+        this.sendMessage(AuditEvent.newBuilder()
+                .setEventType(AuditEventType.CONFIG)
+                .setCreated(this.getTimeStamp(Instant.now()))
+                .setAuditSource(this.getAuditSource(this.applicationName))
+                .setActor(this.getActor(actor, agentType))
+                .setPurposeOfUse(purpose)
+                .setDataObject(this.getDataObject(jsonRecord, resource))
+                .build());
+    }
+
     private Timestamp getTimeStamp(Instant time) {
         return Timestamp.newBuilder()
                 .setSeconds(time.getEpochSecond())
@@ -208,5 +246,9 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
         return AuditEntity.newBuilder()
                 .setPatientIdentifier(auditEntity.toString())
                 .build();
+    }
+
+    private DataObject getDataObject(String jsonRecord, String resource) {
+        return DataObject.newBuilder().setResource(resource).setData(jsonRecord).build();
     }
 }

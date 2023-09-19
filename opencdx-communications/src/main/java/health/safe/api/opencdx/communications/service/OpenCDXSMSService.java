@@ -13,32 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.communications.model;
+package health.safe.api.opencdx.communications.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.List;
 
 /**
- * Person record from database.
+ * Interface to the OpenCDX SMS service.  Used to send SMS notifications
+ * to users.
  */
-@Data
-@AllArgsConstructor
-@Builder
-@Document("persons")
-public class Person {
+public interface OpenCDXSMSService {
     /**
-     * Default Constructor
+     * Method to send SMS Notificaiton
+     * @param message Content of the SMS notification
+     * @param phoneNumbers List of phone numbers to send the notification to.
+     * @return boolean indicating if successful.
      */
-    public Person() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    @Id
-    private ObjectId id;
-
-    private String name;
+    boolean sendSMS(String message, List<String> phoneNumbers);
 }
