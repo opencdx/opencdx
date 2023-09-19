@@ -17,14 +17,14 @@ package health.safe.api.opencdx.audit.handlers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditEventType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
-import health.safe.api.opencdx.grpc.audit.AuditEventType;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,9 @@ class OpenCDXAuditMessageHandlerTest {
         objectMapper.registerModule(new ProtobufModule());
         objectMapper.registerModule(new JavaTimeModule());
 
-        AuditEvent event =
-                AuditEvent.newBuilder().setEventType(AuditEventType.PHI_CREATED).build();
+        AuditEvent event = AuditEvent.newBuilder()
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
+                .build();
         String json = objectMapper.writeValueAsString(event);
         OpenCDXAuditMessageHandler openCDXAuditMessageHandler =
                 new OpenCDXAuditMessageHandler(objectMapper, new NoOpOpenCDXMessageServiceImpl());
@@ -53,8 +54,9 @@ class OpenCDXAuditMessageHandlerTest {
         objectMapper.registerModule(new JavaTimeModule());
 
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-        AuditEvent event =
-                AuditEvent.newBuilder().setEventType(AuditEventType.PHI_CREATED).build();
+        AuditEvent event = AuditEvent.newBuilder()
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
+                .build();
         byte[] bytes = objectMapper.writeValueAsString(event).getBytes();
 
         Mockito.when(mapper.readValue(bytes, AuditEvent.class)).thenThrow(new IOException("Test"));

@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
+import cdx.open_audit.v2alpha.AgentType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
@@ -27,7 +28,6 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.audit.AgentType;
 import health.safe.api.opencdx.grpc.communication.*;
 import java.util.HashMap;
 import java.util.UUID;
@@ -80,7 +80,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating Email Template",
                     emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
@@ -111,7 +111,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Email Template",
                     emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
@@ -133,7 +133,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Email Template",
                     templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
@@ -154,7 +154,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating SMS Template",
                     smsTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(smsTemplate));
@@ -185,7 +185,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating SMS Template",
                     smsTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(smsTemplate));
@@ -207,7 +207,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting SMS Template",
                     templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
@@ -227,7 +227,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating Notification Event",
                     notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
@@ -259,7 +259,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating Notification Event",
                     notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
@@ -281,7 +281,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
-                    AgentType.HUMAN_USER,
+                    AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Notification Event",
                     templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));

@@ -15,9 +15,9 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
+import cdx.open_audit.v2alpha.*;
 import com.google.protobuf.Timestamp;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
-import health.safe.api.opencdx.grpc.audit.*;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void userLoginSucceed(UUID actor, AgentType agentType, String purpose) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_LOGIN_SUCCEEDED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_SYSTEM_LOGIN_SUCCEEDED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -59,7 +59,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void userLoginFailure(UUID actor, AgentType agentType, String purpose) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_LOGIN_FAIL)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_LOGIN_FAIL)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -70,7 +70,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void userLogout(UUID actor, AgentType agentType, String purpose) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_LOGOUT)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_LOG_OUT)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -81,7 +81,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void userAccessChange(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_ACCESS_CHANGE)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_ACCESS_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -93,7 +93,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void passwordChange(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.USER_PASSWORD_CHANGE)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -105,7 +105,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void piiAccessed(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_ACCESSED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -117,7 +117,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void piiCreated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_CREATED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -129,7 +129,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void piiUpdated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_UPDATED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -141,7 +141,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void piiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PII_DELETED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -153,7 +153,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void phiAccessed(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_ACCESSED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -165,7 +165,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void phiCreated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_CREATED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -177,7 +177,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void phiUpdated(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_UPDATED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -189,7 +189,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void phiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.PHI_DELETED)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -202,7 +202,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     public void communication(
             UUID actor, AgentType agentType, String purpose, UUID auditEntity, String resource, String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.COMMUNICATION)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_COMMUNICATION)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
@@ -215,7 +215,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
     @Override
     public void config(UUID actor, AgentType agentType, String purpose, String resource, String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
-                .setEventType(AuditEventType.CONFIG)
+                .setEventType(AuditEventType.AUDIT_EVENT_TYPE_CONFIG_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))

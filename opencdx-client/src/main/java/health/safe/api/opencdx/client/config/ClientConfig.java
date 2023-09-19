@@ -15,11 +15,11 @@
  */
 package health.safe.api.opencdx.client.config;
 
+import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.client.service.impl.HelloworldClientImpl;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditServiceImpl;
-import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
