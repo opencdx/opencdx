@@ -10,7 +10,7 @@
       </elementProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -89,7 +89,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -196,10 +196,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Communications" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">500</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -221,7 +221,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;9f714c8d-d3a9-4599-8e81-89a609b8f990&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_WELCOME&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -231,6 +231,13 @@
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script"></stringProp>
           </JSR223PreProcessor>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">emailTemplateId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.template_id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate" enabled="true">
@@ -247,7 +254,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;in commodo tempor aliquip&quot;
+    &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
@@ -273,7 +280,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;9f714c8d-d3a9-4599-8e81-89a609b8f990&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${emailTemplateId}&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -323,9 +330,16 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;73b47fe8-4cac-455f-a958-176168980ba0&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_ALERT&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SMS Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">smsTemplateId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.template_id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
             <stringProp name="scriptLanguage">java</stringProp>
             <stringProp name="parameters"></stringProp>
@@ -349,7 +363,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;in commodo tempor aliquip&quot;
+    &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
@@ -375,7 +389,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;73b47fe8-4cac-455f-a958-176168980ba0&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${smsTemplateId}&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -425,9 +439,16 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;4fc5293b-2cb0-418a-afaa-11c287974a5c&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;&quot;,&quot;smsTemplateId&quot;:&quot;&quot;,&quot;eventParameters&quot;:[]}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Event Id" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">eventId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.event_id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
             <stringProp name="scriptLanguage">java</stringProp>
             <stringProp name="parameters"></stringProp>
@@ -451,7 +472,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;in commodo tempor aliquip&quot;
+    &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
@@ -477,7 +498,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;4fc5293b-2cb0-418a-afaa-11c287974a5c&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;&quot;,&quot;smsTemplateId&quot;:&quot;&quot;,&quot;eventParameters&quot;:[]}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -553,7 +574,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;in commodo tempor aliquip&quot;
+    &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
@@ -580,7 +601,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;in commodo tempor aliquip&quot;
+    &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
@@ -607,7 +628,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;in commodo tempor aliquip&quot;
+    &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
@@ -644,7 +665,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;templateId&quot;:&quot;9f714c8d-d3a9-4599-8e81-89a609b8f990&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_NEWSLETTER&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -662,13 +683,21 @@
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">emailTemplateId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.templateId</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/email [GET]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/email/85a1d6ef-ccdc-4f31-8033-eaade1d0903d</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/email/${emailTemplateId}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -688,7 +717,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;templateId&quot;:&quot;9f714c8d-d3a9-4599-8e81-89a609b8f990&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;templateId&quot;:&quot;${emailTemplateId}&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_CONFIRMATION&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -738,7 +767,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;templateId&quot;:&quot;73b47fe8-4cac-455f-a958-176168980ba0&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_REMINDER&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -756,13 +785,21 @@
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SMS Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">smsTemplateId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.templateId</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/sms [GET}" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/sms/85a1d6ef-ccdc-4f31-8033-eaade1d0903d</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/sms/${smsTemplateId}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -782,7 +819,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;templateId&quot;:&quot;73b47fe8-4cac-455f-a958-176168980ba0&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;templateId&quot;:&quot;${smsTemplateId}&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_CONFIRMATION&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -832,7 +869,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;4fc5293b-2cb0-418a-afaa-11c287974a5c&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;&quot;,&quot;smsTemplateId&quot;:&quot;&quot;,&quot;eventParameters&quot;:[]}</stringProp>
+                <stringProp name="Argument.value">{&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -850,13 +887,21 @@
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Event Id" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">eventId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.eventId</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/event [GET]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/event/85a1d6ef-ccdc-4f31-8033-eaade1d0903d</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/event/${eventId}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -876,7 +921,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;4fc5293b-2cb0-418a-afaa-11c287974a5c&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;&quot;,&quot;smsTemplateId&quot;:&quot;&quot;,&quot;eventParameters&quot;:[]}</stringProp>
+                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -926,7 +971,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"> {&quot;queueId&quot;:&quot;&quot;,&quot;eventId&quot;:&quot;&quot;,&quot;status&quot;:&quot;&quot;,&quot;timestamp&quot;:0,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;smsVariables&quot;:[],&quot;recipientsId&quot;:[]}</stringProp>
+                <stringProp name="Argument.value"> {&quot;queueId&quot;:&quot;&quot;,&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;status&quot;:&quot;&quot;,&quot;timestamp&quot;:0,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;smsVariables&quot;:[],&quot;recipientsId&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -950,7 +995,7 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/event/85a1d6ef-ccdc-4f31-8033-eaade1d0903d</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/event/${emailTemplateId}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -969,7 +1014,7 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/sms/85a1d6ef-ccdc-4f31-8033-eaade1d0903d</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/sms/${smsTemplateId}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -988,7 +1033,7 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/communications/email/85a1d6ef-ccdc-4f31-8033-eaade1d0903d</stringProp>
+          <stringProp name="HTTPSampler.path">/communications/email/${eventId}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
