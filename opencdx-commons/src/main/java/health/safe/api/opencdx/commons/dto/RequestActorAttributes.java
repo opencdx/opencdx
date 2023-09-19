@@ -29,6 +29,6 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestActorAttributes {
 
-    private UUID actor;
-    private UUID patient;
+    private String actor;
+    private String patient;
 }
