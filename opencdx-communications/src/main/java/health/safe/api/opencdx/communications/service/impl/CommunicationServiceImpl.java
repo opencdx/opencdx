@@ -61,10 +61,10 @@ public class CommunicationServiceImpl implements CommunicationService {
      * Constructor taking a PersonRepository
      *
      * @param openCDXAuditService                Audit service for tracking FDA requirements
-     * @param openCDXEmailTemplateRepository
-     * @param openCDXNotificationEventRepository
-     * @param openCDXSMSTemplateRespository
-     * @param objectMapper
+     * @param openCDXEmailTemplateRepository Repository for saving Email Templates
+     * @param openCDXNotificationEventRepository Repository for saving Notification Events
+     * @param openCDXSMSTemplateRespository Repository for saving SMS Templates
+     * @param objectMapper ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
     public CommunicationServiceImpl(

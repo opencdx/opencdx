@@ -20,5 +20,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * MongoRepository for the notification-event collection.
+ */
 @Repository
 public interface OpenCDXNotificationEventRepository extends MongoRepository<OpenCDXNotificationEventModel, ObjectId> {}
