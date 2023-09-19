@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package health.safe.api.opencdx.grpc.communication;
+package cdx.open_communication.v2alpha;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
@@ -8,12 +8,12 @@ import "google/protobuf/wrappers.proto";
 
 // Enum for template types
 enum TemplateType {
-  NOTIFICATION = 0;
-  WELCOME = 1;
-  NEWSLETTER = 2;
-  ALERT = 3;
-  REMINDER = 4;
-  CONFIRMATION = 5;
+  TEMPLATE_TYPE_NOTIFICATION = 0;
+  TEMPLATE_TYPE_WELCOME = 1;
+  TEMPLATE_TYPE_NEWSLETTER = 2;
+  TEMPLATE_TYPE_ALERT = 3;
+  TEMPLATE_TYPE_REMINDER = 4;
+  TEMPLATE_TYPE_CONFIRMATION = 5;
 }
 
 /**
@@ -81,8 +81,6 @@ message Notification {
   // SMS attributes
   repeated string to_phone_number = 10; // Recipients' phone numbers.
   repeated string sms_variables = 11;   // SMS-specific variables or placeholders.
-
-  repeated string recipients_id = 12; // List of the UUID's for each email recipient and for recipients phone numbers.
 }
 
 /**
@@ -148,7 +146,7 @@ message EmailTemplateListResponse {
 }
 
 /**
-Response containing the requested list of NotificaitonEvents
+Response containing the requested list of NotificationEvents
  */
 message NotificationEventListResponse {
   int32 page_size = 1; // Size of each page.
@@ -158,12 +156,14 @@ message NotificationEventListResponse {
   repeated NotificationEvent templates = 5; //List of NotificationEvents
 }
 
+/**
+Audit record for communication messages se
+ */
 message CommunicationAuditRecord{
-  Notification notification = 1;
-  string emailContent = 2;
-  string smsContent = 3;
+  Notification notification = 1; // The notification to trigger the communication
+  string emailContent = 2; // Content of the email
+  string smsContent = 3; // Content of the SMS Notification.
 }
-
 
 // Service API
 service CommunicationService {
@@ -172,18 +172,22 @@ service CommunicationService {
   rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate); // Retrieve an email template by ID.
   rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate); // Update an email template.
   rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse); // Delete an email template.
+
   // SMS Template Management
   rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate); // Create a new SMS template.
   rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate); // Retrieve an SMS template by ID.
   rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate); // Update an SMS template.
   rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse); // Delete an SMS template.
+
   // Notification Event Management
   rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent); // Create a new notification event.
   rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent); // Retrieve a notification event by ID.
   rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent); // Update a notification event.
   rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse); // Delete a notification event.
+
   // Notification Queue Operations
   rpc SendNotification(Notification) returns (SuccessResponse); // Send a notification.
+
   // Retrieve Lists
   rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse); // Retrieve a list of SMS templates.
   rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse); // Retrieve a list of email templates.
