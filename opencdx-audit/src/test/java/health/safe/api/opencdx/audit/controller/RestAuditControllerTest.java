@@ -88,6 +88,6 @@ class RestAuditControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"success\":true}", content);
+        Assertions.assertEquals("{\n" + "  \"success\": true\n" + "}", content);
     }
 }
