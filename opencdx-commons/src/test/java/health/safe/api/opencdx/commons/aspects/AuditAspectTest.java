@@ -17,13 +17,8 @@ package health.safe.api.opencdx.commons.aspects;
 
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
-import java.util.Map;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -33,14 +28,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @ActiveProfiles("noop")
 @Import(AnnotationAwareAspectJAutoProxyCreator.class)
-@SpringBootTest(classes = {CommonsConfig.class, AuditAspect.class, AnnotationAwareAspectJAutoProxyCreator.class, AuditAspectTestInstance.class})
+@SpringBootTest(
+        classes = {
+            CommonsConfig.class,
+            AuditAspect.class,
+            AnnotationAwareAspectJAutoProxyCreator.class,
+            AuditAspectTestInstance.class
+        })
 @ExtendWith(SpringExtension.class)
 class AuditAspectTest {
     @Test
@@ -50,9 +47,9 @@ class AuditAspectTest {
         AuditAspect auditAspect = new AuditAspect();
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
-        proxy.testAnnotation("Bob","Jim");
-        Assertions.assertEquals("Bob",proxy.getInfo().getActor());
-        Assertions.assertEquals("Jim",proxy.getInfo().getPatient());
+        proxy.testAnnotation("Bob", "Jim");
+        Assertions.assertEquals("Bob", proxy.getInfo().getActor());
+        Assertions.assertEquals("Jim", proxy.getInfo().getPatient());
         Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
 
@@ -63,11 +60,12 @@ class AuditAspectTest {
         AuditAspect auditAspect = new AuditAspect();
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
-        proxy.testAnnotationChild(new RequestActorAttributes("Bob","Jim"));
-        Assertions.assertEquals("Bob",proxy.getInfo().getActor());
-        Assertions.assertEquals("Jim",proxy.getInfo().getPatient());
+        proxy.testAnnotationChild(new RequestActorAttributes("Bob", "Jim"));
+        Assertions.assertEquals("Bob", proxy.getInfo().getActor());
+        Assertions.assertEquals("Jim", proxy.getInfo().getPatient());
         Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
+
     @Test
     void testThreadInfo() {
         AuditAspect.setCurrentThreadInfo("actor", "patient");
@@ -78,6 +76,7 @@ class AuditAspectTest {
         AuditAspect.removeCurrentThreadInfo();
         Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
+
     @Test
     void testOpenCDXAuditUserFail() {
         AuditAspectTestInstance instance = new AuditAspectTestInstance();
@@ -85,7 +84,8 @@ class AuditAspectTest {
         AuditAspect auditAspect = new AuditAspect();
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
-        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail(new RequestActorAttributes("Bob","Jim")));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class, () -> proxy.testAnnotationFail(new RequestActorAttributes("Bob", "Jim")));
     }
 
     @Test
@@ -95,6 +95,7 @@ class AuditAspectTest {
         AuditAspect auditAspect = new AuditAspect();
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
-        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail2(new RequestActorAttributes("Bob","Jim")));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class, () -> proxy.testAnnotationFail2(new RequestActorAttributes("Bob", "Jim")));
     }
 }

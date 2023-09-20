@@ -72,11 +72,9 @@ public class AuditAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Map<String, Object> parameterMap = this.createParameterMap(signature.getParameterNames(), joinPoint.getArgs());
 
-        String actor =
-                getValueFromParameter(openCDXAuditUser.actor(), parameterMap);
-        String patient =
-                getValueFromParameter(openCDXAuditUser.patient(), parameterMap);
-        if(actor == null || patient == null) {
+        String actor = getValueFromParameter(openCDXAuditUser.actor(), parameterMap);
+        String patient = getValueFromParameter(openCDXAuditUser.patient(), parameterMap);
+        if (actor == null || patient == null) {
             throw new OpenCDXBadRequest("AuditAspect", 2, "Failed to load Actor/Patient.");
         }
         AuditAspect.setCurrentThreadInfo(actor, patient);
@@ -103,8 +101,8 @@ public class AuditAspect {
         String value = null;
 
         String search = key;
-        if(key.contains(".")) {
-            search = key.substring(0,key.indexOf('.'));
+        if (key.contains(".")) {
+            search = key.substring(0, key.indexOf('.'));
         }
 
         Object rootObject = parameterMap.get(search);
@@ -112,8 +110,10 @@ public class AuditAspect {
             if (rootObject instanceof String s) {
                 value = s;
             } else {
-                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.')+1));
-                value = expression.getValue(new StandardEvaluationContext(rootObject)).toString();
+                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.') + 1));
+                value = expression
+                        .getValue(new StandardEvaluationContext(rootObject))
+                        .toString();
             }
         }
         return value;
