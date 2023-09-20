@@ -73,9 +73,9 @@ public class AuditAspect {
         Map<String, Object> parameterMap = this.createParameterMap(signature.getParameterNames(), joinPoint.getArgs());
 
         String actor =
-                getValueFromParameter(openCDXAuditUser.actor(), parameterMap).toString();
+                getValueFromParameter(openCDXAuditUser.actor(), parameterMap);
         String patient =
-                getValueFromParameter(openCDXAuditUser.patient(), parameterMap).toString();
+                getValueFromParameter(openCDXAuditUser.patient(), parameterMap);
         AuditAspect.setCurrentThreadInfo(actor, patient);
     }
 
@@ -96,17 +96,17 @@ public class AuditAspect {
      * @param parameterMap List of parameters being passed in.
      * @return Object mapping to the key
      */
-    protected Object getValueFromParameter(String key, Map<String, Object> parameterMap) {
-        Object value = null;
+    protected String getValueFromParameter(String key, Map<String, Object> parameterMap) {
+        String value = null;
         Object rootObject = parameterMap.get(key);
         if (rootObject != null) {
             if (rootObject instanceof String) {
-                value = rootObject;
+                value = rootObject.toString();
             } else if (!key.contains(".")) {
-                value = rootObject;
+                value = rootObject.toString();
             } else {
                 Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.')));
-                value = expression.getValue(new StandardEvaluationContext(rootObject));
+                value = expression.getValue(new StandardEvaluationContext(rootObject)).toString();
             }
         }
         return value;
@@ -122,11 +122,7 @@ public class AuditAspect {
         Map<String, Object> parameterMap = new HashMap<>();
 
         for (int i = 0; i < parameterNames.length; i++) {
-            if (i < values.length) {
-                parameterMap.put(parameterNames[i], values[i]);
-            } else {
-                parameterMap.put(parameterNames[i], null);
-            }
+            parameterMap.put(parameterNames[i], values[i]);
         }
         return parameterMap;
     }
