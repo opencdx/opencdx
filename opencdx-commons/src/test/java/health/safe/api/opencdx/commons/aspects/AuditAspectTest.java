@@ -18,6 +18,7 @@ package health.safe.api.opencdx.commons.aspects;
 import static org.mockito.Mockito.mock;
 
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -80,7 +81,6 @@ class AuditAspectTest {
         Assertions.assertEquals("actor", attr.getActor());
         Assertions.assertEquals("patient", attr.getPatient());
         AuditAspect.removeCurrentThreadInfo();
-        attr = AuditAspect.getCurrentThreadInfo();
-        Assertions.assertNull(attr);
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
 }

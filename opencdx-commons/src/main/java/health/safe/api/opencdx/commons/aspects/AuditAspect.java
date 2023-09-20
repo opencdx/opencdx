@@ -18,6 +18,7 @@ package health.safe.api.opencdx.commons.aspects;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -134,10 +135,16 @@ public class AuditAspect {
     /**
      * Static Method to getting the current thread information stored for audit.
      * @return RequestActorAttributes with the actor and patient informaiton.
+     * @exception OpenCDXBadRequest Thrown when not audit information for thread is found.
      */
-    public static RequestActorAttributes getCurrentThreadInfo() {
+    public static RequestActorAttributes getCurrentThreadInfo() throws OpenCDXBadRequest {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
-        return userInfo.get(Thread.currentThread().getId());
+        RequestActorAttributes attributes = userInfo.get(Thread.currentThread().getId());
+
+        if (attributes == null) {
+            throw new OpenCDXBadRequest("AuditAspect", 1, "Failed to load Current Thread Information.");
+        }
+        return attributes;
     }
 
     /**

@@ -17,24 +17,34 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
+import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ActiveProfiles("noop")
+@SpringBootTest(classes = {CommonsConfig.class})
+@ExtendWith(SpringExtension.class)
 class NoOpOpenCDXMessageServiceImplTest {
 
-    NoOpOpenCDXMessageServiceImpl noOpOpenCDXMessageService;
+    @Autowired
+    OpenCDXMessageService openCDXMessageService;
 
-    @BeforeEach
-    void setup() {
-        this.noOpOpenCDXMessageService = new NoOpOpenCDXMessageServiceImpl();
-    }
 
     @Test
     void subscribe() {
         Assertions.assertDoesNotThrow(
-                () -> this.noOpOpenCDXMessageService.subscribe("SUBSCRIBE-TEST", new OpenCDXMessageHandler() {
+                () -> this.openCDXMessageService.subscribe("SUBSCRIBE-TEST", new OpenCDXMessageHandler() {
                     @Override
                     public void receivedMessage(byte[] message) {}
                 }));
@@ -42,11 +52,11 @@ class NoOpOpenCDXMessageServiceImplTest {
 
     @Test
     void unSubscribe() {
-        Assertions.assertDoesNotThrow(() -> this.noOpOpenCDXMessageService.unSubscribe("UN-SUBSCRIBE-TEST"));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMessageService.unSubscribe("UN-SUBSCRIBE-TEST"));
     }
 
     @Test
     void send() {
-        Assertions.assertDoesNotThrow(() -> this.noOpOpenCDXMessageService.send("SEND-TEST", "TEST-DATA"));
+        Assertions.assertDoesNotThrow(() -> this.openCDXMessageService.send("SEND-TEST", "TEST-DATA"));
     }
 }

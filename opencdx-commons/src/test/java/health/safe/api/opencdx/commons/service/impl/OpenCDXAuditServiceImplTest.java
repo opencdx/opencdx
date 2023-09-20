@@ -16,10 +16,14 @@
 package health.safe.api.opencdx.commons.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
+import health.safe.api.opencdx.commons.aspects.AuditAspect;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import java.util.UUID;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +39,22 @@ class OpenCDXAuditServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    
+    @BeforeEach
+    void setup() {
+        AuditAspect.setCurrentThreadInfo(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+    }
+    
+    @AfterEach
+    void tearDown() {
+        AuditAspect.removeCurrentThreadInfo();
+    }
+    
     @Test
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userLoginSucceed(
-                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+                     AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
@@ -47,14 +62,14 @@ class OpenCDXAuditServiceImplTest {
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userLoginFailure(
-                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
+                     AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
         });
     }
 
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLogout(UUID.randomUUID().toString(), AgentType.AGENT_TYPE_SYSTEM, "purpose");
+            this.openCDXAuditService.userLogout( AgentType.AGENT_TYPE_SYSTEM, "purpose");
         });
     }
 
@@ -62,10 +77,9 @@ class OpenCDXAuditServiceImplTest {
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userAccessChange(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -73,10 +87,9 @@ class OpenCDXAuditServiceImplTest {
     void passwordChange() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.passwordChange(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -84,10 +97,9 @@ class OpenCDXAuditServiceImplTest {
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiAccessed(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -95,10 +107,9 @@ class OpenCDXAuditServiceImplTest {
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiCreated(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -106,10 +117,9 @@ class OpenCDXAuditServiceImplTest {
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiUpdated(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -117,10 +127,9 @@ class OpenCDXAuditServiceImplTest {
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiDeleted(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -128,10 +137,9 @@ class OpenCDXAuditServiceImplTest {
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiAccessed(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -139,10 +147,9 @@ class OpenCDXAuditServiceImplTest {
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiCreated(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -150,10 +157,9 @@ class OpenCDXAuditServiceImplTest {
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiUpdated(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -161,10 +167,9 @@ class OpenCDXAuditServiceImplTest {
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiDeleted(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose",
-                    UUID.randomUUID().toString());
+                    "purpose");
         });
     }
 
@@ -172,10 +177,10 @@ class OpenCDXAuditServiceImplTest {
     void communication() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.communication(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    UUID.randomUUID().toString(),
+                    
                     "COMMUNICATION: id",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
@@ -185,7 +190,7 @@ class OpenCDXAuditServiceImplTest {
     void config() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
+                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     "COMMUNICATION: 123",

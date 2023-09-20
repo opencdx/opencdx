@@ -26,4 +26,14 @@ class RequestActorAttributesTest {
         Assertions.assertEquals("actor", attr.getActor());
         Assertions.assertEquals("patient", attr.getPatient());
     }
+
+    @Test
+    void testRequestActorAttributesDefaultConstructor() {
+        RequestActorAttributes attributes = new RequestActorAttributes();
+        attributes.setActor("bob");
+        attributes.setPatient("jim");
+
+        Assertions.assertEquals("bob",attributes.getActor());
+        Assertions.assertEquals("jim",attributes.getPatient());
+    }
 }
