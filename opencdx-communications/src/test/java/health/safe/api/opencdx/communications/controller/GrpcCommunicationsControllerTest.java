@@ -17,8 +17,8 @@ package health.safe.api.opencdx.communications.controller;
 
 import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;

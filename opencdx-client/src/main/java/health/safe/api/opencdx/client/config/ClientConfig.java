@@ -17,9 +17,9 @@ package health.safe.api.opencdx.client.config;
 
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import health.safe.api.opencdx.client.service.HelloworldClient;
-import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
 import health.safe.api.opencdx.client.service.impl.HelloworldClientImpl;
-import health.safe.api.opencdx.client.service.impl.OpenCDXAuditServiceImpl;
+import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientImpl;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -56,9 +56,9 @@ public class ClientConfig {
     @Bean
     @Description("gRPC Client for Audit")
     @ConditionalOnProperty(prefix = "opencdx.client", name = "audit", havingValue = "true")
-    OpenCDXAuditService auditClient(
+    OpenCDXAuditClient auditClient(
             @Value("${spring.application.name}") String applicationName,
             @GrpcClient("audit-service") AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub) {
-        return new OpenCDXAuditServiceImpl(applicationName, auditServiceBlockingStub);
+        return new OpenCDXAuditClientImpl(applicationName, auditServiceBlockingStub);
     }
 }

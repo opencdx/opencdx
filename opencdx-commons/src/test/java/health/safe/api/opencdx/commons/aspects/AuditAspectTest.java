@@ -15,97 +15,55 @@
  */
 package health.safe.api.opencdx.commons.aspects;
 
+import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
-import java.util.Map;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
+import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ActiveProfiles("noop")
+@Import(AnnotationAwareAspectJAutoProxyCreator.class)
+@SpringBootTest(
+        classes = {
+            CommonsConfig.class,
+            AuditAspect.class,
+            AnnotationAwareAspectJAutoProxyCreator.class,
+            AuditAspectTestInstance.class
+        })
+@ExtendWith(SpringExtension.class)
 class AuditAspectTest {
-
-    @InjectMocks
-    AuditAspect auditAspect;
-
-    @Mock
-    ProceedingJoinPoint proceedingJoinPoint;
-
-    @Mock
-    JoinPoint joinPoint;
-
-    @Mock
-    PutMapping putMapping;
-
-    @Mock
-    PostMapping postMapping;
-
-    @Mock
-    GetMapping getMapping;
-
-    @Mock
-    DeleteMapping deleteMapping;
-
-    @Mock
-    MethodSignature methodSignature;
-
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.openMocks(this);
-        AuditAspect.removeCurrentThreadInfo();
+    @Test
+    void testOpenCDXAuditUser() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        proxy.testAnnotation("Bob", "Jim");
+        Assertions.assertEquals("Bob", proxy.getInfo().getActor());
+        Assertions.assertEquals("Jim", proxy.getInfo().getPatient());
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
 
     @Test
-    void testAuditAspectBeforeAfter() {
-
-        String[] parameterNames = {"actor", "patient"};
-        Object[] values = {"the-actor", "the-patient"};
-        AuditAspectServiceTest testService = new AuditAspectServiceTest("actor", "patient");
-        Mockito.when(proceedingJoinPoint.getSignature()).thenReturn(methodSignature);
-        Mockito.when(methodSignature.getParameterNames()).thenReturn(parameterNames);
-        Mockito.when(proceedingJoinPoint.getArgs()).thenReturn(values);
-        auditAspect.auditUserBefore(proceedingJoinPoint, testService);
-        RequestActorAttributes attr = AuditAspect.getCurrentThreadInfo();
-        Assertions.assertNotNull(attr);
-        Assertions.assertNotEquals("this-actor", attr.getActor());
-        auditAspect.auditUserAfter(proceedingJoinPoint, testService);
-        attr = AuditAspect.getCurrentThreadInfo();
-        Assertions.assertNull(attr);
-    }
-
-    @Test
-    void testCreateParameterMap() {
-        String[] parameterNames = {"actor", "patient"};
-        Object[] values = {"the-actor", "the-patient"};
-        Map<String, Object> parameterMap = auditAspect.createParameterMap(parameterNames, values);
-        Assertions.assertNotNull(parameterMap);
-        Object values1[] = {"the-actor"};
-        parameterMap = auditAspect.createParameterMap(parameterNames, values1);
-        Assertions.assertNotNull(parameterMap);
-    }
-
-    @Test
-    void testGetValueFromParameter() {
-        String[] parameterNames = {"actor", "patient"};
-        Object[] values = {"the-actor", "the-patient"};
-        Map<String, Object> parameterMap = auditAspect.createParameterMap(parameterNames, values);
-        Object value = auditAspect.getValueFromParameter("actor", parameterMap);
-        Assertions.assertNotNull(value);
-        value = auditAspect.getValueFromParameter("fred", parameterMap);
-        Assertions.assertNull(value);
-        parameterMap.put("fred", parameterMap);
-        value = auditAspect.getValueFromParameter("fred", parameterMap);
-        Assertions.assertEquals(parameterMap, value);
-        value = new RequestActorAttributes("fred", "test");
-        parameterMap.put("test.getActor()", value);
-        value = auditAspect.getValueFromParameter("test.getActor()", parameterMap);
-        Assertions.assertEquals("fred", value);
+    void testOpenCDXAuditUserChild() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        proxy.testAnnotationChild(new RequestActorAttributes("Bob", "Jim"));
+        Assertions.assertEquals("Bob", proxy.getInfo().getActor());
+        Assertions.assertEquals("Jim", proxy.getInfo().getPatient());
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
 
     @Test
@@ -116,7 +74,39 @@ class AuditAspectTest {
         Assertions.assertEquals("actor", attr.getActor());
         Assertions.assertEquals("patient", attr.getPatient());
         AuditAspect.removeCurrentThreadInfo();
-        attr = AuditAspect.getCurrentThreadInfo();
-        Assertions.assertNull(attr);
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
+    }
+
+    @Test
+    void testOpenCDXAuditUserFail() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail(attributes));
+    }
+
+    @Test
+    void testOpenCDXAuditUserFail2() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail2(attributes));
+    }
+
+    @Test
+    void testOpenCDXAuditUserFail3() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail3(attributes));
     }
 }

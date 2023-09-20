@@ -15,8 +15,6 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
@@ -29,19 +27,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-class OpenCDXAuditServiceImplTest {
+class OpenCDXAuditClientImplTest {
 
     @Mock
     AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
 
-    OpenCDXAuditServiceImpl openCDXAuditService;
+    OpenCDXAuditClientImpl openCDXAuditService;
 
     @BeforeEach
     void setUp() {
         this.auditServiceBlockingStub = Mockito.mock(AuditServiceGrpc.AuditServiceBlockingStub.class);
         Mockito.when(this.auditServiceBlockingStub.event(Mockito.any(AuditEvent.class)))
                 .thenReturn(AuditStatus.newBuilder().setSuccess(true).build());
-        this.openCDXAuditService = new OpenCDXAuditServiceImpl("test", this.auditServiceBlockingStub);
+        this.openCDXAuditService = new OpenCDXAuditClientImpl("test", this.auditServiceBlockingStub);
     }
 
     @AfterEach
@@ -52,21 +50,23 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginSucceed(UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.userLoginSucceed(
+                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginFailure(UUID.randomUUID(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
+            this.openCDXAuditService.userLoginFailure(
+                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
         });
     }
 
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLogout(UUID.randomUUID(), AgentType.AGENT_TYPE_SYSTEM, "purpose");
+            this.openCDXAuditService.userLogout(UUID.randomUUID().toString(), AgentType.AGENT_TYPE_SYSTEM, "purpose");
         });
     }
 
@@ -74,7 +74,10 @@ class OpenCDXAuditServiceImplTest {
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userAccessChange(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -82,7 +85,10 @@ class OpenCDXAuditServiceImplTest {
     void passwordChange() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.passwordChange(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -90,7 +96,10 @@ class OpenCDXAuditServiceImplTest {
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiAccessed(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -98,7 +107,10 @@ class OpenCDXAuditServiceImplTest {
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiCreated(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -106,7 +118,10 @@ class OpenCDXAuditServiceImplTest {
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiUpdated(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -114,7 +129,10 @@ class OpenCDXAuditServiceImplTest {
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiDeleted(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -122,7 +140,10 @@ class OpenCDXAuditServiceImplTest {
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiAccessed(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -130,7 +151,10 @@ class OpenCDXAuditServiceImplTest {
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiCreated(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -138,7 +162,10 @@ class OpenCDXAuditServiceImplTest {
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiUpdated(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -146,7 +173,10 @@ class OpenCDXAuditServiceImplTest {
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiDeleted(
-                    UUID.randomUUID(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", UUID.randomUUID());
+                    UUID.randomUUID().toString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    UUID.randomUUID().toString());
         });
     }
 
@@ -154,10 +184,10 @@ class OpenCDXAuditServiceImplTest {
     void communication() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.communication(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
@@ -167,7 +197,7 @@ class OpenCDXAuditServiceImplTest {
     void config() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     "COMMUNICATION: 123",

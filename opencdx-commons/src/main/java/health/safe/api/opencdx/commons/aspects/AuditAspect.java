@@ -15,10 +15,10 @@
  */
 package health.safe.api.opencdx.commons.aspects;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,25 +35,38 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * Spring AOP implementation for Audit Messages.
+ */
 @Slf4j
 @Aspect
 @EnableAspectJAutoProxy
 @Component
 public class AuditAspect {
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
+    private static final String DOMAIN = "AuditAspect";
     private final ExpressionParser parser;
 
     @Autowired
     ObjectMapper objectMapper;
 
+    /**
+     * Default constructor sets up the Expression Parser to be used.
+     */
     AuditAspect() {
         this.parser = new SpelExpressionParser();
     }
 
+    /**
+     * The OpenCDXAuditUser before processor
+     * @param joinPoint The JoinPoint in the processing
+     * @param openCDXAuditUser The annotation for retrieving values.
+     */
     @Order(Ordered.LOWEST_PRECEDENCE)
     @Before(value = "@annotation(openCDXAuditUser)")
     public void auditUserBefore(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
@@ -61,13 +74,19 @@ public class AuditAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Map<String, Object> parameterMap = this.createParameterMap(signature.getParameterNames(), joinPoint.getArgs());
 
-        String actor =
-                getValueFromParameter(openCDXAuditUser.actor(), parameterMap).toString();
-        String patient =
-                getValueFromParameter(openCDXAuditUser.patient(), parameterMap).toString();
+        String actor = getValueFromParameter(openCDXAuditUser.actor(), parameterMap);
+        String patient = getValueFromParameter(openCDXAuditUser.patient(), parameterMap);
+        if (actor == null || patient == null) {
+            throw new OpenCDXBadRequest(DOMAIN, 2, "Failed to load Actor/Patient.");
+        }
         AuditAspect.setCurrentThreadInfo(actor, patient);
     }
 
+    /**
+     * The OpenCDXAuditUser after processor
+     * @param joinPoint The JoinPoint in the processing
+     * @param openCDXAuditUser The annotation for retrieving values.
+     */
     @Order(Ordered.LOWEST_PRECEDENCE)
     @After(value = "@annotation(openCDXAuditUser)")
     public void auditUserAfter(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
@@ -80,17 +99,28 @@ public class AuditAspect {
      * @param parameterMap List of parameters being passed in.
      * @return Object mapping to the key
      */
-    protected Object getValueFromParameter(String key, Map<String, Object> parameterMap) {
-        Object value = null;
-        Object rootObject = parameterMap.get(key);
+    protected String getValueFromParameter(String key, Map<String, Object> parameterMap) {
+        String value = null;
+
+        String search = key;
+        if (key.contains(".")) {
+            search = key.substring(0, key.indexOf('.'));
+        }
+
+        Object rootObject = parameterMap.get(search);
         if (rootObject != null) {
-            if (rootObject instanceof String) {
-                value = rootObject;
-            } else if (!key.contains(".")) {
-                value = rootObject;
+            if (rootObject instanceof String s) {
+                value = s;
             } else {
-                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.') + 1));
-                value = expression.getValue(new StandardEvaluationContext(rootObject));
+                try {
+                    Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.') + 1));
+                    Object obj = expression.getValue(new StandardEvaluationContext(rootObject));
+                    if (obj != null) {
+                        value = obj.toString();
+                    }
+                } catch (SpelEvaluationException e) {
+                    throw new OpenCDXBadRequest(DOMAIN, 3, "Failed to resolve parameter.", e);
+                }
             }
         }
         return value;
@@ -101,26 +131,36 @@ public class AuditAspect {
      * @param parameterNames Array of names for the parameters
      * @param values Values of the parameteres
      * @return Map containing the associate parameter to values
-     * @throws JsonProcessingException Error processing data.
      */
     protected Map<String, Object> createParameterMap(String[] parameterNames, Object[] values) {
         Map<String, Object> parameterMap = new HashMap<>();
 
         for (int i = 0; i < parameterNames.length; i++) {
-            if (i < values.length) {
-                parameterMap.put(parameterNames[i], values[i]);
-            } else {
-                parameterMap.put(parameterNames[i], null);
-            }
+            parameterMap.put(parameterNames[i], values[i]);
         }
         return parameterMap;
     }
 
-    public static RequestActorAttributes getCurrentThreadInfo() {
+    /**
+     * Static Method to getting the current thread information stored for audit.
+     * @return RequestActorAttributes with the actor and patient informaiton.
+     * @exception OpenCDXBadRequest Thrown when not audit information for thread is found.
+     */
+    public static RequestActorAttributes getCurrentThreadInfo() throws OpenCDXBadRequest {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
-        return userInfo.get(Thread.currentThread().threadId());
+        RequestActorAttributes attributes = userInfo.get(Thread.currentThread().threadId());
+
+        if (attributes == null) {
+            throw new OpenCDXBadRequest(DOMAIN, 1, "Failed to load Current Thread Information.");
+        }
+        return attributes;
     }
 
+    /**
+     * Sets the current thread information for audit.
+     * @param actor String containing the actor id
+     * @param patient String containing the patient id
+     */
     public static void setCurrentThreadInfo(String actor, String patient) {
         log.debug(
                 "Thread: {} being set with actor {}, patient {}",
@@ -130,6 +170,9 @@ public class AuditAspect {
         userInfo.put(Thread.currentThread().threadId(), new RequestActorAttributes(actor, patient));
     }
 
+    /**
+     * Clears the current thread information.
+     */
     public static void removeCurrentThreadInfo() {
         userInfo.remove(Thread.currentThread().threadId());
     }

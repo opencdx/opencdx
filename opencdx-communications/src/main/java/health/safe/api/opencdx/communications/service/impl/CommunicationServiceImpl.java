@@ -19,10 +19,10 @@ import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.client.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
@@ -86,7 +86,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating Email Template",
                     emailTemplate.getTemplateId(),
@@ -124,7 +124,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating Email Template",
                     emailTemplate.getTemplateId(),
@@ -148,7 +148,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Email Template",
                     templateRequest.getTemplateId(),
@@ -170,7 +170,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating SMS Template",
                     smsTemplate.getTemplateId(),
@@ -207,7 +207,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating SMS Template",
                     smsTemplate.getTemplateId(),
@@ -231,7 +231,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting SMS Template",
                     templateRequest.getTemplateId(),
@@ -252,7 +252,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating Notification Event",
                     notificationEvent.getEventId(),
@@ -291,7 +291,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating Notification Event",
                     notificationEvent.getEventId(),
@@ -315,7 +315,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Notification Event",
                     templateRequest.getTemplateId(),
@@ -375,10 +375,10 @@ public class CommunicationServiceImpl implements CommunicationService {
 
         try {
             this.openCDXAuditService.communication(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     notificationEvent.getEventDescription(),
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {

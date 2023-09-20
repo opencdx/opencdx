@@ -16,7 +16,7 @@
 package health.safe.api.opencdx.helloworld.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
-import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
 import health.safe.api.opencdx.helloworld.repository.PersonRepository;
@@ -55,7 +55,10 @@ public class HelloWorldServiceImpl implements HelloWorldService {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
         this.openCDXAuditService.piiCreated(
-                UUID.randomUUID(), AgentType.AGENT_TYPE_SYSTEM, "purpose", UUID.randomUUID());
+                UUID.randomUUID().toString(),
+                AgentType.AGENT_TYPE_SYSTEM,
+                "purpose",
+                UUID.randomUUID().toString());
         return String.format("Hello %s!", request.getName().trim());
     }
 }
