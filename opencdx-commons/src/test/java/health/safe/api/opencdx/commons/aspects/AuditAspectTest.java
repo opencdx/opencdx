@@ -15,9 +15,8 @@
  */
 package health.safe.api.opencdx.commons.aspects;
 
-import static org.mockito.Mockito.mock;
-
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
+import java.util.Map;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -25,9 +24,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,11 +64,53 @@ class AuditAspectTest {
 
     @SuppressWarnings("java:S2699")
     @Test
-    void testAuditAspect() {
+    void testAuditAspectBeforeAfter() {
 
-        ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        String[] parameterNames = {"actor", "patient"};
+        Object[] values = {"the-actor", "the-patient"};
+        AuditAspectServiceTest testService = new AuditAspectServiceTest("actor", "patient");
+        Mockito.when(proceedingJoinPoint.getSignature()).thenReturn(methodSignature);
+        Mockito.when(methodSignature.getParameterNames()).thenReturn(parameterNames);
+        Mockito.when(proceedingJoinPoint.getArgs()).thenReturn(values);
+        auditAspect.auditUserBefore(proceedingJoinPoint, testService);
+        RequestActorAttributes attr = AuditAspect.getCurrentThreadInfo();
+        Assertions.assertNotNull(attr);
+        Assertions.assertNotEquals("this-actor", attr.getActor());
+        auditAspect.auditUserAfter(proceedingJoinPoint, testService);
+        attr = AuditAspect.getCurrentThreadInfo();
+        Assertions.assertNull(attr);
     }
+
+    @Test
+    void testCreateParameterMap() {
+        String[] parameterNames = {"actor", "patient"};
+        Object[] values = {"the-actor", "the-patient"};
+        Map<String, Object> parameterMap = auditAspect.createParameterMap(parameterNames, values);
+        Assertions.assertNotNull(parameterMap);
+        Object values1[] = {"the-actor"};
+        parameterMap = auditAspect.createParameterMap(parameterNames, values1);
+        Assertions.assertNotNull(parameterMap);
+    }
+
+    @Test
+    void testGetValueFromParameter() {
+        String[] parameterNames = {"actor", "patient"};
+        Object[] values = {"the-actor", "the-patient"};
+        Map<String,Object> parameterMap = auditAspect.createParameterMap(parameterNames, values);
+        Object value = auditAspect.getValueFromParameter("actor", parameterMap);
+        Assertions.assertNotNull(value);
+        value =  auditAspect.getValueFromParameter("fred", parameterMap);
+        Assertions.assertNull(value);
+        value = parameterMap;
+        parameterMap.put("actor", value);
+        value =  auditAspect.getValueFromParameter("actor", parameterMap);
+        Object value1 =  new RequestActorAttributes("fred", "test");
+        parameterMap.put("test.bytes.length", value1);
+        parameterMap.put(".actor", value1);
+        value =  auditAspect.getValueFromParameter("test.bytes.length", parameterMap);
+    }
+
+
 
     @Test
     void testThreadInfo() {
