@@ -29,6 +29,7 @@ public interface CommunicationService {
      * Create an Email Template
      * @param emailTemplate EmailTemplate to create.
      * @return the created EmailTemplate.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable;
 
@@ -45,6 +46,7 @@ public interface CommunicationService {
      * @param emailTemplate Updated EmailTemplate.
      * @return updated EmailTemplate.
      * @exception OpenCDXFailedPrecondition Missing template id.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition;
 
@@ -52,6 +54,7 @@ public interface CommunicationService {
      * Delete an Email Template
      * @param templateRequest Request ID of the email template to delete
      * @return SuccessResponse indicating if the action was successful.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest);
 
@@ -59,6 +62,7 @@ public interface CommunicationService {
      * Create an SMS Template
      * @param smsTemplate SMSTemplate to create
      * @return the created SMSTemplate.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     SMSTemplate createSMSTemplate(SMSTemplate smsTemplate);
 
@@ -75,13 +79,15 @@ public interface CommunicationService {
      * @param smsTemplate SMSTemplate to update.
      * @return the updated SMSTemplate.
      * @exception OpenCDXFailedPrecondition Missing template id.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition;
 
     /**
      * Delete SMS Template
      * @param templateRequest Request ID of the SMSTemplate to delete.
-     * @return SuccessResponse indicating if the action was successsful.
+     * @return SuccessResponse indicating if the action was successful.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest);
 
@@ -89,6 +95,7 @@ public interface CommunicationService {
      * Create a Notification Event
      * @param notificationEvent NotificationEvent to create.
      * @return the created NotificationEvent.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     NotificationEvent createNotificationEvent(NotificationEvent notificationEvent);
 
@@ -105,6 +112,7 @@ public interface CommunicationService {
      * @param notificationEvent NotificationEvent to update.
      * @return the updated NotificationEvent.
      * @exception OpenCDXFailedPrecondition Missing event id.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXFailedPrecondition;
 
@@ -112,6 +120,7 @@ public interface CommunicationService {
      * Delete Notification Event
      * @param templateRequest Request ID of NotificationEvent to delete.
      * @return SuccessResponse indicating if the action was successful.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
     SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest);
 
@@ -119,8 +128,11 @@ public interface CommunicationService {
      * Send Notification
      * @param notification Notification information to trigger.
      * @return SuccessResponse indicating if the action was successful.
+     * @exception OpenCDXNotFound Template not found
+     * @exception OpenCDXFailedPrecondition Missing variable from data for substitution.
+     * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse sendNotification(Notification notification);
+    SuccessResponse sendNotification(Notification notification) throws OpenCDXFailedPrecondition, OpenCDXNotFound;
 
     /**
      * List of all SMSTemplates

@@ -15,10 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
-import cdx.open_communication.v2alpha.EmailTemplate;
-import cdx.open_communication.v2alpha.NotificationEvent;
-import cdx.open_communication.v2alpha.SMSTemplate;
-import cdx.open_communication.v2alpha.TemplateRequest;
+import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
@@ -44,6 +41,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -86,7 +88,6 @@ class CommunicationServiceImplTest {
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
                 objectMapper);
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
     }
 
     @AfterEach
@@ -99,7 +100,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void createEmailTemplate() {
+    void createEmailTemplate() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.createEmailTemplate(emailTemplate);
@@ -107,7 +109,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void updateEmailTemplate() {
+    void updateEmailTemplate() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
                 .setTemplateId(new ObjectId().toHexString())
                 .build();
@@ -117,7 +120,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void updateEmailTemplateFail() {
+    void updateEmailTemplateFail() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.updateEmailTemplate(emailTemplate);
@@ -125,7 +129,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void deleteEmailTemplate() {
+    void deleteEmailTemplate() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.deleteEmailTemplate(templateRequest);
@@ -133,7 +138,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void createSMSTemplate() {
+    void createSMSTemplate() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.createSMSTemplate(smsTemplate);
@@ -141,7 +147,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void updateSMSTemplate() {
+    void updateSMSTemplate() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         SMSTemplate smsTemplate = SMSTemplate.newBuilder()
                 .setTemplateId(new ObjectId().toHexString())
                 .build();
@@ -151,7 +158,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void updateSMSTemplateFail() {
+    void updateSMSTemplateFail() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.updateSMSTemplate(smsTemplate);
@@ -159,7 +167,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void deleteSMSTemplate() {
+    void deleteSMSTemplate() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.deleteSMSTemplate(templateRequest);
@@ -167,7 +176,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void createNotificationEvent() {
+    void createNotificationEvent() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.createNotificationEvent(notificationEvent);
@@ -175,7 +185,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void updateNotificationEvent() {
+    void updateNotificationEvent() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.newBuilder()
                 .setEventId(new ObjectId().toHexString())
                 .build();
@@ -185,7 +196,8 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void updateNotificationEventFail() {
+    void updateNotificationEventFail() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.updateNotificationEvent(notificationEvent);
@@ -193,10 +205,77 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void deleteNotificationEvent() {
+    void deleteNotificationEvent() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.deleteNotificationEvent(templateRequest);
+        });
+    }
+
+    @Test
+    void sendNotificationFail() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
+
+        Notification notification = Notification.newBuilder().setEventId(new ObjectId().toHexString()).build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
+            this.communicationService.sendNotification(notification);
+        });
+    }
+
+    @Test
+    void sendNotificationHtmlProcess() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(new ObjectId());
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
+        smsModel.setMessage("This is a test string for SMS");
+        smsModel.setVariables(List.of("A","B","C"));
+
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(smsModel));
+
+        Map<String,String> variablesMap = new HashMap<>();
+        variablesMap.put("A","Alpha");
+        variablesMap.put("B","Beta");
+        variablesMap.put("C","Gnarly");
+
+        Notification notification = Notification.newBuilder().setEventId(new ObjectId().toHexString()).putAllVariables(variablesMap).build();
+        Assertions.assertDoesNotThrow(() -> {
+            this.communicationService.sendNotification(notification);
+        });
+    }
+    @Test
+    void sendNotificationHtmlProcessFail() throws JsonProcessingException {
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(new ObjectId());
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
+        smsModel.setMessage("This is a test string for SMS");
+        smsModel.setVariables(List.of("A","B","C"));
+
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(smsModel));
+
+        Map<String,String> variablesMap = new HashMap<>();
+        variablesMap.put("A","Alpha");
+        variablesMap.put("C","Gnarly");
+
+        Notification notification = Notification.newBuilder().setEventId(new ObjectId().toHexString()).putAllVariables(variablesMap).build();
+        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
+            this.communicationService.sendNotification(notification);
         });
     }
 }
