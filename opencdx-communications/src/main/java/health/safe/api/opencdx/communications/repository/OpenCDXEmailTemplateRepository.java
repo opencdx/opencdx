@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.helloworld.repository;
+package health.safe.api.opencdx.communications.repository;
 
-import health.safe.api.opencdx.helloworld.model.Person;
+import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for interacting the "person" records
+ * MongoRepository for the email-template collection.
  */
 @Repository
-public interface PersonRepository extends MongoRepository<Person, ObjectId> {}
+public interface OpenCDXEmailTemplateRepository extends MongoRepository<OpenCDXEmailTemplateModel, ObjectId> {}

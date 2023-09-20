@@ -15,9 +15,10 @@
  */
 package health.safe.api.opencdx.commons.service.impl;
 
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditStatus;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditServiceAbstract;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
-import health.safe.api.opencdx.grpc.audit.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

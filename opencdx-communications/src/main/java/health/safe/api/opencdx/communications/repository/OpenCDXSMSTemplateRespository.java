@@ -15,12 +15,13 @@
  */
 package health.safe.api.opencdx.communications.repository;
 
-import health.safe.api.opencdx.communications.model.Person;
+import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for interacting the "person" records
+ * MongoRepository for the sms-template collection.
  */
 @Repository
-public interface PersonRepository extends MongoRepository<Person, Long> {}
+public interface OpenCDXSMSTemplateRespository extends MongoRepository<OpenCDXSMSTemplateModel, ObjectId> {}

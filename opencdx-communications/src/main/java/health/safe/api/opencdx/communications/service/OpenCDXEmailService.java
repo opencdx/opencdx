@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service;
 
-import health.safe.api.opencdx.grpc.communication.Attachment;
+import cdx.open_communication.v2alpha.Attachment;
 import java.util.List;
 
 /**

@@ -16,6 +16,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
 
+    implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
     implementation "org.springframework:spring-context:${springContextVersion}"
     implementation "org.springframework:spring-context-support:${springContextVersion}"

@@ -15,9 +15,9 @@
  */
 package health.safe.api.opencdx.client.config;
 
+import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.client.service.OpenCDXAuditService;
-import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;

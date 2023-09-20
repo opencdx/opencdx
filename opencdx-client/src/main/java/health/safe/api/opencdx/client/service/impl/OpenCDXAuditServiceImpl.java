@@ -15,9 +15,9 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
-import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
-import health.safe.api.opencdx.grpc.audit.AuditStatus;
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditServiceGrpc;
+import cdx.open_audit.v2alpha.AuditStatus;
 
 /**
  * gRPC Client implementation of the Audit System.

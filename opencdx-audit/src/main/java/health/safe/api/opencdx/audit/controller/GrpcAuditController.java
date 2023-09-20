@@ -15,10 +15,10 @@
  */
 package health.safe.api.opencdx.audit.controller;
 
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditServiceGrpc;
+import cdx.open_audit.v2alpha.AuditStatus;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
-import health.safe.api.opencdx.grpc.audit.AuditServiceGrpc;
-import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;

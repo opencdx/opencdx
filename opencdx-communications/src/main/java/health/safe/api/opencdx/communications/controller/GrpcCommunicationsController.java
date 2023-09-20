@@ -15,8 +15,8 @@
  */
 package health.safe.api.opencdx.communications.controller;
 
+import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.communications.service.CommunicationService;
-import health.safe.api.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
