@@ -200,8 +200,6 @@ for arg in "$@"; do
         ;;
     --check)
         check=true
-        no_menu=true
-        clean=true;
         ;;
     --help)
         print_usage
@@ -234,6 +232,14 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
     fi
 fi
 
+
+if [ "$check" = true ]; then
+    echo "Performing Check on JavaDoc"
+    ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
+    echo
+    echo "Project Passes all checks"
+fi
+echo
 # Main Menu
 if [ "$no_menu" = false ]; then
     while true; do
@@ -274,8 +280,3 @@ if [ "$open_all" = true ]; then
     open_reports "proto"
 fi
 
-if [ "$check" = true ]; then
-    echo "Performing Check on JavaDoc"
-    ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
-    echo "Project Passes all checks"
-fi

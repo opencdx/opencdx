@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.client.service;
 
-import health.safe.api.opencdx.grpc.audit.AgentType;
+import cdx.open_audit.v2alpha.AgentType;
 import java.util.UUID;
 
 /**

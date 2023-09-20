@@ -15,9 +15,9 @@
  */
 package health.safe.api.opencdx.audit.controller;
 
+import cdx.open_audit.v2alpha.AuditEvent;
+import cdx.open_audit.v2alpha.AuditStatus;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
-import health.safe.api.opencdx.grpc.audit.AuditStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -2,6 +2,8 @@ syntax = "proto3";
 option java_multiple_files = true;
 package health.safe.api.opencdx.grpc.helloworld;
 
+import "google/protobuf/wrappers.proto";
+
 // The greeting service definition.
 service Greeter {
   // This is the description for the grpc SayHello Greeter Service. This takes in a HelloRequest as message and returns

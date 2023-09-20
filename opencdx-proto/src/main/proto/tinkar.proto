@@ -2,6 +2,8 @@ syntax = "proto3";
 option java_multiple_files = true;
 package health.safe.api.opencdx.grpc.tinkar;
 
+import "google/protobuf/wrappers.proto";
+
 // The greeting service definition.
 service Tinkar {
   // Sends a greeting

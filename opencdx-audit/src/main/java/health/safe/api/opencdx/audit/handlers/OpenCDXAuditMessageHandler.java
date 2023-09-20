@@ -15,11 +15,11 @@
  */
 package health.safe.api.opencdx.audit.handlers;
 
+import cdx.open_audit.v2alpha.AuditEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
-import health.safe.api.opencdx.grpc.audit.AuditEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;

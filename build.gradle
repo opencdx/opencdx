@@ -70,7 +70,8 @@ tasks.register("jacocoRootReport", JacocoReport) {
 jacocoRootReport {
     classDirectories.setFrom(files(classDirectories.files.collect {
         fileTree(dir: it, exclude: [
-                "**/grpc/**/*.class"
+                "**/grpc/**/*.class",
+                "cdx/**/v2alpha/*.class"
         ])
     }))
 }
@@ -108,6 +109,7 @@ otsSwInfo {
 
 def exportedProjects = [
         ":opencdx-commons",
+        ":opencdx-communications",
         ":opencdx-helloworld",
         ":opencdx-client",
         ":opencdx-tinkar",
@@ -179,7 +181,8 @@ allprojects {
         afterEvaluate {
             classDirectories.setFrom(files(classDirectories.files.collect {
                 fileTree(dir: it, exclude: [
-                        "**/Application.class"
+                        "**/Application.class",
+                        "cdx/**/v2alpha/*.class"
                 ])
             }))
         }
@@ -209,7 +212,7 @@ allprojects {
         exclude "build/generated/*"
     }
     sonarlint {
-        excludeRules = ["java:S4032","java:S2187"]
+        excludeRules = ["java:S4032","java:S2187","java:S1135"]
         includeRules = []
         ignoreFailures = false
         maxIssues = 0
