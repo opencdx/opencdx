@@ -13,6 +13,8 @@ opencdx/audit
 - [All Test Results](build/reports/tests/test/index.html)
 - [All Code Coverage](build/reports/jacoco/test/html/index.html)
 - [Sonarlint Report](build/reports/sonarlint/sonarlintMain.html)
+- [API-DOCS](http://localhost:8280/api-docs)
+- [API-DOCS YAML](http://localhost:8280/api-docs.yaml)
 
 ## Interfaces
 **OpenCDXAuditMessageHandler** - Handler for receiving messages from the OpenCDXMessageService, then processes them into an AuditEvent object. Currently this Interface outputs ALL AuditEvents to the log. A production implementation would want to implement a complete solution here to properly store and process the AuditEvent records.
