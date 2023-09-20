@@ -16,7 +16,6 @@
 package health.safe.api.opencdx.commons.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.UUID;
 import lombok.*;
 
 @Builder

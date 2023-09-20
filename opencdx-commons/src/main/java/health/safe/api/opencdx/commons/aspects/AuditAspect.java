@@ -17,19 +17,17 @@ package health.safe.api.opencdx.commons.aspects;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -58,21 +56,23 @@ public class AuditAspect {
     }
 
     @Order(Ordered.LOWEST_PRECEDENCE)
-    @Around(value = "@annotation(health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser)")
-    public void auditUser(ProceedingJoinPoint proceedingJoinPoint, OpenCDXAuditUser openCDXAuditUser) throws Throwable {
+    @Before(value = "@annotation(openCDXAuditUser)")
+    public void auditUserBefore(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
 
-        MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
-        Map<String, Object> parameterMap = this.createParameterMap(signature.getParameterNames(), proceedingJoinPoint.getArgs());
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Map<String, Object> parameterMap = this.createParameterMap(signature.getParameterNames(), joinPoint.getArgs());
 
-        String actor = getValueFromParameter(openCDXAuditUser.actor().toString(),parameterMap).toString();
-        String patient = getValueFromParameter(openCDXAuditUser.patient().toString(),parameterMap).toString();
-        setCurrentThreadInfo(actor, patient);
-        try {
-            proceedingJoinPoint.proceed();
-        } finally {
-            // clear
-            removeCurrentThreadInfo();
-        }
+        String actor =
+                getValueFromParameter(openCDXAuditUser.actor(), parameterMap).toString();
+        String patient =
+                getValueFromParameter(openCDXAuditUser.patient(), parameterMap).toString();
+        AuditAspect.setCurrentThreadInfo(actor, patient);
+    }
+
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    @After(value = "@annotation(openCDXAuditUser)")
+    public void auditUserAfter(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
+        AuditAspect.removeCurrentThreadInfo();
     }
 
     /**
@@ -81,16 +81,16 @@ public class AuditAspect {
      * @param parameterMap List of parameters being passed in.
      * @return Object mapping to the key
      */
-    protected Object getValueFromParameter(String key, Map<String,Object> parameterMap) {
+    protected Object getValueFromParameter(String key, Map<String, Object> parameterMap) {
         Object value = null;
         Object rootObject = parameterMap.get(key);
-        if(rootObject != null) {
-            if(rootObject instanceof String) {
-                value =  rootObject;
-            } else if(!key.contains(".")) {
+        if (rootObject != null) {
+            if (rootObject instanceof String) {
+                value = rootObject;
+            } else if (!key.contains(".")) {
                 value = rootObject;
             } else {
-                Expression expression = this.parser.parseExpression(key.substring(key.indexOf(".")));
+                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.')));
                 value = expression.getValue(new StandardEvaluationContext(rootObject));
             }
         }
@@ -104,11 +104,11 @@ public class AuditAspect {
      * @return Map containing the associate parameter to values
      * @throws JsonProcessingException Error processing data.
      */
-    protected Map<String,Object> createParameterMap(String[] parameterNames, Object[] values) {
+    protected Map<String, Object> createParameterMap(String[] parameterNames, Object[] values) {
         Map<String, Object> parameterMap = new HashMap<>();
 
-        for(int i = 0; i < parameterNames.length;i++) {
-            if(i < values.length) {
+        for (int i = 0; i < parameterNames.length; i++) {
+            if (i < values.length) {
                 parameterMap.put(parameterNames[i], values[i]);
             } else {
                 parameterMap.put(parameterNames[i], null);
@@ -126,8 +126,8 @@ public class AuditAspect {
         log.debug(
                 "Thread: {} being set with actor {}, patient {}",
                 Thread.currentThread().getName(),
-                actor.toString(),
-                patient.toString());
+                actor,
+                patient);
         userInfo.put(Thread.currentThread().getId(), new RequestActorAttributes(actor, patient));
     }
 
