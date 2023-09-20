@@ -98,14 +98,18 @@ public class AuditAspect {
      */
     protected String getValueFromParameter(String key, Map<String, Object> parameterMap) {
         String value = null;
-        Object rootObject = parameterMap.get(key);
+
+        String search = key;
+        if(key.contains(".")) {
+            search = key.substring(0,key.indexOf('.'));
+        }
+
+        Object rootObject = parameterMap.get(search);
         if (rootObject != null) {
-            if (rootObject instanceof String) {
-                value = rootObject.toString();
-            } else if (!key.contains(".")) {
-                value = rootObject.toString();
+            if (rootObject instanceof String s) {
+                value = s;
             } else {
-                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.')));
+                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.')+1));
                 value = expression.getValue(new StandardEvaluationContext(rootObject)).toString();
             }
         }
