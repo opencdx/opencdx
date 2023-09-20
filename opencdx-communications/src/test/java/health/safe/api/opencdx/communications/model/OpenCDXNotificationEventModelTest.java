@@ -54,4 +54,14 @@ class OpenCDXNotificationEventModelTest {
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel();
         Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
     }
+
+    @Test
+    void getProtobufMessage_4() {
+        NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
+                .build();
+
+        OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
+
+        Assertions.assertEquals(notificationEvent, model.getProtobufMessage());
+    }
 }

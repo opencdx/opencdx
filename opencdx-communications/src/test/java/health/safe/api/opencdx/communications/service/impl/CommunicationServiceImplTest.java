@@ -28,6 +28,10 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -41,11 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -219,7 +218,9 @@ class CommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
 
-        Notification notification = Notification.newBuilder().setEventId(new ObjectId().toHexString()).build();
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.sendNotification(notification);
         });
@@ -229,7 +230,6 @@ class CommunicationServiceImplTest {
     void sendNotificationHtmlProcess() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 
-
         OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
         eventModel.setSmsTemplateId(new ObjectId());
 
@@ -238,21 +238,25 @@ class CommunicationServiceImplTest {
 
         OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
         smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A","B","C"));
+        smsModel.setVariables(List.of("A", "B", "C"));
 
         Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(smsModel));
 
-        Map<String,String> variablesMap = new HashMap<>();
-        variablesMap.put("A","Alpha");
-        variablesMap.put("B","Beta");
-        variablesMap.put("C","Gnarly");
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("B", "Beta");
+        variablesMap.put("C", "Gnarly");
 
-        Notification notification = Notification.newBuilder().setEventId(new ObjectId().toHexString()).putAllVariables(variablesMap).build();
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .putAllVariables(variablesMap)
+                .build();
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
     }
+
     @Test
     void sendNotificationHtmlProcessFail() throws JsonProcessingException {
 
@@ -264,16 +268,19 @@ class CommunicationServiceImplTest {
 
         OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
         smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A","B","C"));
+        smsModel.setVariables(List.of("A", "B", "C"));
 
         Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(smsModel));
 
-        Map<String,String> variablesMap = new HashMap<>();
-        variablesMap.put("A","Alpha");
-        variablesMap.put("C","Gnarly");
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("C", "Gnarly");
 
-        Notification notification = Notification.newBuilder().setEventId(new ObjectId().toHexString()).putAllVariables(variablesMap).build();
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .putAllVariables(variablesMap)
+                .build();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
             this.communicationService.sendNotification(notification);
         });

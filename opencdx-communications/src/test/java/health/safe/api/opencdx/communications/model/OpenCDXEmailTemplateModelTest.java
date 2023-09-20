@@ -51,4 +51,14 @@ class OpenCDXEmailTemplateModelTest {
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel();
         Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
     }
+
+    @Test
+    void getProtobufMessage_4() {
+        EmailTemplate emailTemplate =
+                EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance()).build();
+
+        OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
+
+        Assertions.assertEquals(emailTemplate, model.getProtobufMessage());
+    }
 }
