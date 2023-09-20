@@ -84,6 +84,18 @@ class GrpcCommunicationsControllerTest {
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXSMSTemplateModel()));
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setEmailTemplateId(new ObjectId());
+        eventModel.setSmsTemplateId(new ObjectId());
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
         Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
         Mockito.when(this.openCDXSMSTemplateRespository.findAll(Mockito.any(Pageable.class)))
@@ -323,7 +335,9 @@ class GrpcCommunicationsControllerTest {
     @Test
     void sendNotification() {
         StreamObserver<SuccessResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        Notification notification = Notification.newBuilder().build();
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .build();
         this.grpcCommunicationsController.sendNotification(notification, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());

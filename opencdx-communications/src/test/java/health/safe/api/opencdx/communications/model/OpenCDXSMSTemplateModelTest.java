@@ -53,4 +53,14 @@ class OpenCDXSMSTemplateModelTest {
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel();
         Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
     }
+
+    @Test
+    void getProtobufMessage_4() {
+        SMSTemplate smsTemplate =
+                SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance()).build();
+
+        OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
+        log.info(model.toString());
+        Assertions.assertEquals(smsTemplate, model.getProtobufMessage());
+    }
 }

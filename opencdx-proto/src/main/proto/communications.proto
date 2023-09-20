@@ -76,7 +76,9 @@ message Notification {
 
   // SMS attributes
   repeated string to_phone_number = 10; // Recipients' phone numbers.
-  repeated string sms_variables = 11;   // SMS-specific variables or placeholders.
+
+  // Variables for replacement.
+  map<string,string> variables = 11;   // Variables or placeholders.
 
   repeated string recipients_id = 12; // List of the UUID's for each email recipient and for recipients phone numbers.
 

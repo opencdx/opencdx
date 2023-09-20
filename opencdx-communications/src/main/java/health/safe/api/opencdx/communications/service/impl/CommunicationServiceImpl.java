@@ -31,6 +31,8 @@ import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEven
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -115,7 +117,8 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
     @Override
-    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition {
+    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
+            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!emailTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
         }
@@ -142,7 +145,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "email_templates", key = "#templateRequest.templateId")
     @Override
-    public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) {
+    public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -164,7 +167,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) {
+    public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -197,7 +200,8 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "sms_templates", key = "#smsTemplate.templateId")
     @Override
-    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition {
+    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate)
+            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!smsTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
         }
@@ -224,7 +228,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
-    public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) {
+    public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -245,7 +249,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) {
+    public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -281,7 +285,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     @CacheEvict(value = "notificaiton_event", key = "#notificationEvent.eventId")
     @Override
     public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
-            throws OpenCDXFailedPrecondition {
+            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!notificationEvent.hasEventId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
         }
@@ -308,7 +312,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
-    public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) {
+    public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID(),
@@ -329,8 +333,76 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
-    public SuccessResponse sendNotification(Notification notification) {
+    public SuccessResponse sendNotification(Notification notification)
+            throws OpenCDXFailedPrecondition, OpenCDXNotFound, OpenCDXNotAcceptable {
+        CommunicationAuditRecord.Builder auditBuilder = CommunicationAuditRecord.newBuilder();
+
+        NotificationEvent notificationEvent = this.getNotificationEvent(TemplateRequest.newBuilder()
+                .setTemplateId(notification.getEventId())
+                .build());
+
+        auditBuilder.setNotification(notification);
+
+        if (notificationEvent.hasEmailTemplateId()) {
+            EmailTemplate emailTemplate = this.getEmailTemplate(TemplateRequest.newBuilder()
+                    .setTemplateId(notificationEvent.getEmailTemplateId())
+                    .build());
+            String message = this.processHTML(
+                    emailTemplate.getContent(),
+                    emailTemplate.getVariablesList().stream().toList(),
+                    notification.getVariablesMap());
+
+            // TODO: Call OpenCDXEmailService::sendEmail()  to send email.
+
+            auditBuilder.setEmailContent(message);
+        }
+
+        if (notificationEvent.hasSmsTemplateId()) {
+            SMSTemplate smsTemplate = this.getSMSTemplate(TemplateRequest.newBuilder()
+                    .setTemplateId(notificationEvent.getSmsTemplateId())
+                    .build());
+            String message = this.processHTML(
+                    smsTemplate.getMessage(),
+                    smsTemplate.getVariablesList().stream().toList(),
+                    notification.getVariablesMap());
+
+            // TODO: Call OpenCDXSMSService::sendSMS()  to send SMS.
+
+            auditBuilder.setSmsContent(message);
+        }
+
+        CommunicationAuditRecord auditRecord = auditBuilder.build();
+
+        try {
+            this.openCDXAuditService.communication(
+                    UUID.randomUUID(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    notificationEvent.getEventDescription(),
+                    UUID.randomUUID(),
+                    notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
+                    this.objectMapper.writeValueAsString(auditRecord));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 10, "Failed to convert AuditRecord", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, auditRecord.toString());
+            throw openCDXNotAcceptable;
+        }
+
         return SuccessResponse.newBuilder().setSuccess(true).build();
+    }
+
+    private String processHTML(String template, List<String> variables, Map<String, String> data)
+            throws OpenCDXFailedPrecondition {
+        for (String variable : variables) {
+            if (!data.containsKey(variable)) {
+                throw new OpenCDXFailedPrecondition(DOMAIN, 8, "Missing Data from required variable list: " + variable);
+            }
+        }
+
+        // TODO: Call OpenCDXHTMLProcessor to format code.
+
+        return template;
     }
 
     @Override

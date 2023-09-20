@@ -40,6 +40,7 @@ class TinkarServiceImplTest {
 
     @Test
     void testSayTinkar() {
+        Person person = new Person();
         Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
         Assertions.assertEquals(
                 "Hello Bob!",

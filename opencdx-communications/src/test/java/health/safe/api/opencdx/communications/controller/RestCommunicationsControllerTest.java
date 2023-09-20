@@ -251,7 +251,9 @@ class RestCommunicationsControllerTest {
     void sendNotification() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/notification")
-                        .content(this.objectMapper.writeValueAsString(Notification.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(Notification.newBuilder()
+                                .setEventId(new ObjectId().toHexString())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
