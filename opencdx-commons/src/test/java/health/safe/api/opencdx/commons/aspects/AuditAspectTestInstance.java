@@ -49,4 +49,10 @@ public class AuditAspectTestInstance {
         this.info = AuditAspect.getCurrentThreadInfo();
         return String.format("Say Hello to %s and %s!", attributes.getActor(), attributes.getPatient());
     }
+
+    @OpenCDXAuditUser(actor = "actor", patient = "attributes.bob")
+    public String testAnnotationFail3(RequestActorAttributes attributes) {
+        this.info = AuditAspect.getCurrentThreadInfo();
+        return String.format("Say Hello to %s and %s!", attributes.getActor(), attributes.getPatient());
+    }
 }

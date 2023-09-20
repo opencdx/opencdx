@@ -35,6 +35,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuditAspect {
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
+    private static final String DOMAIN = "AuditAspect";
     private final ExpressionParser parser;
 
     @Autowired
@@ -75,7 +77,7 @@ public class AuditAspect {
         String actor = getValueFromParameter(openCDXAuditUser.actor(), parameterMap);
         String patient = getValueFromParameter(openCDXAuditUser.patient(), parameterMap);
         if (actor == null || patient == null) {
-            throw new OpenCDXBadRequest("AuditAspect", 2, "Failed to load Actor/Patient.");
+            throw new OpenCDXBadRequest(DOMAIN, 2, "Failed to load Actor/Patient.");
         }
         AuditAspect.setCurrentThreadInfo(actor, patient);
     }
@@ -110,10 +112,15 @@ public class AuditAspect {
             if (rootObject instanceof String s) {
                 value = s;
             } else {
-                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.') + 1));
-                value = expression
-                        .getValue(new StandardEvaluationContext(rootObject))
-                        .toString();
+                try {
+                    Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.') + 1));
+                    Object obj = expression.getValue(new StandardEvaluationContext(rootObject));
+                    if (obj != null) {
+                        value = obj.toString();
+                    }
+                } catch (SpelEvaluationException e) {
+                    throw new OpenCDXBadRequest(DOMAIN, 3, "Failed to resolve parameter.", e);
+                }
             }
         }
         return value;
@@ -141,10 +148,10 @@ public class AuditAspect {
      */
     public static RequestActorAttributes getCurrentThreadInfo() throws OpenCDXBadRequest {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
-        RequestActorAttributes attributes = userInfo.get(Thread.currentThread().getId());
+        RequestActorAttributes attributes = userInfo.get(Thread.currentThread().threadId());
 
         if (attributes == null) {
-            throw new OpenCDXBadRequest("AuditAspect", 1, "Failed to load Current Thread Information.");
+            throw new OpenCDXBadRequest(DOMAIN, 1, "Failed to load Current Thread Information.");
         }
         return attributes;
     }

@@ -84,8 +84,8 @@ class AuditAspectTest {
         AuditAspect auditAspect = new AuditAspect();
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
-        Assertions.assertThrows(
-                OpenCDXBadRequest.class, () -> proxy.testAnnotationFail(new RequestActorAttributes("Bob", "Jim")));
+        RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail(attributes));
     }
 
     @Test
@@ -95,7 +95,18 @@ class AuditAspectTest {
         AuditAspect auditAspect = new AuditAspect();
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
-        Assertions.assertThrows(
-                OpenCDXBadRequest.class, () -> proxy.testAnnotationFail2(new RequestActorAttributes("Bob", "Jim")));
+        RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail2(attributes));
+    }
+
+    @Test
+    void testOpenCDXAuditUserFail3() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail3(attributes));
     }
 }
