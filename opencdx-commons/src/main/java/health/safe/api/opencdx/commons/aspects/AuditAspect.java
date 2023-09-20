@@ -89,7 +89,7 @@ public class AuditAspect {
             } else if (!key.contains(".")) {
                 value = rootObject;
             } else {
-                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.')));
+                Expression expression = this.parser.parseExpression(key.substring(key.indexOf('.') + 1));
                 value = expression.getValue(new StandardEvaluationContext(rootObject));
             }
         }

@@ -94,21 +94,19 @@ class AuditAspectTest {
     void testGetValueFromParameter() {
         String[] parameterNames = {"actor", "patient"};
         Object[] values = {"the-actor", "the-patient"};
-        Map<String,Object> parameterMap = auditAspect.createParameterMap(parameterNames, values);
+        Map<String, Object> parameterMap = auditAspect.createParameterMap(parameterNames, values);
         Object value = auditAspect.getValueFromParameter("actor", parameterMap);
         Assertions.assertNotNull(value);
-        value =  auditAspect.getValueFromParameter("fred", parameterMap);
+        value = auditAspect.getValueFromParameter("fred", parameterMap);
         Assertions.assertNull(value);
-        value = parameterMap;
-        parameterMap.put("actor", value);
-        value =  auditAspect.getValueFromParameter("actor", parameterMap);
-        Object value1 =  new RequestActorAttributes("fred", "test");
-        parameterMap.put("test.bytes.length", value1);
-        parameterMap.put(".actor", value1);
-        value =  auditAspect.getValueFromParameter("test.bytes.length", parameterMap);
+        parameterMap.put("fred", parameterMap);
+        value = auditAspect.getValueFromParameter("fred", parameterMap);
+        Assertions.assertEquals(parameterMap, value);
+        value = new RequestActorAttributes("fred", "test");
+        parameterMap.put("test.getActor()", value);
+        value = auditAspect.getValueFromParameter("test.getActor()", parameterMap);
+        Assertions.assertEquals("fred", value);
     }
-
-
 
     @Test
     void testThreadInfo() {
