@@ -64,6 +64,7 @@ class AuditAspectTest {
         AuditAspect.removeCurrentThreadInfo();
     }
 
+    @SuppressWarnings("java:S2699")
     @Test
     void testAuditAspect() {
 

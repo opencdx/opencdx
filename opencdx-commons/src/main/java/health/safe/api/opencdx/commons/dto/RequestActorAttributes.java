@@ -18,15 +18,20 @@ package health.safe.api.opencdx.commons.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
+/**
+ * DTO that contains the Actor and Patient ID's for the Audit system
+ */
 @Builder
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestActorAttributes {
+    /**
+     *  Explicit declaration to prevent this class from inadvertently being made instantiable
+     */
+    public RequestActorAttributes() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     private String actor;
     private String patient;

@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.commons.aspects;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
@@ -39,6 +38,9 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * Spring AOP implementation for Audit Messages.
+ */
 @Slf4j
 @Aspect
 @EnableAspectJAutoProxy
@@ -51,10 +53,18 @@ public class AuditAspect {
     @Autowired
     ObjectMapper objectMapper;
 
+    /**
+     * Default constructor sets up the Expression Parser to be used.
+     */
     AuditAspect() {
         this.parser = new SpelExpressionParser();
     }
 
+    /**
+     * The OpenCDXAuditUser before processor
+     * @param joinPoint The JoinPoint in the processing
+     * @param openCDXAuditUser The annotation for retrieving values.
+     */
     @Order(Ordered.LOWEST_PRECEDENCE)
     @Before(value = "@annotation(openCDXAuditUser)")
     public void auditUserBefore(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
@@ -69,6 +79,11 @@ public class AuditAspect {
         AuditAspect.setCurrentThreadInfo(actor, patient);
     }
 
+    /**
+     * The OpenCDXAuditUser after processor
+     * @param joinPoint The JoinPoint in the processing
+     * @param openCDXAuditUser The annotation for retrieving values.
+     */
     @Order(Ordered.LOWEST_PRECEDENCE)
     @After(value = "@annotation(openCDXAuditUser)")
     public void auditUserAfter(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
@@ -102,7 +117,6 @@ public class AuditAspect {
      * @param parameterNames Array of names for the parameters
      * @param values Values of the parameteres
      * @return Map containing the associate parameter to values
-     * @throws JsonProcessingException Error processing data.
      */
     protected Map<String, Object> createParameterMap(String[] parameterNames, Object[] values) {
         Map<String, Object> parameterMap = new HashMap<>();
@@ -117,11 +131,20 @@ public class AuditAspect {
         return parameterMap;
     }
 
+    /**
+     * Static Method to getting the current thread information stored for audit.
+     * @return RequestActorAttributes with the actor and patient informaiton.
+     */
     public static RequestActorAttributes getCurrentThreadInfo() {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
         return userInfo.get(Thread.currentThread().getId());
     }
 
+    /**
+     * Sets the current thread information for audit.
+     * @param actor String containing the actor id
+     * @param patient String containing the patient id
+     */
     public static void setCurrentThreadInfo(String actor, String patient) {
         log.debug(
                 "Thread: {} being set with actor {}, patient {}",
@@ -131,6 +154,9 @@ public class AuditAspect {
         userInfo.put(Thread.currentThread().getId(), new RequestActorAttributes(actor, patient));
     }
 
+    /**
+     * Clears the current thread information.
+     */
     public static void removeCurrentThreadInfo() {
         userInfo.remove(Thread.currentThread().getId());
     }

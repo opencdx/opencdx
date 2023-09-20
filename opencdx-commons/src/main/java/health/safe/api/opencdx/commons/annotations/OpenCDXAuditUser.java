@@ -27,7 +27,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface OpenCDXAuditUser {
+    /**
+     * The actor ID
+     * @return the actor ID.
+     */
     String actor() default "";
 
+    /**
+     * The patient ID
+     * @return the patient ID.
+     */
     String patient() default "";
 }
