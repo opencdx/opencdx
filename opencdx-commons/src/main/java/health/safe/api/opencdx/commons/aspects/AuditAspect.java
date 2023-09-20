@@ -43,7 +43,6 @@ import org.springframework.stereotype.Component;
 @Aspect
 @EnableAspectJAutoProxy
 @Component
-@SuppressWarnings("java:S1874")
 public class AuditAspect {
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
     private final ExpressionParser parser;
@@ -119,7 +118,7 @@ public class AuditAspect {
 
     public static RequestActorAttributes getCurrentThreadInfo() {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
-        return userInfo.get(Thread.currentThread().getId());
+        return userInfo.get(Thread.currentThread().threadId());
     }
 
     public static void setCurrentThreadInfo(String actor, String patient) {
@@ -128,10 +127,10 @@ public class AuditAspect {
                 Thread.currentThread().getName(),
                 actor,
                 patient);
-        userInfo.put(Thread.currentThread().getId(), new RequestActorAttributes(actor, patient));
+        userInfo.put(Thread.currentThread().threadId(), new RequestActorAttributes(actor, patient));
     }
 
     public static void removeCurrentThreadInfo() {
-        userInfo.remove(Thread.currentThread().getId());
+        userInfo.remove(Thread.currentThread().threadId());
     }
 }
