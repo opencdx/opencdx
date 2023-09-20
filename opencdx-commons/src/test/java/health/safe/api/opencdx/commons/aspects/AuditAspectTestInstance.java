@@ -22,4 +22,16 @@ public class AuditAspectTestInstance {
         this.info = AuditAspect.getCurrentThreadInfo();
         return String.format("Say Hello to %s and %s!",attributes.getActor(),attributes.getPatient());
     }
+
+    @OpenCDXAuditUser(actor = "attributes.actor",patient = "patient")
+    public String testAnnotationFail(RequestActorAttributes attributes) {
+        this.info = AuditAspect.getCurrentThreadInfo();
+        return String.format("Say Hello to %s and %s!",attributes.getActor(),attributes.getPatient());
+    }
+
+    @OpenCDXAuditUser(actor = "actor",patient = "attributes.patient")
+    public String testAnnotationFail2(RequestActorAttributes attributes) {
+        this.info = AuditAspect.getCurrentThreadInfo();
+        return String.format("Say Hello to %s and %s!",attributes.getActor(),attributes.getPatient());
+    }
 }

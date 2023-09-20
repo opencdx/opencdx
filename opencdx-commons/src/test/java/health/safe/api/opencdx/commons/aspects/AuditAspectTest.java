@@ -78,4 +78,23 @@ class AuditAspectTest {
         AuditAspect.removeCurrentThreadInfo();
         Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
     }
+    @Test
+    void testOpenCDXAuditUserFail() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail(new RequestActorAttributes("Bob","Jim")));
+    }
+
+    @Test
+    void testOpenCDXAuditUserFail2() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect();
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail2(new RequestActorAttributes("Bob","Jim")));
+    }
 }

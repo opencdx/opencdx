@@ -76,6 +76,9 @@ public class AuditAspect {
                 getValueFromParameter(openCDXAuditUser.actor(), parameterMap);
         String patient =
                 getValueFromParameter(openCDXAuditUser.patient(), parameterMap);
+        if(actor == null || patient == null) {
+            throw new OpenCDXBadRequest("AuditAspect", 2, "Failed to load Actor/Patient.");
+        }
         AuditAspect.setCurrentThreadInfo(actor, patient);
     }
 
