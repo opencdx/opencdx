@@ -81,7 +81,7 @@ public class AuditAspect {
      * @param parameterMap List of parameters being passed in.
      * @return Object mapping to the key
      */
-    private Object getValueFromParameter(String key, Map<String,Object> parameterMap) {
+    protected Object getValueFromParameter(String key, Map<String,Object> parameterMap) {
         Object value = null;
         Object rootObject = parameterMap.get(key);
         if(rootObject != null) {
@@ -104,7 +104,7 @@ public class AuditAspect {
      * @return Map containing the associate parameter to values
      * @throws JsonProcessingException Error processing data.
      */
-    private Map<String,Object> createParameterMap(String[] parameterNames, Object[] values) {
+    protected Map<String,Object> createParameterMap(String[] parameterNames, Object[] values) {
         Map<String, Object> parameterMap = new HashMap<>();
 
         for(int i = 0; i < parameterNames.length;i++) {
@@ -114,11 +114,8 @@ public class AuditAspect {
                 parameterMap.put(parameterNames[i], null);
             }
         }
-
         return parameterMap;
     }
-
-
 
     public static RequestActorAttributes getCurrentThreadInfo() {
         log.debug("Clearing Current Thread: {}", Thread.currentThread().getName());
