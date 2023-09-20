@@ -16,7 +16,6 @@
 package health.safe.api.opencdx.client.service;
 
 import cdx.open_audit.v2alpha.AgentType;
-import java.util.UUID;
 
 /**
  * Audit Service for interfacing to the service. Used for both direct gRPC client
@@ -25,11 +24,11 @@ import java.util.UUID;
 public interface OpenCDXAuditService {
     /**
      * Record User Login successful to audit log.
-     * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param actor Currently logged-in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      */
-    void userLoginSucceed(UUID actor, AgentType agentType, String purpose);
+    void userLoginSucceed(String actor, AgentType agentType, String purpose);
 
     /**
      * Record User Login failed to audit log.
@@ -37,7 +36,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      */
-    void userLoginFailure(UUID actor, AgentType agentType, String purpose);
+    void userLoginFailure(String actor, AgentType agentType, String purpose);
 
     /**
      * Record user Logout to audit log.
@@ -45,7 +44,7 @@ public interface OpenCDXAuditService {
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      */
-    void userLogout(UUID actor, AgentType agentType, String purpose);
+    void userLogout(String actor, AgentType agentType, String purpose);
 
     /**
      * Record user acccess changed to audit log.
@@ -54,7 +53,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void userAccessChange(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void userAccessChange(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record user password changed to audit log.
@@ -63,7 +62,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void passwordChange(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void passwordChange(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record User PII information accessed to audit log.
@@ -72,7 +71,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiAccessed(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void piiAccessed(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record User PII information created to audit log.
@@ -81,7 +80,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiCreated(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void piiCreated(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record user PII information updated to audit log.
@@ -90,7 +89,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiUpdated(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void piiUpdated(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record user PII Information deleted to audit log.
@@ -99,7 +98,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void piiDeleted(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record user PHI information accessed to audit log.
@@ -108,7 +107,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiAccessed(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void phiAccessed(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record user PHI information created ot audit log.
@@ -117,7 +116,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiCreated(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void phiCreated(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record User PHI information updated to audit log.
@@ -126,7 +125,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiUpdated(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void phiUpdated(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record user PHI information deleted to audit log.
@@ -135,7 +134,7 @@ public interface OpenCDXAuditService {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiDeleted(UUID actor, AgentType agentType, String purpose, UUID auditEntity);
+    void phiDeleted(String actor, AgentType agentType, String purpose, String auditEntity);
 
     /**
      * Record User Communication.
@@ -147,7 +146,7 @@ public interface OpenCDXAuditService {
      * @param jsonRecord JSON used to record communications with Audit.
      */
     void communication(
-            UUID actor, AgentType agentType, String purpose, UUID auditEntity, String resource, String jsonRecord);
+            String actor, AgentType agentType, String purpose, String auditEntity, String resource, String jsonRecord);
 
     /**
      * Record Configuraiton Change
@@ -157,5 +156,5 @@ public interface OpenCDXAuditService {
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      */
-    void config(UUID actor, AgentType agentType, String purpose, String resource, String jsonRecord);
+    void config(String actor, AgentType agentType, String purpose, String resource, String jsonRecord);
 }

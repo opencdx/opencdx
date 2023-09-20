@@ -55,7 +55,10 @@ public class HelloWorldServiceImpl implements HelloWorldService {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
         this.openCDXAuditService.piiCreated(
-                UUID.randomUUID(), AgentType.AGENT_TYPE_SYSTEM, "purpose", UUID.randomUUID());
+                UUID.randomUUID().toString(),
+                AgentType.AGENT_TYPE_SYSTEM,
+                "purpose",
+                UUID.randomUUID().toString());
         return String.format("Hello %s!", request.getName().trim());
     }
 }
