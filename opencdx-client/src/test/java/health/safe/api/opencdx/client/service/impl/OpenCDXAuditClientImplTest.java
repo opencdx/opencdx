@@ -15,8 +15,6 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
@@ -29,19 +27,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-class OpenCDXAuditServiceImplTest {
+class OpenCDXAuditClientImplTest {
 
     @Mock
     AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
 
-    OpenCDXAuditServiceImpl openCDXAuditService;
+    OpenCDXAuditClientImpl openCDXAuditService;
 
     @BeforeEach
     void setUp() {
         this.auditServiceBlockingStub = Mockito.mock(AuditServiceGrpc.AuditServiceBlockingStub.class);
         Mockito.when(this.auditServiceBlockingStub.event(Mockito.any(AuditEvent.class)))
                 .thenReturn(AuditStatus.newBuilder().setSuccess(true).build());
-        this.openCDXAuditService = new OpenCDXAuditServiceImpl("test", this.auditServiceBlockingStub);
+        this.openCDXAuditService = new OpenCDXAuditClientImpl("test", this.auditServiceBlockingStub);
     }
 
     @AfterEach

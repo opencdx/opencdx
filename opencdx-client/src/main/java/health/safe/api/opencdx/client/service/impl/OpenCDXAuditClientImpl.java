@@ -22,16 +22,16 @@ import cdx.open_audit.v2alpha.AuditStatus;
 /**
  * gRPC Client implementation of the Audit System.
  */
-public class OpenCDXAuditServiceImpl extends OpenCDXAuditServiceAbstract {
+public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
     private final AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
 
     /**
-     * OpenCDXAuditService Implementation for the audit system based on shared client code.
+     * OpenCDXAuditClient Implementation for the audit system based on shared client code.
      * @param applicationName Name of the application
      * @param auditServiceBlockingStub gRPC Client stub
      */
-    public OpenCDXAuditServiceImpl(
+    public OpenCDXAuditClientImpl(
             String applicationName, AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub) {
         super(applicationName);
         this.auditServiceBlockingStub = auditServiceBlockingStub;

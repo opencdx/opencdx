@@ -17,7 +17,7 @@ package health.safe.api.opencdx.client.service.impl;
 
 import cdx.open_audit.v2alpha.*;
 import com.google.protobuf.Timestamp;
-import health.safe.api.opencdx.client.service.OpenCDXAuditService;
+import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  * Abstract class for handling Audit message types that is connection independent.
  */
 @Slf4j
-public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService {
+public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     private String applicationName;
 
@@ -33,7 +33,7 @@ public abstract class OpenCDXAuditServiceAbstract implements OpenCDXAuditService
      * Constrctor for receiving the required Application name
      * @param applicationName Name of the applicaiton for sytem on record.
      */
-    protected OpenCDXAuditServiceAbstract(String applicationName) {
+    protected OpenCDXAuditClientAbstract(String applicationName) {
         this.applicationName = applicationName;
     }
 

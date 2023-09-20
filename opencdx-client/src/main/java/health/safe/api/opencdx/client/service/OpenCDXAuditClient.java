@@ -21,7 +21,7 @@ import cdx.open_audit.v2alpha.AgentType;
  * Audit Service for interfacing to the service. Used for both direct gRPC client
  * and Message based Client.
  */
-public interface OpenCDXAuditService {
+public interface OpenCDXAuditClient {
     /**
      * Record User Login successful to audit log.
      * @param actor Currently logged-in user who initiated the actions being recorded.
@@ -32,7 +32,7 @@ public interface OpenCDXAuditService {
 
     /**
      * Record User Login failed to audit log.
-     * @param actor Currently logged in user who initiated the actions being recorded.
+     * @param actor Currently logged-in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
      */
