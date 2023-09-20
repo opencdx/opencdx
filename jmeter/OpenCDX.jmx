@@ -629,7 +629,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson"> {&quot;queueId&quot;:&quot;&quot;,&quot;eventId&quot;:&quot;&quot;,&quot;status&quot;:&quot;&quot;,&quot;timestamp&quot;:0,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;smsVariables&quot;:[],&quot;recipientsId&quot;:[]}</stringProp>
+          <stringProp name="GRPCSampler.requestJson"> {&quot;queueId&quot;:&quot;&quot;,&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;status&quot;:&quot;&quot;,&quot;timestamp&quot;:0,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -1109,7 +1109,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"> {&quot;queueId&quot;:&quot;&quot;,&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;status&quot;:&quot;&quot;,&quot;timestamp&quot;:0,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;smsVariables&quot;:[],&quot;recipientsId&quot;:[]}</stringProp>
+                <stringProp name="Argument.value"> {&quot;queueId&quot;:&quot;&quot;,&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;status&quot;:&quot;&quot;,&quot;timestamp&quot;:0,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
