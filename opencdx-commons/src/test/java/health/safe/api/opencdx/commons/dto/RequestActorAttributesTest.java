@@ -33,7 +33,7 @@ class RequestActorAttributesTest {
         attributes.setActor("bob");
         attributes.setPatient("jim");
 
-        Assertions.assertEquals("bob",attributes.getActor());
-        Assertions.assertEquals("jim",attributes.getPatient());
+        Assertions.assertEquals("bob", attributes.getActor());
+        Assertions.assertEquals("jim", attributes.getPatient());
     }
 }

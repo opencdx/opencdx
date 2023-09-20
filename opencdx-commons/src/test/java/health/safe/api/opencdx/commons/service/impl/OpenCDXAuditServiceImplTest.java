@@ -20,7 +20,6 @@ import health.safe.api.opencdx.commons.aspects.AuditAspect;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import java.util.UUID;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,137 +38,105 @@ class OpenCDXAuditServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    
     @BeforeEach
     void setup() {
-        AuditAspect.setCurrentThreadInfo(UUID.randomUUID().toString(),UUID.randomUUID().toString());
+        AuditAspect.setCurrentThreadInfo(
+                UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
-    
+
     @AfterEach
     void tearDown() {
         AuditAspect.removeCurrentThreadInfo();
     }
-    
+
     @Test
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginSucceed(
-                     AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.userLoginSucceed(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLoginFailure(
-                     AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
+            this.openCDXAuditService.userLoginFailure(AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
         });
     }
 
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLogout( AgentType.AGENT_TYPE_SYSTEM, "purpose");
+            this.openCDXAuditService.userLogout(AgentType.AGENT_TYPE_SYSTEM, "purpose");
         });
     }
 
     @Test
     void userAccessChange() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userAccessChange(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.userAccessChange(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void passwordChange() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.passwordChange(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.passwordChange(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiAccessed(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.piiAccessed(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiCreated(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.piiCreated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiUpdated(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.piiUpdated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiDeleted(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.piiDeleted(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiAccessed(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.phiAccessed(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiCreated(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.phiCreated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiUpdated(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.phiUpdated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiDeleted(
-                    
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "purpose");
+            this.openCDXAuditService.phiDeleted(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
         });
     }
 
@@ -177,10 +144,8 @@ class OpenCDXAuditServiceImplTest {
     void communication() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.communication(
-                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    
                     "COMMUNICATION: id",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
@@ -190,7 +155,6 @@ class OpenCDXAuditServiceImplTest {
     void config() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.config(
-                    
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     "COMMUNICATION: 123",
