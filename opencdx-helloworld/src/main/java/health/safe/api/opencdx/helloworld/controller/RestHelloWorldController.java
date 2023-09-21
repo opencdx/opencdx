@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/greeting",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+@Observed(name = "opencdx-helloworld")
 public class RestHelloWorldController {
 
     private final HelloWorldService helloWorldService;
@@ -57,7 +58,6 @@ public class RestHelloWorldController {
      * @return HelloReply with the hello message.
      */
     @PostMapping(value = "/hello")
-    @Observed(name = "opencdx-helloworld.rest.sayHello")
     public ResponseEntity<HelloReply> sayHello(@RequestBody HelloRequest request) {
 
         return new ResponseEntity<>(

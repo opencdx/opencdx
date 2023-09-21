@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 @GRpcService
+@Observed(name = "opencdx-helloworld")
 public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
 
     private final HelloWorldService helloWorldService;
@@ -49,7 +50,6 @@ public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
-    @Observed(name = "opencdx-helloworld.grpc.sayHello")
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
 
         HelloReply reply = HelloReply.newBuilder()
