@@ -251,7 +251,7 @@ if [ "$no_menu" = false ]; then
     if [ "$deploy" = true ]; then
       build_docker;
       start_docker;
-      open_reports "admin" ;;
+      open_reports "admin";
       docker_menu;
     fi
 
