@@ -1,6 +1,7 @@
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.open_communication.v2alpha;
+import "audit.proto";
 
 // Enum for template types
 enum TemplateType {
@@ -45,6 +46,7 @@ message NotificationEvent {
   optional string email_template_id = 4;      // ID of the associated email template.
   optional string sms_template_id = 5;        // ID of the associated SMS template.
   repeated string event_parameters = 6; // Event-specific parameters.
+  cdx.open_audit.v2alpha.SensitivityLevel sensitivity = 7; // Indicates the Sensitivity level of the notification when sent.
 }
 
 /**
