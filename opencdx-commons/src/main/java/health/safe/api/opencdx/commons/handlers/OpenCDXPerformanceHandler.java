@@ -15,12 +15,25 @@
  */
 package health.safe.api.opencdx.commons.handlers;
 
+import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationHandler;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Performance handler for reacording to logs the observability of OpenCDX
+ */
 @Slf4j
+@ExcludeFromJacocoGeneratedReport
 public class OpenCDXPerformanceHandler implements ObservationHandler<Observation.Context> {
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXPerformanceHandler() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     @Override
     public void onStart(Observation.Context context) {
         log.info("OpenCDX Execution Started: {}", context.getName());
@@ -35,26 +48,6 @@ public class OpenCDXPerformanceHandler implements ObservationHandler<Observation
                 context.getName(),
                 context.getError().getMessage());
         ObservationHandler.super.onError(context);
-    }
-
-    @Override
-    public void onEvent(Observation.Event event, Observation.Context context) {
-        ObservationHandler.super.onEvent(event, context);
-    }
-
-    @Override
-    public void onScopeOpened(Observation.Context context) {
-        ObservationHandler.super.onScopeOpened(context);
-    }
-
-    @Override
-    public void onScopeClosed(Observation.Context context) {
-        ObservationHandler.super.onScopeClosed(context);
-    }
-
-    @Override
-    public void onScopeReset(Observation.Context context) {
-        ObservationHandler.super.onScopeReset(context);
     }
 
     @Override
