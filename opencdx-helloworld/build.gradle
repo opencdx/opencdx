@@ -27,7 +27,6 @@ dependencies {
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
-    implementation "org.springdoc:springdoc-openapi-starter-common:${springDocVersion}"
 
     //GRPC - To enable the GRPC uncomment the following two lines
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"

@@ -54,6 +54,7 @@ public class CommonsConfig {
      * @return ObjectMapper bean for use.
      */
     @Bean
+    @Primary
     @Description("Jackson ObjectMapper with all required registered modules.")
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
