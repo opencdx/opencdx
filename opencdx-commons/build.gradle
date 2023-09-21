@@ -8,7 +8,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+
 
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.api.grpc:proto-google-common-protos:${protoGoogleCommonLibraryVersion}"
