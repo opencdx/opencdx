@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.communications.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -89,6 +90,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating Email Template",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
@@ -127,6 +129,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating Email Template",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
@@ -151,6 +154,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Email Template",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
@@ -173,6 +177,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating SMS Template",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(smsTemplate));
         } catch (JsonProcessingException e) {
@@ -210,6 +215,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating SMS Template",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(smsTemplate));
         } catch (JsonProcessingException e) {
@@ -234,6 +240,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting SMS Template",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
@@ -255,6 +262,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Creating Notification Event",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
@@ -294,6 +302,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Updating Notification Event",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
@@ -318,6 +327,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "Deleting Notification Event",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
@@ -378,6 +388,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     notificationEvent.getEventDescription(),
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     UUID.randomUUID().toString(),
                     notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));

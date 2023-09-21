@@ -132,14 +132,25 @@ public class OpenCDXAuditServiceImpl extends OpenCDXAuditClientAbstract implemen
     }
 
     @Override
-    public void communication(AgentType agentType, String purpose, String resource, String jsonRecord) {
+    public void communication(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.communication(info.getActor(), agentType, purpose, info.getPatient(), resource, jsonRecord);
+        this.communication(
+                info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void config(AgentType agentType, String purpose, String resource, String jsonRecord) {
+    public void config(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.config(info.getActor(), agentType, purpose, resource, jsonRecord);
+        this.config(info.getActor(), agentType, purpose, sensitivityLevel, resource, jsonRecord);
     }
 }

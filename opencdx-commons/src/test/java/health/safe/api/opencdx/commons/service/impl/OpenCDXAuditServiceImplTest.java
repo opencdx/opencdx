@@ -155,6 +155,7 @@ class OpenCDXAuditServiceImplTest {
             this.openCDXAuditService.communication(
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     "COMMUNICATION: id",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
@@ -166,6 +167,7 @@ class OpenCDXAuditServiceImplTest {
             this.openCDXAuditService.config(
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
