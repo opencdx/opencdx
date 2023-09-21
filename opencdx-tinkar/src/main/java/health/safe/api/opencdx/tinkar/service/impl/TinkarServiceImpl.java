@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
  * to centrallize execution of code.
  */
 @Service
+@Observed(name = "opencdx-tinkar")
 public class TinkarServiceImpl implements TinkarService {
 
     private final PersonRepository personRepository;
@@ -47,7 +48,6 @@ public class TinkarServiceImpl implements TinkarService {
      * @return String containing the message.
      */
     @Override
-    @Observed(name = "opencdx-tinkar.sayTinkar")
     public String sayTinkar(TinkarRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);

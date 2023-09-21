@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
         value = "/communications",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+@Observed(name = "opencdx-communications")
 public class RestCommunicationsController {
 
     private final CommunicationService communicationService;
@@ -55,7 +56,6 @@ public class RestCommunicationsController {
      * @return the created EmailTemplate
      */
     @PostMapping(value = "/email")
-    @Observed(name = "opencdx-communications.rest.createEmailTemplate")
     public ResponseEntity<EmailTemplate> createEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
         return new ResponseEntity<>(this.communicationService.createEmailTemplate(emailTemplate), HttpStatus.OK);
     }
@@ -67,7 +67,6 @@ public class RestCommunicationsController {
      * @return the requested EmailTemplate.
      */
     @GetMapping("/email/{id}")
-    @Observed(name = "opencdx-communications.rest.getEmailTemplate")
     public ResponseEntity<EmailTemplate> getEmailTemplate(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.communicationService.getEmailTemplate(
@@ -82,7 +81,6 @@ public class RestCommunicationsController {
      * @return the updated EmailTemplate
      */
     @PutMapping("/email")
-    @Observed(name = "opencdx-communications.rest.updateEmailTemplate")
     public ResponseEntity<EmailTemplate> updateEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
         return new ResponseEntity<>(this.communicationService.updateEmailTemplate(emailTemplate), HttpStatus.OK);
     }
@@ -94,7 +92,6 @@ public class RestCommunicationsController {
      * @return a SuccessResponse indicating if successful.
      */
     @DeleteMapping("/email/{id}")
-    @Observed(name = "opencdx-communications.rest.deleteEmailTemplate")
     public ResponseEntity<SuccessResponse> deleteEmailTemplate(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.communicationService.deleteEmailTemplate(
@@ -109,7 +106,6 @@ public class RestCommunicationsController {
      * @return the created SMSTemplate
      */
     @PostMapping("/sms")
-    @Observed(name = "opencdx-communications.rest.createSMSTemplate")
     public ResponseEntity<SMSTemplate> createSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
         return new ResponseEntity<>(this.communicationService.createSMSTemplate(smsTemplate), HttpStatus.OK);
     }
@@ -121,7 +117,6 @@ public class RestCommunicationsController {
      * @return the requested SMSTemplate
      */
     @GetMapping("/sms/{id}")
-    @Observed(name = "opencdx-communications.rest.getSMSTemplate")
     public ResponseEntity<SMSTemplate> getSMSTemplate(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.communicationService.getSMSTemplate(
@@ -136,7 +131,6 @@ public class RestCommunicationsController {
      * @return the updated SMSTemplate.
      */
     @PutMapping("/sms")
-    @Observed(name = "opencdx-communications.rest.updateSMSTemplate")
     public ResponseEntity<SMSTemplate> updateSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
         return new ResponseEntity<>(this.communicationService.updateSMSTemplate(smsTemplate), HttpStatus.OK);
     }
@@ -148,7 +142,6 @@ public class RestCommunicationsController {
      * @return a SuccessResponse to indicate if successful.
      */
     @DeleteMapping("/sms/{id}")
-    @Observed(name = "opencdx-communications.rest.deleteSMSTemplate")
     public ResponseEntity<SuccessResponse> deleteSMSTemplate(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.communicationService.deleteSMSTemplate(
@@ -163,7 +156,6 @@ public class RestCommunicationsController {
      * @return the created NotificationEvent.
      */
     @PostMapping("/event")
-    @Observed(name = "opencdx-communications.rest.createNotificationEvent")
     public ResponseEntity<NotificationEvent> createNotificationEvent(@RequestBody NotificationEvent notificationEvent) {
         return new ResponseEntity<>(
                 this.communicationService.createNotificationEvent(notificationEvent), HttpStatus.OK);
@@ -176,7 +168,6 @@ public class RestCommunicationsController {
      * @return the requested NotificationEvent.
      */
     @GetMapping("/event/{id}")
-    @Observed(name = "opencdx-communications.rest.getNotificationEvent")
     public ResponseEntity<NotificationEvent> getNotificationEvent(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.communicationService.getNotificationEvent(
@@ -191,7 +182,6 @@ public class RestCommunicationsController {
      * @return the updated NotificationEvent
      */
     @PutMapping("/event")
-    @Observed(name = "opencdx-communications.rest.updateNotificationEvent")
     public ResponseEntity<NotificationEvent> updateNotificationEvent(@RequestBody NotificationEvent notificationEvent) {
         return new ResponseEntity<>(
                 this.communicationService.updateNotificationEvent(notificationEvent), HttpStatus.OK);
@@ -204,7 +194,6 @@ public class RestCommunicationsController {
      * @return a SuccessResponse indicating if successful.
      */
     @DeleteMapping("/event/{id}")
-    @Observed(name = "opencdx-communications.rest.deleteNotificationEvent")
     public ResponseEntity<SuccessResponse> deleteNotificationEvent(@PathVariable String id) {
         return new ResponseEntity<>(
                 this.communicationService.deleteNotificationEvent(
@@ -219,7 +208,6 @@ public class RestCommunicationsController {
      * @return a SuccessResponse indicating if successful.
      */
     @PostMapping("/notification")
-    @Observed(name = "opencdx-communications.rest.sendNotification")
     public ResponseEntity<SuccessResponse> sendNotification(@RequestBody Notification notification) {
         return new ResponseEntity<>(this.communicationService.sendNotification(notification), HttpStatus.OK);
     }
@@ -231,7 +219,6 @@ public class RestCommunicationsController {
      * @return the requested SMSTemplates.
      */
     @PostMapping("/sms/list")
-    @Observed(name = "opencdx-communications.rest.listSMSTemplates")
     public ResponseEntity<SMSTemplateListResponse> listSMSTemplates(
             @RequestBody SMSTemplateListRequest smsTemplateListRequest) {
         return new ResponseEntity<>(this.communicationService.listSMSTemplates(smsTemplateListRequest), HttpStatus.OK);
@@ -244,7 +231,6 @@ public class RestCommunicationsController {
      * @return the requested EmailTemplates.
      */
     @PostMapping("/email/list")
-    @Observed(name = "opencdx-communications.rest.listEmailTemplates")
     public ResponseEntity<EmailTemplateListResponse> listEmailTemplates(
             @RequestBody EmailTemplateListRequest emailTemplateListRequest) {
         return new ResponseEntity<>(
@@ -258,7 +244,6 @@ public class RestCommunicationsController {
      * @return the requested NotificationEvents.
      */
     @PostMapping("/event/list")
-    @Observed(name = "opencdx-communications.rest.listNotificationEvents")
     public ResponseEntity<NotificationEventListResponse> listNotificationEvents(
             @RequestBody NotificationEventListRequest notificationEventListRequest) {
         return new ResponseEntity<>(

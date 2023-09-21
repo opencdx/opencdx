@@ -29,6 +29,7 @@ import org.lognet.springboot.grpc.GRpcService;
  */
 @Slf4j
 @GRpcService
+@Observed(name = "opencdx-audit")
 public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
 
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
@@ -47,7 +48,6 @@ public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
-    @Observed(name = "opencdx-audit.grpc.event")
     public void event(AuditEvent request, StreamObserver<AuditStatus> responseObserver) {
 
         this.openCDXAuditMessageHandler.processAuditEvent(request);

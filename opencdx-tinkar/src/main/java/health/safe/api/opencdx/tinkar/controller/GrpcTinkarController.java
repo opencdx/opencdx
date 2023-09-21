@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 @GRpcService
+@Observed(name = "opencdx-tinkar")
 public class GrpcTinkarController extends TinkarGrpc.TinkarImplBase {
 
     private final TinkarService tinkarService;
@@ -49,7 +50,6 @@ public class GrpcTinkarController extends TinkarGrpc.TinkarImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
-    @Observed(name = "opencdx-communications.grpc.sayTinkar")
     public void sayTinkar(TinkarRequest request, StreamObserver<TinkarReply> responseObserver) {
 
         TinkarReply reply = TinkarReply.newBuilder()

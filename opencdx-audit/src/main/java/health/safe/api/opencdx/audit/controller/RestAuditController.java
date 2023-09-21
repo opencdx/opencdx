@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/audit",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+@Observed(name = "opencdx-audit")
 public class RestAuditController {
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
 
@@ -54,7 +55,6 @@ public class RestAuditController {
      * @return HelloReply with the hello message.
      */
     @PostMapping(value = "/event")
-    @Observed(name = "opencdx-audit.rest.event")
     public ResponseEntity<AuditStatus> event(@RequestBody AuditEvent request) {
 
         this.openCDXAuditMessageHandler.processAuditEvent(request);

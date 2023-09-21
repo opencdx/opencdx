@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/greeting")
+@Observed(name = "opencdx-tinkar")
 public class RestTinkarController {
 
     private final TinkarService tinkarService;
@@ -53,7 +54,6 @@ public class RestTinkarController {
      * @return Hello Response.
      */
     @PostMapping(value = "/hello")
-    @Observed(name = "opencdx-communications.rest.sayHello")
     public ResponseEntity<TinkarReply> hello(@RequestBody TinkarRequest request) {
         return new ResponseEntity<>(
                 TinkarReply.newBuilder()

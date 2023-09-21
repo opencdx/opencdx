@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * Message Handler for Audit Microservice.
  */
 @Slf4j
+@Observed(name = "opencdx-audit")
 public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     private ObjectMapper objectMapper;
 
@@ -48,7 +49,6 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     }
 
     @Override
-    @Observed(name = "opencdx-audit.receivedMessage")
     public void receivedMessage(byte[] message) {
         try {
             this.processAuditEvent(objectMapper.readValue(message, AuditEvent.class));
@@ -65,7 +65,6 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
      * Method to directory call to process an AuditEvent
      * @param event AuditEvent to process.
      */
-    @Observed(name = "opencdx-audit.processAuditEvent")
     public void processAuditEvent(AuditEvent event) {
         log.info("Audit Event:\n {}", event);
     }
