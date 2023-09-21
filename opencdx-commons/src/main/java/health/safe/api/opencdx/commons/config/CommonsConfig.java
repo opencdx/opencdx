@@ -18,11 +18,14 @@ package health.safe.api.opencdx.commons.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import health.safe.api.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
+import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +50,17 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Observation Registry for the OpenCDX Performance Tracking.
+     * @param observationRegistry Registry
+     * @return ObservedAspect with performance handler.
+     */
+    @Bean
+    public ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
+        observationRegistry.observationConfig().observationHandler(new OpenCDXPerformanceHandler());
+        return new ObservedAspect(observationRegistry);
     }
 
     /**

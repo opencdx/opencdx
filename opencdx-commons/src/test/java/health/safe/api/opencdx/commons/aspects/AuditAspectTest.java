@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
@@ -36,7 +37,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
             CommonsConfig.class,
             AuditAspect.class,
             AnnotationAwareAspectJAutoProxyCreator.class,
-            AuditAspectTestInstance.class
+            AuditAspectTestInstance.class,
+            ObservationAutoConfiguration.class
         })
 @ExtendWith(SpringExtension.class)
 class AuditAspectTest {

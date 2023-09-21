@@ -21,6 +21,7 @@ import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
 import health.safe.api.opencdx.helloworld.repository.PersonRepository;
 import health.safe.api.opencdx.helloworld.service.HelloWorldService;
+import io.micrometer.observation.annotation.Observed;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
      * @return Message generated for this request.
      */
     @Override
+    @Observed(name = "opencdx-helloworld.sayHello")
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
