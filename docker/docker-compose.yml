@@ -100,6 +100,8 @@ services:
         condition: service_healthy
       database:
         condition: service_healthy
+      nats:
+        condition: service_started
     ports:
       - "8180:8180"
       - "9190:9190"
