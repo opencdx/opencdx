@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.helloworld.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.model.Person;
@@ -58,6 +59,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
                 UUID.randomUUID().toString(),
                 AgentType.AGENT_TYPE_SYSTEM,
                 "purpose",
+                SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                 UUID.randomUUID().toString());
         return String.format("Hello %s!", request.getName().trim());
     }
