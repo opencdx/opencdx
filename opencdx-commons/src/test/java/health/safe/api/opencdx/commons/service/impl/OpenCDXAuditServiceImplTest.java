@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.commons.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.commons.aspects.AuditAspect;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
@@ -87,56 +88,64 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiAccessed(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.piiAccessed(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiCreated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.piiCreated(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiUpdated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.piiUpdated(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.piiDeleted(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.piiDeleted(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiAccessed(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.phiAccessed(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiCreated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.phiCreated(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiUpdated(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.phiUpdated(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.phiDeleted(AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+            this.openCDXAuditService.phiDeleted(
+                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
         });
     }
 

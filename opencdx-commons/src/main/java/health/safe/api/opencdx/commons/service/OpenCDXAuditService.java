@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.commons.service;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 
@@ -67,65 +68,73 @@ public interface OpenCDXAuditService extends OpenCDXAuditClient {
      * Record User PII information accessed to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void piiAccessed(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void piiAccessed(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record User PII information created to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void piiCreated(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void piiCreated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record user PII information updated to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void piiUpdated(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void piiUpdated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record user PII Information deleted to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void piiDeleted(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void piiDeleted(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record user PHI information accessed to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void phiAccessed(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void phiAccessed(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record user PHI information created ot audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void phiCreated(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void phiCreated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record User PHI information updated to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void phiUpdated(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void phiUpdated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record user PHI information deleted to audit log.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel sensitivity level for this request
      * @exception OpenCDXBadRequest Thrown if audit information is not captured.
      */
-    void phiDeleted(AgentType agentType, String purpose) throws OpenCDXBadRequest;
+    void phiDeleted(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) throws OpenCDXBadRequest;
 
     /**
      * Record User Communication.
