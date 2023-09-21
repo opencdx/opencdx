@@ -18,6 +18,7 @@ package health.safe.api.opencdx.tinkar.controller;
 import health.safe.api.opencdx.grpc.tinkar.TinkarReply;
 import health.safe.api.opencdx.grpc.tinkar.TinkarRequest;
 import health.safe.api.opencdx.tinkar.service.TinkarService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,7 @@ public class RestTinkarController {
      * @return Hello Response.
      */
     @PostMapping(value = "/hello")
+    @Observed(name = "opencdx-communications.rest.sayHello")
     public ResponseEntity<TinkarReply> hello(@RequestBody TinkarRequest request) {
         return new ResponseEntity<>(
                 TinkarReply.newBuilder()

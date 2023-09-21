@@ -30,6 +30,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.createEmailTemplate")
     public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
@@ -107,6 +109,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Cacheable(value = "email_templates", key = "#templateRequest.templateId")
     @Override
+    @Observed(name = "opencdx-communications.getEmailTemplate")
     public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXEmailTemplateRepository
                 .findById(new ObjectId(templateRequest.getTemplateId()))
@@ -117,6 +120,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
     @Override
+    @Observed(name = "opencdx-communications.updateEmailTemplate")
     public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!emailTemplate.hasTemplateId()) {
@@ -145,6 +149,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "email_templates", key = "#templateRequest.templateId")
     @Override
+    @Observed(name = "opencdx-communications.deleteEmailTemplate")
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
@@ -167,6 +172,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.createSMSTemplate")
     public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
@@ -190,6 +196,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Cacheable(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
+    @Observed(name = "opencdx-communications.getSMSTemplate")
     public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXSMSTemplateRespository
                 .findById(new ObjectId(templateRequest.getTemplateId()))
@@ -200,6 +207,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "sms_templates", key = "#smsTemplate.templateId")
     @Override
+    @Observed(name = "opencdx-communications.updateSMSTemplate")
     public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!smsTemplate.hasTemplateId()) {
@@ -228,6 +236,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
+    @Observed(name = "opencdx-communications.deleteSMSTemplate")
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
@@ -249,6 +258,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.createNotificaitonEvent")
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
@@ -274,6 +284,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Cacheable(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
+    @Observed(name = "opencdx-communications.getNotificationEvent")
     public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound {
         return this.openCDXNotificationEventRepository
                 .findById(new ObjectId(templateRequest.getTemplateId()))
@@ -284,6 +295,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "notificaiton_event", key = "#notificationEvent.eventId")
     @Override
+    @Observed(name = "opencdx-communications.updateNotificationEvent")
     public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!notificationEvent.hasEventId()) {
@@ -312,6 +324,7 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @CacheEvict(value = "notificaiton_event", key = "#templateRequest.templateId")
     @Override
+    @Observed(name = "opencdx-communications.deleteNotificationEvent")
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
@@ -333,6 +346,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.sendNotification")
     public SuccessResponse sendNotification(Notification notification)
             throws OpenCDXFailedPrecondition, OpenCDXNotFound, OpenCDXNotAcceptable {
         CommunicationAuditRecord.Builder auditBuilder = CommunicationAuditRecord.newBuilder();
@@ -406,6 +420,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.listSMSTemplates")
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
 
         Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(
@@ -423,6 +438,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.listEmailTemplates")
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
         Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(
                 PageRequest.of(request.getPageNumber(), request.getPageSize()));
@@ -438,6 +454,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     }
 
     @Override
+    @Observed(name = "opencdx-communications.listNotificationEvents")
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
         Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(
                 PageRequest.of(request.getPageNumber(), request.getPageNumber()));

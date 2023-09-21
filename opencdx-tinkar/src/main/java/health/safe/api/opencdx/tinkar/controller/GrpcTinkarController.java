@@ -20,6 +20,7 @@ import health.safe.api.opencdx.grpc.tinkar.TinkarReply;
 import health.safe.api.opencdx.grpc.tinkar.TinkarRequest;
 import health.safe.api.opencdx.tinkar.service.TinkarService;
 import io.grpc.stub.StreamObserver;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class GrpcTinkarController extends TinkarGrpc.TinkarImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
+    @Observed(name = "opencdx-communications.grpc.sayTinkar")
     public void sayTinkar(TinkarRequest request, StreamObserver<TinkarReply> responseObserver) {
 
         TinkarReply reply = TinkarReply.newBuilder()

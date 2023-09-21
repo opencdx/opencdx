@@ -19,6 +19,7 @@ import health.safe.api.opencdx.grpc.tinkar.TinkarRequest;
 import health.safe.api.opencdx.tinkar.model.Person;
 import health.safe.api.opencdx.tinkar.repository.PersonRepository;
 import health.safe.api.opencdx.tinkar.service.TinkarService;
+import io.micrometer.observation.annotation.Observed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,7 @@ public class TinkarServiceImpl implements TinkarService {
      * @return String containing the message.
      */
     @Override
+    @Observed(name = "opencdx-tinkar.sayTinkar")
     public String sayTinkar(TinkarRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);

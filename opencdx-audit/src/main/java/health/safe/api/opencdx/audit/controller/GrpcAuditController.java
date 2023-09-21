@@ -20,6 +20,7 @@ import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import cdx.open_audit.v2alpha.AuditStatus;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
 import io.grpc.stub.StreamObserver;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 
@@ -46,6 +47,7 @@ public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
+    @Observed(name = "opencdx-audit.grpc.event")
     public void event(AuditEvent request, StreamObserver<AuditStatus> responseObserver) {
 
         this.openCDXAuditMessageHandler.processAuditEvent(request);

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,6 +48,7 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     }
 
     @Override
+    @Observed(name = "opencdx-audit.receivedMessage")
     public void receivedMessage(byte[] message) {
         try {
             this.processAuditEvent(objectMapper.readValue(message, AuditEvent.class));
@@ -63,6 +65,7 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
      * Method to directory call to process an AuditEvent
      * @param event AuditEvent to process.
      */
+    @Observed(name = "opencdx-audit.processAuditEvent")
     public void processAuditEvent(AuditEvent event) {
         log.info("Audit Event:\n {}", event);
     }

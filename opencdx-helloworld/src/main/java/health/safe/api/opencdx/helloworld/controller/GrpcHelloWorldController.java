@@ -20,6 +20,7 @@ import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.service.HelloWorldService;
 import io.grpc.stub.StreamObserver;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
      * @param responseObserver Observer to process the response
      */
     @Override
+    @Observed(name = "opencdx-helloworld.grpc.sayHello")
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
 
         HelloReply reply = HelloReply.newBuilder()
