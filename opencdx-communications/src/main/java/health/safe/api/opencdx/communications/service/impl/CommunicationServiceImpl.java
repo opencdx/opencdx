@@ -30,6 +30,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@Observed(name = "opencdx-communications")
 public class CommunicationServiceImpl implements CommunicationService {
 
     private static final String DOMAIN = "CommunicationServiceImpl";

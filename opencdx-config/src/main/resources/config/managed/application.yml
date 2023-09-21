@@ -27,3 +27,6 @@ eureka:
     service-url:
       defaultZone: http://admin:8761/eureka/
 
+springdoc:
+  api-docs:
+    path: /api-docs

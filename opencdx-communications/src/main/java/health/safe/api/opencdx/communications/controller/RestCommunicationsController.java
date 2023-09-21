@@ -17,6 +17,7 @@ package health.safe.api.opencdx.communications.controller;
 
 import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
         value = "/communications",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+@Observed(name = "opencdx-communications")
 public class RestCommunicationsController {
 
     private final CommunicationService communicationService;

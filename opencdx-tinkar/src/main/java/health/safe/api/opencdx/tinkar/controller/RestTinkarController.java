@@ -18,6 +18,7 @@ package health.safe.api.opencdx.tinkar.controller;
 import health.safe.api.opencdx.grpc.tinkar.TinkarReply;
 import health.safe.api.opencdx.grpc.tinkar.TinkarRequest;
 import health.safe.api.opencdx.tinkar.service.TinkarService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/greeting")
+@Observed(name = "opencdx-tinkar")
 public class RestTinkarController {
 
     private final TinkarService tinkarService;

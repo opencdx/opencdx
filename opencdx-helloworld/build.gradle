@@ -13,8 +13,9 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: "${springBootVersion}"
+
 
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
@@ -26,8 +27,7 @@ dependencies {
     implementation "com.github.cloudyrock.mongock:mongock-bom:${mongoData}"
 
     // Swagger
-    implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
-    implementation "org.springdoc:springdoc-openapi-javadoc:${springDocVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
 
     //GRPC - To enable the GRPC uncomment the following two lines
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"

@@ -18,11 +18,14 @@ package health.safe.api.opencdx.commons.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import health.safe.api.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
+import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +36,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -49,16 +53,36 @@ public class CommonsConfig {
     }
 
     /**
+     * Observation Registry for the OpenCDX Performance Tracking.
+     * @param observationRegistry Registry
+     * @return ObservedAspect with performance handler.
+     */
+    @Bean
+    public ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
+        observationRegistry.observationConfig().observationHandler(new OpenCDXPerformanceHandler());
+        return new ObservedAspect(observationRegistry);
+    }
+
+    /**
      * Generates the Jackson Objectmapper with the JSON-to/from-Protobuf Message support.
      * @return ObjectMapper bean for use.
      */
     @Bean
+    @Primary
     @Description("Jackson ObjectMapper with all required registered modules.")
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
+    }
+    /**
+     *  Used to convert Protobuf to JSON for MVC apis
+     * @return  ProtobufHttpMessageConverter bean for use converting Protobuf to JSON for MVC apis
+     */
+    @Bean
+    ProtobufHttpMessageConverter protobufHttpMessageConverter() {
+        return new ProtobufHttpMessageConverter();
     }
 
     /**

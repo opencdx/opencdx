@@ -21,8 +21,7 @@ dependencies {
     testImplementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
 
     // Swagger
-    implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
-    implementation "org.springdoc:springdoc-openapi-javadoc:${springDocVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
 
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"

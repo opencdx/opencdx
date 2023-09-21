@@ -18,6 +18,7 @@ package health.safe.api.opencdx.audit.controller;
 import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditStatus;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/audit",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+@Observed(name = "opencdx-audit")
 public class RestAuditController {
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
 

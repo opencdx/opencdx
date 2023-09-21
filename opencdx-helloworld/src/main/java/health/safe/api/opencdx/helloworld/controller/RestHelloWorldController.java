@@ -18,6 +18,7 @@ package health.safe.api.opencdx.helloworld.controller;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import health.safe.api.opencdx.helloworld.service.HelloWorldService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/greeting",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+@Observed(name = "opencdx-helloworld")
 public class RestHelloWorldController {
 
     private final HelloWorldService helloWorldService;
@@ -56,7 +58,7 @@ public class RestHelloWorldController {
      * @return HelloReply with the hello message.
      */
     @PostMapping(value = "/hello")
-    public ResponseEntity<HelloReply> hello(@RequestBody HelloRequest request) {
+    public ResponseEntity<HelloReply> sayHello(@RequestBody HelloRequest request) {
 
         return new ResponseEntity<>(
                 HelloReply.newBuilder()

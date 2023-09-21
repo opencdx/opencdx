@@ -19,6 +19,7 @@ import health.safe.api.opencdx.grpc.tinkar.TinkarRequest;
 import health.safe.api.opencdx.tinkar.model.Person;
 import health.safe.api.opencdx.tinkar.repository.PersonRepository;
 import health.safe.api.opencdx.tinkar.service.TinkarService;
+import io.micrometer.observation.annotation.Observed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
  * to centrallize execution of code.
  */
 @Service
+@Observed(name = "opencdx-tinkar")
 public class TinkarServiceImpl implements TinkarService {
 
     private final PersonRepository personRepository;

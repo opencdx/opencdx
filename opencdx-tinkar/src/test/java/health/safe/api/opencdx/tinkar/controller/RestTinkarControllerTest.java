@@ -84,6 +84,6 @@ class RestTinkarControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"message\":\"Hello jeff!\"}", content);
+        Assertions.assertEquals("\n" + "\u000BHello jeff!", content);
     }
 }

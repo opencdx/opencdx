@@ -111,6 +111,7 @@ print_usage() {
     echo "  --no_menu  Skip the interactive menu and perform actions directly."
     echo "  --all      Skip the interactive menu and open all available reports/documentation."
     echo "  --check    Perform build and check all requirements"
+    echo "  --deploy   Will Start Docker and launch the user on the Docker Menu."
     echo "  --help     Show this help message."
     exit 0
 }
@@ -181,6 +182,7 @@ clean=false
 no_menu=false
 open_all=false
 check=false
+deploy=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -200,6 +202,9 @@ for arg in "$@"; do
         ;;
     --check)
         check=true
+        ;;
+    --deploy)
+        deploy=true
         ;;
     --help)
         print_usage
@@ -242,6 +247,14 @@ fi
 echo
 # Main Menu
 if [ "$no_menu" = false ]; then
+
+    if [ "$deploy" = true ]; then
+      build_docker;
+      start_docker;
+      open_reports "admin";
+      docker_menu;
+    fi
+
     while true; do
         echo "Main Menu:"
         echo "1. Open Test Report"

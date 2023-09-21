@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * Message Handler for Audit Microservice.
  */
 @Slf4j
+@Observed(name = "opencdx-audit")
 public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     private ObjectMapper objectMapper;
 

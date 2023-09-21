@@ -26,12 +26,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
-@SpringBootTest(classes = {CommonsConfig.class, OpenCDXAuditServiceImpl.class, NoOpOpenCDXMessageServiceImpl.class})
+@SpringBootTest(
+        classes = {
+            CommonsConfig.class,
+            OpenCDXAuditServiceImpl.class,
+            NoOpOpenCDXMessageServiceImpl.class,
+            ObservationAutoConfiguration.class
+        })
 @ExtendWith(SpringExtension.class)
 class OpenCDXAuditServiceImplTest {
 
