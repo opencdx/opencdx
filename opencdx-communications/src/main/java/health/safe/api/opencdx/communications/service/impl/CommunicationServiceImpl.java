@@ -392,7 +392,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     notificationEvent.getEventDescription(),
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    notificationEvent.getSensitivity(),
                     UUID.randomUUID().toString(),
                     notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
