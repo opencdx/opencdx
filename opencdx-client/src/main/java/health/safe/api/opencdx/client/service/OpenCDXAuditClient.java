@@ -72,9 +72,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void piiAccessed(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record User PII information created to audit log.
@@ -83,9 +91,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void piiCreated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record user PII information updated to audit log.
@@ -94,9 +110,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void piiUpdated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record user PII Information deleted to audit log.
@@ -105,9 +129,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void piiDeleted(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record user PHI information accessed to audit log.
@@ -116,9 +148,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void phiAccessed(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record user PHI information created ot audit log.
@@ -127,9 +167,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void phiCreated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record User PHI information updated to audit log.
@@ -138,9 +186,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void phiUpdated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record user PHI information deleted to audit log.
@@ -149,9 +205,17 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
+     * @param resource Configuration Identifier
+     * @param jsonRecord JSON used to record communications with Audit.
      */
     void phiDeleted(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record User Communication.

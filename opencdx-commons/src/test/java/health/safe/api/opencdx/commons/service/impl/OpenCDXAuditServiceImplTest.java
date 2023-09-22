@@ -96,7 +96,11 @@ class OpenCDXAuditServiceImplTest {
     void piiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiAccessed(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -104,7 +108,11 @@ class OpenCDXAuditServiceImplTest {
     void piiCreated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiCreated(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -112,7 +120,11 @@ class OpenCDXAuditServiceImplTest {
     void piiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiUpdated(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -120,7 +132,11 @@ class OpenCDXAuditServiceImplTest {
     void piiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.piiDeleted(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -128,7 +144,11 @@ class OpenCDXAuditServiceImplTest {
     void phiAccessed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiAccessed(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -136,7 +156,11 @@ class OpenCDXAuditServiceImplTest {
     void phiCreated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiCreated(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -144,7 +168,11 @@ class OpenCDXAuditServiceImplTest {
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiUpdated(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -152,7 +180,11 @@ class OpenCDXAuditServiceImplTest {
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.phiDeleted(
-                    AgentType.AGENT_TYPE_HUMAN_USER, "purpose", SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED);
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED,
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
