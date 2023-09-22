@@ -18,6 +18,7 @@ package health.safe.api.opencdx.connected.test.service.impl;
 import cdx.open_connected_test.v2alpha.ConnectedTest;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import org.junit.jupiter.api.AfterEach;
@@ -35,6 +36,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXConnectedTestServiceImplTest {
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     OpenCDXConnectedTestService openCDXConnectedTestService;
 
     @Autowired
@@ -42,7 +46,7 @@ class OpenCDXConnectedTestServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
-        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService, objectMapper);
     }
 
     @AfterEach

@@ -20,9 +20,13 @@ import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.open_connected_test.v2alpha.ConnectedTest;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
@@ -35,33 +39,61 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
     private final OpenCDXAuditService openCDXAuditService;
 
+    private final ObjectMapper objectMapper;
+
     /**
      * Constructore with OpenCDXAuditService
+     *
      * @param openCDXAuditService user for recording PHI
+     * @param objectMapper
      */
-    public OpenCDXConnectedTestServiceImpl(OpenCDXAuditService openCDXAuditService) {
+    public OpenCDXConnectedTestServiceImpl(OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
-        this.openCDXAuditService.phiCreated(
-                ObjectId.get().toHexString(),
-                AgentType.AGENT_TYPE_SYSTEM,
-                "Connected Test Submitted.",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                ObjectId.get().toHexString());
+        try {
+            this.openCDXAuditService.phiCreated(
+                    ObjectId.get().toHexString(),
+                    AgentType.AGENT_TYPE_SYSTEM,
+                    "Connected Test Submitted.",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ObjectId.get().toHexString(),
+                    "Connected Test Submissions",
+                    this.objectMapper.writeValueAsString(connectedTest));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
+                    "OpenCDXConnectedTestServiceImpl", 1, "Failed to convert ConnectedTest", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
+            throw openCDXNotAcceptable;
+        }
+
         return TestSubmissionResponse.getDefaultInstance();
     }
 
     @Override
     public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest) {
-        this.openCDXAuditService.phiAccessed(
-                ObjectId.get().toHexString(),
-                AgentType.AGENT_TYPE_HUMAN_USER,
-                "Connected Test Accessed.",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                ObjectId.get().toHexString());
+        try {
+            this.openCDXAuditService.phiAccessed(
+                    ObjectId.get().toHexString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "Connected Test Accessed.",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ObjectId.get().toHexString(),
+                    "Connected Test Accessed",
+                    this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
+                    "OpenCDXConnectedTestServiceImpl", 2, "Failed to convert ConnectedTest", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable
+                    .getMetaData()
+                    .put("OBJECT", ConnectedTest.getDefaultInstance().toString());
+            throw openCDXNotAcceptable;
+        }
         return ConnectedTest.getDefaultInstance();
     }
 }

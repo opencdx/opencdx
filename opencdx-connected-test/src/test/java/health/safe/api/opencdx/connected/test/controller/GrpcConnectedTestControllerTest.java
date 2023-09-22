@@ -18,6 +18,7 @@ package health.safe.api.opencdx.connected.test.controller;
 import cdx.open_connected_test.v2alpha.ConnectedTest;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import health.safe.api.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
@@ -40,13 +41,16 @@ class GrpcConnectedTestControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     OpenCDXConnectedTestService openCDXConnectedTestService;
 
     GrpcConnectedTestController grpcConnectedTestController;
 
     @BeforeEach
     void setUp() {
-        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService, objectMapper);
         this.grpcConnectedTestController = new GrpcConnectedTestController(this.openCDXConnectedTestService);
     }
 
