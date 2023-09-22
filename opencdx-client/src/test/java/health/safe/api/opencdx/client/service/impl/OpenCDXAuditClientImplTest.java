@@ -97,7 +97,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -109,7 +111,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -121,7 +125,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -133,7 +139,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -145,7 +153,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -157,7 +167,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -169,7 +181,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 
@@ -181,7 +195,9 @@ class OpenCDXAuditClientImplTest {
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    "COMMUNICATION: 123",
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
     }
 

@@ -62,7 +62,9 @@ public class HelloWorldServiceImpl implements HelloWorldService {
                 AgentType.AGENT_TYPE_SYSTEM,
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                UUID.randomUUID().toString());
+                UUID.randomUUID().toString(),
+                "COMMUNICATION: 123",
+                "{\"name\":\"John\", \"age\":30, \"car\":null}");
         return String.format("Hello %s!", request.getName().trim());
     }
 }
