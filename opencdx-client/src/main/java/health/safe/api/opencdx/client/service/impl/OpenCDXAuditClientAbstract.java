@@ -103,11 +103,18 @@ public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     @Override
     public void piiAccessed(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
                 .setPurposeOfUse(purpose)
@@ -116,11 +123,18 @@ public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     @Override
     public void piiCreated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
                 .setPurposeOfUse(purpose)
@@ -129,11 +143,18 @@ public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     @Override
     public void piiUpdated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
                 .setPurposeOfUse(purpose)
@@ -142,11 +163,18 @@ public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     @Override
     public void piiDeleted(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PII_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
                 .setPurposeOfUse(purpose)
@@ -155,37 +183,58 @@ public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     @Override
     public void phiAccessed(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_ACCESSED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setPurposeOfUse(purpose)
                 .build());
     }
 
     @Override
     public void phiCreated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setPurposeOfUse(purpose)
                 .build());
     }
 
     @Override
     public void phiUpdated(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_UPDATED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
                 .setPurposeOfUse(purpose)
@@ -194,11 +243,18 @@ public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
     @Override
     public void phiDeleted(
-            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity) {
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_DELETED)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
+                .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
                 .setAuditEntity(this.getAuditEntity(auditEntity))
                 .setPurposeOfUse(purpose)

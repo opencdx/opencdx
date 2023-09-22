@@ -86,51 +86,93 @@ public class OpenCDXAuditServiceImpl extends OpenCDXAuditClientAbstract implemen
     }
 
     @Override
-    public void piiAccessed(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void piiAccessed(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiAccessed(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.piiAccessed(
+                info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void piiCreated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void piiCreated(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiCreated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.piiCreated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void piiUpdated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void piiUpdated(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiUpdated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.piiUpdated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void piiDeleted(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void piiDeleted(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiDeleted(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.piiDeleted(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void phiAccessed(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void phiAccessed(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiAccessed(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.phiAccessed(
+                info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void phiCreated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void phiCreated(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiCreated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.phiCreated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void phiUpdated(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void phiUpdated(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiUpdated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.phiUpdated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
-    public void phiDeleted(AgentType agentType, String purpose, SensitivityLevel sensitivityLevel) {
+    public void phiDeleted(
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord) {
         RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiDeleted(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient());
+        this.phiDeleted(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
     }
 
     @Override
