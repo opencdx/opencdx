@@ -15,18 +15,16 @@
  */
 package health.safe.api.opencdx.connected.test.service.impl;
 
+import cdx.open_connected_test.v2alpha.ConnectedTest;
+import cdx.open_connected_test.v2alpha.TestIdRequest;
+import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.connected.test.model.Person;
-import health.safe.api.opencdx.connected.test.repository.PersonRepository;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -37,9 +35,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXConnectedTestServiceImplTest {
 
-    @Mock
-    PersonRepository personRepository;
-
     OpenCDXConnectedTestService openCDXConnectedTestService;
 
     @Autowired
@@ -47,23 +42,23 @@ class OpenCDXConnectedTestServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        this.openCDXConnectedTestService =
-                new OpenCDXConnectedTestServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService);
     }
 
     @AfterEach
-    void tearDown() {
-        Mockito.reset(this.personRepository);
+    void tearDown() {}
+
+    @Test
+    void submitTest() {
+        Assertions.assertEquals(
+                TestSubmissionResponse.getDefaultInstance(),
+                this.openCDXConnectedTestService.submitTest(ConnectedTest.getDefaultInstance()));
     }
 
     @Test
-    void testSayHello() {
-        Person person = new Person();
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
+    void getTestDetailsById() {
         Assertions.assertEquals(
-                "Hello Bob!",
-                this.openCDXConnectedTestService.sayHello(
-                        HelloRequest.newBuilder().setName(" Bob ").build()));
+                ConnectedTest.getDefaultInstance(),
+                this.openCDXConnectedTestService.getTestDetailsById(TestIdRequest.getDefaultInstance()));
     }
 }

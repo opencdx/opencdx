@@ -145,7 +145,7 @@ class RestCommunicationsControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"/communications/email/", "/communications/sms/", "/communications/event/"})
     void testGets(String url) throws Exception {
-        String uuid = new ObjectId().toHexString();
+        String uuid = ObjectId.get().toHexString();
         MvcResult result = this.mockMvc
                 .perform(get(url + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -173,7 +173,7 @@ class RestCommunicationsControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"/communications/email/", "/communications/sms/", "/communications/event/"})
     void testDeletes(String url) throws Exception {
-        String uuid = new ObjectId().toHexString();
+        String uuid = ObjectId.get().toHexString();
         MvcResult result = this.mockMvc
                 .perform(delete(url + uuid).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

@@ -15,19 +15,17 @@
  */
 package health.safe.api.opencdx.connected.test.controller;
 
+import cdx.open_connected_test.v2alpha.ConnectedTest;
+import cdx.open_connected_test.v2alpha.TestIdRequest;
+import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.connected.test.model.Person;
-import health.safe.api.opencdx.connected.test.repository.PersonRepository;
+import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import health.safe.api.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,35 +40,36 @@ class GrpcConnectedTestControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    @Mock
-    PersonRepository personRepository;
-
-    OpenCDXConnectedTestServiceImpl helloWorldService;
+    OpenCDXConnectedTestService openCDXConnectedTestService;
 
     GrpcConnectedTestController grpcConnectedTestController;
 
     @BeforeEach
     void setUp() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService = new OpenCDXConnectedTestServiceImpl(this.personRepository, this.openCDXAuditService);
-        this.grpcConnectedTestController = new GrpcConnectedTestController(this.helloWorldService);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService);
+        this.grpcConnectedTestController = new GrpcConnectedTestController(this.openCDXConnectedTestService);
     }
 
     @AfterEach
-    void tearDown() {
-        Mockito.reset(this.personRepository);
+    void tearDown() {}
+
+    @Test
+    void submitTest() {
+        StreamObserver<TestSubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTest connectedTest = ConnectedTest.getDefaultInstance();
+        this.grpcConnectedTestController.submitTest(connectedTest, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(TestSubmissionResponse.getDefaultInstance());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
-    void sayHello() {
-        StreamObserver<HelloReply> responseObserver = Mockito.mock(StreamObserver.class);
-        HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
-        HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
+    void getTestDetailsById() {
+        StreamObserver<ConnectedTest> responseObserver = Mockito.mock(StreamObserver.class);
+        TestIdRequest testIdRequest = TestIdRequest.getDefaultInstance();
+        this.grpcConnectedTestController.getTestDetailsById(testIdRequest, responseObserver);
 
-        this.grpcConnectedTestController.sayHello(helloRequest, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(helloReply);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(ConnectedTest.getDefaultInstance());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

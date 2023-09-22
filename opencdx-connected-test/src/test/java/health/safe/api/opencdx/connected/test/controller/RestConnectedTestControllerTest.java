@@ -15,12 +15,20 @@
  */
 package health.safe.api.opencdx.connected.test.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.open_connected_test.v2alpha.ConnectedTest;
+import cdx.open_connected_test.v2alpha.TestIdRequest;
+import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.connected.test.model.Person;
 import health.safe.api.opencdx.connected.test.repository.PersonRepository;
 import io.nats.client.Connection;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,10 +48,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+@Slf4j
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class RestConnectedTestControllerTest {
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -76,14 +88,35 @@ class RestConnectedTestControllerTest {
     }
 
     @Test
-    void testGreetingHello() throws Exception {
+    void submitTest() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/greeting/hello")
-                        .content("{\"name\": \"jeff\"}")
+                .perform(post("/connected-test")
+                        .content(this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\n" + "  \"message\": \"Hello jeff!\"\n" + "}", content);
+        Assertions.assertEquals("{\n}", content);
+    }
+
+    @Test
+    void getTestDetailsById() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/connected-test/" + new ObjectId().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertEquals("{\n}", content);
+        this.generateJSON();
+    }
+
+    void generateJSON() throws JsonProcessingException {
+        log.info("Generating JSON");
+        log.info("ConnectedTest:\n{}", this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()));
+        log.info(
+                "TestSubmissionResponse:\n{}",
+                this.objectMapper.writeValueAsString(TestSubmissionResponse.getDefaultInstance()));
+        log.info("TestIdRequest:\n{}", this.objectMapper.writeValueAsString(TestIdRequest.getDefaultInstance()));
     }
 }

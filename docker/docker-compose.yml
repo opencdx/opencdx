@@ -76,8 +76,8 @@ services:
       nats:
         condition: service_started
     ports:
-      - "8580:8480"
-      - "9590:9490"
+      - "8580:8580"
+      - "9590:9590"
 
 
   communications:
