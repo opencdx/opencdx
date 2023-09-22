@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 @GRpcService
-@Observed(name = "opencdx-tinkar")
+@Observed(name = "opencdx")
 public class GrpcTinkarController extends TinkarGrpc.TinkarImplBase {
 
     private final TinkarService tinkarService;

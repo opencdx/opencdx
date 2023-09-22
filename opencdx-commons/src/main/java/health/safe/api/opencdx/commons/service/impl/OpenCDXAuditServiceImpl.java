@@ -24,6 +24,7 @@ import health.safe.api.opencdx.commons.aspects.AuditAspect;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@Observed(name = "opencdx")
 public class OpenCDXAuditServiceImpl extends OpenCDXAuditClientAbstract implements OpenCDXAuditService {
 
     private OpenCDXMessageService messageService;

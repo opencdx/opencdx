@@ -108,12 +108,14 @@ otsSwInfo {
 }
 
 def exportedProjects = [
-        ":opencdx-commons",
-        ":opencdx-communications",
         ":opencdx-helloworld",
-        ":opencdx-client",
         ":opencdx-tinkar",
-        ":opencdx-audit"
+        ":opencdx-commons",
+        ":opencdx-client",
+        ":opencdx-audit",
+        ":opencdx-communications",
+        ":opencdx-media",
+        ":opencdx-connected-test"
 ]
 
 task allJavadoc(type: Javadoc) {

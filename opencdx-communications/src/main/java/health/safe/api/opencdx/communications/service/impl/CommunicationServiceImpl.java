@@ -50,7 +50,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@Observed(name = "opencdx-communications")
+@Observed(name = "opencdx")
 public class CommunicationServiceImpl implements CommunicationService {
 
     private static final String DOMAIN = "CommunicationServiceImpl";
@@ -84,7 +84,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
         this.objectMapper = objectMapper;
 
-        //TODO: Autowire in OpenCDXSMSService, OpenCDXEmailService, & OpenCDXHTMLProcessor
+        // TODO: Autowire in OpenCDXSMSService, OpenCDXEmailService, & OpenCDXHTMLProcessor
     }
 
     @Override

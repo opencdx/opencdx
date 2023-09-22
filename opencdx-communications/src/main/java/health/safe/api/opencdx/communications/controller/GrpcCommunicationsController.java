@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 @GRpcService
-@Observed(name = "opencdx-communications")
+@Observed(name = "opencdx")
 public class GrpcCommunicationsController extends CommunicationServiceGrpc.CommunicationServiceImplBase {
 
     private final CommunicationService communicationService;

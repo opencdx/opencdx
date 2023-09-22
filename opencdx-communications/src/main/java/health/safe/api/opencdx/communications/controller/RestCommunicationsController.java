@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
         value = "/communications",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-@Observed(name = "opencdx-communications")
+@Observed(name = "opencdx")
 public class RestCommunicationsController {
 
     private final CommunicationService communicationService;

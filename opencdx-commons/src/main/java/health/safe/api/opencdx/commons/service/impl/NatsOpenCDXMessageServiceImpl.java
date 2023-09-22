@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import io.micrometer.observation.annotation.Observed;
 import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.Message;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  * NATS based implementation of OpenCDXMessageService
  */
 @Slf4j
+@Observed(name = "opencdx")
 public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     private final Connection natsConnection;

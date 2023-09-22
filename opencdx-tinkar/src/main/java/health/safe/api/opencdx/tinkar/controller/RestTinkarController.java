@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/greeting")
-@Observed(name = "opencdx-tinkar")
+@Observed(name = "opencdx")
 public class RestTinkarController {
 
     private final TinkarService tinkarService;

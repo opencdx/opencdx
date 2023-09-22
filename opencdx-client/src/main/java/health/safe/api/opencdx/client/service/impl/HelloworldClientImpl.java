@@ -19,12 +19,14 @@ import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Implementation of the Helloworld gRPC Client.
  */
 @Slf4j
+@Observed(name = "opencdx")
 public class HelloworldClientImpl implements HelloworldClient {
 
     private final GreeterGrpc.GreeterBlockingStub greeterBlockingStub;

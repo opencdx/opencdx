@@ -17,12 +17,14 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * No Operation Message service for use in Testing
  */
 @Slf4j
+@Observed(name = "opencdx")
 public class NoOpOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     /**
