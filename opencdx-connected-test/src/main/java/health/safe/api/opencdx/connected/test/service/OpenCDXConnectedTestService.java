@@ -18,7 +18,6 @@ package health.safe.api.opencdx.connected.test.service;
 import cdx.open_connected_test.v2alpha.ConnectedTest;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 
 /**
  * Interface for the OpenCDXConnectedTestService

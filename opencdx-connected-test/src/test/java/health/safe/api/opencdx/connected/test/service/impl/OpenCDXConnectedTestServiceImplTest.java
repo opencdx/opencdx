@@ -48,7 +48,8 @@ class OpenCDXConnectedTestServiceImplTest {
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.openCDXConnectedTestService =
+                new OpenCDXConnectedTestServiceImpl(this.personRepository, this.openCDXAuditService);
     }
 
     @AfterEach

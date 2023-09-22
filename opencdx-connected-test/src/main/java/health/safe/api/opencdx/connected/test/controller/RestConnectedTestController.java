@@ -19,7 +19,6 @@ import cdx.open_connected_test.v2alpha.ConnectedTest;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +57,7 @@ public class RestConnectedTestController {
      */
     @PostMapping()
     public ResponseEntity<TestSubmissionResponse> submitTest(@RequestBody ConnectedTest connectedTest) {
-        return new ResponseEntity<>(
-                this.openCDXConnectedTestService.submitTest(connectedTest),
-                HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXConnectedTestService.submitTest(connectedTest), HttpStatus.OK);
     }
 
     /**
@@ -71,7 +68,8 @@ public class RestConnectedTestController {
     @GetMapping("/{id}")
     public ResponseEntity<ConnectedTest> getTestDetailsById(@PathVariable("id") String id) {
         return new ResponseEntity<>(
-                this.openCDXConnectedTestService.getTestDetailsById(TestIdRequest.newBuilder().setTestId(id).build()),
+                this.openCDXConnectedTestService.getTestDetailsById(
+                        TestIdRequest.newBuilder().setTestId(id).build()),
                 HttpStatus.OK);
     }
 }

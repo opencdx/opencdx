@@ -20,7 +20,6 @@ import cdx.open_connected_test.v2alpha.HealthcareServiceGrpc;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
