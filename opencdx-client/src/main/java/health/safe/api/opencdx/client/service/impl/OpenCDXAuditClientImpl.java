@@ -18,10 +18,12 @@ package health.safe.api.opencdx.client.service.impl;
 import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import cdx.open_audit.v2alpha.AuditStatus;
+import io.micrometer.observation.annotation.Observed;
 
 /**
  * gRPC Client implementation of the Audit System.
  */
+@Observed(name = "opencdx")
 public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
     private final AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;

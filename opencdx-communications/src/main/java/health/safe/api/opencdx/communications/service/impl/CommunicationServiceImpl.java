@@ -50,7 +50,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@Observed(name = "opencdx-communications")
+@Observed(name = "opencdx")
 public class CommunicationServiceImpl implements CommunicationService {
 
     private static final String DOMAIN = "CommunicationServiceImpl";

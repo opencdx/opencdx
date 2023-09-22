@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/greeting",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-@Observed(name = "opencdx-helloworld")
+@Observed(name = "opencdx")
 public class RestHelloWorldController {
 
     private final HelloWorldService helloWorldService;

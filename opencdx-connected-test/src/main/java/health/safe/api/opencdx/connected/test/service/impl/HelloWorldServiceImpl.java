@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
  * Service for processing HelloWorld Requests
  */
 @Service
-@Observed(name = "opencdx-helloworld")
+@Observed(name = "opencdx")
 public class HelloWorldServiceImpl implements HelloWorldService {
 
     private final PersonRepository personRepository;

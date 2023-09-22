@@ -29,7 +29,7 @@ import org.lognet.springboot.grpc.GRpcService;
  */
 @Slf4j
 @GRpcService
-@Observed(name = "opencdx-audit")
+@Observed(name = "opencdx")
 public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
 
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;

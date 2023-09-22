@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * Message Handler for Audit Microservice.
  */
 @Slf4j
-@Observed(name = "opencdx-audit")
+@Observed(name = "opencdx")
 public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
     private ObjectMapper objectMapper;
 

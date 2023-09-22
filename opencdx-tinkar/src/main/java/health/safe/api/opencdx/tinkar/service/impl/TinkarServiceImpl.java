@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
  * to centrallize execution of code.
  */
 @Service
-@Observed(name = "opencdx-tinkar")
+@Observed(name = "opencdx")
 public class TinkarServiceImpl implements TinkarService {
 
     private final PersonRepository personRepository;

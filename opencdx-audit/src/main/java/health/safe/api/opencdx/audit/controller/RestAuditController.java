@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
         value = "/audit",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-@Observed(name = "opencdx-audit")
+@Observed(name = "opencdx")
 public class RestAuditController {
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
 

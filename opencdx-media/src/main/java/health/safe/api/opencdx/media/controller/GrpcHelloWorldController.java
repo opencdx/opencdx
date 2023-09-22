@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 @GRpcService
-@Observed(name = "opencdx-helloworld")
+@Observed(name = "opencdx")
 public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
 
     private final HelloWorldService helloWorldService;
