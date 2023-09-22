@@ -32,7 +32,7 @@ public class OpenCDXSMSServiceImpl implements OpenCDXSMSService {
      * Constructor for OpenCDXSMSService
      */
     @Autowired
-    private OpenCDXSMSServiceImpl() {
+    public OpenCDXSMSServiceImpl() {
         // Default contructor
 
     }

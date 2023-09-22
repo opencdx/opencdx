@@ -39,4 +39,10 @@ class AppConfigTest {
         AppConfig appConfig = new AppConfig();
         Assertions.assertEquals("Hello %s!", appConfig.format(this.appProperties));
     }
+
+    @Test
+    void testOpenCDXSMSService() {
+        AppConfig appConfig = new AppConfig();
+        Assertions.assertNotNull(appConfig.openCDXSMSService());
+    }
 }
