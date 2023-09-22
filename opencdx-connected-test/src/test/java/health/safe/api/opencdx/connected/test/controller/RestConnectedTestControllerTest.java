@@ -24,8 +24,6 @@ import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.connected.test.model.Person;
-import health.safe.api.opencdx.connected.test.repository.PersonRepository;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -34,7 +32,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,23 +60,17 @@ class RestConnectedTestControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    PersonRepository personRepository;
-
-    @MockBean
     Connection connection;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @AfterEach
     void tearDown() {
         Mockito.reset(this.connection);
-        Mockito.reset(this.personRepository);
     }
 
     @Test

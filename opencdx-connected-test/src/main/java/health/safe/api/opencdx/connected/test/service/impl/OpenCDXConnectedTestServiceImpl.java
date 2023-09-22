@@ -45,7 +45,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * Constructore with OpenCDXAuditService
      *
      * @param openCDXAuditService user for recording PHI
-     * @param objectMapper
+     * @param objectMapper ObjectMapper for converting to JSON for Audit system.
      */
     public OpenCDXConnectedTestServiceImpl(OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
