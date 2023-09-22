@@ -132,7 +132,7 @@ message StatusMessageAction {
 // Represents a specific test that can be ordered.
 message OrderableTest {
   string orderableTestId = 1;                 // Unique identifier for the orderable test.
-  TestFormat testFormat = 2;                  // The format or method of the test.
+  //TestFormat testFormat = 2;                  // The format or method of the test.
 }
 
 // Detailed result information for an orderable test.

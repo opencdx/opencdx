@@ -15,16 +15,27 @@
  */
 package health.safe.api.opencdx.connected.test.service;
 
+import cdx.open_connected_test.v2alpha.ConnectedTest;
+import cdx.open_connected_test.v2alpha.TestIdRequest;
+import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 
 /**
- * Interface for the HelloWorldService
+ * Interface for the OpenCDXConnectedTestService
  */
-public interface HelloWorldService {
+public interface OpenCDXConnectedTestService {
+
     /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
+     * Submits Test results to be stored for a user.
+     * @param connectedTest Connected Test results to store
+     * @return ID of the connected Test Results.
      */
-    String sayHello(HelloRequest request);
+    public TestSubmissionResponse submitTest(ConnectedTest connectedTest);
+
+    /**
+     * Get the connected test results for a specific test.
+     * @param testIdRequest ID of the test to retrieve.
+     * @return The connected test results.
+     */
+    public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest);
 }

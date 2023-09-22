@@ -43,7 +43,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class RestHelloWorldControllerTest {
+class RestConnectedTestControllerTest {
 
     @Autowired
     private WebApplicationContext context;
