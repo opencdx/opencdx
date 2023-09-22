@@ -84,7 +84,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
         this.objectMapper = objectMapper;
 
-        //TODO: Autowire in OpenCDXSMSService, OpenCDXEmailService, & OpenCDXHTMLProcessor
+        // TODO: Autowire in OpenCDXSMSService, OpenCDXEmailService, & OpenCDXHTMLProcessor
     }
 
     @Override
