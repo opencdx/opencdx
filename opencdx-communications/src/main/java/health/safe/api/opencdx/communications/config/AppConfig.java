@@ -15,6 +15,8 @@
  */
 package health.safe.api.opencdx.communications.config;
 
+import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
+import health.safe.api.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,5 +44,15 @@ public class AppConfig {
     @Description("A simiple format Bean, used to demonstrated out to handle configuration and document a bean.")
     public String format(AppProperties appProperties) {
         return appProperties.getFormat();
+    }
+
+    /**
+     * Bean to get SMS notification service.
+     * @return Object of OpenCDXSMSServiceImpl.
+     */
+    @Bean
+    @Description("Bean for OpenCDXSMSService, to get the SMS notification.")
+    OpenCDXSMSService openCDXSMSService() {
+        return new OpenCDXSMSServiceImpl();
     }
 }
