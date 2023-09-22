@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.commons.annotations;
 
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -38,4 +39,10 @@ public @interface OpenCDXAuditUser {
      * @return the patient ID.
      */
     String patient() default "";
+
+    /**
+     * The SensitivityLevel
+     * @return the sensitivity level
+     */
+    SensitivityLevel sensitivityLevel() default SensitivityLevel.SENSITIVITY_LEVEL_UNSPECIFIED;
 }

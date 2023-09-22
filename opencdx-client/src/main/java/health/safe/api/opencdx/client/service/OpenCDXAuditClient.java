@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.client.service;
 
 import cdx.open_audit.v2alpha.AgentType;
+import cdx.open_audit.v2alpha.SensitivityLevel;
 
 /**
  * Audit Service for interfacing to the service. Used for both direct gRPC client
@@ -71,7 +72,8 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiAccessed(String actor, AgentType agentType, String purpose, String auditEntity);
+    void piiAccessed(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record User PII information created to audit log.
@@ -80,7 +82,8 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiCreated(String actor, AgentType agentType, String purpose, String auditEntity);
+    void piiCreated(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record user PII information updated to audit log.
@@ -89,7 +92,8 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiUpdated(String actor, AgentType agentType, String purpose, String auditEntity);
+    void piiUpdated(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record user PII Information deleted to audit log.
@@ -98,63 +102,86 @@ public interface OpenCDXAuditClient {
      * @param purpose purpose of use
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void piiDeleted(String actor, AgentType agentType, String purpose, String auditEntity);
+    void piiDeleted(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record user PHI information accessed to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiAccessed(String actor, AgentType agentType, String purpose, String auditEntity);
+    void phiAccessed(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record user PHI information created ot audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiCreated(String actor, AgentType agentType, String purpose, String auditEntity);
+    void phiCreated(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record User PHI information updated to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiUpdated(String actor, AgentType agentType, String purpose, String auditEntity);
+    void phiUpdated(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record user PHI information deleted to audit log.
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
-    void phiDeleted(String actor, AgentType agentType, String purpose, String auditEntity);
+    void phiDeleted(
+            String actor, AgentType agentType, String purpose, SensitivityLevel sensitivityLevel, String auditEntity);
 
     /**
      * Record User Communication.
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      * @param resource Communication Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      */
     void communication(
-            String actor, AgentType agentType, String purpose, String auditEntity, String resource, String jsonRecord);
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String auditEntity,
+            String resource,
+            String jsonRecord);
 
     /**
      * Record Configuraiton Change
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param resource Configuration Identifier
      * @param jsonRecord JSON used to record communications with Audit.
      */
-    void config(String actor, AgentType agentType, String purpose, String resource, String jsonRecord);
+    void config(
+            String actor,
+            AgentType agentType,
+            String purpose,
+            SensitivityLevel sensitivityLevel,
+            String resource,
+            String jsonRecord);
 }

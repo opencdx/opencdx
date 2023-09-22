@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.commons.aspects;
 
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import java.lang.annotation.Annotation;
 
@@ -22,10 +23,12 @@ public class AuditAspectServiceTest implements OpenCDXAuditUser {
 
     private final String actor;
     private final String patient;
+    private final SensitivityLevel sensitivityLevel;
 
-    AuditAspectServiceTest(String actor, String patient) {
+    AuditAspectServiceTest(String actor, String patient, SensitivityLevel sensitivityLevel) {
         this.actor = actor;
         this.patient = patient;
+        this.sensitivityLevel = sensitivityLevel;
     }
 
     @Override
@@ -36,6 +39,11 @@ public class AuditAspectServiceTest implements OpenCDXAuditUser {
     @Override
     public String patient() {
         return this.patient;
+    }
+
+    @Override
+    public SensitivityLevel sensitivityLevel() {
+        return this.sensitivityLevel;
     }
 
     /**

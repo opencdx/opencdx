@@ -15,10 +15,7 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import cdx.open_audit.v2alpha.AuditStatus;
+import cdx.open_audit.v2alpha.*;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -99,6 +96,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -110,6 +108,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -121,6 +120,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -132,6 +132,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -143,6 +144,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -154,6 +156,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -165,6 +168,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -176,6 +180,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString());
         });
     }
@@ -187,6 +192,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
@@ -200,6 +206,7 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     "COMMUNICATION: 123",
                     "{\"name\":\"John\", \"age\":30, \"car\":null}");
         });
