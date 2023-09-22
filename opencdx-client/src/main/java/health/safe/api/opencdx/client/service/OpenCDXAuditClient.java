@@ -70,6 +70,7 @@ public interface OpenCDXAuditClient {
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
     void piiAccessed(
@@ -80,6 +81,7 @@ public interface OpenCDXAuditClient {
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
     void piiCreated(
@@ -90,6 +92,7 @@ public interface OpenCDXAuditClient {
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
     void piiUpdated(
@@ -100,6 +103,7 @@ public interface OpenCDXAuditClient {
      * @param actor Currently logged in user who initiated the actions being recorded.
      * @param agentType type of agent for this request
      * @param purpose purpose of use
+     * @param sensitivityLevel type of sensitivity level
      * @param auditEntity User that data was accessed in the system or modified.
      */
     void piiDeleted(
