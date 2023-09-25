@@ -21,7 +21,7 @@ import cdx.open_audit.v2alpha.AuditStatus;
 import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientAbstract;
 import health.safe.api.opencdx.commons.aspects.AuditAspect;
-import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
+import health.safe.api.opencdx.commons.dto.*;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import io.micrometer.observation.annotation.Observed;

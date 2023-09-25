@@ -15,6 +15,9 @@
  */
 package health.safe.api.opencdx.commons.config;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
+
 import cdx.open_audit.v2alpha.Actor;
 import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditEventType;
@@ -29,6 +32,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -70,5 +76,14 @@ class CommonsConfigTest {
     @Test
     void nullCheck() {
         Assertions.assertNotNull(this.commonsConfig);
+    }
+
+    @Test
+    void testMongoTemplate() {
+        mockConstruction(MongoTemplate.class);
+        MongoDatabaseFactory factory = mock(MongoDatabaseFactory.class);
+        MongoConverter converter = mock(MongoConverter.class);
+        Object mt = commonsConfig.mongoTemplate(factory, converter);
+        Assertions.assertNotNull(mt);
     }
 }
