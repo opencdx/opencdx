@@ -130,7 +130,7 @@ class RestConnectedTestControllerTest {
 
     void generateJSON() throws JsonProcessingException {
         log.info("Generating JSON");
-        log.info("ConnectedTest:\n{}", this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()));
+        log.info("ConnectedTest:\n{}", this.objectMapper.writeValueAsString(ConnectedTest.newBuilder().setBasicInfo(BasicInfo.newBuilder().setId(new ObjectId().toHexString()).build())));
         log.info(
                 "TestSubmissionResponse:\n{}",
                 this.objectMapper.writeValueAsString(TestSubmissionResponse.getDefaultInstance()));
