@@ -18,11 +18,18 @@ package health.safe.api.opencdx.commons.aspects;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditMissingDataRequest;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditProcessingRequest;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import health.safe.api.opencdx.commons.templates.OpenCDXMongoAuditTemplate;
+import health.safe.api.opencdx.commons.util.EndpointFinder;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -48,6 +55,8 @@ import org.springframework.stereotype.Component;
 @EnableAspectJAutoProxy
 @Component
 public class AuditAspect {
+    private static final String SYSTEM_STR = "system";
+    private static final String AUDIT_DISABLED = "Audit Disabled";
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
     private static final String DOMAIN = "AuditAspect";
     private final ExpressionParser parser;
@@ -55,10 +64,13 @@ public class AuditAspect {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXMongoAuditTemplate mongoAuditTemplate;
+
     /**
      * Default constructor sets up the Expression Parser to be used.
      */
-    AuditAspect() {
+    public AuditAspect(){
         this.parser = new SpelExpressionParser();
     }
 

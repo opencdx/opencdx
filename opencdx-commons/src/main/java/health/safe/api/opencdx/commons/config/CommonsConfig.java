@@ -24,6 +24,7 @@ import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
+import health.safe.api.opencdx.commons.templates.OpenCDXMongoAuditTemplate;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
@@ -36,6 +37,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 /**
@@ -111,5 +115,10 @@ public class CommonsConfig {
     OpenCDXAuditService openCDXAuditService(
             OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
         return new OpenCDXAuditServiceImpl(messageService, applicationName);
+    }
+
+    @Bean
+    MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
+        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 }
