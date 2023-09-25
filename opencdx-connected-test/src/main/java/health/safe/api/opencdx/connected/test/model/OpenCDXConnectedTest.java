@@ -49,7 +49,9 @@ public class OpenCDXConnectedTest {
      * @param connectedTest Protobuf message to generate from
      */
     public OpenCDXConnectedTest(ConnectedTest connectedTest) {
-        this.id = new ObjectId(connectedTest.getBasicInfo().getId());
+        if (connectedTest.getBasicInfo().hasId()) {
+            this.id = new ObjectId(connectedTest.getBasicInfo().getId());
+        }
         this.basicInfo = connectedTest.getBasicInfo();
         this.orderInfo = connectedTest.getOrderInfo();
         this.testNotes = connectedTest.getTestNotes();
@@ -63,7 +65,9 @@ public class OpenCDXConnectedTest {
      */
     public ConnectedTest getProtobufMessage() {
         return ConnectedTest.newBuilder()
-                .setBasicInfo(this.basicInfo)
+                .setBasicInfo(BasicInfo.newBuilder(this.basicInfo)
+                        .setId(this.id.toHexString())
+                        .build())
                 .setOrderInfo(this.orderInfo)
                 .setTestNotes(this.testNotes)
                 .setPaymentDetails(this.paymentDetails)

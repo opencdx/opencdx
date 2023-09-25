@@ -84,13 +84,15 @@ class OpenCDXConnectedTestServiceImplTest {
 
     @Test
     void submitTestFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        ConnectedTest connectedTest = ConnectedTest.newBuilder()
-                .setBasicInfo(BasicInfo.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
+                        .setId(new ObjectId().toHexString())
                         .build())
                 .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         OpenCDXConnectedTestServiceImpl testOpenCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService, this.openCDXConnectedTestRepository, mapper);
         Assertions.assertThrows(

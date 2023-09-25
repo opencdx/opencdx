@@ -30,12 +30,14 @@ import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRep
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for processing HelloWorld Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
@@ -64,6 +66,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
+        ConnectedTest submittedTest = this.openCDXConnectedTestRepository
+                .save(new OpenCDXConnectedTest(connectedTest))
+                .getProtobufMessage();
+
         try {
             this.openCDXAuditService.phiCreated(
                     ObjectId.get().toHexString(),
@@ -72,18 +78,17 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     "Connected Test Submissions",
-                    this.objectMapper.writeValueAsString(connectedTest));
+                    this.objectMapper.writeValueAsString(submittedTest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert ConnectedTest", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", submittedTest.toString());
             throw openCDXNotAcceptable;
         }
-        OpenCDXConnectedTest openCDXConnectedTest =
-                this.openCDXConnectedTestRepository.save(new OpenCDXConnectedTest(connectedTest));
+        log.info("Created test: {}", submittedTest.getBasicInfo().getId());
         return TestSubmissionResponse.newBuilder()
-                .setSubmissionId(openCDXConnectedTest.getId().toHexString())
+                .setSubmissionId(submittedTest.getBasicInfo().getId())
                 .build();
     }
 
