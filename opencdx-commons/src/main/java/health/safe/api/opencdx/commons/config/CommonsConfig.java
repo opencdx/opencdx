@@ -36,7 +36,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -75,14 +74,6 @@ public class CommonsConfig {
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
-    }
-    /**
-     *  Used to convert Protobuf to JSON for MVC apis
-     * @return  ProtobufHttpMessageConverter bean for use converting Protobuf to JSON for MVC apis
-     */
-    @Bean
-    ProtobufHttpMessageConverter protobufHttpMessageConverter() {
-        return new ProtobufHttpMessageConverter();
     }
 
     /**

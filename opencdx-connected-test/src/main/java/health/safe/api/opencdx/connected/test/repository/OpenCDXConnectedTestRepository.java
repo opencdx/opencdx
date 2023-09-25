@@ -19,4 +19,7 @@ import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+/**
+ * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
+ */
 public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTest, ObjectId> {}

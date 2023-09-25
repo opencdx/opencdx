@@ -50,7 +50,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * Constructore with OpenCDXAuditService
      *
      * @param openCDXAuditService            user for recording PHI
-     * @param openCDXConnectedTestRepository
+     * @param openCDXConnectedTestRepository Mongo Repository for OpenCDXConnectedTest
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      */
     public OpenCDXConnectedTestServiceImpl(

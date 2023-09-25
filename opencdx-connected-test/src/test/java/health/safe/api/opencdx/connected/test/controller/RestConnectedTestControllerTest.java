@@ -19,12 +19,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.open_connected_test.v2alpha.BasicInfo;
 import cdx.open_connected_test.v2alpha.ConnectedTest;
 import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
+import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import io.nats.client.Connection;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -32,6 +36,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +67,9 @@ class RestConnectedTestControllerTest {
     @MockBean
     Connection connection;
 
+    @MockBean
+    OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -80,25 +88,43 @@ class RestConnectedTestControllerTest {
 
     @Test
     void submitTest() throws Exception {
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder()
+                .setBasicInfo(
+                        BasicInfo.newBuilder().setId("6511c2ffc289850d8dda157b").build())
+                .build();
+
         MvcResult result = this.mockMvc
                 .perform(post("/connected-test")
-                        .content(this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()))
+                        .content(this.objectMapper.writeValueAsString(connectedTest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\n}", content);
+        Assertions.assertEquals("{\"submissionId\":\"6511c2ffc289850d8dda157b\"}", content);
     }
 
     @Test
     void getTestDetailsById() throws Exception {
+        OpenCDXConnectedTest openCDXConnectedTest =
+                new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                        .setBasicInfo(BasicInfo.newBuilder()
+                                .setId(new ObjectId().toHexString())
+                                .build())
+                        .build());
+
+        Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXConnectedTest));
+
         MvcResult result = this.mockMvc
-                .perform(get("/connected-test/" + new ObjectId().toHexString())
+                .perform(get("/connected-test/" + openCDXConnectedTest.getId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\n}", content);
+        Assertions.assertEquals(
+                this.objectMapper.writeValueAsString(openCDXConnectedTest.getProtobufMessage()), content);
         this.generateJSON();
     }
 
