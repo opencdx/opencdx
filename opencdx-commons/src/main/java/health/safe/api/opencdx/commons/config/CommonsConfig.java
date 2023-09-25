@@ -36,6 +36,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.MongoConverter;
+import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -102,5 +107,13 @@ public class CommonsConfig {
     OpenCDXAuditService openCDXAuditService(
             OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
         return new OpenCDXAuditServiceImpl(messageService, applicationName);
+    }
+
+    @Bean
+    @Primary
+    @Profile("mongo")
+    @Description("")
+    MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
+        return new MongoTemplate(mongoDbFactory, mongoConverter);
     }
 }

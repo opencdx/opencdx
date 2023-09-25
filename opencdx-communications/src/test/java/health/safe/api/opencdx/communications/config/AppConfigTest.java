@@ -45,4 +45,10 @@ class AppConfigTest {
         AppConfig appConfig = new AppConfig();
         Assertions.assertNotNull(appConfig.openCDXSMSService());
     }
+
+    @Test
+    void testOpenCDXHTMLProcessor() {
+        AppConfig appConfig = new AppConfig();
+        Assertions.assertNotNull(appConfig.openCDXHTMLProcessor());
+    }
 }
