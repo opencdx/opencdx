@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.commons.templates;
+package health.safe.api.opencdx.commons.config;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.result.DeleteResult;
@@ -30,19 +30,37 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+/**
+ * OpenCDX MongoAudit to ensure Creator/Created and Modifier/Modified are set on each and every
+ * record sent to Mongo.
+ */
 @Slf4j
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     AuditAspect auditAspect = new AuditAspect();
 
+    /**
+     * Constructor  for MongoTemplate
+     * @param mongoClient MongoClient to use.
+     * @param databaseName Database name to used
+     */
     public OpenCDXMongoAuditTemplate(MongoClient mongoClient, String databaseName) {
         super(mongoClient, databaseName);
     }
 
+    /**
+     * Constructor for MongoTemplate
+     * @param mongoDbFactory MongoDbFactory to use to generate this MongoTemplate.
+     */
     public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory) {
         super(mongoDbFactory);
     }
 
+    /**
+     * Constructor for MongoTemplate
+     * @param mongoDbFactory  MongoDbFactory to use to generate this MongoTemplate.
+     * @param mongoConverter MongoConverter to use for this MongoTemplate.
+     */
     public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         super(mongoDbFactory, mongoConverter);
     }

@@ -114,8 +114,10 @@ public class CommonsConfig {
     }
 
     @Bean
+    @Primary
     @Profile("mongo")
+    @Description("")
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
-        return new MongoTemplate(mongoDbFactory, mongoConverter);
+        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 }
