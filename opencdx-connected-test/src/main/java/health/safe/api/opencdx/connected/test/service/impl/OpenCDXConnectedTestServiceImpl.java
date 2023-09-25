@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
@@ -38,17 +39,23 @@ import org.springframework.stereotype.Service;
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
 
     private final ObjectMapper objectMapper;
 
     /**
      * Constructore with OpenCDXAuditService
      *
-     * @param openCDXAuditService user for recording PHI
-     * @param objectMapper ObjectMapper for converting to JSON for Audit system.
+     * @param openCDXAuditService            user for recording PHI
+     * @param openCDXConnectedTestRepository
+     * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      */
-    public OpenCDXConnectedTestServiceImpl(OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper) {
+    public OpenCDXConnectedTestServiceImpl(
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
+            ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.objectMapper = objectMapper;
     }
 
