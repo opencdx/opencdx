@@ -20,6 +20,7 @@ import cdx.open_connected_test.v2alpha.TestIdRequest;
 import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import health.safe.api.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
 import io.grpc.stub.StreamObserver;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,13 +46,17 @@ class GrpcConnectedTestControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Mock
+    OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
+
     OpenCDXConnectedTestService openCDXConnectedTestService;
 
     GrpcConnectedTestController grpcConnectedTestController;
 
     @BeforeEach
     void setUp() {
-        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(this.openCDXAuditService, objectMapper);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
+                this.openCDXAuditService, this.openCDXConnectedTestRepository, objectMapper);
         this.grpcConnectedTestController = new GrpcConnectedTestController(this.openCDXConnectedTestService);
     }
 

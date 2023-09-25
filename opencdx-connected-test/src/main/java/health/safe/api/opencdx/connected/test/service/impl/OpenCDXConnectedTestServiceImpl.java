@@ -23,7 +23,9 @@ import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
 import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.micrometer.observation.annotation.Observed;
@@ -38,6 +40,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
+    private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
 
@@ -71,18 +74,27 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     "Connected Test Submissions",
                     this.objectMapper.writeValueAsString(connectedTest));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
-                    "OpenCDXConnectedTestServiceImpl", 1, "Failed to convert ConnectedTest", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert ConnectedTest", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
             throw openCDXNotAcceptable;
         }
-
-        return TestSubmissionResponse.getDefaultInstance();
+        OpenCDXConnectedTest openCDXConnectedTest =
+                this.openCDXConnectedTestRepository.save(new OpenCDXConnectedTest(connectedTest));
+        return TestSubmissionResponse.newBuilder()
+                .setSubmissionId(openCDXConnectedTest.getId().toHexString())
+                .build();
     }
 
     @Override
     public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest) {
+        ConnectedTest connectedTest = this.openCDXConnectedTestRepository
+                .findById(new ObjectId(testIdRequest.getTestId()))
+                .orElseThrow(() ->
+                        new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testIdRequest.getTestId()))
+                .getProtobufMessage();
+
         try {
             this.openCDXAuditService.phiAccessed(
                     ObjectId.get().toHexString(),
@@ -91,16 +103,14 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     "Connected Test Accessed",
-                    this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()));
+                    this.objectMapper.writeValueAsString(connectedTest));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
-                    "OpenCDXConnectedTestServiceImpl", 2, "Failed to convert ConnectedTest", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert ConnectedTest", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable
-                    .getMetaData()
-                    .put("OBJECT", ConnectedTest.getDefaultInstance().toString());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
             throw openCDXNotAcceptable;
         }
-        return ConnectedTest.getDefaultInstance();
+        return connectedTest;
     }
 }
