@@ -31,5 +31,5 @@ public interface OpenCDXHTMLProcessor {
      * @throws OpenCDXNotAcceptable Thrown if variable substitution fails for missing
      * key/value.
      */
-    String processHTML(String template, Map<String, String> variables) throws OpenCDXNotAcceptable;
+    String processHTML(String template, Map<String, Object> variables) throws OpenCDXNotAcceptable;
 }
