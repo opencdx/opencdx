@@ -118,6 +118,6 @@ public class CommonsConfig {
     @Profile("mongo")
     @Description("")
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
-        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
+        return new MongoTemplate(mongoDbFactory, mongoConverter);
     }
 }

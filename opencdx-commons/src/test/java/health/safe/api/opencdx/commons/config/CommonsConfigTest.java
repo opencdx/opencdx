@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -79,7 +80,7 @@ class CommonsConfigTest {
 
     @Test
     void testMongoTemplate() {
-        mockConstruction(OpenCDXMongoAuditTemplate.class);
+        mockConstruction(MongoTemplate.class);
         MongoDatabaseFactory factory = mock(MongoDatabaseFactory.class);
         MongoConverter converter = mock(MongoConverter.class);
         Object mt = commonsConfig.mongoTemplate(factory, converter);
