@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
-import health.safe.api.opencdx.commons.templates.OpenCDXMongoAuditTemplate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelEvaluationException;
@@ -53,12 +51,6 @@ public class AuditAspect {
     private final ExpressionParser parser;
 
     private static final String DOMAIN = "auditAspect";
-
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Autowired
-    MongoTemplate mongoAuditTemplate;
 
     /**
      * Default constructor sets up the Expression Parser to be used.
