@@ -22,21 +22,12 @@ import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientAbstract;
 import health.safe.api.opencdx.commons.aspects.AuditAspect;
 import health.safe.api.opencdx.commons.dto.*;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditMissingDataRequest;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditProcessingRequest;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * OpenCDX-Audit based implementation of OpenCDXOpenCDXAuditService

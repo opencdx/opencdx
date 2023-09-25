@@ -18,18 +18,12 @@ package health.safe.api.opencdx.commons.aspects;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.annotations.OpenCDXAuditUser;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditMissingDataRequest;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditProcessingRequest;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
+import health.safe.api.opencdx.commons.templates.OpenCDXMongoAuditTemplate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import health.safe.api.opencdx.commons.templates.OpenCDXMongoAuditTemplate;
-import health.safe.api.opencdx.commons.util.EndpointFinder;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -40,12 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 
 /**
  * Spring AOP implementation for Audit Messages.
@@ -53,24 +47,23 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @EnableAspectJAutoProxy
-@Component
 public class AuditAspect {
-    private static final String SYSTEM_STR = "system";
-    private static final String AUDIT_DISABLED = "Audit Disabled";
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
-    private static final String DOMAIN = "AuditAspect";
+
     private final ExpressionParser parser;
+
+    private static final String DOMAIN = "auditAspect";
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
-    OpenCDXMongoAuditTemplate mongoAuditTemplate;
+    MongoTemplate mongoAuditTemplate;
 
     /**
      * Default constructor sets up the Expression Parser to be used.
      */
-    public AuditAspect(){
+    public AuditAspect() {
         this.parser = new SpelExpressionParser();
     }
 

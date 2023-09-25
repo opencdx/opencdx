@@ -18,11 +18,7 @@ package health.safe.api.opencdx.commons.service;
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.SensitivityLevel;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditMissingDataRequest;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXAuditProcessingRequest;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
-
-import java.util.List;
 
 /**
  * Integrated Audit service to use the Audit Aspect.
