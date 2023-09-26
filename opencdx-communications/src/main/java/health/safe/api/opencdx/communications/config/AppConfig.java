@@ -15,8 +15,10 @@
  */
 package health.safe.api.opencdx.communications.config;
 
+import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
+import health.safe.api.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -66,5 +68,11 @@ public class AppConfig {
     @Description("Bean for OpenCDXHTMLProcessor, to get the OpenCDX HTML template processed.")
     OpenCDXHTMLProcessor openCDXHTMLProcessor() {
         return new OpenCDXHTMLProcessorImpl();
+    }
+
+    @Bean
+    @Description("Bean for OpenCDXEmailService, to send the Email Notificaiton")
+    OpenCDXEmailService openCDXEmailService() {
+        return new OpenCDXEmailServiceImpl();
     }
 }
