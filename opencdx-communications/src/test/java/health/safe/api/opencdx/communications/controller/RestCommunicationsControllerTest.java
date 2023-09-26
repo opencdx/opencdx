@@ -26,8 +26,10 @@ import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import io.nats.client.Connection;
@@ -85,6 +87,9 @@ class RestCommunicationsControllerTest {
     @MockBean
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
 
+    @MockBean
+    OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
+
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
@@ -101,6 +106,11 @@ class RestCommunicationsControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
+
+        Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXNotificaitonRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXNotificationModel()));
 
         Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));

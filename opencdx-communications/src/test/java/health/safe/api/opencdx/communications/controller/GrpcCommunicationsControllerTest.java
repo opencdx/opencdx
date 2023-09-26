@@ -21,8 +21,10 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
@@ -71,6 +73,9 @@ class GrpcCommunicationsControllerTest {
     OpenCDXEmailService openCDXEmailService;
 
     @Mock
+    OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
+
+    @Mock
     OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
 
     @Mock
@@ -88,12 +93,15 @@ class GrpcCommunicationsControllerTest {
         this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
+        this.openCDXNotificaitonRepository = Mockito.mock(OpenCDXNotificaitonRepository.class);
 
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
         Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
@@ -120,6 +128,7 @@ class GrpcCommunicationsControllerTest {
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
+                openCDXNotificaitonRepository,
                 openCDXEmailService,
                 openCDXSMSService,
                 openCDXHTMLProcessor,

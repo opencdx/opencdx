@@ -20,8 +20,6 @@ import cdx.open_communication.v2alpha.Notification;
 import cdx.open_communication.v2alpha.NotificationStatus;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -37,14 +35,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Document("notifications")
-public class OpenCDXNotification {
+public class OpenCDXNotificationModel {
     @Id
     private ObjectId id;
 
     private ObjectId eventId;
     private NotificationStatus smsStatus;
     private NotificationStatus emailStatus;
-    private ZonedDateTime timestamp;
+    private Instant timestamp;
     private Map<String, String> customData;
     private List<String> toEmail;
     private List<String> ccEmail;
@@ -56,7 +54,7 @@ public class OpenCDXNotification {
 
     private Integer failed;
 
-    public OpenCDXNotification(Notification notification) {
+    public OpenCDXNotificationModel(Notification notification) {
         if (notification.hasQueueId()) {
             this.id = new ObjectId(notification.getEventId());
         }
@@ -71,10 +69,13 @@ public class OpenCDXNotification {
         } else {
             this.emailStatus = NotificationStatus.NOTIFICATION_STATUS_PENDING;
         }
-        this.timestamp = Instant.ofEpochSecond(
-                        notification.getTimestamp().getSeconds(),
-                        notification.getTimestamp().getNanos())
-                .atZone(ZoneId.systemDefault());
+        if (notification.hasTimestamp()) {
+            this.timestamp = Instant.ofEpochSecond(
+                    notification.getTimestamp().getSeconds(),
+                    notification.getTimestamp().getNanos());
+        } else {
+            this.timestamp = Instant.now();
+        }
 
         this.customData = notification.getCustomDataMap();
         this.toEmail = notification.getToEmailList();
@@ -94,7 +95,7 @@ public class OpenCDXNotification {
                 .setSmsStatus(this.smsStatus)
                 .setEmailStatus(this.emailStatus)
                 .setTimestamp(Timestamp.newBuilder()
-                        .setSeconds(this.timestamp.toEpochSecond())
+                        .setSeconds(this.timestamp.getEpochSecond())
                         .setNanos(this.timestamp.getNano())
                         .build())
                 .putAllCustomData(this.customData)

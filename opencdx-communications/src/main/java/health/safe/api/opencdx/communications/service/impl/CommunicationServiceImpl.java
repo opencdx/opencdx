@@ -26,8 +26,10 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
@@ -63,6 +65,7 @@ public class CommunicationServiceImpl implements CommunicationService {
     private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+    private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
     private final OpenCDXEmailService openCDXEmailService;
     private final OpenCDXSMSService openCDXSMSService;
     private final OpenCDXHTMLProcessor openCDXHTMLProcessor;
@@ -75,9 +78,10 @@ public class CommunicationServiceImpl implements CommunicationService {
      * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
      * @param openCDXSMSTemplateRespository      Repository for saving SMS Templates
-     * @param openCDXEmailService   Email service for sending emails
-     * @param openCDXSMSService SMS Service for sending SMS
-     * @param openCDXHTMLProcessor HTML Process for processing HTML Templates.
+     * @param openCDXNotificaitonRepository
+     * @param openCDXEmailService                Email service for sending emails
+     * @param openCDXSMSService                  SMS Service for sending SMS
+     * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
@@ -86,6 +90,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXNotificaitonRepository openCDXNotificaitonRepository,
             OpenCDXEmailService openCDXEmailService,
             OpenCDXSMSService openCDXSMSService,
             OpenCDXHTMLProcessor openCDXHTMLProcessor,
@@ -94,6 +99,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
+        this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
         this.openCDXEmailService = openCDXEmailService;
         this.openCDXSMSService = openCDXSMSService;
         this.openCDXHTMLProcessor = openCDXHTMLProcessor;
@@ -371,6 +377,8 @@ public class CommunicationServiceImpl implements CommunicationService {
                 .build());
 
         auditBuilder.setNotification(notification);
+        OpenCDXNotificationModel openCDXNotificationModel =
+                this.openCDXNotificaitonRepository.save(new OpenCDXNotificationModel(notification));
 
         if (notificationEvent.hasEmailTemplateId()) {
             EmailTemplate emailTemplate = this.getEmailTemplate(TemplateRequest.newBuilder()
@@ -390,6 +398,7 @@ public class CommunicationServiceImpl implements CommunicationService {
                     notification.getEmailAttachmentsList());
 
             auditBuilder.setEmailContent(message);
+            openCDXNotificationModel.setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT);
         }
 
         if (notificationEvent.hasSmsTemplateId()) {
@@ -404,9 +413,12 @@ public class CommunicationServiceImpl implements CommunicationService {
             this.openCDXSMSService.sendSMS(message, notification.getToPhoneNumberList());
 
             auditBuilder.setSmsContent(message);
+            openCDXNotificationModel.setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_SENT);
         }
 
         CommunicationAuditRecord auditRecord = auditBuilder.build();
+
+        openCDXNotificaitonRepository.save(openCDXNotificationModel);
 
         try {
             this.openCDXAuditService.communication(

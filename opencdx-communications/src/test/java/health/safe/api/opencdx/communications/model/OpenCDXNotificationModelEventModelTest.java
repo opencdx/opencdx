@@ -22,7 +22,7 @@ import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class OpenCDXNotificationEventModelTest {
+class OpenCDXNotificationModelEventModelTest {
     @Test
     void getProtobufMessage_1() {
         NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
