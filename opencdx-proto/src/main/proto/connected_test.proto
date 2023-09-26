@@ -2,7 +2,6 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.open_connected_test.v2alpha;
 
-import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 
@@ -23,13 +22,13 @@ enum SpecimenType {
 
 // Basic Information about the Test
 message BasicInfo {
-  string _id = 1;                  // Unique identifier for the test
-  string created = 2;              // Creation timestamp of the test record
+  optional string id = 1;                  // Unique identifier for the test
+  google.protobuf.Timestamp created = 2;              // Creation timestamp of the test record
   string creator = 3;              // User or entity that created the test
-  string modified = 4;             // Timestamp when the test was last modified
+  google.protobuf.Timestamp modified = 4;             // Timestamp when the test was last modified
   string modifier = 5;             // User or entity that last modified the test
   string vendorLabTestId = 6;      // ID referencing the test within the vendor's system
-  string _class = 7;               // Class or type of the test
+  string type = 7;               // Class or type of the test
   string userId = 8;               // ID of the user associated with the test
   int32 nationalHealthId = 9;     // National health ID of the user
   string healthServiceId = 10;     // ID of the health service provider

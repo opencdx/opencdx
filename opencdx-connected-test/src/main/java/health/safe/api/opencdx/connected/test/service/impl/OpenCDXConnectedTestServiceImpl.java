@@ -23,37 +23,53 @@ import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
+import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for processing HelloWorld Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
+    private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
 
     private final ObjectMapper objectMapper;
 
     /**
      * Constructore with OpenCDXAuditService
      *
-     * @param openCDXAuditService user for recording PHI
-     * @param objectMapper ObjectMapper for converting to JSON for Audit system.
+     * @param openCDXAuditService            user for recording PHI
+     * @param openCDXConnectedTestRepository Mongo Repository for OpenCDXConnectedTest
+     * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      */
-    public OpenCDXConnectedTestServiceImpl(OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper) {
+    public OpenCDXConnectedTestServiceImpl(
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
+            ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.objectMapper = objectMapper;
     }
 
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
+        ConnectedTest submittedTest = this.openCDXConnectedTestRepository
+                .save(new OpenCDXConnectedTest(connectedTest))
+                .getProtobufMessage();
+
         try {
             this.openCDXAuditService.phiCreated(
                     ObjectId.get().toHexString(),
@@ -62,20 +78,28 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     "Connected Test Submissions",
-                    this.objectMapper.writeValueAsString(connectedTest));
+                    this.objectMapper.writeValueAsString(submittedTest));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
-                    "OpenCDXConnectedTestServiceImpl", 1, "Failed to convert ConnectedTest", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert ConnectedTest", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", submittedTest.toString());
             throw openCDXNotAcceptable;
         }
-
-        return TestSubmissionResponse.getDefaultInstance();
+        log.info("Created test: {}", submittedTest.getBasicInfo().getId());
+        return TestSubmissionResponse.newBuilder()
+                .setSubmissionId(submittedTest.getBasicInfo().getId())
+                .build();
     }
 
     @Override
     public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest) {
+        ConnectedTest connectedTest = this.openCDXConnectedTestRepository
+                .findById(new ObjectId(testIdRequest.getTestId()))
+                .orElseThrow(() ->
+                        new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testIdRequest.getTestId()))
+                .getProtobufMessage();
+
         try {
             this.openCDXAuditService.phiAccessed(
                     ObjectId.get().toHexString(),
@@ -84,16 +108,14 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     "Connected Test Accessed",
-                    this.objectMapper.writeValueAsString(ConnectedTest.getDefaultInstance()));
+                    this.objectMapper.writeValueAsString(connectedTest));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
-                    "OpenCDXConnectedTestServiceImpl", 2, "Failed to convert ConnectedTest", e);
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert ConnectedTest", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable
-                    .getMetaData()
-                    .put("OBJECT", ConnectedTest.getDefaultInstance().toString());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
             throw openCDXNotAcceptable;
         }
-        return ConnectedTest.getDefaultInstance();
+        return connectedTest;
     }
 }

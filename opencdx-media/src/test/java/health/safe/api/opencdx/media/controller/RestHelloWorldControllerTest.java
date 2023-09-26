@@ -84,6 +84,6 @@ class RestHelloWorldControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\n" + "  \"message\": \"Hello jeff!\"\n" + "}", content);
+        Assertions.assertEquals("{\"message\":\"Hello jeff!\"}", content);
     }
 }

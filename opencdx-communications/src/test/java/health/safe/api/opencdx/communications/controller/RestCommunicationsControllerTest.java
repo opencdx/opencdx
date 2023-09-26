@@ -180,7 +180,7 @@ class RestCommunicationsControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         log.info("Received\n {}", content);
-        Assertions.assertEquals("{\n" + "  \"success\": true\n" + "}", content);
+        Assertions.assertEquals("{\"success\":true}", content);
     }
 
     @Test

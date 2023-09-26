@@ -1214,9 +1214,17 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;basicinfo&quot;:{&quot;creator&quot;:&quot;&quot;,&quot;modifier&quot;:&quot;&quot;,&quot;vendorlabtestid&quot;:&quot;&quot;,&quot;type&quot;:&quot;&quot;,&quot;userid&quot;:&quot;&quot;,&quot;nationalhealthid&quot;:0,&quot;healthserviceid&quot;:&quot;&quot;,&quot;tenantid&quot;:&quot;&quot;,&quot;source&quot;:&quot;&quot;}}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree/>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.submission_id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  GetTestDetailsById" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
@@ -1231,7 +1239,7 @@
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{
-	&quot;test_id&quot;:&quot;a1d54622-f229-475a-8ae7-aa34a318801e&quot;
+	&quot;test_id&quot;:&quot;${connectedTestId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
@@ -1253,13 +1261,13 @@
           <stringProp name="HTTPSampler.protocol">http</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [GET]" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{}</stringProp>
+                <stringProp name="Argument.value">{&quot;basicinfo&quot;:{&quot;creator&quot;:&quot;&quot;,&quot;modifier&quot;:&quot;&quot;,&quot;vendorlabtestid&quot;:&quot;&quot;,&quot;type&quot;:&quot;&quot;,&quot;userid&quot;:&quot;&quot;,&quot;nationalhealthid&quot;:0,&quot;healthserviceid&quot;:&quot;&quot;,&quot;tenantid&quot;:&quot;&quot;,&quot;source&quot;:&quot;&quot;}}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -1277,13 +1285,21 @@
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.submissionId</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [GET]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/connected-test/a1d54622-f229-475a-8ae7-aa34a318801e</stringProp>
+          <stringProp name="HTTPSampler.path">/connected-test/${connectedTestId}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
