@@ -22,7 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Applicaiton Properties
  */
 @Data
-@ConfigurationProperties("opencdx.helloworld")
+@ConfigurationProperties("opencdx.communications")
 public class AppProperties {
     /**
      * Default Constructor

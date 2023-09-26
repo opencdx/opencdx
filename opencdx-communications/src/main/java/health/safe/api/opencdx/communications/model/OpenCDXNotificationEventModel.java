@@ -42,6 +42,7 @@ public class OpenCDXNotificationEventModel {
     private String eventDescription;
     private ObjectId emailTemplateId;
     private ObjectId smsTemplateId;
+    private ObjectId connectedTestId;
     List<String> parameters;
 
     /**
