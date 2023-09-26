@@ -65,7 +65,7 @@ public class AuditAspect {
     @Order(Ordered.LOWEST_PRECEDENCE)
     @Before(value = "@annotation(openCDXAuditUser)")
     public void auditUserBefore(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
-
+        log.info("Processing OpenCDXAuditUser Annotation");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Map<String, Object> parameterMap = this.createParameterMap(signature.getParameterNames(), joinPoint.getArgs());
 
@@ -86,6 +86,7 @@ public class AuditAspect {
     @After(value = "@annotation(openCDXAuditUser)")
     public void auditUserAfter(JoinPoint joinPoint, OpenCDXAuditUser openCDXAuditUser) {
         AuditAspect.removeCurrentThreadInfo();
+        log.info("Completed Processing OpenCDXAuditUser Annotation");
     }
 
     /**

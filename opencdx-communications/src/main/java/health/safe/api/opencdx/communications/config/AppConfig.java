@@ -21,7 +21,7 @@ import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -29,8 +29,8 @@ import org.springframework.context.annotation.Description;
 /**
  * Applicaiton Configuration
  */
+@Slf4j
 @Configuration
-@EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
     /**
      * Default Constructor
@@ -40,23 +40,13 @@ public class AppConfig {
     }
 
     /**
-     * Bean indicating the format of the message string
-     * @param appProperties properties that contain the message format.
-     * @return String providing the format.
-     */
-    @Bean
-    @Description("A simiple format Bean, used to demonstrated out to handle configuration and document a bean.")
-    public String format(AppProperties appProperties) {
-        return appProperties.getFormat();
-    }
-
-    /**
      * Bean to get SMS notification service.
      * @return Object of OpenCDXSMSServiceImpl.
      */
     @Bean
     @Description("Bean for OpenCDXSMSService, to get the SMS notification.")
     OpenCDXSMSService openCDXSMSService() {
+        log.info("Creating OpenCDXSMSService");
         return new OpenCDXSMSServiceImpl();
     }
 
@@ -67,12 +57,14 @@ public class AppConfig {
     @Bean
     @Description("Bean for OpenCDXHTMLProcessor, to get the OpenCDX HTML template processed.")
     OpenCDXHTMLProcessor openCDXHTMLProcessor() {
+        log.info("Creating OpenCDXHTMLProcessor");
         return new OpenCDXHTMLProcessorImpl();
     }
 
     @Bean
-    @Description("Bean for OpenCDXEmailService, to send the Email Notificaiton")
+    @Description("Bean for OpenCDXEmailService, to send the Email Notification")
     OpenCDXEmailService openCDXEmailService() {
+        log.info("Creating OpenCDXEmailService");
         return new OpenCDXEmailServiceImpl();
     }
 }

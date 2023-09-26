@@ -154,6 +154,7 @@ public abstract class OpenCDXException extends RuntimeException {
      * @return Status for the gRPC Exception Handler
      */
     public Status getGrpcStatus() {
+        log.info("Getting gRPC Status for Error Handling");
 
         List<Any> details = new ArrayList<>();
         ErrorInfo.Builder errorInfo = ErrorInfo.newBuilder().setDomain(this.domain);
@@ -220,6 +221,7 @@ public abstract class OpenCDXException extends RuntimeException {
      * @return StatusMessage for the Rest Exception Handler.
      */
     public StatusMessage getRestStatus(WebRequest request) {
+        log.info("Getting HTTP Status for Error Handling");
         List<String> errorMessages = new ArrayList<>();
 
         errorMessages.add(this.getMessage());
