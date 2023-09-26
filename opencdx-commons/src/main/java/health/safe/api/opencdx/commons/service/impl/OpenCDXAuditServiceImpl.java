@@ -51,6 +51,7 @@ public class OpenCDXAuditServiceImpl extends OpenCDXAuditClientAbstract implemen
     }
 
     protected AuditStatus sendMessage(AuditEvent event) {
+        log.info("Sending Audit Event: {}", event.getEventType());
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
         return AuditStatus.newBuilder().setSuccess(true).build();
     }
