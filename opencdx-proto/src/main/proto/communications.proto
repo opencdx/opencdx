@@ -2,7 +2,6 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.open_communication.v2alpha;
 import "audit.proto";
-import "connected_test.proto";
 
 // Enum for template types
 enum TemplateType {
@@ -128,16 +127,6 @@ message NotificationEventListRequest{
 }
 
 /**
-Request Message to list NotificationConnectedTests
- */
-message NotificationConnectedTestListRequest{
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  string  user_id = 4; // UUID of user
-}
-
-/**
 Response containing the requested list of SMSTemplates
  */
 message SMSTemplateListResponse {
@@ -168,17 +157,6 @@ message NotificationEventListResponse {
   bool sort_ascending = 3; // indicating if the results should ascending.
   int32 page_count = 4; // Total number of available pages.
   repeated NotificationEvent templates = 5; //List of NotificationEvents
-}
-
-/**
-Response containing the requested list of connected tests for a specific user
- */
-message NotificationConnectedTestListResponse {
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  int32 page_count = 4; // Total number of available pages.
-  repeated cdx.open_connected_test.v2alpha.ConnectedTest connected_tests = 5;
 }
 
 /**
@@ -217,5 +195,4 @@ service CommunicationService {
   rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse); // Retrieve a list of SMS templates.
   rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse); // Retrieve a list of email templates.
   rpc listNotificationEvents(NotificationEventListRequest) returns (NotificationEventListResponse); // Retrieve a list of notification events.
-  rpc listConnectedTests(NotificationConnectedTestListRequest) returns (NotificationConnectedTestListResponse); // Retrieve a list of connected tests by userid
 }

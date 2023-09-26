@@ -24,7 +24,6 @@ import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import health.safe.api.opencdx.communications.repository.OpenCDXConnectedTestsRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
@@ -65,8 +64,6 @@ class CommunicationServiceImplTest {
 
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
-    @Mock
-    OpenCDXConnectedTestsRepository openCDXConnectedTestsRepository;
 
     CommunicationService communicationService;
 
@@ -75,7 +72,6 @@ class CommunicationServiceImplTest {
         this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
-        this.openCDXConnectedTestsRepository = Mockito.mock(OpenCDXConnectedTestsRepository.class);
 
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
@@ -90,7 +86,6 @@ class CommunicationServiceImplTest {
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
-                openCDXConnectedTestsRepository,
                 objectMapper);
     }
 
@@ -100,8 +95,7 @@ class CommunicationServiceImplTest {
                 this.objectMapper,
                 this.openCDXEmailTemplateRepository,
                 this.openCDXNotificationEventRepository,
-                this.openCDXSMSTemplateRespository,
-                this.openCDXConnectedTestsRepository);
+                this.openCDXSMSTemplateRespository);
     }
 
     @Test

@@ -249,17 +249,4 @@ public class RestCommunicationsController {
         return new ResponseEntity<>(
                 this.communicationService.listNotificationEvents(notificationEventListRequest), HttpStatus.OK);
     }
-
-    /**
-     * List connected tests
-     *
-     * @param notificationConnectedTestListRequest request for NotificationEvents.
-     * @return the requested connected tests by userid.
-     */
-    @PostMapping("/connectedtest/list")
-    public ResponseEntity<NotificationConnectedTestListResponse> listConnectedTests(
-            @RequestBody NotificationConnectedTestListRequest notificationConnectedTestListRequest) {
-        return new ResponseEntity<>(
-                this.communicationService.listConnectedTests(notificationConnectedTestListRequest), HttpStatus.OK);
-    }
 }

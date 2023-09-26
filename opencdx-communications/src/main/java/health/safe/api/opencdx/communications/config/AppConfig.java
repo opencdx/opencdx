@@ -15,11 +15,9 @@
  */
 package health.safe.api.opencdx.communications.config;
 
-import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
-import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
@@ -72,14 +70,9 @@ public class AppConfig {
         return new OpenCDXHTMLProcessorImpl();
     }
 
-    /**
-     * Bean to get Email service.
-     * @return Object of OpenCDXEmailServiceImpl.
-     */
     @Bean
     @Description("Bean for OpenCDXEmailService, to send the Email Notificaiton")
     OpenCDXEmailService openCDXEmailService() {
         return new OpenCDXEmailServiceImpl();
     }
-
 }

@@ -140,11 +140,4 @@ public class GrpcCommunicationsController extends CommunicationServiceGrpc.Commu
         responseObserver.onNext(this.communicationService.listNotificationEvents(request));
         responseObserver.onCompleted();
     }
-
-    @Override
-    public void listConnectedTests(
-            NotificationConnectedTestListRequest request, StreamObserver<NotificationConnectedTestListResponse> responseObserver) {
-        responseObserver.onNext(this.communicationService.listConnectedTests(request));
-        responseObserver.onCompleted();
-    }
 }

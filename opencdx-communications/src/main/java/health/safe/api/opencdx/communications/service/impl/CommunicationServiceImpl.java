@@ -24,11 +24,9 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.communications.model.OpenCDXConnectedTestModel;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import health.safe.api.opencdx.communications.repository.OpenCDXConnectedTestsRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
@@ -62,7 +60,6 @@ public class CommunicationServiceImpl implements CommunicationService {
     private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
-    private final OpenCDXConnectedTestsRepository openCDXConnectedTestsRepository;
 
     private final ObjectMapper objectMapper;
     /**
@@ -72,7 +69,6 @@ public class CommunicationServiceImpl implements CommunicationService {
      * @param openCDXEmailTemplateRepository Repository for saving Email Templates
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
      * @param openCDXSMSTemplateRespository Repository for saving SMS Templates
-     * @param openCDXConnectedTestsRepository Repository for connected test
      * @param objectMapper ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
@@ -81,13 +77,11 @@ public class CommunicationServiceImpl implements CommunicationService {
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
-            OpenCDXConnectedTestsRepository openCDXConnectedTestsRepository,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
-        this.openCDXConnectedTestsRepository = openCDXConnectedTestsRepository;
         this.objectMapper = objectMapper;
 
         // TODO: Autowire in OpenCDXSMSService, OpenCDXEmailService, & OpenCDXHTMLProcessor
@@ -468,20 +462,6 @@ public class CommunicationServiceImpl implements CommunicationService {
                 .setPageSize(request.getPageSize())
                 .addAllTemplates(all.get()
                         .map(OpenCDXNotificationEventModel::getProtobufMessage)
-                        .toList())
-                .build();
-    }
-
-    @Override
-    public NotificationConnectedTestListResponse listConnectedTests(NotificationConnectedTestListRequest request) {
-        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestsRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageNumber()));
-        return NotificationConnectedTestListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .addAllConnectedTests(all.get()
-                        .map(OpenCDXConnectedTestModel::getProtobufMessage)
                         .toList())
                 .build();
     }

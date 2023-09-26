@@ -19,7 +19,6 @@ import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
-import io.grpc.stub.StreamObserver;
 
 /**
  * Interface for the CommunicationService
@@ -154,11 +153,4 @@ public interface CommunicationService {
      * @return requested NotificationEvent with page, sorting, and page size
      */
     NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request);
-
-    /**
-     * List of all Connected tests
-     * @param request Request indicating pagination, sorting, and page size.
-     * @return requested NotificationCoonectedTestsResponse with page, sorting, and page size
-     */
-    NotificationConnectedTestListResponse listConnectedTests(NotificationConnectedTestListRequest request);
 }

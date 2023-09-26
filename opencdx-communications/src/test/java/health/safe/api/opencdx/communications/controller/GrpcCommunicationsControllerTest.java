@@ -19,11 +19,9 @@ import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.communications.model.OpenCDXConnectedTestModel;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import health.safe.api.opencdx.communications.repository.OpenCDXConnectedTestsRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
@@ -68,8 +66,6 @@ class GrpcCommunicationsControllerTest {
 
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
-    @Mock
-    OpenCDXConnectedTestsRepository openCDXConnectedTestsRepository;
 
     CommunicationService communicationService;
 
@@ -80,7 +76,6 @@ class GrpcCommunicationsControllerTest {
         this.openCDXEmailTemplateRepository = Mockito.mock(OpenCDXEmailTemplateRepository.class);
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
-        this.openCDXConnectedTestsRepository = Mockito.mock(OpenCDXConnectedTestsRepository.class);
 
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
@@ -93,13 +88,10 @@ class GrpcCommunicationsControllerTest {
                 .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));
         Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXSMSTemplateModel()));
-        Mockito.when(this.openCDXConnectedTestsRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(new OpenCDXConnectedTestModel()));
 
         OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
         eventModel.setEmailTemplateId(new ObjectId());
         eventModel.setSmsTemplateId(new ObjectId());
-        eventModel.setConnectedTestId(new ObjectId());
 
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
@@ -110,15 +102,12 @@ class GrpcCommunicationsControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
         Mockito.when(this.openCDXNotificationEventRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
-        Mockito.when(this.openCDXConnectedTestsRepository.findAll(Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         this.communicationService = new CommunicationServiceImpl(
                 this.openCDXAuditService,
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
-                openCDXConnectedTestsRepository,
                 objectMapper);
         this.grpcCommunicationsController = new GrpcCommunicationsController(this.communicationService);
     }
@@ -128,8 +117,7 @@ class GrpcCommunicationsControllerTest {
         Mockito.reset(
                 this.openCDXEmailTemplateRepository,
                 this.openCDXNotificationEventRepository,
-                this.openCDXSMSTemplateRespository,
-                this.openCDXConnectedTestsRepository);
+                this.openCDXSMSTemplateRespository);
     }
 
     @Test
@@ -393,20 +381,6 @@ class GrpcCommunicationsControllerTest {
                 .setSortAscending(true)
                 .build();
         this.grpcCommunicationsController.listNotificationEvents(request, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void listConnectedTests() {
-        StreamObserver<NotificationConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        NotificationConnectedTestListRequest request = NotificationConnectedTestListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
-                .build();
-        this.grpcCommunicationsController.listConnectedTests(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
