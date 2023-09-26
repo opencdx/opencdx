@@ -18,6 +18,7 @@ package health.safe.api.opencdx.audit.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -25,6 +26,7 @@ import org.springframework.context.annotation.Description;
 /**
  * Applicaiton Configuration
  */
+@Slf4j
 @Configuration
 public class AppConfig {
     /**
@@ -39,6 +41,7 @@ public class AppConfig {
             "OpenCDXAuditMessageHandler that is specific for handling Audit messages being received over messaging.")
     OpenCDXAuditMessageHandler openCDXAuditMessageHandler(
             ObjectMapper objectMapper, OpenCDXMessageService openCDXMessageService) {
+        log.info("Instantiating OpenCDXAuditMessageHandler.");
         return new OpenCDXAuditMessageHandler(objectMapper, openCDXMessageService);
     }
 }

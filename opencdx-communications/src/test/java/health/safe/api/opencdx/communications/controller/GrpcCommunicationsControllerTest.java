@@ -26,6 +26,9 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
+import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
+import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
 import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
 import io.grpc.stub.StreamObserver;
 import java.util.Collections;
@@ -57,6 +60,15 @@ class GrpcCommunicationsControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    OpenCDXHTMLProcessor openCDXHTMLProcessor;
+
+    @Autowired
+    OpenCDXSMSService openCDXSMSService;
+
+    @Autowired
+    OpenCDXEmailService openCDXEmailService;
 
     @Mock
     OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
@@ -108,6 +120,9 @@ class GrpcCommunicationsControllerTest {
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
+                openCDXEmailService,
+                openCDXSMSService,
+                openCDXHTMLProcessor,
                 objectMapper);
         this.grpcCommunicationsController = new GrpcCommunicationsController(this.communicationService);
     }

@@ -56,7 +56,7 @@ public class RestAuditController {
      */
     @PostMapping(value = "/event")
     public ResponseEntity<AuditStatus> event(@RequestBody AuditEvent request) {
-
+        log.info("Received Audit Event from: {}", request.getAuditSource().getSystemInfo());
         this.openCDXAuditMessageHandler.processAuditEvent(request);
 
         return new ResponseEntity<>(AuditStatus.newBuilder().setSuccess(true).build(), HttpStatus.OK);

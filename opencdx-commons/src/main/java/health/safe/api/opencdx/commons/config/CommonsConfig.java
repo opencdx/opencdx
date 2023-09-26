@@ -62,6 +62,8 @@ public class CommonsConfig {
      */
     @Bean
     public ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
+        log.info("Setting up ObservedAspect for Observability");
+
         observationRegistry.observationConfig().observationHandler(new OpenCDXPerformanceHandler());
         return new ObservedAspect(observationRegistry);
     }
@@ -74,6 +76,7 @@ public class CommonsConfig {
     @Primary
     @Description("Jackson ObjectMapper with all required registered modules.")
     public ObjectMapper objectMapper() {
+        log.info("Creating ObjectMapper for use by system");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
@@ -91,6 +94,7 @@ public class CommonsConfig {
     @Primary
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
     public OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
+        log.info("Using NATS based Messaging Service");
         return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper);
     }
 
@@ -98,6 +102,7 @@ public class CommonsConfig {
     @Description("The NOOP implementation of the OpenCDXMessage Service.")
     @ConditionalOnMissingBean(OpenCDXMessageService.class)
     OpenCDXMessageService noOpOpenCDXMessageService() {
+        log.info("Using NOOP based messaging service.");
         return new NoOpOpenCDXMessageServiceImpl();
     }
 
@@ -105,6 +110,7 @@ public class CommonsConfig {
     @Description("OpenCDXOpenCDXAuditService for submitting audit messages through the message system.")
     OpenCDXAuditService openCDXAuditService(
             OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+        log.info("Creaging Audit Service for {}", applicationName);
         return new OpenCDXAuditServiceImpl(messageService, applicationName);
     }
 
@@ -113,6 +119,8 @@ public class CommonsConfig {
     @Profile("mongo")
     @Description("")
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
+        log.info("Creating Mongo Template");
+        // TODO: switch in OpenCDXMongoAuditTemplate
         return new MongoTemplate(mongoDbFactory, mongoConverter);
     }
 }

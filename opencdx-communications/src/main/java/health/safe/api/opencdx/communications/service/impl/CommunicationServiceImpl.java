@@ -31,6 +31,9 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
+import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
+import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
@@ -60,16 +63,22 @@ public class CommunicationServiceImpl implements CommunicationService {
     private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+    private final OpenCDXEmailService openCDXEmailService;
+    private final OpenCDXSMSService openCDXSMSService;
+    private final OpenCDXHTMLProcessor openCDXHTMLProcessor;
 
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking a PersonRepository
      *
      * @param openCDXAuditService                Audit service for tracking FDA requirements
-     * @param openCDXEmailTemplateRepository Repository for saving Email Templates
+     * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
-     * @param openCDXSMSTemplateRespository Repository for saving SMS Templates
-     * @param objectMapper ObjectMapper used for converting messages for the audit system.
+     * @param openCDXSMSTemplateRespository      Repository for saving SMS Templates
+     * @param openCDXEmailService   Email service for sending emails
+     * @param openCDXSMSService SMS Service for sending SMS
+     * @param openCDXHTMLProcessor HTML Process for processing HTML Templates.
+     * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
     public CommunicationServiceImpl(
@@ -77,14 +86,18 @@ public class CommunicationServiceImpl implements CommunicationService {
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXEmailService openCDXEmailService,
+            OpenCDXSMSService openCDXSMSService,
+            OpenCDXHTMLProcessor openCDXHTMLProcessor,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
+        this.openCDXEmailService = openCDXEmailService;
+        this.openCDXSMSService = openCDXSMSService;
+        this.openCDXHTMLProcessor = openCDXHTMLProcessor;
         this.objectMapper = objectMapper;
-
-        // TODO: Autowire in OpenCDXSMSService, OpenCDXEmailService, & OpenCDXHTMLProcessor
     }
 
     @Override
@@ -349,6 +362,8 @@ public class CommunicationServiceImpl implements CommunicationService {
     @Override
     public SuccessResponse sendNotification(Notification notification)
             throws OpenCDXFailedPrecondition, OpenCDXNotFound, OpenCDXNotAcceptable {
+        Map<String, Object> objectVariableMap = new HashMap<>(notification.getVariablesMap());
+
         CommunicationAuditRecord.Builder auditBuilder = CommunicationAuditRecord.newBuilder();
 
         NotificationEvent notificationEvent = this.getNotificationEvent(TemplateRequest.newBuilder()
@@ -364,9 +379,15 @@ public class CommunicationServiceImpl implements CommunicationService {
             String message = this.processHTML(
                     emailTemplate.getContent(),
                     emailTemplate.getVariablesList().stream().toList(),
-                    notification.getVariablesMap());
+                    objectVariableMap);
 
-            // TODO: Call OpenCDXEmailService::sendEmail()  to send email.
+            this.openCDXEmailService.sendEmail(
+                    emailTemplate.getSubject(),
+                    message,
+                    notification.getToEmailList(),
+                    notification.getCcEmailList(),
+                    notification.getBccEmailList(),
+                    notification.getEmailAttachmentsList());
 
             auditBuilder.setEmailContent(message);
         }
@@ -378,9 +399,9 @@ public class CommunicationServiceImpl implements CommunicationService {
             String message = this.processHTML(
                     smsTemplate.getMessage(),
                     smsTemplate.getVariablesList().stream().toList(),
-                    notification.getVariablesMap());
+                    objectVariableMap);
 
-            // TODO: Call OpenCDXSMSService::sendSMS()  to send SMS.
+            this.openCDXSMSService.sendSMS(message, notification.getToPhoneNumberList());
 
             auditBuilder.setSmsContent(message);
         }
@@ -407,7 +428,7 @@ public class CommunicationServiceImpl implements CommunicationService {
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
-    private String processHTML(String template, List<String> variables, Map<String, String> data)
+    private String processHTML(String template, List<String> variables, Map<String, Object> data)
             throws OpenCDXFailedPrecondition {
         for (String variable : variables) {
             if (!data.containsKey(variable)) {
@@ -415,9 +436,7 @@ public class CommunicationServiceImpl implements CommunicationService {
             }
         }
 
-        // TODO: Call OpenCDXHTMLProcessor to format code.
-
-        return template;
+        return this.openCDXHTMLProcessor.processHTML(template, data);
     }
 
     @Override

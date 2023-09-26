@@ -19,10 +19,12 @@ import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import cdx.open_audit.v2alpha.AuditStatus;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * gRPC Client implementation of the Audit System.
  */
+@Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
@@ -41,6 +43,7 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
     @Override
     protected AuditStatus sendMessage(AuditEvent event) {
+        log.info("Sending Audit Event: {}", event.getEventType());
         return this.auditServiceBlockingStub.event(event);
     }
 }

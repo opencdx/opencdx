@@ -19,7 +19,6 @@ import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImp
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -31,19 +30,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
 class AppConfigTest {
 
-    @Autowired
-    AppProperties appProperties;
-
-    @Test
-    void testFormat() {
-        AppConfig appConfig = new AppConfig();
-        Assertions.assertEquals("Hello %s!", appConfig.format(this.appProperties));
-    }
-
     @Test
     void testOpenCDXSMSService() {
         AppConfig appConfig = new AppConfig();
         Assertions.assertNotNull(appConfig.openCDXSMSService());
+    }
+
+    @Test
+    void testOpenCDXEmailService() {
+        AppConfig appConfig = new AppConfig();
+        Assertions.assertNotNull(appConfig.openCDXEmailService());
     }
 
     @Test

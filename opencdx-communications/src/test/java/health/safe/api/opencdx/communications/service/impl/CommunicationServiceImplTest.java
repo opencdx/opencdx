@@ -28,6 +28,9 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import health.safe.api.opencdx.communications.service.CommunicationService;
+import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
+import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
+import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +55,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class CommunicationServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
+
+    @Autowired
+    OpenCDXHTMLProcessor openCDXHTMLProcessor;
+
+    @Autowired
+    OpenCDXSMSService openCDXSMSService;
+
+    @Autowired
+    OpenCDXEmailService openCDXEmailService;
 
     @Mock
     ObjectMapper objectMapper;
@@ -86,6 +98,9 @@ class CommunicationServiceImplTest {
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
+                openCDXEmailService,
+                openCDXSMSService,
+                openCDXHTMLProcessor,
                 objectMapper);
     }
 

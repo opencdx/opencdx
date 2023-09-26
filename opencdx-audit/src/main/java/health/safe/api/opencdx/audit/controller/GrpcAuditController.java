@@ -49,7 +49,7 @@ public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
      */
     @Override
     public void event(AuditEvent request, StreamObserver<AuditStatus> responseObserver) {
-
+        log.info("Received Audit Event from: {}", request.getAuditSource().getSystemInfo());
         this.openCDXAuditMessageHandler.processAuditEvent(request);
 
         responseObserver.onNext(AuditStatus.newBuilder().setSuccess(true).build());
