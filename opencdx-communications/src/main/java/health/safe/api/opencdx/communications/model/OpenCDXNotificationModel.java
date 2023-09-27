@@ -41,7 +41,15 @@ public class OpenCDXNotificationModel {
 
     private ObjectId eventId;
     private NotificationStatus smsStatus;
+
+    @Builder.Default
+    private Integer smsFailCount = 0;
+
     private NotificationStatus emailStatus;
+
+    @Builder.Default
+    private Integer emailFailCount = 0;
+
     private Instant timestamp;
     private Map<String, String> customData;
     private List<String> toEmail;
@@ -52,9 +60,9 @@ public class OpenCDXNotificationModel {
     private Map<String, String> variables;
     private List<ObjectId> recipients;
 
-    private Integer failed;
-
     public OpenCDXNotificationModel(Notification notification) {
+        this.emailFailCount = 0;
+        this.smsFailCount = 0;
         if (notification.hasQueueId()) {
             this.id = new ObjectId(notification.getQueueId());
         }

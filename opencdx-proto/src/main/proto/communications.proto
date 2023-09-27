@@ -67,6 +67,8 @@ message NotificationEvent {
   repeated string event_parameters = 6; // Event-specific parameters.
   NotificationPriority priority = 7;  // Priority of this notification event.
   cdx.open_audit.v2alpha.SensitivityLevel sensitivity = 8; // Indicates the Sensitivity level of the notification when sent.
+  int32 email_retry = 9; // Number of attempts to try and send email. Defaults to 0 for infinite.
+  int32 sms_retry = 10; // Number of attempts to try and send SMS. Defaults to 0 for infinite.
 }
 
 /**

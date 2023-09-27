@@ -47,6 +47,8 @@ public class OpenCDXNotificationEventModel {
     private SensitivityLevel sensitivityLevel;
     private NotificationPriority priority;
     List<String> parameters;
+    private Integer emailRetry;
+    private Integer smsRetry;
 
     /**
      * Constructor to create this model based on an NotificationEvent
@@ -67,6 +69,8 @@ public class OpenCDXNotificationEventModel {
         this.parameters = event.getEventParametersList();
         this.sensitivityLevel = event.getSensitivity();
         this.priority = event.getPriority();
+        this.smsRetry = event.getSmsRetry();
+        this.emailRetry = event.getEmailRetry();
     }
 
     /**

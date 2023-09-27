@@ -375,47 +375,79 @@ public class CommunicationServiceImpl implements CommunicationService {
                 .setTemplateId(openCDXNotificationModel.getEventId().toHexString())
                 .build());
 
-        if (notificationEvent.hasEmailTemplateId()) {
-            EmailTemplate emailTemplate = this.getEmailTemplate(TemplateRequest.newBuilder()
-                    .setTemplateId(notificationEvent.getEmailTemplateId())
-                    .build());
-            String message = this.processHTML(
-                    emailTemplate.getContent(),
-                    emailTemplate.getVariablesList().stream().toList(),
-                    objectVariableMap);
-
-            if (this.openCDXEmailService.sendEmail(
-                    emailTemplate.getSubject(),
-                    message,
-                    openCDXNotificationModel.getToEmail(),
-                    openCDXNotificationModel.getCcEmail(),
-                    openCDXNotificationModel.getBccEmail(),
-                    openCDXNotificationModel.getAttachments())) {
-
-                auditBuilder.setEmailContent(message);
-                openCDXNotificationModel.setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT);
-            }
+        if (notificationEvent.hasEmailTemplateId()
+                && openCDXNotificationModel.getEmailStatus().equals(NotificationStatus.NOTIFICATION_STATUS_PENDING)) {
+            sendEmail(openCDXNotificationModel, auditBuilder, objectVariableMap, notificationEvent);
         }
 
-        if (notificationEvent.hasSmsTemplateId()) {
-            SMSTemplate smsTemplate = this.getSMSTemplate(TemplateRequest.newBuilder()
-                    .setTemplateId(notificationEvent.getSmsTemplateId())
-                    .build());
-            String message = this.processHTML(
-                    smsTemplate.getMessage(),
-                    smsTemplate.getVariablesList().stream().toList(),
-                    objectVariableMap);
-
-            if (this.openCDXSMSService.sendSMS(message, openCDXNotificationModel.getPhoneNumbers())) {
-
-                auditBuilder.setSmsContent(message);
-                openCDXNotificationModel.setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_SENT);
-            }
+        if (notificationEvent.hasSmsTemplateId()
+                && openCDXNotificationModel.getSmsStatus().equals(NotificationStatus.NOTIFICATION_STATUS_PENDING)) {
+            sendSMS(openCDXNotificationModel, auditBuilder, objectVariableMap, notificationEvent);
         }
 
         openCDXNotificaitonRepository.save(openCDXNotificationModel);
 
         this.recordAudit(auditBuilder.build(), notificationEvent);
+    }
+
+    private void sendSMS(
+            OpenCDXNotificationModel openCDXNotificationModel,
+            CommunicationAuditRecord.Builder auditBuilder,
+            Map<String, Object> objectVariableMap,
+            NotificationEvent notificationEvent) {
+        SMSTemplate smsTemplate = this.getSMSTemplate(TemplateRequest.newBuilder()
+                .setTemplateId(notificationEvent.getSmsTemplateId())
+                .build());
+        String message = this.processHTML(
+                smsTemplate.getMessage(),
+                smsTemplate.getVariablesList().stream().toList(),
+                objectVariableMap);
+
+        if (this.openCDXSMSService.sendSMS(message, openCDXNotificationModel.getPhoneNumbers())) {
+
+            auditBuilder.setSmsContent(message);
+            openCDXNotificationModel.setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_SENT);
+        } else {
+            openCDXNotificationModel.setSmsFailCount(openCDXNotificationModel.getSmsFailCount() + 1);
+        }
+
+        if (notificationEvent.getSmsRetry() != 0
+                && openCDXNotificationModel.getSmsFailCount() >= notificationEvent.getSmsRetry()) {
+            openCDXNotificationModel.setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_FAILED);
+        }
+    }
+
+    private void sendEmail(
+            OpenCDXNotificationModel openCDXNotificationModel,
+            CommunicationAuditRecord.Builder auditBuilder,
+            Map<String, Object> objectVariableMap,
+            NotificationEvent notificationEvent) {
+        EmailTemplate emailTemplate = this.getEmailTemplate(TemplateRequest.newBuilder()
+                .setTemplateId(notificationEvent.getEmailTemplateId())
+                .build());
+        String message = this.processHTML(
+                emailTemplate.getContent(),
+                emailTemplate.getVariablesList().stream().toList(),
+                objectVariableMap);
+
+        if (this.openCDXEmailService.sendEmail(
+                emailTemplate.getSubject(),
+                message,
+                openCDXNotificationModel.getToEmail(),
+                openCDXNotificationModel.getCcEmail(),
+                openCDXNotificationModel.getBccEmail(),
+                openCDXNotificationModel.getAttachments())) {
+
+            auditBuilder.setEmailContent(message);
+            openCDXNotificationModel.setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT);
+        } else {
+            openCDXNotificationModel.setEmailFailCount(openCDXNotificationModel.getEmailFailCount() + 1);
+        }
+
+        if (notificationEvent.getEmailRetry() != 0
+                && openCDXNotificationModel.getEmailFailCount() >= notificationEvent.getEmailRetry()) {
+            openCDXNotificationModel.setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_FAILED);
+        }
     }
 
     private void recordAudit(CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent) {
