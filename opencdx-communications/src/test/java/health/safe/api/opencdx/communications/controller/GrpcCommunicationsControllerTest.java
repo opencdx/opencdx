@@ -44,6 +44,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -102,7 +104,16 @@ class GrpcCommunicationsControllerTest {
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
-                .then(AdditionalAnswers.returnsFirstArg());
+                        .thenAnswer(new Answer<OpenCDXNotificationModel>() {
+                            @Override
+                            public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
+                                OpenCDXNotificationModel argument = invocation.getArgument(0);
+                                if(argument.getId() == null) {
+                                    argument.setId(ObjectId.get());
+                                }
+                                return argument;
+                            }
+                        });
 
         Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));

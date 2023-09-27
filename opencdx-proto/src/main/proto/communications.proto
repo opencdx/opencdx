@@ -16,7 +16,7 @@ enum TemplateType {
   TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmaiton.
 }
 
-// Indicates the status of the Notificaiton
+// Indicates the status of the Notification
 enum NotificationStatus {
   NOTIFICATION_STATUS_UNSPECIFIED = 0; // Unspecified Notification status.
   NOTIFICATION_STATUS_PENDING = 1; // Unspecified Notification status.
@@ -24,6 +24,14 @@ enum NotificationStatus {
   NOTIFICATION_STATUS_FAILED = 3; // Unspecified Notification status.
 }
 
+// Indicates the priority of this Notification
+enum NotificationPriority {
+  NOTIFICATION_PRIORITY_UNSPECIFIED = 0; // Priority is not specified.
+  NOTIFICATION_PRIORITY_LOW = 1; // Priority is low
+  NOTIFICATION_PRIORITY_MEDIUM = 2; // Priority is Medium
+  NOTIFICATION_PRIORITY_HIGH = 3; // Priority is High
+  NOTIFICATION_PRIORITY_IMMEDIATE = 4; // Priority is Immediate
+}
 /**
 Defines the structure for representing email templates.
 */
@@ -57,7 +65,8 @@ message NotificationEvent {
   optional string email_template_id = 4;      // ID of the associated email template.
   optional string sms_template_id = 5;        // ID of the associated SMS template.
   repeated string event_parameters = 6; // Event-specific parameters.
-  cdx.open_audit.v2alpha.SensitivityLevel sensitivity = 7; // Indicates the Sensitivity level of the notification when sent.
+  NotificationPriority priority = 7;  // Priority of this notification event.
+  cdx.open_audit.v2alpha.SensitivityLevel sensitivity = 8; // Indicates the Sensitivity level of the notification when sent.
 }
 
 /**
