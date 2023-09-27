@@ -17,9 +17,7 @@ package health.safe.api.opencdx.connected.test.service.impl;
 
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.SensitivityLevel;
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -32,6 +30,8 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -117,5 +117,21 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             throw openCDXNotAcceptable;
         }
         return connectedTest;
+    }
+
+    @Override
+    public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request) {
+
+        Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+                new ObjectId(request.getUserId()), PageRequest.of(request.getPageNumber(), request.getPageSize()));
+
+        return ConnectedTestListResponse.newBuilder()
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
+                .setPageSize(request.getPageSize())
+                .setSortAscending(request.getSortAscending())
+                .addAllConnectedTests(
+                        all.get().map(OpenCDXConnectedTest::getProtobufMessage).toList())
+                .build();
     }
 }

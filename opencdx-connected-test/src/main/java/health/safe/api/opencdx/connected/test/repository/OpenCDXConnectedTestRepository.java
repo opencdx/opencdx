@@ -17,9 +17,13 @@ package health.safe.api.opencdx.connected.test.repository;
 
 import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
  */
-public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTest, ObjectId> {}
+public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTest, ObjectId> {
+    Page<OpenCDXConnectedTest> findAllByBasicInfo_UserId(ObjectId userId, Pageable pageable);
+}
