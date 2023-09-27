@@ -56,7 +56,7 @@ public class OpenCDXNotificationModel {
 
     public OpenCDXNotificationModel(Notification notification) {
         if (notification.hasQueueId()) {
-            this.id = new ObjectId(notification.getEventId());
+            this.id = new ObjectId(notification.getQueueId());
         }
         this.eventId = new ObjectId(notification.getEventId());
         if (notification.hasSmsStatus()) {

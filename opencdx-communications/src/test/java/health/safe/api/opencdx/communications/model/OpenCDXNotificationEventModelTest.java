@@ -15,14 +15,12 @@
  */
 package health.safe.api.opencdx.communications.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.open_communication.v2alpha.NotificationEvent;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class OpenCDXNotificationModelEventModelTest {
+class OpenCDXNotificationEventModelTest {
     @Test
     void getProtobufMessage_1() {
         NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
