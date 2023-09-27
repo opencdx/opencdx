@@ -262,11 +262,12 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void sendNotificationHtmlProcessSMS() throws JsonProcessingException {
+    void sendNotificationHtmlProcessToEmail() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 
         OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
         eventModel.setSmsTemplateId(new ObjectId());
+        eventModel.setEmailTemplateId(new ObjectId());
         eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
 
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
@@ -279,6 +280,13 @@ class CommunicationServiceImplTest {
         Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(smsModel));
 
+        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
+        emailModel.setContent("This is a test string for SMS");
+        emailModel.setVariables(List.of("A", "B", "C"));
+
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(emailModel));
+
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
         variablesMap.put("B", "Beta");
@@ -286,6 +294,115 @@ class CommunicationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(new ObjectId().toHexString())
+                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
+                .addAllToEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .putAllVariables(variablesMap)
+                .build();
+        Assertions.assertDoesNotThrow(() -> {
+            this.communicationService.sendNotification(notification);
+        });
+    }
+    @Test
+    void sendNotificationHtmlProcessCCEmail() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(new ObjectId());
+        eventModel.setEmailTemplateId(new ObjectId());
+        eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
+        smsModel.setMessage("This is a test string for SMS");
+        smsModel.setVariables(List.of("A", "B", "C"));
+
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(smsModel));
+
+        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
+        emailModel.setContent("This is a test string for SMS");
+        emailModel.setVariables(List.of("A", "B", "C"));
+
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(emailModel));
+
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("B", "Beta");
+        variablesMap.put("C", "Gnarly");
+
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
+                .addAllCcEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .putAllVariables(variablesMap)
+                .build();
+        Assertions.assertDoesNotThrow(() -> {
+            this.communicationService.sendNotification(notification);
+        });
+    }
+    @Test
+    void sendNotificationHtmlProcessBccEmail() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(new ObjectId());
+        eventModel.setEmailTemplateId(new ObjectId());
+        eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
+        smsModel.setMessage("This is a test string for SMS");
+        smsModel.setVariables(List.of("A", "B", "C"));
+
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(smsModel));
+
+        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
+        emailModel.setContent("This is a test string for SMS");
+        emailModel.setVariables(List.of("A", "B", "C"));
+
+        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(emailModel));
+
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("B", "Beta");
+        variablesMap.put("C", "Gnarly");
+
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
+                .addAllBccEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .putAllVariables(variablesMap)
+                .build();
+        Assertions.assertDoesNotThrow(() -> {
+            this.communicationService.sendNotification(notification);
+        });
+    }
+    @Test
+    void sendNotificationHtmlProcessSMS() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("B", "Beta");
+        variablesMap.put("C", "Gnarly");
+
+        Notification notification = Notification.newBuilder()
+                .setEventId(new ObjectId().toHexString())
+                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
+                .addAllToEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
@@ -294,15 +411,23 @@ class CommunicationServiceImplTest {
     }
 
     @Test
-    void sendNotificationHtmlProcessEmail() throws JsonProcessingException {
+    void sendNotificationHtmlProcessFailSend() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 
         OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(new ObjectId());
         eventModel.setEmailTemplateId(new ObjectId());
         eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
 
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
+
+        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
+        smsModel.setMessage("This is a test string for SMS");
+        smsModel.setVariables(List.of("A", "B", "C"));
+
+        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(smsModel));
 
         OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
         emailModel.setContent("This is a test string for SMS");
