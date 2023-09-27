@@ -104,16 +104,16 @@ class GrpcCommunicationsControllerTest {
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
-                        .thenAnswer(new Answer<OpenCDXNotificationModel>() {
-                            @Override
-                            public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
-                                OpenCDXNotificationModel argument = invocation.getArgument(0);
-                                if(argument.getId() == null) {
-                                    argument.setId(ObjectId.get());
-                                }
-                                return argument;
-                            }
-                        });
+                .thenAnswer(new Answer<OpenCDXNotificationModel>() {
+                    @Override
+                    public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXNotificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
 
         Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));

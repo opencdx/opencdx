@@ -104,7 +104,7 @@ class CommunicationServiceImplTest {
                     @Override
                     public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXNotificationModel argument = invocation.getArgument(0);
-                        if(argument.getId() == null) {
+                        if (argument.getId() == null) {
                             argument.setId(ObjectId.get());
                         }
                         return argument;
@@ -294,14 +294,15 @@ class CommunicationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(new ObjectId().toHexString())
-                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
-                .addAllToEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
+                .addAllToEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
     }
+
     @Test
     void sendNotificationHtmlProcessCCEmail() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
@@ -335,14 +336,15 @@ class CommunicationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(new ObjectId().toHexString())
-                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
-                .addAllCcEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
+                .addAllCcEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
     }
+
     @Test
     void sendNotificationHtmlProcessBccEmail() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
@@ -376,14 +378,15 @@ class CommunicationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(new ObjectId().toHexString())
-                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
-                .addAllBccEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
+                .addAllBccEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
     }
+
     @Test
     void sendNotificationHtmlProcessSMS() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
@@ -401,8 +404,8 @@ class CommunicationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(new ObjectId().toHexString())
-                .addAllToPhoneNumber(List.of("123-456-7890","098-765-4321"))
-                .addAllToEmail(List.of("test1@opencdx.org","test2@opencdx.org"))
+                .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
+                .addAllToEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {

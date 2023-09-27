@@ -114,7 +114,7 @@ class RestCommunicationsControllerTest {
                     @Override
                     public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
                         OpenCDXNotificationModel argument = invocation.getArgument(0);
-                        if(argument.getId() == null) {
+                        if (argument.getId() == null) {
                             argument.setId(ObjectId.get());
                         }
                         return argument;
