@@ -22,6 +22,8 @@ import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+
+import health.safe.api.opencdx.commons.collections.ListUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -107,14 +109,14 @@ public class OpenCDXNotificationModel {
                         .setNanos(this.timestamp.getNano())
                         .build())
                 .putAllCustomData(this.customData)
-                .addAllToEmail(this.toEmail)
-                .addAllCcEmail(this.ccEmail)
-                .addAllBccEmail(this.bccEmail)
-                .addAllEmailAttachments(this.attachments)
-                .addAllToPhoneNumber(this.phoneNumbers)
+                .addAllToEmail(ListUtils.safe(this.toEmail))
+                .addAllCcEmail(ListUtils.safe(this.ccEmail))
+                .addAllBccEmail(ListUtils.safe(this.bccEmail))
+                .addAllEmailAttachments(ListUtils.safe(this.attachments))
+                .addAllToPhoneNumber(ListUtils.safe(this.phoneNumbers))
                 .putAllVariables(this.variables)
                 .addAllRecipientsId(
-                        this.recipients.stream().map(ObjectId::toHexString).toList())
+                        ListUtils.safe(this.recipients).stream().map(ObjectId::toHexString).toList())
                 .build();
     }
 }

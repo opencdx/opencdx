@@ -75,7 +75,7 @@ class GrpcConnectedTestControllerTest {
         StreamObserver<TestSubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
-                        .setId(new ObjectId().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
@@ -98,14 +98,14 @@ class GrpcConnectedTestControllerTest {
         OpenCDXConnectedTest openCDXConnectedTest =
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(new ObjectId().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(openCDXConnectedTest));
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
-                .setTestId(new ObjectId().toHexString())
+                .setTestId(ObjectId.get().toHexString())
                 .build();
         this.grpcConnectedTestController.getTestDetailsById(testIdRequest, responseObserver);
 
@@ -122,7 +122,7 @@ class GrpcConnectedTestControllerTest {
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
-                .setTestId(new ObjectId().toHexString())
+                .setTestId(ObjectId.get().toHexString())
                 .build();
 
         Assertions.assertThrows(

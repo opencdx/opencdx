@@ -24,9 +24,9 @@ class OpenCDXNotificationEventModelTest {
     @Test
     void getProtobufMessage_1() {
         NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                .setEventId(new ObjectId().toHexString())
-                .setEmailTemplateId(new ObjectId().toHexString())
-                .setSmsTemplateId(new ObjectId().toHexString())
+                .setEventId(ObjectId.get().toHexString())
+                .setEmailTemplateId(ObjectId.get().toHexString())
+                .setSmsTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
@@ -37,9 +37,9 @@ class OpenCDXNotificationEventModelTest {
     @Test
     void getProtobufMessage_2() {
         NotificationEvent notificationEvent = NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                .setEventId(new ObjectId().toHexString())
-                .setEmailTemplateId(new ObjectId().toHexString())
-                .setSmsTemplateId(new ObjectId().toHexString())
+                .setEventId(ObjectId.get().toHexString())
+                .setEmailTemplateId(ObjectId.get().toHexString())
+                .setSmsTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);

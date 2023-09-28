@@ -172,6 +172,11 @@ public class CommunicationServiceImpl implements CommunicationService {
     @CacheEvict(value = "email_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
+
+        if(this.openCDXNotificationEventRepository.existsByEmailTemplateId(new ObjectId(templateRequest.getTemplateId()))) {
+            return SuccessResponse.newBuilder().setSuccess(false).build();
+        }
+
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),
@@ -258,6 +263,9 @@ public class CommunicationServiceImpl implements CommunicationService {
     @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
+        if(this.openCDXNotificationEventRepository.existsBySmsTemplateId(new ObjectId(templateRequest.getTemplateId()))) {
+            return SuccessResponse.newBuilder().setSuccess(false).build();
+        }
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),

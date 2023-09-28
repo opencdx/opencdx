@@ -110,7 +110,7 @@ class RestConnectedTestControllerTest {
         OpenCDXConnectedTest openCDXConnectedTest =
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(new ObjectId().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -134,7 +134,7 @@ class RestConnectedTestControllerTest {
                 "ConnectedTest:\n{}",
                 this.objectMapper.writeValueAsString(ConnectedTest.newBuilder()
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(new ObjectId().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())));
         log.info(
                 "TestSubmissionResponse:\n{}",

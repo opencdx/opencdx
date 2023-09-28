@@ -72,7 +72,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
-                        .setId(new ObjectId().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertEquals(
@@ -88,7 +88,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
-                        .setId(new ObjectId().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -104,7 +104,7 @@ class OpenCDXConnectedTestServiceImplTest {
         OpenCDXConnectedTest openCDXConnectedTest =
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(new ObjectId().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -124,7 +124,7 @@ class OpenCDXConnectedTestServiceImplTest {
         OpenCDXConnectedTest openCDXConnectedTest =
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(new ObjectId().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
