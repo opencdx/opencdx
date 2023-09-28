@@ -29,7 +29,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import health.safe.api.opencdx.communications.service.CommunicationService;
+import health.safe.api.opencdx.communications.service.OpenCDXCommunicationService;
 import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
@@ -54,7 +54,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class CommunicationServiceImplTest {
+class OpenCDXCommunicationServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
@@ -82,7 +82,7 @@ class CommunicationServiceImplTest {
     @Mock
     OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
 
-    CommunicationService communicationService;
+    OpenCDXCommunicationService openCDXCommunicationService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
@@ -110,7 +110,7 @@ class CommunicationServiceImplTest {
                 });
 
         this.objectMapper = Mockito.mock(ObjectMapper.class);
-        this.communicationService = new CommunicationServiceImpl(
+        this.openCDXCommunicationService = new OpenCDXCommunicationServiceImpl(
                 this.openCDXAuditService,
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
@@ -136,7 +136,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.createEmailTemplate(emailTemplate);
+            this.openCDXCommunicationService.createEmailTemplate(emailTemplate);
         });
     }
 
@@ -147,7 +147,7 @@ class CommunicationServiceImplTest {
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.updateEmailTemplate(emailTemplate);
+            this.openCDXCommunicationService.updateEmailTemplate(emailTemplate);
         });
     }
 
@@ -156,7 +156,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.communicationService.updateEmailTemplate(emailTemplate);
+            this.openCDXCommunicationService.updateEmailTemplate(emailTemplate);
         });
     }
 
@@ -167,7 +167,7 @@ class CommunicationServiceImplTest {
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.deleteEmailTemplate(templateRequest);
+            this.openCDXCommunicationService.deleteEmailTemplate(templateRequest);
         });
     }
 
@@ -178,8 +178,9 @@ class CommunicationServiceImplTest {
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertFalse(
-                this.communicationService.deleteEmailTemplate(templateRequest).getSuccess());
+        Assertions.assertFalse(this.openCDXCommunicationService
+                .deleteEmailTemplate(templateRequest)
+                .getSuccess());
     }
 
     @Test
@@ -187,7 +188,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.createSMSTemplate(smsTemplate);
+            this.openCDXCommunicationService.createSMSTemplate(smsTemplate);
         });
     }
 
@@ -198,7 +199,7 @@ class CommunicationServiceImplTest {
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.updateSMSTemplate(smsTemplate);
+            this.openCDXCommunicationService.updateSMSTemplate(smsTemplate);
         });
     }
 
@@ -207,7 +208,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.communicationService.updateSMSTemplate(smsTemplate);
+            this.openCDXCommunicationService.updateSMSTemplate(smsTemplate);
         });
     }
 
@@ -218,7 +219,7 @@ class CommunicationServiceImplTest {
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.deleteSMSTemplate(templateRequest);
+            this.openCDXCommunicationService.deleteSMSTemplate(templateRequest);
         });
     }
 
@@ -229,8 +230,9 @@ class CommunicationServiceImplTest {
         TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertFalse(
-                this.communicationService.deleteSMSTemplate(templateRequest).getSuccess());
+        Assertions.assertFalse(this.openCDXCommunicationService
+                .deleteSMSTemplate(templateRequest)
+                .getSuccess());
     }
 
     @Test
@@ -238,7 +240,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.createNotificationEvent(notificationEvent);
+            this.openCDXCommunicationService.createNotificationEvent(notificationEvent);
         });
     }
 
@@ -249,7 +251,7 @@ class CommunicationServiceImplTest {
                 .setEventId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.updateNotificationEvent(notificationEvent);
+            this.openCDXCommunicationService.updateNotificationEvent(notificationEvent);
         });
     }
 
@@ -258,7 +260,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.communicationService.updateNotificationEvent(notificationEvent);
+            this.openCDXCommunicationService.updateNotificationEvent(notificationEvent);
         });
     }
 
@@ -267,7 +269,7 @@ class CommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         TemplateRequest templateRequest = TemplateRequest.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.deleteNotificationEvent(templateRequest);
+            this.openCDXCommunicationService.deleteNotificationEvent(templateRequest);
         });
     }
 
@@ -281,7 +283,7 @@ class CommunicationServiceImplTest {
                 .setEventId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -323,7 +325,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -365,7 +367,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -407,7 +409,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -433,7 +435,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -473,7 +475,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -503,7 +505,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -547,7 +549,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -591,7 +593,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -635,7 +637,7 @@ class CommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.sendNotification(notification);
+            this.openCDXCommunicationService.sendNotification(notification);
         });
     }
 
@@ -688,7 +690,7 @@ class CommunicationServiceImplTest {
                 .variables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.communicationService.processOpenCDXNotification(notification);
+            this.openCDXCommunicationService.processOpenCDXNotification(notification);
         });
     }
 }

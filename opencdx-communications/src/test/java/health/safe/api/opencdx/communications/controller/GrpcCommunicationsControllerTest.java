@@ -27,11 +27,11 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import health.safe.api.opencdx.communications.service.CommunicationService;
+import health.safe.api.opencdx.communications.service.OpenCDXCommunicationService;
 import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
-import health.safe.api.opencdx.communications.service.impl.CommunicationServiceImpl;
+import health.safe.api.opencdx.communications.service.impl.OpenCDXCommunicationServiceImpl;
 import io.grpc.stub.StreamObserver;
 import java.util.Collections;
 import java.util.Optional;
@@ -86,7 +86,7 @@ class GrpcCommunicationsControllerTest {
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
 
-    CommunicationService communicationService;
+    OpenCDXCommunicationService openCDXCommunicationService;
 
     GrpcCommunicationsController grpcCommunicationsController;
 
@@ -134,7 +134,7 @@ class GrpcCommunicationsControllerTest {
         Mockito.when(this.openCDXNotificationEventRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
-        this.communicationService = new CommunicationServiceImpl(
+        this.openCDXCommunicationService = new OpenCDXCommunicationServiceImpl(
                 this.openCDXAuditService,
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
@@ -144,7 +144,7 @@ class GrpcCommunicationsControllerTest {
                 openCDXSMSService,
                 openCDXHTMLProcessor,
                 objectMapper);
-        this.grpcCommunicationsController = new GrpcCommunicationsController(this.communicationService);
+        this.grpcCommunicationsController = new GrpcCommunicationsController(this.openCDXCommunicationService);
     }
 
     @AfterEach

@@ -22,9 +22,9 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 
 /**
- * Interface for the CommunicationService
+ * Interface for the OpenCDXCommunicationService
  */
-public interface CommunicationService {
+public interface OpenCDXCommunicationService {
 
     /**
      * Create an Email Template

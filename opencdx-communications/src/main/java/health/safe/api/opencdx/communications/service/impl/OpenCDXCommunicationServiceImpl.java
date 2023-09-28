@@ -32,7 +32,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRep
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import health.safe.api.opencdx.communications.service.CommunicationService;
+import health.safe.api.opencdx.communications.service.OpenCDXCommunicationService;
 import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
@@ -56,9 +56,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class CommunicationServiceImpl implements CommunicationService {
+public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationService {
 
-    private static final String DOMAIN = "CommunicationServiceImpl";
+    private static final String DOMAIN = "OpenCDXCommunicationServiceImpl";
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
     private final OpenCDXAuditService openCDXAuditService;
@@ -85,7 +85,7 @@ public class CommunicationServiceImpl implements CommunicationService {
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
-    public CommunicationServiceImpl(
+    public OpenCDXCommunicationServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
