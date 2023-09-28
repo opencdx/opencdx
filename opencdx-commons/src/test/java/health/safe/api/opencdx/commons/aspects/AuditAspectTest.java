@@ -18,12 +18,13 @@ package health.safe.api.opencdx.commons.aspects;
 import health.safe.api.opencdx.commons.config.CommonsConfig;
 import health.safe.api.opencdx.commons.dto.RequestActorAttributes;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXBadRequest;
+import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -42,11 +43,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         })
 @ExtendWith(SpringExtension.class)
 class AuditAspectTest {
+    @Autowired
+    OpenCDXAuditService auditService;
+
     @Test
     void testOpenCDXAuditUser() {
         AuditAspectTestInstance instance = new AuditAspectTestInstance();
         AspectJProxyFactory factory = new AspectJProxyFactory(instance);
-        AuditAspect auditAspect = new AuditAspect();
+        AuditAspect auditAspect = new AuditAspect(auditService);
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
         proxy.testAnnotation("Bob", "Jim");
@@ -59,7 +63,7 @@ class AuditAspectTest {
     void testOpenCDXAuditUserChild() {
         AuditAspectTestInstance instance = new AuditAspectTestInstance();
         AspectJProxyFactory factory = new AspectJProxyFactory(instance);
-        AuditAspect auditAspect = new AuditAspect();
+        AuditAspect auditAspect = new AuditAspect(auditService);
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
         proxy.testAnnotationChild(new RequestActorAttributes("Bob", "Jim"));
@@ -83,7 +87,7 @@ class AuditAspectTest {
     void testOpenCDXAuditUserFail() {
         AuditAspectTestInstance instance = new AuditAspectTestInstance();
         AspectJProxyFactory factory = new AspectJProxyFactory(instance);
-        AuditAspect auditAspect = new AuditAspect();
+        AuditAspect auditAspect = new AuditAspect(auditService);
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
         RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
@@ -94,7 +98,7 @@ class AuditAspectTest {
     void testOpenCDXAuditUserFail2() {
         AuditAspectTestInstance instance = new AuditAspectTestInstance();
         AspectJProxyFactory factory = new AspectJProxyFactory(instance);
-        AuditAspect auditAspect = new AuditAspect();
+        AuditAspect auditAspect = new AuditAspect(auditService);
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
         RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
@@ -105,10 +109,234 @@ class AuditAspectTest {
     void testOpenCDXAuditUserFail3() {
         AuditAspectTestInstance instance = new AuditAspectTestInstance();
         AspectJProxyFactory factory = new AspectJProxyFactory(instance);
-        AuditAspect auditAspect = new AuditAspect();
+        AuditAspect auditAspect = new AuditAspect(auditService);
         factory.addAspect(auditAspect);
         AuditAspectTestInstance proxy = factory.getProxy();
         RequestActorAttributes attributes = new RequestActorAttributes("Bob", "Jim");
         Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationFail3(attributes));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationEventUnspecified() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationEventUnspecified("actor", "patient", "data", "purpose", "resource"));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationLoginSucceed() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserLoginSucceed("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserLoginSucceedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserLogOut() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserLogOut("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserLogOutElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserLoginFail() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserLoginFail("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserLoginFailElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserAccessChange() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserAccessChange("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserAccessChangeElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPasswordChange() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPasswordChange("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPasswordChangeElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPIIAccessed() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPIIAccessed("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIAccessedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPIIUpdated() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPIIUpdated("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIUpdatedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPIICreated() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPIICreated("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIICreatedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPIIDeleted() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPIIDeleted("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIDeletedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPHIAccessed() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPHIAccessed("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIAccessedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPHIUpdated() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPHIUpdated("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIUpdatedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPHICreated() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPHICreated("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHICreatedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserPHIDeleted() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserPHIDeleted("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIDeletedElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationUserCommunication() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationUserCommunication("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserCommunicationElse("actor", "patient", "data", "", ""));
+    }
+
+    @Test
+    void testOpenCDXAuditAnnotationConfigChange() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        Assertions.assertDoesNotThrow(
+                () -> proxy.testAuditAnnotationConfigChange("actor", "patient", "data", "purpose", "resource"));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationConfigChangeElse("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class, () -> proxy.testAuditAnnotationConfigChange(null, "patient", "data", "", ""));
     }
 }
