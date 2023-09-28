@@ -629,7 +629,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -1109,7 +1109,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -1622,7 +1622,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -2021,7 +2021,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -2477,7 +2477,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -2876,7 +2876,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -3332,88 +3332,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
-        </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
-        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
-          <stringProp name="GRPCSampler.libFolder"></stringProp>
-          <stringProp name="GRPCSampler.metadata"></stringProp>
-          <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteEmailTemplate</stringProp>
-          <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
-          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
-}</stringProp>
-        </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
-        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
-          <stringProp name="GRPCSampler.libFolder"></stringProp>
-          <stringProp name="GRPCSampler.metadata"></stringProp>
-          <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteNotificationEvent</stringProp>
-          <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
-          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;${eventId}&quot;
-}</stringProp>
-        </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
-        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
-          <stringProp name="GRPCSampler.libFolder"></stringProp>
-          <stringProp name="GRPCSampler.metadata"></stringProp>
-          <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteSMSTemplate</stringProp>
-          <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
-          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{
-    &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
-}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -3812,7 +3731,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
+                <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>

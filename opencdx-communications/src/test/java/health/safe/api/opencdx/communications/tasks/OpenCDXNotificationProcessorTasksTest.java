@@ -1,4 +1,21 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package health.safe.api.opencdx.communications.tasks;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.open_communication.v2alpha.NotificationPriority;
 import cdx.open_communication.v2alpha.NotificationStatus;
@@ -18,6 +35,8 @@ import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXCommunicationServiceImpl;
+import java.time.Instant;
+import java.util.*;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -33,11 +52,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.time.Instant;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -158,10 +172,15 @@ class OpenCDXNotificationProcessorTasksTest {
                 .variables(variablesMap)
                 .build();
 
-        Mockito.when(this.openCDXNotificaitonRepository.findAllByPriorityAndSmsStatusOrderByTimestampAsc(Mockito.any(NotificationPriority.class),Mockito.any(NotificationStatus.class))).thenReturn(List.of(notification));
-        Mockito.when(this.openCDXNotificaitonRepository.findAllByPriorityAndEmailStatusOrderByTimestampAsc(Mockito.any(NotificationPriority.class),Mockito.any(NotificationStatus.class))).thenReturn(List.of(notification));
+        Mockito.when(this.openCDXNotificaitonRepository.findAllByPriorityAndSmsStatusOrderByTimestampAsc(
+                        Mockito.any(NotificationPriority.class), Mockito.any(NotificationStatus.class)))
+                .thenReturn(List.of(notification));
+        Mockito.when(this.openCDXNotificaitonRepository.findAllByPriorityAndEmailStatusOrderByTimestampAsc(
+                        Mockito.any(NotificationPriority.class), Mockito.any(NotificationStatus.class)))
+                .thenReturn(List.of(notification));
 
-        this.openCDXNotificationProcessorTasks = new OpenCDXNotificationProcessorTasks(this.openCDXCommunicationService,this.openCDXNotificaitonRepository);
+        this.openCDXNotificationProcessorTasks = new OpenCDXNotificationProcessorTasks(
+                this.openCDXCommunicationService, this.openCDXNotificaitonRepository);
     }
 
     @AfterEach
@@ -172,7 +191,6 @@ class OpenCDXNotificationProcessorTasksTest {
                 this.openCDXNotificationEventRepository,
                 this.openCDXSMSTemplateRespository);
     }
-
 
     @Test
     void highPriorityNotifications() {
