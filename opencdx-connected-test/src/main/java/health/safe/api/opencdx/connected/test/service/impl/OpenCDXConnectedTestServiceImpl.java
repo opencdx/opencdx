@@ -15,6 +15,8 @@
  */
 package health.safe.api.opencdx.connected.test.service.impl;
 
+import static org.mockito.Mockito.mockingDetails;
+
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.open_connected_test.v2alpha.*;
@@ -35,8 +37,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import static org.mockito.Mockito.mockingDetails;
 
 /**
  * Service for processing HelloWorld Requests
@@ -133,7 +133,6 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
 
         System.out.println(mockingDetails(this.openCDXConnectedTestRepository).printInvocations());
-
 
         return ConnectedTestListResponse.newBuilder()
                 .setPageCount(all.getTotalPages())
