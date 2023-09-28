@@ -30,7 +30,8 @@ spring:
   h2:
     console:
       enabled: true
-
-opencdx:
-  helloworld:
-    format: "Hello %s!"
+queue:
+  priority:
+    high: 0 * * ? * *
+    medium: 0 0 * ? * *
+    low: 0 0 */3 ? * *
