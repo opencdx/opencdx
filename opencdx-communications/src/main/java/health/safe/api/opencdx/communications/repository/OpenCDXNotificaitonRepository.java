@@ -33,4 +33,6 @@ public interface OpenCDXNotificaitonRepository extends MongoRepository<OpenCDXNo
 
     List<OpenCDXNotificationModel> findAllByPriorityAndSmsStatusOrderByTimestampAsc(
             NotificationPriority priority, NotificationStatus smsStatus);
+
+    boolean existsByEventId(ObjectId id);
 }

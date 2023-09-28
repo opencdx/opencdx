@@ -267,11 +267,20 @@ class OpenCDXCommunicationServiceImplTest {
     @Test
     void deleteNotificationEvent() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        TemplateRequest templateRequest = TemplateRequest.getDefaultInstance();
+        TemplateRequest templateRequest = TemplateRequest.newBuilder().setTemplateId(ObjectId.get().toHexString()).build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.openCDXCommunicationService.deleteNotificationEvent(templateRequest);
         });
     }
+
+    @Test
+    void deleteNotificationEventFail() throws JsonProcessingException {
+        Mockito.when(this.openCDXNotificaitonRepository.existsByEventId(Mockito.any(ObjectId.class))).thenReturn(true);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        TemplateRequest templateRequest = TemplateRequest.newBuilder().setTemplateId(ObjectId.get().toHexString()).build();
+        Assertions.assertFalse( this.openCDXCommunicationService.deleteNotificationEvent(templateRequest).getSuccess());
+    }
+
 
     @Test
     void sendNotificationFail() throws JsonProcessingException {
