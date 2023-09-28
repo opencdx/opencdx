@@ -15,7 +15,10 @@
  */
 package health.safe.api.opencdx.communications.repository;
 
+import cdx.open_communication.v2alpha.NotificationPriority;
+import cdx.open_communication.v2alpha.NotificationStatus;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
+import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -24,4 +27,10 @@ import org.springframework.stereotype.Repository;
  * MongoRepository for the notificaitons collection.
  */
 @Repository
-public interface OpenCDXNotificaitonRepository extends MongoRepository<OpenCDXNotificationModel, ObjectId> {}
+public interface OpenCDXNotificaitonRepository extends MongoRepository<OpenCDXNotificationModel, ObjectId> {
+    List<OpenCDXNotificationModel> findAllByPriorityAndEmailStatusOrderByTimestampAsc(
+            NotificationPriority priority, NotificationStatus emailStatus);
+
+    List<OpenCDXNotificationModel> findAllByPriorityAndSmsStatusOrderByTimestampAsc(
+            NotificationPriority priority, NotificationStatus smsStatus);
+}

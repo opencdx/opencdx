@@ -488,8 +488,9 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
                 .setTemplateId(notification.getEventId())
                 .build());
 
-        OpenCDXNotificationModel openCDXNotificationModel =
-                this.openCDXNotificaitonRepository.save(new OpenCDXNotificationModel(notification));
+        OpenCDXNotificationModel openCDXNotificationModel = new OpenCDXNotificationModel(notification);
+        openCDXNotificationModel.setPriority(notificationEvent.getPriority());
+        openCDXNotificationModel = this.openCDXNotificaitonRepository.save(openCDXNotificationModel);
         if (notificationEvent.getPriority().equals(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE)) {
             this.processOpenCDXNotification(openCDXNotificationModel);
         } else {

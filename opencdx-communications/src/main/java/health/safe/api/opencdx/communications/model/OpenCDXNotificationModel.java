@@ -17,6 +17,7 @@ package health.safe.api.opencdx.communications.model;
 
 import cdx.open_communication.v2alpha.Attachment;
 import cdx.open_communication.v2alpha.Notification;
+import cdx.open_communication.v2alpha.NotificationPriority;
 import cdx.open_communication.v2alpha.NotificationStatus;
 import com.google.protobuf.Timestamp;
 import health.safe.api.opencdx.commons.collections.ListUtils;
@@ -50,6 +51,8 @@ public class OpenCDXNotificationModel {
 
     @Builder.Default
     private Integer emailFailCount = 0;
+
+    private NotificationPriority priority;
 
     private Instant timestamp;
     private Map<String, String> customData;
