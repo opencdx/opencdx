@@ -19,11 +19,10 @@ import cdx.open_communication.v2alpha.Attachment;
 import cdx.open_communication.v2alpha.Notification;
 import cdx.open_communication.v2alpha.NotificationStatus;
 import com.google.protobuf.Timestamp;
+import health.safe.api.opencdx.commons.collections.ListUtils;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-
-import health.safe.api.opencdx.commons.collections.ListUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -115,8 +114,9 @@ public class OpenCDXNotificationModel {
                 .addAllEmailAttachments(ListUtils.safe(this.attachments))
                 .addAllToPhoneNumber(ListUtils.safe(this.phoneNumbers))
                 .putAllVariables(this.variables)
-                .addAllRecipientsId(
-                        ListUtils.safe(this.recipients).stream().map(ObjectId::toHexString).toList())
+                .addAllRecipientsId(ListUtils.safe(this.recipients).stream()
+                        .map(ObjectId::toHexString)
+                        .toList())
                 .build();
     }
 }

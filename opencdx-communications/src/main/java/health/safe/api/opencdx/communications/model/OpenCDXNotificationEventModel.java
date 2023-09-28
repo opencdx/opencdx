@@ -47,8 +47,10 @@ public class OpenCDXNotificationEventModel {
     private SensitivityLevel sensitivityLevel;
     private NotificationPriority priority;
     List<String> parameters;
+
     @Builder.Default
     private Integer emailRetry = 0;
+
     @Builder.Default
     private Integer smsRetry = 0;
 

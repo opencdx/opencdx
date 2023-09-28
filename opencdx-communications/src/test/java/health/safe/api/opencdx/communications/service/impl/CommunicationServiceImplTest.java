@@ -33,10 +33,8 @@ import health.safe.api.opencdx.communications.service.CommunicationService;
 import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
-
 import java.time.Instant;
 import java.util.*;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -165,17 +163,25 @@ class CommunicationServiceImplTest {
     @Test
     void deleteEmailTemplate() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance()).setTemplateId(ObjectId.get().toHexString()).build();
+        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
+                .setTemplateId(ObjectId.get().toHexString())
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.deleteEmailTemplate(templateRequest);
         });
     }
+
     @Test
     void deleteEmailTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(Mockito.any(ObjectId.class))).thenReturn(true);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance()).setTemplateId(ObjectId.get().toHexString()).build();
-        Assertions.assertFalse(this.communicationService.deleteEmailTemplate(templateRequest).getSuccess());
+        Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
+        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
+                .setTemplateId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertFalse(
+                this.communicationService.deleteEmailTemplate(templateRequest).getSuccess());
     }
+
     @Test
     void createSMSTemplate() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
@@ -208,17 +214,25 @@ class CommunicationServiceImplTest {
     @Test
     void deleteSMSTemplate() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance()).setTemplateId(ObjectId.get().toHexString()).build();
+        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
+                .setTemplateId(ObjectId.get().toHexString())
+                .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
             this.communicationService.deleteSMSTemplate(templateRequest);
         });
     }
+
     @Test
     void deleteSMSTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.openCDXNotificationEventRepository.existsBySmsTemplateId(Mockito.any(ObjectId.class))).thenReturn(true);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance()).setTemplateId(ObjectId.get().toHexString()).build();
-        Assertions.assertFalse(this.communicationService.deleteSMSTemplate(templateRequest).getSuccess());
+        Mockito.when(this.openCDXNotificationEventRepository.existsBySmsTemplateId(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
+        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
+                .setTemplateId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertFalse(
+                this.communicationService.deleteSMSTemplate(templateRequest).getSuccess());
     }
+
     @Test
     void createNotificationEvent() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
@@ -535,7 +549,6 @@ class CommunicationServiceImplTest {
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
-
     }
 
     @Test
@@ -580,8 +593,8 @@ class CommunicationServiceImplTest {
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
-
     }
+
     @Test
     void processOpenCDXNotification_3() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
@@ -624,8 +637,8 @@ class CommunicationServiceImplTest {
         Assertions.assertDoesNotThrow(() -> {
             this.communicationService.sendNotification(notification);
         });
-
     }
+
     @Test
     void processOpenCDXNotification_4() throws JsonProcessingException {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
