@@ -24,6 +24,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
  */
+@SuppressWarnings("java:S100")
 public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTest, ObjectId> {
     Page<OpenCDXConnectedTest> findAllByBasicInfo_UserId(ObjectId userId, Pageable pageable);
 }

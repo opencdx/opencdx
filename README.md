@@ -21,9 +21,13 @@ Template for creating Java Based REST/gRPC Microservices.
 - [OpenCdx Commons](opencdx-commons/README.md)
 - [OpenCDx Communications](opencdx-communications/README.md)
 - [OpenCdx Config](opencdx-config/README.md)
+- [OpenCdx Connected Tests](opencdx-connected-test/README.md)
 - [OpenCdx Hello World](opencdx-helloworld/README.md)
+- [OpenCdx Media](opencdx-media/README.md)
 - [OpenCdx Proto](opencdx-proto/README.md)
 - [OpenCdx Tinkar](opencdx-tinkar/README.md)
+
+
 
 ## Build Results
 

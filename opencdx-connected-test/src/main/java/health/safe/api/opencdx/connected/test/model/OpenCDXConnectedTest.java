@@ -34,6 +34,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @RequiredArgsConstructor
 @Document("connected-test")
 public class OpenCDXConnectedTest {
+
     @Id
     private ObjectId id;
 
@@ -64,15 +65,26 @@ public class OpenCDXConnectedTest {
      * @return ConnectedTest representing this model.
      */
     public ConnectedTest getProtobufMessage() {
-        return ConnectedTest.newBuilder()
-                .setBasicInfo(BasicInfo.newBuilder(this.basicInfo)
-                        .setId(this.id.toHexString())
-                        .build())
-                .setOrderInfo(this.orderInfo)
-                .setTestNotes(this.testNotes)
-                .setPaymentDetails(this.paymentDetails)
-                .setProviderInfo(this.providerInfo)
-                .setTestDetails(this.getTestDetails())
-                .build();
+        ConnectedTest.Builder builder = ConnectedTest.newBuilder();
+
+        if (this.basicInfo != null) {
+            builder.setBasicInfo(this.basicInfo);
+        }
+        if (this.orderInfo != null) {
+            builder.setOrderInfo(this.orderInfo);
+        }
+        if (this.paymentDetails != null) {
+            builder.setPaymentDetails(this.paymentDetails);
+        }
+        if (this.providerInfo != null) {
+            builder.setProviderInfo(this.providerInfo);
+        }
+        if (this.testDetails != null) {
+            builder.setTestDetails(this.testDetails);
+        }
+        if (this.testNotes != null) {
+            builder.setTestNotes(this.testNotes);
+        }
+        return builder.build();
     }
 }
