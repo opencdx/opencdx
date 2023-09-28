@@ -44,6 +44,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
+
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
@@ -64,10 +67,12 @@ class GrpcConnectedTestControllerTest {
 
     @BeforeEach
     void setUp() {
+        openCDXConnectedTestRepository = mock(OpenCDXConnectedTestRepository.class,
+                withSettings().verboseLogging());
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService, this.openCDXConnectedTestRepository, objectMapper);
         this.grpcConnectedTestController = new GrpcConnectedTestController(this.openCDXConnectedTestService);
-        this.openCDXConnectedTestRepository = Mockito.mock(OpenCDXConnectedTestRepository.class);
+        this.openCDXConnectedTestRepository = mock(OpenCDXConnectedTestRepository.class);
 
         Mockito.when(this.openCDXConnectedTestRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
@@ -75,11 +80,13 @@ class GrpcConnectedTestControllerTest {
     }
 
     @AfterEach
-    void tearDown() {}
+    void tearDown() {
+        Mockito.reset(this.openCDXConnectedTestRepository,this.grpcConnectedTestController, this.openCDXConnectedTestService);
+    }
 
     @Test
     void submitTest() {
-        StreamObserver<TestSubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<TestSubmissionResponse> responseObserver = mock(StreamObserver.class);
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(new ObjectId().toHexString())
@@ -98,7 +105,7 @@ class GrpcConnectedTestControllerTest {
 
     @Test
     void getTestDetailsById() {
-        StreamObserver<ConnectedTest> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ConnectedTest> responseObserver = mock(StreamObserver.class);
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
@@ -122,7 +129,7 @@ class GrpcConnectedTestControllerTest {
 
     @Test
     void getTestDetailsByIdFail() {
-        StreamObserver<ConnectedTest> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ConnectedTest> responseObserver = mock(StreamObserver.class);
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
@@ -140,10 +147,10 @@ class GrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(Mockito.any(ObjectId.class),Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(Mockito.any(),Mockito.any()))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
-        StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ConnectedTestListResponse> responseObserver = mock(StreamObserver.class);
         ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
                 .setPageNumber(1)
                 .setPageSize(10)

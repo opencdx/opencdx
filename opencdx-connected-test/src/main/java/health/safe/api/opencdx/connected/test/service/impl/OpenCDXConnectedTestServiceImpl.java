@@ -30,9 +30,13 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import static org.mockito.Mockito.mockingDetails;
 
 /**
  * Service for processing HelloWorld Requests
@@ -40,6 +44,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
+@ExtendWith(MockitoExtension.class)
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
     private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
@@ -122,8 +127,13 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request) {
 
+        ObjectId objectId = new ObjectId(request.getUserId());
+
         Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
-                new ObjectId(request.getUserId()), PageRequest.of(request.getPageNumber(), request.getPageSize()));
+                objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+
+        System.out.println(mockingDetails(this.openCDXConnectedTestRepository).printInvocations());
+
 
         return ConnectedTestListResponse.newBuilder()
                 .setPageCount(all.getTotalPages())
