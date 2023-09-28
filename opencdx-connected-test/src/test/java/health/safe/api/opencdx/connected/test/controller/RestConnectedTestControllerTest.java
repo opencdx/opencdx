@@ -19,10 +19,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.open_connected_test.v2alpha.BasicInfo;
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_communication.v2alpha.NotificationEventListRequest;
+import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
@@ -140,5 +138,24 @@ class RestConnectedTestControllerTest {
                 "TestSubmissionResponse:\n{}",
                 this.objectMapper.writeValueAsString(TestSubmissionResponse.getDefaultInstance()));
         log.info("TestIdRequest:\n{}", this.objectMapper.writeValueAsString(TestIdRequest.getDefaultInstance()));
+    }
+
+    @Test
+    void listConnectedTests() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/connected-test/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ConnectedTestListRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .setUserId(new ObjectId().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(ConnectedTestListRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
     }
 }

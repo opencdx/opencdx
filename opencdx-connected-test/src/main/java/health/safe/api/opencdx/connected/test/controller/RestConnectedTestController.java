@@ -75,7 +75,7 @@ public class RestConnectedTestController {
     }
 
     /**
-     * List NotificationEvents
+     * List Connected tests
      *
      * @param connectedTestListRequest request for Connected Tests.
      * @return the requested NotificationEvents.

@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.connected.test.controller;
 
-import cdx.open_communication.v2alpha.NotificationEventListRequest;
 import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;

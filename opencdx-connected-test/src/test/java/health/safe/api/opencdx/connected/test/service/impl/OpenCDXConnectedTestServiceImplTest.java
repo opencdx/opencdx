@@ -15,8 +15,6 @@
  */
 package health.safe.api.opencdx.connected.test.service.impl;
 
-import cdx.open_communication.v2alpha.NotificationEventListRequest;
-import cdx.open_communication.v2alpha.NotificationEventListResponse;
 import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +25,6 @@ import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRep
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import java.util.Optional;
 
-import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -39,7 +36,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
