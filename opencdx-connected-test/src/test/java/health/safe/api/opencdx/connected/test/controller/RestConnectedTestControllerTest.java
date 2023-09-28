@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
 import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import io.nats.client.Connection;
+import java.util.Collections;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -39,6 +40,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -141,6 +145,10 @@ class RestConnectedTestControllerTest {
 
     @Test
     void listConnectedTests() throws Exception {
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
         MvcResult result = this.mockMvc
                 .perform(post("/connected-test/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

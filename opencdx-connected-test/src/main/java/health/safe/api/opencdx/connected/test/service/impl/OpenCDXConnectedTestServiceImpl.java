@@ -15,8 +15,6 @@
  */
 package health.safe.api.opencdx.connected.test.service.impl;
 
-import static org.mockito.Mockito.mockingDetails;
-
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.open_connected_test.v2alpha.*;
@@ -131,8 +129,6 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
                 objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
-
-        System.out.println(mockingDetails(this.openCDXConnectedTestRepository).printInvocations());
 
         return ConnectedTestListResponse.newBuilder()
                 .setPageCount(all.getTotalPages())

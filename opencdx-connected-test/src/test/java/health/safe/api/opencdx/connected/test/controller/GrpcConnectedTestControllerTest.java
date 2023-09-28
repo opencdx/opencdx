@@ -24,7 +24,6 @@ import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRep
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import health.safe.api.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
 import io.grpc.stub.StreamObserver;
-
 import java.util.Collections;
 import java.util.Optional;
 import org.bson.types.ObjectId;
