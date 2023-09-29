@@ -15,9 +15,7 @@
  */
 package health.safe.api.opencdx.connected.test.controller;
 
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +41,7 @@ public class RestConnectedTestController {
 
     /**
      * Constructor that takes a OpenCDXConnectedTestService
+     *
      * @param openCDXConnectedTestService service for processing requests.
      */
     @Autowired
@@ -52,6 +51,7 @@ public class RestConnectedTestController {
 
     /**
      * Method to submit a ConnectedTest for processing.
+     *
      * @param connectedTest ConnectedTest submitted
      * @return ID for the connectedTest
      */
@@ -62,6 +62,7 @@ public class RestConnectedTestController {
 
     /**
      * Method to get a ConnectedTest
+     *
      * @param id id of the ConnectedTest to retrieve.
      * @return The requested ConnectedTest.
      */
@@ -71,5 +72,18 @@ public class RestConnectedTestController {
                 this.openCDXConnectedTestService.getTestDetailsById(
                         TestIdRequest.newBuilder().setTestId(id).build()),
                 HttpStatus.OK);
+    }
+
+    /**
+     * List Connected tests
+     *
+     * @param connectedTestListRequest request for Connected Tests.
+     * @return the requested NotificationEvents.
+     */
+    @PostMapping("/list")
+    public ResponseEntity<ConnectedTestListResponse> listConnectedTests(
+            @RequestBody ConnectedTestListRequest connectedTestListRequest) {
+        return new ResponseEntity<>(
+                this.openCDXConnectedTestService.listConnectedTests(connectedTestListRequest), HttpStatus.OK);
     }
 }

@@ -15,10 +15,7 @@
  */
 package health.safe.api.opencdx.connected.test.controller;
 
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.HealthcareServiceGrpc;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
@@ -64,6 +61,13 @@ public class GrpcConnectedTestController extends HealthcareServiceGrpc.Healthcar
     @Override
     public void getTestDetailsById(TestIdRequest request, StreamObserver<ConnectedTest> responseObserver) {
         responseObserver.onNext(this.openCDXConnectedTestService.getTestDetailsById(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void listConnectedTests(
+            ConnectedTestListRequest request, StreamObserver<ConnectedTestListResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXConnectedTestService.listConnectedTests(request));
         responseObserver.onCompleted();
     }
 }

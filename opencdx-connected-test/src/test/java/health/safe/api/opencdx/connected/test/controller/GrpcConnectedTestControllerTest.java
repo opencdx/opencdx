@@ -15,10 +15,7 @@
  */
 package health.safe.api.opencdx.connected.test.controller;
 
-import cdx.open_connected_test.v2alpha.BasicInfo;
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
@@ -27,6 +24,7 @@ import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRep
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import health.safe.api.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
 import io.grpc.stub.StreamObserver;
+import java.util.Collections;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -39,6 +37,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -75,7 +76,7 @@ class GrpcConnectedTestControllerTest {
         StreamObserver<TestSubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
-                        .setId(new ObjectId().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
@@ -98,14 +99,14 @@ class GrpcConnectedTestControllerTest {
         OpenCDXConnectedTest openCDXConnectedTest =
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
-                                .setId(new ObjectId().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(openCDXConnectedTest));
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
-                .setTestId(new ObjectId().toHexString())
+                .setTestId(ObjectId.get().toHexString())
                 .build();
         this.grpcConnectedTestController.getTestDetailsById(testIdRequest, responseObserver);
 
@@ -122,11 +123,31 @@ class GrpcConnectedTestControllerTest {
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
-                .setTestId(new ObjectId().toHexString())
+                .setTestId(ObjectId.get().toHexString())
                 .build();
 
         Assertions.assertThrows(
                 OpenCDXNotFound.class,
                 () -> this.grpcConnectedTestController.getTestDetailsById(testIdRequest, responseObserver));
+    }
+
+    @Test
+    void testListConnectedTests() {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .setUserId(new ObjectId().toHexString())
+                .build();
+        this.grpcConnectedTestController.listConnectedTests(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

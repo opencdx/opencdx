@@ -1,8 +1,8 @@
-# OpenCDX HelloWorld
-> Template Module for an OpenCDX Service. Used to quickly setup new services.
+# OpenCDX Connected test
+> Module for handling connected tests to the server.
 
 ## Docker Image
-opencdx/helloworld
+opencdx/connected-test
 
 ## Docker Port
 - RestAPI > Host 8080 : Container 8080
