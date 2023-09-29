@@ -15,10 +15,7 @@
  */
 package health.safe.api.opencdx.connected.test.service.impl;
 
-import cdx.open_connected_test.v2alpha.BasicInfo;
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;

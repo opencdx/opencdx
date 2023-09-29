@@ -15,9 +15,7 @@
  */
 package health.safe.api.opencdx.connected.test.service;
 
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 
 /**
  * Interface for the OpenCDXConnectedTestService
@@ -37,4 +35,11 @@ public interface OpenCDXConnectedTestService {
      * @return The connected test results.
      */
     public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest);
+
+    /**
+     * Retrieve a list of connected tests for a user.
+     * @param request Request message containing the pageable information and user to request records on.
+     * @return Response containing the indicated page of recoards.
+     */
+    public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request);
 }

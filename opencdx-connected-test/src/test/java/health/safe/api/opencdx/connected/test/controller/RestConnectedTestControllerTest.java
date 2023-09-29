@@ -19,15 +19,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.open_connected_test.v2alpha.BasicInfo;
-import cdx.open_connected_test.v2alpha.ConnectedTest;
-import cdx.open_connected_test.v2alpha.TestIdRequest;
-import cdx.open_connected_test.v2alpha.TestSubmissionResponse;
+import cdx.open_connected_test.v2alpha.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
 import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import io.nats.client.Connection;
+import java.util.Collections;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -42,6 +40,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -140,5 +141,28 @@ class RestConnectedTestControllerTest {
                 "TestSubmissionResponse:\n{}",
                 this.objectMapper.writeValueAsString(TestSubmissionResponse.getDefaultInstance()));
         log.info("TestIdRequest:\n{}", this.objectMapper.writeValueAsString(TestIdRequest.getDefaultInstance()));
+    }
+
+    @Test
+    void listConnectedTests() throws Exception {
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        MvcResult result = this.mockMvc
+                .perform(post("/connected-test/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ConnectedTestListRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .setUserId(new ObjectId().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(ConnectedTestListRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
     }
 }
