@@ -21,6 +21,7 @@ import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepo
 import health.safe.api.opencdx.communications.service.OpenCDXCommunicationService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,7 @@ public class OpenCDXNotificationProcessorTasks {
      * any pending Immediate or High notifications.
      */
     @Scheduled(cron = "${queue.priority.high}")
+    @SchedulerLock(name = "highPriorityNotifications")
     public void highPriorityNotifications() {
         log.info("Starting High Priority Notifications Processing");
 
@@ -97,6 +99,7 @@ public class OpenCDXNotificationProcessorTasks {
      * any pending Medium notifications.
      */
     @Scheduled(cron = "${queue.priority.medium}")
+    @SchedulerLock(name = "mediumPriorityNotifications")
     public void mediumPriorityNotifications() {
         log.info("Starting Medium Priority Notifications Processing");
 
@@ -125,6 +128,7 @@ public class OpenCDXNotificationProcessorTasks {
      * any pending low notifications.
      */
     @Scheduled(cron = "${queue.priority.low}")
+    @SchedulerLock(name = "lowPriorityNotifications")
     public void lowPriorityNotifications() {
         log.info("Starting Low Priority Notifications Processing");
 

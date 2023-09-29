@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.config;
 
+import com.mongodb.client.MongoClient;
 import health.safe.api.opencdx.communications.service.OpenCDXEmailService;
 import health.safe.api.opencdx.communications.service.OpenCDXHTMLProcessor;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
@@ -22,6 +23,9 @@ import health.safe.api.opencdx.communications.service.impl.OpenCDXEmailServiceIm
 import health.safe.api.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import health.safe.api.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.core.LockProvider;
+import net.javacrumbs.shedlock.provider.mongo.MongoLockProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -66,5 +70,10 @@ public class AppConfig {
     OpenCDXEmailService openCDXEmailService() {
         log.info("Creating OpenCDXEmailService");
         return new OpenCDXEmailServiceImpl();
+    }
+
+    @Bean
+    public LockProvider lockProvider(MongoClient mongo, @Value("${spring.application.name}") String applicationName) {
+        return new MongoLockProvider(mongo.getDatabase("opencdx").getCollection("lock-" + applicationName));
     }
 }
