@@ -92,8 +92,11 @@ class RestConnectedTestControllerTest {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         ConnectedTest connectedTest = ConnectedTest.newBuilder()
-                .setBasicInfo(
-                        BasicInfo.newBuilder().setId("6511c2ffc289850d8dda157b").build())
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setId("6511c2ffc289850d8dda157b")
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -112,6 +115,8 @@ class RestConnectedTestControllerTest {
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .setNationalHealthId(10)
+                                .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -145,7 +150,7 @@ class RestConnectedTestControllerTest {
 
     @Test
     void listConnectedTests() throws Exception {
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 

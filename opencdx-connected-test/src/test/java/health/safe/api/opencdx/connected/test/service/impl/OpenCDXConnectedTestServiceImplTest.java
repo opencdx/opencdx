@@ -23,7 +23,11 @@ import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.connected.test.model.OpenCDXConnectedTest;
 import health.safe.api.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import health.safe.api.opencdx.connected.test.service.OpenCDXConnectedTestService;
+
+import java.util.Collections;
 import java.util.Optional;
+
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -35,9 +39,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+@Slf4j
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
@@ -70,6 +77,8 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertEquals(
@@ -86,6 +95,8 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -102,6 +113,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .setNationalHealthId(10)
+                                .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -122,6 +135,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .setNationalHealthId(10)
+                                .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -136,5 +151,12 @@ class OpenCDXConnectedTestServiceImplTest {
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> testOpenCDXConnectedTestService.getTestDetailsById(testIdRequest));
+    }
+
+    @Test
+    void listConnectedTests() throws JsonProcessingException {
+        ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder().setPageNumber(1).setPageSize(10).setSortAscending(true).setUserId(ObjectId.get().toHexString()).build();
+
+        log.info("JSON:\n{}",this.objectMapper.writeValueAsString(request));
     }
 }

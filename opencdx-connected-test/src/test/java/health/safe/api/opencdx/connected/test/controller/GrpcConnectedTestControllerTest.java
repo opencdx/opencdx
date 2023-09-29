@@ -77,6 +77,8 @@ class GrpcConnectedTestControllerTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
@@ -100,6 +102,8 @@ class GrpcConnectedTestControllerTest {
                 new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .setNationalHealthId(10)
+                                .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -134,7 +138,7 @@ class GrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 

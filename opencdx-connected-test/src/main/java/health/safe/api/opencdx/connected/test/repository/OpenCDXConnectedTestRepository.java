@@ -32,5 +32,5 @@ public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXC
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTest> findAllByBasicInfo_UserId(ObjectId userId, Pageable pageable);
+    Page<OpenCDXConnectedTest> findAllByUserId(ObjectId userId, Pageable pageable);
 }

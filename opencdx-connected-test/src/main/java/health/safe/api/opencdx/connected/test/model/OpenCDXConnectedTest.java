@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,6 +29,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Model for Connected in Mongo.  Features conversions
  * to Protobuf messages.
  */
+@Slf4j
 @Data
 @Builder
 @AllArgsConstructor
@@ -37,6 +39,9 @@ public class OpenCDXConnectedTest {
 
     @Id
     private ObjectId id;
+
+    private ObjectId userId;
+    private Integer nationalHealthId;
 
     private BasicInfo basicInfo;
     private OrderInfo orderInfo;
@@ -53,6 +58,8 @@ public class OpenCDXConnectedTest {
         if (connectedTest.getBasicInfo().hasId()) {
             this.id = new ObjectId(connectedTest.getBasicInfo().getId());
         }
+        this.userId = new ObjectId(connectedTest.getBasicInfo().getUserId());
+        this.nationalHealthId = connectedTest.getBasicInfo().getNationalHealthId();
         this.basicInfo = connectedTest.getBasicInfo();
         this.orderInfo = connectedTest.getOrderInfo();
         this.testNotes = connectedTest.getTestNotes();
@@ -66,10 +73,12 @@ public class OpenCDXConnectedTest {
      */
     public ConnectedTest getProtobufMessage() {
         ConnectedTest.Builder builder = ConnectedTest.newBuilder();
-
+        log.info("BasicInfo: {}", basicInfo);
         if (this.basicInfo != null) {
             builder.setBasicInfo(BasicInfo.newBuilder(this.basicInfo)
                     .setId(this.id.toHexString())
+                    .setUserId(this.userId.toHexString())
+                    .setNationalHealthId(this.nationalHealthId)
                     .build());
         }
         if (this.orderInfo != null) {

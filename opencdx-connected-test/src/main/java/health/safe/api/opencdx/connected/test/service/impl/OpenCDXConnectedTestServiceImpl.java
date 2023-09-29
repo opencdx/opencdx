@@ -127,8 +127,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         ObjectId objectId = new ObjectId(request.getUserId());
 
-        Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByBasicInfo_UserId(
+        log.info("Searching Database");
+        Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByUserId(
                 objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        log.info("found database results");
 
         return ConnectedTestListResponse.newBuilder()
                 .setPageCount(all.getTotalPages())
