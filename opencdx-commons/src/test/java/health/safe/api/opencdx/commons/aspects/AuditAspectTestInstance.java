@@ -119,8 +119,7 @@ public class AuditAspectTestInstance {
             patient = "patient",
             data = "data",
             eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_LOGIN_FAIL,
-            purpose = "purpose",
-            resource = "resource")
+            purpose = "purpose")
     public String testAuditAnnotationUserLoginFail(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
@@ -162,6 +161,17 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_ACCESS_CHANGE,
+            purpose = "purpose")
+    public String testAuditAnnotationUserAccessChangeElseWithPurpose(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
             eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE,
             purpose = "purpose",
             resource = "resource")
@@ -182,6 +192,17 @@ public class AuditAspectTestInstance {
 
     @OpenCDXAuditAnnotation(
             actor = "actor",
+            data = "data",
+            patient = "patient",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE,
+            purpose = "purpose")
+    public String testAuditAnnotationUserPasswordChangeElseWithPurpose(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
             patient = "patient",
             data = "data",
             eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_ACCESSED,
@@ -196,8 +217,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_ACCESSED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_ACCESSED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPIIAccessedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_ACCESSED)
+    public String testAuditAnnotationUserPIIAccessedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -218,8 +250,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_UPDATED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_UPDATED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPIIUpdatedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_UPDATED)
+    public String testAuditAnnotationUserPIIUpdatedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -240,8 +283,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_CREATED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_CREATED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPIICreatedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_CREATED)
+    public String testAuditAnnotationUserPIICreatedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -262,8 +316,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_DELETED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_DELETED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPIIDeletedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PII_DELETED)
+    public String testAuditAnnotationUserPIIDeletedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -284,8 +349,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_ACCESSED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_ACCESSED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPHIAccessedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_ACCESSED)
+    public String testAuditAnnotationUserPHIAccessedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -306,8 +382,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_UPDATED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_UPDATED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPHIUpdatedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_UPDATED)
+    public String testAuditAnnotationUserPHIUpdatedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -328,8 +415,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPHICreatedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
+    public String testAuditAnnotationUserPHICreatedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -350,8 +448,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_DELETED)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_DELETED,
+            purpose = "purpose")
     public String testAuditAnnotationUserPHIDeletedElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_DELETED)
+    public String testAuditAnnotationUserPHIDeletedElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -372,8 +481,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_COMMUNICATION)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_COMMUNICATION,
+            purpose = "purpose")
     public String testAuditAnnotationUserCommunicationElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_USER_COMMUNICATION)
+    public String testAuditAnnotationUserCommunicationElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }
@@ -394,8 +514,19 @@ public class AuditAspectTestInstance {
             actor = "actor",
             patient = "patient",
             data = "data",
-            eventType = AuditEventType.AUDIT_EVENT_TYPE_CONFIG_CHANGE)
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_CONFIG_CHANGE,
+            purpose = "purpose")
     public String testAuditAnnotationConfigChangeElse(
+            String actor, String patient, String data, String purpose, String resource) {
+        return String.format("Say Hello to %s and %s!", actor, patient);
+    }
+
+    @OpenCDXAuditAnnotation(
+            actor = "actor",
+            patient = "patient",
+            data = "data",
+            eventType = AuditEventType.AUDIT_EVENT_TYPE_CONFIG_CHANGE)
+    public String testAuditAnnotationConfigChangeElsePurposeEmpty(
             String actor, String patient, String data, String purpose, String resource) {
         return String.format("Say Hello to %s and %s!", actor, patient);
     }

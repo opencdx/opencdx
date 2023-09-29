@@ -73,6 +73,18 @@ class AuditAspectTest {
     }
 
     @Test
+    void testOpenCDXAuditUserChildObjNull() {
+        AuditAspectTestInstance instance = new AuditAspectTestInstance();
+        AspectJProxyFactory factory = new AspectJProxyFactory(instance);
+        AuditAspect auditAspect = new AuditAspect(auditService);
+        factory.addAspect(auditAspect);
+        AuditAspectTestInstance proxy = factory.getProxy();
+        RequestActorAttributes requestActorAttributes = new RequestActorAttributes(null, "Jim");
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> proxy.testAnnotationChild(requestActorAttributes));
+        Assertions.assertThrows(OpenCDXBadRequest.class, () -> AuditAspect.getCurrentThreadInfo());
+    }
+
+    @Test
     void testThreadInfo() {
         AuditAspect.setCurrentThreadInfo("actor", "patient");
         RequestActorAttributes attr = AuditAspect.getCurrentThreadInfo();
@@ -140,6 +152,9 @@ class AuditAspectTest {
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
                 () -> proxy.testAuditAnnotationUserLoginSucceedElse("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserLoginSucceedElse("", "patient", "data", "", ""));
     }
 
     @Test
@@ -154,6 +169,8 @@ class AuditAspectTest {
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
                 () -> proxy.testAuditAnnotationUserLogOutElse("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class, () -> proxy.testAuditAnnotationUserLogOutElse("", "patient", "data", "", ""));
     }
 
     @Test
@@ -168,6 +185,9 @@ class AuditAspectTest {
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
                 () -> proxy.testAuditAnnotationUserLoginFailElse("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserLoginFailElse("", "patient", "data", "", ""));
     }
 
     @Test
@@ -182,6 +202,12 @@ class AuditAspectTest {
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
                 () -> proxy.testAuditAnnotationUserAccessChangeElse("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserAccessChangeElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserAccessChangeElseWithPurpose("actor", "", "data", "purpose", ""));
     }
 
     @Test
@@ -196,6 +222,12 @@ class AuditAspectTest {
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
                 () -> proxy.testAuditAnnotationUserPasswordChangeElse("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPasswordChangeElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPasswordChangeElseWithPurpose("actor", "", "data", "purpose", ""));
     }
 
     @Test
@@ -209,7 +241,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPIIAccessed("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPIIAccessedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPIIAccessedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIAccessedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIAccessedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIAccessedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIAccessedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -223,7 +267,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPIIUpdated("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPIIUpdatedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPIIUpdatedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIUpdatedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIUpdatedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIUpdatedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIUpdatedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -237,7 +293,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPIICreated("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPIICreatedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPIICreatedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIICreatedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIICreatedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIICreatedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIICreatedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -251,7 +319,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPIIDeleted("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPIIDeletedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPIIDeletedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIDeletedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIDeletedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIDeletedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPIIDeletedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -265,7 +345,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPHIAccessed("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPHIAccessedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPHIAccessedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIAccessedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIAccessedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIAccessedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIAccessedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -279,7 +371,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPHIUpdated("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPHIUpdatedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPHIUpdatedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIUpdatedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIUpdatedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIUpdatedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIUpdatedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -293,7 +397,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPHICreated("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPHICreatedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPHICreatedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHICreatedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHICreatedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHICreatedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHICreatedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -307,7 +423,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserPHIDeleted("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserPHIDeletedElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserPHIDeletedElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIDeletedElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIDeletedElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIDeletedElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserPHIDeletedElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -321,7 +449,19 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationUserCommunication("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationUserCommunicationElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationUserCommunicationElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserCommunicationElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserCommunicationElse("actor", "", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserCommunicationElse("actor", "patient", "", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationUserCommunicationElse("actor", "patient", "data", "purpose", ""));
     }
 
     @Test
@@ -335,8 +475,21 @@ class AuditAspectTest {
                 () -> proxy.testAuditAnnotationConfigChange("actor", "patient", "data", "purpose", "resource"));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class,
-                () -> proxy.testAuditAnnotationConfigChangeElse("actor", "patient", "data", "", ""));
+                () -> proxy.testAuditAnnotationConfigChangeElse("actor", "patient", "data", "purpose", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationConfigChangeElse("", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationConfigChangeElsePurposeEmpty("actor", "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> proxy.testAuditAnnotationConfigChangeElsePurposeEmpty("actor", "patient", "", "", ""));
         Assertions.assertThrows(
                 OpenCDXBadRequest.class, () -> proxy.testAuditAnnotationConfigChange(null, "patient", "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class, () -> proxy.testAuditAnnotationConfigChange("actor", null, "data", "", ""));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class, () -> proxy.testAuditAnnotationConfigChange("actor", "patient", null, "", ""));
     }
 }

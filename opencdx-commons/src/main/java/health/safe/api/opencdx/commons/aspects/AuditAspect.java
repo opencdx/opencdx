@@ -48,7 +48,14 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 @EnableAspectJAutoProxy
 public class AuditAspect {
     private static final ConcurrentMap<Long, RequestActorAttributes> userInfo = new ConcurrentHashMap<>();
+    /**
+     * {@value #EMPTY_VALUE_FOR_ONE_OF_ACTOR_PURPOSE} message when empty value of actor or purpose.
+     */
     public static final String EMPTY_VALUE_FOR_ONE_OF_ACTOR_PURPOSE = "Empty value for one of actor/purpose";
+    /**
+     * {@value #EMPTY_VALUE_FOR_ONE_OF_ACTOR_PATIENT_DATA_PURPOSE_RESOURCE} message when empty value of actor or
+     * patient or data or purpose or resource.
+     */
     public static final String EMPTY_VALUE_FOR_ONE_OF_ACTOR_PATIENT_DATA_PURPOSE_RESOURCE =
             "Empty value for one of actor/patient/data/purpose/resource";
 
