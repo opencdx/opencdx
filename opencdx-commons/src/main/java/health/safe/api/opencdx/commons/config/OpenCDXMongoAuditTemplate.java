@@ -37,7 +37,6 @@ import org.springframework.data.mongodb.core.query.Update;
 @Slf4j
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
-    AuditAspect auditAspect = new AuditAspect();
 
     /**
      * Constructor  for MongoTemplate
