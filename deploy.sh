@@ -91,7 +91,7 @@ open_reports() {
 
            if [ -n "$proto_gen_doc_path" ]; then
                mkdir -p ./build/reports/proto
-               protoc -I. --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+               protoc -Iopencdx-proto/src/main/proto --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
                if [[ "$OSTYPE" == "msys" ]]; then
                    start ./build/reports/proto/index.html || handle_error "Failed to open Proto documentation."
                else
