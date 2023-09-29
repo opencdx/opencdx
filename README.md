@@ -54,31 +54,10 @@ If a failure occurs during the build process, these reports will be generated sh
 2. Run the command "./deploy.sh"
 
 ### Deploy parameters
-Usage: ./deploy.sh [--skip] [--clean] [--no_menu] [--all] [--help
+For the latest command line options please use:
 
---skip     Skip the build process and directly open reports/documentation.
-
---clean    Clean the project before building.
-
---no_menu  Skip the interactive menu and perform actions directly.
-
---all      Skip the interactive menu and open all available reports/documentation.
-
---help     Show this help message.
-
-### Option available running deploy.sh
-Select an option:
-1. Open Test Report
-2. Open Dependency Check Report
-3. Open JaCoCo Report
-4. Open JavaDoc
-5. Open Proto Doc
-6. Build Docker Image
-7. Start Docker
-8. Stop Docker
-
-Enter your choice (x to Exit):
+`./deploy.sh --help`
 
 ## Support Team
 
-[Avengers Common Services (cs@safehealth.me)](mailto:cs@safehealth.me)
+[Avengers (cs@safehealth.me)](mailto:cs@safehealth.me)

@@ -16,3 +16,4 @@ _**Links are part of the build not available from GitHub.**_
 - [API-DOCS](http://localhost:8580/api-docs)
 - [API-DOCS YAML](http://localhost:8580/api-docs.yaml)
 ## Interfaces
+**OpenCDXConnectedTestService** - Interface for processing ConnectedTests processing received.
