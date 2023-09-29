@@ -28,11 +28,27 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OpenCDXNotificaitonRepository extends MongoRepository<OpenCDXNotificationModel, ObjectId> {
+    /**
+     * Find all Notificaitons with given priority and email status
+     * @param priority NotificaitonPriority to search for
+     * @param emailStatus The email status to search
+     * @return List of notifications.
+     */
     List<OpenCDXNotificationModel> findAllByPriorityAndEmailStatusOrderByTimestampAsc(
             NotificationPriority priority, NotificationStatus emailStatus);
-
+    /**
+     * Find all Notificaitons with given priority and sms status
+     * @param priority NotificaitonPriority to search for
+     * @param smsStatus The sms status to search
+     * @return List of notifications.
+     */
     List<OpenCDXNotificationModel> findAllByPriorityAndSmsStatusOrderByTimestampAsc(
             NotificationPriority priority, NotificationStatus smsStatus);
 
+    /**
+     * Indicates if an notification exists using for a given Event ID
+     * @param id Id of the NotificationEvent to check for being used.
+     * @return boolean indicating if found.
+     */
     boolean existsByEventId(ObjectId id);
 }

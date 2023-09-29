@@ -78,7 +78,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
      * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
      * @param openCDXSMSTemplateRespository      Repository for saving SMS Templates
-     * @param openCDXNotificaitonRepository
+     * @param openCDXNotificaitonRepository      Repository for saving Notificaitons
      * @param openCDXEmailService                Email service for sending emails
      * @param openCDXSMSService                  SMS Service for sending SMS
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.

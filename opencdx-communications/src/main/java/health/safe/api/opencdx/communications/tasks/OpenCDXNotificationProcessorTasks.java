@@ -48,6 +48,10 @@ public class OpenCDXNotificationProcessorTasks {
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
     }
 
+    /**
+     * Task that runs on a cron schedule of queue.priority.high to process
+     * any pending Immediate or High notifications.
+     */
     @Scheduled(cron = "${queue.priority.high}")
     public void highPriorityNotifications() {
         log.info("Starting High Priority Notifications Processing");
@@ -88,7 +92,10 @@ public class OpenCDXNotificationProcessorTasks {
 
         log.info("Completed High Priority Notifications Processing");
     }
-
+    /**
+     * Task that runs on a cron schedule of queue.priority.medium to process
+     * any pending Medium notifications.
+     */
     @Scheduled(cron = "${queue.priority.medium}")
     public void mediumPriorityNotifications() {
         log.info("Starting Medium Priority Notifications Processing");
@@ -113,7 +120,10 @@ public class OpenCDXNotificationProcessorTasks {
 
         log.info("Completed Medium Priority Notifications Processing");
     }
-
+    /**
+     * Task that runs on a cron schedule of queue.priority.low to process
+     * any pending low notifications.
+     */
     @Scheduled(cron = "${queue.priority.low}")
     public void lowPriorityNotifications() {
         log.info("Starting Low Priority Notifications Processing");

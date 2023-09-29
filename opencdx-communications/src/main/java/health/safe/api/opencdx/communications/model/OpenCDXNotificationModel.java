@@ -32,6 +32,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * OpenCDXNotificationModel for the Protobuf Notification class, translation between types.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -64,6 +67,10 @@ public class OpenCDXNotificationModel {
     private Map<String, String> variables;
     private List<ObjectId> recipients;
 
+    /**
+     * Constructor taking a Notification and generating the Model
+     * @param notification Notificaiton to generate model for.
+     */
     public OpenCDXNotificationModel(Notification notification) {
         this.emailFailCount = 0;
         this.smsFailCount = 0;
@@ -100,6 +107,10 @@ public class OpenCDXNotificationModel {
                 notification.getRecipientsIdList().stream().map(ObjectId::new).toList();
     }
 
+    /**
+     * Method to generate an Protobuf equivalent message
+     * @return Notification as the protobuf message.
+     */
     public Notification getProtobufMessage() {
         return Notification.newBuilder()
                 .setQueueId(this.id.toHexString())
