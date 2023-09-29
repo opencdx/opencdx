@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications.service.impl;
 
+import health.safe.api.opencdx.commons.collections.ListUtils;
 import health.safe.api.opencdx.communications.service.OpenCDXSMSService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
@@ -46,6 +47,9 @@ public class OpenCDXSMSServiceImpl implements OpenCDXSMSService {
      */
     @Override
     public boolean sendSMS(String message, List<String> phoneNumbers) {
+        if (ListUtils.isEmpty(phoneNumbers)) {
+            return false;
+        }
         log.info("Message has been sent. Message :\n {} , PhoneNumbers :\n {}", message, phoneNumbers);
         return true;
     }

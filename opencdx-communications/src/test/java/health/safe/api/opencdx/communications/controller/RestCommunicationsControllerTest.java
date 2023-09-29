@@ -26,8 +26,10 @@ import cdx.open_communication.v2alpha.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import health.safe.api.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import io.nats.client.Connection;
@@ -45,6 +47,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -85,6 +89,9 @@ class RestCommunicationsControllerTest {
     @MockBean
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
 
+    @MockBean
+    OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
+
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
@@ -101,6 +108,20 @@ class RestCommunicationsControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
+
+        Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXNotificationModel>() {
+                    @Override
+                    public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXNotificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(this.openCDXNotificaitonRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXNotificationModel()));
 
         Mockito.when(this.openCDXEmailTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
@@ -133,7 +154,7 @@ class RestCommunicationsControllerTest {
                 .perform(post("/communications/email")
                         .content(this.objectMapper.writeValueAsString(
                                 EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
-                                        .setTemplateId(new ObjectId().toHexString())
+                                        .setTemplateId(ObjectId.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -161,7 +182,7 @@ class RestCommunicationsControllerTest {
                 .perform(put("/communications/email")
                         .content(this.objectMapper.writeValueAsString(
                                 EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
-                                        .setTemplateId(new ObjectId().toHexString())
+                                        .setTemplateId(ObjectId.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -189,7 +210,7 @@ class RestCommunicationsControllerTest {
                 .perform(post("/communications/sms")
                         .content(this.objectMapper.writeValueAsString(
                                 SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                                        .setTemplateId(new ObjectId().toHexString())
+                                        .setTemplateId(ObjectId.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -204,7 +225,7 @@ class RestCommunicationsControllerTest {
                 .perform(put("/communications/sms")
                         .content(this.objectMapper.writeValueAsString(
                                 SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                                        .setTemplateId(new ObjectId().toHexString())
+                                        .setTemplateId(ObjectId.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -219,9 +240,9 @@ class RestCommunicationsControllerTest {
                 .perform(post("/communications/event")
                         .content(this.objectMapper.writeValueAsString(
                                 NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                                        .setEventId(new ObjectId().toHexString())
-                                        .setEmailTemplateId(new ObjectId().toHexString())
-                                        .setSmsTemplateId(new ObjectId().toHexString())
+                                        .setEventId(ObjectId.get().toHexString())
+                                        .setEmailTemplateId(ObjectId.get().toHexString())
+                                        .setSmsTemplateId(ObjectId.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -236,9 +257,9 @@ class RestCommunicationsControllerTest {
                 .perform(put("/communications/event")
                         .content(this.objectMapper.writeValueAsString(
                                 NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
-                                        .setEventId(new ObjectId().toHexString())
-                                        .setEmailTemplateId(new ObjectId().toHexString())
-                                        .setSmsTemplateId(new ObjectId().toHexString())
+                                        .setEventId(ObjectId.get().toHexString())
+                                        .setEmailTemplateId(ObjectId.get().toHexString())
+                                        .setSmsTemplateId(ObjectId.get().toHexString())
                                         .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -252,7 +273,7 @@ class RestCommunicationsControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/communications/notification")
                         .content(this.objectMapper.writeValueAsString(Notification.newBuilder()
-                                .setEventId(new ObjectId().toHexString())
+                                .setEventId(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

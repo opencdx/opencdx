@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.communications.config;
 
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,9 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        properties = "spring.cloud.config.enabled=false",
-        classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class AppConfigTest {
 
     @Test

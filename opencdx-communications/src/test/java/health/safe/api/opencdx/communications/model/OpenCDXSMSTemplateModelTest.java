@@ -29,7 +29,7 @@ class OpenCDXSMSTemplateModelTest {
     @Test
     void getProtobufMessage_1() {
         SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                .setTemplateId(new ObjectId().toHexString())
+                .setTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);
@@ -40,7 +40,7 @@ class OpenCDXSMSTemplateModelTest {
     @Test
     void getProtobufMessage_2() {
         SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
-                .setTemplateId(new ObjectId().toHexString())
+                .setTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);

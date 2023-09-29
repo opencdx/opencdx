@@ -27,8 +27,11 @@ class OpenCDXConnectedTestModelTest {
 
     @Test
     void getProtobufMessage_1() {
-        BasicInfo basicInfo =
-                BasicInfo.newBuilder().setId(new ObjectId().toHexString()).build();
+        BasicInfo basicInfo = BasicInfo.newBuilder()
+                .setId(new ObjectId().toHexString())
+                .setNationalHealthId(10)
+                .setUserId(ObjectId.get().toHexString())
+                .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(basicInfo)
                 .build();
@@ -42,8 +45,11 @@ class OpenCDXConnectedTestModelTest {
 
     @Test
     void getProtobufMessage_2() {
-        BasicInfo basicInfo =
-                BasicInfo.newBuilder().setId(new ObjectId().toHexString()).build();
+        BasicInfo basicInfo = BasicInfo.newBuilder()
+                .setId(new ObjectId().toHexString())
+                .setNationalHealthId(10)
+                .setUserId(ObjectId.get().toHexString())
+                .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(basicInfo)
                 .build();
@@ -64,6 +70,8 @@ class OpenCDXConnectedTestModelTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

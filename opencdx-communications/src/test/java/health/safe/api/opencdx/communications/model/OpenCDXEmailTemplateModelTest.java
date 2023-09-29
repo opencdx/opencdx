@@ -27,7 +27,7 @@ class OpenCDXEmailTemplateModelTest {
     @Test
     void getProtobufMessage_1() {
         EmailTemplate emailTemplate = EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
-                .setTemplateId(new ObjectId().toHexString())
+                .setTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);
@@ -38,7 +38,7 @@ class OpenCDXEmailTemplateModelTest {
     @Test
     void getProtobufMessage_2() {
         EmailTemplate emailTemplate = EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
-                .setTemplateId(new ObjectId().toHexString())
+                .setTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);

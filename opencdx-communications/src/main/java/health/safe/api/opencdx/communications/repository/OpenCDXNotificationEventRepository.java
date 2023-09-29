@@ -24,4 +24,17 @@ import org.springframework.stereotype.Repository;
  * MongoRepository for the notification-event collection.
  */
 @Repository
-public interface OpenCDXNotificationEventRepository extends MongoRepository<OpenCDXNotificationEventModel, ObjectId> {}
+public interface OpenCDXNotificationEventRepository extends MongoRepository<OpenCDXNotificationEventModel, ObjectId> {
+    /**
+     * Indicates if a Notification Event exists using an EmailTemplate
+     * @param emailTemplateId Email Template ID
+     * @return boolean indicating if found.
+     */
+    boolean existsByEmailTemplateId(ObjectId emailTemplateId);
+    /**
+     * Indicates if a Notification Event exists using an SmsTemplate
+     * @param smsTemplateId SMS Template ID
+     * @return boolean indicating if found.
+     */
+    boolean existsBySmsTemplateId(ObjectId smsTemplateId);
+}

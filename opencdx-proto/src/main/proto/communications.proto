@@ -1,18 +1,37 @@
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.open_communication.v2alpha;
+
 import "audit.proto";
+import "google/protobuf/timestamp.proto";
 
 // Enum for template types
 enum TemplateType {
-  TEMPLATE_TYPE_NOTIFICATION = 0; //Template is a Notification
-  TEMPLATE_TYPE_WELCOME = 1; //Template is a welcome
-  TEMPLATE_TYPE_NEWSLETTER = 2; //Template is a newsletter.
-  TEMPLATE_TYPE_ALERT = 3; // Template is an alert.
-  TEMPLATE_TYPE_REMINDER = 4; // Template is a reminder.
-  TEMPLATE_TYPE_CONFIRMATION = 5; // Template is a confirmaiton.
+  TEMPLATE_TYPE_UNSPECIFIED = 0; //Template is unspecified.
+  TEMPLATE_TYPE_NOTIFICATION = 1; //Template is a Notification
+  TEMPLATE_TYPE_WELCOME = 2; //Template is a welcome
+  TEMPLATE_TYPE_NEWSLETTER = 3; //Template is a newsletter.
+  TEMPLATE_TYPE_ALERT = 4; // Template is an alert.
+  TEMPLATE_TYPE_REMINDER = 5; // Template is a reminder.
+  TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmaiton.
 }
 
+// Indicates the status of the Notification
+enum NotificationStatus {
+  NOTIFICATION_STATUS_UNSPECIFIED = 0; // Unspecified Notification status.
+  NOTIFICATION_STATUS_PENDING = 1; // Unspecified Notification status.
+  NOTIFICATION_STATUS_SENT = 2; // Unspecified Notification status.
+  NOTIFICATION_STATUS_FAILED = 3; // Unspecified Notification status.
+}
+
+// Indicates the priority of this Notification
+enum NotificationPriority {
+  NOTIFICATION_PRIORITY_UNSPECIFIED = 0; // Priority is not specified.
+  NOTIFICATION_PRIORITY_LOW = 1; // Priority is low
+  NOTIFICATION_PRIORITY_MEDIUM = 2; // Priority is Medium
+  NOTIFICATION_PRIORITY_HIGH = 3; // Priority is High
+  NOTIFICATION_PRIORITY_IMMEDIATE = 4; // Priority is Immediate
+}
 /**
 Defines the structure for representing email templates.
 */
@@ -46,7 +65,10 @@ message NotificationEvent {
   optional string email_template_id = 4;      // ID of the associated email template.
   optional string sms_template_id = 5;        // ID of the associated SMS template.
   repeated string event_parameters = 6; // Event-specific parameters.
-  cdx.open_audit.v2alpha.SensitivityLevel sensitivity = 7; // Indicates the Sensitivity level of the notification when sent.
+  NotificationPriority priority = 7;  // Priority of this notification event.
+  cdx.open_audit.v2alpha.SensitivityLevel sensitivity = 8; // Indicates the Sensitivity level of the notification when sent.
+  int32 email_retry = 9; // Number of attempts to try and send email. Defaults to 0 for infinite.
+  int32 sms_retry = 10; // Number of attempts to try and send SMS. Defaults to 0 for infinite.
 }
 
 /**
@@ -62,27 +84,28 @@ message Attachment {
 Representation of a notification that can be sent through the communication service.
 */
 message Notification {
-  string queue_id = 1;               // Unique identifier for the notification within the queue.
+  optional string queue_id = 1;               // Unique identifier for the notification within the queue.
   string event_id = 2;               // Event or trigger associated with this notification.
-  string status = 3;                 // Status of the notification (e.g., pending, sent, failed).
-  int64 timestamp = 4;               // Timestamp when the notification was added to the queue.
+  optional NotificationStatus sms_status = 3;  // Status of the SMS notification (e.g., pending, sent, failed).
+  optional NotificationStatus email_status = 4;// Status of the EMAIL notification (e.g., pending, sent, failed).
+  optional google.protobuf.Timestamp timestamp = 5;               // Timestamp when the notification was added to the queue.
 
   // Store additional custom data associated with the notification.
-  map<string, string> custom_data = 5;
+  map<string, string> custom_data = 6;
 
   // Email attributes
-  repeated string to_email = 6;      // Recipients' email addresses.
-  repeated string cc_email = 7;      // Carbon copy (Cc) recipients' email addresses.
-  repeated string bcc_email = 8;     // Blind carbon copy (Bcc) recipients' email addresses.
-  repeated Attachment email_attachments = 9; // Email attachments.
+  repeated string to_email = 7;      // Recipients' email addresses.
+  repeated string cc_email = 8;      // Carbon copy (Cc) recipients' email addresses.
+  repeated string bcc_email = 9;     // Blind carbon copy (Bcc) recipients' email addresses.
+  repeated Attachment email_attachments = 10; // Email attachments.
 
   // SMS attributes
-  repeated string to_phone_number = 10; // Recipients' phone numbers.
+  repeated string to_phone_number = 11; // Recipients' phone numbers.
 
   // Variables for replacement.
-  map<string,string> variables = 11;   // Variables or placeholders.
+  map<string,string> variables = 12;   // Variables or placeholders.
 
-  repeated string recipients_id = 12; // List of the UUID's for each email recipient and for recipients phone numbers.
+  repeated string recipients_id = 13; // List of the UUID's for each email recipient and for recipients phone numbers.
 
 }
 

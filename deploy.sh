@@ -112,6 +112,7 @@ print_usage() {
     echo "  --all      Skip the interactive menu and open all available reports/documentation."
     echo "  --check    Perform build and check all requirements"
     echo "  --deploy   Will Start Docker and launch the user on the Docker Menu."
+    echo "  --jmeter     Will Start JMeter test 60 seconds after deployment."
     echo "  --help     Show this help message."
     exit 0
 }
@@ -185,6 +186,7 @@ no_menu=false
 open_all=false
 check=false
 deploy=false
+jmeter=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -207,6 +209,9 @@ for arg in "$@"; do
         ;;
     --deploy)
         deploy=true
+        ;;
+    --jmeter)
+        jmeter=true
         ;;
     --help)
         print_usage
@@ -254,6 +259,11 @@ if [ "$no_menu" = false ]; then
       build_docker;
       start_docker;
       open_reports "admin";
+      if [ "$jmeter" = true ]; then
+        echo "Waiting to run JMeter tests"
+        sleep 60
+        open_reports "jmeter"
+      fi
       docker_menu;
     fi
 

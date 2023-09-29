@@ -15,7 +15,9 @@
  */
 package health.safe.api.opencdx.communications.model;
 
+import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.open_communication.v2alpha.NotificationEvent;
+import cdx.open_communication.v2alpha.NotificationPriority;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +44,15 @@ public class OpenCDXNotificationEventModel {
     private String eventDescription;
     private ObjectId emailTemplateId;
     private ObjectId smsTemplateId;
+    private SensitivityLevel sensitivityLevel;
+    private NotificationPriority priority;
     List<String> parameters;
+
+    @Builder.Default
+    private Integer emailRetry = 0;
+
+    @Builder.Default
+    private Integer smsRetry = 0;
 
     /**
      * Constructor to create this model based on an NotificationEvent
@@ -61,6 +71,10 @@ public class OpenCDXNotificationEventModel {
             this.smsTemplateId = new ObjectId(event.getSmsTemplateId());
         }
         this.parameters = event.getEventParametersList();
+        this.sensitivityLevel = event.getSensitivity();
+        this.priority = event.getPriority();
+        this.smsRetry = event.getSmsRetry();
+        this.emailRetry = event.getEmailRetry();
     }
 
     /**
@@ -88,6 +102,14 @@ public class OpenCDXNotificationEventModel {
         if (parameters != null) {
             builder.addAllEventParameters(this.parameters);
         }
+        if (this.priority != null) {
+            builder.setPriority(this.priority);
+        }
+        if (this.sensitivityLevel != null) {
+            builder.setSensitivity(this.sensitivityLevel);
+        }
+        builder.setSmsRetry(this.smsRetry);
+        builder.setEmailRetry(this.emailRetry);
 
         return builder.build();
     }

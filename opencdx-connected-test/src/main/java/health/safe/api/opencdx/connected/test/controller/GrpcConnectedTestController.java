@@ -67,6 +67,7 @@ public class GrpcConnectedTestController extends HealthcareServiceGrpc.Healthcar
     @Override
     public void listConnectedTests(
             ConnectedTestListRequest request, StreamObserver<ConnectedTestListResponse> responseObserver) {
+        log.info("Received: {}", request.toString());
         responseObserver.onNext(this.openCDXConnectedTestService.listConnectedTests(request));
         responseObserver.onCompleted();
     }

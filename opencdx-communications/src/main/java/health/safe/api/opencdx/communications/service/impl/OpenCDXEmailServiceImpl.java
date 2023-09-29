@@ -49,6 +49,10 @@ public class OpenCDXEmailServiceImpl implements OpenCDXEmailService {
             List<String> ccEmails,
             List<String> bccEmails,
             List<Attachment> attachments) {
+
+        if (ListUtils.isEmpty(toEmails) && ListUtils.isEmpty(ccEmails) && ListUtils.isEmpty(bccEmails)) {
+            return false;
+        }
         log.info(
                 """
 

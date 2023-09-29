@@ -19,11 +19,12 @@ import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
+import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 
 /**
- * Interface for the CommunicationService
+ * Interface for the OpenCDXCommunicationService
  */
-public interface CommunicationService {
+public interface OpenCDXCommunicationService {
 
     /**
      * Create an Email Template
@@ -153,4 +154,10 @@ public interface CommunicationService {
      * @return requested NotificationEvent with page, sorting, and page size
      */
     NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request);
+
+    /**
+     * Process and send the Notificaiton
+     * @param openCDXNotificationModel OpenCDXNotificaitonModel to process.
+     */
+    void processOpenCDXNotification(OpenCDXNotificationModel openCDXNotificationModel);
 }
