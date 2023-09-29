@@ -183,7 +183,7 @@ message ConnectedTestListRequest{
   int32 page_size = 1; // Size of each page.
   int32 page_number = 2; // The page being requested.
   bool sort_ascending = 3; // indicating if the results should ascending.
-  string  user_id = 4; // UUID of user
+  string  userId = 4; // UUID of user
 }
 /**
 Response containing the requested list of connected tests for a specific user
