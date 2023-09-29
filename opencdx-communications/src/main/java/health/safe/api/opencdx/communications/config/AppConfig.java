@@ -72,7 +72,14 @@ public class AppConfig {
         return new OpenCDXEmailServiceImpl();
     }
 
+    /**
+     * Lock provider for synchronization between instances of a service
+     * @param mongo MongoClient to contact Mongo.
+     * @param applicationName Name of application for Collection
+     * @return LockProvider to use
+     */
     @Bean
+    @Description("Bean for the LockProvider for service synchronization.")
     public LockProvider lockProvider(MongoClient mongo, @Value("${spring.application.name}") String applicationName) {
         return new MongoLockProvider(mongo.getDatabase("opencdx").getCollection("lock-" + applicationName));
     }
