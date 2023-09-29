@@ -61,8 +61,11 @@ class OpenCDXConnectedTestModelTest {
 
     @Test
     void getProtobufMessage_4() {
-        ConnectedTest connectedTest =
-                ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance()).build();
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
 
         OpenCDXConnectedTest model = new OpenCDXConnectedTest(connectedTest);
         log.info(model.toString());

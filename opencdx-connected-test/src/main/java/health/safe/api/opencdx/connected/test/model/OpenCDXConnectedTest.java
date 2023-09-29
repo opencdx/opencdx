@@ -68,7 +68,9 @@ public class OpenCDXConnectedTest {
         ConnectedTest.Builder builder = ConnectedTest.newBuilder();
 
         if (this.basicInfo != null) {
-            builder.setBasicInfo(this.basicInfo);
+            builder.setBasicInfo(BasicInfo.newBuilder(this.basicInfo)
+                    .setId(this.id.toHexString())
+                    .build());
         }
         if (this.orderInfo != null) {
             builder.setOrderInfo(this.orderInfo);
