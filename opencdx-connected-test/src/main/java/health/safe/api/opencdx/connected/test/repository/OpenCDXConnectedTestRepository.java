@@ -26,5 +26,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 @SuppressWarnings("java:S100")
 public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTest, ObjectId> {
+    /**
+     * Lookup ConnectedTests for a user.
+     * @param userId User to lookup
+     * @param pageable Pageable information to pull only required tests
+     * @return Page information for the returned tests.
+     */
     Page<OpenCDXConnectedTest> findAllByBasicInfo_UserId(ObjectId userId, Pageable pageable);
 }
