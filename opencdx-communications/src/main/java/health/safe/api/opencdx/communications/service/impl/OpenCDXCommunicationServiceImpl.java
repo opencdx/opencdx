@@ -108,6 +108,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
     @Override
     public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable {
+        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),
@@ -143,6 +144,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
     @Override
     public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
+        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
         if (!emailTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
@@ -201,6 +203,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
     @Override
     public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable {
+        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize sms message.
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),
@@ -236,6 +239,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     @Override
     public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
+        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize sms message.
         if (!smsTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
         }
