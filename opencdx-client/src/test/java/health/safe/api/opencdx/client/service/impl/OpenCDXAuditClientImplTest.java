@@ -16,6 +16,10 @@
 package health.safe.api.opencdx.client.service.impl;
 
 import cdx.open_audit.v2alpha.*;
+import com.google.rpc.Code;
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -58,6 +62,31 @@ class OpenCDXAuditClientImplTest {
             this.openCDXAuditService.userLoginFailure(
                     UUID.randomUUID().toString(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
         });
+    }
+
+    @Test
+    void userLoginFailureException() {
+        Mockito.when(this.auditServiceBlockingStub.event(Mockito.any(AuditEvent.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+
+        String id = UUID.randomUUID().toString();
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXAuditService.userLoginFailure(id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose"));
+    }
+
+    @Test
+    void userLoginFailureException_2() {
+        Mockito.when(this.auditServiceBlockingStub.event(Mockito.any(AuditEvent.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+
+        String id = UUID.randomUUID().toString();
+        try {
+            this.openCDXAuditService.userLoginFailure(id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
+        } catch (OpenCDXClientException e) {
+            Assertions.assertEquals(Code.INTERNAL, e.getCode());
+            System.out.println(e.toString());
+        }
     }
 
     @Test

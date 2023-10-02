@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.commons.handlers;
 
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXException;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternal;
@@ -57,8 +58,21 @@ public class OpenCDXGrpcExceptionHandler {
      * @return Status providing the google code and status information
      */
     @GRpcExceptionHandler
+    public Status handleOpenCDXClientException(OpenCDXClientException cause, GRpcExceptionScope scope) {
+        log.error("Response Exception in handleOpenCDXClientException: {} {}", cause.getMessage());
+        return StatusProto.toStatusException(
+                        new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, "UnCaught Exception", cause).getGrpcStatus())
+                .getStatus();
+    }
+    /**
+     * Handler for Un-Caught Exceptions
+     * @param cause Eception thrown
+     * @param scope GRpcExceptionScope for processing
+     * @return Status providing the google code and status information
+     */
+    @GRpcExceptionHandler
     public Status handleException(Exception cause, GRpcExceptionScope scope) {
-        log.error("Response Exception in handleOpenCDXException: {} {}", cause.getMessage());
+        log.error("Response Exception in handleException: {} {}", cause.getMessage());
         return StatusProto.toStatusException(
                         new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, "UnCaught Exception", cause).getGrpcStatus())
                 .getStatus();

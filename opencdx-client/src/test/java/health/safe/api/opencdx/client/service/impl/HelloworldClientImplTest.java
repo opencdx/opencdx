@@ -15,10 +15,13 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,5 +53,13 @@ class HelloworldClientImplTest {
                 .thenReturn(HelloReply.newBuilder().setMessage("Hello Bob!").build());
 
         Assertions.assertEquals("Hello Bob!", this.helloworldClient.sayHello("Bob"));
+    }
+
+    @Test
+    void sayHelloException() {
+        Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+
+        Assertions.assertThrows(OpenCDXClientException.class, () -> this.helloworldClient.sayHello("Bob"));
     }
 }

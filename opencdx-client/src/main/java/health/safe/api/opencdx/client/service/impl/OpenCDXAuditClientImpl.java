@@ -18,6 +18,9 @@ package health.safe.api.opencdx.client.service.impl;
 import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import cdx.open_audit.v2alpha.AuditStatus;
+import com.google.rpc.Code;
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
+import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +46,11 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
     @Override
     protected AuditStatus sendMessage(AuditEvent event) {
-        log.info("Sending Audit Event: {}", event.getEventType());
-        return this.auditServiceBlockingStub.event(event);
+        try {
+            log.info("Sending Audit Event: {}", event.getEventType());
+            return this.auditServiceBlockingStub.event(event);
+        } catch (StatusRuntimeException e) {
+            throw new OpenCDXClientException(Code.INTERNAL, "OpenCDXAuditClientImpl", 1, e.getMessage(), e);
+        }
     }
 }

@@ -15,6 +15,8 @@
  */
 package health.safe.api.opencdx.client.service;
 
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
+
 /**
  * Interface for communicating with the Helloworld microservice.
  */
@@ -24,5 +26,5 @@ public interface HelloworldClient {
      * @param name Name to pass
      * @return Message response.
      */
-    String sayHello(String name);
+    String sayHello(String name) throws OpenCDXClientException;
 }

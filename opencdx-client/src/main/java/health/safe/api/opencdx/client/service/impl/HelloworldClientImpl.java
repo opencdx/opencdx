@@ -15,10 +15,13 @@
  */
 package health.safe.api.opencdx.client.service.impl;
 
+import com.google.rpc.Code;
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,11 +47,16 @@ public class HelloworldClientImpl implements HelloworldClient {
      * @param name Name to say Hello to.
      * @return String containing the Hello message.
      */
-    public String sayHello(String name) {
+    public String sayHello(String name) throws OpenCDXClientException {
 
-        HelloReply helloReply = greeterBlockingStub.sayHello(
-                HelloRequest.newBuilder().setName(name).build());
+        try {
+            HelloReply helloReply = greeterBlockingStub.sayHello(
+                    HelloRequest.newBuilder().setName(name).build());
 
-        return helloReply.getMessage();
+            return helloReply.getMessage();
+        } catch (StatusRuntimeException e) {
+
+            throw new OpenCDXClientException(Code.INTERNAL, "HelloworldClientImpl", 1, e.getMessage(), e);
+        }
     }
 }

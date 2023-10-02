@@ -6,6 +6,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "net.devh:grpc-client-spring-boot-starter:${grpcSpringVersion}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 
