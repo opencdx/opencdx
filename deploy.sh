@@ -177,8 +177,6 @@ docker_menu() {
     done
 }
 
-stop_docker
-
 # Initialize flags
 skip=false
 clean=false
@@ -222,6 +220,10 @@ for arg in "$@"; do
         ;;
     esac
 done
+
+if [ "$skip" = false ]; then
+  stop_docker
+fi
 
 # Clean the project if --clean is specified
 if [ "$clean" = true ] && [ "$skip" = true ]; then
