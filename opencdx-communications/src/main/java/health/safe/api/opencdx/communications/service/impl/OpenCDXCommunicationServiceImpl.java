@@ -144,8 +144,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
     @Override
     public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
-        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
+        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
         if (!emailTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
         }
