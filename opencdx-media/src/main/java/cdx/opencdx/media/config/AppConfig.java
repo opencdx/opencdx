@@ -15,8 +15,12 @@
  */
 package cdx.opencdx.media.config;
 
+import cdx.opencdx.media.service.OpenCDXFileStorageService;
+import cdx.opencdx.media.service.impl.OpenCDXFileStorageLocalFileSystemImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 /**
  * Applicaiton Configuration
@@ -29,5 +33,10 @@ public class AppConfig {
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    OpenCDXFileStorageService openCDXFileStorageService(Environment env) {
+        return new OpenCDXFileStorageLocalFileSystemImpl(env);
     }
 }

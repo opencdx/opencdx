@@ -16,8 +16,8 @@
 package health.safe.api.opencdx.client.config;
 
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
+import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
@@ -59,7 +59,7 @@ class ClientConfigTest {
         Assertions.assertThrows(
                 NoSuchBeanDefinitionException.class,
                 () -> contextRunner.run(context -> {
-                    HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
+                    OpenCDXHelloworldClient openCDXHelloworldClient = context.getBean(OpenCDXHelloworldClient.class);
                 }));
     }
 
@@ -72,7 +72,7 @@ class ClientConfigTest {
         Assertions.assertThrows(
                 NoSuchBeanDefinitionException.class,
                 () -> contextRunner.run(context -> {
-                    HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
+                    OpenCDXHelloworldClient openCDXHelloworldClient = context.getBean(OpenCDXHelloworldClient.class);
                 }));
     }
 
@@ -85,8 +85,8 @@ class ClientConfigTest {
                 .withUserConfiguration(ClientConfig.class)
                 .withBean(GreeterGrpc.GreeterBlockingStub.class, this.channel, this.callOptions)
                 .run(context -> {
-                    HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
-                    Assertions.assertNotNull(helloworldClient);
+                    OpenCDXHelloworldClient openCDXHelloworldClient = context.getBean(OpenCDXHelloworldClient.class);
+                    Assertions.assertNotNull(openCDXHelloworldClient);
                 });
     }
 

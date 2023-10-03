@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.commons.handlers;
 
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import health.safe.api.opencdx.commons.dto.StatusMessage;
 import health.safe.api.opencdx.commons.exceptions.*;
@@ -107,6 +108,19 @@ public class OpenCDXRestExceptionHandler {
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }
 
+    /**
+     * Handles any OpenCDXClientException exception.
+     * @param exception OpenCDXClientException thrown
+     * @param request HTTP Request processing during this exception
+     * @return ResponseEntity based on StatusMessage
+     */
+    @ExceptionHandler(OpenCDXClientException.class)
+    public final ResponseEntity<StatusMessage> handleOpenCDXClientException(
+            OpenCDXClientException exception, WebRequest request) {
+        OpenCDXException cdxException =
+                new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, exception.getMessage(), exception);
+        return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
+    }
     /**
      * Handles any uncaught exception.
      * @param exception Exception thrown

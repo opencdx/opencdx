@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.client.service;
+package cdx.opencdx.media.dto;
 
-import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
+import lombok.Builder;
+import lombok.Data;
 
-/**
- * Interface for communicating with the Helloworld microservice.
- */
-public interface HelloworldClient {
-    /**
-     * Method to gRPC Call Hello World Service sayHello() api.
-     * @param name Name to pass
-     * @return Message response.
-     */
-    String sayHello(String name) throws OpenCDXClientException;
+@Data
+@Builder
+public class FileUploadResponse {
+    private boolean success;
 }

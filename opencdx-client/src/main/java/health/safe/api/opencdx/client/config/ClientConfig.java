@@ -16,10 +16,10 @@
 package health.safe.api.opencdx.client.config;
 
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import health.safe.api.opencdx.client.service.HelloworldClient;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
-import health.safe.api.opencdx.client.service.impl.HelloworldClientImpl;
+import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientImpl;
+import health.safe.api.opencdx.client.service.impl.OpenCDXHelloworldClientImpl;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -48,9 +48,9 @@ public class ClientConfig {
     @Bean
     @Description("gRPC Client for HelloWorld")
     @ConditionalOnProperty(prefix = "opencdx.client", name = "helloworld", havingValue = "true")
-    HelloworldClient helloworldClient(
+    OpenCDXHelloworldClient helloworldClient(
             @GrpcClient("helloworld-server") GreeterGrpc.GreeterBlockingStub greeterBlockingStub) {
-        return new HelloworldClientImpl(greeterBlockingStub);
+        return new OpenCDXHelloworldClientImpl(greeterBlockingStub);
     }
 
     @Bean

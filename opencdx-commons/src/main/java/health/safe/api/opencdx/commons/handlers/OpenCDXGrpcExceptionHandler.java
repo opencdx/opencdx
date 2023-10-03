@@ -49,7 +49,7 @@ public class OpenCDXGrpcExceptionHandler {
     @GRpcExceptionHandler
     public Status handleOpenCDXException(OpenCDXException cause, GRpcExceptionScope scope) {
         log.error("Response Exception in handleOpenCDXException: {} {}", cause.getMessage());
-        return StatusProto.toStatusException(cause.getGrpcStatus()).getStatus();
+        return StatusProto.toStatusException(cause.getGrpcStatus(null)).getStatus();
     }
     /**
      * Handler for Un-Caught Exceptions
@@ -60,8 +60,8 @@ public class OpenCDXGrpcExceptionHandler {
     @GRpcExceptionHandler
     public Status handleOpenCDXClientException(OpenCDXClientException cause, GRpcExceptionScope scope) {
         log.error("Response Exception in handleOpenCDXClientException: {} {}", cause.getMessage());
-        return StatusProto.toStatusException(
-                        new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, "UnCaught Exception", cause).getGrpcStatus())
+        return StatusProto.toStatusException(new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, cause.getMessage(), cause)
+                        .getGrpcStatus(cause.getDetailsList()))
                 .getStatus();
     }
     /**
@@ -74,7 +74,8 @@ public class OpenCDXGrpcExceptionHandler {
     public Status handleException(Exception cause, GRpcExceptionScope scope) {
         log.error("Response Exception in handleException: {} {}", cause.getMessage());
         return StatusProto.toStatusException(
-                        new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, "UnCaught Exception", cause).getGrpcStatus())
+                        new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, "UnCaught Exception", cause)
+                                .getGrpcStatus(null))
                 .getStatus();
     }
 }

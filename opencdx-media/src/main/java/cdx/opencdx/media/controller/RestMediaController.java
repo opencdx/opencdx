@@ -16,8 +16,9 @@
 package cdx.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
-import cdx.open_communication.v2alpha.*;
+import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.service.MediaService;
+import cdx.opencdx.media.service.OpenCDXFileStorageService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Controller for the /media api's
@@ -39,13 +41,15 @@ import org.springframework.web.bind.annotation.*;
 public class RestMediaController {
 
     private final MediaService mediaService;
+    private final OpenCDXFileStorageService openCDXFileStorageService;
 
     /**
      * Constructor that takes a MediaService
      */
     @Autowired
-    public RestMediaController(MediaService mediaService) {
+    public RestMediaController(MediaService mediaService, OpenCDXFileStorageService openCDXFileStorageService) {
         this.mediaService = mediaService;
+        this.openCDXFileStorageService = openCDXFileStorageService;
     }
 
     /**
@@ -107,5 +111,19 @@ public class RestMediaController {
     @PostMapping("/list")
     public ResponseEntity<ListMediaResponse> listNotificationEvents(@RequestBody ListMediaRequest request) {
         return new ResponseEntity<>(this.mediaService.listMedia(request), HttpStatus.OK);
+    }
+
+    /**
+     * Method to upload files for storage.
+     * @param file Multipart file as RequestParam "file"
+     * @return FileUploadResponse indicating if successful.
+     */
+    @PostMapping("/upload")
+    public ResponseEntity<FileUploadResponse> uploadFile(
+            @RequestParam(name = "file", required = false) MultipartFile file) {
+        return ResponseEntity.ok()
+                .body(FileUploadResponse.builder()
+                        .success(openCDXFileStorageService.storeFile(file))
+                        .build());
     }
 }

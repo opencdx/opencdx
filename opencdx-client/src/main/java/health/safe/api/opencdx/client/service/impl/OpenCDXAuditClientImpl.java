@@ -50,7 +50,9 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
             log.info("Sending Audit Event: {}", event.getEventType());
             return this.auditServiceBlockingStub.event(event);
         } catch (StatusRuntimeException e) {
-            throw new OpenCDXClientException(Code.INTERNAL, "OpenCDXAuditClientImpl", 1, e.getMessage(), e);
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.INTERNAL, "OpenCDXAuditClientImpl", 1, status.getMessage(), status.getDetailsList(), e);
         }
     }
 }
