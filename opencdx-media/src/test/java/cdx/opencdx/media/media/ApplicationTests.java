@@ -18,8 +18,6 @@ package cdx.opencdx.media.media;
 import cdx.opencdx.media.config.AppConfig;
 import cdx.opencdx.media.config.ResourceWebConfig;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
-import jakarta.annotation.Resource;
-import jakarta.servlet.ServletContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +35,7 @@ import org.springframework.web.util.UrlPathHelper;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
         properties = "spring.cloud.config.enabled=false",
-        classes = {AppConfig.class, ResourceWebConfig.class,  NoOpOpenCDXMessageServiceImpl.class})
+        classes = {AppConfig.class, ResourceWebConfig.class, NoOpOpenCDXMessageServiceImpl.class})
 class ApplicationTests {
     @Autowired
     AppConfig appConfig;
@@ -53,8 +51,8 @@ class ApplicationTests {
     @Test
     void addResourceHandlers() {
         GenericWebApplicationContext appContext = new GenericWebApplicationContext();
-        ResourceHandlerRegistry registry = new ResourceHandlerRegistry(appContext, new MockServletContext(),
-                new ContentNegotiationManager(), new UrlPathHelper());
+        ResourceHandlerRegistry registry = new ResourceHandlerRegistry(
+                appContext, new MockServletContext(), new ContentNegotiationManager(), new UrlPathHelper());
 
         Assertions.assertDoesNotThrow(() -> resourceWebConfig.addResourceHandlers(registry));
     }

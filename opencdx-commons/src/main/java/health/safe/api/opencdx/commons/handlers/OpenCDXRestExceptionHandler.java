@@ -117,8 +117,7 @@ public class OpenCDXRestExceptionHandler {
     @ExceptionHandler(OpenCDXClientException.class)
     public final ResponseEntity<StatusMessage> handleOpenCDXClientException(
             OpenCDXClientException exception, WebRequest request) {
-        OpenCDXException cdxException =
-                new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, exception.getMessage(), exception);
+        OpenCDXException cdxException = new OpenCDXInternal(DOMAIN, 1, exception.getMessage(), exception);
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }
     /**

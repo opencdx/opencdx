@@ -73,7 +73,7 @@ class OpenCDXGrpcJsonConversionTest {
     @Test
     void testStatus() {
         OpenCDXException exception = new OpenCDXGrpcJsonConversion("TEST", 1, "Message");
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
@@ -83,26 +83,26 @@ class OpenCDXGrpcJsonConversionTest {
         metaData.put("Test", "1");
 
         exception.setMetaData(metaData);
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusNullMessage() {
         OpenCDXException exception = new OpenCDXGrpcJsonConversion("TEST", 1, null);
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusCause() {
         OpenCDXException exception = new OpenCDXGrpcJsonConversion("TEST", 1, "Message", new NullPointerException());
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusCauseMessage() {
         OpenCDXException exception =
                 new OpenCDXGrpcJsonConversion("TEST", 1, "Message", new NullPointerException("Cause Message"));
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test

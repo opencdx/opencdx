@@ -17,8 +17,8 @@ package cdx.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
-import cdx.opencdx.media.service.OpenCDXMediaService;
 import cdx.opencdx.media.service.OpenCDXFileStorageService;
+import cdx.opencdx.media.service.OpenCDXMediaService;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,8 @@ public class RestMediaController {
      * Constructor that takes a OpenCDXMediaService
      */
     @Autowired
-    public RestMediaController(OpenCDXMediaService openCDXMediaService, OpenCDXFileStorageService openCDXFileStorageService) {
+    public RestMediaController(
+            OpenCDXMediaService openCDXMediaService, OpenCDXFileStorageService openCDXFileStorageService) {
         this.openCDXMediaService = openCDXMediaService;
         this.openCDXFileStorageService = openCDXFileStorageService;
     }

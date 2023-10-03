@@ -50,7 +50,7 @@ public class OpenCDXClientException extends RuntimeException {
     /**
      * Capture the details list from the client error.
      */
-    private List<Any> detailsList;
+    private final List<Any> detailsList;
 
     /**
      * Constructor for Exception.

@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorageService {
+    private static final String DOMAIN = "OpenCDXFileStorageLocalFileSystemImpl";
     private final Path fileStorageLocation;
 
     @Autowired
@@ -42,8 +43,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
-            throw new OpenCDXInternalServerError(
-                    "OpenCDXFileStorageLocalFileSystemImpl", 1, "Could not create media upload directory.", ex);
+            throw new OpenCDXInternalServerError(DOMAIN, 1, "Could not create media upload directory.", ex);
         }
     }
 
@@ -64,10 +64,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
         try {
             // Check if the filename contains invalid characters
             if (fileName.contains("..")) {
-                throw new OpenCDXFailedPrecondition(
-                        "OpenCDXFileStorageLocalFileSystemImpl",
-                        2,
-                        "Filename contains invalid path operator " + fileName);
+                throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Filename contains invalid path operator " + fileName);
             }
 
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
@@ -75,8 +72,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
             return true;
         } catch (IOException ex) {
-            throw new OpenCDXInternalServerError(
-                    "OpenCDXFileStorageLocalFileSystemImpl", 3, "Failed to store: " + fileName, ex);
+            throw new OpenCDXInternalServerError(DOMAIN, 3, "Failed to store: " + fileName, ex);
         }
     }
 }

@@ -32,7 +32,9 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
      * Constructor taking the a PersonRepository
      */
     @Autowired
-    public OpenCDXMediaServiceImpl() {}
+    public OpenCDXMediaServiceImpl() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     @Override
     public CreateMediaResponse createMedia(CreateMediaRequest request) {
