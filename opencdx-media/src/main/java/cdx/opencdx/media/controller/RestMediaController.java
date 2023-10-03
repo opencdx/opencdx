@@ -17,8 +17,9 @@ package cdx.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
-import cdx.opencdx.media.service.MediaService;
+import cdx.opencdx.media.service.OpenCDXMediaService;
 import cdx.opencdx.media.service.OpenCDXFileStorageService;
+import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +39,18 @@ import org.springframework.web.multipart.MultipartFile;
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
+@ExcludeFromJacocoGeneratedReport
 public class RestMediaController {
 
-    private final MediaService mediaService;
+    private final OpenCDXMediaService openCDXMediaService;
     private final OpenCDXFileStorageService openCDXFileStorageService;
 
     /**
-     * Constructor that takes a MediaService
+     * Constructor that takes a OpenCDXMediaService
      */
     @Autowired
-    public RestMediaController(MediaService mediaService, OpenCDXFileStorageService openCDXFileStorageService) {
-        this.mediaService = mediaService;
+    public RestMediaController(OpenCDXMediaService openCDXMediaService, OpenCDXFileStorageService openCDXFileStorageService) {
+        this.openCDXMediaService = openCDXMediaService;
         this.openCDXFileStorageService = openCDXFileStorageService;
     }
 
@@ -58,9 +60,9 @@ public class RestMediaController {
      * @param request the CreateMediaRequest
      * @return the created CreateMediaResponse
      */
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<CreateMediaResponse> createMedia(@RequestBody CreateMediaRequest request) {
-        return new ResponseEntity<>(this.mediaService.createMedia(request), HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXMediaService.createMedia(request), HttpStatus.OK);
     }
 
     /**
@@ -72,7 +74,7 @@ public class RestMediaController {
     @GetMapping("/{id}")
     public ResponseEntity<GetMediaResponse> getMedia(@PathVariable String id) {
         return new ResponseEntity<>(
-                this.mediaService.getMedia(
+                this.openCDXMediaService.getMedia(
                         GetMediaRequest.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
@@ -83,9 +85,9 @@ public class RestMediaController {
      * @param request the UpdateMediaRequest for updating the Media
      * @return the UpdateMediaResponse
      */
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<UpdateMediaResponse> updateMedia(@RequestBody UpdateMediaRequest request) {
-        return new ResponseEntity<>(this.mediaService.updateMedia(request), HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXMediaService.updateMedia(request), HttpStatus.OK);
     }
 
     /**
@@ -97,7 +99,7 @@ public class RestMediaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteMediaResponse> deleteMedia(@PathVariable String id) {
         return new ResponseEntity<>(
-                this.mediaService.deleteMedia(
+                this.openCDXMediaService.deleteMedia(
                         DeleteMediaRequest.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
@@ -109,8 +111,8 @@ public class RestMediaController {
      * @return the requested Media.
      */
     @PostMapping("/list")
-    public ResponseEntity<ListMediaResponse> listNotificationEvents(@RequestBody ListMediaRequest request) {
-        return new ResponseEntity<>(this.mediaService.listMedia(request), HttpStatus.OK);
+    public ResponseEntity<ListMediaResponse> listMedia(@RequestBody ListMediaRequest request) {
+        return new ResponseEntity<>(this.openCDXMediaService.listMedia(request), HttpStatus.OK);
     }
 
     /**

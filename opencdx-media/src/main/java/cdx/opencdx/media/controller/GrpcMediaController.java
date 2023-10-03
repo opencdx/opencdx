@@ -16,7 +16,7 @@
 package cdx.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
-import cdx.opencdx.media.service.MediaService;
+import cdx.opencdx.media.service.OpenCDXMediaService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -31,42 +31,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Observed(name = "opencdx")
 public class GrpcMediaController extends MediaServiceGrpc.MediaServiceImplBase {
 
-    private final MediaService mediaService;
+    private final OpenCDXMediaService openCDXMediaService;
     /**
-     * Constructor using the MediaService
+     * Constructor using the OpenCDXMediaService
      */
     @Autowired
-    public GrpcMediaController(MediaService mediaService) {
-        this.mediaService = mediaService;
+    public GrpcMediaController(OpenCDXMediaService openCDXMediaService) {
+        this.openCDXMediaService = openCDXMediaService;
     }
 
     @Override
     public void createMedia(CreateMediaRequest request, StreamObserver<CreateMediaResponse> responseObserver) {
-        responseObserver.onNext(this.mediaService.createMedia(request));
+        responseObserver.onNext(this.openCDXMediaService.createMedia(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void listMedia(ListMediaRequest request, StreamObserver<ListMediaResponse> responseObserver) {
-        responseObserver.onNext(this.mediaService.listMedia(request));
+        responseObserver.onNext(this.openCDXMediaService.listMedia(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void getMedia(GetMediaRequest request, StreamObserver<GetMediaResponse> responseObserver) {
-        responseObserver.onNext(this.mediaService.getMedia(request));
+        responseObserver.onNext(this.openCDXMediaService.getMedia(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void updateMedia(UpdateMediaRequest request, StreamObserver<UpdateMediaResponse> responseObserver) {
-        responseObserver.onNext(this.mediaService.updateMedia(request));
+        responseObserver.onNext(this.openCDXMediaService.updateMedia(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void deleteMedia(DeleteMediaRequest request, StreamObserver<DeleteMediaResponse> responseObserver) {
-        responseObserver.onNext(this.mediaService.deleteMedia(request));
+        responseObserver.onNext(this.openCDXMediaService.deleteMedia(request));
         responseObserver.onCompleted();
     }
 }

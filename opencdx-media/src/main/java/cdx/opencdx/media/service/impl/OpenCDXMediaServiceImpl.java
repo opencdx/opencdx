@@ -16,7 +16,7 @@
 package cdx.opencdx.media.service.impl;
 
 import cdx.media.v2alpha.*;
-import cdx.opencdx.media.service.MediaService;
+import cdx.opencdx.media.service.OpenCDXMediaService;
 import io.micrometer.observation.annotation.Observed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,36 +26,36 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Observed(name = "opencdx")
-public class MediaServiceImpl implements MediaService {
+public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
 
     /**
      * Constructor taking the a PersonRepository
      */
     @Autowired
-    public MediaServiceImpl() {}
+    public OpenCDXMediaServiceImpl() {}
 
     @Override
     public CreateMediaResponse createMedia(CreateMediaRequest request) {
-        return null;
+        return CreateMediaResponse.getDefaultInstance();
     }
 
     @Override
     public ListMediaResponse listMedia(ListMediaRequest request) {
-        return null;
+        return ListMediaResponse.getDefaultInstance();
     }
 
     @Override
     public GetMediaResponse getMedia(GetMediaRequest request) {
-        return null;
+        return GetMediaResponse.getDefaultInstance();
     }
 
     @Override
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request) {
-        return null;
+        return UpdateMediaResponse.getDefaultInstance();
     }
 
     @Override
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request) {
-        return null;
+        return DeleteMediaResponse.getDefaultInstance();
     }
 }

@@ -18,9 +18,9 @@ package cdx.opencdx.media.service;
 import cdx.media.v2alpha.*;
 
 /**
- * Interface for the MediaService, for processing files.
+ * Interface for the OpenCDXMediaService, for processing files.
  */
-public interface MediaService {
+public interface OpenCDXMediaService {
     /**
      * Method to create media and be returned instructions on where to upload.
      * @param request CreateMediaRequest with the media information for creating the request.
