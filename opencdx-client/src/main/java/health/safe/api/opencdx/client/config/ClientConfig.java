@@ -15,11 +15,14 @@
  */
 package health.safe.api.opencdx.client.config;
 
+import cdx.media.v2alpha.MediaServiceGrpc;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
 import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
+import health.safe.api.opencdx.client.service.OpenCDXMediaClient;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientImpl;
 import health.safe.api.opencdx.client.service.impl.OpenCDXHelloworldClientImpl;
+import health.safe.api.opencdx.client.service.impl.OpenCDXMediaClientImpl;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -60,5 +63,13 @@ public class ClientConfig {
             @Value("${spring.application.name}") String applicationName,
             @GrpcClient("audit-service") AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub) {
         return new OpenCDXAuditClientImpl(applicationName, auditServiceBlockingStub);
+    }
+
+    @Bean
+    @Description("gRPC Client for Media")
+    @ConditionalOnProperty(prefix = "opencdx.client", name = "media", havingValue = "true")
+    OpenCDXMediaClient mediaClient(
+            @GrpcClient("media-service") MediaServiceGrpc.MediaServiceBlockingStub mediaServiceBlockingStub) {
+        return new OpenCDXMediaClientImpl(mediaServiceBlockingStub);
     }
 }

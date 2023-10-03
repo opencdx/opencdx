@@ -55,7 +55,7 @@ public class OpenCDXGrpcExceptionHandler {
      * Handler for Un-Caught Exceptions
      * @param cause Eception thrown
      * @param scope GRpcExceptionScope for processing
-     * @return Status providing the google code and status information
+     * @return Status providing the Google code and status information
      */
     @GRpcExceptionHandler
     public Status handleOpenCDXClientException(OpenCDXClientException cause, GRpcExceptionScope scope) {
