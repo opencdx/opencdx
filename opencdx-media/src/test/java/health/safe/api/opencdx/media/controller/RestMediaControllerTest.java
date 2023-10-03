@@ -57,7 +57,7 @@ class RestMediaControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"submissionId\":\"6511c2ffc289850d8dda157b\"}", content);
+        Assertions.assertEquals("{\"uploadUrl\":\"\"}", content);
     }
 
     @Test
@@ -68,7 +68,7 @@ class RestMediaControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"submissionId\":\"6511c2ffc289850d8dda157b\"}", content);
+        Assertions.assertEquals("{}", content);
     }
 
     @Test
@@ -80,7 +80,7 @@ class RestMediaControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"submissionId\":\"6511c2ffc289850d8dda157b\"}", content);
+        Assertions.assertEquals("{}", content);
     }
 
     @Test
@@ -91,7 +91,7 @@ class RestMediaControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"submissionId\":\"6511c2ffc289850d8dda157b\"}", content);
+        Assertions.assertEquals("{}", content);
 
     }
 
