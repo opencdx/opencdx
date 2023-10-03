@@ -30,9 +30,19 @@ import org.springframework.core.annotation.Order;
 @Aspect
 @EnableAspectJAutoProxy
 public class RetryAspect {
+
+    /**
+     * Default constructor Retry Aspect.
+     */
+    public RetryAspect() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     /**
      * The RetryAspect for operation.
      * @param joinPoint The ProceedingJoinPoint in the processing.
+     * @return Object to process the request further.
+     * @throws Throwable thrown by ProceedingJoinPoint proceed method.
      */
     @Order(Ordered.LOWEST_PRECEDENCE)
     @Around(value = "@annotation(health.safe.api.opencdx.commons.annotations.RetryAnnotation)")
