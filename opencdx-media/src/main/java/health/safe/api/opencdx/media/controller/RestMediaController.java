@@ -39,7 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
-@ExcludeFromJacocoGeneratedReport
 public class RestMediaController {
 
     private final OpenCDXMediaService openCDXMediaService;

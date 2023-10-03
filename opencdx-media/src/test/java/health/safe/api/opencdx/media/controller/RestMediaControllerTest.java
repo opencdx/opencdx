@@ -1,6 +1,8 @@
 package health.safe.api.opencdx.media.controller;
 
 import cdx.media.v2alpha.CreateMediaRequest;
+import cdx.media.v2alpha.ListMediaRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -96,6 +98,14 @@ class RestMediaControllerTest {
     }
 
     @Test
-    void listMedia() {
+    void listMedia() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/media/list")
+                        .content(this.objectMapper.writeValueAsString(ListMediaRequest.getDefaultInstance()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertEquals("{\"pageSize\":0,\"pageNumber\":0,\"sortAscending\":false,\"pageCount\":0,\"templates\":[]}", content);
     }
 }
