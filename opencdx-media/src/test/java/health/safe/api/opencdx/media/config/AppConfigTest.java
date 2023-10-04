@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.media.config;
 
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class AppConfigTest {
 
     @Autowired

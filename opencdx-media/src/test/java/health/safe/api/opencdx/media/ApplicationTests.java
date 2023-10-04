@@ -15,7 +15,6 @@
  */
 package health.safe.api.opencdx.media;
 
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.media.config.AppConfig;
 import health.safe.api.opencdx.media.config.ResourceWebConfig;
 import org.junit.jupiter.api.Assertions;
@@ -33,8 +32,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class ApplicationTests {
     @Autowired
     AppConfig appConfig;

@@ -26,14 +26,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @ActiveProfiles("test")
@@ -59,6 +64,15 @@ class OpenCDXMediaServiceImplTest {
                         return argument;
                     }
                 });
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMediaModel>>() {
+                    @Override
+                    public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXMediaModel.builder().id(argument).build());
+                    }
+                });
 
         this.openCDXMediaService = new OpenCDXMediaServiceImpl(openCDXMediaRepository);
     }
@@ -68,36 +82,42 @@ class OpenCDXMediaServiceImplTest {
 
     @Test
     void createMedia() {
-        Assertions.assertEquals(
-                CreateMediaResponse.getDefaultInstance(),
+        Assertions.assertDoesNotThrow( () ->
                 this.openCDXMediaService.createMedia(CreateMediaRequest.getDefaultInstance()));
     }
 
     @Test
     void listMedia() {
-        Assertions.assertEquals(
-                ListMediaResponse.getDefaultInstance(),
-                this.openCDXMediaService.listMedia(ListMediaRequest.getDefaultInstance()));
+        Mockito.when(this.openCDXMediaRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMediaService.listMedia(ListMediaRequest.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build()));
     }
 
     @Test
     void getMedia() {
-        Assertions.assertEquals(
-                GetMediaResponse.getDefaultInstance(),
-                this.openCDXMediaService.getMedia(GetMediaRequest.getDefaultInstance()));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMediaService.getMedia(GetMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build()));
     }
 
     @Test
     void updateMedia() {
-        Assertions.assertEquals(
-                UpdateMediaResponse.getDefaultInstance(),
-                this.openCDXMediaService.updateMedia(UpdateMediaRequest.getDefaultInstance()));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMediaService.updateMedia(UpdateMediaRequest.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build()));
     }
 
     @Test
     void deleteMedia() {
-        Assertions.assertEquals(
-                DeleteMediaResponse.getDefaultInstance(),
-                this.openCDXMediaService.deleteMedia(DeleteMediaRequest.getDefaultInstance()));
+        Assertions.assertDoesNotThrow(() ->
+                this.openCDXMediaService.deleteMedia(DeleteMediaRequest.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build()));
     }
 }

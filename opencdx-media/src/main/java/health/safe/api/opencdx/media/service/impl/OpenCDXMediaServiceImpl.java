@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
 
     private static final String DOMAIN = "OpenCDXMediaServiceImpl";
+    private static final String FAILED_TO_FIND_MEDIA = "Failed to find media: ";
     private final OpenCDXMediaRepository openCDXMediaRepository;
 
     /**
@@ -86,7 +87,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
         return GetMediaResponse.newBuilder()
                 .setMedia(this.openCDXMediaRepository
                         .findById(new ObjectId(request.getId()))
-                        .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find media: " + request.getId()))
+                        .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_MEDIA + request.getId()))
                         .getProtobufMessage())
                 .build();
     }
@@ -95,7 +96,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request) {
         OpenCDXMediaModel mediaModel = this.openCDXMediaRepository
                 .findById(new ObjectId(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Failed to find media: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_MEDIA + request.getId()));
 
         mediaModel.setName(request.getName());
         mediaModel.setShortDescription(request.getShortDescription());
@@ -112,7 +113,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request) {
         OpenCDXMediaModel mediaModel = this.openCDXMediaRepository
                 .findById(new ObjectId(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Failed to find media: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_MEDIA + request.getId()));
 
         this.openCDXMediaRepository.deleteById(new ObjectId(request.getId()));
         log.info("Deleted Media: {}", request);

@@ -16,20 +16,20 @@
 package health.safe.api.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
 import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
 import health.safe.api.opencdx.media.service.impl.OpenCDXMediaServiceImpl;
 import io.grpc.stub.StreamObserver;
+import java.util.Collections;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -40,9 +40,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Collections;
-import java.util.Optional;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -75,7 +72,8 @@ class GrpcMediaControllerTest {
                     @Override
                     public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXMediaModel.builder().id(argument).build());
+                        return Optional.of(
+                                OpenCDXMediaModel.builder().id(argument).build());
                     }
                 });
 
@@ -98,35 +96,54 @@ class GrpcMediaControllerTest {
     @Test
     void listMedia() {
         StreamObserver<ListMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        Mockito.when(this.openCDXMediaRepository.findAll(
-                        Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXMediaRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
-        this.grpcMediaController.listMedia(ListMediaRequest.newBuilder().setPageNumber(1).setPageSize(10).setSortAscending(true).build(), responseObserver);
+        this.grpcMediaController.listMedia(
+                ListMediaRequest.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void getMedia() {
         StreamObserver<GetMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcMediaController.getMedia(GetMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build(), responseObserver);
+        this.grpcMediaController.getMedia(
+                GetMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build(), responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void getMediaFail_1() {
         Mockito.reset(this.openCDXMediaRepository);
-        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class))).thenReturn(Optional.empty());
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
         StreamObserver<GetMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        Assertions.assertThrows(OpenCDXNotFound.class,() -> this.grpcMediaController.getMedia(GetMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build(), responseObserver));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.grpcMediaController.getMedia(
+                        GetMediaRequest.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build(),
+                        responseObserver));
     }
 
     @Test
     void updateMedia() {
         StreamObserver<UpdateMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcMediaController.updateMedia(UpdateMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build(), responseObserver);
+        this.grpcMediaController.updateMedia(
+                UpdateMediaRequest.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UpdateMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
@@ -135,16 +152,28 @@ class GrpcMediaControllerTest {
     @Test
     void deleteMedia() {
         StreamObserver<DeleteMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcMediaController.deleteMedia(DeleteMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build(), responseObserver);
+        this.grpcMediaController.deleteMedia(
+                DeleteMediaRequest.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeleteMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void deleteMediaFail_1() {
         Mockito.reset(this.openCDXMediaRepository);
-        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class))).thenReturn(Optional.empty());
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
         StreamObserver<DeleteMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.grpcMediaController.deleteMedia(DeleteMediaRequest.newBuilder().setId(ObjectId.get().toHexString()).build(), responseObserver));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.grpcMediaController.deleteMedia(
+                        DeleteMediaRequest.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build(),
+                        responseObserver));
     }
 }
