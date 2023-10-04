@@ -15,16 +15,15 @@
  */
 package health.safe.api.opencdx.media.service.impl;
 
-import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternalServerError;
+import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -60,8 +59,10 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
     @Override
     public boolean storeFile(MultipartFile file) {
-        if (file.getOriginalFilename().contains("..")) {
-            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Filename contains invalid path operator " + file.getOriginalFilename());
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename != null && originalFilename.contains("..")) {
+            throw new OpenCDXFailedPrecondition(
+                    DOMAIN, 2, "Filename contains invalid path operator " + file.getOriginalFilename());
         }
 
         String fileName = new Date().getTime() + "-file." + getFileExtension(file.getOriginalFilename());

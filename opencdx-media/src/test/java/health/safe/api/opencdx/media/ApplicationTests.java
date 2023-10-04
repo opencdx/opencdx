@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.media.media;
+package health.safe.api.opencdx.media;
 
+import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.media.config.AppConfig;
 import health.safe.api.opencdx.media.config.ResourceWebConfig;
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

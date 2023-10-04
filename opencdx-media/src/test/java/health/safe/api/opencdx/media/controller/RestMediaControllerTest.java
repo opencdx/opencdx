@@ -1,8 +1,25 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package health.safe.api.opencdx.media.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.media.v2alpha.CreateMediaRequest;
 import cdx.media.v2alpha.ListMediaRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -13,7 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -21,16 +37,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.io.IOException;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @Slf4j
 @ActiveProfiles("test")
@@ -52,8 +60,7 @@ class RestMediaControllerTest {
     }
 
     @AfterEach
-    void tearDown() {
-    }
+    void tearDown() {}
 
     @Test
     void createMedia() throws Exception {
@@ -70,8 +77,7 @@ class RestMediaControllerTest {
     @Test
     void getMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/media/"+ObjectId.get().toHexString())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/media/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -93,13 +99,11 @@ class RestMediaControllerTest {
     @Test
     void deleteMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/media/"+ObjectId.get().toHexString())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/media/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         Assertions.assertEquals("{}", content);
-
     }
 
     @Test
@@ -111,30 +115,37 @@ class RestMediaControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"pageSize\":0,\"pageNumber\":0,\"sortAscending\":false,\"pageCount\":0,\"templates\":[]}", content);
+        Assertions.assertEquals(
+                "{\"pageSize\":0,\"pageNumber\":0,\"sortAscending\":false,\"pageCount\":0,\"templates\":[]}", content);
     }
 
     @Test
     void upload() throws Exception {
-        MockMultipartFile jsonFile = new MockMultipartFile("file","1234567890.json","application/json", "{\"key1\": \"value1\"}".getBytes());
+        MockMultipartFile jsonFile = new MockMultipartFile(
+                "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
-        this.mockMvc.perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+        this.mockMvc
+                .perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void uploadFail_1() throws Exception {
-        MockMultipartFile jsonFile = new MockMultipartFile("file","..1234567890.json","application/json", "{\"key1\": \"value1\"}".getBytes());
+        MockMultipartFile jsonFile = new MockMultipartFile(
+                "file", "..1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
-        this.mockMvc.perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+        this.mockMvc
+                .perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().is(400));
     }
 
     @Test
     void uploadFail_2() throws Exception {
-        MockMultipartFile jsonFile = new MockMultipartFile("file",null,"application/json", "{\"key1\": \"value1\"}".getBytes());
+        MockMultipartFile jsonFile =
+                new MockMultipartFile("file", null, "application/json", "{\"key1\": \"value1\"}".getBytes());
 
-        this.mockMvc.perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+        this.mockMvc
+                .perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
     }
 }

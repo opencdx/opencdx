@@ -17,7 +17,6 @@ package health.safe.api.opencdx.media.service.impl;
 
 import cdx.media.v2alpha.*;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
-import health.safe.api.opencdx.media.service.impl.OpenCDXMediaServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

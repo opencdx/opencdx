@@ -19,7 +19,6 @@ import cdx.media.v2alpha.*;
 import health.safe.api.opencdx.media.dto.FileUploadResponse;
 import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
-import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +119,7 @@ public class RestMediaController {
      * @param file Multipart file as RequestParam "file"
      * @return FileUploadResponse indicating if successful.
      */
-    @PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileUploadResponse> uploadFile(
             @RequestParam(name = "file", required = false) MultipartFile file) {
         return ResponseEntity.ok()

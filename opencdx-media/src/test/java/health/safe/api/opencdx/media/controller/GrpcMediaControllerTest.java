@@ -16,7 +16,6 @@
 package health.safe.api.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
-import health.safe.api.opencdx.media.controller.GrpcMediaController;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
 import health.safe.api.opencdx.media.service.impl.OpenCDXMediaServiceImpl;
 import io.grpc.stub.StreamObserver;

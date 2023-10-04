@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.media.media.config;
+package health.safe.api.opencdx.media.config;
 
-import health.safe.api.opencdx.media.config.AppConfig;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
+import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -31,8 +32,19 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
 class AppConfigTest {
 
+    @Autowired
+    AppConfig appConfig;
+
+    @Autowired
+    OpenCDXFileStorageService openCDXFileStorageService;
+
     @Test
-    void testFormat() {
-        Assertions.assertEquals("Hello %s!", "Hello %s!");
+    void testOpenCDXFileStorageService() {
+        Assertions.assertNotNull(this.openCDXFileStorageService);
+    }
+
+    @Test
+    void testAppCoonfig() {
+        Assertions.assertNotNull(this.appConfig);
     }
 }
