@@ -52,7 +52,12 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
-                    Code.INTERNAL, "OpenCDXAuditClientImpl", 1, status.getMessage(), status.getDetailsList(), e);
+                    Code.forNumber(status.getCode()),
+                    "OpenCDXAuditClientImpl",
+                    1,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
         }
     }
 }

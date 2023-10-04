@@ -41,7 +41,8 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
-            throw new OpenCDXClientException(Code.INTERNAL, DOMAIN, 1, status.getMessage(), status.getDetailsList(), e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 1, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
@@ -51,7 +52,8 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
             return mediaServiceBlockingStub.deleteMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(Code.INTERNAL, DOMAIN, 2, status.getMessage(), status.getDetailsList(), e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 2, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
@@ -61,7 +63,8 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
             return mediaServiceBlockingStub.getMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(Code.INTERNAL, DOMAIN, 3, status.getMessage(), status.getDetailsList(), e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 3, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
@@ -71,7 +74,8 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
             return mediaServiceBlockingStub.updateMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(Code.INTERNAL, DOMAIN, 4, status.getMessage(), status.getDetailsList(), e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 4, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
@@ -81,7 +85,8 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
             return mediaServiceBlockingStub.listMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
-            throw new OpenCDXClientException(Code.INTERNAL, DOMAIN, 5, status.getMessage(), status.getDetailsList(), e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 5, status.getMessage(), status.getDetailsList(), e);
         }
     }
 }

@@ -57,7 +57,12 @@ public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
-                    Code.INTERNAL, "OpenCDXHelloworldClientImpl", 1, status.getMessage(), status.getDetailsList(), e);
+                    Code.forNumber(status.getCode()),
+                    "OpenCDXHelloworldClientImpl",
+                    1,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
         }
     }
 }
