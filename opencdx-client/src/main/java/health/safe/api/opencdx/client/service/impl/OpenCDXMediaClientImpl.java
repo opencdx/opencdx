@@ -23,17 +23,29 @@ import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * OpenCDXMediaClient for talking to the Media Service.
+ */
 @Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
+    /**
+     * Domain name for exception handling
+     */
     private static final String DOMAIN = "OpenCDXMediaClientImpl";
+
     private final MediaServiceGrpc.MediaServiceBlockingStub mediaServiceBlockingStub;
 
+    /**
+     * Constructore for creating the OpenCDXMediaClientImpl
+     * @param mediaServiceBlockingStub gRPC Stub for the client.
+     */
     public OpenCDXMediaClientImpl(MediaServiceGrpc.MediaServiceBlockingStub mediaServiceBlockingStub) {
         this.mediaServiceBlockingStub = mediaServiceBlockingStub;
     }
 
+    @Override
     public CreateMediaResponse createMedia(CreateMediaRequest request) {
         try {
             log.info("Processing Create Media: {}", request);
@@ -46,6 +58,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
         }
     }
 
+    @Override
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request) {
         try {
             log.info("Processing Delete Media: {}", request);
@@ -57,6 +70,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
         }
     }
 
+    @Override
     public GetMediaResponse getMedia(GetMediaRequest request) {
         try {
             log.info("Processing Get Media: {}", request);
@@ -68,6 +82,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
         }
     }
 
+    @Override
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request) {
         try {
             log.info("Processing Update Media: {}", request);
@@ -79,6 +94,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
         }
     }
 
+    @Override
     public ListMediaResponse listMedia(ListMediaRequest request) {
         try {
             log.info("Processing List Media: {}", request);

@@ -17,14 +17,38 @@ package health.safe.api.opencdx.client.service;
 
 import cdx.media.v2alpha.*;
 
+/**
+ * Client Interface to the gRPC Media service
+ */
 public interface OpenCDXMediaClient {
+    /**
+     * Method to create media and be returned instructions on where to upload.
+     * @param request CreateMediaRequest with the media information for creating the request.
+     * @return CreateMediaResponse providing where to upload the file.
+     */
     public CreateMediaResponse createMedia(CreateMediaRequest request);
-
+    /**
+     * Request to delete Media
+     * @param request DeleteMediaRequest with ID of media to delete.
+     * @return DeleteMediaResponse indicating if deleted.
+     */
     DeleteMediaResponse deleteMedia(DeleteMediaRequest request);
-
+    /**
+     * Method to retrieve information on a specific media.
+     * @param request GetMediaRequest to retrieve.
+     * @return GetMediaResponse for the requested media
+     */
     GetMediaResponse getMedia(GetMediaRequest request);
-
+    /**
+     * Method to Update Media
+     * @param request Updated Information for the Media
+     * @return UpdateMediaResponse with the updated media information.
+     */
     UpdateMediaResponse updateMedia(UpdateMediaRequest request);
-
+    /**
+     * Method to list media, with pagination.
+     * @param request ListMediaRequest to list media.
+     * @return ListMediaResponse with pagination.
+     */
     ListMediaResponse listMedia(ListMediaRequest request);
 }

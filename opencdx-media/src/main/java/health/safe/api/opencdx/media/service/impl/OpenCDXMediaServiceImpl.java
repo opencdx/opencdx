@@ -44,6 +44,7 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
 
     /**
      * Constructor taking a OpenCDXMediaRepository
+     * @param openCDXMediaRepository Repository for storing media records.
      */
     @Autowired
     public OpenCDXMediaServiceImpl(OpenCDXMediaRepository openCDXMediaRepository) {

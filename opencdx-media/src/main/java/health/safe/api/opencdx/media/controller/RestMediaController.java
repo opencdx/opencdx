@@ -44,7 +44,9 @@ public class RestMediaController {
     private final OpenCDXFileStorageService openCDXFileStorageService;
 
     /**
-     * Constructor that takes a OpenCDXMediaService
+     * Constructore for the Rest Media Controller
+     * @param openCDXMediaService Service for processing requests.
+     * @param openCDXFileStorageService File storage service for storing files.
      */
     @Autowired
     public RestMediaController(
@@ -117,6 +119,7 @@ public class RestMediaController {
     /**
      * Method to upload files for storage.
      * @param file Multipart file as RequestParam "file"
+     * @param fileId File ID for the Media file.
      * @return FileUploadResponse indicating if successful.
      */
     @PostMapping(value = "/upload/{fileId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

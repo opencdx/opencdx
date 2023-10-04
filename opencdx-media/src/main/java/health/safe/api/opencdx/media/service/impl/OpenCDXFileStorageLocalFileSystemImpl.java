@@ -36,6 +36,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Local File System storage implementation.
+ */
 @Service
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorageService {
@@ -44,6 +47,11 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
     private final OpenCDXMediaRepository openCDXMediaRepository;
 
+    /**
+     * Constructor for creating a local file storage solution
+     * @param env Environment running within.
+     * @param openCDXMediaRepository Repository for storing media records.
+     */
     @Autowired
     public OpenCDXFileStorageLocalFileSystemImpl(Environment env, OpenCDXMediaRepository openCDXMediaRepository) {
         this.fileStorageLocation = Paths.get(env.getProperty("media.upload-dir", "./uploads/files"))
@@ -74,7 +82,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find media: " + fileId));
 
         String originalFilename = file.getOriginalFilename();
-        if (originalFilename.contains("..")) {
+        if (originalFilename != null && originalFilename.contains("..")) {
             throw new OpenCDXFailedPrecondition(
                     DOMAIN, 2, "Filename contains invalid path operator " + file.getOriginalFilename());
         }

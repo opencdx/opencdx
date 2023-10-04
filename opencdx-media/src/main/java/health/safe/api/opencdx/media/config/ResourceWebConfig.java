@@ -20,11 +20,22 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Web Resource configuration
+ */
 @Configuration
 public class ResourceWebConfig implements WebMvcConfigurer {
+    /**
+     * URL path for file downloads.
+     */
     public static final String MEDIA_DOWNLOADS = "/media/downloads/";
+
     final Environment environment;
 
+    /**
+     * Resource Web Configuraiton for granting access to the resources.
+     * @param environment Environment variables
+     */
     public ResourceWebConfig(Environment environment) {
         this.environment = environment;
     }

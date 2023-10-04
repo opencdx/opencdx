@@ -34,6 +34,7 @@ public class GrpcMediaController extends MediaServiceGrpc.MediaServiceImplBase {
     private final OpenCDXMediaService openCDXMediaService;
     /**
      * Constructor using the OpenCDXMediaService
+     * @param openCDXMediaService Media Service used for processing.
      */
     @Autowired
     public GrpcMediaController(OpenCDXMediaService openCDXMediaService) {

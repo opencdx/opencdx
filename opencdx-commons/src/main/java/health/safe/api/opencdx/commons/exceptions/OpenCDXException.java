@@ -152,6 +152,7 @@ public abstract class OpenCDXException extends RuntimeException {
 
     /**
      * Status for the gRPC Exception Handler
+     * @param detailsList List of details to add
      * @return Status for the gRPC Exception Handler
      */
     public Status getGrpcStatus(List<Any> detailsList) {

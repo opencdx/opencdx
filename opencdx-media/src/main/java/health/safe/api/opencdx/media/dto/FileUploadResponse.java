@@ -15,11 +15,23 @@
  */
 package health.safe.api.opencdx.media.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * indicates if the file upload was successful.
+ */
 @Data
 @Builder
+@AllArgsConstructor
 public class FileUploadResponse {
+    /**
+     * Default Constructor
+     */
+    public FileUploadResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     private boolean success;
 }
