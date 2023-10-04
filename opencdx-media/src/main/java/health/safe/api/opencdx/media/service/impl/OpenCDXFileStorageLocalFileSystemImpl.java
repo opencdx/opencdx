@@ -120,7 +120,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
         String fileName = fileId + "." + extension;
         File file = this.fileStorageLocation.resolve(fileName).toFile();
-        
+
         try {
             return ResponseEntity.ok()
                     .contentLength(file.length())
