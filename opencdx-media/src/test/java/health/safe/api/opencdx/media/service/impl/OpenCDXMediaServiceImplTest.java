@@ -20,6 +20,7 @@ import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
 import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -46,7 +49,16 @@ class OpenCDXMediaServiceImplTest {
     void setUp() {
         this.openCDXMediaRepository = Mockito.mock(OpenCDXMediaRepository.class);
         Mockito.when(this.openCDXMediaRepository.save(Mockito.any(OpenCDXMediaModel.class)))
-                .then(AdditionalAnswers.returnsFirstArg());
+                .thenAnswer(new Answer<OpenCDXMediaModel>() {
+                    @Override
+                    public OpenCDXMediaModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXMediaModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
 
         this.openCDXMediaService = new OpenCDXMediaServiceImpl(openCDXMediaRepository);
     }

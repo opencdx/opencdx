@@ -34,8 +34,7 @@ import org.springframework.web.util.UrlPathHelper;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
-        properties = "spring.cloud.config.enabled=false",
-        classes = {AppConfig.class, ResourceWebConfig.class, NoOpOpenCDXMessageServiceImpl.class})
+        properties = "spring.cloud.config.enabled=false")
 class ApplicationTests {
     @Autowired
     AppConfig appConfig;
