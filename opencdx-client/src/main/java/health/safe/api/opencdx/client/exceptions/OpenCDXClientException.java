@@ -15,7 +15,10 @@
  */
 package health.safe.api.opencdx.client.exceptions;
 
+import com.google.protobuf.Any;
 import com.google.rpc.Code;
+import java.util.List;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Data
 public class OpenCDXClientException extends RuntimeException {
 
     /**
@@ -44,18 +48,26 @@ public class OpenCDXClientException extends RuntimeException {
     private final int number;
 
     /**
+     * Capture the details list from the client error.
+     */
+    private final List<Any> detailsList;
+
+    /**
      * Constructor for Exception.
      * @param code Google Code this exception should return
      * @param domain Class Name exception created in
      * @param number Integer representing specific instance of Exception in class. Should be unique.
      * @param message Message indicating the failure reason.
+     * @param detailsList List of detail information sent from client.
      * @param cause Throwable that was the cause of this exception.
      */
-    public OpenCDXClientException(Code code, String domain, int number, String message, Throwable cause) {
+    public OpenCDXClientException(
+            Code code, String domain, int number, String message, List<Any> detailsList, Throwable cause) {
         super(message, cause);
         this.code = code;
         this.domain = domain;
         this.number = number;
+        this.detailsList = detailsList;
         log.error(OPENCDX_SIGNATURE, this.domain, this.number, message, this);
     }
 

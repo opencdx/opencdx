@@ -16,7 +16,7 @@
 package health.safe.api.opencdx.client.service.impl;
 
 import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
-import health.safe.api.opencdx.client.service.HelloworldClient;
+import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
@@ -29,17 +29,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-class HelloworldClientImplTest {
+class OpenCDXHelloworldClientImplTest {
 
     @Mock
     GreeterGrpc.GreeterBlockingStub greeterBlockingStub;
 
-    HelloworldClient helloworldClient;
+    OpenCDXHelloworldClient openCDXHelloworldClient;
 
     @BeforeEach
     void setUp() {
         this.greeterBlockingStub = Mockito.mock(GreeterGrpc.GreeterBlockingStub.class);
-        this.helloworldClient = new HelloworldClientImpl(this.greeterBlockingStub);
+        this.openCDXHelloworldClient = new OpenCDXHelloworldClientImpl(this.greeterBlockingStub);
     }
 
     @AfterEach
@@ -52,7 +52,7 @@ class HelloworldClientImplTest {
         Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
                 .thenReturn(HelloReply.newBuilder().setMessage("Hello Bob!").build());
 
-        Assertions.assertEquals("Hello Bob!", this.helloworldClient.sayHello("Bob"));
+        Assertions.assertEquals("Hello Bob!", this.openCDXHelloworldClient.sayHello("Bob"));
     }
 
     @Test
@@ -60,6 +60,6 @@ class HelloworldClientImplTest {
         Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
 
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.helloworldClient.sayHello("Bob"));
+        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXHelloworldClient.sayHello("Bob"));
     }
 }

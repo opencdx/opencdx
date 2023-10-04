@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.media.config;
 
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
+import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,17 +26,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        properties = "spring.cloud.config.enabled=false",
-        classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class AppConfigTest {
 
     @Autowired
-    AppProperties appProperties;
+    AppConfig appConfig;
+
+    @Autowired
+    OpenCDXFileStorageService openCDXFileStorageService;
 
     @Test
-    void testFormat() {
-        AppConfig appConfig = new AppConfig();
-        Assertions.assertEquals("Hello %s!", appConfig.format(this.appProperties));
+    void testOpenCDXFileStorageService() {
+        Assertions.assertNotNull(this.openCDXFileStorageService);
+    }
+
+    @Test
+    void testAppCoonfig() {
+        Assertions.assertNotNull(this.appConfig);
     }
 }

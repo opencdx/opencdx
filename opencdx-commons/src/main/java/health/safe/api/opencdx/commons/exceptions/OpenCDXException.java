@@ -20,6 +20,7 @@ import com.google.rpc.Code;
 import com.google.rpc.DebugInfo;
 import com.google.rpc.ErrorInfo;
 import com.google.rpc.Status;
+import health.safe.api.opencdx.commons.collections.ListUtils;
 import health.safe.api.opencdx.commons.dto.StatusMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,12 +152,16 @@ public abstract class OpenCDXException extends RuntimeException {
 
     /**
      * Status for the gRPC Exception Handler
+     * @param detailsList List of details to add
      * @return Status for the gRPC Exception Handler
      */
-    public Status getGrpcStatus() {
+    public Status getGrpcStatus(List<Any> detailsList) {
         log.info("Getting gRPC Status for Error Handling");
 
         List<Any> details = new ArrayList<>();
+        if (ListUtils.notEmpty(detailsList)) {
+            details.addAll(detailsList);
+        }
         ErrorInfo.Builder errorInfo = ErrorInfo.newBuilder().setDomain(this.domain);
         if (this.getMessage() != null) {
             errorInfo.setReason(this.getMessage());

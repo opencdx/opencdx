@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.media.service;
+package health.safe.api.opencdx.media.dto;
 
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * Interface for the HelloWorldService
+ * indicates if the file upload was successful.
  */
-public interface HelloWorldService {
+@Data
+@Builder
+@AllArgsConstructor
+public class FileUploadResponse {
     /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
+     * Default Constructor
      */
-    String sayHello(HelloRequest request);
+    public FileUploadResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    private boolean success;
 }

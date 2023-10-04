@@ -13,23 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.media.config;
+package health.safe.api.opencdx.media.repository;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * Applicaiton Properties
+ * Repository for the Media Collection
  */
-@Data
-@ConfigurationProperties("opencdx.helloworld")
-public class AppProperties {
-    /**
-     * Default Constructor
-     */
-    public AppProperties() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    private String format;
-}
+@Repository
+public interface OpenCDXMediaRepository extends MongoRepository<OpenCDXMediaModel, ObjectId> {}

@@ -20,7 +20,7 @@ import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 /**
  * Interface for communicating with the Helloworld microservice.
  */
-public interface HelloworldClient {
+public interface OpenCDXHelloworldClient {
     /**
      * Method to gRPC Call Hello World Service sayHello() api.
      * @param name Name to pass

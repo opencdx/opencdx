@@ -17,7 +17,7 @@ package health.safe.api.opencdx.client.service.impl;
 
 import com.google.rpc.Code;
 import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
-import health.safe.api.opencdx.client.service.HelloworldClient;
+import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Observed(name = "opencdx")
-public class HelloworldClientImpl implements HelloworldClient {
+public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
 
     private final GreeterGrpc.GreeterBlockingStub greeterBlockingStub;
 
@@ -38,7 +38,7 @@ public class HelloworldClientImpl implements HelloworldClient {
      * Constructor for creating the Helloworld client implementation.
      * @param greeterBlockingStub gRPC Blocking Stub for Helloworld.
      */
-    public HelloworldClientImpl(GreeterGrpc.GreeterBlockingStub greeterBlockingStub) {
+    public OpenCDXHelloworldClientImpl(GreeterGrpc.GreeterBlockingStub greeterBlockingStub) {
         this.greeterBlockingStub = greeterBlockingStub;
     }
 
@@ -55,8 +55,14 @@ public class HelloworldClientImpl implements HelloworldClient {
 
             return helloReply.getMessage();
         } catch (StatusRuntimeException e) {
-
-            throw new OpenCDXClientException(Code.INTERNAL, "HelloworldClientImpl", 1, e.getMessage(), e);
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    "OpenCDXHelloworldClientImpl",
+                    1,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
         }
     }
 }

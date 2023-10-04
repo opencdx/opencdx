@@ -4113,6 +4113,222 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops -Media" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.delayedStart">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / CreateMedia" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata"></stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/CreateMedia</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">false</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson"></stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.submission_id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / GetMedia" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata"></stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">9590</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/GetMedia</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">false</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+    &quot;page_number&quot;: 1,
+    &quot;page_size&quot;: 1,
+    &quot;sort_ascending&quot;: true,
+    &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / UpdateMedia" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata"></stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">9590</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/UpdateMedia</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">false</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+    &quot;page_number&quot;: 1,
+    &quot;page_size&quot;: 1,
+    &quot;sort_ascending&quot;: true,
+    &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / ListMedia" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata"></stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">9590</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/ListMedia</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">false</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+    &quot;page_number&quot;: 1,
+    &quot;page_size&quot;: 1,
+    &quot;sort_ascending&quot;: true,
+    &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / DeleteMedia" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata"></stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/DeleteMedia</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">false</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;test_id&quot;:&quot;${connectedTestId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8580</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;basicinfo&quot;:{&quot;creator&quot;:&quot;&quot;,&quot;modifier&quot;:&quot;&quot;,&quot;vendorlabtestid&quot;:&quot;&quot;,&quot;type&quot;:&quot;&quot;,&quot;userid&quot;:&quot;6512d485f7f8935ea3994013&quot;,&quot;nationalhealthid&quot;:10,&quot;healthserviceid&quot;:&quot;&quot;,&quot;tenantid&quot;:&quot;&quot;,&quot;source&quot;:&quot;&quot;}}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/connected-test</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.submissionId</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [GET]" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/connected-test/${connectedTestId}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/list [POST]]" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true,&quot;userid&quot;:&quot;6512d485f7f8935ea3994013&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/connected-test/list</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
