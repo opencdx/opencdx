@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.media.service.impl;
 
+import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -36,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@ExcludeFromJacocoGeneratedReport
 public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorageService {
     private static final String DOMAIN = "OpenCDXFileStorageLocalFileSystemImpl";
     private final Path fileStorageLocation;
@@ -72,7 +74,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find media: " + fileId));
 
         String originalFilename = file.getOriginalFilename();
-        if (originalFilename != null && originalFilename.contains("..")) {
+        if (originalFilename.contains("..")) {
             throw new OpenCDXFailedPrecondition(
                     DOMAIN, 2, "Filename contains invalid path operator " + file.getOriginalFilename());
         }

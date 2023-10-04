@@ -148,7 +148,20 @@ class GrpcMediaControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UpdateMediaResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
-
+    @Test
+    void updateMediaFail_1() {
+        Mockito.reset(this.openCDXMediaRepository);
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        StreamObserver<UpdateMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.grpcMediaController.updateMedia(
+                        UpdateMediaRequest.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build(),
+                        responseObserver));
+    }
     @Test
     void deleteMedia() {
         StreamObserver<DeleteMediaResponse> responseObserver = Mockito.mock(StreamObserver.class);
