@@ -24,7 +24,8 @@ public interface OpenCDXFileStorageService {
     /**
      * Store a file in the current storage service.
      * @param file MultipartFile uploaded to the system
+     * @param fileId String identifier for file.
      * @return String indicating the filename.
      */
-    public boolean storeFile(MultipartFile file);
+    public boolean storeFile(MultipartFile file,String fileId);
 }

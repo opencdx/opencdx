@@ -125,7 +125,7 @@ class RestMediaControllerTest {
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+                .perform(multipart("/media/upload/" + ObjectId.get().toHexString()).file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
     }
 
@@ -135,7 +135,7 @@ class RestMediaControllerTest {
                 "file", "..1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+                .perform(multipart("/media/upload/" + ObjectId.get().toHexString()).file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().is(400));
     }
 
@@ -145,7 +145,7 @@ class RestMediaControllerTest {
                 new MockMultipartFile("file", null, "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+                .perform(multipart("/media/upload/" + ObjectId.get().toHexString()).file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
     }
 }

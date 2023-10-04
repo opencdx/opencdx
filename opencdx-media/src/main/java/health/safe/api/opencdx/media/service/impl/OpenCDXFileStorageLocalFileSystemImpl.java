@@ -58,14 +58,14 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
     }
 
     @Override
-    public boolean storeFile(MultipartFile file) {
+    public boolean storeFile(MultipartFile file, String fileId) {
         String originalFilename = file.getOriginalFilename();
         if (originalFilename != null && originalFilename.contains("..")) {
             throw new OpenCDXFailedPrecondition(
                     DOMAIN, 2, "Filename contains invalid path operator " + file.getOriginalFilename());
         }
 
-        String fileName = new Date().getTime() + "-file." + getFileExtension(file.getOriginalFilename());
+        String fileName = fileId + "." + getFileExtension(file.getOriginalFilename());
 
         try {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
