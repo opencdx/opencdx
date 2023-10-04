@@ -22,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class ResourceWebConfig implements WebMvcConfigurer {
+    public static final String MEDIA_DOWNLOADS = "/media/downloads/";
     final Environment environment;
 
     public ResourceWebConfig(Environment environment) {
@@ -32,6 +33,6 @@ public class ResourceWebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         String location = environment.getProperty("media.upload-dir", "./uploads/files");
 
-        registry.addResourceHandler("/media/downloads/**").addResourceLocations(location);
+        registry.addResourceHandler(MEDIA_DOWNLOADS + "**").addResourceLocations(location);
     }
 }

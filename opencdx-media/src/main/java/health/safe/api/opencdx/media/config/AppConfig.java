@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.media.config;
 
+import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import health.safe.api.opencdx.media.service.impl.OpenCDXFileStorageLocalFileSystemImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -36,7 +37,8 @@ public class AppConfig {
     }
 
     @Bean
-    OpenCDXFileStorageService openCDXFileStorageService(Environment env) {
-        return new OpenCDXFileStorageLocalFileSystemImpl(env);
+    OpenCDXFileStorageService openCDXFileStorageService(
+            Environment env, OpenCDXMediaRepository openCDXMediaRepository) {
+        return new OpenCDXFileStorageLocalFileSystemImpl(env, openCDXMediaRepository);
     }
 }

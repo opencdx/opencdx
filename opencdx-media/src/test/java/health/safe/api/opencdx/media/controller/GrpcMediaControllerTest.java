@@ -16,6 +16,8 @@
 package health.safe.api.opencdx.media.controller;
 
 import cdx.media.v2alpha.*;
+import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
+import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
 import health.safe.api.opencdx.media.service.impl.OpenCDXMediaServiceImpl;
 import io.grpc.stub.StreamObserver;
@@ -23,6 +25,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -37,9 +41,16 @@ class GrpcMediaControllerTest {
 
     GrpcMediaController grpcMediaController;
 
+    @Mock
+    OpenCDXMediaRepository openCDXMediaRepository;
+
     @BeforeEach
     void setUp() {
-        this.openCDXMediaService = new OpenCDXMediaServiceImpl();
+        this.openCDXMediaRepository = Mockito.mock(OpenCDXMediaRepository.class);
+        Mockito.when(this.openCDXMediaRepository.save(Mockito.any(OpenCDXMediaModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+
+        this.openCDXMediaService = new OpenCDXMediaServiceImpl(openCDXMediaRepository);
         this.grpcMediaController = new GrpcMediaController(this.openCDXMediaService);
     }
 

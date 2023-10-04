@@ -16,6 +16,8 @@
 package health.safe.api.opencdx.media.service.impl;
 
 import cdx.media.v2alpha.*;
+import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
+import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -23,6 +25,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -34,9 +39,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class OpenCDXMediaServiceImplTest {
     OpenCDXMediaService openCDXMediaService;
 
+    @Mock
+    OpenCDXMediaRepository openCDXMediaRepository;
+
     @BeforeEach
     void setUp() {
-        this.openCDXMediaService = new OpenCDXMediaServiceImpl();
+        this.openCDXMediaRepository = Mockito.mock(OpenCDXMediaRepository.class);
+        Mockito.when(this.openCDXMediaRepository.save(Mockito.any(OpenCDXMediaModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+
+        this.openCDXMediaService = new OpenCDXMediaServiceImpl(openCDXMediaRepository);
     }
 
     @AfterEach

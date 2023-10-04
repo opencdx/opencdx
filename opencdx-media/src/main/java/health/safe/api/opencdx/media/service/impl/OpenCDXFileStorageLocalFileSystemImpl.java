@@ -17,14 +17,19 @@ package health.safe.api.opencdx.media.service.impl;
 
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternalServerError;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
+import health.safe.api.opencdx.media.config.ResourceWebConfig;
+import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
+import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Date;
+import java.time.Instant;
 import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -35,11 +40,14 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
     private static final String DOMAIN = "OpenCDXFileStorageLocalFileSystemImpl";
     private final Path fileStorageLocation;
 
+    private final OpenCDXMediaRepository openCDXMediaRepository;
+
     @Autowired
-    public OpenCDXFileStorageLocalFileSystemImpl(Environment env) {
+    public OpenCDXFileStorageLocalFileSystemImpl(Environment env, OpenCDXMediaRepository openCDXMediaRepository) {
         this.fileStorageLocation = Paths.get(env.getProperty("media.upload-dir", "./uploads/files"))
                 .toAbsolutePath()
                 .normalize();
+        this.openCDXMediaRepository = openCDXMediaRepository;
 
         try {
             Files.createDirectories(this.fileStorageLocation);
@@ -59,6 +67,10 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
     @Override
     public boolean storeFile(MultipartFile file, String fileId) {
+        OpenCDXMediaModel media = this.openCDXMediaRepository
+                .findById(new ObjectId(fileId))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find media: " + fileId));
+
         String originalFilename = file.getOriginalFilename();
         if (originalFilename != null && originalFilename.contains("..")) {
             throw new OpenCDXFailedPrecondition(
@@ -71,6 +83,12 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
+            media.setSize(file.getSize());
+            media.setUpdated(Instant.now());
+            media.setMimeType(file.getContentType());
+            media.setEndpoint(ResourceWebConfig.MEDIA_DOWNLOADS + fileName);
+
+            this.openCDXMediaRepository.save(media);
             return true;
         } catch (IOException ex) {
             throw new OpenCDXInternalServerError(DOMAIN, 3, "Failed to store: " + fileName, ex);

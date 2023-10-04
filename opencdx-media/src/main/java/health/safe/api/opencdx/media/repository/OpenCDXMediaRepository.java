@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.media.service;
+package health.safe.api.opencdx.media.repository;
 
-import org.springframework.web.multipart.MultipartFile;
+import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * Interface to implement File Storage Solutions.
+ * Repository for the Media Collection
  */
-public interface OpenCDXFileStorageService {
-    /**
-     * Store a file in the current storage service.
-     * @param file MultipartFile uploaded to the system
-     * @param fileId String identifier for file.
-     * @return String indicating the filename.
-     */
-    public boolean storeFile(MultipartFile file, String fileId);
-}
+@Repository
+public interface OpenCDXMediaRepository extends MongoRepository<OpenCDXMediaModel, ObjectId> {}

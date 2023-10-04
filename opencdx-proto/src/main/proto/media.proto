@@ -34,32 +34,13 @@ enum MediaType {
   MEDIA_TYPE_BYTE_ARRAY = 5; // Media is a data stream
 }
 
-// Media Commands
-enum MediaCommands {
-  MEDIA_COMMANDS_UNSPECIFIED = 0; // Unknown or unspecified command.
-  MEDIA_COMMANDS_CREATE = 1; // Create media.
-  MEDIA_COMMANDS_UPDATE = 2; // Update media.
-  MEDIA_COMMANDS_DELETE = 3; // Delete media.
-}
-
 // Media Status
 enum MediaStatus {
   MEDIA_STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
-  MEDIA_STATUS_CREATING = 1; // Media is being created.
+  MEDIA_STATUS_UPLOADING = 1; // Media is being uploaded
   MEDIA_STATUS_ACTIVE = 2; // Media is active.
-  MEDIA_STATUS_INACTIVE = 3; // Media is inactive.
-  MEDIA_STATUS_UPDATING = 4; // Media is being updated.
-  MEDIA_STATUS_DELETING = 5; // Media is being deleted.
-  MEDIA_STATUS_ERROR = 6; // Error with media.
-}
-
-// Media Events
-enum MediaEvents {
-  MEDIA_EVENTS_UNSPECIFIED = 0; // Unspecified or unknown event
-  MEDIA_EVENTS_UPLOADED = 1; // Media uploaded.
-  MEDIA_EVENTS_CREATED = 2; // Media created.
-  MEDIA_EVENTS_UPDATED = 3; // Media updated.
-  MEDIA_EVENTS_DELETED = 4; // Media deleted.
+  MEDIA_STATUS_DELETED = 3; // Media is being deleted.
+  MEDIA_STATUS_ERROR = 4; // Error with media.
 }
 
 // Request for CreateMedia
@@ -168,13 +149,13 @@ message DeleteMediaResponse {
 // Media data
 message Media {
   // Identifier for this media.
-  string id = 1;
+  optional string id = 1;
 
   // Timestamp indicating when this media was created.
-  google.protobuf.Timestamp created_at = 2;
+  optional google.protobuf.Timestamp created_at = 2;
 
   // Timestamp indicating when this media was last updated.
-  google.protobuf.Timestamp updated_at = 3;
+  optional google.protobuf.Timestamp updated_at = 3;
 
   // Organization slug
   string organization_slug = 4;

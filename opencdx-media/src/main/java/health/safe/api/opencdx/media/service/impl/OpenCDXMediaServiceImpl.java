@@ -16,48 +16,109 @@
 package health.safe.api.opencdx.media.service.impl;
 
 import cdx.media.v2alpha.*;
+import health.safe.api.opencdx.commons.collections.ListUtils;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
+import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
+import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import health.safe.api.opencdx.media.service.OpenCDXMediaService;
 import io.micrometer.observation.annotation.Observed;
+import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for processing HelloWorld Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
 
+    private static final String DOMAIN = "OpenCDXMediaServiceImpl";
+    private final OpenCDXMediaRepository openCDXMediaRepository;
+
     /**
-     * Constructor taking the a PersonRepository
+     * Constructor taking a OpenCDXMediaRepository
      */
     @Autowired
-    public OpenCDXMediaServiceImpl() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    public OpenCDXMediaServiceImpl(OpenCDXMediaRepository openCDXMediaRepository) {
+        this.openCDXMediaRepository = openCDXMediaRepository;
     }
 
     @Override
     public CreateMediaResponse createMedia(CreateMediaRequest request) {
-        return CreateMediaResponse.getDefaultInstance();
+        OpenCDXMediaModel mediaModel = new OpenCDXMediaModel();
+        mediaModel.setName(request.getName());
+        mediaModel.setMediaType(request.getType());
+        mediaModel.setShortDescription(request.getShortDescription());
+        mediaModel.setDescription(request.getDescription());
+        mediaModel.setLabels(new ArrayList<>(request.getLabelsList()));
+        mediaModel.setStatus(MediaStatus.MEDIA_STATUS_UPLOADING);
+        mediaModel = this.openCDXMediaRepository.save(mediaModel);
+
+        return CreateMediaResponse.newBuilder()
+                .setUploadUrl("/media/upload/" + mediaModel.getId().toHexString())
+                .setMedia(mediaModel.getProtobufMessage())
+                .build();
     }
 
     @Override
     public ListMediaResponse listMedia(ListMediaRequest request) {
-        return ListMediaResponse.getDefaultInstance();
+        Page<OpenCDXMediaModel> all =
+                this.openCDXMediaRepository.findAll(PageRequest.of(request.getPageNumber(), request.getPageSize()));
+
+        return ListMediaResponse.newBuilder()
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
+                .setPageSize(request.getPageSize())
+                .setSortAscending(request.getSortAscending())
+                .addAllTemplates(
+                        all.get().map(OpenCDXMediaModel::getProtobufMessage).toList())
+                .build();
     }
 
     @Override
     public GetMediaResponse getMedia(GetMediaRequest request) {
-        return GetMediaResponse.getDefaultInstance();
+        return GetMediaResponse.newBuilder()
+                .setMedia(this.openCDXMediaRepository
+                        .findById(new ObjectId(request.getId()))
+                        .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find media: " + request.getId()))
+                        .getProtobufMessage())
+                .build();
     }
 
     @Override
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request) {
-        return UpdateMediaResponse.getDefaultInstance();
+        OpenCDXMediaModel mediaModel = this.openCDXMediaRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Failed to find media: " + request.getId()));
+
+        mediaModel.setName(request.getName());
+        mediaModel.setShortDescription(request.getShortDescription());
+        mediaModel.setDescription(request.getDescription());
+        mediaModel.setLabels(new ArrayList<>(ListUtils.safe(request.getLabelsList())));
+        mediaModel.setMediaType(request.getType());
+
+        return UpdateMediaResponse.newBuilder()
+                .setMedia(this.openCDXMediaRepository.save(mediaModel).getProtobufMessage())
+                .build();
     }
 
     @Override
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request) {
-        return DeleteMediaResponse.getDefaultInstance();
+        OpenCDXMediaModel mediaModel = this.openCDXMediaRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Failed to find media: " + request.getId()));
+
+        this.openCDXMediaRepository.deleteById(new ObjectId(request.getId()));
+        log.info("Deleted Media: {}", request);
+
+        return DeleteMediaResponse.newBuilder()
+                .setMedia(mediaModel.getProtobufMessage())
+                .build();
     }
 }

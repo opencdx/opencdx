@@ -121,10 +121,10 @@ public class RestMediaController {
      */
     @PostMapping(value = "/upload/{fileId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileUploadResponse> uploadFile(
-            @RequestParam(name = "file", required = false) MultipartFile file,@PathVariable String fileId) {
+            @RequestParam(name = "file", required = false) MultipartFile file, @PathVariable String fileId) {
         return ResponseEntity.ok()
                 .body(FileUploadResponse.builder()
-                        .success(openCDXFileStorageService.storeFile(file,fileId))
+                        .success(openCDXFileStorageService.storeFile(file, fileId))
                         .build());
     }
 }
