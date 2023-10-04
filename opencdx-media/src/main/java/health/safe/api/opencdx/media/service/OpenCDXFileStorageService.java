@@ -15,6 +15,8 @@
  */
 package health.safe.api.opencdx.media.service;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -28,4 +30,12 @@ public interface OpenCDXFileStorageService {
      * @return String indicating the filename.
      */
     public boolean storeFile(MultipartFile file, String fileId);
+
+    /**
+     * Generates response with the file to return.
+     * @param fileId ID of the file
+     * @param extension extension of the file.
+     * @return Response Entity with the file.
+     */
+    ResponseEntity<Resource> readFile(String fileId, String extension);
 }

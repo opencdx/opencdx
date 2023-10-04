@@ -16,19 +16,13 @@
 package health.safe.api.opencdx.media;
 
 import health.safe.api.opencdx.media.config.AppConfig;
-import health.safe.api.opencdx.media.config.ResourceWebConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.accept.ContentNegotiationManager;
-import org.springframework.web.context.support.GenericWebApplicationContext;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.util.UrlPathHelper;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -37,20 +31,8 @@ class ApplicationTests {
     @Autowired
     AppConfig appConfig;
 
-    @Autowired
-    ResourceWebConfig resourceWebConfig;
-
     @Test
     void contextLoads() {
         Assertions.assertNotNull(appConfig);
-    }
-
-    @Test
-    void addResourceHandlers() {
-        GenericWebApplicationContext appContext = new GenericWebApplicationContext();
-        ResourceHandlerRegistry registry = new ResourceHandlerRegistry(
-                appContext, new MockServletContext(), new ContentNegotiationManager(), new UrlPathHelper());
-
-        Assertions.assertDoesNotThrow(() -> resourceWebConfig.addResourceHandlers(registry));
     }
 }

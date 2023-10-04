@@ -60,3 +60,4 @@ Thumbs.db
 /protoc-gen-doc/
 *.hprof
 /opencdx-media/uploads/
+/opencdx-media/media/
