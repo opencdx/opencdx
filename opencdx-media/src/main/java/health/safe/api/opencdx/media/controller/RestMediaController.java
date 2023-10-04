@@ -132,6 +132,12 @@ public class RestMediaController {
                         .build());
     }
 
+    /**
+     * Method to download the files.
+     * @param fileId ID of the file to download
+     * @param ext File extension
+     * @return the File.
+     */
     @GetMapping(value = "/download/{fileId}.{ext}")
     public ResponseEntity<Resource> download(@PathVariable String fileId, @PathVariable String ext) {
         return this.openCDXFileStorageService.readFile(fileId, ext);
