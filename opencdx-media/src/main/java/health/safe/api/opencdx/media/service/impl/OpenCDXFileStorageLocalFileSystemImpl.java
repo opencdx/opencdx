@@ -24,6 +24,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
     }
 
     private String getFileExtension(String fileName) {
-        if (fileName == null) {
+        if (StringUtils.isEmpty(fileName)) {
             return null;
         }
         String[] fileNameParts = fileName.split("\\.");
@@ -58,15 +60,13 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
     @Override
     public boolean storeFile(MultipartFile file) {
-        // Normalize file name
+        if (file.getOriginalFilename().contains("..")) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Filename contains invalid path operator " + file.getOriginalFilename());
+        }
+
         String fileName = new Date().getTime() + "-file." + getFileExtension(file.getOriginalFilename());
 
         try {
-            // Check if the filename contains invalid characters
-            if (fileName.contains("..")) {
-                throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Filename contains invalid path operator " + fileName);
-            }
-
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 

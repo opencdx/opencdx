@@ -32,6 +32,6 @@ public class ResourceWebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         String location = environment.getProperty("media.upload-dir", "./uploads/files");
 
-        registry.addResourceHandler("/uploads/**").addResourceLocations(location);
+        registry.addResourceHandler("/media/downloads/**").addResourceLocations(location);
     }
 }

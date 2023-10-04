@@ -16,12 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -107,5 +112,29 @@ class RestMediaControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         Assertions.assertEquals("{\"pageSize\":0,\"pageNumber\":0,\"sortAscending\":false,\"pageCount\":0,\"templates\":[]}", content);
+    }
+
+    @Test
+    void upload() throws Exception {
+        MockMultipartFile jsonFile = new MockMultipartFile("file","1234567890.json","application/json", "{\"key1\": \"value1\"}".getBytes());
+
+        this.mockMvc.perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void uploadFail_1() throws Exception {
+        MockMultipartFile jsonFile = new MockMultipartFile("file","..1234567890.json","application/json", "{\"key1\": \"value1\"}".getBytes());
+
+        this.mockMvc.perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    void uploadFail_2() throws Exception {
+        MockMultipartFile jsonFile = new MockMultipartFile("file",null,"application/json", "{\"key1\": \"value1\"}".getBytes());
+
+        this.mockMvc.perform(multipart("/media/upload").file(jsonFile).characterEncoding("UTF-8"))
+                .andExpect(status().isOk());
     }
 }

@@ -120,7 +120,7 @@ public class RestMediaController {
      * @param file Multipart file as RequestParam "file"
      * @return FileUploadResponse indicating if successful.
      */
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileUploadResponse> uploadFile(
             @RequestParam(name = "file", required = false) MultipartFile file) {
         return ResponseEntity.ok()
