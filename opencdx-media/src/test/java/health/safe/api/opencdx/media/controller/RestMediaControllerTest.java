@@ -175,6 +175,7 @@ class RestMediaControllerTest {
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
     }
+
     @Test
     void download() throws Exception {
         Assertions.assertNotNull(new FileUploadResponse());
@@ -184,8 +185,10 @@ class RestMediaControllerTest {
                     @Override
                     public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(
-                                OpenCDXMediaModel.builder().id(argument).mimeType("application/json").build());
+                        return Optional.of(OpenCDXMediaModel.builder()
+                                .id(argument)
+                                .mimeType("application/json")
+                                .build());
                     }
                 });
 
@@ -194,9 +197,7 @@ class RestMediaControllerTest {
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload/" + fileId)
-                        .file(jsonFile)
-                        .characterEncoding("UTF-8"))
+                .perform(multipart("/media/upload/" + fileId).file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
 
         MvcResult result = this.mockMvc
@@ -205,7 +206,6 @@ class RestMediaControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         Assertions.assertNotNull(content);
-
     }
 
     @Test
