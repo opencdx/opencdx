@@ -18,6 +18,9 @@ package health.safe.api.opencdx.client.service;
 import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 
+/**
+ * Interface for the Open CDX Communication Client.
+ */
 public interface OpenCDXCommunicationClient {
     /**
      * Create an Email Template
