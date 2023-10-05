@@ -1,0 +1,226 @@
+syntax = "proto3";
+
+package cdx.media.v2alpha;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+
+// Service Definition
+service IamUserService {
+  // Sign up a new user.
+  rpc SignUp(SignUpRequest) returns (SignUpResponse);
+
+  // List IAM users with pagination and sorting options.
+  rpc ListIamUsers(ListIamUsersRequest) returns (ListIamUsersResponse);
+
+  // Get an IAM user by their unique ID.
+  rpc GetIamUser(GetIamUserRequest) returns (GetIamUserResponse);
+
+  // Update an existing IAM user.
+  rpc UpdateIamUser(UpdateIamUserRequest) returns (UpdateIamUserResponse);
+
+  // Change the password of an IAM user.
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+
+  // Delete an IAM user by their unique ID.
+  rpc DeleteIamUser(DeleteIamUserRequest) returns (DeleteIamUserResponse);
+
+  // Check if an IAM user with a given ID exists.
+  rpc UserExists(UserExistsRequest) returns (UserExistsResponse);
+}
+
+// Enum for IAM User Types
+enum IamUserType {
+  // Default or unspecified IAM user type.
+  IAM_USER_TYPE_UNSPECIFIED = 0;
+
+  // Regular IAM user type.
+  IAM_USER_TYPE_REGULAR = 1;
+
+  // System IAM user type.
+  IAM_USER_TYPE_SYSTEM = 2;
+
+  // Trial IAM user type.
+  IAM_USER_TYPE_TRIAL = 3;
+}
+
+// Enum for IAM User Status
+enum IamUserStatus {
+  // Default or unspecified IAM user status.
+  IAM_USER_STATUS_UNSPECIFIED = 0;
+
+  // Active IAM user status.
+  IAM_USER_STATUS_ACTIVE = 1;
+
+  // Inactive IAM user status.
+  IAM_USER_STATUS_INACTIVE = 2;
+
+  // Deleted IAM user status.
+  IAM_USER_STATUS_DELETED = 3;
+}
+
+// Request message for user sign-up.
+message SignUpRequest {
+  // Type of IAM user (e.g., Regular, System, Trial).
+  IamUserType type = 1;
+
+  // First name of the user.
+  string first_name = 2;
+
+  // Last name of the user.
+  string last_name = 3;
+
+  // System name for the user.
+  string system_name = 4;
+
+  // Email address of the user.
+  string email = 5;
+
+  // Password for the user account.
+  string password = 6;
+}
+
+// Response message for user sign-up.
+message SignUpResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Request message for listing IAM users with pagination and sorting.
+message ListIamUsersRequest {
+  // Size of each page in the result.
+  int32 page_size = 1;
+
+  // Page number being requested.
+  int32 page_number = 2;
+
+  // Indicates whether the results should be sorted in ascending order.
+  bool sort_ascending = 3;
+}
+
+// Response message for listing IAM users with pagination and sorting.
+message ListIamUsersResponse {
+  // Size of each page in the result.
+  int32 page_size = 1;
+
+  // Page number being requested.
+  int32 page_number = 2;
+
+  // Indicates whether the results should be sorted in ascending order.
+  bool sort_ascending = 3;
+
+  // Total number of available pages.
+  int32 page_count = 4;
+
+  // List of IAM users.
+  repeated IamUser iam_users = 5;
+}
+
+// Request message for getting an IAM user by ID.
+message GetIamUserRequest {
+  // Unique ID of the IAM user.
+  string id = 1;
+}
+
+// Response message for getting an IAM user by ID.
+message GetIamUserResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Request message for updating an IAM user.
+message UpdateIamUserRequest {
+  // Updated IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Response message for updating an IAM user.
+message UpdateIamUserResponse {
+  // Updated IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Request message for changing a user's password.
+message ChangePasswordRequest {
+  // User ID for which the password is being changed.
+  string id = 1;
+
+  // User's old password.
+  string old_password = 2;
+
+  // New password for the user.
+  string new_password = 3;
+
+  // Confirmation of the new password.
+  string new_password_confirmation = 4;
+}
+
+// Response message for changing a user's password.
+message ChangePasswordResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Request message for deleting an IAM user by ID.
+message DeleteIamUserRequest {
+  // Unique ID of the IAM user to be deleted.
+  string id = 1;
+}
+
+// Response message for deleting an IAM user by ID.
+message DeleteIamUserResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Request message to check if an IAM user with a given ID exists.
+message UserExistsRequest {
+  // ID of the IAM user to check for existence.
+  string id = 1;
+}
+
+// Response message for checking if an IAM user with a given ID exists.
+message UserExistsResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
+}
+
+// Message representing an IAM user.
+message IamUser {
+  // Connection ID of the user.
+  string connection_id = 1;
+
+  // Unique ID of the user.
+  string id = 2;
+
+  // Timestamp when the user was created.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Timestamp when the user was last updated.
+  google.protobuf.Timestamp updated_at = 4;
+
+  // First name of the user.
+  string first_name = 5;
+
+  // Last name of the user.
+  string last_name = 6;
+
+  // Email address of the user.
+  string email = 7;
+
+  // Indicates whether the user's email is verified.
+  bool email_verified = 8;
+
+  // Status of the user (e.g., Active, Inactive, Deleted).
+  IamUserStatus status = 9;
+
+  // Additional details about the user's status.
+  string status_details = 10;
+
+  // Type of IAM user (e.g., Regular, System, Trial).
+  IamUserType type = 11;
+
+  // Phone number of the user.
+  string phone = 12;
+}
