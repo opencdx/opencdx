@@ -17,7 +17,9 @@ package health.safe.api.opencdx.client.config;
 
 import cdx.media.v2alpha.MediaServiceGrpc;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
+import cdx.open_communication.v2alpha.CommunicationServiceGrpc;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
+import health.safe.api.opencdx.client.service.OpenCDXCommunicationClient;
 import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
 import health.safe.api.opencdx.client.service.OpenCDXMediaClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
@@ -117,6 +119,21 @@ class ClientConfigTest {
                 .run(context -> {
                     OpenCDXMediaClient mediaClient = context.getBean(OpenCDXMediaClient.class);
                     Assertions.assertNotNull(mediaClient);
+                });
+    }
+
+    @Test
+    void communicationClient() {
+        final ApplicationContextRunner contextRunner = new ApplicationContextRunner();
+
+        contextRunner
+                .withPropertyValues("opencdx.client.communication=true")
+                .withUserConfiguration(ClientConfig.class)
+                .withBean(
+                        CommunicationServiceGrpc.CommunicationServiceBlockingStub.class, this.channel, this.callOptions)
+                .run(context -> {
+                    OpenCDXCommunicationClient communicationClient = context.getBean(OpenCDXCommunicationClient.class);
+                    Assertions.assertNotNull(communicationClient);
                 });
     }
 }
