@@ -18,12 +18,6 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:${grpcVersion}")
     implementation("io.grpc:grpc-stub:${grpcVersion}")
 
-    testImplementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
-    testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDataTypeJsr310}"
-    testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
-    testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-
     compileOnly("jakarta.annotation:jakarta.annotation-api:${jakartaAnnotationApiVersion}")
 }
 
