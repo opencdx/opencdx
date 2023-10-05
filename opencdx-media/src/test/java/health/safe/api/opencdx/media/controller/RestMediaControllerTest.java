@@ -22,6 +22,7 @@ import cdx.media.v2alpha.CreateMediaRequest;
 import cdx.media.v2alpha.ListMediaRequest;
 import cdx.media.v2alpha.UpdateMediaRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.media.dto.FileUploadResponse;
 import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
 import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
 import java.util.Collections;
@@ -173,6 +174,38 @@ class RestMediaControllerTest {
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void download() throws Exception {
+        Assertions.assertNotNull(new FileUploadResponse());
+        Mockito.reset(this.openCDXMediaRepository);
+        Mockito.when(this.openCDXMediaRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXMediaModel>>() {
+                    @Override
+                    public Optional<OpenCDXMediaModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXMediaModel.builder()
+                                .id(argument)
+                                .mimeType("application/json")
+                                .build());
+                    }
+                });
+
+        String fileId = ObjectId.get().toHexString();
+        MockMultipartFile jsonFile = new MockMultipartFile(
+                "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
+
+        this.mockMvc
+                .perform(multipart("/media/upload/" + fileId).file(jsonFile).characterEncoding("UTF-8"))
+                .andExpect(status().isOk());
+
+        MvcResult result = this.mockMvc
+                .perform(get("/media/download/" + fileId + ".json").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
     }
 
     @Test

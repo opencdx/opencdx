@@ -15,7 +15,10 @@
  */
 package health.safe.api.opencdx.commons.exceptions;
 
+import com.google.protobuf.Any;
 import com.google.rpc.Code;
+import com.google.rpc.ErrorInfo;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -72,6 +75,14 @@ class OpenCDXAbortedTest {
     void testStatus() {
         OpenCDXException exception = new OpenCDXAborted("TEST", 1, "Message");
         Assertions.assertNotNull(exception.getGrpcStatus(null));
+    }
+
+    @Test
+    void testStatusWithDetails() {
+        OpenCDXException exception = new OpenCDXAborted("TEST", 1, "Message");
+        ArrayList<Any> details = new ArrayList<>();
+        details.add(Any.pack(ErrorInfo.newBuilder().build()));
+        Assertions.assertNotNull(exception.getGrpcStatus(details));
     }
 
     @Test
