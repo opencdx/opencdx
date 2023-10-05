@@ -177,7 +177,7 @@ message ConnectedTest {
 }
 
 /**
-Request Message to list NotificationConnectedTests
+Request Message to list NotificationConnectedTests by userid
  */
 message ConnectedTestListRequest{
   int32 page_size = 1; // Size of each page.
@@ -185,6 +185,28 @@ message ConnectedTestListRequest{
   bool sort_ascending = 3; // indicating if the results should ascending.
   string  userId = 4; // UUID of user
 }
+
+/**
+Request Message to list NotificationConnectedTests by National health id
+ */
+message ConnectedTestListByNHIDRequest{
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool  sort_ascending = 3; // indicating if the results should ascending.
+  int32 nationalHealthId = 4; // national health id of user
+}
+
+/**
+Response containing the requested list of connected tests for a specific national health id
+ */
+message ConnectedTestListByNHIDResponse {
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
+  int32 page_count = 4; // Total number of available pages.
+  repeated ConnectedTest connected_tests = 5;
+}
+
 /**
 Response containing the requested list of connected tests for a specific user
  */
@@ -205,4 +227,7 @@ service HealthcareService {
 
   // Retrieve a list of connected tests by userid
   rpc ListConnectedTests(ConnectedTestListRequest) returns (ConnectedTestListResponse);
+
+  // Retrieve a list of connected tests by national health id
+  rpc ListConnectedTestsByNHID(ConnectedTestListByNHIDRequest) returns (ConnectedTestListByNHIDResponse);
 }

@@ -254,6 +254,11 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.listEmailTemplates(Mockito.any(EmailTemplateListRequest.class)))
                 .thenReturn(response);
         Assertions.assertNotNull(this.client.listEmailTemplates(request));
+
+        Mockito.when(this.blockingStub.listEmailTemplates(Mockito.any(EmailTemplateListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        Notification notification = Notification.newBuilder().build();
+        Assertions.assertThrows(OpenCDXClientException.class, () -> this.client.listEmailTemplates(request));
     }
 
     @Test
@@ -263,6 +268,11 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.listSMSTemplates(Mockito.any(SMSTemplateListRequest.class)))
                 .thenReturn(response);
         Assertions.assertNotNull(this.client.listSMSTemplates(request));
+
+        Mockito.when(this.blockingStub.listSMSTemplates(Mockito.any(SMSTemplateListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        Notification notification = Notification.newBuilder().build();
+        Assertions.assertThrows(OpenCDXClientException.class, () -> this.client.listSMSTemplates(request));
     }
 
     @Test
@@ -274,5 +284,10 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.listNotificationEvents(Mockito.any(NotificationEventListRequest.class)))
                 .thenReturn(response);
         Assertions.assertNotNull(this.client.listNotificationEvents(request));
+
+        Mockito.when(this.blockingStub.listNotificationEvents(Mockito.any(NotificationEventListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        Notification notification = Notification.newBuilder().build();
+        Assertions.assertThrows(OpenCDXClientException.class, () -> this.client.listNotificationEvents(request));
     }
 }
