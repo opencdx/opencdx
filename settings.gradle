@@ -21,6 +21,7 @@ include('opencdx-helloworld',
         'opencdx-audit',
         'opencdx-communications',
         'opencdx-media',
-        'opencdx-connected-test'
+        'opencdx-connected-test',
+        'opencdx-iam'
 )
 
