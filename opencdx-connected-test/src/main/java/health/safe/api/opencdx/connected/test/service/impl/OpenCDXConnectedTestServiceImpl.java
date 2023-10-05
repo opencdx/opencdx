@@ -37,7 +37,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing connected test Requests
  */
 @Slf4j
 @Service
@@ -133,6 +133,32 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         log.info("found database results");
 
         return ConnectedTestListResponse.newBuilder()
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
+                .setPageSize(request.getPageSize())
+                .setSortAscending(request.getSortAscending())
+                .addAllConnectedTests(
+                        all.get().map(OpenCDXConnectedTest::getProtobufMessage).toList())
+                .build();
+    }
+
+    /**
+     * Retrieve a list of connected tests by national health id
+     *
+     * @param request Request message containing the pageable information and user to request records on.
+     * @return Response containing the indicated page of recards.
+     */
+    @Override
+    public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(ConnectedTestListByNHIDRequest request) {
+
+        Integer nationalHealthId = request.getNationalHealthId();
+
+        log.info("Searching Database");
+        Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+                nationalHealthId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        log.info("found database results");
+
+        return ConnectedTestListByNHIDResponse.newBuilder()
                 .setPageCount(all.getTotalPages())
                 .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())

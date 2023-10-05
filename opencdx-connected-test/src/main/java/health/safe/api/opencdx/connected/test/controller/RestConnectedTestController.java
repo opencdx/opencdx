@@ -78,12 +78,26 @@ public class RestConnectedTestController {
      * List Connected tests
      *
      * @param connectedTestListRequest request for Connected Tests.
-     * @return the requested NotificationEvents.
+     * @return the requested connected tests.
      */
     @PostMapping("/list")
     public ResponseEntity<ConnectedTestListResponse> listConnectedTests(
             @RequestBody ConnectedTestListRequest connectedTestListRequest) {
         return new ResponseEntity<>(
                 this.openCDXConnectedTestService.listConnectedTests(connectedTestListRequest), HttpStatus.OK);
+    }
+
+    /**
+     * List Connected tests by national health id
+     *
+     * @param connectedTestListByNHIDRequest request for Connected Tests.
+     * @return the requested connected tests
+     */
+    @PostMapping("/listbynhid")
+    public ResponseEntity<ConnectedTestListByNHIDResponse> listConnectedTestsByNHID(
+            @RequestBody ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest) {
+        return new ResponseEntity<>(
+                this.openCDXConnectedTestService.listConnectedTestsByNHID(connectedTestListByNHIDRequest),
+                HttpStatus.OK);
     }
 }
