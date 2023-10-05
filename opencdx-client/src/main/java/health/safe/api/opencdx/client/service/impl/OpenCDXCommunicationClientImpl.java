@@ -22,6 +22,7 @@ import health.safe.api.opencdx.client.service.OpenCDXCommunicationClient;
 import io.grpc.StatusRuntimeException;
 import java.util.ArrayList;
 
+@SuppressWarnings("java:S1192")
 public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClient {
 
     private final CommunicationServiceGrpc.CommunicationServiceBlockingStub blockingStub;
@@ -58,8 +59,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXClientException {
-        try  {
-            return blockingStub.getEmailTemplate(TemplateRequest.newBuilder().build());
+        try {
+            return blockingStub.getEmailTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 2, e.getMessage(), new ArrayList<>(), e);
@@ -76,8 +77,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXClientException {
-        try  {
-            return blockingStub.updateEmailTemplate(EmailTemplate.newBuilder().build());
+        try {
+            return blockingStub.updateEmailTemplate(emailTemplate);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 3, e.getMessage(), new ArrayList<>(), e);
@@ -93,8 +94,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXClientException {
-        try  {
-            return blockingStub.deleteEmailTemplate(TemplateRequest.newBuilder().build());
+        try {
+            return blockingStub.deleteEmailTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 3, e.getMessage(), new ArrayList<>(), e);
@@ -110,8 +111,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXClientException {
-        try  {
-            return blockingStub.createSMSTemplate(SMSTemplate.newBuilder().build());
+        try {
+            return blockingStub.createSMSTemplate(smsTemplate);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 4, e.getMessage(), new ArrayList<>(), e);
@@ -127,8 +128,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXClientException {
-        try  {
-            return blockingStub.getSMSTemplate(TemplateRequest.newBuilder().build());
+        try {
+            return blockingStub.getSMSTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 5, e.getMessage(), new ArrayList<>(), e);
@@ -145,8 +146,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXClientException {
-        try  {
-            return blockingStub.updateSMSTemplate(SMSTemplate.newBuilder().build());
+        try {
+            return blockingStub.updateSMSTemplate(smsTemplate);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 6, e.getMessage(), new ArrayList<>(), e);
@@ -162,8 +163,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXClientException {
-        try  {
-            return blockingStub.deleteSMSTemplate(TemplateRequest.newBuilder().build());
+        try {
+            return blockingStub.deleteSMSTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 7, e.getMessage(), new ArrayList<>(), e);
@@ -178,9 +179,10 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * @throws OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
     @Override
-    public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXClientException {
-        try  {
-            return blockingStub.createNotificationEvent(NotificationEvent.newBuilder().build());
+    public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent)
+            throws OpenCDXClientException {
+        try {
+            return blockingStub.createNotificationEvent(notificationEvent);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 8, e.getMessage(), new ArrayList<>(), e);
@@ -196,8 +198,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXClientException {
-        try  {
-            return blockingStub.getNotificationEvent(TemplateRequest.newBuilder().build());
+        try {
+            return blockingStub.getNotificationEvent(templateRequest);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 9, e.getMessage(), new ArrayList<>(), e);
@@ -213,9 +215,10 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * @throws OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
     @Override
-    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXClientException {
-        try  {
-            return blockingStub.updateNotificationEvent(NotificationEvent.newBuilder().build());
+    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
+            throws OpenCDXClientException {
+        try {
+            return blockingStub.updateNotificationEvent(notificationEvent);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 10, e.getMessage(), new ArrayList<>(), e);
@@ -231,8 +234,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXClientException {
-        try  {
-            return blockingStub.deleteNotificationEvent(TemplateRequest.newBuilder().build());
+        try {
+            return blockingStub.deleteNotificationEvent(templateRequest);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 11, e.getMessage(), new ArrayList<>(), e);
@@ -250,8 +253,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SuccessResponse sendNotification(Notification notification) throws OpenCDXClientException {
-        try  {
-            return blockingStub.sendNotification(Notification.newBuilder().build());
+        try {
+            return blockingStub.sendNotification(notification);
         } catch (StatusRuntimeException e) {
             throw new OpenCDXClientException(
                     Code.INTERNAL, "CommunicationClientImpl", 12, e.getMessage(), new ArrayList<>(), e);
@@ -266,7 +269,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
-        return blockingStub.listSMSTemplates(SMSTemplateListRequest.newBuilder().build());
+        return blockingStub.listSMSTemplates(request);
     }
 
     /**
@@ -277,7 +280,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
-        return blockingStub.listEmailTemplates(EmailTemplateListRequest.newBuilder().build());
+        return blockingStub.listEmailTemplates(request);
     }
 
     /**
@@ -288,6 +291,6 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      */
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
-        return blockingStub.listNotificationEvents(NotificationEventListRequest.newBuilder().build());
+        return blockingStub.listNotificationEvents(request);
     }
 }

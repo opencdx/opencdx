@@ -148,4 +148,3 @@ public interface OpenCDXCommunicationClient {
      */
     NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request);
 }
-
