@@ -116,8 +116,10 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, FAILED_TO_FIND_MEDIA + request.getId()));
 
-        this.openCDXMediaRepository.deleteById(new ObjectId(request.getId()));
-        log.info("Deleted Media: {}", request);
+        mediaModel.setStatus(MediaStatus.MEDIA_STATUS_DELETED);
+
+        mediaModel = this.openCDXMediaRepository.save(mediaModel);
+        log.info("Deleted Media: {}", request.getId());
 
         return DeleteMediaResponse.newBuilder()
                 .setMedia(mediaModel.getProtobufMessage())

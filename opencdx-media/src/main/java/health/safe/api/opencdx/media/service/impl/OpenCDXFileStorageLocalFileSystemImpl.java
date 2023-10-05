@@ -15,8 +15,10 @@
  */
 package health.safe.api.opencdx.media.service.impl;
 
+import cdx.media.v2alpha.MediaStatus;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXForbidden;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.media.model.OpenCDXMediaModel;
@@ -95,6 +97,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
             media.setUpdated(Instant.now());
             media.setMimeType(file.getContentType());
             media.setEndpoint("/media/download/" + fileName);
+            media.setStatus(MediaStatus.MEDIA_STATUS_ACTIVE);
             log.info("Download Endpoint: {}", media.getEndpoint());
             this.openCDXMediaRepository.save(media);
             return true;
@@ -120,6 +123,10 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
         String fileName = fileId + "." + extension;
         File file = this.fileStorageLocation.resolve(fileName).toFile();
+
+        if (!media.getStatus().equals(MediaStatus.MEDIA_STATUS_ACTIVE)) {
+            throw new OpenCDXForbidden(DOMAIN, 6, "Resource Not Available: " + fileId);
+        }
 
         try {
             return ResponseEntity.ok()

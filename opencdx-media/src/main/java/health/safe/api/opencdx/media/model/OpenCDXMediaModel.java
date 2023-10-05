@@ -98,6 +98,7 @@ public class OpenCDXMediaModel {
      * Method to generate an Protobuf equivalent message
      * @return Media as the protobuf message.
      */
+    @SuppressWarnings("java:S3776")
     public Media getProtobufMessage() {
         Media.Builder builder = Media.newBuilder();
 
@@ -150,6 +151,9 @@ public class OpenCDXMediaModel {
         }
         if (this.endpoint != null) {
             builder.setEndpoint(this.endpoint);
+        }
+        if (this.status != null) {
+            builder.setStatus(this.status);
         }
         return builder.build();
     }

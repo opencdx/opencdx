@@ -16,3 +16,4 @@ _**Links are part of the build not available from GitHub.**_
 - [API-DOCS](http://localhost:8480/api-docs)
 - [API-DOCS YAML](http://localhost:8480/api-docs.yaml)
 ## Interfaces
+**OpenCDXFileStorageService** - Interface for implementing the file storage service to be used for storing files. Current implementation stores the files on the local file system.

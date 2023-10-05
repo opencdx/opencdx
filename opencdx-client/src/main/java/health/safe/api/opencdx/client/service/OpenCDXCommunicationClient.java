@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package health.safe.api.opencdx.communications.service;
+package health.safe.api.opencdx.client.service;
 
 import cdx.open_communication.v2alpha.*;
 import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
-import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
 
 /**
- * Interface for the OpenCDXCommunicationService
+ * Interface for the Open CDX Communication Client.
  */
-public interface OpenCDXCommunicationService {
-
+public interface OpenCDXCommunicationClient {
     /**
      * Create an Email Template
      * @param emailTemplate EmailTemplate to create.
      * @return the created EmailTemplate.
-     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException Failed to convert to JSON
      */
     EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXClientException;
 
@@ -39,106 +34,102 @@ public interface OpenCDXCommunicationService {
      * Retrieve an Email Template
      * @param templateRequest Request ID of email template to retrieve.
      * @return the requested EmailTemplate.
-     * @exception OpenCDXNotFound Template with requested ID not found.
+     * @exception OpenCDXClientException Template with requested ID not found.
      */
-    EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
+    EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXClientException;
 
     /**
      * Update an Email Template
      * @param emailTemplate Updated EmailTemplate.
      * @return updated EmailTemplate.
-     * @exception OpenCDXFailedPrecondition Missing template id.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXFailedPrecondition Missing template id.
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
-            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
+    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXClientException;
 
     /**
      * Delete an Email Template
      * @param templateRequest Request ID of the email template to delete
      * @return SuccessResponse indicating if the action was successful.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
+    SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXClientException;
 
     /**
      * Create an SMS Template
      * @param smsTemplate SMSTemplate to create
      * @return the created SMSTemplate.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable;
+    SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXClientException;
 
     /**
      * Get an SMS Template
      * @param templateRequest Request ID of the SMSTemplate to retrieve.
      * @return the requested SMSTemplate
-     * @exception OpenCDXNotFound Template with requested ID not found.
+     * @exception OpenCDXClientException OpenCDXNotFound Template with requested ID not found.
      */
-    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound, OpenCDXNotAcceptable;
+    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXClientException;
 
     /**
      * Update SMS Template
      * @param smsTemplate SMSTemplate to update.
      * @return the updated SMSTemplate.
-     * @exception OpenCDXFailedPrecondition Missing template id.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXFailedPrecondition Missing template id.
+     * @exception OpenCDXClientException Failed to convert to JSON
      */
-    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
+    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXClientException;
 
     /**
      * Delete SMS Template
      * @param templateRequest Request ID of the SMSTemplate to delete.
      * @return SuccessResponse indicating if the action was successful.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
+    SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXClientException;
 
     /**
      * Create a Notification Event
      * @param notificationEvent NotificationEvent to create.
      * @return the created NotificationEvent.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable;
+    NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXClientException;
 
     /**
      * Get a Notification Event
      * @param templateRequest Request ID of the NotificationEvent to retrieve.
      * @return the requested NotificationEvent.
-     * @exception OpenCDXNotFound Template with requested ID not found.
+     * @exception OpenCDXClientException OpenCDXNotFound Template with requested ID not found.
      */
-    NotificationEvent getNotificationEvent(TemplateRequest templateRequest)
-            throws OpenCDXNotFound, OpenCDXNotAcceptable;
+    NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXClientException;
 
     /**
      * Update Notification Event
      * @param notificationEvent NotificationEvent to update.
      * @return the updated NotificationEvent.
-     * @exception OpenCDXFailedPrecondition Missing event id.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXFailedPrecondition Missing event id.
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
-            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
+    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXClientException;
 
     /**
      * Delete Notification Event
      * @param templateRequest Request ID of NotificationEvent to delete.
      * @return SuccessResponse indicating if the action was successful.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
+    SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXClientException;
 
     /**
      * Send Notification
      * @param notification Notification information to trigger.
      * @return SuccessResponse indicating if the action was successful.
-     * @exception OpenCDXNotFound Template not found
-     * @exception OpenCDXFailedPrecondition Missing variable from data for substitution.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotFound Template not found
+     * @exception OpenCDXClientException OpenCDXFailedPrecondition Missing variable from data for substitution.
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse sendNotification(Notification notification)
-            throws OpenCDXFailedPrecondition, OpenCDXNotFound, OpenCDXNotAcceptable;
+    SuccessResponse sendNotification(Notification notification) throws OpenCDXClientException;
 
     /**
      * List of all SMSTemplates
@@ -159,10 +150,4 @@ public interface OpenCDXCommunicationService {
      * @return requested NotificationEvent with page, sorting, and page size
      */
     NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request);
-
-    /**
-     * Process and send the Notificaiton
-     * @param openCDXNotificationModel OpenCDXNotificaitonModel to process.
-     */
-    void processOpenCDXNotification(OpenCDXNotificationModel openCDXNotificationModel);
 }
