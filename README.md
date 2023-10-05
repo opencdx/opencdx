@@ -58,6 +58,11 @@ For the latest command line options please use:
 
 `./deploy.sh --help`
 
+## JMeter Testing
+1. Download the latest version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi)
+2. Place Apache JMeter on your environment PATH
+3. Install Apache JMeter plugin `JMeter gRPC Request`
+
 ## Support Team
 
 [Avengers (cs@safehealth.me)](mailto:cs@safehealth.me)
