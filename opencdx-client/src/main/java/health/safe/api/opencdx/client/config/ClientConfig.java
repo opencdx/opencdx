@@ -17,10 +17,13 @@ package health.safe.api.opencdx.client.config;
 
 import cdx.media.v2alpha.MediaServiceGrpc;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
+import cdx.open_communication.v2alpha.CommunicationServiceGrpc;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
+import health.safe.api.opencdx.client.service.OpenCDXCommunicationClient;
 import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
 import health.safe.api.opencdx.client.service.OpenCDXMediaClient;
 import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientImpl;
+import health.safe.api.opencdx.client.service.impl.OpenCDXCommunicationClientImpl;
 import health.safe.api.opencdx.client.service.impl.OpenCDXHelloworldClientImpl;
 import health.safe.api.opencdx.client.service.impl.OpenCDXMediaClientImpl;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
@@ -71,5 +74,15 @@ public class ClientConfig {
     OpenCDXMediaClient mediaClient(
             @GrpcClient("media-service") MediaServiceGrpc.MediaServiceBlockingStub mediaServiceBlockingStub) {
         return new OpenCDXMediaClientImpl(mediaServiceBlockingStub);
+    }
+
+    @Bean
+    @Description("gRPC Client for Communication")
+    @ConditionalOnProperty(prefix = "opencdx.client", name = "communication", havingValue = "true")
+    OpenCDXCommunicationClient communicationClient(
+            @Value("${spring.application.name}") String applicationName,
+            @GrpcClient("communicaton-service")
+                    CommunicationServiceGrpc.CommunicationServiceBlockingStub communicationServiceBlockingStub) {
+        return new OpenCDXCommunicationClientImpl(communicationServiceBlockingStub);
     }
 }
