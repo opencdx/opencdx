@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.iam.service.HelloWorldService;
+import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.micrometer.observation.annotation.Observed;
@@ -39,17 +39,17 @@ import org.springframework.web.bind.annotation.RestController;
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
-public class RestHelloWorldController {
+public class OpenCDXIAMUserRestController {
 
-    private final HelloWorldService helloWorldService;
+    private final OpenCDXIAMUserService openCDXIAMUserService;
 
     /**
-     * Constructor that takes a HelloWorldService
-     * @param helloWorldService service for processing requests.
+     * Constructor that takes a OpenCDXIAMUserService
+     * @param openCDXIAMUserService service for processing requests.
      */
     @Autowired
-    public RestHelloWorldController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
+    public OpenCDXIAMUserRestController(OpenCDXIAMUserService openCDXIAMUserService) {
+        this.openCDXIAMUserService = openCDXIAMUserService;
     }
 
     /**
@@ -62,7 +62,7 @@ public class RestHelloWorldController {
 
         return new ResponseEntity<>(
                 HelloReply.newBuilder()
-                        .setMessage(helloWorldService.sayHello(request))
+                        .setMessage(openCDXIAMUserService.sayHello(request))
                         .build(),
                 HttpStatus.OK);
     }

@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.iam.service.HelloWorldService;
+import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
@@ -31,17 +31,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
-public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
+public class OpenCDXIAMUserGrpcController extends GreeterGrpc.GreeterImplBase {
 
-    private final HelloWorldService helloWorldService;
+    private final OpenCDXIAMUserService openCDXIAMUserService;
 
     /**
      * Constructor using the HelloworldService
-     * @param helloWorldService service to use for processing
+     * @param openCDXIAMUserService service to use for processing
      */
     @Autowired
-    public GrpcHelloWorldController(HelloWorldService helloWorldService) {
-        this.helloWorldService = helloWorldService;
+    public OpenCDXIAMUserGrpcController(OpenCDXIAMUserService openCDXIAMUserService) {
+        this.openCDXIAMUserService = openCDXIAMUserService;
     }
 
     /**
@@ -53,7 +53,7 @@ public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
 
         HelloReply reply = HelloReply.newBuilder()
-                .setMessage(this.helloWorldService.sayHello(request))
+                .setMessage(this.openCDXIAMUserService.sayHello(request))
                 .build();
 
         responseObserver.onNext(reply);

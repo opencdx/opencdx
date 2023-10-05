@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.controller;
+package cdx.opencdx.iam.service.impl;
 
-import cdx.opencdx.iam.model.Person;
-import cdx.opencdx.iam.repository.PersonRepository;
-import cdx.opencdx.iam.service.impl.HelloWorldServiceImpl;
+import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
-import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,24 +33,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class GrpcHelloWorldControllerTest {
-
-    @Autowired
-    OpenCDXAuditService openCDXAuditService;
+class OpenCDXIAMUserServiceImplTest {
 
     @Mock
     PersonRepository personRepository;
 
-    HelloWorldServiceImpl helloWorldService;
+    OpenCDXIAMUserService openCDXIAMUserService;
 
-    GrpcHelloWorldController grpcHelloWorldController;
+    @Autowired
+    OpenCDXAuditService openCDXAuditService;
 
     @BeforeEach
-    void setUp() {
+    void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService);
-        this.grpcHelloWorldController = new GrpcHelloWorldController(this.helloWorldService);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(this.personRepository, this.openCDXAuditService);
     }
 
     @AfterEach
@@ -63,14 +55,12 @@ class GrpcHelloWorldControllerTest {
     }
 
     @Test
-    void sayHello() {
-        StreamObserver<HelloReply> responseObserver = Mockito.mock(StreamObserver.class);
-        HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
-        HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
-
-        this.grpcHelloWorldController.sayHello(helloRequest, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(helloReply);
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    void testSayHello() {
+        Person person = new Person();
+        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
+        Assertions.assertEquals(
+                "Hello Bob!",
+                this.openCDXIAMUserService.sayHello(
+                        HelloRequest.newBuilder().setName(" Bob ").build()));
     }
 }

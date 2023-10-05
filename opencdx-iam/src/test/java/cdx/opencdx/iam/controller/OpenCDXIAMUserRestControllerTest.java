@@ -18,8 +18,6 @@ package cdx.opencdx.iam.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.opencdx.iam.model.Person;
-import cdx.opencdx.iam.repository.PersonRepository;
 import io.nats.client.Connection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -43,7 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class RestHelloWorldControllerTest {
+class OpenCDXIAMUserRestControllerTest {
 
     @Autowired
     private WebApplicationContext context;

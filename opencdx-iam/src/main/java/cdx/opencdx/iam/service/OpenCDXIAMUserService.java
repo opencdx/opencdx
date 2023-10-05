@@ -13,32 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package cdx.opencdx.iam.service;
 
 /**
- * Person record from database.
+ * Interface for the OpenCDXIAMUserService
  */
-@Data
-@AllArgsConstructor
-@Builder
-@Document("persons")
-public class Person {
-    /**
-     * Default Constructor
-     */
-    public Person() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    @Id
-    private ObjectId id;
-
-    private String name;
-}
+public interface OpenCDXIAMUserService {}

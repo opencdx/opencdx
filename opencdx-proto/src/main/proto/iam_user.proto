@@ -188,23 +188,23 @@ message UserExistsResponse {
 
 // Message representing an IAM user.
 message IamUser {
-  // Connection ID of the user.
-  string connection_id = 1;
-
   // Unique ID of the user.
-  string id = 2;
+  optional string id = 1;
 
   // Timestamp when the user was created.
-  google.protobuf.Timestamp created_at = 3;
+  optional google.protobuf.Timestamp created_at = 2;
 
   // Timestamp when the user was last updated.
-  google.protobuf.Timestamp updated_at = 4;
+  optional google.protobuf.Timestamp updated_at = 3;
 
   // First name of the user.
-  string first_name = 5;
+  string first_name = 4;
 
   // Last name of the user.
-  string last_name = 6;
+  string last_name = 5;
+
+  // Name of the system
+  string system_name = 6;
 
   // Email address of the user.
   string email = 7;
@@ -215,12 +215,9 @@ message IamUser {
   // Status of the user (e.g., Active, Inactive, Deleted).
   IamUserStatus status = 9;
 
-  // Additional details about the user's status.
-  string status_details = 10;
-
   // Type of IAM user (e.g., Regular, System, Trial).
-  IamUserType type = 11;
+  IamUserType type = 10;
 
   // Phone number of the user.
-  string phone = 12;
+  string phone = 11;
 }

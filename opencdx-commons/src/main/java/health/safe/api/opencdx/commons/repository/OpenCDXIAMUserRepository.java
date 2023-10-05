@@ -13,23 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.config;
+package health.safe.api.opencdx.commons.repository;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-/**
- * Applicaiton Properties
- */
-@Data
-@ConfigurationProperties("opencdx.helloworld")
-public class AppProperties {
-    /**
-     * Default Constructor
-     */
-    public AppProperties() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    private String format;
-}
+@Repository
+public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUserModel, ObjectId> {}
