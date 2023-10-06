@@ -26,6 +26,32 @@ services:
     ports:
       - "8080:8080"
       - "9090:9090"
+  iam:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/iam:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:8680/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      config:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+    ports:
+      - "8680:8680"
+      - "9690:9690"
   media:
     deploy:
       restart_policy:
