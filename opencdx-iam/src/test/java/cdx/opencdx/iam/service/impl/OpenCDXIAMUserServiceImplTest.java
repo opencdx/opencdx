@@ -16,12 +16,11 @@
 package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -36,31 +35,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class OpenCDXIAMUserServiceImplTest {
 
     @Mock
-    PersonRepository personRepository;
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
     OpenCDXIAMUserService openCDXIAMUserService;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @BeforeEach
     void beforeEach() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(this.personRepository, this.openCDXAuditService);
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository);
     }
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.personRepository);
-    }
-
-    @Test
-    void testSayHello() {
-        Person person = new Person();
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
-        Assertions.assertEquals(
-                "Hello Bob!",
-                this.openCDXIAMUserService.sayHello(
-                        HelloRequest.newBuilder().setName(" Bob ").build()));
+        Mockito.reset(this.openCDXIAMUserRepository);
     }
 }

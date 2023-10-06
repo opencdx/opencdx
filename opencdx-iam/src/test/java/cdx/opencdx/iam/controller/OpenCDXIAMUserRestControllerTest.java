@@ -18,6 +18,8 @@ package cdx.opencdx.iam.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
+import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import io.nats.client.Connection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -49,7 +51,7 @@ class OpenCDXIAMUserRestControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    PersonRepository personRepository;
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
     @MockBean
     Connection connection;
@@ -57,15 +59,16 @@ class OpenCDXIAMUserRestControllerTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.save(Mockito.any(OpenCDXIAMUserModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @AfterEach
     void tearDown() {
         Mockito.reset(this.connection);
-        Mockito.reset(this.personRepository);
+        Mockito.reset(this.openCDXIAMUserRepository);
     }
 
     @Test

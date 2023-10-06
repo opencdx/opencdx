@@ -15,10 +15,8 @@
  */
 package cdx.opencdx.iam.controller;
 
+import cdx.media.v2alpha.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
-import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
-public class OpenCDXIAMUserGrpcController extends GreeterGrpc.GreeterImplBase {
+public class OpenCDXIAMUserGrpcController extends IamUserServiceGrpc.IamUserServiceImplBase {
 
     private final OpenCDXIAMUserService openCDXIAMUserService;
 
@@ -44,19 +42,45 @@ public class OpenCDXIAMUserGrpcController extends GreeterGrpc.GreeterImplBase {
         this.openCDXIAMUserService = openCDXIAMUserService;
     }
 
-    /**
-     * sayHello gRPC Service Call
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
-     */
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+    public void signUp(SignUpRequest request, StreamObserver<SignUpResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.signUp(request));
+        responseObserver.onCompleted();
+    }
 
-        HelloReply reply = HelloReply.newBuilder()
-                .setMessage(this.openCDXIAMUserService.sayHello(request))
-                .build();
+    @Override
+    public void listIamUsers(ListIamUsersRequest request, StreamObserver<ListIamUsersResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.listIamUsers(request));
+        responseObserver.onCompleted();
+    }
 
-        responseObserver.onNext(reply);
+    @Override
+    public void getIamUser(GetIamUserRequest request, StreamObserver<GetIamUserResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.getIamUser(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void updateIamUser(UpdateIamUserRequest request, StreamObserver<UpdateIamUserResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.updateIamUser(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequest request, StreamObserver<ChangePasswordResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.changePassword(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void deleteIamUser(DeleteIamUserRequest request, StreamObserver<DeleteIamUserResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.deleteIamUser(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void userExists(UserExistsRequest request, StreamObserver<UserExistsResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.userExists(request));
         responseObserver.onCompleted();
     }
 }

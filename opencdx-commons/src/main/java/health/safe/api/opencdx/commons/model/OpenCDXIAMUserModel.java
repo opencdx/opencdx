@@ -48,6 +48,7 @@ public class OpenCDXIAMUserModel {
     private IamUserStatus status;
     private IamUserType type;
     private String phone;
+    private String password;
 
     public OpenCDXIAMUserModel(IamUser iamUser) {
         if (iamUser.hasId()) {

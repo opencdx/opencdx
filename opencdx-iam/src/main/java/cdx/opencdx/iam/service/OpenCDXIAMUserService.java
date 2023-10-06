@@ -15,7 +15,59 @@
  */
 package cdx.opencdx.iam.service;
 
+import cdx.media.v2alpha.*;
+
 /**
  * Interface for the OpenCDXIAMUserService
  */
-public interface OpenCDXIAMUserService {}
+public interface OpenCDXIAMUserService {
+
+    /**
+     * Method to sing up a new user
+     * @param request SignUpRequest for new user.
+     * @return SignUpResponse with the new user created.
+     */
+    public SignUpResponse signUp(SignUpRequest request);
+
+    /**
+     * Method to list users
+     * @param request ListIamUserRequest for the users to list.
+     * @return ListIamUsersResponse for the users being listed
+     */
+    public ListIamUsersResponse listIamUsers(ListIamUsersRequest request);
+
+    /**
+     * Method to get a particular User
+     * @param request Request for the user to get.
+     * @return Response with the requested user.
+     */
+    public GetIamUserResponse getIamUser(GetIamUserRequest request);
+
+    /**
+     * Update the User informaiton
+     * @param request Request with information to update.
+     * @return Response the updated user.
+     */
+    public UpdateIamUserResponse updateIamUser(UpdateIamUserRequest request);
+
+    /**
+     * Method to change a user password
+     * @param request Request to change a user password
+     * @return Response for changing a users password.
+     */
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request);
+
+    /**
+     * Method to delete a user. User's status is udpated to DELETED. User it not actually removed.
+     * @param request Request to delete the specified user.
+     * @return Response for deleting a user.
+     */
+    public DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request);
+
+    /**
+     * Method to check if a user exists.
+     * @param request Request to check if a user exists
+     * @return Response if the user exists.
+     */
+    public UserExistsResponse userExists(UserExistsRequest request);
+}

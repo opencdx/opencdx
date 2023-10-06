@@ -15,14 +15,14 @@
  */
 package cdx.opencdx.iam.controller;
 
+import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
+import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
-import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
@@ -40,35 +40,28 @@ class OpenCDXIAMUserGrpcControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    @Mock
-    PersonRepository personRepository;
+    @Autowired
+    ObjectMapper objectMapper;
 
-    OpenCDXIAMUserServiceImpl helloWorldService;
+    @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    OpenCDXIAMUserService openCDXIAMUserService;
 
     OpenCDXIAMUserGrpcController openCDXIAMUserGrpcController;
 
     @BeforeEach
     void setUp() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService = new OpenCDXIAMUserServiceImpl(this.personRepository, this.openCDXAuditService);
-        this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.helloWorldService);
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.save(Mockito.any(OpenCDXIAMUserModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository);
+        this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.personRepository);
-    }
-
-    @Test
-    void sayHello() {
-        StreamObserver<HelloReply> responseObserver = Mockito.mock(StreamObserver.class);
-        HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
-        HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
-
-        this.openCDXIAMUserGrpcController.sayHello(helloRequest, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(helloReply);
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+        Mockito.reset(this.openCDXIAMUserRepository);
     }
 }
