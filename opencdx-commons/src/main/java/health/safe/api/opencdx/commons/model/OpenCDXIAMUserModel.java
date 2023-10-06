@@ -50,6 +50,10 @@ public class OpenCDXIAMUserModel {
     private String phone;
     private String password;
 
+    /**
+     * Constructor to convert in an IamUser
+     * @param iamUser IamUser to read in.
+     */
     public OpenCDXIAMUserModel(IamUser iamUser) {
         if (iamUser.hasId()) {
             this.id = new ObjectId(iamUser.getId());
@@ -77,6 +81,10 @@ public class OpenCDXIAMUserModel {
         this.phone = iamUser.getPhone();
     }
 
+    /**
+     * Method to return a gRPC IamUser Message
+     * @return gRPC IamUser Message
+     */
     public IamUser getProtobufMessage() {
         IamUser.Builder builder = IamUser.newBuilder();
 
