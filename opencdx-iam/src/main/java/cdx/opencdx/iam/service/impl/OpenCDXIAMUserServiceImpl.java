@@ -119,7 +119,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public GetIamUserResponse getIamUser(GetIamUserRequest request) {
         // TODO: Update Model to be the newly retrieved model before calling audit.
-        OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().build();
+        OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
         try {
             this.openCDXAuditService.piiAccessed(
                     ObjectId.get().toHexString(),
@@ -194,7 +194,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request) {
         // TODO: Update Model to the newly deleted version.
-        OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().build();
+        OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
         try {
             this.openCDXAuditService.piiDeleted(
                     ObjectId.get().toHexString(),
@@ -223,7 +223,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public UserExistsResponse userExists(UserExistsRequest request) {
         // TODO: Update Model to be the newly retrieved model before calling audit.
-        OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().build();
+        OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
         try {
             this.openCDXAuditService.piiAccessed(
                     ObjectId.get().toHexString(),
