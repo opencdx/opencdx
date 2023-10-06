@@ -15,23 +15,37 @@
  */
 package cdx.opencdx.iam.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import cdx.media.v2alpha.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
 import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import io.nats.client.Connection;
+import java.util.Collections;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -45,6 +59,9 @@ class OpenCDXIAMUserRestControllerTest {
 
     private MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @MockBean
     OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
@@ -53,10 +70,18 @@ class OpenCDXIAMUserRestControllerTest {
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.openMocks(this);
-        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
         Mockito.when(this.openCDXIAMUserRepository.save(Mockito.any(OpenCDXIAMUserModel.class)))
-                .then(AdditionalAnswers.returnsFirstArg());
+                .thenAnswer(new Answer<OpenCDXIAMUserModel>() {
+                    @Override
+                    public OpenCDXIAMUserModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIAMUserModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
@@ -69,5 +94,102 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
         Assertions.assertNotNull(mockMvc);
+    }
+
+    @Test
+    void getIamUser() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/iam/user/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void deleteIamUser() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(delete("/iam/user/" + ObjectId.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void updateIamUser() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(put("/iam/user")
+                        .content(this.objectMapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
+                                .setIamUser(IamUser.newBuilder()
+                                        .setId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void signUp() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/iam/user")
+                        .content(this.objectMapper.writeValueAsString(
+                                SignUpRequest.newBuilder().build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void listIamUsers() throws Exception {
+        Mockito.when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        MvcResult result = this.mockMvc
+                .perform(post("/iam/user/list")
+                        .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void changePassword() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/iam/user/password")
+                        .content(this.objectMapper.writeValueAsString(ChangePasswordRequest.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void userExists() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/iam/user/exists")
+                        .content(this.objectMapper.writeValueAsString(UserExistsRequest.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
     }
 }
