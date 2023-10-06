@@ -77,6 +77,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .lastName(request.getLastName())
                 .systemName(request.getSystemName())
                 .email(request.getEmail())
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .type(request.getType())
                 .password(request.getPassword())
                 .build());
         try {
@@ -95,7 +97,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return SignUpResponse.getDefaultInstance();
+        return SignUpResponse.newBuilder()
+                .setIamUser(model.getProtobufMessage())
+                .build();
     }
 
     /**
