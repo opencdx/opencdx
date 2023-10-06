@@ -39,7 +39,14 @@ public interface OpenCDXConnectedTestService {
     /**
      * Retrieve a list of connected tests for a user.
      * @param request Request message containing the pageable information and user to request records on.
-     * @return Response containing the indicated page of recoards.
+     * @return Response containing the indicated page of recards.
      */
     public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request);
+
+    /**
+     * Retrieve a list of connected tests by national health id
+     * @param request Request message containing the pageable information and user to request records on.
+     * @return Response containing the indicated page of recards.
+     */
+    public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(ConnectedTestListByNHIDRequest request);
 }
