@@ -154,4 +154,24 @@ class GrpcConnectedTestControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
+    @Test
+    void testListConnectedByNIHTests() {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .setNationalHealthId(22)
+                .build();
+        this.grpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
 }

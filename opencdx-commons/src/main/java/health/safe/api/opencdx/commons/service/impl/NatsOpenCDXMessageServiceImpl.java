@@ -17,6 +17,7 @@ package health.safe.api.opencdx.commons.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import health.safe.api.opencdx.commons.annotations.RetryAnnotation;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
@@ -52,6 +53,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     }
 
     @Override
+    @RetryAnnotation
     public void subscribe(String subject, OpenCDXMessageHandler handler) {
         log.info("Subscribing to: {}", subject);
 
@@ -59,11 +61,13 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     }
 
     @Override
+    @RetryAnnotation
     public void unSubscribe(String subject) {
         this.dispatcher.unsubscribe(subject);
     }
 
     @Override
+    @RetryAnnotation
     public void send(String subject, Object object) {
 
         try {

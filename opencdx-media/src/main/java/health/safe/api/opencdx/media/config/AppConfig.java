@@ -15,16 +15,19 @@
  */
 package health.safe.api.opencdx.media.config;
 
+import health.safe.api.opencdx.media.repository.OpenCDXMediaRepository;
+import health.safe.api.opencdx.media.service.OpenCDXFileStorageService;
+import health.safe.api.opencdx.media.service.impl.OpenCDXFileStorageLocalFileSystemImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
+import org.springframework.core.env.Environment;
 
 /**
  * Applicaiton Configuration
  */
 @Configuration
-@EnableConfigurationProperties(AppProperties.class)
+@EnableConfigurationProperties
 public class AppConfig {
     /**
      * Default Constructor
@@ -33,14 +36,9 @@ public class AppConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-    /**
-     * Bean indicating the format of the message string
-     * @param appProperties properties that contain the message format.
-     * @return String providing the format.
-     */
     @Bean
-    @Description("Demonstration on how to document a bean.")
-    public String format(AppProperties appProperties) {
-        return appProperties.getFormat();
+    OpenCDXFileStorageService openCDXFileStorageService(
+            Environment env, OpenCDXMediaRepository openCDXMediaRepository) {
+        return new OpenCDXFileStorageLocalFileSystemImpl(env, openCDXMediaRepository);
     }
 }

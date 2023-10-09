@@ -15,7 +15,10 @@
  */
 package health.safe.api.opencdx.commons.exceptions;
 
+import com.google.protobuf.Any;
 import com.google.rpc.Code;
+import com.google.rpc.ErrorInfo;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -71,7 +74,15 @@ class OpenCDXAbortedTest {
     @Test
     void testStatus() {
         OpenCDXException exception = new OpenCDXAborted("TEST", 1, "Message");
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
+    }
+
+    @Test
+    void testStatusWithDetails() {
+        OpenCDXException exception = new OpenCDXAborted("TEST", 1, "Message");
+        ArrayList<Any> details = new ArrayList<>();
+        details.add(Any.pack(ErrorInfo.newBuilder().build()));
+        Assertions.assertNotNull(exception.getGrpcStatus(details));
     }
 
     @Test
@@ -81,26 +92,26 @@ class OpenCDXAbortedTest {
         metaData.put("Test", "1");
 
         exception.setMetaData(metaData);
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusNullMessage() {
         OpenCDXException exception = new OpenCDXAborted("TEST", 1, null);
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusCause() {
         OpenCDXException exception = new OpenCDXAborted("TEST", 1, "Message", new NullPointerException());
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusCauseMessage() {
         OpenCDXException exception =
                 new OpenCDXAborted("TEST", 1, "Message", new NullPointerException("Cause Message"));
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test

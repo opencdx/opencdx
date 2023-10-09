@@ -1,0 +1,61 @@
+syntax = "proto3";
+package cdx.media.v2alpha;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+
+// Media Preprocessor Service interface
+service MediaPreprocessorService {
+  // Method to preprocess media
+  rpc PreprocessMedia(PreprocessMediaRequest) returns (PreprocessMediaResponse);
+}
+
+// Media Preprocessor Commands
+enum MediaPreprocessorCommands {
+  MEDIA_PREPROCESSOR_COMMANDS_UNSPECIFIED = 0; // Unspecified or unknown command.
+  MEDIA_PREPROCESSOR_COMMANDS_PREPROCESS = 1; // Preprocess media.
+}
+
+// Media Preprocessor Status
+enum MediaPreprocessorStatus {
+  MEDIA_PREPROCESSOR_STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
+  MEDIA_PREPROCESSOR_STATUS_PREPROCESSING = 1; // Media is being preprocessing.
+  MEDIA_PREPROCESSOR_STATUS_ACTIVE = 2; // Preprocessor is active
+  MEDIA_PREPROCESSOR_STATUS_ERROR = 3; // Error with Preprocessor
+}
+
+// Media Preprocessor Events
+enum MediaPreprocessorEvents {
+  MEDIA_PREPROCESSOR_EVENTS_UNSPECIFIED = 0; // Unspecified or unknown event.
+  MEDIA_PREPROCESSOR_EVENTS_PREPROCESSED = 1; // Media has been preprocessed.
+}
+
+// Request to PreprocessMedia.
+message PreprocessMediaRequest {
+  // Boolean indicating to check media
+  bool check = 3;
+}
+
+// Response to PreprocessMedia
+message PreprocessMediaResponse {
+  // The media preprocessor.
+  MediaPreprocessor media_preprocessor = 1;
+}
+
+// Media Preprocessor data
+message MediaPreprocessor {
+  string id = 1;
+
+  // When this record was created
+  google.protobuf.Timestamp created_at = 2;
+
+  // Who created this record
+  string creator = 3;
+
+  // When was the last time this record was modified
+  google.protobuf.Timestamp updated_at = 4;
+
+  // Who was the last modifier of this record
+  string modifier = 5;
+}

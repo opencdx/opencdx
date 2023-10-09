@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.commons.service.impl;
 
+import health.safe.api.opencdx.commons.annotations.RetryAnnotation;
 import health.safe.api.opencdx.commons.handlers.OpenCDXMessageHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import io.micrometer.observation.annotation.Observed;
@@ -35,16 +36,19 @@ public class NoOpOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     }
 
     @Override
+    @RetryAnnotation
     public void subscribe(String subject, OpenCDXMessageHandler handler) {
         log.warn("NoOpOpenCDXMessageServiceImpl::subscribe Called");
     }
 
     @Override
+    @RetryAnnotation
     public void unSubscribe(String subject) {
         log.warn("NoOpOpenCDXMessageServiceImpl::unSubscribe Called");
     }
 
     @Override
+    @RetryAnnotation
     public void send(String subject, Object object) {
         log.warn("NoOpOpenCDXMessageServiceImpl::send Called");
     }

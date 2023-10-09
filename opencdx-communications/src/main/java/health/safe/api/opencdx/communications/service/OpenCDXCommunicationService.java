@@ -16,6 +16,7 @@
 package health.safe.api.opencdx.communications.service;
 
 import cdx.open_communication.v2alpha.*;
+import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -30,9 +31,9 @@ public interface OpenCDXCommunicationService {
      * Create an Email Template
      * @param emailTemplate EmailTemplate to create.
      * @return the created EmailTemplate.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
+     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable;
+    EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXClientException;
 
     /**
      * Retrieve an Email Template
@@ -49,7 +50,8 @@ public interface OpenCDXCommunicationService {
      * @exception OpenCDXFailedPrecondition Missing template id.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXFailedPrecondition;
+    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
+            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
 
     /**
      * Delete an Email Template
@@ -57,7 +59,7 @@ public interface OpenCDXCommunicationService {
      * @return SuccessResponse indicating if the action was successful.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest);
+    SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
 
     /**
      * Create an SMS Template
@@ -65,7 +67,7 @@ public interface OpenCDXCommunicationService {
      * @return the created SMSTemplate.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SMSTemplate createSMSTemplate(SMSTemplate smsTemplate);
+    SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable;
 
     /**
      * Get an SMS Template
@@ -73,7 +75,7 @@ public interface OpenCDXCommunicationService {
      * @return the requested SMSTemplate
      * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
+    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound, OpenCDXNotAcceptable;
 
     /**
      * Update SMS Template
@@ -82,7 +84,7 @@ public interface OpenCDXCommunicationService {
      * @exception OpenCDXFailedPrecondition Missing template id.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition;
+    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
 
     /**
      * Delete SMS Template
@@ -90,7 +92,7 @@ public interface OpenCDXCommunicationService {
      * @return SuccessResponse indicating if the action was successful.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest);
+    SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
 
     /**
      * Create a Notification Event
@@ -98,7 +100,7 @@ public interface OpenCDXCommunicationService {
      * @return the created NotificationEvent.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    NotificationEvent createNotificationEvent(NotificationEvent notificationEvent);
+    NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable;
 
     /**
      * Get a Notification Event
@@ -106,7 +108,8 @@ public interface OpenCDXCommunicationService {
      * @return the requested NotificationEvent.
      * @exception OpenCDXNotFound Template with requested ID not found.
      */
-    NotificationEvent getNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotFound;
+    NotificationEvent getNotificationEvent(TemplateRequest templateRequest)
+            throws OpenCDXNotFound, OpenCDXNotAcceptable;
 
     /**
      * Update Notification Event
@@ -115,7 +118,8 @@ public interface OpenCDXCommunicationService {
      * @exception OpenCDXFailedPrecondition Missing event id.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXFailedPrecondition;
+    NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent)
+            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
 
     /**
      * Delete Notification Event
@@ -123,7 +127,7 @@ public interface OpenCDXCommunicationService {
      * @return SuccessResponse indicating if the action was successful.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest);
+    SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
 
     /**
      * Send Notification
@@ -133,7 +137,8 @@ public interface OpenCDXCommunicationService {
      * @exception OpenCDXFailedPrecondition Missing variable from data for substitution.
      * @exception OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse sendNotification(Notification notification) throws OpenCDXFailedPrecondition, OpenCDXNotFound;
+    SuccessResponse sendNotification(Notification notification)
+            throws OpenCDXFailedPrecondition, OpenCDXNotFound, OpenCDXNotAcceptable;
 
     /**
      * List of all SMSTemplates

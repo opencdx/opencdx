@@ -1,0 +1,195 @@
+
+syntax = "proto3";
+
+package cdx.media.v2alpha;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+
+// Media Service interface
+service MediaService {
+  // Method to create media
+  rpc CreateMedia(CreateMediaRequest) returns (CreateMediaResponse);
+
+  // Method to list media
+  rpc ListMedia(ListMediaRequest) returns (ListMediaResponse);
+
+  // Method to get media
+  rpc GetMedia(GetMediaRequest) returns (GetMediaResponse);
+
+  // Method to update media
+  rpc UpdateMedia(UpdateMediaRequest) returns (UpdateMediaResponse);
+  // Method to delete media
+  rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaResponse);
+}
+
+// Media Type
+enum MediaType {
+  MEDIA_TYPE_UNSPECIFIED = 0; // Unspecified or unknown media type
+  MEDIA_TYPE_IMAGE = 1; // Media is image.
+  MEDIA_TYPE_VIDEO = 2; // Media is a video.
+  MEDIA_TYPE_ARCHIVE = 3; // Media is an archive.
+  MEDIA_TYPE_INTEGRATION = 4; // Media is an integraiton
+  MEDIA_TYPE_BYTE_ARRAY = 5; // Media is a data stream
+}
+
+// Media Status
+enum MediaStatus {
+  MEDIA_STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
+  MEDIA_STATUS_UPLOADING = 1; // Media is being uploaded
+  MEDIA_STATUS_ACTIVE = 2; // Media is active.
+  MEDIA_STATUS_DELETED = 3; // Media is being deleted.
+  MEDIA_STATUS_ERROR = 4; // Error with media.
+}
+
+// Request for CreateMedia
+message CreateMediaRequest {
+  // Type
+  MediaType type = 1;
+
+  // File name
+  string name = 2;
+
+  // Short Description
+  string short_description = 3;
+
+  // Description
+  string description = 4;
+
+  // Labels
+  repeated string labels = 5;
+}
+
+// Response for CreateMedia
+message CreateMediaResponse {
+
+  // The create media
+  Media media = 1;
+
+  // The pre-signed URL for the upload
+  string upload_url = 2;
+}
+
+// Request for GetMedia
+message GetMediaRequest {
+  // Unique id for this media
+  string id = 1;
+}
+
+// Response for GetMedia
+message GetMediaResponse {
+  // The requested media.
+  Media media = 1;
+}
+
+// Request for ListMedia
+message ListMediaRequest {
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
+}
+
+// Response for ListMedia
+message ListMediaResponse {
+  int32 page_size = 1; // Size of each page.
+  int32 page_number = 2; // The page being requested.
+  bool sort_ascending = 3; // indicating if the results should ascending.
+  int32 page_count = 4; // Total number of available pages.
+  repeated Media templates = 5; // List of Media
+}
+
+// TODO @dimy need to think about a more generic way to represent filtering and sorting (not a priority right now)
+
+// Media Filter
+message MediaFilter {
+  // Filter string
+  string filter = 1;
+}
+
+// Request for UpdateMedia.
+message UpdateMediaRequest {
+  // Unique id for this media
+  string id = 1;
+
+  // File name
+  string name = 2;
+
+  // Short Description
+  string short_description = 3;
+
+  // Description
+  string description = 4;
+
+  // Labels
+  repeated string labels = 5;
+
+  // Type
+  MediaType type = 6;
+}
+
+// Response for UpdateMedia
+message UpdateMediaResponse {
+  // Unique id for this media
+  Media media = 1;
+}
+
+// Request for DeleteMedia
+message DeleteMediaRequest {
+  // Unique id for this media
+  string id = 1;
+}
+
+// Response for DeleteMedia
+message DeleteMediaResponse {
+  // The deleted media.
+  Media media = 1;
+}
+
+// Media data
+message Media {
+  // Identifier for this media.
+  optional string id = 1;
+
+  // Timestamp indicating when this media was created.
+  optional google.protobuf.Timestamp created_at = 2;
+
+  // Timestamp indicating when this media was last updated.
+  optional google.protobuf.Timestamp updated_at = 3;
+
+  // Organization slug
+  string organization_slug = 4;
+
+  // Workspace slug
+  string workspace_slug = 5;
+
+  // File name
+  string name = 6;
+
+  // Short Description
+  string short_description = 7;
+
+  // Description
+  string description = 8;
+
+  // Media Type
+  MediaType type = 9;
+
+  // Labels for media
+  repeated string labels = 10;
+
+  // Mime type
+  string mime_type = 11;
+
+  // Size in bytes
+  uint64 size = 12;
+
+  // Media storage location (URL in S3, or GCP). This location URL won't be used for retrieving
+  string location = 13;
+
+  // Media endpoint URL used for display/download
+  string endpoint = 14;
+
+  // Status
+  MediaStatus status = 16;
+}

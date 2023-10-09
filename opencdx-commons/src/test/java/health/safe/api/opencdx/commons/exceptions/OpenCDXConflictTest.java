@@ -71,7 +71,7 @@ class OpenCDXConflictTest {
     @Test
     void testStatus() {
         OpenCDXException exception = new OpenCDXConflict("TEST", 1, "Message");
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
@@ -81,26 +81,26 @@ class OpenCDXConflictTest {
         metaData.put("Test", "1");
 
         exception.setMetaData(metaData);
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusNullMessage() {
         OpenCDXException exception = new OpenCDXConflict("TEST", 1, null);
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusCause() {
         OpenCDXException exception = new OpenCDXConflict("TEST", 1, "Message", new NullPointerException());
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test
     void testStatusCauseMessage() {
         OpenCDXException exception =
                 new OpenCDXConflict("TEST", 1, "Message", new NullPointerException("Cause Message"));
-        Assertions.assertNotNull(exception.getGrpcStatus());
+        Assertions.assertNotNull(exception.getGrpcStatus(null));
     }
 
     @Test

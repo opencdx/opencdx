@@ -47,8 +47,13 @@ public class OpenCDXSMSServiceImpl implements OpenCDXSMSService {
      */
     @Override
     public boolean sendSMS(String message, List<String> phoneNumbers) {
+
+        /*
+        If we do not have any phone numbers to send, then return true that we have completed sending
+        SMS notifications.
+         */
         if (ListUtils.isEmpty(phoneNumbers)) {
-            return false;
+            return true;
         }
         log.info("Message has been sent. Message :\n {} , PhoneNumbers :\n {}", message, phoneNumbers);
         return true;

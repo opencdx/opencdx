@@ -17,6 +17,7 @@ dependencies {
     }
     implementation("io.grpc:grpc-protobuf:${grpcVersion}")
     implementation("io.grpc:grpc-stub:${grpcVersion}")
+
     compileOnly("jakarta.annotation:jakarta.annotation-api:${jakartaAnnotationApiVersion}")
 }
 

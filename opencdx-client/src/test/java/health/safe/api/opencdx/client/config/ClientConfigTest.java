@@ -15,9 +15,13 @@
  */
 package health.safe.api.opencdx.client.config;
 
+import cdx.media.v2alpha.MediaServiceGrpc;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import health.safe.api.opencdx.client.service.HelloworldClient;
+import cdx.open_communication.v2alpha.CommunicationServiceGrpc;
 import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
+import health.safe.api.opencdx.client.service.OpenCDXCommunicationClient;
+import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
+import health.safe.api.opencdx.client.service.OpenCDXMediaClient;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
@@ -59,7 +63,7 @@ class ClientConfigTest {
         Assertions.assertThrows(
                 NoSuchBeanDefinitionException.class,
                 () -> contextRunner.run(context -> {
-                    HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
+                    OpenCDXHelloworldClient openCDXHelloworldClient = context.getBean(OpenCDXHelloworldClient.class);
                 }));
     }
 
@@ -72,7 +76,7 @@ class ClientConfigTest {
         Assertions.assertThrows(
                 NoSuchBeanDefinitionException.class,
                 () -> contextRunner.run(context -> {
-                    HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
+                    OpenCDXHelloworldClient openCDXHelloworldClient = context.getBean(OpenCDXHelloworldClient.class);
                 }));
     }
 
@@ -85,8 +89,8 @@ class ClientConfigTest {
                 .withUserConfiguration(ClientConfig.class)
                 .withBean(GreeterGrpc.GreeterBlockingStub.class, this.channel, this.callOptions)
                 .run(context -> {
-                    HelloworldClient helloworldClient = context.getBean(HelloworldClient.class);
-                    Assertions.assertNotNull(helloworldClient);
+                    OpenCDXHelloworldClient openCDXHelloworldClient = context.getBean(OpenCDXHelloworldClient.class);
+                    Assertions.assertNotNull(openCDXHelloworldClient);
                 });
     }
 
@@ -101,6 +105,35 @@ class ClientConfigTest {
                 .run(context -> {
                     OpenCDXAuditClient auditClient = context.getBean(OpenCDXAuditClient.class);
                     Assertions.assertNotNull(auditClient);
+                });
+    }
+
+    @Test
+    void mediaClient() {
+        final ApplicationContextRunner contextRunner = new ApplicationContextRunner();
+
+        contextRunner
+                .withPropertyValues("opencdx.client.media=true")
+                .withUserConfiguration(ClientConfig.class)
+                .withBean(MediaServiceGrpc.MediaServiceBlockingStub.class, this.channel, this.callOptions)
+                .run(context -> {
+                    OpenCDXMediaClient mediaClient = context.getBean(OpenCDXMediaClient.class);
+                    Assertions.assertNotNull(mediaClient);
+                });
+    }
+
+    @Test
+    void communicationClient() {
+        final ApplicationContextRunner contextRunner = new ApplicationContextRunner();
+
+        contextRunner
+                .withPropertyValues("opencdx.client.communication=true")
+                .withUserConfiguration(ClientConfig.class)
+                .withBean(
+                        CommunicationServiceGrpc.CommunicationServiceBlockingStub.class, this.channel, this.callOptions)
+                .run(context -> {
+                    OpenCDXCommunicationClient communicationClient = context.getBean(OpenCDXCommunicationClient.class);
+                    Assertions.assertNotNull(communicationClient);
                 });
     }
 }
