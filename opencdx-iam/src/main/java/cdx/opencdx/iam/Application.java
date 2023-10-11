@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam;
 
+import com.github.cloudyrock.spring.v5.EnableMongock;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @ComponentScan(basePackages = {"cdx.opencdx", "health.safe"})
 @EnableMongoRepositories(basePackages = {"cdx.opencdx", "health.safe"})
+@EnableMongock
 @ExcludeFromJacocoGeneratedReport
 public class Application {
     /**
