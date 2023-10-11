@@ -24,6 +24,7 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
@@ -58,6 +59,8 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationService {
 
+    @Autowired
+    OpenCDXHtmlSanitizer openCDXHtmlSanitizer;
     private static final String DOMAIN = "OpenCDXCommunicationServiceImpl";
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
@@ -72,7 +75,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
     private final ObjectMapper objectMapper;
     /**
-     * Constructor taking a PersonRepository
+     * Constructor taking some repositoroes
      *
      * @param openCDXAuditService                Audit service for tracking FDA requirements
      * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
@@ -109,6 +112,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     @Override
     public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable {
         // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
+        String message = openCDXHtmlSanitizer.sanitize(emailTemplate.getContent());
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),

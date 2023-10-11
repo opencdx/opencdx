@@ -20,10 +20,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import health.safe.api.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
+import health.safe.api.opencdx.commons.service.impl.OpenCDXHtmlSanitizerImpl;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
@@ -53,6 +55,16 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * OpenCDXHtmlSanitizer
+     */
+    @Bean
+    @Primary
+    @Description("OWASP Html Sanitizer.")
+    public OpenCDXHtmlSanitizer sanitizer() {
+        return new OpenCDXHtmlSanitizerImpl();
     }
 
     /**
