@@ -17,16 +17,17 @@ package cdx.opencdx.iam.changelog;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.model.Indexes;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import java.util.List;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 @ChangeLog(order = "001")
 @ExcludeFromJacocoGeneratedReport
 public class IAMChangeSet {
     @ChangeSet(order = "001", id = "Setup Users Email Index", author = "Gaurav Mishra")
-    public void setupIndexes(MongockTemplate mongockTemplate) {
-        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
+    public void setupIndexes(MongoTemplate mongoTemplate) {
+        mongoTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
     }
 }
+
