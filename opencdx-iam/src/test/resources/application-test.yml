@@ -25,6 +25,5 @@ spring:
     username: root
     password: root
 
-opencdx:
-  helloworld:
-    format: "Hello %s!"
+mongock:
+  change-logs-scan-package: cdx.opencdx.iam.changelog
