@@ -18,14 +18,8 @@ package health.safe.api.opencdx.client.config;
 import cdx.media.v2alpha.MediaServiceGrpc;
 import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import cdx.open_communication.v2alpha.CommunicationServiceGrpc;
-import health.safe.api.opencdx.client.service.OpenCDXAuditClient;
-import health.safe.api.opencdx.client.service.OpenCDXCommunicationClient;
-import health.safe.api.opencdx.client.service.OpenCDXHelloworldClient;
-import health.safe.api.opencdx.client.service.OpenCDXMediaClient;
-import health.safe.api.opencdx.client.service.impl.OpenCDXAuditClientImpl;
-import health.safe.api.opencdx.client.service.impl.OpenCDXCommunicationClientImpl;
-import health.safe.api.opencdx.client.service.impl.OpenCDXHelloworldClientImpl;
-import health.safe.api.opencdx.client.service.impl.OpenCDXMediaClientImpl;
+import health.safe.api.opencdx.client.service.*;
+import health.safe.api.opencdx.client.service.impl.*;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -35,6 +29,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * Provides the Client configuration to create gRPC Clients to communicate with
@@ -49,6 +44,14 @@ public class ClientConfig {
      */
     public ClientConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    @Description("Web client for Media upload/download")
+    OpenCDXMediaUpDownClient mediaUpDown() {
+        WebClient mediaUpDownWebClient =
+                WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
+        return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
     }
 
     @Bean
