@@ -1,0 +1,221 @@
+syntax = "proto3";
+
+// Enumeration for phone types.
+enum PhoneType {
+  PHONE_TYPE_NOT_SPECIFIED = 0; // Not specified
+  PHONE_TYPE_MOBILE = 1; // Mobile phone
+  PHONE_TYPE_HOME = 2; // Home phone
+  PHONE_TYPE_WORK = 3; // Work phone
+  PHONE_TYPE_FAX = 4; // Fax
+  PHONE_TYPE_OTHER = 5; // Other
+}
+
+// Enumeration for gender.
+enum Gender {
+  GENDER_NOT_SPECIFIED = 0; // Not specified
+  GENDER_MALE = 1; // Male
+  GENDER_FEMALE = 2; // Female
+  GENDER_NON_BINARY = 3; // Non-binary
+  GENDER_OTHER = 4; // Other
+}
+
+// User Profile message containing user-related information.
+message UserProfile {
+  string user_id = 1; // Unique identifier for the user
+  string national_health_id = 2; // National health identifier
+  bool is_active = 2; // Indicates whether the user is active
+  FullName full_name = 3; // Full name of the user
+  repeated ContactInfo contacts = 4; // User's contact information
+  Gender gender = 5; // Gender of the user
+  DateOfBirth date_of_birth = 6; // User's date of birth
+  PlaceOfBirth place_of_birth = 7; // User's place of birth
+  Address primary_address = 8; // User's primary address
+  bytes photo = 9; // Photo represented as bytes (binary data)
+  Preferences communication = 10; // User's communication preferences
+  Demographics demographics = 11; // User's demographics information
+  Education education = 12; // User's education information
+  EmployeeIdentity employee_identity = 13; // User's employee identity information
+  ContactInfo contact_info = 16; // Additional contact information
+  Address billing_address = 17; // User's billing address
+  Address shipping_address = 18; // User's shipping address
+  EmergencyContact emergency_contact = 19; // User's emergency contact information
+  Pharmacy pharmacy_details = 20; // User's pharmacy details
+  repeated Vaccine vaccine_administered = 21; // Vaccines administered to the user
+  repeated string dependent_id = 22; // Identifiers for user's dependents
+  repeated KnownAllergy known_allergies = 23; // A list of known allergies for the user
+  repeated Medication current_medications = 24;  // A list of medications currently being taken by the user
+}
+
+// Full name information.
+message FullName {
+  string title = 1; // Title of the user (e.g., Mr., Mrs., Dr.)
+  string first_name = 2; // First name of the user
+  string middle_name = 3; // Middle name of the user
+  string last_name = 4; // Last name of the user
+  string suffix = 5; // Suffix for the name (e.g., Jr., Sr., III)
+}
+
+// Contact information.
+message ContactInfo {
+  PhoneNumber mobile_number = 1; // User's mobile phone number
+  PhoneNumber home_number = 2; // User's home phone number
+  PhoneNumber work_number = 3; // User's work phone number
+  PhoneNumber fax_number = 4; // User's fax number
+  string email = 5; // User's email address
+}
+
+// Phone number details.
+message PhoneNumber {
+  string number = 1; // Phone number
+  PhoneType type = 2; // Type of phone number (e.g., mobile, home, work)
+}
+
+// Emergency contact information.
+message EmergencyContact {
+  string relationship = 1; // Relationship to the user
+  string contact_name = 2; // Name of the emergency contact
+  ContactInfo contact_info = 3; // Contact information for the emergency contact
+  Address residence_address = 4; // Residence address of the emergency contact
+  Address work_address = 5; // Work address of the emergency contact
+}
+
+// Pharmacy information.
+message Pharmacy {
+  string pharmacy_name = 1; // Name of the pharmacy
+  Address pharmacy_address = 2; // Address of the pharmacy
+  ContactInfo pharmacy_contact = 3; // Contact information for the pharmacy
+}
+
+// Address details.
+message Address {
+  string street = 1; // Street address
+  string city = 2; // City
+  string state = 3; // State or region
+  string postal_code = 4; // Postal code
+  string country = 5; // Country code
+}
+
+// User's communication preferences.
+message Preferences {
+  string language = 1; // Preferred language
+  bool preferred = 2; // Whether the user prefers this mode of communication
+  string time_zone = 3; // User's preferred time zone
+}
+
+// User's demographic information.
+message Demographics {
+  string ethnicity = 1; // Ethnicity of the user
+  string race = 2; // Race of the user
+  string nationality = 3; // Nationality of the user
+  Gender gender = 4; // Gender of the user (e.g., Male, Female, Non-binary, etc.)
+}
+
+// User's date of birth information.
+message DateOfBirth {
+  string date = 1; // Date of birth in a suitable format
+}
+
+// User's place of birth information.
+message PlaceOfBirth {
+  string country = 1; // Country of birth
+  string state = 2; // State or region of birth
+  string city = 3; // City of birth
+}
+
+// Vaccination information.
+message Vaccine {
+  string administration_date = 1; // Date when the vaccine dose is administered to a person (Date & Time)
+  string fips = 2; // 5-digit code (51XXX) for the locality (Plain Text)
+  string locality = 3; // Independent city or county in Virginia where the person lives (Plain Text)
+  string health_district = 4; // Health district name assigned by the Virginia Department of Health (Plain Text)
+  string facility_type = 5; // Facility type of the provider that performed the vaccine administration (Plain Text)
+  string manufacturer = 6; // Name of the manufacturing company that produced the vaccine (Plain Text)
+  int32 dose_number = 7; // Dose number for the person who is administered the vaccine (Number)
+  string vaccine_type = 8; // Type of vaccine
+}
+
+// User's education information.
+message Education {
+  repeated EducationEntry entries = 1; // Education entries
+}
+
+// Education entry details.
+message EducationEntry {
+  string degree = 1; // Degree obtained
+  string institution = 2; // Institution of education
+  string start_date = 3; // Start date of education
+  string completion_date = 4; // Completion date of education
+}
+
+// Employee identity information.
+message EmployeeIdentity {
+  string OrganizationId = 1; // Organization ID
+  string WorkspaceId = 2; // Workspace ID
+  string employee_id = 3; // Employee ID
+  bool IdentityVerified = 4; // Whether employee identity is verified
+  string status = 5; // Employee status
+}
+
+// System settings information.
+message SystemSettings {
+  bool identity_verified = 1; // Indicates whether the user's identity is verified
+  bool email_verified = 2; // Indicates whether the user's email is verified
+  bool sms_notifications = 3; // Indicates whether SMS notifications are enabled
+  bool email_notifications = 4; // Indicates whether email notifications are enabled
+  bool biometrics = 5; // Indicates whether biometrics are enabled
+  bool user_since = 6; // Indicates the user's registration date
+  bool mfa = 7; // Indicates whether multi-factor authentication (MFA) is enabled
+  string last_successful_login = 8; // Last successful login date and time
+  string last_failed_login = 8; // Last failed login date and time
+}
+
+message Medication {
+  string name = 1; // Name of the medication
+  string dosage = 2; // Dosage information (e.g., 500mg, twice daily)
+  string instructions = 3; // Medication usage instructions
+  string route_of_administration = 4; // Route of administration (e.g., oral, intravenous)
+  string frequency = 5; // Frequency of medication (e.g., daily, weekly)
+  string start_date = 6; // Start date for the medication
+  string end_date = 7; // End date for the medication
+  string prescribing_doctor = 8; // Name of the prescribing doctor
+  string pharmacy = 9; // Name of the pharmacy where the medication was obtained
+  bool is_prescription = 10; // Indicates if the medication requires a prescription
+}
+
+message KnownAllergy {
+  string allergen = 1; // The substance causing the allergy
+  string reaction = 2; // Description of the allergic reaction
+  bool is_severe = 3; // Indicates if the allergy is severe
+  string onset_date = 4; // Date of onset of the allergy
+  string last_occurrence = 5; // Date of the last occurrence of the allergic reaction
+  string notes = 6; // Additional notes or comments about the allergy
+}
+
+// Define the service
+service UserProfileService {
+  rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse);
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+  rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
+}
+
+// Request message for updating a user profile
+message UpdateUserProfileRequest {
+  string user_id = 1; // Unique identifier for the user
+  UserProfile updated_profile = 2; // Updated user profile information
+}
+
+// Response message for updating a user profile
+message UpdateUserProfileResponse {
+  bool success = 1; // Indicates whether the update was successful
+}
+
+// Request message for deleting a user profile
+message DeleteUserProfileRequest {
+  string user_id = 1; // Unique identifier for the user
+}
+
+// Response message for deleting a user profile
+message DeleteUserProfileResponse {
+  bool success = 1; // Indicates whether the delete was successful
+}
+
