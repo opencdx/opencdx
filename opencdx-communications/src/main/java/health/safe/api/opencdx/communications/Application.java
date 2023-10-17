@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.communications;
 
+import com.github.cloudyrock.spring.v5.EnableMongock;
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import java.util.List;
 import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableCaching
 @EnableScheduling
+@EnableMongock
 @EnableSchedulerLock(defaultLockAtMostFor = "10m")
 @ComponentScan(basePackages = {"health.safe"})
 @ExcludeFromJacocoGeneratedReport
