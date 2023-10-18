@@ -15,16 +15,19 @@
  */
 package cdx.opencdx.iam.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 import cdx.media.v2alpha.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
 import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import java.util.List;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -37,6 +40,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -56,6 +63,12 @@ class OpenCDXIAMUserServiceImplTest {
     @Mock
     ObjectMapper objectMapper;
 
+    @Mock
+    ObjectMapper objectMapper1;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @BeforeEach
     void beforeEach() throws JsonProcessingException {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
@@ -73,7 +86,7 @@ class OpenCDXIAMUserServiceImplTest {
                     }
                 });
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository);
+                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
     }
 
     @AfterEach
@@ -92,7 +105,7 @@ class OpenCDXIAMUserServiceImplTest {
         GetIamUserRequest request = GetIamUserRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.getIamUser(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.getIamUser(request));
     }
 
     @Test
@@ -101,7 +114,7 @@ class OpenCDXIAMUserServiceImplTest {
                 .setIamUser(
                         IamUser.newBuilder().setId(ObjectId.get().toHexString()).build())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.updateIamUser(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.updateIamUser(request));
     }
 
     @Test
@@ -109,7 +122,7 @@ class OpenCDXIAMUserServiceImplTest {
         DeleteIamUserRequest request = DeleteIamUserRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.deleteIamUser(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.deleteIamUser(request));
     }
 
     @Test
@@ -117,6 +130,120 @@ class OpenCDXIAMUserServiceImplTest {
         UserExistsRequest request = UserExistsRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.userExists(request));
+    }
+
+    @Test
+    void changePassword() {
+        ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setNewPassword("newpass")
+                .setOldPassword("pass")
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.changePassword(request));
+    }
+
+    @Test
+    void changePasswordElse() {
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .password("{noop}pass")
+                        .build()));
+        ChangePasswordRequest request = ChangePasswordRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setNewPassword("newpass")
+                .setOldPassword("password")
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.changePassword(request));
+    }
+
+    @Test
+    void listIamUsers() throws JsonProcessingException {
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper1, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+        OpenCDXIAMUserModel model3 = OpenCDXIAMUserModel.builder()
+                .id(ObjectId.get())
+                .firstName("name")
+                .build();
+        when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(model3), PageRequest.of(1, 10), 1));
+        ListIamUsersRequest request = ListIamUsersRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.listIamUsers(request));
+    }
+
+    @Test
+    void getIamUsersCatch() throws JsonProcessingException {
+        GetIamUserRequest request = GetIamUserRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper1, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .password("{noop}pass")
+                        .build()));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.getIamUser(request));
+    }
+
+    @Test
+    void updateIamUserCatch() throws JsonProcessingException {
+        UpdateIamUserRequest request = UpdateIamUserRequest.newBuilder()
+                .setIamUser(
+                        IamUser.newBuilder().setId(ObjectId.get().toHexString()).build())
+                .build();
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper1, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .password("{noop}pass")
+                        .build()));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.updateIamUser(request));
+    }
+
+    @Test
+    void deleteIamUserCatch() throws JsonProcessingException {
+        DeleteIamUserRequest request = DeleteIamUserRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper1, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .password("{noop}pass")
+                        .build()));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.deleteIamUser(request));
+    }
+
+    @Test
+    void userExistsCatch() throws JsonProcessingException {
+        UserExistsRequest request = UserExistsRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper1, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .password("{noop}pass")
+                        .build()));
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.userExists(request));
     }
 }
