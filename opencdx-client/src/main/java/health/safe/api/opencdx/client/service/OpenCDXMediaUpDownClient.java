@@ -19,9 +19,26 @@ import health.safe.api.opencdx.client.dto.FileUploadResponse;
 import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import org.springframework.core.io.Resource;
 
+/**
+ * Interface for the Media Uploading and Downloading client
+ */
 public interface OpenCDXMediaUpDownClient {
 
+    /**
+     * Method to upload files to Media
+     * @param file path to file to upload
+     * @param fileId ID for upload file.
+     * @return Response if successful
+     * @throws OpenCDXClientException Exception in the client.
+     */
     FileUploadResponse upload(String file, String fileId) throws OpenCDXClientException;
 
+    /**
+     * Method to download files from Media
+     * @param fileId ID of file to download
+     * @param ext Extension of file
+     * @return downloaded resource
+     * @throws OpenCDXClientException Error on download.
+     */
     Resource download(String fileId, String ext) throws OpenCDXClientException;
 }

@@ -25,13 +25,19 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-// @ExcludeFromJacocoGeneratedReport
+/**
+ * WebClient for uploading and downloading files to the media service
+ */
 public class OpenCDXMediaUpDownClientImpl implements OpenCDXMediaUpDownClient {
 
     private static final String DOMAIN = "OpenCDXMediaUpDownClient";
 
     private WebClient webClient;
 
+    /**
+     * Constructor using WebClient
+     * @param webClient WebClient to be used.
+     */
     public OpenCDXMediaUpDownClientImpl(WebClient webClient) {
         this.webClient = webClient;
     }
