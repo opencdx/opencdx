@@ -16,12 +16,6 @@ logging:
     health:
       safe: debug
 
-spring:
-  boot:
-    admin:
-      client:
-        url: http://admin:761/admin/
-
 eureka:
   client:
     service-url:

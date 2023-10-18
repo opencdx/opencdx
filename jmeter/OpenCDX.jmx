@@ -33,8 +33,8 @@
           <stringProp name="GRPCSampler.port">9090</stringProp>
           <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.helloworld.Greeter/SayHello</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -58,7 +58,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/greeting/hello" enabled="true">
