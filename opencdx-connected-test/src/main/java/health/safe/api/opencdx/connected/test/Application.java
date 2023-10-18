@@ -16,17 +16,10 @@
 package health.safe.api.opencdx.connected.test;
 
 import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Application class for this microservice
@@ -49,26 +42,5 @@ public class Application {
      */
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-}
-
-/**
- * Rest Controller for Discovery Client
- */
-@RestController
-@ExcludeFromJacocoGeneratedReport
-class ServiceInstanceRestController {
-
-    @Autowired
-    private DiscoveryClient discoveryClient;
-
-    /**
-     * Discovery Client Rest Interface
-     * @param applicationName Name of application
-     * @return List of service instances.
-     */
-    @RequestMapping("/service-instances/{applicationName}")
-    public List<ServiceInstance> serviceInstancesByApplicationName(@PathVariable String applicationName) {
-        return this.discoveryClient.getInstances(applicationName);
     }
 }

@@ -24,6 +24,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
-        properties = "spring.cloud.config.enabled=false",
+        properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"},
         classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
 class AppConfigTest {}
