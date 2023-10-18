@@ -26,6 +26,7 @@ import health.safe.api.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import health.safe.api.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import health.safe.api.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import java.util.Collections;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -33,15 +34,9 @@ import org.bson.types.ObjectId;
 @ExcludeFromJacocoGeneratedReport
 public class CommunicationsChangeSet {
 
-    public static final String SUBJECT = "subject";
-    public static final String CONTENT = "content";
     public static final String MESSAGE = "message";
-    public static final String VARIABLES_1 = "variables1";
-    public static final String VARIABLES_2 = "variables2";
-    public static final String EVENT_NAME = "eventName";
-    public static final String EVENT_DESCRIPTION = "eventDescription";
-    public static final String PARAMETERS_1 = "parameters1";
-    public static final String PARAMETERS_2 = "parameters2";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
 
     @ChangeSet(order = "001", id = "Create Welcome Template", author = "Gaurav Mishra")
     public void generateWelcomeTemplates(
@@ -51,25 +46,33 @@ public class CommunicationsChangeSet {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373a"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
-                .subject(SUBJECT)
-                .content(CONTENT)
+                .subject("Welcome to OpenCDX")
+                .content(
+                        """
+                        Welcome ${firstName} ${lastName},
+
+                        Welcome to OpenCDX. Your account has been setup with your username: ${email}.
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, "email"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373c"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
-                .message(MESSAGE)
-                .variables(List.of(VARIABLES_1, VARIABLES_2))
+                .message("Welcome ${firstName} ${lastName} to OpenCDX.  Your username is: ${email}.")
+                .variables(List.of(FIRST_NAME, LAST_NAME, "email"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373e"))
-                .eventName(EVENT_NAME)
-                .eventDescription(EVENT_DESCRIPTION)
+                .eventName("Welcome to OpenCDX")
+                .eventDescription("New Member has joined OpenCDX")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d373a"))
                 .emailRetry(4)
                 .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d373c"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
-                .parameters(List.of(PARAMETERS_1, PARAMETERS_2))
+                .parameters(Collections.emptyList())
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
@@ -84,28 +87,22 @@ public class CommunicationsChangeSet {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3741"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NEWSLETTER)
-                .subject(SUBJECT)
-                .content(CONTENT)
-                .build();
-        OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3742"))
-                .templateType(TemplateType.TEMPLATE_TYPE_NEWSLETTER)
-                .message(MESSAGE)
-                .variables(List.of(VARIABLES_1, VARIABLES_2))
+                .subject("OpenCDX Newsletter")
+                .content("""
+                        ${message}.
+                        """)
+                .variables(List.of(MESSAGE))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3743"))
-                .eventName(EVENT_NAME)
-                .eventDescription(EVENT_DESCRIPTION)
+                .eventName("OpenCDX Newsletter")
+                .eventDescription("Periodic newsletter sent to user. ")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3741"))
                 .emailRetry(4)
-                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3742"))
-                .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
-                .parameters(List.of(PARAMETERS_1, PARAMETERS_2))
+                .parameters(Collections.emptyList())
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
-        openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
         openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
     }
 
@@ -117,25 +114,33 @@ public class CommunicationsChangeSet {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3744"))
                 .templateType(TemplateType.TEMPLATE_TYPE_ALERT)
-                .subject(SUBJECT)
-                .content(CONTENT)
+                .subject("OpenCDX Alert")
+                .content(
+                        """
+                        Dear ${firstName} ${lastName},
+
+                        Please be advised you are receiving this alert for the following reason: ${reason}.
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, "reason"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3745"))
                 .templateType(TemplateType.TEMPLATE_TYPE_ALERT)
-                .message(MESSAGE)
-                .variables(List.of(VARIABLES_1, VARIABLES_2))
+                .message("Please be advised you are receiving this alert for the following reason: ${reason}.")
+                .variables(List.of("reason"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3746"))
-                .eventName(EVENT_NAME)
-                .eventDescription(EVENT_DESCRIPTION)
+                .eventName("Alert Notification to inform the user.")
+                .eventDescription("Alert Notification to inform the user.")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3744"))
                 .emailRetry(4)
                 .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3745"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
-                .parameters(List.of(PARAMETERS_1, PARAMETERS_2))
+                .parameters(Collections.emptyList())
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
@@ -150,25 +155,33 @@ public class CommunicationsChangeSet {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3747"))
                 .templateType(TemplateType.TEMPLATE_TYPE_REMINDER)
-                .subject(SUBJECT)
-                .content(CONTENT)
+                .subject("OpenCDX Reminder")
+                .content(
+                        """
+                        Dear ${firstName} ${lastName},
+
+                        Reminder you have ${reminder}.
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, "reminder"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3748"))
                 .templateType(TemplateType.TEMPLATE_TYPE_REMINDER)
-                .message(MESSAGE)
-                .variables(List.of(VARIABLES_1, VARIABLES_2))
+                .message("Reminder: ${reminder}")
+                .variables(List.of("reminder"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3749"))
-                .eventName(EVENT_NAME)
-                .eventDescription(EVENT_DESCRIPTION)
+                .eventName("Reminder to User")
+                .eventDescription("Notificaiton to user of upcoming event.")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3747"))
                 .emailRetry(4)
                 .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3748"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
-                .parameters(List.of(PARAMETERS_1, PARAMETERS_2))
+                .parameters(Collections.emptyList())
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
@@ -183,25 +196,35 @@ public class CommunicationsChangeSet {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374a"))
                 .templateType(TemplateType.TEMPLATE_TYPE_CONFIRMATION)
-                .subject(SUBJECT)
-                .content(CONTENT)
+                .subject("OpenCDX Confirmation")
+                .content(
+                        """
+                        Dear ${firstName} ${lastName},
+
+                        This is to confirm you have ${confirmation}. If this is not accurate
+                        please contact OpenCDX immediately.
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, "confirmation"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374b"))
                 .templateType(TemplateType.TEMPLATE_TYPE_CONFIRMATION)
-                .message(MESSAGE)
-                .variables(List.of(VARIABLES_1, VARIABLES_2))
+                .message(
+                        "This is to confirm you have ${confirmation}. If this is not accurate please contact OpenCDX immediately.")
+                .variables(List.of("confirmation"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374c"))
-                .eventName(EVENT_NAME)
-                .eventDescription(EVENT_DESCRIPTION)
+                .eventName("Confirmation of activity")
+                .eventDescription("Confirmation of an activity")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d374a"))
                 .emailRetry(4)
                 .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d374b"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
-                .parameters(List.of(PARAMETERS_1, PARAMETERS_2))
+                .parameters(Collections.emptyList())
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
@@ -216,25 +239,32 @@ public class CommunicationsChangeSet {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374e"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
-                .subject(SUBJECT)
-                .content(CONTENT)
+                .subject("OpenCDX Notification")
+                .content(
+                        """
+                        Dear ${firstName} ${lastName},
+
+                        This is to notify you of ${notification}.
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, "notification"))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374f"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
-                .message(MESSAGE)
-                .variables(List.of(VARIABLES_1, VARIABLES_2))
+                .message("${notification}")
+                .variables(List.of("notification"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3750"))
-                .eventName(EVENT_NAME)
-                .eventDescription(EVENT_DESCRIPTION)
+                .eventName("Notification to user")
+                .eventDescription("Notification to user of an event.")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d374e"))
                 .emailRetry(4)
                 .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d374f"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
-                .parameters(List.of(PARAMETERS_1, PARAMETERS_2))
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
