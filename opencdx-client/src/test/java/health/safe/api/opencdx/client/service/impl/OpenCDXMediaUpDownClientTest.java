@@ -24,6 +24,7 @@ import com.google.rpc.Code;
 import health.safe.api.opencdx.client.dto.FileUploadResponse;
 import health.safe.api.opencdx.client.exceptions.OpenCDXClientException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -39,6 +40,7 @@ import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 @ExtendWith(MockitoExtension.class)
@@ -136,10 +138,14 @@ public class OpenCDXMediaUpDownClientTest {
 
     @Test
     void testMediaWebClientDownloadException() throws JsonProcessingException {
-        client = new OpenCDXMediaUpDownClientImpl(initializeWebClient(false));
+        WebClient webClient = mock(WebClient.class);
+        client = new OpenCDXMediaUpDownClientImpl(webClient);
         Resource response = mock(InputStreamResource.class);
         mockWebServer.enqueue(new MockResponse().setBody(objectMapper.writeValueAsString(response)));
-        Assertions.assertThrows(OpenCDXClientException.class, () -> client.upload("file", "fileid"));
+        Mockito.when(webClient.post())
+                .thenThrow(new WebClientResponseException(
+                        500, "dummy", new HttpHeaders(), new byte[1], Charset.defaultCharset()));
+        Assertions.assertThrows(OpenCDXClientException.class, () -> client.download("fileid", "ext"));
     }
 
     @Test
