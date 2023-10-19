@@ -10,10 +10,15 @@ dependencies {
     implementation "net.devh:grpc-client-spring-boot-starter:${grpcSpringVersion}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion"
+
     implementation project(":opencdx-proto")
 
     testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
     testImplementation "org.junit.jupiter:junit-jupiter"
+
+    testImplementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    testImplementation( 'com.squareup.okhttp3:mockwebserver:4.10.0')
 }
 
 bootJar {
