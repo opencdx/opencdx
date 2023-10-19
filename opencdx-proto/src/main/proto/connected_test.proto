@@ -41,7 +41,7 @@ message OrderInfo {
   string order_id = 1;               // Unique identifier for the test order
   string status = 2;                // Current status of the test order
   string status_message = 3;         // Descriptive message about the order status
-  repeated status_message_action status_message_actions = 4;  // Actions associated with the status
+  repeated StatusMessageAction status_message_actions = 4;  // Actions associated with the status
   string encounter_id = 5;           // ID of the clinical encounter associated with the test
   bool is_synced_with_ehr = 6;         // Indicator if the test has been synced with an EHR system
   string result = 7;                // Test result data
@@ -73,15 +73,15 @@ message ProviderInfo {
 
 // Details about the test itself and results
 message TestDetails {
-  metadata metadata = 1;            // Metadata associated with the test
+  Metadata metadata = 1;            // Metadata associated with the test
   string requisition_base64 = 2;     // Base64 encoded requisition data
   string internal_test_id = 3;        // Internal reference ID for the test
   string medications = 4;           // Information on medications related to the test
   string referrals = 5;             // Referral details
   string diagnostics = 6;           // Diagnostic details
   repeated string orderable_test_ids = 7;  // List of IDs for orderable tests
-  repeated orderable_test orderable_tests = 8; // Orderable test details
-  repeated orderable_test_result orderable_test_results = 9;  // Results for orderable tests
+  repeated OrderableTest orderable_tests = 8; // Orderable test details
+  repeated OrderableTestResult orderable_test_results = 9;  // Results for orderable tests
   string test_classification = 10;       // Classification or type of the test
   bool is_onsite_test = 11;               // Indicator if the test is conducted on-site
   string specimen_id = 12;               // ID of the specimen collected
@@ -167,12 +167,12 @@ message TestSubmissionResponse {
 }
 
 message ConnectedTest {
-  basic_info basic_info = 1;       // Basic information block
-  order_info order_info = 2;       // Ordering related block
-  test_notes test_notes = 3;       // Notes related block
-  payment_details payment_details = 4; // Payment details block
-  provider_info provider_info = 5;     // Provider details block
-  test_details test_details = 6;       // Test and result details block
+  BasicInfo basic_info = 1;       // Basic information block
+  OrderInfo order_info = 2;       // Ordering related block
+  TestNotes test_notes = 3;       // Notes related block
+  PaymentDetails payment_details = 4; // Payment details block
+  ProviderInfo provider_info = 5;     // Provider details block
+  TestDetails test_details = 6;       // Test and result details block
 }
 
 /**
@@ -203,7 +203,7 @@ message ConnectedTestListByNHIDResponse {
   int32 page_number = 2; // The page being requested
   bool sort_ascending = 3; // indicating if the results should ascending
   int32 page_count = 4; // Total number of available pages
-  repeated connected_test connected_tests = 5;
+  repeated ConnectedTest connected_tests = 5;
 }
 
 /**
@@ -214,7 +214,7 @@ message ConnectedTestListResponse {
   int32 page_number = 2; // The page being requested
   bool sort_ascending = 3; // indicating if the results should ascending
   int32 page_count = 4; // Total number of available pages
-  repeated connected_test connected_tests = 5;
+  repeated ConnectedTest connected_tests = 5;
 }
 
 service HealthcareService {
