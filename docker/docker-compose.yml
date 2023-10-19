@@ -105,6 +105,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8580:8580"
       - "9590:9590"
