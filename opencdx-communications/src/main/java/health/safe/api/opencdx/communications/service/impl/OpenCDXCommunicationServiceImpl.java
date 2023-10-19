@@ -25,7 +25,7 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import health.safe.api.opencdx.commons.service.OpenCDXHtmlSanitizer;
-import health.safe.api.opencdx.commons.service.impl.OpenCDXHtmlSanitizerImpl;
+import health.safe.api.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
@@ -59,7 +59,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationService {
-    private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OpenCDXHtmlSanitizerImpl();
+    private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
 
     private static final String DOMAIN = "OpenCDXCommunicationServiceImpl";
     private static final String OBJECT = "Object";

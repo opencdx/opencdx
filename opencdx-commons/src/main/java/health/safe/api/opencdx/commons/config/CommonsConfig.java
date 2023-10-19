@@ -25,7 +25,7 @@ import health.safe.api.opencdx.commons.service.OpenCDXMessageService;
 import health.safe.api.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import health.safe.api.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
-import health.safe.api.opencdx.commons.service.impl.OpenCDXHtmlSanitizerImpl;
+import health.safe.api.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
@@ -59,12 +59,13 @@ public class CommonsConfig {
 
     /**
      * OpenCDXHtmlSanitizer
+     * @return OpenCDXHtmlSanitizer for use by the system.
      */
     @Bean
     @Primary
     @Description("OWASP Html Sanitizer.")
     public OpenCDXHtmlSanitizer sanitizer() {
-        return new OpenCDXHtmlSanitizerImpl();
+        return new OwaspHtmlSanitizerImpl();
     }
 
     /**
