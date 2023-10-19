@@ -159,6 +159,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8280:8280"
       - "9290:9290"
