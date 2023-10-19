@@ -24,6 +24,8 @@ import health.safe.api.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import health.safe.api.opencdx.commons.exceptions.OpenCDXNotFound;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
+import health.safe.api.opencdx.commons.service.OpenCDXHtmlSanitizer;
+import health.safe.api.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import health.safe.api.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationEventModel;
 import health.safe.api.opencdx.communications.model.OpenCDXNotificationModel;
@@ -57,6 +59,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationService {
+    private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
 
     private static final String DOMAIN = "OpenCDXCommunicationServiceImpl";
     private static final String OBJECT = "Object";
@@ -72,7 +75,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
     private final ObjectMapper objectMapper;
     /**
-     * Constructor taking a PersonRepository
+     * Constructor taking some repositoroes
      *
      * @param openCDXAuditService                Audit service for tracking FDA requirements
      * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
@@ -107,8 +110,10 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     }
 
     @Override
-    public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXNotAcceptable {
-        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
+    public EmailTemplate createEmailTemplate(EmailTemplate rawEmailTemplate) throws OpenCDXNotAcceptable {
+        String sanity = openCDXHtmlSanitizer.sanitize(rawEmailTemplate.getContent());
+        EmailTemplate emailTemplate =
+                EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),
@@ -141,11 +146,13 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
                 .getProtobufMessage();
     }
 
-    @CacheEvict(value = "email_templates", key = "#emailTemplate.templateId")
+    @CacheEvict(value = "email_templates", key = "#rawEmailTemplate.templateId")
     @Override
-    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
+    public EmailTemplate updateEmailTemplate(EmailTemplate rawEmailTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
-        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize email message.
+        String sanity = openCDXHtmlSanitizer.sanitize(rawEmailTemplate.getContent());
+        EmailTemplate emailTemplate =
+                EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
         if (!emailTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
         }
@@ -202,8 +209,10 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     }
 
     @Override
-    public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable {
-        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize sms message.
+    public SMSTemplate createSMSTemplate(SMSTemplate rawSmsTemplate) throws OpenCDXNotAcceptable {
+        String sanity = openCDXHtmlSanitizer.sanitize(rawSmsTemplate.getMessage());
+        SMSTemplate smsTemplate =
+                SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
         try {
             this.openCDXAuditService.config(
                     UUID.randomUUID().toString(),
@@ -235,11 +244,13 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
                 .getProtobufMessage();
     }
 
-    @CacheEvict(value = "sms_templates", key = "#smsTemplate.templateId")
+    @CacheEvict(value = "sms_templates", key = "#rawSmsTemplate.templateId")
     @Override
-    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate)
+    public SMSTemplate updateSMSTemplate(SMSTemplate rawSmsTemplate)
             throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
-        // TODO: Integrate in OpenCDXHtmlSanitizer here to sanitize sms message.
+        String sanity = openCDXHtmlSanitizer.sanitize(rawSmsTemplate.getMessage());
+        SMSTemplate smsTemplate =
+                SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
         if (!smsTemplate.hasTemplateId()) {
             throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
         }
