@@ -135,6 +135,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8380:8380"
       - "9390:9390"
