@@ -10,5 +10,9 @@ spring:
 
 server:
   port: 8888
-
-
+  ssl:
+    enabled: true
+    client-auth: none
+    key-store: file:/certs/opencdx-keystore.p12
+    key-store-password: opencdx
+    key-alias: ${spring.application.name}
