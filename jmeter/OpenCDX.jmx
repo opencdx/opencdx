@@ -61,7 +61,7 @@
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/greeting/hello" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/greeting/hello" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -112,8 +112,8 @@
           <stringProp name="GRPCSampler.port">9290</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_audit.v2alpha.AuditService/Event</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -129,16 +129,7 @@
   &quot;purposeOfUse&quot; : &quot;&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script"></stringProp>
-            <stringProp name="scriptLanguage">java</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
@@ -154,10 +145,10 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8280</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/event/audit" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/event/audit" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -216,8 +207,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -248,8 +239,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -275,8 +266,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -302,8 +293,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -327,8 +318,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -352,8 +343,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -384,8 +375,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -411,8 +402,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -438,8 +429,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -463,8 +454,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -488,8 +479,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -520,8 +511,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -547,8 +538,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -574,8 +565,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -599,8 +590,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -624,8 +615,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -649,8 +640,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -676,8 +667,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -703,8 +694,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -737,7 +728,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8380</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/email [POST]" enabled="true">
@@ -1209,8 +1200,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1241,8 +1232,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1268,8 +1259,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1295,8 +1286,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1320,8 +1311,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1345,8 +1336,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1377,8 +1368,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1404,8 +1395,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1431,8 +1422,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1456,8 +1447,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1481,8 +1472,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1513,8 +1504,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1540,8 +1531,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1567,8 +1558,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1592,8 +1583,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1617,8 +1608,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -1649,7 +1640,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8380</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/email [POST]" enabled="true">
@@ -2064,8 +2055,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2096,8 +2087,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2123,8 +2114,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2150,8 +2141,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2175,8 +2166,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2200,8 +2191,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2232,8 +2223,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2259,8 +2250,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2286,8 +2277,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2311,8 +2302,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2336,8 +2327,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2368,8 +2359,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2395,8 +2386,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2422,8 +2413,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2447,8 +2438,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2472,8 +2463,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2504,7 +2495,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8380</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/email [POST]" enabled="true">
@@ -2919,8 +2910,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2951,8 +2942,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -2978,8 +2969,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3005,8 +2996,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3030,8 +3021,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3055,8 +3046,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3087,8 +3078,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3114,8 +3105,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3141,8 +3132,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3166,8 +3157,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3191,8 +3182,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3223,8 +3214,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3250,8 +3241,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3277,8 +3268,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3302,8 +3293,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3327,8 +3318,8 @@
           <stringProp name="GRPCSampler.port">9390</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3359,7 +3350,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8380</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/communications/email [POST]" enabled="true">
@@ -3831,8 +3822,8 @@
           <stringProp name="GRPCSampler.port">9590</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/SubmitTest</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -3986,8 +3977,8 @@
           <stringProp name="GRPCSampler.port">9590</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/GetTestDetailsById</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -4004,8 +3995,8 @@
           <stringProp name="GRPCSampler.port">9590</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/ListConnectedTests</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -4032,7 +4023,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8580</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="true">
@@ -4143,7 +4134,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8480</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / CreateMedia" enabled="true">
@@ -4154,8 +4145,8 @@
           <stringProp name="GRPCSampler.port">9490</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/CreateMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -4215,8 +4206,8 @@
           <stringProp name="GRPCSampler.port">9490</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/GetMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -4269,8 +4260,8 @@
           <stringProp name="GRPCSampler.port">9490</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/UpdateMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -4294,8 +4285,8 @@
           <stringProp name="GRPCSampler.port">9490</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/ListMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
@@ -4314,8 +4305,8 @@
           <stringProp name="GRPCSampler.port">9490</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/DeleteMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">false</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">false</boolProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>

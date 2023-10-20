@@ -54,5 +54,5 @@ server:
 # Enable SSL for gRPC
 grpc:
   security:
-    cert-chain: file:/certs/${spring.application.name}.pem
-    private-key: file:/certs/key.pem
+    cert-chain: file:/certs/${spring.application.name}-cert.pem
+    private-key: file:/certs/${spring.application.name}-key.pem
