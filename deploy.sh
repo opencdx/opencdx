@@ -232,8 +232,8 @@ if [ "$skip" = false ]; then
 fi
 
 # Clean the project if --clean is specified
-if [ "$fast_build" = true]; then
-    if ./gradlew clean spotlessApply build publish versionUpToDateReport versionReport -x test; then
+if [ "$fast_build" = true ]; then
+    if ./gradlew build publish -x test -x dependencyCheckAggregate; then
         # Build Completed Successfully
         echo "Fast Build & Clean completed successfully"
     else
