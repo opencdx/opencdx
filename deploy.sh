@@ -112,7 +112,8 @@ print_usage() {
     echo "  --all      Skip the interactive menu and open all available reports/documentation."
     echo "  --check    Perform build and check all requirements"
     echo "  --deploy   Will Start Docker and launch the user on the Docker Menu."
-    echo "  --jmeter     Will Start JMeter test 60 seconds after deployment."
+    echo "  --jmeter   Will Start JMeter test 60 seconds after deployment."
+    echo "  --fast     Will perform a fast build skipping tests."
     echo "  --help     Show this help message."
     exit 0
 }
@@ -186,6 +187,7 @@ open_all=false
 check=false
 deploy=false
 jmeter=false
+fast_build=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -212,6 +214,9 @@ for arg in "$@"; do
     --jmeter)
         jmeter=true
         ;;
+    --fast)
+        fast_build=true
+        ;;
     --help)
         print_usage
         ;;
@@ -227,7 +232,15 @@ if [ "$skip" = false ]; then
 fi
 
 # Clean the project if --clean is specified
-if [ "$clean" = true ] && [ "$skip" = true ]; then
+if [ "$fast_build" = true]; then
+    if ./gradlew clean spotlessApply build publish versionUpToDateReport versionReport -x test; then
+        # Build Completed Successfully
+        echo "Fast Build & Clean completed successfully"
+    else
+        # Build Failed
+        handle_error "Build failed. Please review output to determine the issue."
+    fi
+elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     if ./gradlew clean spotlessApply build publish versionUpToDateReport versionReport; then
