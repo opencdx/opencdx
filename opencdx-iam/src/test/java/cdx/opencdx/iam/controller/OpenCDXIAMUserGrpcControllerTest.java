@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.iam.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.media.v2alpha.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
@@ -25,6 +23,8 @@ import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
 import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import io.grpc.stub.StreamObserver;
+import java.util.Collections;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +36,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -49,6 +53,9 @@ class OpenCDXIAMUserGrpcControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Mock
     OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -71,8 +78,20 @@ class OpenCDXIAMUserGrpcControllerTest {
                         return argument;
                     }
                 });
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .build());
+                    }
+                });
+
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository);
+                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 
@@ -93,7 +112,15 @@ class OpenCDXIAMUserGrpcControllerTest {
     @Test
     void listIamUsers() {
         StreamObserver<ListIamUsersResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXIAMUserGrpcController.listIamUsers(ListIamUsersRequest.getDefaultInstance(), responseObserver);
+        Mockito.when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        this.openCDXIAMUserGrpcController.listIamUsers(
+                ListIamUsersRequest.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListIamUsersResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
@@ -133,6 +160,8 @@ class OpenCDXIAMUserGrpcControllerTest {
         this.openCDXIAMUserGrpcController.changePassword(
                 ChangePasswordRequest.newBuilder()
                         .setId(ObjectId.get().toHexString())
+                        .setNewPassword("newpass")
+                        .setOldPassword("pass")
                         .build(),
                 responseObserver);
 
