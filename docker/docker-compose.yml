@@ -51,6 +51,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8680:8680"
       - "9690:9690"
@@ -77,6 +79,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8480:8480"
       - "9490:9490"
@@ -103,6 +107,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8580:8580"
       - "9590:9590"
@@ -131,6 +137,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8380:8380"
       - "9390:9390"
@@ -157,6 +165,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8280:8280"
       - "9290:9290"
@@ -184,6 +194,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+    volumes:
+      - ../certs:/certs
     ports:
       - "8180:8180"
       - "9190:9190"
