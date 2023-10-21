@@ -7,6 +7,7 @@ plugins {
 
 dependencies {
     // Spring
+
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
@@ -33,7 +34,23 @@ dependencies {
     implementation project(":opencdx-commons")
     implementation project(":opencdx-client")
 
+    implementation "dev.ikm.tinkar:entity:1.12.0"
+    implementation "dev.ikm.tinkar:common:1.12.0"
+    implementation "dev.ikm.tinkar:coordinate:1.12.0"
+    implementation "dev.ikm.tinkar:data-mvstore-provider:1.12.0"
+    implementation "dev.ikm.tinkar:data-spinedarray-provider:1.12.0"
+    implementation "dev.ikm.tinkar:data-websocket-client-provider:1.12.0"
+    implementation "dev.ikm.tinkar:data-ephemeral-provider:1.12.0"
+    implementation "dev.ikm.tinkar:executor-provider:1.12.0"
+
     testImplementation "io.nats:nats-spring:${natsSpringVersion}"
+
+
+}
+
+configurations {
+    all*.exclude module : 'spring-boot-starter-logging'
+    all*.exclude module : 'logback-classic'
 }
 
 sourceSets {

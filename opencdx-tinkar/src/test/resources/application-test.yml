@@ -31,3 +31,7 @@ spring:
 opencdx:
   tinkar:
     format: "Hello %s!"
+data:
+  path:
+    parent: C:\\Users\\way2v\\Solor\\sample_data
+    child: solor-us-tinkar.sa

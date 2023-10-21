@@ -18,12 +18,16 @@ package health.safe.api.opencdx.tinkar.service.impl;
 import health.safe.api.opencdx.grpc.tinkar.TinkarRequest;
 import health.safe.api.opencdx.tinkar.model.Person;
 import health.safe.api.opencdx.tinkar.repository.PersonRepository;
+import health.safe.api.opencdx.tinkar.service.EntityServiceSearch;
+import health.safe.api.opencdx.tinkar.service.SearchService;
 import health.safe.api.opencdx.tinkar.service.TinkarService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 class TinkarServiceImplTest {
 
@@ -32,10 +36,17 @@ class TinkarServiceImplTest {
 
     TinkarService tinkarService;
 
+    @MockBean
+    SearchService searchService;
+
+    @MockBean
+    EntityServiceSearch entityServiceSearch;
+
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
         this.tinkarService = new TinkarServiceImpl(this.personRepository);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
