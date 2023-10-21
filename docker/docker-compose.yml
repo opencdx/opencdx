@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   helloworld:
     deploy:
       restart_policy:
@@ -9,7 +10,7 @@ services:
         window: 60s
     image: opencdx/helloworld:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -28,6 +29,7 @@ services:
     ports:
       - "8080:8080"
       - "9090:9090"
+
   iam:
     deploy:
       restart_policy:
@@ -37,7 +39,7 @@ services:
         window: 60s
     image: opencdx/iam:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8680/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8680/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -56,6 +58,7 @@ services:
     ports:
       - "8680:8680"
       - "9690:9690"
+
   media:
     deploy:
       restart_policy:
@@ -65,7 +68,7 @@ services:
         window: 60s
     image: opencdx/media:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8480/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8480/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -84,6 +87,7 @@ services:
     ports:
       - "8480:8480"
       - "9490:9490"
+
   connected-test:
     deploy:
       restart_policy:
@@ -93,7 +97,7 @@ services:
         window: 60s
     image: opencdx/connected-test:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8480/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8580/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -113,7 +117,6 @@ services:
       - "8580:8580"
       - "9590:9590"
 
-
   communications:
     deploy:
       restart_policy:
@@ -123,7 +126,7 @@ services:
         window: 60s
     image: opencdx/communications:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8380/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -142,6 +145,7 @@ services:
     ports:
       - "8380:8380"
       - "9390:9390"
+
   audit:
     deploy:
       restart_policy:
@@ -151,7 +155,7 @@ services:
         window: 60s
     image: opencdx/audit:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8280/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8280/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -180,7 +184,7 @@ services:
         window: 60s
     image: opencdx/tinkar:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8180/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8180/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -208,7 +212,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
-
     ports:
       - "8761:8761"
 
