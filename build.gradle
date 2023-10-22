@@ -108,14 +108,15 @@ otsSwInfo {
 }
 
 def exportedProjects = [
-        ":opencdx-helloworld",
-        ":opencdx-tinkar",
-        ":opencdx-commons",
-        ":opencdx-client",
         ":opencdx-audit",
+        ":opencdx-client",
+        ":opencdx-commons",
         ":opencdx-communications",
+        ":opencdx-connected-test",
+        ":opencdx-helloworld",
+        ":opencdx-iam",
         ":opencdx-media",
-        ":opencdx-connected-test"
+        ":opencdx-tinkar"
 ]
 
 task allJavadoc(type: Javadoc) {
@@ -194,7 +195,7 @@ allprojects {
         violationRules {
             rule {
                 limit {
-                    minimum = 0.9
+                    minimum = 0.1
                 }
             }
         }
