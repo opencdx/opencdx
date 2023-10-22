@@ -16,19 +16,26 @@
 package health.safe.api.opencdx.tinkar.service.impl;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import dev.ikm.tinkar.common.service.CachingService;
-import dev.ikm.tinkar.common.service.PrimitiveData;
-import dev.ikm.tinkar.common.service.ServiceKeys;
-import dev.ikm.tinkar.common.service.ServiceProperties;
+import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.entity.Entity;
-import health.safe.api.opencdx.tinkar.service.EntityServiceSearch;
+import health.safe.api.opencdx.tinkar.service.OpenCDXTinkarService;
 import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * Tinkar Service implementation
+ */
 @Service
 @ExcludeFromJacocoGeneratedReport
-public class EntityServiceImpl implements EntityServiceSearch {
+public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXTinkarServiceImpl() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     private static final String SASTOREOPENNAME = "Open SpinedArrayStore";
 
@@ -37,6 +44,23 @@ public class EntityServiceImpl implements EntityServiceSearch {
 
     @Value("${data.path.child}")
     private String pathChild;
+
+    @Override
+    public PrimitiveDataSearchResult[] search(String query, int maxResultSize) {
+        try {
+            if (!PrimitiveData.running()) {
+                CachingService.clearAll();
+                ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
+                PrimitiveData.selectControllerByName(SASTOREOPENNAME);
+                PrimitiveData.start();
+            }
+            return PrimitiveData.get().search(query, maxResultSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new PrimitiveDataSearchResult[0];
+    }
 
     @Override
     public String getEntity(int nid) {

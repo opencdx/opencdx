@@ -15,7 +15,25 @@
  */
 package health.safe.api.opencdx.tinkar.service;
 
-public interface EntityServiceSearch {
+import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 
+/**
+ * Interface to search TINKAR Repository
+ */
+public interface OpenCDXTinkarService {
+
+    /**
+     * Method to search for a term
+     * @param query String containing the term to search
+     * @param maxResultSize Integer with the maximum number of results.
+     * @return Array of the found data.
+     */
+    public PrimitiveDataSearchResult[] search(String query, int maxResultSize);
+
+    /**
+     * Method to search for an NID
+     * @param nid The NID to search for on the entity.
+     * @return String representing the entity.
+     */
     public String getEntity(int nid);
 }

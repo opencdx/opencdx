@@ -17,16 +17,17 @@ package health.safe.api.opencdx.tinkar.controller;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
-import health.safe.api.opencdx.tinkar.service.EntityServiceSearch;
-import health.safe.api.opencdx.tinkar.service.SearchService;
+import health.safe.api.opencdx.tinkar.service.OpenCDXTinkarService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rest API for access TINKAR resources
+ */
 @Slf4j
 @RestController
 @Observed(name = "opencdx")
@@ -34,20 +35,35 @@ import org.springframework.web.bind.annotation.RestController;
 @ExcludeFromJacocoGeneratedReport
 public class RestSearchController {
 
-    @Autowired
-    private SearchService searchService;
+    private final OpenCDXTinkarService openCDXTinkarService;
 
-    @Autowired
-    private EntityServiceSearch entityServiceSearch;
+    /**
+     * Constructor taking the OpenCDXTinkarService
+     * @param openCDXTinkarService OpenCDXTInkarServer to use
+     */
+    public RestSearchController(OpenCDXTinkarService openCDXTinkarService) {
+        this.openCDXTinkarService = openCDXTinkarService;
+    }
 
+    /**
+     * Search for a data result based on a query
+     * @param query String containing the query of the message
+     * @param maxResults Maximum number of results to return.
+     * @return Array of the results.
+     */
     @GetMapping
     public PrimitiveDataSearchResult[] search(
             @RequestParam("query") String query, @RequestParam("maxResults") Integer maxResults) {
-        return searchService.search(query, maxResults);
+        return openCDXTinkarService.search(query, maxResults);
     }
 
+    /**
+     * Method to look up an entity by the NID
+     * @param nid Integer representing an entity.
+     * @return String representing hte entity.
+     */
     @GetMapping("/nid")
     public String getEntity(@RequestParam("nid") Integer nid) {
-        return entityServiceSearch.getEntity(nid);
+        return openCDXTinkarService.getEntity(nid);
     }
 }
