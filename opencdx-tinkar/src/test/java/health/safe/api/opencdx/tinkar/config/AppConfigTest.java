@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.tinkar.config;
 
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
+import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import io.nats.client.Connection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

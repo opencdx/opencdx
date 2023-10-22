@@ -20,9 +20,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.media.v2alpha.*;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
-import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import io.nats.client.Connection;
 import java.util.Collections;
 import java.util.List;

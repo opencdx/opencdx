@@ -15,7 +15,7 @@
  */
 package health.safe.api.opencdx.tinkar;
 
-import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -26,7 +26,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages = {"health.safe"})
+@ComponentScan(basePackages = {"health.safe", "cdx.opencdx"})
 @ExcludeFromJacocoGeneratedReport
 public class Application {
     /**
