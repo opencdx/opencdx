@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.tinkar.controller;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
 import health.safe.api.opencdx.tinkar.service.EntityServiceSearch;
 import health.safe.api.opencdx.tinkar.service.SearchService;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Observed(name = "opencdx")
 @RequestMapping("/search")
+@ExcludeFromJacocoGeneratedReport
 public class RestSearchController {
 
     @Autowired
@@ -41,10 +43,6 @@ public class RestSearchController {
     @GetMapping
     public PrimitiveDataSearchResult[] search(
             @RequestParam("query") String query, @RequestParam("maxResults") Integer maxResults) {
-        if (maxResults == null) {
-            maxResults = 50;
-        }
-
         return searchService.search(query, maxResults);
     }
 

@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.tinkar.service.impl;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import dev.ikm.tinkar.common.service.*;
 import health.safe.api.opencdx.tinkar.service.SearchService;
 import java.io.File;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@ExcludeFromJacocoGeneratedReport
 public class SearchServiceImpl implements SearchService {
 
     private static final String SASTOREOPENNAME = "Open SpinedArrayStore";

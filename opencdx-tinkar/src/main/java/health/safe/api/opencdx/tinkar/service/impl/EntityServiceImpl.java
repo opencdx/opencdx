@@ -15,6 +15,7 @@
  */
 package health.safe.api.opencdx.tinkar.service.impl;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import dev.ikm.tinkar.common.service.CachingService;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@ExcludeFromJacocoGeneratedReport
 public class EntityServiceImpl implements EntityServiceSearch {
 
     private static final String SASTOREOPENNAME = "Open SpinedArrayStore";
