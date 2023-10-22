@@ -79,5 +79,5 @@ bootJar {
 
 application {
     // Define the main class for the application.
-    mainClass = "health.safe.api.opencdx.tinkar.Application"
+    mainClass = "cdx.opencdx.tinkar.Application"
 }
