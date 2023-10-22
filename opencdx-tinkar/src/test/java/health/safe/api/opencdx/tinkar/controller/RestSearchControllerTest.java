@@ -15,23 +15,16 @@
  */
 package health.safe.api.opencdx.tinkar.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import health.safe.api.opencdx.tinkar.model.Person;
-import health.safe.api.opencdx.tinkar.repository.PersonRepository;
-import io.nats.client.Connection;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -43,47 +36,38 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class RestTinkarControllerTest {
-
+class RestSearchControllerTest {
     @Autowired
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
 
-    @MockBean
-    PersonRepository personRepository;
-
-    @MockBean
-    Connection connection;
-
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @AfterEach
-    void tearDown() {
-        Mockito.reset(this.connection);
-        Mockito.reset(this.personRepository);
-    }
-
     @Test
-    void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
-        Assertions.assertNotNull(mockMvc);
-    }
-
-    @Test
-    void testGreetingHello() throws Exception {
+    void search() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/greeting/hello")
+                .perform(get("/search")
                         .content("{\"name\": \"jeff\"}")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .param("query", "chronic disease of respiratory")
+                        .param("maxResults", "10"))
+                .andExpect(status().is(500))
                 .andReturn();
-        String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"message\":\"Hello jeff!\"}", content);
+    }
+
+    @Test
+    void getEntity() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/search/nid")
+                        .content("{\"name\": \"jeff\"}")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .param("nid", "1"))
+                .andExpect(status().is(500))
+                .andReturn();
     }
 }
