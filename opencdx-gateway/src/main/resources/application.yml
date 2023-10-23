@@ -1,19 +1,43 @@
 spring:
-  cloud:
-    config:
-      tls:
-        key-store: file:/certs/opencdx-keystore.p12
-        trust-store-type: PKCS12
-        key-store-type: PKCS12
-        key-password: opencdx
-        trust-store: file:/certs/opencdx-keystore.p12
-        trust-store-password: opencdx
-        enabled: 'true'
-        key-store-password: opencdx
-      uri: https://Config:8888
-  config:
-    import: configserver:https://Config:8888
   application:
     name: Gateway
-  profiles:
-    active: managed,gateway
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          key:
+            alias: ${spring.application.name}
+          keystore:
+            location: file:/certs/opencdx-keystore.p12
+            password: opencdx
+            keystore.type: PKCS12
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:8761/eureka/
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    statusPageUrl: https://${spring.application.name}:${server.port}/info
+    healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
+    homePageUrl: https://${spring.application.name}:${server.port}/
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 8880
+  ssl:
+    enabled: true
+    bundle: web-server
+    client-auth: none
+  http2:
+    enabled: true
