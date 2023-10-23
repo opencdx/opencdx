@@ -2,11 +2,21 @@
 spring:
   application:
     name: Config
+
   cloud:
     config:
       server:
         native:
           search-locations: classpath:/config/{profile}
+      tls:
+        key-store: file:/certs/opencdx-keystore.p12
+        trust-store-type: PKCS12
+        key-store-type: PKCS12
+        key-password: opencdx
+        trust-store: file:/certs/opencdx-keystore.p12
+        trust-store-password: opencdx
+        enabled: 'true'
+        key-store-password: opencdx
 
 server:
   port: 8888
@@ -16,3 +26,26 @@ server:
     key-store: file:/certs/opencdx-keystore.p12
     key-store-password: opencdx
     key-alias: ${spring.application.name}
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:8761/eureka/
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    statusPageUrl: https://${spring.application.name}:${server.port}/info
+    healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
+    homePageUrl: https://${spring.application.name}:${server.port}/
