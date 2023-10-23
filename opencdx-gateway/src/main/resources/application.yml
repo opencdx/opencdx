@@ -1,9 +1,4 @@
 spring:
-  cloud:
-    gateway:
-      httpclient:
-        ssl:
-          useInsecureTrustManager: true
   application:
     name: Gateway
   ssl:
@@ -16,10 +11,52 @@ spring:
             location: file:/certs/opencdx-keystore.p12
             password: opencdx
             keystore.type: PKCS12
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      enabled: true
+      routes:
+        - id: grpc-helloworld
+          uri: lb:https://helloworld:9790
+          predicates:
+            - Path=/grpc-helloworld/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-audit
+          uri: lb:https://audit:9290
+          predicates:
+            - Path=/grpc-audit/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-communications
+          uri: lb:https://communications:9390
+          predicates:
+            - Path=/grpc-communications/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-connected-test
+          uri: lb:https://connected-test:9590
+          predicates:
+            - Path=/grpc-connected-test/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-media
+          uri: lb:https://media:9490
+          predicates:
+            - Path=/grpc-media/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:
       defaultZone: http://admin:8761/eureka/
+    registry-fetch-interval-seconds: 5
   instance:
     nonSecurePortEnabled: false
     securePortEnabled: true
@@ -29,6 +66,8 @@ eureka:
 
 management:
   endpoint:
+    gateway:
+      enabled: true
     health:
       probes:
         enabled: true
@@ -46,8 +85,5 @@ server:
     key-store-password: opencdx
     key-store: file:/certs/opencdx-keystore.p12
     key-store-type: PKCS12
-    trust-store: file:/certs/opencdx-keystore.p12
-    trust-store-password: opencdx
-    trust-store-type: PKCS12
   http2:
     enabled: true
