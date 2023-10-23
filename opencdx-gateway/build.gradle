@@ -63,5 +63,5 @@ bootJar {
 
 application {
     // Define the main class for the application.
-    mainClass = "health.safe.api.opencdx.gateway.Application"
+    mainClass = "cdx.opencdx.gateway.Application"
 }
