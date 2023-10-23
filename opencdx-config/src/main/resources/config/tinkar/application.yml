@@ -8,6 +8,7 @@ grpc:
 server:
   port: 8180
 
-opencdx:
-  tinkar:
-    format: "Hello %s!"
+data:
+  path:
+    parent: /data
+    child: solor-us-tinkar.sa
