@@ -1,4 +1,9 @@
 spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
   application:
     name: Gateway
   ssl:
@@ -37,7 +42,12 @@ server:
   port: 8880
   ssl:
     enabled: true
-    bundle: web-server
-    client-auth: none
+    key-alias: ${spring.application.name}
+    key-store-password: opencdx
+    key-store: file:/certs/opencdx-keystore.p12
+    key-store-type: PKCS12
+    trust-store: file:/certs/opencdx-keystore.p12
+    trust-store-password: opencdx
+    trust-store-type: PKCS12
   http2:
     enabled: true
