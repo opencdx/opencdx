@@ -9,7 +9,7 @@ services:
         window: 60s
     image: opencdx/gateway:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8880/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
