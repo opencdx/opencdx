@@ -133,7 +133,7 @@ task allJavadoc(type: Javadoc) {
 
 allprojects {
 
-    group "health.safe"
+    group "cdx.opencdx"
     version "${SEMANTIC_RELEASE_VERSION}"
     sourceCompatibility = JavaVersion.VERSION_20
     targetCompatibility = JavaVersion.VERSION_20
