@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.gateway;
 
-import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import lombok.Generated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -27,7 +27,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient
 @SpringBootApplication
 @ComponentScan(basePackages = {"cdx.opencdx"})
-@ExcludeFromJacocoGeneratedReport
+@Generated
 public class Application {
     /**
      * Default Constructor
