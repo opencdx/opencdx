@@ -130,6 +130,7 @@ build_docker() {
     docker build -t opencdx/media ./opencdx-media || handle_error "Docker opencdx-media build failed."
     docker build -t opencdx/connected-test ./opencdx-connected-test || handle_error "Docker opencdx-connected-test build failed."
     docker build -t opencdx/iam ./opencdx-iam || handle_error "Docker opencdx-iam build failed."
+    docker build -t opencdx/gateway ./opencdx-gateway || handle_error "Docker opencdx-gateway build failed."
 }
 
 # Function to start Docker services

@@ -36,14 +36,14 @@ public class OpenCDXPerformanceHandler implements ObservationHandler<Observation
 
     @Override
     public void onStart(Observation.Context context) {
-        log.info("OpenCDX Execution Started: {}", context.getName());
+        log.trace("OpenCDX Execution Started: {}", context.getName());
         context.put("time", System.nanoTime());
         ObservationHandler.super.onStart(context);
     }
 
     @Override
     public void onError(Observation.Context context) {
-        log.info(
+        log.trace(
                 "OpenCDX Execution Error: {} error {}",
                 context.getName(),
                 context.getError().getMessage());
@@ -52,7 +52,7 @@ public class OpenCDXPerformanceHandler implements ObservationHandler<Observation
 
     @Override
     public void onStop(Observation.Context context) {
-        log.info(
+        log.trace(
                 "OpenCDX Execution Stopped: {} duration {} ms.",
                 context.getName(),
                 (System.nanoTime() - context.getOrDefault("time", 0L)) / 1000000.0);
