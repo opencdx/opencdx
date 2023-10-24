@@ -1,0 +1,165 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.inventory.v2alpha;
+
+// Address message defines the address details.
+message Address {
+    string street = 1;        // Street address
+    string city = 2;          // City or locality
+    string postal_code = 3;   // Postal code
+    string region = 4;        // Region or state
+    string country = 5;       // Country
+}
+
+// Country message represents a country.
+message Country {
+    string id = 1;    // Country ID
+    string name = 2;  // Country name
+}
+
+// Manufacturer message represents a manufacturer.
+message Manufacturer {
+    string id = 1;                       // Manufacturer ID
+    string name = 2;                     // Manufacturer name
+    Address manufacturer_address = 3;    // Manufacturer's address
+    string manufacturer_contact = 4;     // Manufacturer's contact information
+    string manufacturer_email = 5;       // Manufacturer's email
+    string manufacturer_phone = 6;       // Manufacturer's phone number
+    string manufacturer_website = 7;     // Manufacturer's website
+    string manufacturer_description = 8; // Manufacturer's description
+    repeated string manufacturer_certifications = 9; // Manufacturer's certifications
+}
+
+// Vendor message represents a vendor.
+message Vendor {
+    string id = 1;               // Vendor ID
+    string vendor_name = 2;      // Vendor name
+    Address vendor_address = 3;  // Vendor's address
+    string vendor_contact = 4;   // Vendor's contact information
+    string vendor_email = 5;     // Vendor's email
+    string vendor_phone = 6;     // Vendor's phone number
+    string vendor_website = 7;   // Vendor's website
+    string vendor_description = 8; // Vendor's description
+    repeated string vendor_certifications = 9; // Vendor's certifications
+}
+
+// Device message represents a device.
+message Device {
+    string id = 1;                      // Device ID
+    string type = 2;                    // Device type
+    string model = 3;                   // Device model
+    string manufacturer_id = 4;         // ID of the manufacturer
+    string manufacturer_country_id = 5; // ID of the manufacturer's country
+    string vendor_id = 6;               // ID of the vendor
+    string vendor_country_id = 7;      // ID of the vendor's country
+    string manufacture_date = 8;       // Date of manufacture
+    string expiry_date = 9;            // Date of expiry
+    string batch_number = 10;          // Batch number
+    string serial_number = 11;         // Serial number
+    string test_type_id = 12;          // ID of the test type
+    double test_sensitivity = 13;      // Test sensitivity
+    double test_specificity = 14;      // Test specificity
+    string storage_requirements = 15;  // Storage requirements
+    string test_validation_date = 16;   // Test validation date
+    string approval_status = 17;       // Approval status
+    string url = 18;                   // URL related to the device
+    string notes = 19;                 // Additional notes
+    string safety = 20;                // Safety information
+    string user_instructions = 21;    // User instructions
+    string limitations = 22;          // Limitations of the device
+    string warranty_info = 23;         // Warranty information
+    int32 intended_use_age = 24;      // Intended use age
+    bool is_fda_authorized = 25;      // FDA authorization status
+    string device_status = 26;        // Device status
+    string associated_software_version = 27; // Associated software version
+    repeated string test_case_ids = 28;     // IDs of the test cases this device is part of
+}
+
+// TestCase message represents a case or package of tests.
+message TestCase {
+    string id = 1;                 // Unique ID for the test case
+    string manufacturer_id = 2;     // ID of the manufacturer
+    string vendor_id = 3;           // ID of the vendor
+    repeated string device_ids = 4; // IDs of the devices included in the test case
+    int32 number_of_tests = 5;      // Number of tests included in the test case
+    string packaging_date = 6;      // Date of packaging
+    string expiry_date = 7;         // Expiry date of the test case
+    string batch_number = 8;        // Batch number
+    string serial_number = 9;       // Serial number of the test case
+    string storage_requirements = 10; // Storage requirements
+    string user_instructions = 11;    // User instructions for the test case
+    string limitations = 12;         // Limitations of the test case
+    string safety = 13;              // Safety information
+}
+
+// gRPC service for managing countries.
+service CountryService {
+    rpc get_country_by_id(CountryIdRequest) returns (Country);
+    rpc add_country(Country) returns (Country);
+    rpc update_country(Country) returns (Country);
+    rpc delete_country(CountryIdRequest) returns (DeleteResponse);
+}
+
+// gRPC service for managing manufacturers.
+service ManufacturerService {
+    rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (Manufacturer);
+    rpc add_manufacturer(Manufacturer) returns (Manufacturer);
+    rpc update_manufacturer(Manufacturer) returns (Manufacturer);
+    rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse);
+}
+
+// gRPC service for managing vendors.
+service VendorService {
+    rpc get_vendor_by_id(VendorIdRequest) returns (Vendor);
+    rpc add_vendor(Vendor) returns (Vendor);
+    rpc update_vendor(Vendor) returns (Vendor);
+    rpc delete_vendor(VendorIdRequest) returns (DeleteResponse);
+}
+
+// gRPC service for managing devices.
+service DeviceService {
+    rpc get_device_by_id(DeviceIdRequest) returns (Device);
+    rpc add_device(Device) returns (Device);
+    rpc update_device(Device) returns (Device);
+    rpc delete_device(DeviceIdRequest) returns (DeleteResponse);
+}
+
+// gRPC service for managing test cases.
+service TestCaseService {
+    rpc get_test_case_by_id(TestCaseIdRequest) returns (TestCase);
+    rpc add_test_case(TestCase) returns (TestCase);
+    rpc update_test_case(TestCase) returns (TestCase);
+    rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse);
+}
+
+// Request message to get a country by ID.
+message CountryIdRequest {
+    string country_id = 1; // Country ID
+}
+
+// Request message to get a manufacturer by ID.
+message ManufacturerIdRequest {
+    string manufacturer_id = 1; // Manufacturer ID
+}
+
+// Request message to get a vendor by ID.
+message VendorIdRequest {
+    string vendor_id = 1; // Vendor ID
+}
+
+// Request message to get a device by ID.
+message DeviceIdRequest {
+    string device_id = 1; // Device ID
+}
+
+// Request message to get a test case by ID.
+message TestCaseIdRequest {
+    string test_case_id = 1; // Test Case ID
+}
+
+// Response message for delete operations.
+message DeleteResponse {
+    bool success = 1;  // Indicates if the delete operation was successful
+    string message = 2; // Message providing additional information about the delete operation
+}
+

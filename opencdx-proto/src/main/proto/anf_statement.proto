@@ -1,0 +1,193 @@
+syntax = "proto3";
+
+package ANF;
+
+// Enum to represent different levels of health risk.
+enum HealthRisk {
+  HEALTH_RISK_UNSPECIFIED = 0;  // Default, unspecified value
+  HEALTH_RISK_LOW = 1;  // Low level of health risk
+  HEALTH_RISK_NORMAL = 2;  // Normal level of health risk
+  HEALTH_RISK_HIGH = 3;  // High level of health risk
+  HEALTH_RISK_CRITICAL = 4;  // Critical level of health risk
+}
+
+// Enum to represent the different states a result can be in.
+enum ResultStateStatus {
+  RESULT_STATE_STATUS_UNSPECIFIED = 0;  // Default, unspecified value
+  RESULT_STATE_STATUS_ON_HOLD = 1;  // The action is currently on hold
+  RESULT_STATE_STATUS_NEEDED = 2;  // The action is needed but not yet started
+  RESULT_STATE_STATUS_REJECTED = 3;  // The action was rejected
+  RESULT_STATE_STATUS_COMPLETED = 4;  // The action was completed
+}
+
+// Enum to represent the normal range of a result.
+enum NormalRange {
+  NORMAL_RANGE_UNSPECIFIED = 0;  // Default, unspecified value
+  NORMAL_RANGE_LOW = 1;  // The result is low
+  NORMAL_RANGE_NORMAL = 2;  // The result is within the normal range
+  NORMAL_RANGE_HIGH = 3;  // The result is high
+  NORMAL_RANGE_CRITICAL = 4;  // The result is critically high or low
+}
+
+// Service definition for ANF operations.
+// Provides CRUD operations for ANFStatement and circumstances.
+service ANFService {
+  rpc CreateANFStatement (ANFStatement) returns (Identifier);  // Create a new ANFStatement
+  rpc GetANFStatement (Identifier) returns (ANFStatement);  // Retrieve an existing ANFStatement by its Identifier
+  rpc UpdateANFStatement (ANFStatement) returns (Identifier);  // Update an existing ANFStatement
+  rpc DeleteANFStatement (Identifier) returns (Identifier);  // Delete an ANFStatement by its Identifier
+  rpc CreatePerformanceCircumstance (CreatePerformanceCircumstanceRequest) returns (CreatePerformanceCircumstanceResponse);  // Create a new PerformanceCircumstance
+  rpc CreateRequestCircumstance (CreateRequestCircumstanceRequest) returns (CreateRequestCircumstanceResponse);  // Create a new RequestCircumstance
+}
+
+// Request message for creating a new PerformanceCircumstance.
+message CreatePerformanceCircumstanceRequest {
+  PerformanceCircumstance performance_circumstance = 1;  // The PerformanceCircumstance to be created
+}
+
+// Response message for creating a new PerformanceCircumstance.
+message CreatePerformanceCircumstanceResponse {
+  string status = 1;  // Status of the PerformanceCircumstance creation
+}
+
+// Request message for creating a new RequestCircumstance.
+message CreateRequestCircumstanceRequest {
+  RequestCircumstance request_circumstance = 1;  // The RequestCircumstance to be created
+}
+
+// Response message for creating a new RequestCircumstance.
+message CreateRequestCircumstanceResponse {
+  string status = 1;  // Status of the RequestCircumstance creation
+}
+
+// Unique identifier for an ANFStatement.
+message Identifier {
+  string id = 1;  // The unique ID
+}
+
+// Representation of a measurable element, such as time or test results.
+message Measure {
+  float upper_bound = 1;  // The upper bound of the measure
+  float lower_bound = 2;  // The lower bound of the measure
+  bool include_upper_bound = 3;  // Indicates if the upper bound is inclusive
+  bool include_lower_bound = 4;  // Indicates if the lower bound is inclusive
+   
+  // Presence: upperBound = INF, lowerBound > 0, includeLowerBound = true/false based on context, semantic = "Countable quantity"
+  // For example, for "Nausea present": upperBound = INF, lowerBound = 0, includeLowerBound = false
+
+  // Absence: upperBound = 0, lowerBound = 0, includeLowerBound = true, includeUpperBound = true, semantic = "Countable quantity"
+  // For example, for "Nausea absent": upperBound = 0, lowerBound = 0, includeLowerBound = true, includeUpperBound = true
+
+  // Indeterminate: Includes both 0 and at least one number > 0
+  // For example, for "Nausea indeterminate": upperBound = INF, lowerBound = 0, includeLowerBound = true
+
+  // Exact Value: upperBound = n, lowerBound = n, includeLowerBound = true, includeUpperBound = true
+  // For example, for "Blood Pressure is exactly 120": upperBound = 120, lowerBound = 120, includeLowerBound = true, includeUpperBound = true
+
+  // Ranges: upperBound = n, lowerBound = m, includeLowerBound = true/false, includeUpperBound = true/false
+  // For example, for "Blood Pressure between 110 and 130": upperBound = 130, lowerBound = 110, includeLowerBound = true, includeUpperBound = true  
+ 
+  LogicalExpression semantic = 5;  // The semantic meaning of the measure, e.g., "Countable quantity"
+  float resolution = 6;  // The resolution or precision of the measure, optional
+}
+
+// Representation of a logical expression.
+message LogicalExpression {
+  string expression = 1;  // The logical expression as a string
+}
+
+// Representation of a participant, typically a patient.
+message Participant {
+  string id = 1;  // The unique ID of the participant
+}
+
+// Representation of timing information.
+message Timing {
+  int64 time = 1;  // The time as a Unix timestamp
+  string description = 2;  // Description of the timing, e.g., "past", "present", "future"
+}
+
+// Representation of a practitioner or authoring entity.
+message Practitioner {
+  string id = 1;  // The unique ID of the practitioner
+  string practitioner = 2;  // Reference to the participating practitioner
+  LogicalExpression code = 3;  // Roles the practitioner is authorized to perform
+}
+
+// Representation of associated statements like preconditions or interpretations.
+message AssociatedStatement {
+  string description = 1;  // Description or content of the associated statement
+}
+
+// Representation of repetition details for a RequestCircumstance.
+message Repetition {
+  Measure period_start = 1;  // When the repetition should start
+  Measure period_duration = 2;  // Duration of the repetition period
+  Measure event_separation = 3;  // Time between events
+  Measure event_duration = 4;  // Duration of each event, optional
+  Measure event_frequency = 5;  // Frequency of the events
+}
+
+// Representation of a RequestCircumstance.
+message RequestCircumstance {
+  repeated AssociatedStatement conditional_trigger = 1;  // Conditions that trigger the request
+  repeated Reference requested_participant = 2;  // Participants in the request
+  LogicalExpression priority = 3;  // Priority level of the request
+  Measure requested_result = 4;  // Expected result of the request
+  Repetition repetition = 5;  // Details about the repetition, optional
+  Timing timing = 6;  // Timing information, always represents a future time
+}
+
+// Representation of a PerformanceCircumstance.
+message PerformanceCircumstance {
+  LogicalExpression status = 1;  // Current status of the performance
+  Measure result = 2;  // Result of the performance
+  LogicalExpression health_risk = 3;  // Health risk level, optional
+  Measure normal_range = 4;  // Normal range for the result, optional
+  repeated Participant participant = 5;  // Participants in the performance
+  Timing timing = 6;  // Timing information, represents a past or current time
+}
+
+// Representation of a NarrativeCircumstance.
+message NarrativeCircumstance {
+  string text = 1;  // Textual description or narrative
+}
+
+// Representation of a reference to other entities like patient records or health practitioners.
+message Reference {
+  string id = 1;  // The unique ID of the reference
+  string type = 2;  // Type of the reference, e.g., "Patient", "Practitioner"
+}
+
+// Main representation of an ANFStatement.
+message ANFStatement {
+  Identifier id = 1;  // The unique ID of the ANFStatement
+ 
+  // Time of the statement
+  // Rule: Timing - past, present, or future
+  // For a Performance of Action, the Timing can represent a time in the past or a current time.
+  // For a Request of Action, the Timing will always represent a future time.
+  Measure time = 2;  
+ 
+  Participant subject_of_record = 3;  // Subject of the record, usually the patient
+  repeated Practitioner author = 4;  // Authors of the statement
+  LogicalExpression subject_of_information = 5;  // Subject or topic of the information
+  repeated AssociatedStatement associated_statement = 6;  // Associated statements or conditions
+
+  // Topic of the statement
+  // All code will be implemented using TINKAR:
+  // - Simple observations use Observation procedure to represent the topic.
+  // - Medication administrations use an Administration of substance concept.
+  // - Laboratory tests use a Laboratory Procedure concept.
+  // - Imaging Procedures use an Imaging Procedure concept.
+ 
+  LogicalExpression topic = 7;  // Main topic of the statement
+  LogicalExpression type = 8;  // Type of the statement, e.g., "Request", "Performance"
+
+  // One of the following circumstances must be present: RequestCircumstance, PerformanceCircumstance, or NarrativeCircumstance.
+  oneof circumstance_choice {
+    RequestCircumstance request_circumstance = 9;
+    PerformanceCircumstance performance_circumstance = 10;
+    NarrativeCircumstance narrative_circumstance = 11;
+  }
+}
