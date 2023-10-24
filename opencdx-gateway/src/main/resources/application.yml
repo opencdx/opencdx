@@ -6,7 +6,7 @@ spring:
       jks:
         web-server:
           key:
-            alias: ""${spring.application.name}
+            alias: ${spring.application.name}
           keystore:
             location: file:/certs/opencdx-keystore.p12
             password: opencdx
