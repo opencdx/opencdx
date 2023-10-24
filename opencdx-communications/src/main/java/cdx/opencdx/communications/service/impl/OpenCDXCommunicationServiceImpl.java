@@ -453,13 +453,17 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         EmailTemplate emailTemplate = this.getEmailTemplate(TemplateRequest.newBuilder()
                 .setTemplateId(notificationEvent.getEmailTemplateId())
                 .build());
+        String subject = this.processHTML(
+                emailTemplate.getSubject(),
+                emailTemplate.getVariablesList().stream().toList(),
+                objectVariableMap);
         String message = this.processHTML(
                 emailTemplate.getContent(),
                 emailTemplate.getVariablesList().stream().toList(),
                 objectVariableMap);
 
         if (this.openCDXEmailService.sendEmail(
-                emailTemplate.getSubject(),
+                subject,
                 message,
                 openCDXNotificationModel.getToEmail(),
                 openCDXNotificationModel.getCcEmail(),
