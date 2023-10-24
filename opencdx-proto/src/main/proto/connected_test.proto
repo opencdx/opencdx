@@ -4,6 +4,24 @@ package cdx.open_connected_test.v2alpha;
 
 import "google/protobuf/timestamp.proto";
 
+// Define test format types 
+enum TestFormat {
+  TEST_FORMAT_UNSPECIFIED = 0;  // Unspecified test format
+  TEST_FORMAT_BLOOD = 1;        // Blood test
+  TEST_FORMAT_URINE = 2;        // Urine test
+  TEST_FORMAT_SALIVA = 3;       // Saliva test
+  TEST_FORMAT_COVID_19 = 4;     // COVID-19 test
+}
+
+// Enum to classify the type of test
+enum TestClassification {
+  TEST_CLASSIFICATION_UNSPECIFIED = 0;  // Unspecified test classification
+  TEST_CLASSIFICATION_GENERAL = 1;      // General test
+  TEST_CLASSIFICATION_DIAGNOSTIC = 2;   // Diagnostic test
+  TEST_CLASSIFICATION_SCREENING = 3;   // Screening test
+  TEST_CLASSIFICATION_MONITORING = 4;  // Monitoring test
+  TEST_CLASSIFICATION_COVID_19 = 5;    // COVID-19 related test
+}
 
 // Define lab test types
 enum LabTestType {
@@ -27,139 +45,140 @@ message BasicInfo {
   string creator = 3;              // User or entity that created the test
   google.protobuf.Timestamp modified = 4;             // Timestamp when the test was last modified
   string modifier = 5;             // User or entity that last modified the test
-  string vendorLabTestId = 6;      // ID referencing the test within the vendor's system
+  string vendor_lab_test_id = 6;      // ID referencing the test within the vendor's system
   string type = 7;               // Class or type of the test
-  string userId = 8;               // ID of the user associated with the test
-  int32 nationalHealthId = 9;     // National health ID of the user
-  string healthServiceId = 10;     // ID of the health service provider
-  string tenantId = 11;            // ID of the tenant (in multi-tenant systems)
+  string user_id = 8;               // ID of the user associated with the test
+  int32 national_health_id = 9;     // National health ID of the user
+  string health_service_id = 10;     // ID of the health service provider
+  string tenant_id = 11;            // ID of the tenant (in multi-tenant systems)
   string source = 12;              // Source or origin of the test data
 }
 
 // Information related to ordering
 message OrderInfo {
-  string orderId = 1;               // Unique identifier for the test order
+  string order_id = 1;               // Unique identifier for the test order
   string status = 2;                // Current status of the test order
-  string statusMessage = 3;         // Descriptive message about the order status
-  repeated StatusMessageAction statusMessageActions = 4;  // Actions associated with the status
-  string encounterId = 5;           // ID of the clinical encounter associated with the test
-  bool isSyncedWithEHR = 6;         // Indicator if the test has been synced with an EHR system
+  string status_message = 3;         // Descriptive message about the order status
+  repeated StatusMessageAction status_message_actions = 4;  // Actions associated with the status
+  string encounter_id = 5;           // ID of the clinical encounter associated with the test
+  bool is_synced_with_ehr = 6;         // Indicator if the test has been synced with an EHR system
   string result = 7;                // Test result data
-  string questionnaireId = 8;       // ID of the associated questionnaire, if any
+  string questionnaire_id = 8;       // ID of the associated questionnaire, if any
 }
 
 // Notes regarding the test
 message TestNotes {
   string notes = 1;                 // General notes about the test
-  string medicationNotes = 2;       // Notes about medication related to the test
-  string referralNotes = 3;         // Notes about referrals related to the test
-  string diagnosticNotes = 4;       // Diagnostic notes or observations
+  string medication_notes = 2;       // Notes about medication related to the test
+  string referral_notes = 3;         // Notes about referrals related to the test
+  string diagnostic_notes = 4;       // Diagnostic notes or observations
 }
 
 // Payment details
 message PaymentDetails {
-  string paymentMode = 1;           // Mode of payment used
-  string insuranceInfoId = 2;       // Reference ID for insurance information
-  string paymentTransactionId = 3;  // ID of the payment transaction
-  string paymentDetails = 4;        // Additional details about the payment
+  string payment_mode = 1;           // Mode of payment used
+  string insurance_info_id = 2;       // Reference ID for insurance information
+  string payment_transaction_id = 3;  // ID of the payment transaction
+  string payment_details = 4;        // Additional details about the payment
 }
 
 // Information about providers
 message ProviderInfo {
-  string orderingProviderId = 1;    // ID of the provider who ordered the test
-  int32 assignedProviderID = 2;     // ID of the provider assigned to oversee the test
-  int32 orderingProviderNPI = 3;    // National Provider Identifier of the ordering provider
+  string ordering_provider_id = 1;    // ID of the provider who ordered the test
+  int32 assigned_provider_id = 2;     // ID of the provider assigned to oversee the test
+  int32 ordering_provider_npi = 3;    // National Provider Identifier of the ordering provider
 }
 
 // Details about the test itself and results
 message TestDetails {
   Metadata metadata = 1;            // Metadata associated with the test
-  string requisitionBase64 = 2;     // Base64 encoded requisition data
-  string internalTestId = 3;        // Internal reference ID for the test
+  string requisition_base64 = 2;     // Base64 encoded requisition data
+  string internal_test_id = 3;        // Internal reference ID for the test
   string medications = 4;           // Information on medications related to the test
   string referrals = 5;             // Referral details
   string diagnostics = 6;           // Diagnostic details
-  repeated string orderableTestIds = 7;  // List of IDs for orderable tests
-  repeated OrderableTest orderableTests = 8; // Orderable test details
-  repeated OrderableTestResult orderableTestResults = 9;  // Results for orderable tests
-  string testClassification = 10;       // Classification or type of the test
-  bool isOnsiteTest = 11;               // Indicator if the test is conducted on-site
-  string specimenId = 12;               // ID of the specimen collected
-  string labVendorConfirmationId = 13;  // Confirmation ID from the lab vendor
-  int32 deviceIdentifier = 14;          // Identifier of the device used for the test
-  string deviceSerialNumber = 15;       // Serial number of the device
-  bool isAutoGenerated = 16;            // Indicator if the test record was auto-generated
-  string reportingFlag = 17;            // Flag indicating reporting status
-  string notificationFlag = 18;         // Flag indicating notification status
-  string orderStatusFlag = 19;          // Flag indicating order status
-  string orderReceiptPath = 20;         // Path to the order receipt
-  string labTestType = 21;       // Type of the lab test
-  string specimanType = 22;      // Type of specimen used for the test
-  string medicalCode = 23;       // Medical code associated with the test
+  repeated string orderable_test_ids = 7;  // List of IDs for orderable tests
+  repeated OrderableTest orderable_tests = 8; // Orderable test details
+  repeated OrderableTestResult orderable_test_results = 9;  // Results for orderable tests
+  TestClassification test_classification = 10;       // Classification or type of the test
+  bool is_onsite_test = 11;               // Indicator if the test is conducted on-site
+  string specimen_id = 12;               // ID of the specimen collected
+  string lab_vendor_confirmation_id = 13;  // Confirmation ID from the lab vendor
+  int32 device_identifier = 14;          // Identifier of the device used for the test
+  string device_serial_number = 15;       // Serial number of the device
+  bool is_auto_generated = 16;            // Indicator if the test record was auto-generated
+  string reporting_flag = 17;            // Flag indicating reporting status
+  string notification_flag = 18;         // Flag indicating notification status
+  string order_status_flag = 19;          // Flag indicating order status
+  string order_receipt_path = 20;         // Path to the order receipt
+  string lab_test_type = 21;       // Type of the lab test
+  string speciman_type = 22;      // Type of specimen used for the test
+  string medical_code = 23;       // Medical code associated with the test
+  string test_name=24;       // Human readable test name
+  TestFormat test_format = 25;       // Format or type of the test (e.g., "PCR", "Antigen", "Serology", etc.)
 }
 
 // Metadata related to a specific test.
 message Metadata {
-  string qrData = 1;                          // QR Code data associated with the test kit.
-  string kitUploadID = 2;                     // ID associated with the kit's data upload event.
-  string responseMessage = 3;                 // Detailed message related to the response or result.
-  string responseTitle = 4;                   // Title or header of the response.
-  int32 responseCode = 5;                     // Numeric code representing the response type.
-  string imageType = 6;                       // Type or format of any associated image (e.g., "jpg", "png").
-  string type = 7;                            // Type or category of the test.
-  string manufacturer = 8;                    // Manufacturer or producer of the test kit.
-  string casseteLotNumber = 9;                // Lot number associated with the cassette of the test kit.
-  bool outcomeIgM = 10;                       // Boolean outcome for IgM antibody.
-  bool outcomeIgG = 11;                       // Boolean outcome for IgG antibody.
-  string outcome = 12;                        // Overall outcome or result of the test.
-  bool selfAssessmentOutcomeIgM = 13;         // Self-assessed outcome for IgM antibody.
-  bool selfAssessmentOutcomeIgG = 14;         // Self-assessed outcome for IgG antibody.
-  string selfAssessmentOutcome = 15;          // Overall self-assessed outcome or result.
-  string casseteExpirationDate = 16;          // Expiration date of the test cassette.
-  string labTestOrderableId = 17;             // ID associated with the orderable lab test.
-  string skuId = 18;                          // Stock Keeping Unit (SKU) ID for the test kit.
-  string cassetteVerification = 19;           // Verification status or details of the cassette.
+  string qr_data = 1;                          // QR Code data associated with the test kit
+  string kit_upload_id = 2;                     // ID associated with the kit's data upload event
+  string response_message = 3;                 // Detailed message related to the response or result
+  string response_title = 4;                   // Title or header of the response
+  int32 response_code = 5;                     // Numeric code representing the response type
+  string image_type = 6;                       // Type or format of any associated image (e.g., "jpg", "png")
+  string type = 7;                            // Type or category of the test
+  string manufacturer = 8;                    // Manufacturer or producer of the test kit
+  string cassete_lot_number = 9;                // Lot number associated with the cassette of the test kit
+  bool outcome_igm = 10;                       // Boolean outcome for IgM antibody
+  bool outcome_igg = 11;                       // Boolean outcome for IgG antibody
+  string outcome = 12;                        // Overall outcome or result of the test
+  bool self_assessment_outcome_igm = 13;         // Self-assessed outcome for IgM antibody
+  bool self_assessment_outcome_igg = 14;         // Self-assessed outcome for IgG antibody
+  string self_assessment_outcome = 15;          // Overall self-assessed outcome or result
+  string cassete_expiration_date = 16;          // Expiration date of the test cassette
+  string lab_test_orderable_id = 17;             // ID associated with the orderable lab test
+  string sku_id = 18;                          // Stock Keeping Unit (SKU) ID for the test kit
+  string cassette_verification = 19;           // Verification status or details of the cassette
 }
 
 // Describes actions or recommendations based on a status.
 message StatusMessageAction {
-  string id = 1;                              // Unique identifier for the action.
-  string Value = 2;                           // Actual value or action to be taken.
-  string Description = 3;                     // Detailed description of the action or recommendation.
+  string id = 1;                              // Unique identifier for the action
+  string value = 2;                           // Actual value or action to be taken
+  string description = 3;                     // Detailed description of the action or recommendation
 }
 
 // Represents a specific test that can be ordered.
 message OrderableTest {
-  string orderableTestId = 1;                 // Unique identifier for the orderable test.
-  //TestFormat testFormat = 2;                  // The format or method of the test.
+  string orderable_test_id = 1;                 // Unique identifier for the orderable test
 }
 
 // Detailed result information for an orderable test.
 message OrderableTestResult {
-  string orderableTestId = 1;                 // Refers to the specific test being described.
-  string collectionDate = 2;                  // Date when the sample or specimen was collected.
-  string testResult = 3;                      // Actual result or value from the test.
-  string outcome = 4;                         // Interpretation or high-level outcome of the test.
-  string responseMessage = 5;                 // Detailed message related to the test's response or result.
-  string responseTitle = 6;                   // Title or header of the response.
-  int32 responseCode = 7;                     // Numeric code representing the response type.
+  string orderable_test_id = 1;                 // Refers to the specific test being described
+  string collection_date = 2;                  // Date when the sample or specimen was collected
+  string test_result = 3;                      // Actual result or value from the test
+  string outcome = 4;                         // Interpretation or high-level outcome of the test
+  string response_message = 5;                 // Detailed message related to the test's response or result
+  string response_title = 6;                   // Title or header of the response
+  int32 response_code = 7;                     // Numeric code representing the response type
 }
 
 // Metadata related to the physical test kit used.
 message TestKitMetadata {
-  string orderableTestId = 1;                 // ID associated with the orderable test.
-  int32 deviceIdentifier = 2;                 // Device identifier or code for the test kit.
-  string batchLotNumber = 3;                  // Lot or batch number of the test kit.
-  string serialNumber = 4;                    // Serial number of the test kit.
-  string manufacturingDate = 5;               // Date when the test kit was manufactured.
-  string expirationDate = 6;                  // Expiration date for the test kit.
-  string barcodeDataFormat = 7;               // Data format of the kit's barcode.
-  string scanDate = 8;                        // Timestamp when the kit's barcode was scanned.
+  string orderable_test_id = 1;                 // ID associated with the orderable test
+  int32 device_identifier = 2;                 // Device identifier or code for the test kit
+  string batch_lot_number = 3;                  // Lot or batch number of the test kit
+  string serial_number = 4;                    // Serial number of the test kit
+  string manufacturing_date = 5;               // Date when the test kit was manufactured
+  string expiration_date = 6;                  // Expiration date for the test kit
+  string barcode_data_format = 7;               // Data format of the kit's barcode
+  string scan_date = 8;                        // Timestamp when the kit's barcode was scanned
 }
 
 // Request for a Connected Test
 message TestIdRequest {
-  string test_id = 1; // ID of a connected Test.
+  string test_id = 1; // ID of a connected Test
 }
 
 // Response for submitting a ConnectedTest
@@ -168,42 +187,42 @@ message TestSubmissionResponse {
 }
 
 message ConnectedTest {
-  BasicInfo basicInfo = 1;       // Basic information block
-  OrderInfo orderInfo = 2;       // Ordering related block
-  TestNotes testNotes = 3;       // Notes related block
-  PaymentDetails paymentDetails = 4; // Payment details block
-  ProviderInfo providerInfo = 5;     // Provider details block
-  TestDetails testDetails = 6;       // Test and result details block
+  BasicInfo basic_info = 1;       // Basic information block
+  OrderInfo order_info = 2;       // Ordering related block
+  TestNotes test_notes = 3;       // Notes related block
+  PaymentDetails payment_details = 4; // Payment details block
+  ProviderInfo provider_info = 5;     // Provider details block
+  TestDetails test_details = 6;       // Test and result details block
 }
 
 /**
-Request Message to list NotificationConnectedTests by userid
+Request Message to list NotificationConnectedTests
  */
 message ConnectedTestListRequest{
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  string  userId = 4; // UUID of user
+  int32 page_size = 1; // Size of each page
+  int32 page_number = 2; // The page being requested
+  bool sort_ascending = 3; // indicating if the results should ascending
+  string user_id = 4; // UUID of user
 }
 
 /**
 Request Message to list NotificationConnectedTests by National health id
  */
 message ConnectedTestListByNHIDRequest{
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool  sort_ascending = 3; // indicating if the results should ascending.
-  int32 nationalHealthId = 4; // national health id of user
+  int32 page_size = 1; // Size of each page
+  int32 page_number = 2; // The page being requested
+  bool  sort_ascending = 3; // indicating if the results should ascending
+  int32 national_health_id = 4; // national health id of user
 }
 
 /**
 Response containing the requested list of connected tests for a specific national health id
  */
 message ConnectedTestListByNHIDResponse {
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  int32 page_count = 4; // Total number of available pages.
+  int32 page_size = 1; // Size of each page
+  int32 page_number = 2; // The page being requested
+  bool sort_ascending = 3; // indicating if the results should ascending
+  int32 page_count = 4; // Total number of available pages
   repeated ConnectedTest connected_tests = 5;
 }
 
@@ -211,10 +230,10 @@ message ConnectedTestListByNHIDResponse {
 Response containing the requested list of connected tests for a specific user
  */
 message ConnectedTestListResponse {
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  int32 page_count = 4; // Total number of available pages.
+  int32 page_size = 1; // Size of each page
+  int32 page_number = 2; // The page being requested
+  bool sort_ascending = 3; // indicating if the results should ascending
+  int32 page_count = 4; // Total number of available pages
   repeated ConnectedTest connected_tests = 5;
 }
 
@@ -231,3 +250,4 @@ service HealthcareService {
   // Retrieve a list of connected tests by national health id
   rpc ListConnectedTestsByNHID(ConnectedTestListByNHIDRequest) returns (ConnectedTestListByNHIDResponse);
 }
+
