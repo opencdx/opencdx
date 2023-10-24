@@ -4,6 +4,24 @@ package cdx.open_connected_test.v2alpha;
 
 import "google/protobuf/timestamp.proto";
 
+// Define test format types 
+enum TestFormat {
+  TEST_FORMAT_UNSPECIFIED = 0;  // Unspecified test format
+  TEST_FORMAT_BLOOD = 1;        // Blood test
+  TEST_FORMAT_URINE = 2;        // Urine test
+  TEST_FORMAT_SALIVA = 3;       // Saliva test
+  TEST_FORMAT_COVID_19 = 4;     // COVID-19 test
+}
+
+// Enum to classify the type of test
+enum TestClassification {
+  TEST_CLASSIFICATION_UNSPECIFIED = 0;  // Unspecified test classification
+  TEST_CLASSIFICATION_GENERAL = 1;      // General test
+  TEST_CLASSIFICATION_DIAGNOSTIC = 2;   // Diagnostic test
+  TEST_CLASSIFICATION_SCREENING = 3;   // Screening test
+  TEST_CLASSIFICATION_MONITORING = 4;  // Monitoring test
+  TEST_CLASSIFICATION_COVID_19 = 5;    // COVID-19 related test
+}
 
 // Define lab test types
 enum LabTestType {
@@ -82,7 +100,7 @@ message TestDetails {
   repeated string orderable_test_ids = 7;  // List of IDs for orderable tests
   repeated OrderableTest orderable_tests = 8; // Orderable test details
   repeated OrderableTestResult orderable_test_results = 9;  // Results for orderable tests
-  string test_classification = 10;       // Classification or type of the test
+  TestClassification test_classification = 10;       // Classification or type of the test
   bool is_onsite_test = 11;               // Indicator if the test is conducted on-site
   string specimen_id = 12;               // ID of the specimen collected
   string lab_vendor_confirmation_id = 13;  // Confirmation ID from the lab vendor
@@ -96,6 +114,8 @@ message TestDetails {
   string lab_test_type = 21;       // Type of the lab test
   string speciman_type = 22;      // Type of specimen used for the test
   string medical_code = 23;       // Medical code associated with the test
+  string test_name=24;       // Human readable test name
+  TestFormat test_format = 25;       // Format or type of the test (e.g., "PCR", "Antigen", "Serology", etc.)
 }
 
 // Metadata related to a specific test.
