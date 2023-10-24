@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package cdx.open_audit.v2alpha;
+package cdx.open_profile.v2alpha;
 
 import "google/protobuf/timestamp.proto";
 
@@ -26,8 +26,7 @@ enum Gender {
 // User Profile message containing user-related information.
 message UserProfile {
   string user_id = 1; // Unique identifier for the user
-  string national_health_id = 2; // National health identifier
-  bool is_active = 2; // Indicates whether the user is active
+  string national_health_id= 2; // National health identifier
   FullName full_name = 3; // Full name of the user
   repeated ContactInfo contacts = 4; // User's contact information
   Gender gender = 5; // Gender of the user
@@ -48,6 +47,7 @@ message UserProfile {
   repeated string dependent_id = 22; // Identifiers for user's dependents
   repeated KnownAllergy known_allergies = 23; // A list of known allergies for the user
   repeated Medication current_medications = 24;  // A list of medications currently being taken by the user
+  bool is_active = 25; // Indicates whether the user is active
 }
 
 // Full name information.
@@ -170,7 +170,7 @@ message SystemSettings {
   bool user_since = 6; // Indicates the user's registration date
   bool mfa = 7; // Indicates whether multi-factor authentication (MFA) is enabled
   string last_successful_login = 8; // Last successful login date and time
-  string last_failed_login = 8; // Last failed login date and time
+  string last_failed_login = 9; // Last failed login date and time
 }
 
 message Medication {
@@ -200,6 +200,16 @@ service UserProfileService {
   rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse);
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
+}
+
+// Request message for retrieving a user profile
+message UserProfileRequest {
+  string user_id = 1; // Unique identifier for the user
+}
+
+// Response message for retrieving a user profile
+message UserProfileResponse {
+  UserProfile user_profile = 1; // User's profile information
 }
 
 // Request message for updating a user profile
