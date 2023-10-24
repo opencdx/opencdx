@@ -20,7 +20,40 @@ eureka:
   client:
     service-url:
       defaultZone: http://admin:8761/eureka/
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    statusPageUrl: https://${spring.application.name}:${server.port}/info
+    healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
+    homePageUrl: https://${spring.application.name}:${server.port}/
 
 springdoc:
   api-docs:
     path: /api-docs
+
+# Spring SSL bundle for securing a webserver
+spring:
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          key:
+            alias: ${spring.application.name}
+          keystore:
+            location: file:/certs/opencdx-keystore.p12
+            password: opencdx
+            keystore.type: PKCS12
+
+# Enable SSL for REST
+server:
+  ssl:
+    enabled: true
+    bundle: web-server
+    client-auth: none
+  http2:
+    enabled: true
+# Enable SSL for gRPC
+grpc:
+  security:
+    cert-chain: file:/certs/${spring.application.name}-cert.pem
+    private-key: file:/certs/${spring.application.name}-key.pem

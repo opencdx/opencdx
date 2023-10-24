@@ -1,4 +1,33 @@
 # Properties for a Managed Environment go here.
+spring:
+  application:
+    name: Config
+
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config/{profile}
+      tls:
+        key-store: file:/certs/opencdx-keystore.p12
+        trust-store-type: PKCS12
+        key-store-type: PKCS12
+        key-password: opencdx
+        trust-store: file:/certs/opencdx-keystore.p12
+        trust-store-password: opencdx
+        enabled: 'true'
+        key-store-password: opencdx
+
+server:
+  port: 8888
+  ssl:
+    enabled: true
+    client-auth: none
+    key-store: file:/certs/opencdx-keystore.p12
+    key-store-password: opencdx
+    key-alias: ${spring.application.name}
+  http2:
+    enabled: true
 management:
   endpoint:
     health:
@@ -11,29 +40,13 @@ management:
       exposure:
         include: "*"
 
-logging:
-  level:
-    health:
-      safe: debug
-spring:
-  application:
-    name: Config
-  boot:
-    admin:
-      client:
-        url: http://admin:761/admin/
-  cloud:
-    config:
-      server:
-        native:
-          search-locations: classpath:/config/{profile}
-
 eureka:
   client:
     service-url:
       defaultZone: http://admin:8761/eureka/
-
-server:
-  port: 8888
-
-
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    statusPageUrl: https://${spring.application.name}:${server.port}/info
+    healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
+    homePageUrl: https://${spring.application.name}:${server.port}/

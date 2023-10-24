@@ -18,33 +18,42 @@ package cdx.opencdx.iam.service.impl;
 import cdx.media.v2alpha.*;
 import cdx.open_audit.v2alpha.AgentType;
 import cdx.open_audit.v2alpha.SensitivityLevel;
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
-import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
-import health.safe.api.opencdx.commons.service.OpenCDXAuditService;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for processing HelloWorld Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
+    public static final String USER_RECORD_ACCESSED = "User record Accessed";
     private static final String DOMAIN = "OpenCDXIAMUserServiceImpl";
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String IAM_USER = "IAM_USER: ";
+    public static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Constructor taking the a PersonRepository
@@ -57,10 +66,12 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     public OpenCDXIAMUserServiceImpl(
             ObjectMapper objectMapper,
             OpenCDXAuditService openCDXAuditService,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            PasswordEncoder passwordEncoder) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -110,8 +121,35 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public ListIamUsersResponse listIamUsers(ListIamUsersRequest request) {
-        // TODO: Log to Audit piiAccessed for each returned OpenCDXIamUserModel returned.
-        return ListIamUsersResponse.getDefaultInstance();
+        Page<OpenCDXIAMUserModel> all =
+                this.openCDXIAMUserRepository.findAll(PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        all.forEach(model -> {
+            try {
+                this.openCDXAuditService.piiAccessed(
+                        ObjectId.get().toHexString(),
+                        AgentType.AGENT_TYPE_HUMAN_USER,
+                        USER_RECORD_ACCESSED,
+                        SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                        ObjectId.get().toHexString(),
+                        IAM_USER + model.getId().toHexString(),
+                        this.objectMapper.writeValueAsString(model));
+            } catch (JsonProcessingException e) {
+                OpenCDXNotAcceptable openCDXNotAcceptable =
+                        new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
+                openCDXNotAcceptable.setMetaData(new HashMap<>());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+                throw openCDXNotAcceptable;
+            }
+        });
+
+        return ListIamUsersResponse.newBuilder()
+                .setPageCount(all.getTotalPages())
+                .setPageNumber(request.getPageNumber())
+                .setPageSize(request.getPageSize())
+                .setSortAscending(request.getSortAscending())
+                .addAllIamUsers(
+                        all.get().map(OpenCDXIAMUserModel::getProtobufMessage).toList())
+                .build();
     }
 
     /**
@@ -122,44 +160,15 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public GetIamUserResponse getIamUser(GetIamUserRequest request) {
-        // TODO: Update Model to be the newly retrieved model before calling audit.
-        OpenCDXIAMUserModel model =
-                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getId()));
+
         try {
             this.openCDXAuditService.piiAccessed(
                     ObjectId.get().toHexString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "User record Accessed",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
-                    IAM_USER + model.getId().toHexString(),
-                    this.objectMapper.writeValueAsString(model));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
-        return GetIamUserResponse.getDefaultInstance();
-    }
-
-    /**
-     * Update the User informaiton
-     *
-     * @param request Request with information to update.
-     * @return Response the updated user.
-     */
-    @Override
-    public UpdateIamUserResponse updateIamUser(UpdateIamUserRequest request) {
-
-        // TODO: Update Model to the newly saved version before calling Audit.
-        OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(request.getIamUser());
-        try {
-            this.openCDXAuditService.piiUpdated(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "User record updated",
+                    USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     IAM_USER + model.getId().toHexString(),
@@ -171,41 +180,38 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return UpdateIamUserResponse.getDefaultInstance();
+        return GetIamUserResponse.newBuilder()
+                .setIamUser(model.getProtobufMessage())
+                .build();
     }
 
     /**
-     * Method to change a user password
+     * Update the User informaiton
      *
-     * @param request Request to change a user password
-     * @return Response for changing a users password.
+     * @param request Request with information to update.
+     * @return Response the updated user.
      */
     @Override
-    public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
-        this.openCDXAuditService.passwordChange(
-                ObjectId.get().toHexString(),
-                AgentType.AGENT_TYPE_HUMAN_USER,
-                "User Password Change",
-                ObjectId.get().toHexString());
-        return ChangePasswordResponse.getDefaultInstance();
-    }
+    public UpdateIamUserResponse updateIamUser(UpdateIamUserRequest request) {
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findById(new ObjectId(request.getIamUser().getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 3, FAILED_TO_FIND_USER + request.getIamUser().getId()));
 
-    /**
-     * Method to delete a user. User's status is udpated to DELETED. User it not actually removed.
-     *
-     * @param request Request to delete the specified user.
-     * @return Response for deleting a user.
-     */
-    @Override
-    public DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request) {
-        // TODO: Update Model to the newly deleted version.
-        OpenCDXIAMUserModel model =
-                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+        model.setEmail(request.getIamUser().getEmail());
+        model.setFirstName(request.getIamUser().getFirstName());
+        model.setLastName(request.getIamUser().getLastName());
+        model.setPhone(request.getIamUser().getPhone());
+        model.setSystemName(request.getIamUser().getSystemName());
+        model.setType(request.getIamUser().getType());
+
+        model = this.openCDXIAMUserRepository.save(model);
+
         try {
-            this.openCDXAuditService.piiDeleted(
+            this.openCDXAuditService.piiUpdated(
                     ObjectId.get().toHexString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "User record deleted",
+                    "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     IAM_USER + model.getId().toHexString(),
@@ -217,7 +223,78 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return DeleteIamUserResponse.getDefaultInstance();
+        return UpdateIamUserResponse.newBuilder()
+                .setIamUser(model.getProtobufMessage())
+                .build();
+    }
+
+    /**
+     * Method to change a user password
+     *
+     * @param request Request to change a user password
+     * @return Response for changing a users password.
+     */
+    @Override
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, FAILED_TO_FIND_USER + request.getId()));
+
+        if (passwordEncoder.matches(request.getOldPassword(), model.getPassword())) {
+            model.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        } else {
+            throw new OpenCDXNotAcceptable(
+                    DOMAIN, 5, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, new Throwable("Password mismatch"));
+        }
+
+        model = this.openCDXIAMUserRepository.save(model);
+
+        this.openCDXAuditService.passwordChange(
+                ObjectId.get().toHexString(),
+                AgentType.AGENT_TYPE_HUMAN_USER,
+                "User Password Change",
+                ObjectId.get().toHexString());
+        return ChangePasswordResponse.newBuilder()
+                .setIamUser(model.getProtobufMessage())
+                .build();
+    }
+
+    /**
+     * Method to delete a user. User's status is udpated to DELETED. User it not actually removed.
+     *
+     * @param request Request to delete the specified user.
+     * @return Response for deleting a user.
+     */
+    @Override
+    public DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request) {
+        OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, FAILED_TO_FIND_USER + request.getId()));
+
+        userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
+
+        userModel = this.openCDXIAMUserRepository.save(userModel);
+        log.info("Deleted User: {}", request.getId());
+
+        try {
+            this.openCDXAuditService.piiDeleted(
+                    ObjectId.get().toHexString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "User record deleted",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ObjectId.get().toHexString(),
+                    IAM_USER + userModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(userModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
+        return DeleteIamUserResponse.newBuilder()
+                .setIamUser(userModel.getProtobufMessage())
+                .build();
     }
 
     /**
@@ -228,25 +305,30 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public UserExistsResponse userExists(UserExistsRequest request) {
-        // TODO: Update Model to be the newly retrieved model before calling audit.
-        OpenCDXIAMUserModel model =
-                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + request.getId()));
+
+        model = this.openCDXIAMUserRepository.save(model);
+
         try {
             this.openCDXAuditService.piiAccessed(
                     ObjectId.get().toHexString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
-                    "User record Accessed",
+                    USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 5, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 7, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return UserExistsResponse.getDefaultInstance();
+        return UserExistsResponse.newBuilder()
+                .setIamUser(model.getProtobufMessage())
+                .build();
     }
 }

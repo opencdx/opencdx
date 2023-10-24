@@ -25,6 +25,8 @@ dependencies {
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
 
+    implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:${owaspSanitizerVersion}"
+
     implementation project(":opencdx-proto")
     implementation project(":opencdx-client")
     implementation "io.nats:nats-spring:${natsSpringVersion}"

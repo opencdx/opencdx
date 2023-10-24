@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.config;
 
-import health.safe.api.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
+import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

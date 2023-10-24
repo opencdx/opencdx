@@ -15,3 +15,5 @@ _**Links are part of the build not available from GitHub.**_
 **OpenCDXAuditService** - Interface for submitting Audit messages for record keeping.  Implements an instances that uses the OpenCDXMessageService to submit audit messages to the [OpenCDX-Audit](../opencdx-audit/README.md) microservice.
 
 **OpenCDXMessageHandler** - Interface for implementing subscribers to the OpenCDXMessageService.
+
+**OpenCDXHtmlSanitizer** - Interface for implementing an HTML sanitizer. Current implementaiton is based on owasp-java-html-sanitizer.

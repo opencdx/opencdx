@@ -15,16 +15,18 @@
  */
 package cdx.opencdx.iam.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.media.v2alpha.*;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
-import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import io.nats.client.Connection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -70,7 +72,7 @@ class OpenCDXIAMUserRestControllerTest {
 
     @BeforeEach
     public void setup() {
-        Mockito.when(this.openCDXIAMUserRepository.save(Mockito.any(OpenCDXIAMUserModel.class)))
+        when(this.openCDXIAMUserRepository.save(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenAnswer(new Answer<OpenCDXIAMUserModel>() {
                     @Override
                     public OpenCDXIAMUserModel answer(InvocationOnMock invocation) throws Throwable {
@@ -79,6 +81,17 @@ class OpenCDXIAMUserRestControllerTest {
                             argument.setId(ObjectId.get());
                         }
                         return argument;
+                    }
+                });
+        when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .build());
                     }
                 });
         MockitoAnnotations.openMocks(this);
@@ -148,8 +161,30 @@ class OpenCDXIAMUserRestControllerTest {
 
     @Test
     void listIamUsers() throws Exception {
-        Mockito.when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+        when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        MvcResult result = this.mockMvc
+                .perform(post("/iam/user/list")
+                        .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void listIamUsersPIIAccessed() throws Exception {
+        OpenCDXIAMUserModel model =
+                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+
+        when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
                 .perform(post("/iam/user/list")
@@ -171,6 +206,8 @@ class OpenCDXIAMUserRestControllerTest {
                 .perform(post("/iam/user/password")
                         .content(this.objectMapper.writeValueAsString(ChangePasswordRequest.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .setOldPassword("pass")
+                                .setNewPassword("newpass")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
