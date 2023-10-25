@@ -2,11 +2,6 @@
 spring:
   application:
     name: Communications
-grpc:
-  port: 9390
-
-server:
-  port: 8380
 
 queue:
   priority:

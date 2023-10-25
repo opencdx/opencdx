@@ -2,11 +2,6 @@
 spring:
   application:
     name: Connected-Test
-grpc:
-  port: 9590
-
-server:
-  port: 8580
 
 opencdx:
   helloworld:

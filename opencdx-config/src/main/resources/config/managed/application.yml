@@ -46,6 +46,7 @@ spring:
 
 # Enable SSL for REST
 server:
+  port: 8080
   ssl:
     enabled: true
     bundle: web-server
@@ -54,6 +55,7 @@ server:
     enabled: true
 # Enable SSL for gRPC
 grpc:
+  port: 9090
   security:
     cert-chain: file:/certs/${spring.application.name}-cert.pem
     private-key: file:/certs/${spring.application.name}-key.pem

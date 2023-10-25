@@ -2,11 +2,6 @@
 spring:
   application:
     name: IAM
-grpc:
-  port: 9690
-
-server:
-  port: 8680
 
 mongock:
   change-logs-scan-package: cdx.opencdx.iam.changelog

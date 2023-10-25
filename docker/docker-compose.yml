@@ -26,8 +26,7 @@ services:
     volumes:
       - ../certs:/certs
     ports:
-      - "8880:8880"
-      - "9890:9890"
+      - "8080:8080"
   helloworld:
     deploy:
       restart_policy:

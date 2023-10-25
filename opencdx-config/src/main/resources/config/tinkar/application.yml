@@ -2,11 +2,6 @@
 spring:
   application:
     name: Tinkar
-grpc:
-  port: 9190
-
-server:
-  port: 8180
 
 data:
   path:
