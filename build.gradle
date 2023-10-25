@@ -157,6 +157,14 @@ allprojects {
         }
     }
 
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
     tasks.named("compileJava") {
         inputs.files(tasks.named("processResources"))
     }
