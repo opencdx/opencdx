@@ -70,8 +70,7 @@ tasks.register("jacocoRootReport", JacocoReport) {
 jacocoRootReport {
     classDirectories.setFrom(files(classDirectories.files.collect {
         fileTree(dir: it, exclude: [
-                "**/grpc/**/*.class",
-                "cdx/**/v2alpha/*.class"
+                "**/grpc/**/*.class"
         ])
     }))
 }
@@ -157,6 +156,14 @@ allprojects {
         }
     }
 
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
     tasks.named("compileJava") {
         inputs.files(tasks.named("processResources"))
     }
@@ -185,7 +192,7 @@ allprojects {
             classDirectories.setFrom(files(classDirectories.files.collect {
                 fileTree(dir: it, exclude: [
                         "**/Application.class",
-                        "cdx/**/v2alpha/*.class"
+                        "cdx/**/grpc/*.class"
                 ])
             }))
         }

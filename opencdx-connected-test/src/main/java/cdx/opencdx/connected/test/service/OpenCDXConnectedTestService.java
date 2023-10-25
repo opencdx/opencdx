@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.connected.test.service;
 
-import cdx.open_connected_test.v2alpha.*;
+import cdx.opencdx.grpc.connected.*;
 
 /**
  * Interface for the OpenCDXConnectedTestService

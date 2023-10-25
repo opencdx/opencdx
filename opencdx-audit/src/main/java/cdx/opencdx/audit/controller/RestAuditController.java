@@ -15,9 +15,8 @@
  */
 package cdx.opencdx.audit.controller;
 
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditStatus;
 import cdx.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import cdx.opencdx.grpc.audit.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,10 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/audit",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class RestAuditController {
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;

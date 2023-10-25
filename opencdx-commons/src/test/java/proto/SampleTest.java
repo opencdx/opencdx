@@ -29,12 +29,11 @@ package proto; /*
                 * limitations under the License.
                 */
 
+import cdx.opencdx.grpc.helloworld.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -17,9 +17,7 @@ package cdx.opencdx.client.service.impl;
 
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXHelloworldClient;
-import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import cdx.opencdx.grpc.helloworld.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;

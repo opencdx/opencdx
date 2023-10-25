@@ -15,9 +15,6 @@
  */
 package cdx.opencdx.communications.service.impl;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.SensitivityLevel;
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -36,6 +33,9 @@ import cdx.opencdx.communications.service.OpenCDXCommunicationService;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
 import cdx.opencdx.communications.service.OpenCDXSMSService;
+import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;

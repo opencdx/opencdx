@@ -15,11 +15,8 @@
  */
 package cdx.opencdx.communications.model;
 
-import cdx.open_communication.v2alpha.Attachment;
-import cdx.open_communication.v2alpha.Notification;
-import cdx.open_communication.v2alpha.NotificationPriority;
-import cdx.open_communication.v2alpha.NotificationStatus;
 import cdx.opencdx.commons.collections.ListUtils;
+import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;

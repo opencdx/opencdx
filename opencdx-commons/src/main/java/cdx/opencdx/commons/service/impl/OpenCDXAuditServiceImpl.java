@@ -15,15 +15,12 @@
  */
 package cdx.opencdx.commons.service.impl;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditStatus;
-import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.opencdx.client.service.impl.OpenCDXAuditClientAbstract;
 import cdx.opencdx.commons.aspects.AuditAspect;
 import cdx.opencdx.commons.dto.RequestActorAttributes;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.grpc.audit.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

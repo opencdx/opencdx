@@ -15,10 +15,9 @@
  */
 package cdx.opencdx.communications.tasks;
 
-import cdx.open_communication.v2alpha.NotificationPriority;
-import cdx.open_communication.v2alpha.NotificationStatus;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.service.OpenCDXCommunicationService;
+import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;

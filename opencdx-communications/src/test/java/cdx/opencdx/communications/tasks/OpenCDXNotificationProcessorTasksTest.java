@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.communications.tasks;
 
-import cdx.open_communication.v2alpha.NotificationPriority;
-import cdx.open_communication.v2alpha.NotificationStatus;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
@@ -31,6 +29,7 @@ import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
 import cdx.opencdx.communications.service.OpenCDXSMSService;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationServiceImpl;
+import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;

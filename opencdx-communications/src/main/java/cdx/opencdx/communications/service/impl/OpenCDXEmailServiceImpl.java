@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.communications.service.impl;
 
-import cdx.open_communication.v2alpha.Attachment;
 import cdx.opencdx.commons.collections.ListUtils;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
+import cdx.opencdx.grpc.communication.Attachment;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import java.util.stream.Collectors;

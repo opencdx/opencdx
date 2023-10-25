@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.client.service;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.media.*;
 
 /**
  * Client Interface to the gRPC Media service

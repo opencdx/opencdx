@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.media.controller;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.service.OpenCDXMediaService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;

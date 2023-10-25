@@ -14,6 +14,6 @@ spring:
   config:
     import: configserver:https://Config:8888
   application:
-    name: Media
+    name: media
   profiles:
     active: managed,mongo,nats,media

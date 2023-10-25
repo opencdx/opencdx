@@ -78,9 +78,7 @@ class RestHelloWorldControllerTest {
     @Test
     void testGreetingHello() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/greeting/hello")
-                        .content("{\"name\": \"jeff\"}")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/hello").content("{\"name\": \"jeff\"}").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();

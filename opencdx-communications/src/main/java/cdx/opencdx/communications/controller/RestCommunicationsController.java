@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.communications.controller;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.communications.service.OpenCDXCommunicationService;
+import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/communications",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class RestCommunicationsController {
 

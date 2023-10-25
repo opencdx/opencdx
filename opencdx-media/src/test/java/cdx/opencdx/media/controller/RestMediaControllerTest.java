@@ -18,10 +18,7 @@ package cdx.opencdx.media.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.media.v2alpha.CreateMediaRequest;
-import cdx.media.v2alpha.ListMediaRequest;
-import cdx.media.v2alpha.MediaStatus;
-import cdx.media.v2alpha.UpdateMediaRequest;
+import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
@@ -103,7 +100,7 @@ class RestMediaControllerTest {
     @Test
     void createMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/media")
+                .perform(post("/")
                         .content(this.objectMapper.writeValueAsString(CreateMediaRequest.getDefaultInstance()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -115,7 +112,7 @@ class RestMediaControllerTest {
     @Test
     void getMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/media/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -125,8 +122,7 @@ class RestMediaControllerTest {
     @Test
     void updateMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(put("/media")
-                        .content(this.objectMapper.writeValueAsString(UpdateMediaRequest.newBuilder()
+                .perform(put("/").content(this.objectMapper.writeValueAsString(UpdateMediaRequest.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -139,7 +135,7 @@ class RestMediaControllerTest {
     @Test
     void deleteMedia() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/media/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -152,7 +148,7 @@ class RestMediaControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
-                .perform(post("/media/list")
+                .perform(post("/list")
                         .content(this.objectMapper.writeValueAsString(ListMediaRequest.newBuilder()
                                 .setPageNumber(1)
                                 .setPageSize(10)
@@ -171,7 +167,7 @@ class RestMediaControllerTest {
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload/" + ObjectId.get().toHexString())
+                .perform(multipart("/upload/" + ObjectId.get().toHexString())
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
@@ -199,11 +195,11 @@ class RestMediaControllerTest {
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload/" + fileId).file(jsonFile).characterEncoding("UTF-8"))
+                .perform(multipart("/upload/" + fileId).file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
 
         MvcResult result = this.mockMvc
-                .perform(get("/media/download/" + fileId + ".json").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/download/" + fileId + ".json").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -232,11 +228,11 @@ class RestMediaControllerTest {
                 "file", "1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload/" + fileId).file(jsonFile).characterEncoding("UTF-8"))
+                .perform(multipart("/upload/" + fileId).file(jsonFile).characterEncoding("UTF-8"))
                 .andExpect(status().isOk());
 
         MvcResult result = this.mockMvc
-                .perform(get("/media/download/" + fileId + ".json").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/download/" + fileId + ".json").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().is(403))
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -249,7 +245,7 @@ class RestMediaControllerTest {
                 "file", "..1234567890.json", "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload/" + ObjectId.get().toHexString())
+                .perform(multipart("/upload/" + ObjectId.get().toHexString())
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().is(400));
@@ -261,7 +257,7 @@ class RestMediaControllerTest {
                 new MockMultipartFile("file", null, "application/json", "{\"key1\": \"value1\"}".getBytes());
 
         this.mockMvc
-                .perform(multipart("/media/upload/" + ObjectId.get().toHexString())
+                .perform(multipart("/upload/" + ObjectId.get().toHexString())
                         .file(jsonFile)
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk());

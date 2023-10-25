@@ -15,8 +15,7 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.open_connected_test.v2alpha.BasicInfo;
-import cdx.open_connected_test.v2alpha.ConnectedTest;
+import cdx.opencdx.grpc.connected.*;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;

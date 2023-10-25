@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.client.service.impl;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
+import cdx.opencdx.grpc.communication.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -43,7 +43,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * Default Constructor used for normal operation.
      */
     public OpenCDXCommunicationClientImpl() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("communications", 9390)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("communications", 9090)
                 .usePlaintext()
                 .build();
 

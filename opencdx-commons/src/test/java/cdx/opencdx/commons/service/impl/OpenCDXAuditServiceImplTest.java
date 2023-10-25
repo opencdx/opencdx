@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.commons.service.impl;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.opencdx.commons.aspects.AuditAspect;
 import cdx.opencdx.commons.config.CommonsConfig;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.audit.*;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

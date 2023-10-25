@@ -17,7 +17,7 @@ package cdx.opencdx.communications.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import cdx.open_communication.v2alpha.SMSTemplate;
+import cdx.opencdx.grpc.communication.*;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;

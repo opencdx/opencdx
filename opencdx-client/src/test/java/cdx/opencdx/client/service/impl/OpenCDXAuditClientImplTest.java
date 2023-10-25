@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.client.service.impl;
 
-import cdx.open_audit.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.grpc.audit.*;
 import com.google.rpc.Code;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;

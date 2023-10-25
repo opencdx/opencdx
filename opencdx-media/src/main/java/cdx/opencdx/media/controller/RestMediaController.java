@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.media.controller;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.service.OpenCDXFileStorageService;
 import cdx.opencdx.media.service.OpenCDXMediaService;
@@ -34,10 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/media",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class RestMediaController {
 

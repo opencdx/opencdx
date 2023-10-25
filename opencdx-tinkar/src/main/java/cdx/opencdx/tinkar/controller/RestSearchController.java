@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @Observed(name = "opencdx")
-@RequestMapping("/search")
+@RequestMapping
 @ExcludeFromJacocoGeneratedReport
 public class RestSearchController {
 

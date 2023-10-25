@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping(
-        value = "/iam/user",
+        value = "/user",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")

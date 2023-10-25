@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.media.model;
 
-import cdx.media.v2alpha.Media;
-import cdx.media.v2alpha.MediaStatus;
-import cdx.media.v2alpha.MediaType;
+import cdx.opencdx.grpc.media.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;

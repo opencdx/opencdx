@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.audit.handlers;
 
-import cdx.open_audit.v2alpha.AuditEvent;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.grpc.audit.AuditEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;

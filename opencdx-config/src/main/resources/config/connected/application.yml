@@ -1,12 +1,7 @@
 # Properties for a Managed Environment go here.
 spring:
   application:
-    name: Connected-Test
-grpc:
-  port: 9590
-
-server:
-  port: 8580
+    name: connected-test
 
 opencdx:
   helloworld:

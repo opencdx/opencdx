@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package cdx.open_connected_test.v2alpha;
+package cdx.opencdx.grpc.connected;
 
 import "google/protobuf/timestamp.proto";
 

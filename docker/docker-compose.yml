@@ -26,8 +26,7 @@ services:
     volumes:
       - ../certs:/certs
     ports:
-      - "8880:8880"
-      - "9890:9890"
+      - "8080:8080"
   helloworld:
     deploy:
       restart_policy:
@@ -53,9 +52,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8080:8080"
-      - "9090:9090"
 
   iam:
     deploy:
@@ -82,9 +78,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8680:8680"
-      - "9690:9690"
 
   media:
     deploy:
@@ -111,9 +104,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8480:8480"
-      - "9490:9490"
 
   connected-test:
     deploy:
@@ -140,9 +130,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8580:8580"
-      - "9590:9590"
 
   communications:
     deploy:
@@ -169,9 +156,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8380:8380"
-      - "9390:9390"
 
   audit:
     deploy:
@@ -198,9 +182,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8280:8280"
-      - "9290:9290"
 
   tinkar:
     deploy:
@@ -227,9 +208,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "8180:8180"
-      - "9190:9190"
 
   admin:
     image: opencdx/admin:latest

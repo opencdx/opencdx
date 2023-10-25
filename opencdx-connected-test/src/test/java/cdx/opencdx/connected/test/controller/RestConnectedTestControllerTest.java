@@ -19,9 +19,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.open_connected_test.v2alpha.*;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
+import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
@@ -100,7 +100,7 @@ class RestConnectedTestControllerTest {
                 .build();
 
         MvcResult result = this.mockMvc
-                .perform(post("/connected-test")
+                .perform(post("/")
                         .content(this.objectMapper.writeValueAsString(connectedTest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -124,8 +124,7 @@ class RestConnectedTestControllerTest {
                 .thenReturn(Optional.of(openCDXConnectedTest));
 
         MvcResult result = this.mockMvc
-                .perform(get("/connected-test/" + openCDXConnectedTest.getId())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/" + openCDXConnectedTest.getId()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -155,7 +154,7 @@ class RestConnectedTestControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
-                .perform(post("/connected-test/list")
+                .perform(post("/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(ConnectedTestListRequest.newBuilder()
                                 .setPageNumber(1)
@@ -178,7 +177,7 @@ class RestConnectedTestControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
-                .perform(post("/connected-test/listbynhid")
+                .perform(post("/listbynhid")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(ConnectedTestListByNHIDRequest.newBuilder()
                                 .setPageNumber(1)

@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
-import cdx.open_connected_test.v2alpha.*;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
+import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;

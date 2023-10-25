@@ -29,7 +29,7 @@ package proto; /*
                 * limitations under the License.
                 */
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.media.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

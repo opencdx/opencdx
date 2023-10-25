@@ -15,10 +15,9 @@
  */
 package cdx.opencdx.audit.handlers;
 
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditEventType;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
+import cdx.opencdx.grpc.audit.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.client.service.impl;
 
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import cdx.open_audit.v2alpha.AuditStatus;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.grpc.audit.AuditEvent;
+import cdx.opencdx.grpc.audit.AuditServiceGrpc;
+import cdx.opencdx.grpc.audit.AuditStatus;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -44,7 +44,7 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
      */
     public OpenCDXAuditClientImpl() {
         ManagedChannel channel =
-                ManagedChannelBuilder.forAddress("audit", 9290).usePlaintext().build();
+                ManagedChannelBuilder.forAddress("audit", 9090).usePlaintext().build();
 
         this.auditServiceBlockingStub = AuditServiceGrpc.newBlockingStub(channel);
     }

@@ -1,10 +1,4 @@
 # Properties for a Managed Environment go here.
 spring:
   application:
-    name: Audit
-
-server:
-  port: 8280
-
-grpc:
-  port: 9290
+    name: audit

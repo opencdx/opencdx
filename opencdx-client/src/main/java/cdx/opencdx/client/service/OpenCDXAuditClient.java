@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.client.service;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.SensitivityLevel;
+import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 
 /**
  * Audit Service for interfacing to the service. Used for both direct gRPC client

@@ -1,12 +1,7 @@
 # Properties for a Managed Environment go here.
 spring:
   application:
-    name: Tinkar
-grpc:
-  port: 9190
-
-server:
-  port: 8180
+    name: tinkar
 
 data:
   path:

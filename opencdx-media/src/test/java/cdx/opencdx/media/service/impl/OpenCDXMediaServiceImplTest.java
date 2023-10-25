@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.media.service.impl;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXMediaService;

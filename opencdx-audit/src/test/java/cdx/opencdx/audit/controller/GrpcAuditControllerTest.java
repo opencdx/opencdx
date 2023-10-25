@@ -15,11 +15,8 @@
  */
 package cdx.opencdx.audit.controller;
 
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditEventType;
-import cdx.open_audit.v2alpha.AuditSource;
-import cdx.open_audit.v2alpha.AuditStatus;
 import cdx.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import cdx.opencdx.grpc.audit.*;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.BeforeEach;

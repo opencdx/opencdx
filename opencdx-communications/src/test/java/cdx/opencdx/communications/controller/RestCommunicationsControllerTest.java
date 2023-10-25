@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
@@ -30,6 +29,7 @@ import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;
@@ -150,7 +150,7 @@ class RestCommunicationsControllerTest {
     @Test
     void createEmailTemplate() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/email")
+                .perform(post("/email")
                         .content(this.objectMapper.writeValueAsString(
                                 EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
                                         .setTemplateId(ObjectId.get().toHexString())
@@ -163,7 +163,7 @@ class RestCommunicationsControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/communications/email/", "/communications/sms/", "/communications/event/"})
+    @ValueSource(strings = {"/email/", "/sms/", "/event/"})
     void testGets(String url) throws Exception {
         String uuid = ObjectId.get().toHexString();
         MvcResult result = this.mockMvc
@@ -178,7 +178,7 @@ class RestCommunicationsControllerTest {
     @Test
     void updateEmailTemplate() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(put("/communications/email")
+                .perform(put("/email")
                         .content(this.objectMapper.writeValueAsString(
                                 EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
                                         .setTemplateId(ObjectId.get().toHexString())
@@ -191,7 +191,7 @@ class RestCommunicationsControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/communications/email/", "/communications/sms/", "/communications/event/"})
+    @ValueSource(strings = {"/email/", "/sms/", "/event/"})
     void testDeletes(String url) throws Exception {
         String uuid = ObjectId.get().toHexString();
         MvcResult result = this.mockMvc
@@ -206,7 +206,7 @@ class RestCommunicationsControllerTest {
     @Test
     void createSMSTemplate() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/sms")
+                .perform(post("/sms")
                         .content(this.objectMapper.writeValueAsString(
                                 SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
                                         .setTemplateId(ObjectId.get().toHexString())
@@ -221,7 +221,7 @@ class RestCommunicationsControllerTest {
     @Test
     void updateSMSTemplate() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(put("/communications/sms")
+                .perform(put("/sms")
                         .content(this.objectMapper.writeValueAsString(
                                 SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
                                         .setTemplateId(ObjectId.get().toHexString())
@@ -236,7 +236,7 @@ class RestCommunicationsControllerTest {
     @Test
     void createNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/event")
+                .perform(post("/event")
                         .content(this.objectMapper.writeValueAsString(
                                 NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
                                         .setEventId(ObjectId.get().toHexString())
@@ -253,7 +253,7 @@ class RestCommunicationsControllerTest {
     @Test
     void updateNotificationEvent() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(put("/communications/event")
+                .perform(put("/event")
                         .content(this.objectMapper.writeValueAsString(
                                 NotificationEvent.newBuilder(NotificationEvent.getDefaultInstance())
                                         .setEventId(ObjectId.get().toHexString())
@@ -270,7 +270,7 @@ class RestCommunicationsControllerTest {
     @Test
     void sendNotification() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/notification")
+                .perform(post("/notification")
                         .content(this.objectMapper.writeValueAsString(Notification.newBuilder()
                                 .setEventId(ObjectId.get().toHexString())
                                 .build()))
@@ -285,7 +285,7 @@ class RestCommunicationsControllerTest {
     @Test
     void listSMSTemplates() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/sms/list")
+                .perform(post("/sms/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(SMSTemplateListRequest.newBuilder()
                                 .setPageNumber(1)
@@ -303,7 +303,7 @@ class RestCommunicationsControllerTest {
     @Test
     void listEmailTemplates() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/email/list")
+                .perform(post("/email/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(EmailTemplateListRequest.newBuilder()
                                 .setPageNumber(1)
@@ -321,7 +321,7 @@ class RestCommunicationsControllerTest {
     @Test
     void listNotificationEvents() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/communications/event/list")
+                .perform(post("/event/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(NotificationEventListRequest.newBuilder()
                                 .setPageNumber(1)

@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.commons.annotations;
 
-import cdx.open_audit.v2alpha.SensitivityLevel;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

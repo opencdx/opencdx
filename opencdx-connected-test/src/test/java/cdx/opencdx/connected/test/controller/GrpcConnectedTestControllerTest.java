@@ -15,13 +15,13 @@
  */
 package cdx.opencdx.connected.test.controller;
 
-import cdx.open_connected_test.v2alpha.*;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
+import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Collections;

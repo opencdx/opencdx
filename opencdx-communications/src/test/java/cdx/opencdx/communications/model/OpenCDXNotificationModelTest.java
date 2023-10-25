@@ -15,8 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
-import cdx.open_communication.v2alpha.Notification;
-import cdx.open_communication.v2alpha.NotificationStatus;
+import cdx.opencdx.grpc.communication.*;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;

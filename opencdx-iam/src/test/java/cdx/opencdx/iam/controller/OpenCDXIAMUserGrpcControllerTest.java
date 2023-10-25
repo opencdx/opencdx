@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.iam.controller;
 
-import cdx.media.v2alpha.*;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;

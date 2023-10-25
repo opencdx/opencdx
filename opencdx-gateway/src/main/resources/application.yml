@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: Gateway
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          key:
+            alias: gateway
+          keystore:
+            location: file:/certs/opencdx-keystore.p12
+            password: opencdx
+            type: PKCS12
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      enabled: true
+      routes:
+        - id: grpc-helloworld
+          uri: https://helloworld:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.helloworld.Greeter/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-audit
+          uri: https://audit:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.audit.AuditService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-communications
+          uri: https://communications:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.communication.CommunicationService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-connected-test
+          uri: https://connected-test:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.connected.HealthcareService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-media
+          uri: https://media:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.media.MediaService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:8761/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    statusPageUrl: https://${spring.application.name}:${server.port}/info
+    healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
+    homePageUrl: https://${spring.application.name}:${server.port}/
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    bundle: web-server
+    client-auth: none
+  http2:
+    enabled: true

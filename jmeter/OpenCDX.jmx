@@ -30,8 +30,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9090</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.helloworld.Greeter/SayHello</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.helloworld.Greeter/SayHello</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -61,7 +61,7 @@
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/greeting/hello" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/helloworld/hello" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -74,7 +74,7 @@
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/greeting/hello</stringProp>
+          <stringProp name="HTTPSampler.path">/helloworld/hello</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -109,8 +109,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9290</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_audit.v2alpha.AuditService/Event</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.audit.AuditService/Event</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -144,11 +144,11 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8280</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/event/audit" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/event/audit" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -204,8 +204,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -215,14 +215,6 @@
           <stringProp name="GRPCSampler.requestJson">{&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_WELCOME&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">emailTemplateId</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.template_id</stringProp>
@@ -236,8 +228,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -248,23 +240,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -275,23 +258,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -300,23 +274,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${emailTemplateId}&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -325,23 +290,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -358,22 +314,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -384,23 +332,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -411,23 +350,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -436,23 +366,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${smsTemplateId}&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -461,23 +382,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -494,22 +406,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -520,23 +424,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -547,23 +442,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -572,23 +458,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[],&quot;priority&quot;:&quot;NOTIFICATION_PRIORITY_IMMEDIATE&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -597,23 +474,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -622,23 +490,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteEmailTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/DeleteEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -649,23 +508,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/DeleteNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -676,23 +526,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/DeleteSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -703,16 +544,7 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
@@ -727,7 +559,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8380</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -1197,8 +1029,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1208,14 +1040,6 @@
           <stringProp name="GRPCSampler.requestJson">{&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_WELCOME&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">emailTemplateId</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.template_id</stringProp>
@@ -1229,8 +1053,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1241,23 +1065,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1268,23 +1083,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1293,23 +1099,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${emailTemplateId}&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1318,23 +1115,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1351,22 +1139,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1377,23 +1157,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1404,23 +1175,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1429,23 +1191,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${smsTemplateId}&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1454,23 +1207,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1487,22 +1231,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1513,23 +1249,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1540,23 +1267,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1565,23 +1283,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[],&quot;priority&quot;:&quot;NOTIFICATION_PRIORITY_HIGH&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1590,23 +1299,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1615,16 +1315,7 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
@@ -1639,7 +1330,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8380</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -2052,8 +1743,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2063,14 +1754,6 @@
           <stringProp name="GRPCSampler.requestJson">{&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_WELCOME&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">emailTemplateId</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.template_id</stringProp>
@@ -2084,8 +1767,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2096,23 +1779,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2123,23 +1797,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2148,23 +1813,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${emailTemplateId}&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2173,23 +1829,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2206,22 +1853,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2232,23 +1871,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2259,23 +1889,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2284,23 +1905,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${smsTemplateId}&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2309,23 +1921,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2342,22 +1945,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2368,23 +1963,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2395,23 +1981,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2420,23 +1997,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[],&quot;priority&quot;:&quot;NOTIFICATION_PRIORITY_MEDIUM&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2445,23 +2013,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2470,16 +2029,7 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
@@ -2494,7 +2044,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8380</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -2907,8 +2457,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2918,14 +2468,6 @@
           <stringProp name="GRPCSampler.requestJson">{&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;TEMPLATE_TYPE_WELCOME&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">emailTemplateId</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$.template_id</stringProp>
@@ -2939,8 +2481,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2951,23 +2493,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -2978,23 +2511,14 @@
     &quot;template_id&quot;: &quot;${emailTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3003,23 +2527,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${emailTemplateId}&quot;,&quot;subject&quot;:&quot;&quot;,&quot;content&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3028,23 +2543,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3061,22 +2567,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3087,23 +2585,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3114,23 +2603,14 @@
     &quot;template_id&quot;: &quot;${smsTemplateId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3139,23 +2619,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;templateId&quot;:&quot;${smsTemplateId}&quot;,&quot;message&quot;:&quot;&quot;,&quot;variables&quot;:[],&quot;templateType&quot;:&quot;NOTIFICATION&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3164,23 +2635,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3197,22 +2659,14 @@
             <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
           </JSONPostProcessor>
           <hashTree/>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3223,23 +2677,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3250,23 +2695,14 @@
     &quot;template_id&quot;: &quot;${eventId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3275,23 +2711,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;eventName&quot;:&quot;&quot;,&quot;eventDescription&quot;:&quot;&quot;,&quot;emailTemplateId&quot;:&quot;${emailTemplateId}&quot;,&quot;smsTemplateId&quot;:&quot;${smsTemplateId}&quot;,&quot;eventParameters&quot;:[],&quot;priority&quot;:&quot;NOTIFICATION_PRIORITY_LOW&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3300,23 +2727,14 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.communication.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3325,16 +2743,7 @@
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
           <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[]}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="scriptLanguage">java</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="script"></stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-        </hashTree>
+        <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
@@ -3349,7 +2758,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8380</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -3819,8 +3228,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9590</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/SubmitTest</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/SubmitTest</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3974,8 +3383,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9590</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/GetTestDetailsById</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/GetTestDetailsById</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3992,8 +3401,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9590</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/ListConnectedTests</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/ListConnectedTests</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4022,7 +3431,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8580</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -4133,7 +3542,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8480</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -4142,8 +3551,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/CreateMedia</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/CreateMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4203,8 +3612,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/GetMedia</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/GetMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4257,8 +3666,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/UpdateMedia</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/UpdateMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4282,8 +3691,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/ListMedia</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/ListMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4302,8 +3711,8 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/DeleteMedia</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/DeleteMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
           <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4315,7 +3724,7 @@
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media [POST]]" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media [POST]]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -4328,7 +3737,7 @@
         &quot;labore adipisicing&quot;&#xd;
     ],&#xd;
     &quot;name&quot;: &quot;dolore eiusmod quis labore dolor&quot;,&#xd;
-    &quot;short_description&quot;: &quot;enim sit&quot;,&#xd;
+    &quot;shortDescription&quot;: &quot;enim sit&quot;,&#xd;
     &quot;type&quot;: 2&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -4357,7 +3766,7 @@
           </JSONPostProcessor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media/upload" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media/upload" enabled="true">
           <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
             <collectionProp name="HTTPFileArgs.files">
               <elementProp name="./README.md" elementType="HTTPFileArg">
@@ -4385,7 +3794,7 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media [GET]" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media [GET]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
@@ -4412,7 +3821,7 @@
           </JSONPostProcessor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media/download" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media/download" enabled="true">
           <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
             <collectionProp name="HTTPFileArgs.files">
               <elementProp name="./README.md" elementType="HTTPFileArg">
@@ -4440,13 +3849,13 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media [PUT]]" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media [PUT]]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true,&quot;userid&quot;:&quot;6512d485f7f8935ea3994013&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;id&quot;:&quot;${mediaId}&quot;,&quot;name&quot;:&quot;name&quot;,&quot;shortDescription&quot;:&quot;shortDescription&quot;,&quot;description&quot;:&quot;description&quot;,&quot;labels&quot;:[&quot;labels&quot;],&quot;type&quot;:&quot;MEDIA_TYPE_IMAGE&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -4465,13 +3874,13 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media/list  [POST]]" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media/list  [POST]]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true,&quot;userid&quot;:&quot;6512d485f7f8935ea3994013&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -4490,18 +3899,12 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media  [DELETE]]" enabled="false">
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true,&quot;userid&quot;:&quot;6512d485f7f8935ea3994013&quot;}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media  [DELETE]]" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/media</stringProp>
+          <stringProp name="HTTPSampler.path">/media/${mediaId}</stringProp>
           <stringProp name="HTTPSampler.method">DELETE</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

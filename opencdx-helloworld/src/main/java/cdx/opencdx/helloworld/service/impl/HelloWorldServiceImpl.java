@@ -15,13 +15,13 @@
  */
 package cdx.opencdx.helloworld.service.impl;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.HelloWorldService;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.micrometer.observation.annotation.Observed;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

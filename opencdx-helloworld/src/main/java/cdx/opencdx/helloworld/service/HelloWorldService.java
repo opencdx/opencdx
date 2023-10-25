@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.helloworld.service;
 
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import cdx.opencdx.grpc.helloworld.HelloRequest;
 
 /**
  * Interface for the HelloWorldService
