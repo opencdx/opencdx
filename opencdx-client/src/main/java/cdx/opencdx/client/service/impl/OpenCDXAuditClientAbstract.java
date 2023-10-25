@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.client.service.impl;
 
-import cdx.open_audit.v2alpha.*;
 import cdx.opencdx.client.service.OpenCDXAuditClient;
+import cdx.opencdx.grpc.audit.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;

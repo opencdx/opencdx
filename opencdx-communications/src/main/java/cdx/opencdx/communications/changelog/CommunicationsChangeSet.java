@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.communications.changelog;
 
-import cdx.open_communication.v2alpha.NotificationPriority;
-import cdx.open_communication.v2alpha.TemplateType;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
@@ -24,6 +22,7 @@ import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import cdx.opencdx.grpc.communication.*;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import java.util.Collections;

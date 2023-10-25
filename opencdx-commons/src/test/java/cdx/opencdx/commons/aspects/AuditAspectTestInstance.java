@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.commons.aspects;
 
-import cdx.open_audit.v2alpha.AuditEventType;
 import cdx.opencdx.commons.annotations.OpenCDXAuditAnnotation;
 import cdx.opencdx.commons.annotations.OpenCDXAuditUser;
 import cdx.opencdx.commons.dto.RequestActorAttributes;
+import cdx.opencdx.grpc.audit.AuditEventType;
 
 public class AuditAspectTestInstance {
 

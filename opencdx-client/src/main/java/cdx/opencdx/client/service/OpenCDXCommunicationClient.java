@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.client.service;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.grpc.communication.*;
 
 /**
  * Interface for the Open CDX Communication Client.

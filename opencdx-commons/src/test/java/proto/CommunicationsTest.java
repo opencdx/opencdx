@@ -29,8 +29,8 @@ package proto; /*
                 * limitations under the License.
                 */
 
-import cdx.open_audit.v2alpha.SensitivityLevel;
-import cdx.open_communication.v2alpha.*;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

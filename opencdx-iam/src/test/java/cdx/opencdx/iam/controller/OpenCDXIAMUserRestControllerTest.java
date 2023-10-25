@@ -19,9 +19,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.media.v2alpha.*;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.grpc.iam.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;

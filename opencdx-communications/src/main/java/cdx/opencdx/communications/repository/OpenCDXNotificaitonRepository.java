@@ -15,9 +15,8 @@
  */
 package cdx.opencdx.communications.repository;
 
-import cdx.open_communication.v2alpha.NotificationPriority;
-import cdx.open_communication.v2alpha.NotificationStatus;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
+import cdx.opencdx.grpc.communication.*;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;

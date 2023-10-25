@@ -15,14 +15,13 @@
  */
 package cdx.opencdx.iam.service.impl;
 
-import cdx.media.v2alpha.*;
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.audit.*;
+import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

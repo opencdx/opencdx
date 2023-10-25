@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.communications.controller;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
@@ -31,6 +30,7 @@ import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
 import cdx.opencdx.communications.service.OpenCDXSMSService;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationServiceImpl;
+import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Collections;

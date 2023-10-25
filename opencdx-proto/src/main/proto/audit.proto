@@ -1,6 +1,6 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package cdx.open_audit.v2alpha;
+package cdx.opencdx.grpc.audit;
 
 import "google/protobuf/timestamp.proto";
 

@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.communications.service;
 
-import cdx.open_communication.v2alpha.Attachment;
+import cdx.opencdx.grpc.communication.Attachment;
 import java.util.List;
 
 /**

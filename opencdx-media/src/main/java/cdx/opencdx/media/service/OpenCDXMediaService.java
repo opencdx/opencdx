@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.media.service;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.media.*;
 
 /**
  * Interface for the OpenCDXMediaService, for processing files.

@@ -18,10 +18,7 @@ package cdx.opencdx.media.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.media.v2alpha.CreateMediaRequest;
-import cdx.media.v2alpha.ListMediaRequest;
-import cdx.media.v2alpha.MediaStatus;
-import cdx.media.v2alpha.UpdateMediaRequest;
+import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;

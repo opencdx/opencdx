@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.iam.service;
 
-import cdx.media.v2alpha.*;
+import cdx.opencdx.grpc.iam.*;
 
 /**
  * Interface for the OpenCDXIAMUserService

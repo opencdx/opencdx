@@ -15,10 +15,8 @@
  */
 package cdx.opencdx.helloworld.controller;
 
+import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.service.HelloWorldService;
-import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;

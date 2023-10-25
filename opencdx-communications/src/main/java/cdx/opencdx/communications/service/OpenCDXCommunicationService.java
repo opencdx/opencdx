@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.communications.service;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
+import cdx.opencdx.grpc.communication.*;
 
 /**
  * Interface for the OpenCDXCommunicationService

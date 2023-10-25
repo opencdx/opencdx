@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.communications.controller;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.communications.service.OpenCDXCommunicationService;
+import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

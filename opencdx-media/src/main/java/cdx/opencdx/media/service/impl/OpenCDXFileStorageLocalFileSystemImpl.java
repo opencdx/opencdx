@@ -15,12 +15,12 @@
  */
 package cdx.opencdx.media.service.impl;
 
-import cdx.media.v2alpha.MediaStatus;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXForbidden;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXFileStorageService;

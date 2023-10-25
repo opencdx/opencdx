@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
-import cdx.open_communication.v2alpha.NotificationEvent;
+import cdx.opencdx.grpc.communication.*;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

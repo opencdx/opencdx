@@ -17,10 +17,10 @@ package cdx.opencdx.client.service.impl;
 
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXHelloworldClient;
+import cdx.opencdx.grpc.helloworld.GreeterGrpc;
+import cdx.opencdx.grpc.helloworld.HelloReply;
+import cdx.opencdx.grpc.helloworld.HelloRequest;
 import com.google.rpc.Code;
-import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;

@@ -15,9 +15,9 @@
  */
 package cdx.opencdx.client.service.impl;
 
-import cdx.media.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
+import cdx.opencdx.grpc.media.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

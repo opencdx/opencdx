@@ -15,8 +15,7 @@
  */
 package cdx.opencdx.communications.model;
 
-import cdx.open_communication.v2alpha.EmailTemplate;
-import cdx.open_communication.v2alpha.TemplateType;
+import cdx.opencdx.grpc.communication.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;

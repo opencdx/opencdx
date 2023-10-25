@@ -15,9 +15,8 @@
  */
 package cdx.opencdx.communications.model;
 
-import cdx.open_audit.v2alpha.SensitivityLevel;
-import cdx.open_communication.v2alpha.NotificationEvent;
-import cdx.open_communication.v2alpha.NotificationPriority;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.communication.*;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

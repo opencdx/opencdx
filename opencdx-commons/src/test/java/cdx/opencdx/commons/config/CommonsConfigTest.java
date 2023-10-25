@@ -18,10 +18,8 @@ package cdx.opencdx.commons.config;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockConstruction;
 
-import cdx.open_audit.v2alpha.Actor;
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditEventType;
 import cdx.opencdx.commons.handlers.OpenCDXGrpcExceptionHandler;
+import cdx.opencdx.grpc.audit.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;

@@ -16,11 +16,10 @@
 package cdx.opencdx.helloworld.controller;
 
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.impl.HelloWorldServiceImpl;
-import health.safe.api.opencdx.grpc.helloworld.HelloReply;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -17,9 +17,7 @@ package cdx.opencdx.commons.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import cdx.media.v2alpha.IamUser;
-import cdx.media.v2alpha.IamUserStatus;
-import cdx.media.v2alpha.IamUserType;
+import cdx.opencdx.grpc.iam.*;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;

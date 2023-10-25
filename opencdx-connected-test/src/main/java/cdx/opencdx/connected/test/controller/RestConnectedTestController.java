@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.connected.test.controller;
 
-import cdx.open_connected_test.v2alpha.*;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
+import cdx.opencdx.grpc.connected.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.commons.service;
 
-import cdx.open_audit.v2alpha.AgentType;
-import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.opencdx.client.service.OpenCDXAuditClient;
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
+import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 
 /**
  * Integrated Audit service to use the Audit Aspect.

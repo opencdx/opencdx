@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.open_connected_test.v2alpha.*;
+import cdx.opencdx.grpc.connected.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

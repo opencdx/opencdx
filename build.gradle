@@ -70,8 +70,7 @@ tasks.register("jacocoRootReport", JacocoReport) {
 jacocoRootReport {
     classDirectories.setFrom(files(classDirectories.files.collect {
         fileTree(dir: it, exclude: [
-                "**/grpc/**/*.class",
-                "cdx/**/v2alpha/*.class"
+                "**/grpc/**/*.class"
         ])
     }))
 }
@@ -193,7 +192,7 @@ allprojects {
             classDirectories.setFrom(files(classDirectories.files.collect {
                 fileTree(dir: it, exclude: [
                         "**/Application.class",
-                        "cdx/**/v2alpha/*.class"
+                        "cdx/**/grpc/*.class"
                 ])
             }))
         }

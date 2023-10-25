@@ -1,6 +1,5 @@
 syntax = "proto3";
-
-package ANF;
+package cdx.opencdx.grpc.anf;
 
 // Enum to represent different levels of health risk.
 enum HealthRisk {

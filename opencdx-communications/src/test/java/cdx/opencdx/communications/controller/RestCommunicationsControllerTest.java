@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
@@ -30,6 +29,7 @@ import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;

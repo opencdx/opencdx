@@ -19,9 +19,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.open_connected_test.v2alpha.*;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
+import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;

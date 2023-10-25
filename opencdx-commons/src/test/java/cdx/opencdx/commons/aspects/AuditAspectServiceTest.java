@@ -15,8 +15,8 @@
  */
 package cdx.opencdx.commons.aspects;
 
-import cdx.open_audit.v2alpha.SensitivityLevel;
 import cdx.opencdx.commons.annotations.OpenCDXAuditUser;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import java.lang.annotation.Annotation;
 
 public class AuditAspectServiceTest implements OpenCDXAuditUser {

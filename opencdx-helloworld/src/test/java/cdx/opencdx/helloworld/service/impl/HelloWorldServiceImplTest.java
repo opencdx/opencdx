@@ -16,10 +16,10 @@
 package cdx.opencdx.helloworld.service.impl;
 
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.HelloWorldService;
-import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

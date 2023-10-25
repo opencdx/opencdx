@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.client.service.impl;
 
-import cdx.open_audit.v2alpha.AuditEvent;
-import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import cdx.open_audit.v2alpha.AuditStatus;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.grpc.audit.AuditEvent;
+import cdx.opencdx.grpc.audit.AuditServiceGrpc;
+import cdx.opencdx.grpc.audit.AuditStatus;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
