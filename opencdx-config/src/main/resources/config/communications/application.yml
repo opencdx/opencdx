@@ -15,4 +15,4 @@ queue:
     low: 0 0 */3 ? * *
 
 mongock:
-  change-logs-scan-package: health.safe.api.opencdx.communications.changelog
+  change-logs-scan-package: cdx.opencdx.communications.changelog
