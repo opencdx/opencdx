@@ -24,12 +24,16 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
 /**
  * OpenCDXMediaClient for talking to the Media Service.
  */
 @Slf4j
 @Observed(name = "opencdx")
+@Service
+@ConditionalOnProperty(prefix = "opencdx.client", name = "media", havingValue = "true")
 public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
     /**

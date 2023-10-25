@@ -27,12 +27,14 @@ import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the Helloworld gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
+@Service
 @ConditionalOnProperty(prefix = "opencdx.client", name = "helloworld", havingValue = "true")
 public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
 
