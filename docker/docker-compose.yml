@@ -53,8 +53,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9090:9090"
 
   iam:
     deploy:
@@ -81,8 +79,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9690:9690"
 
   media:
     deploy:
@@ -109,8 +105,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9490:9490"
 
   connected-test:
     deploy:
@@ -137,8 +131,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9590:9590"
 
   communications:
     deploy:
@@ -165,8 +157,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9390:9390"
 
   audit:
     deploy:
@@ -193,8 +183,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9290:9290"
 
   tinkar:
     deploy:
@@ -221,8 +209,6 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "9190:9190"
 
   admin:
     image: opencdx/admin:latest
