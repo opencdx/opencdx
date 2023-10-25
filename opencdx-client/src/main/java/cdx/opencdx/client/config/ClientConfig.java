@@ -15,17 +15,10 @@
  */
 package cdx.opencdx.client.config;
 
-import cdx.media.v2alpha.MediaServiceGrpc;
-import cdx.open_audit.v2alpha.AuditServiceGrpc;
-import cdx.open_communication.v2alpha.CommunicationServiceGrpc;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.client.service.impl.*;
-import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import lombok.extern.slf4j.Slf4j;
-import net.devh.boot.grpc.client.inject.GrpcClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -52,40 +45,5 @@ public class ClientConfig {
         WebClient mediaUpDownWebClient =
                 WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
         return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
-    }
-
-    @Bean
-    @Description("gRPC Client for HelloWorld")
-    @ConditionalOnProperty(prefix = "opencdx.client", name = "helloworld", havingValue = "true")
-    OpenCDXHelloworldClient helloworldClient(
-            @GrpcClient("helloworld-server") GreeterGrpc.GreeterBlockingStub greeterBlockingStub) {
-        return new OpenCDXHelloworldClientImpl(greeterBlockingStub);
-    }
-
-    @Bean
-    @Description("gRPC Client for Audit")
-    @ConditionalOnProperty(prefix = "opencdx.client", name = "audit", havingValue = "true")
-    OpenCDXAuditClient auditClient(
-            @Value("${spring.application.name}") String applicationName,
-            @GrpcClient("audit-service") AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub) {
-        return new OpenCDXAuditClientImpl(applicationName, auditServiceBlockingStub);
-    }
-
-    @Bean
-    @Description("gRPC Client for Media")
-    @ConditionalOnProperty(prefix = "opencdx.client", name = "media", havingValue = "true")
-    OpenCDXMediaClient mediaClient(
-            @GrpcClient("media-service") MediaServiceGrpc.MediaServiceBlockingStub mediaServiceBlockingStub) {
-        return new OpenCDXMediaClientImpl(mediaServiceBlockingStub);
-    }
-
-    @Bean
-    @Description("gRPC Client for Communication")
-    @ConditionalOnProperty(prefix = "opencdx.client", name = "communication", havingValue = "true")
-    OpenCDXCommunicationClient communicationClient(
-            @Value("${spring.application.name}") String applicationName,
-            @GrpcClient("communicaton-service")
-                    CommunicationServiceGrpc.CommunicationServiceBlockingStub communicationServiceBlockingStub) {
-        return new OpenCDXCommunicationClientImpl(communicationServiceBlockingStub);
     }
 }

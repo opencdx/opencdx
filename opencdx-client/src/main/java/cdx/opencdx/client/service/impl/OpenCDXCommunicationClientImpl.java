@@ -19,15 +19,36 @@ import cdx.open_communication.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import com.google.rpc.Code;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
 /**
  * Open CDX gRPC Communications Client
  */
+@Slf4j
+@Service
+@Observed(name = "opencdx")
+@ConditionalOnProperty(prefix = "opencdx.client", name = "communication", havingValue = "true")
 public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClient {
 
     private static final String DOMAIN = "OpenCDXCommunicationClientImpl";
     private final CommunicationServiceGrpc.CommunicationServiceBlockingStub blockingStub;
+
+    /**
+     * Default Constructor used for normal operation.
+     */
+    public OpenCDXCommunicationClientImpl() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("communications", 9090)
+                .usePlaintext()
+                .build();
+
+        this.blockingStub = CommunicationServiceGrpc.newBlockingStub(channel);
+    }
 
     /**
      * Constructor for creating the Communication service client implementation.

@@ -21,19 +21,33 @@ import com.google.rpc.Code;
 import health.safe.api.opencdx.grpc.helloworld.GreeterGrpc;
 import health.safe.api.opencdx.grpc.helloworld.HelloReply;
 import health.safe.api.opencdx.grpc.helloworld.HelloRequest;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
  * Implementation of the Helloworld gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
+@ConditionalOnProperty(prefix = "opencdx.client", name = "helloworld", havingValue = "true")
 public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
 
     private final GreeterGrpc.GreeterBlockingStub greeterBlockingStub;
 
+    /**
+     * Default Constructor used for normal operation.
+     */
+    public OpenCDXHelloworldClientImpl() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("helloworld", 9090)
+                .usePlaintext()
+                .build();
+
+        this.greeterBlockingStub = GreeterGrpc.newBlockingStub(channel);
+    }
     /**
      * Constructor for creating the Helloworld client implementation.
      * @param greeterBlockingStub gRPC Blocking Stub for Helloworld.

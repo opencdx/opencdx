@@ -20,19 +20,34 @@ import cdx.open_audit.v2alpha.AuditServiceGrpc;
 import cdx.open_audit.v2alpha.AuditStatus;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import com.google.rpc.Code;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
 /**
  * gRPC Client implementation of the Audit System.
  */
 @Slf4j
+@Service
 @Observed(name = "opencdx")
+@ConditionalOnProperty(prefix = "opencdx.client", name = "audit", havingValue = "true")
 public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
     private final AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
 
+    /**
+     * Default Constructor used for normal operation.
+     */
+    public OpenCDXAuditClientImpl() {
+        ManagedChannel channel =
+                ManagedChannelBuilder.forAddress("audit", 9090).usePlaintext().build();
+
+        this.auditServiceBlockingStub = AuditServiceGrpc.newBlockingStub(channel);
+    }
     /**
      * OpenCDXAuditClient Implementation for the audit system based on shared client code.
      * @param applicationName Name of the application
