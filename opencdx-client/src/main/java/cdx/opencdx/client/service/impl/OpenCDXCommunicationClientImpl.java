@@ -43,7 +43,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * Default Constructor used for normal operation.
      */
     public OpenCDXCommunicationClientImpl() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("communications", 9090)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("communications", 9390)
                 .usePlaintext()
                 .build();
 

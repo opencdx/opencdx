@@ -44,7 +44,7 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
      */
     public OpenCDXAuditClientImpl() {
         ManagedChannel channel =
-                ManagedChannelBuilder.forAddress("audit", 9090).usePlaintext().build();
+                ManagedChannelBuilder.forAddress("audit", 9290).usePlaintext().build();
 
         this.auditServiceBlockingStub = AuditServiceGrpc.newBlockingStub(channel);
     }
