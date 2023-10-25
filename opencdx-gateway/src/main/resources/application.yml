@@ -25,38 +25,33 @@ spring:
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
-            - Path=/grpc-helloworld/**
+            - Path=/health.safe.api.opencdx.grpc.helloworld.Greeter/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-            - RewritePath=/grpc-helloworld/?(?<remaining>.*),  /${remaining}
         - id: grpc-audit
           uri: https://audit:9090
           predicates:
-            - Path=/grpc-audit/**
+            - Path=/cdx.open_audit.v2alpha.AuditService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-            - RewritePath=/grpc-audit/?(?<remaining>.*),  /${remaining}
         - id: grpc-communications
           uri: https://communications:9090
           predicates:
-            - Path=/grpc-communications/**
+            - Path=/cdx.open_communication.v2alpha.CommunicationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-            - RewritePath=/grpc-communications/?(?<remaining>.*),  /${remaining}
         - id: grpc-connected-test
           uri: https://connected-test:9090
           predicates:
-            - Path=/grpc-connected-test/**
+            - Path=/cdx.open_connected_test.v2alpha.HealthcareService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-            - RewritePath=/grpc-connected-test/?(?<remaining>.*),  /${remaining}
         - id: grpc-media
           uri: https://media:9090
           predicates:
-            - Path=/grpc-media/**
+            - Path=/cdx.media.v2alpha.MediaService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-            - RewritePath=/grpc-media/?(?<remaining>.*),  /${remaining}
 eureka:
   client:
     service-url:

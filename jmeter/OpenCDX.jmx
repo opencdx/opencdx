@@ -30,7 +30,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9090</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">health.safe.api.opencdx.grpc.helloworld.Greeter/SayHello</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -57,7 +57,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -109,7 +109,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9290</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_audit.v2alpha.AuditService/Event</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -144,7 +144,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -204,7 +204,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -236,7 +236,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -263,7 +263,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -290,7 +290,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -315,7 +315,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -340,7 +340,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -372,7 +372,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -399,7 +399,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -426,7 +426,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -451,7 +451,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -476,7 +476,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -508,7 +508,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -535,7 +535,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -562,7 +562,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -587,7 +587,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -612,7 +612,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -637,7 +637,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -664,7 +664,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -691,7 +691,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/DeleteSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -727,7 +727,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -1197,7 +1197,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1229,7 +1229,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1256,7 +1256,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1283,7 +1283,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1308,7 +1308,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1333,7 +1333,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1365,7 +1365,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1392,7 +1392,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1419,7 +1419,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1444,7 +1444,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1469,7 +1469,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1501,7 +1501,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1528,7 +1528,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1555,7 +1555,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1580,7 +1580,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1605,7 +1605,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -1639,7 +1639,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -2052,7 +2052,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2084,7 +2084,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2111,7 +2111,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2138,7 +2138,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2163,7 +2163,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2188,7 +2188,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2220,7 +2220,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2247,7 +2247,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2274,7 +2274,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2299,7 +2299,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2324,7 +2324,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2356,7 +2356,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2383,7 +2383,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2410,7 +2410,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2435,7 +2435,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2460,7 +2460,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2494,7 +2494,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -2907,7 +2907,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2939,7 +2939,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2966,7 +2966,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -2993,7 +2993,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateEmailTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3018,7 +3018,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listEmailTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3043,7 +3043,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3075,7 +3075,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3102,7 +3102,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3129,7 +3129,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateSMSTemplate</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3154,7 +3154,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listSMSTemplates</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3179,7 +3179,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/CreateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3211,7 +3211,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3238,7 +3238,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/GetNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3265,7 +3265,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/UpdateNotificationEvent</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3290,7 +3290,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/listNotificationEvents</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3315,7 +3315,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9390</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_communication.v2alpha.CommunicationService/SendNotification</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3349,7 +3349,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -3819,7 +3819,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9590</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/SubmitTest</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3974,7 +3974,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9590</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/GetTestDetailsById</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -3992,7 +3992,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9590</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.open_connected_test.v2alpha.HealthcareService/ListConnectedTests</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -4022,7 +4022,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -4133,7 +4133,7 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">8880</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
@@ -4142,7 +4142,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/CreateMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -4203,7 +4203,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/GetMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -4257,7 +4257,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/UpdateMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -4282,7 +4282,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/ListMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
@@ -4302,7 +4302,7 @@
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">9490</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
           <stringProp name="GRPCSampler.fullMethod">cdx.media.v2alpha.MediaService/DeleteMedia</stringProp>
           <stringProp name="GRPCSampler.deadline">1000</stringProp>
           <boolProp name="GRPCSampler.tls">true</boolProp>
