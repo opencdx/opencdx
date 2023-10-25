@@ -20,6 +20,7 @@ import cdx.opencdx.client.service.OpenCDXAuditClient;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class for handling Audit message types that is connection independent.
@@ -27,8 +28,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class OpenCDXAuditClientAbstract implements OpenCDXAuditClient {
 
+    @Value("${spring.application.name}")
     private String applicationName;
 
+    /**
+     * Constrctor for receiving the required Application name
+     */
+    protected OpenCDXAuditClientAbstract() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
     /**
      * Constrctor for receiving the required Application name
      * @param applicationName Name of the applicaiton for sytem on record.

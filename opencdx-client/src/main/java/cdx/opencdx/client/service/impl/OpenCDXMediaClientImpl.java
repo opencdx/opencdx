@@ -19,6 +19,8 @@ import cdx.media.v2alpha.*;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import com.google.rpc.Code;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,16 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     private static final String DOMAIN = "OpenCDXMediaClientImpl";
 
     private final MediaServiceGrpc.MediaServiceBlockingStub mediaServiceBlockingStub;
+
+    /**
+     * Default Constructor used for normal operation.
+     */
+    public OpenCDXMediaClientImpl() {
+        ManagedChannel channel =
+                ManagedChannelBuilder.forAddress("media", 9090).usePlaintext().build();
+
+        this.mediaServiceBlockingStub = MediaServiceGrpc.newBlockingStub(channel);
+    }
 
     /**
      * Constructore for creating the OpenCDXMediaClientImpl
