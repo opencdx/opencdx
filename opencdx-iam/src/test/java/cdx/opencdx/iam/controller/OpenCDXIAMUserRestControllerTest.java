@@ -112,7 +112,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void getIamUser() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/iam/user/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/user/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -122,8 +122,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void deleteIamUser() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/iam/user/" + ObjectId.get().toHexString())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/user/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
@@ -133,7 +132,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void updateIamUser() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(put("/iam/user")
+                .perform(put("/user")
                         .content(this.objectMapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
                                 .setIamUser(IamUser.newBuilder()
                                         .setId(ObjectId.get().toHexString())
@@ -149,7 +148,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void signUp() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/iam/user")
+                .perform(post("/user")
                         .content(this.objectMapper.writeValueAsString(
                                 SignUpRequest.newBuilder().build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -165,7 +164,7 @@ class OpenCDXIAMUserRestControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
-                .perform(post("/iam/user/list")
+                .perform(post("/user/list")
                         .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
                                 .setPageNumber(1)
                                 .setPageSize(10)
@@ -187,7 +186,7 @@ class OpenCDXIAMUserRestControllerTest {
                 .thenReturn(new PageImpl<>(List.of(model), PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
-                .perform(post("/iam/user/list")
+                .perform(post("/user/list")
                         .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
                                 .setPageNumber(1)
                                 .setPageSize(10)
@@ -203,7 +202,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void changePassword() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/iam/user/password")
+                .perform(post("/user/password")
                         .content(this.objectMapper.writeValueAsString(ChangePasswordRequest.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setOldPassword("pass")
@@ -219,7 +218,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void userExists() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/iam/user/exists")
+                .perform(post("/user/exists")
                         .content(this.objectMapper.writeValueAsString(UserExistsRequest.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .build()))

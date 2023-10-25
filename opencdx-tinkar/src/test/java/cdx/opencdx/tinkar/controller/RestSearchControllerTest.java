@@ -51,8 +51,7 @@ class RestSearchControllerTest {
     @Test
     void search() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/search")
-                        .content("{\"name\": \"jeff\"}")
+                .perform(get("/").content("{\"name\": \"jeff\"}")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .param("query", "chronic disease of respiratory")
                         .param("maxResults", "10"))
@@ -63,7 +62,7 @@ class RestSearchControllerTest {
     @Test
     void getEntity() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/search/nid")
+                .perform(get("/nid")
                         .content("{\"name\": \"jeff\"}")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .param("nid", "1"))

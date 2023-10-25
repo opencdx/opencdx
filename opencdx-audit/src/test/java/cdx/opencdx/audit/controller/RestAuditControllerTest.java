@@ -69,7 +69,7 @@ class RestAuditControllerTest {
     @Test
     void event() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/audit/event")
+                .perform(post("/event")
                         .content(
                                 """
                                 {
