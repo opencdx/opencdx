@@ -5,3 +5,7 @@ spring:
 
 mongock:
   change-logs-scan-package: cdx.opencdx.iam.changelog
+
+logging:
+  level:
+    org.springframework.security: trace
