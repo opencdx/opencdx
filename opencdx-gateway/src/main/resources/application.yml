@@ -25,31 +25,31 @@ spring:
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
-            - Path=/health.safe.api.opencdx.grpc.helloworld.Greeter/**
+            - Path=/cdx.opencdx.grpc.helloworld.Greeter/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-audit
           uri: https://audit:9090
           predicates:
-            - Path=/cdx.open_audit.v2alpha.AuditService/**
+            - Path=/cdx.opencdx.grpc.audit.AuditService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-communications
           uri: https://communications:9090
           predicates:
-            - Path=/cdx.open_communication.v2alpha.CommunicationService/**
+            - Path=/cdx.opencdx.grpc.communication.CommunicationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-connected-test
           uri: https://connected-test:9090
           predicates:
-            - Path=/cdx.open_connected_test.v2alpha.HealthcareService/**
+            - Path=/cdx.opencdx.grpc.connected.HealthcareService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-media
           uri: https://media:9090
           predicates:
-            - Path=/cdx.media.v2alpha.MediaService/**
+            - Path=/cdx.opencdx.grpc.media.MediaService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
 eureka:
