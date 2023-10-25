@@ -43,12 +43,12 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
-    public static final String USER_RECORD_ACCESSED = "User record Accessed";
+    private static final String USER_RECORD_ACCESSED = "User record Accessed";
     private static final String DOMAIN = "OpenCDXIAMUserServiceImpl";
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String IAM_USER = "IAM_USER: ";
-    public static final String FAILED_TO_FIND_USER = "Failed to find user: ";
+    private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -60,6 +60,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param objectMapper Object Mapper for converting to JSON
      * @param openCDXAuditService      Audit service for tracking FDA requirements
      * @param openCDXIAMUserRepository Repository for saving users.
+     * @param passwordEncoder Password Encoder to use for encrypting and testing passwords.
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(

@@ -36,6 +36,7 @@ public class AppConfig {
 
     /**
      * Password Encoder bean Creation
+     * @return Password Encoder to use.
      */
     @Bean
     @Primary

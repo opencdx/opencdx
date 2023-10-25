@@ -22,9 +22,23 @@ import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl
 import com.mongodb.client.model.Indexes;
 import java.util.List;
 
+/**
+ * Change sets to MongoDB for IAM
+ */
 @ChangeLog(order = "001")
 @ExcludeFromJacocoGeneratedReport
 public class IAMChangeSet {
+    /**
+     * Default Constructor
+     */
+    public IAMChangeSet() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Setup Index on email for users.
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     */
     @ChangeSet(order = "001", id = "Setup Users Email Index", author = "Gaurav Mishra")
     public void setupIndexes(MongockTemplate mongockTemplate) {
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
