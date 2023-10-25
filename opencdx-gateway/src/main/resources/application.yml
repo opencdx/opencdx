@@ -23,35 +23,40 @@ spring:
       enabled: true
       routes:
         - id: grpc-helloworld
-          uri: lb:https://helloworld:9790
+          uri: https://helloworld:9090
           predicates:
             - Path=/grpc-helloworld/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+            - RewritePath=/grpc-helloworld/?(?<remaining>.*),  /${remaining}
         - id: grpc-audit
-          uri: lb:https://audit:9290
+          uri: https://audit:9290
           predicates:
             - Path=/grpc-audit/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+            - RewritePath=/grpc-audit/?(?<remaining>.*),  /${remaining}
         - id: grpc-communications
-          uri: lb:https://communications:9390
+          uri: https://communications:9390
           predicates:
             - Path=/grpc-communications/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+            - RewritePath=/grpc-communications/?(?<remaining>.*),  /${remaining}
         - id: grpc-connected-test
-          uri: lb:https://connected-test:9590
+          uri: https://connected-test:9590
           predicates:
             - Path=/grpc-connected-test/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+            - RewritePath=/grpc-connected-test/?(?<remaining>.*),  /${remaining}
         - id: grpc-media
-          uri: lb:https://media:9490
+          uri: https://media:9490
           predicates:
             - Path=/grpc-media/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+            - RewritePath=/grpc-media/?(?<remaining>.*),  /${remaining}
 eureka:
   client:
     service-url:
