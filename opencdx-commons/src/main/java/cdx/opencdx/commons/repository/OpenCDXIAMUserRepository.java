@@ -20,8 +20,17 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Repository for IAM User collection
  */
 @Repository
-public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUserModel, ObjectId> {}
+public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUserModel, ObjectId> {
+    /**
+     * Method to find a user by their email address
+     * @param email String containing the email address to look up for the user.
+     * @return Optional OpenCDXIAMUserModel of the user.
+     */
+    Optional<OpenCDXIAMUserModel> findByEmail(String email);
+}
