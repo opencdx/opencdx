@@ -326,7 +326,7 @@ public class CommunicationsChangeSet {
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository) {
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3749"))
+                .id(new ObjectId("60f1e6b1f075a361a94d375f"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .subject("OpenCDX Notification")
                 .content(
@@ -342,10 +342,10 @@ public class CommunicationsChangeSet {
                 .build();
 
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3748"))
+                .id(new ObjectId("60f1e6b1f075a361a94d3760"))
                 .eventName("Notification to user")
                 .eventDescription("Notification to user of an event.")
-                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3749"))
+                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d375f"))
                 .emailRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();

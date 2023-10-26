@@ -23,7 +23,7 @@ import cdx.opencdx.grpc.communication.*;
  */
 public interface OpenCDXCommunicationClient {
 
-    String VERIFY_EMAIL_USER = "60f1e6b1f075a361a94d3748";
+    String VERIFY_EMAIL_USER = "60f1e6b1f075a361a94d3760";
     String CHANGE_PASSWORD = "60f1e6b1f075a361a94d3750";
     String WELCOME_EMAIL_USER = "60f1e6b1f075a361a94d373e";
 
