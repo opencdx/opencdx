@@ -15,12 +15,15 @@
  */
 package cdx.opencdx.commons.model;
 
-import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.iam.IamUser;
+import cdx.opencdx.grpc.iam.IamUserStatus;
+import cdx.opencdx.grpc.iam.IamUserType;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,6 +33,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Document("users")
 public class OpenCDXIAMUserModel {
@@ -47,6 +51,15 @@ public class OpenCDXIAMUserModel {
     private IamUserType type;
     private String phone;
     private String password;
+
+    @Builder.Default
+    private boolean accountExpired = false;
+
+    @Builder.Default
+    private boolean credentialsExpired = false;
+
+    @Builder.Default
+    private boolean accountLocked = false;
 
     /**
      * Constructor to convert in an IamUser
