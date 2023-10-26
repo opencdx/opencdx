@@ -148,7 +148,7 @@ class OpenCDXIAMUserRestControllerTest {
     @Test
     void signUp() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/user")
+                .perform(post("/user/signup")
                         .content(this.objectMapper.writeValueAsString(
                                 SignUpRequest.newBuilder().build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

@@ -89,7 +89,7 @@ public class OpenCDXIAMUserRestController {
      * @param request New user information for signup
      * @return New user record.
      */
-    @PostMapping()
+    @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.signUp(request), HttpStatus.OK);
     }
