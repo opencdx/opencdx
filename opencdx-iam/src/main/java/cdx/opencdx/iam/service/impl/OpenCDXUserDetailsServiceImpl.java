@@ -15,11 +15,11 @@
  */
 package cdx.opencdx.iam.service.impl;
 
-import cdx.media.v2alpha.IamUserStatus;
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.iam.dto.OpenCDXUserDetails;
-import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
-import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

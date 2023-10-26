@@ -15,10 +15,10 @@
  */
 package cdx.opencdx.iam.service.impl;
 
-import health.safe.api.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import health.safe.api.opencdx.commons.exceptions.OpenCDXUnimplemented;
-import health.safe.api.opencdx.commons.model.OpenCDXIAMUserModel;
-import health.safe.api.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.exceptions.OpenCDXUnimplemented;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import java.time.Duration;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
