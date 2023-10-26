@@ -52,6 +52,12 @@ spring:
             - Path=/cdx.opencdx.grpc.media.MediaService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-iam
+          uri: https://iam:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.iam.IamUserService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:
