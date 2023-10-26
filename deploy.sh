@@ -121,6 +121,7 @@ print_usage() {
 # Function to build Docker image
 build_docker() {
     echo "Building Docker images..."
+    docker build -t opencdx/mongodb ./opencdx-mongodb || handle_error "Docker opencdx-mongodb build failed."
     docker build -t opencdx/helloworld ./opencdx-helloworld || handle_error "Docker opencdx-helloworld build failed."
     docker build -t opencdx/admin ./opencdx-admin || handle_error "Docker opencdx-admin build failed."
     docker build -t opencdx/config ./opencdx-config || handle_error "Docker opencdx-config build failed."
