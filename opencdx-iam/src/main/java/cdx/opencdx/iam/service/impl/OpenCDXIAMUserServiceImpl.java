@@ -15,18 +15,37 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.*;
-import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.communication.Notification;
+import cdx.opencdx.grpc.iam.ChangePasswordRequest;
+import cdx.opencdx.grpc.iam.ChangePasswordResponse;
+import cdx.opencdx.grpc.iam.DeleteIamUserRequest;
+import cdx.opencdx.grpc.iam.DeleteIamUserResponse;
+import cdx.opencdx.grpc.iam.GetIamUserRequest;
+import cdx.opencdx.grpc.iam.GetIamUserResponse;
+import cdx.opencdx.grpc.iam.IamUserStatus;
+import cdx.opencdx.grpc.iam.ListIamUsersRequest;
+import cdx.opencdx.grpc.iam.ListIamUsersResponse;
+import cdx.opencdx.grpc.iam.SignUpRequest;
+import cdx.opencdx.grpc.iam.SignUpResponse;
+import cdx.opencdx.grpc.iam.UpdateIamUserRequest;
+import cdx.opencdx.grpc.iam.UpdateIamUserResponse;
+import cdx.opencdx.grpc.iam.UserExistsRequest;
+import cdx.opencdx.grpc.iam.UserExistsResponse;
+import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +67,15 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String IAM_USER = "IAM_USER: ";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OpenCDXCommunicationClient openCDXCommunicationClient;
+    private final AppProperties appProperties;
 
     /**
      * Constructor taking the a PersonRepository
@@ -61,17 +84,22 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param openCDXAuditService      Audit service for tracking FDA requirements
      * @param openCDXIAMUserRepository Repository for saving users.
      * @param passwordEncoder Password Encoder to use for encrypting and testing passwords.
+     * @param appProperties App Properties is used to set the common variables to supply from config.
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(
             ObjectMapper objectMapper,
             OpenCDXAuditService openCDXAuditService,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            OpenCDXCommunicationClient openCDXCommunicationClient,
+            AppProperties appProperties) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.openCDXCommunicationClient = openCDXCommunicationClient;
+        this.appProperties = appProperties;
     }
 
     /**
@@ -82,7 +110,6 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public SignUpResponse signUp(SignUpRequest request) {
-        // TODO: Implement a check here for the email address.
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -92,6 +119,21 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .type(request.getType())
                 .password(request.getPassword())
                 .build());
+
+        this.openCDXCommunicationClient.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationClient.VERIFY_EMAIL_USER)
+                .addAllToEmail(List.of(model.getEmail()))
+                .putAllVariables(Map.of(
+                        FIRST_NAME,
+                        model.getFirstName(),
+                        LAST_NAME,
+                        model.getLastName(),
+                        "user_id",
+                        model.getId().toHexString(),
+                        "verification_server",
+                        appProperties.getVerificationUrl()))
+                .build());
+
         try {
             this.openCDXAuditService.piiCreated(
                     ObjectId.get().toHexString(),
@@ -249,6 +291,19 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         model = this.openCDXIAMUserRepository.save(model);
 
+        this.openCDXCommunicationClient.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationClient.CHANGE_PASSWORD)
+                .addAllToEmail(List.of(model.getEmail()))
+                .addAllToPhoneNumber(List.of(model.getPhone()))
+                .putAllVariables(Map.of(
+                        FIRST_NAME,
+                        model.getFirstName(),
+                        LAST_NAME,
+                        model.getLastName(),
+                        "notification",
+                        "Password changed"))
+                .build());
+
         this.openCDXAuditService.passwordChange(
                 ObjectId.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
@@ -330,5 +385,45 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         return UserExistsResponse.newBuilder()
                 .setIamUser(model.getProtobufMessage())
                 .build();
+    }
+
+    /**
+     * Method to verify user email
+     *
+     * @param id Request for the user to get.
+     * @return Response with the requested user.
+     */
+    @Override
+    public void verifyEmailIamUser(String id) {
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findById(new ObjectId(id))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + id));
+
+        model.setEmailVerified(true);
+        model = this.openCDXIAMUserRepository.save(model);
+
+        this.openCDXCommunicationClient.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationClient.WELCOME_EMAIL_USER)
+                .addAllToEmail(List.of(model.getEmail()))
+                .putAllVariables(Map.of(
+                        FIRST_NAME, model.getFirstName(), LAST_NAME, model.getLastName(), "email", model.getEmail()))
+                .build());
+
+        try {
+            this.openCDXAuditService.piiUpdated(
+                    ObjectId.get().toHexString(),
+                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    "User email verification",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ObjectId.get().toHexString(),
+                    IAM_USER + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("id", id);
+            throw openCDXNotAcceptable;
+        }
     }
 }

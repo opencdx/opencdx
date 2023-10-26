@@ -15,10 +15,12 @@
  */
 package cdx.opencdx.iam.controller;
 
+import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +38,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,6 +67,12 @@ class OpenCDXIAMUserGrpcControllerTest {
 
     OpenCDXIAMUserGrpcController openCDXIAMUserGrpcController;
 
+    @MockBean
+    OpenCDXCommunicationClient openCDXCommunicationClient;
+
+    @Autowired
+    AppProperties appProperties;
+
     @BeforeEach
     void setUp() {
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -86,12 +95,21 @@ class OpenCDXIAMUserGrpcControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
+                                .firstName("FName")
+                                .lastName("LName")
+                                .email("ab@safehealth.me")
+                                .phone("123-456-7890")
                                 .build());
                     }
                 });
 
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.passwordEncoder,
+                this.openCDXCommunicationClient,
+                this.appProperties);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 

@@ -123,4 +123,16 @@ public class OpenCDXIAMUserRestController {
     public ResponseEntity<UserExistsResponse> userExists(@RequestBody UserExistsRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.userExists(request), HttpStatus.OK);
     }
+
+    /**
+     * Verifies the email of requested user.
+     * @param id ID of the user to retrieve
+     * @return Response with the user.
+     */
+    @GetMapping("/verify/{id}")
+    @SuppressWarnings("java:S3740")
+    public ResponseEntity verifyEmailIamUser(@PathVariable String id) {
+        this.openCDXIAMUserService.verifyEmailIamUser(id);
+        return ResponseEntity.ok().build();
+    }
 }

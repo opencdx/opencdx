@@ -9,3 +9,7 @@ mongock:
 logging:
   level:
     org.springframework.security: trace
+
+opencdx:
+  iam:
+    verificationUrl: "https://localhost:8680/verify"
