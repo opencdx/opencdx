@@ -15,12 +15,7 @@
  */
 package cdx.opencdx.iam.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Primary;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Applicaiton Configuration
@@ -32,16 +27,5 @@ public class AppConfig {
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    /**
-     * Password Encoder bean Creation
-     * @return Password Encoder to use.
-     */
-    @Bean
-    @Primary
-    @Description("Password Encoder using the recommend Spring Delegating encoder.")
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
