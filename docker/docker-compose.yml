@@ -47,8 +47,8 @@ services:
         condition: service_healthy
       admin:
         condition: service_healthy
-#      database:
-#        condition: service_healthy
+      database:
+        condition: service_healthy
       nats:
         condition: service_started
     volumes:
