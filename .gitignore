@@ -61,3 +61,4 @@ Thumbs.db
 *.hprof
 /opencdx-media/downloads/
 /opencdx-media/uploads/
+/data

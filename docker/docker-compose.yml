@@ -47,8 +47,8 @@ services:
         condition: service_healthy
       admin:
         condition: service_healthy
-      database:
-        condition: service_healthy
+#      database:
+#        condition: service_healthy
       nats:
         condition: service_started
     volumes:
@@ -259,10 +259,10 @@ services:
       start_period: 5s
 
   database:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    image: opencdx/mongodb:latest
+    volumes:
+      - ../certs:/certs
+      - ../data/mongodb:/data/db
     ports:
         - "27017:27017"
     healthcheck:
