@@ -11,5 +11,7 @@ logging:
     org.springframework.security: trace
 
 opencdx:
+  client:
+    communication: true
   iam:
     verificationUrl: "https://localhost:8680/verify"
