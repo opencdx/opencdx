@@ -7,12 +7,37 @@ handle_error() {
     echo "Error: $1"
     exit 1
 }
+function copy_files() {
+    # Check if the correct number of arguments are provided
+    if [ "$#" -ne 2 ]; then
+        echo "Usage: copy_files <source_directory> <target_directory>"
+        return 1
+    fi
+
+    source_dir="$1"
+    target_dir="$2"
+
+    # Create the target directory if it doesn't exist
+    if [ ! -d "$target_dir" ]; then
+        mkdir -p "$target_dir"
+    fi
+
+    # Remove files in the target directory (if it exists)
+    if [ -d "$target_dir" ]; then
+        rm -r "$target_dir"/*
+    fi
+
+    # Copy files from the source to the target directory
+    cp -r "$source_dir"/* "$target_dir"
+}
+
 
 # Function to open reports and documentation
 open_reports() {
     case $1 in
     jmeter)
         echo "Running Jmeter Tests"
+        copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         rm -rf build/reports/jmeter
         jmeter -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
         if [[ "$OSTYPE" == "msys" ]]; then
@@ -23,6 +48,7 @@ open_reports() {
         ;;
     jmeter_edit)
         echo "Opening JMeter Test Script in Editor"
+        copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         jmeter -t ./jmeter/OpenCDX.jmx
         ;;
     nats)

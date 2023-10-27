@@ -252,9 +252,14 @@ services:
 
   nats:
     image: nats
+    volumes:
+      - ../certs:/certs
+      - ../data/nats:/opt/nats/data
+      - ../opencdx-nats/nats-server.conf:/nats-server.conf
     ports:
       - "4222:4222"
       - "6222:6222"
       - "8222:8222"
+    command: "-c /nats-server.conf"
     environment:
       NATS_STREAM_MAX_AGE: 86400s
