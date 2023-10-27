@@ -317,11 +317,11 @@ public class CommunicationsChangeSet {
     }
 
     /**
-     * Notification Template
+     * Email Verify Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
      */
-    @ChangeSet(order = "006", id = "Create Notification Template", author = "Gaurav Mishra")
+    @ChangeSet(order = "007", id = "Create Email Verify Template", author = "Gaurav Mishra")
     public void generateEmailVerifyTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository) {
