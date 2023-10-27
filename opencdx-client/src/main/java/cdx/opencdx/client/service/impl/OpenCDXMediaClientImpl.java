@@ -47,8 +47,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
      * Default Constructor used for normal operation.
      */
     public OpenCDXMediaClientImpl() {
-        ManagedChannel channel =
-                ManagedChannelBuilder.forAddress("media", 9090).usePlaintext().build();
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("media", 9090).build();
 
         this.mediaServiceBlockingStub = MediaServiceGrpc.newBlockingStub(channel);
     }

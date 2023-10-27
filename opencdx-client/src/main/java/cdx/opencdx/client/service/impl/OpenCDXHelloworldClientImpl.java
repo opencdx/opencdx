@@ -44,9 +44,8 @@ public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
      * Default Constructor used for normal operation.
      */
     public OpenCDXHelloworldClientImpl() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("helloworld", 9090)
-                .usePlaintext()
-                .build();
+        ManagedChannel channel =
+                ManagedChannelBuilder.forAddress("helloworld", 9090).build();
 
         this.greeterBlockingStub = GreeterGrpc.newBlockingStub(channel);
     }

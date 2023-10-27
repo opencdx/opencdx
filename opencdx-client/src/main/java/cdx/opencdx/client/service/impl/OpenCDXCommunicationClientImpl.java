@@ -43,9 +43,9 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * Default Constructor used for normal operation.
      */
     public OpenCDXCommunicationClientImpl() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("communications", 9090)
-                .usePlaintext()
-                .build();
+        ManagedChannel channel =
+                ManagedChannelBuilder.forAddress("communications", 9090)
+                        .build();
 
         this.blockingStub = CommunicationServiceGrpc.newBlockingStub(channel);
     }
