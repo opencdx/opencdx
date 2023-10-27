@@ -10,7 +10,7 @@
       </elementProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 1 Loop - IAM" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 1 Loop - IAM" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">1</stringProp>
@@ -25,44 +25,27 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="username" elementType="Argument">
-              <stringProp name="Argument.value">open_${__threadNum}_g@opencdx.com</stringProp>
-              <stringProp name="Argument.name">username</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="password" elementType="Argument">
-              <stringProp name="Argument.value">password</stringProp>
-              <stringProp name="Argument.name">password</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-          </collectionProp>
-        </Arguments>
-        <hashTree/>
-        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import org.apache.commons.codec.binary.Base64;
-
-String username = vars.get(&quot;username&quot;);
-String password = vars.get(&quot;password&quot;);
-String credentials = username + &quot;:&quot; + password;
-byte[] encodedUsernamePassword = Base64.encodeBase64(credentials.getBytes());
-vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</stringProp>
-        </JSR223PreProcessor>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Signup" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata"></stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/CreateANFStatement</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;type&quot;:&quot;IAM_USER_TYPE_REGULAR&quot;,&quot;firstName&quot;:&quot;Open&quot;,&quot;lastName&quot;:&quot;Cdx&quot;,&quot;email&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
               <stringProp name="Header.value">application/json</stringProp>
-            </elementProp>
-            <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">Authorization</stringProp>
-              <stringProp name="Header.value">basic ${base64Credentials}</stringProp>
             </elementProp>
           </collectionProp>
         </HeaderManager>
@@ -76,43 +59,18 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <stringProp name="HTTPSampler.protocol">https</stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / signup" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
-          <stringProp name="GRPCSampler.libFolder"></stringProp>
-          <stringProp name="GRPCSampler.metadata"></stringProp>
-          <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">8080</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.iam.IamUserService/SignUp</stringProp>
-          <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">true</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{
-    &quot;email&quot;: &quot;${username}&quot;,
-    &quot;first_name&quot;: &quot;Bo&quot;,
-    &quot;last_name&quot;: &quot;Jangles&quot;,
-    &quot;password&quot;: &quot;${password}&quot;,
-    &quot;type&quot;: 2
-}</stringProp>
-        </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/oauth2/token" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/user {POST]" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="grant_type" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;type&quot;:&quot;IAM_USER_TYPE_REGULAR&quot;,&quot;firstName&quot;:&quot;Open&quot;,&quot;lastName&quot;:&quot;Cdx&quot;,&quot;email&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">grant_type</stringProp>
-                <stringProp name="Argument.value">client_credentials</stringProp>
-                <stringProp name="HTTPArgument.content_type">x-www-form-urlencoded</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.path">/iam/oauth2/token</stringProp>
+          <stringProp name="HTTPSampler.path">/iam/user/signup</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -127,7 +85,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -143,7 +101,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="HelloWorld / SayHello" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -206,7 +164,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -222,7 +180,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="AuditService / Event" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -301,7 +259,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Communications Immediate" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Communications Immediate" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -317,7 +275,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -341,7 +299,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -359,7 +317,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -377,7 +335,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -393,7 +351,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -409,7 +367,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -433,7 +391,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -451,7 +409,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -469,7 +427,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -485,7 +443,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -501,7 +459,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -525,7 +483,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -543,7 +501,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -561,7 +519,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -577,7 +535,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -593,7 +551,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -609,7 +567,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -627,7 +585,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -645,7 +603,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1126,7 +1084,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications High" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications High" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">100</stringProp>
@@ -1142,7 +1100,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1166,7 +1124,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1184,7 +1142,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1202,7 +1160,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1218,7 +1176,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1234,7 +1192,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1258,7 +1216,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1276,7 +1234,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1294,7 +1252,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1310,7 +1268,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1326,7 +1284,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1350,7 +1308,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1368,7 +1326,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1386,7 +1344,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1402,7 +1360,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1418,7 +1376,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1840,7 +1798,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Medium" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Medium" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">100</stringProp>
@@ -1856,7 +1814,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1880,7 +1838,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1898,7 +1856,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1916,7 +1874,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1932,7 +1890,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1948,7 +1906,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1972,7 +1930,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -1990,7 +1948,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2008,7 +1966,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2024,7 +1982,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2040,7 +1998,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2064,7 +2022,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2082,7 +2040,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2100,7 +2058,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2116,7 +2074,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2132,7 +2090,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2554,7 +2512,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Low" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Low" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">100</stringProp>
@@ -2570,7 +2528,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2594,7 +2552,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2612,7 +2570,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetEmailTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2630,7 +2588,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateEmailTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2646,7 +2604,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listEmailTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2662,7 +2620,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2686,7 +2644,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2704,7 +2662,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetSMSTemplate (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2722,7 +2680,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateSMSTemplate" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2738,7 +2696,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listSMSTemplates" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2754,7 +2712,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2778,7 +2736,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2796,7 +2754,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/GetNotificationEvent (Cache)" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2814,7 +2772,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/UpdateNotificationEvent" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2830,7 +2788,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/listNotificationEvents" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -2846,7 +2804,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3325,7 +3283,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Connected Test" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Connected Test" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -3341,7 +3299,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
       </ThreadGroup>
       <hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  SubmitTest" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3496,7 +3454,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
           <hashTree/>
         </hashTree>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  GetTestDetailsById" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3514,7 +3472,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  ListConnectedTests" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3630,7 +3588,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops -Media" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops -Media" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -3664,7 +3622,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </ConfigTestElement>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / CreateMedia" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3725,7 +3683,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / GetMedia" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3779,7 +3737,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </HTTPSamplerProxy>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / UpdateMedia" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3804,7 +3762,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / ListMedia" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
@@ -3824,7 +3782,7 @@ vars.put(&quot;base64Credentials&quot;, new String(encodedUsernamePassword));</s
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / DeleteMedia" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/Users/jeffmiller/source/OpenCDX/opencdx-proto/src/main/proto</stringProp>
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
           <stringProp name="GRPCSampler.metadata"></stringProp>
           <stringProp name="GRPCSampler.host">localhost</stringProp>
