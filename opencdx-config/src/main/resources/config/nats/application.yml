@@ -4,3 +4,9 @@
 nats:
   spring:
     server: nats://nats:4222
+    keyStorePath: /certs/opencdx-keystore.p12
+    keyStorePassword: opencdx
+    keyStoreType: PKCS12
+    trustStorePath: /certs/opencdx-keystore.p12
+    trustStorePassword: opencdx
+    trustStoreType: PKCS12
