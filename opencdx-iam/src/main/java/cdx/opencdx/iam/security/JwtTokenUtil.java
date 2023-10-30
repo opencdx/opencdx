@@ -47,14 +47,14 @@ public class JwtTokenUtil {
                 .subject(format("%s,%s", user.getId(), user.getEmail()))
                 .issuer(JWT_ISSUER)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000))
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .expiration(new Date(System.currentTimeMillis() + 4 * 60 * 60 * 1000))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET.getBytes())
                 .compact();
     }
 
     public String getUserId(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
+                .setSigningKey(JWT_SECRET.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -64,7 +64,7 @@ public class JwtTokenUtil {
 
     public String getUsername(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
+                .setSigningKey(JWT_SECRET.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -74,7 +74,7 @@ public class JwtTokenUtil {
 
     public Date getExpirationDate(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
+                .setSigningKey(JWT_SECRET.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -84,7 +84,7 @@ public class JwtTokenUtil {
 
     public boolean validate(String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET).build().parseClaimsJws(token);
+            Jwts.parser().setSigningKey(JWT_SECRET.getBytes()).build().parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature - {}", ex.getMessage());

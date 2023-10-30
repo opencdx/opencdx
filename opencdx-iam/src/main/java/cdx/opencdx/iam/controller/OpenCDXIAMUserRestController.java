@@ -158,12 +158,11 @@ public class OpenCDXIAMUserRestController {
                             "OpenCDXIAMUserRestController",
                             1,
                             "Failed to authenticate user: " + request.getUserName()));
+            String token = jwtTokenUtil.generateAccessToken(userModel);
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(userModel))
-                    .body(LoginResponse.newBuilder()
-                            .setIamUser(userModel.getProtobufMessage())
-                            .build());
+                    .header(HttpHeaders.AUTHORIZATION, token)
+                    .body(LoginResponse.newBuilder().setToken(token).build());
         } catch (BadCredentialsException ex) {
             throw new OpenCDXUnauthorized(
                     "OpenCDXIAMUserRestController", 2, "Failed to authenticate user: " + request.getUserName(), ex);

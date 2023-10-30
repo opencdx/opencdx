@@ -69,8 +69,8 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  // IAM user information.
-  IamUser iam_user = 1;
+  // JWT Token to use for authorization
+  string token = 1;
 }
 
 // Request message for user sign-up.

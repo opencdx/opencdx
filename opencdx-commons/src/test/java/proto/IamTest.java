@@ -18,6 +18,7 @@ package proto;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.iam.LoginRequest;
 import cdx.opencdx.grpc.iam.SignUpRequest;
+import cdx.opencdx.grpc.iam.UserExistsRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -59,5 +60,16 @@ class IamTest {
                         .setUserName("jeff.miller@safehealth.me")
                         .setPassword("password")
                         .build()));
+    }
+
+    @Test
+    void UserExistsRequest() throws JsonProcessingException {
+        log.info(
+                "UserExistsRequest:\n {}",
+                this.mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(UserExistsRequest.newBuilder()
+                                .setId("653f1755c4203f57f39843f3")
+                                .build()));
     }
 }
