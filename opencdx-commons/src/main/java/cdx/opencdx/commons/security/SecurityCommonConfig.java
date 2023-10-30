@@ -32,7 +32,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @AutoConfiguration
 @Configuration
-@Profile("managed")
+@Profile({"managed", "mongo"})
 @ExcludeFromJacocoGeneratedReport
 public class SecurityCommonConfig {
 
