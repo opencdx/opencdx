@@ -16,4 +16,4 @@ spring:
   application:
     name: audit
   profiles:
-    active: managed,nats,audit
+    active: managed,nats,audit,mongo

@@ -20,13 +20,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  * Application class for this microservice
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages = {"health.safe", "cdx.opencdx"})
+@ComponentScan(basePackages = {"cdx.opencdx"})
+@EnableMongoRepositories(basePackages = {"cdx.opencdx"})
 @ExcludeFromJacocoGeneratedReport
 public class Application {
     /**
