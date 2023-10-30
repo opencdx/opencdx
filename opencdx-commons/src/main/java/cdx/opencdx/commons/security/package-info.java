@@ -8,4 +8,4 @@
  * @version 1.0
  * @since 1.0
  */
-package cdx.opencdx.iam.security;
+package cdx.opencdx.commons.security;

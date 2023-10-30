@@ -8,6 +8,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.api.grpc:proto-google-common-protos:${protoGoogleCommonLibraryVersion}"
@@ -24,6 +25,11 @@ dependencies {
 
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+
+
+    implementation "io.jsonwebtoken:jjwt-api:${jsonWebTokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-impl:${jsonWebTokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jsonWebTokenVersion}"
 
     implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:${owaspSanitizerVersion}"
 

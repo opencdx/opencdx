@@ -16,31 +16,22 @@
 package cdx.opencdx.iam.security;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
-import cdx.opencdx.iam.service.impl.OpenCDXUserDetailsServiceImpl;
+import cdx.opencdx.commons.security.JwtTokenFilter;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Configuration
 @EnableWebSecurity
@@ -48,50 +39,24 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final AuthenticationConfiguration configuration;
-    private JwtTokenFilter jwtTokenFilter;
-    private UserDetailsService userDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenFilter jwtTokenFilter;
+    private final CorsConfigurationSource corsConfigurationSource;
     /**
      * Default Constructor
      */
     public SecurityConfig(
-            AuthenticationConfiguration configuration, OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            AuthenticationConfiguration configuration,
+            JwtTokenFilter jwtTokenFilter,
+            CorsConfigurationSource corsConfigurationSource) {
         this.configuration = configuration;
-        this.userDetailsService = new OpenCDXUserDetailsServiceImpl(openCDXIAMUserRepository);
-        this.jwtTokenUtil = new JwtTokenUtil();
-        this.jwtTokenFilter = new JwtTokenFilter(jwtTokenUtil, userDetailsService);
-    }
-
-    @Bean
-    @Primary
-    @SuppressWarnings("java:S1874")
-    public UserDetailsService userDetailsService(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
-        return this.userDetailsService;
-    }
-
-    @Primary
-    @Bean
-    public JwtTokenUtil jwtTokenUtil() {
-        return this.jwtTokenUtil;
-    }
-
-    @Primary
-    @Bean
-    public JwtTokenFilter jwtTokenFilter() {
-        return this.jwtTokenFilter;
-    }
-
-    @Bean
-    @Primary
-    @Description("Password Encoder using the recommend Spring Delegating encoder.")
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        this.jwtTokenFilter = jwtTokenFilter;
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+                        httpSecurityCorsConfigurer.configurationSource(this.corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -109,17 +74,6 @@ public class SecurityConfig {
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage())))
                 .addFilterBefore(this.jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
     }
 
     // Expose authentication manager bean

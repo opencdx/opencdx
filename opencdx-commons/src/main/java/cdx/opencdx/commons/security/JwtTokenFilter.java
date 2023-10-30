@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.security;
+package cdx.opencdx.commons.security;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import jakarta.servlet.FilterChain;

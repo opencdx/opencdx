@@ -1,2 +1,3 @@
 cdx.opencdx.commons.config.CommonsConfig
+cdx.opencdx.commons.security.SecurityCommonConfig
 io.nats.spring.boot.autoconfigure.NatsAutoConfiguration
