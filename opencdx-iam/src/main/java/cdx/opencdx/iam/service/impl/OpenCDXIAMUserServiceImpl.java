@@ -90,7 +90,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .email(request.getEmail())
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .type(request.getType())
-                .password(request.getPassword())
+                .password(this.passwordEncoder.encode(request.getPassword()))
                 .build());
         try {
             this.openCDXAuditService.piiCreated(

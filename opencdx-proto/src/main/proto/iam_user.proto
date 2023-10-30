@@ -60,6 +60,19 @@ enum IamUserStatus {
   IAM_USER_STATUS_DELETED = 3;
 }
 
+message LoginRequest {
+  // User name for the user on login request.
+  string user_name = 1;
+
+  // Password for user on login.
+  string password = 2;
+}
+
+message LoginResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
+}
+
 // Request message for user sign-up.
 message SignUpRequest {
   // Type of IAM user (e.g., Regular, System, Trial).

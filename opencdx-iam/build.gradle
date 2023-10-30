@@ -14,13 +14,17 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-authorization-server:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
 
 
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "de.codecentric:spring-boot-admin-starter-client"
+
+    implementation "io.jsonwebtoken:jjwt-api:0.12.3"
+    implementation "io.jsonwebtoken:jjwt-impl:0.12.3"
+    implementation "io.jsonwebtoken:jjwt-jackson:0.12.3"
 
     //Database
     implementation "com.github.cloudyrock.mongock:mongock-spring-v5:${mongoData}"

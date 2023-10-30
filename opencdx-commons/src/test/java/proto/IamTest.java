@@ -16,6 +16,7 @@
 package proto;
 
 import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.iam.LoginRequest;
 import cdx.opencdx.grpc.iam.SignUpRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,6 +48,16 @@ class IamTest {
                         .setPassword("password")
                         .setSystemName("System Name")
                         .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .build()));
+    }
+
+    @Test
+    void LoginRequest() throws JsonProcessingException {
+        log.info(
+                "LoginRequest: {}",
+                this.mapper.writeValueAsString(LoginRequest.newBuilder()
+                        .setUserName("jeff.miller@safehealth.me")
+                        .setPassword("password")
                         .build()));
     }
 }

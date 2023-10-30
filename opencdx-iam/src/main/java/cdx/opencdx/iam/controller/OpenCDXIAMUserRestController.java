@@ -15,14 +15,22 @@
  */
 package cdx.opencdx.iam.controller;
 
+import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.iam.security.JwtTokenUtil;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -38,14 +46,28 @@ import org.springframework.web.bind.annotation.*;
 public class OpenCDXIAMUserRestController {
 
     private final OpenCDXIAMUserService openCDXIAMUserService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
     /**
      * Constructor that takes a OpenCDXIAMUserService
-     * @param openCDXIAMUserService service for processing requests.
+     *
+     * @param openCDXIAMUserService    service for processing requests.
+     * @param authenticationManager
+     * @param jwtTokenUtil
+     * @param openCDXIAMUserRepository
      */
     @Autowired
-    public OpenCDXIAMUserRestController(OpenCDXIAMUserService openCDXIAMUserService) {
+    public OpenCDXIAMUserRestController(
+            OpenCDXIAMUserService openCDXIAMUserService,
+            AuthenticationManager authenticationManager,
+            JwtTokenUtil jwtTokenUtil,
+            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.openCDXIAMUserService = openCDXIAMUserService;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }
 
     /**
@@ -122,5 +144,29 @@ public class OpenCDXIAMUserRestController {
     @PostMapping("/exists")
     public ResponseEntity<UserExistsResponse> userExists(@RequestBody UserExistsRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.userExists(request), HttpStatus.OK);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+
+            OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
+                    .findByEmail(request.getUserName())
+                    .orElseThrow(() -> new OpenCDXUnauthorized(
+                            "OpenCDXIAMUserRestController",
+                            1,
+                            "Failed to authenticate user: " + request.getUserName()));
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(userModel))
+                    .body(LoginResponse.newBuilder()
+                            .setIamUser(userModel.getProtobufMessage())
+                            .build());
+        } catch (BadCredentialsException ex) {
+            throw new OpenCDXUnauthorized(
+                    "OpenCDXIAMUserRestController", 2, "Failed to authenticate user: " + request.getUserName(), ex);
+        }
     }
 }
