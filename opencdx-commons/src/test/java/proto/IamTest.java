@@ -15,14 +15,12 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.iam.IamUserType;
-import cdx.opencdx.grpc.iam.LoginRequest;
-import cdx.opencdx.grpc.iam.SignUpRequest;
-import cdx.opencdx.grpc.iam.UserExistsRequest;
+import cdx.opencdx.grpc.iam.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,5 +69,173 @@ class IamTest {
                         .writeValueAsString(UserExistsRequest.newBuilder()
                                 .setId("653f1755c4203f57f39843f3")
                                 .build()));
+    }
+
+    @Test
+    void testSignUpResponse() throws JsonProcessingException {
+        log.info(
+                "SignUpResponse: {}",
+                this.mapper.writeValueAsString(SignUpResponse.newBuilder()
+                        .setIamUser(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build())
+                        .build()));
+    }
+
+    @Test
+    void testListIamUsersRequest() throws JsonProcessingException {
+        log.info(
+                "ListIamUsersRequest: {}",
+                this.mapper.writeValueAsString(ListIamUsersRequest.newBuilder()
+                        .setPageSize(10)
+                        .setPageNumber(1)
+                        .setSortAscending(true)
+                        .build()));
+    }
+
+    @Test
+    void testListIamUsersResponse() throws JsonProcessingException {
+        log.info(
+                "ListIamUsersResponse: {}",
+                this.mapper.writeValueAsString(ListIamUsersResponse.newBuilder()
+                        .setPageSize(10)
+                        .setPageNumber(1)
+                        .setSortAscending(true)
+                        .setPageCount(20)
+                        .addAllIamUsers(List.of(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build()))));
+    }
+
+    @Test
+    void testGetIamUserRequest() throws JsonProcessingException {
+        log.info(
+                "GetIamUserRequest: {}",
+                this.mapper.writeValueAsString(
+                        GetIamUserRequest.newBuilder().setId("id").build()));
+    }
+
+    @Test
+    void testUpdateIamUserRequest() throws JsonProcessingException {
+        log.info(
+                "UpdateIamUserRequest: {}",
+                this.mapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
+                        .setIamUser(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build())
+                        .build()));
+    }
+
+    @Test
+    void testUpdateIamUserResponse() throws JsonProcessingException {
+        log.info(
+                "UpdateIamUserResponse: {}",
+                this.mapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
+                        .setIamUser(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build())
+                        .build()));
+    }
+
+    @Test
+    void testChangePasswordRequest() throws JsonProcessingException {
+        log.info(
+                "ChangePasswordRequest: {}",
+                this.mapper.writeValueAsString(ChangePasswordRequest.newBuilder()
+                        .setId("id")
+                        .setOldPassword("oldPassword")
+                        .setNewPassword("newPassword")
+                        .setNewPasswordConfirmation("newPasswordConfirmation")
+                        .build()));
+    }
+
+    @Test
+    void testChangePasswordResponse() throws JsonProcessingException {
+        log.info(
+                "ChangePasswordResponse: {}",
+                this.mapper.writeValueAsString(ChangePasswordResponse.newBuilder()
+                        .setIamUser(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build())
+                        .build()));
+    }
+
+    @Test
+    void testDeleteIamUserResponse() throws JsonProcessingException {
+        log.info(
+                "DeleteIamUserResponse: {}",
+                this.mapper.writeValueAsString(DeleteIamUserResponse.newBuilder()
+                        .setIamUser(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build())
+                        .build()));
+    }
+
+    @Test
+    void testUserExistsRequest() throws JsonProcessingException {
+        log.info(
+                "UserExistsRequest: {}",
+                this.mapper.writeValueAsString(
+                        UserExistsRequest.newBuilder().setId("id").build()));
+    }
+
+    @Test
+    void testUserExistsResponse() throws JsonProcessingException {
+        log.info(
+                "UserExistsResponse: {}",
+                this.mapper.writeValueAsString(UserExistsResponse.newBuilder()
+                        .setIamUser(IamUser.newBuilder()
+                                .setFirstName("firstName")
+                                .setLastName("lastName")
+                                .setEmail("email")
+                                .setSystemName("system")
+                                .setEmailVerified(false)
+                                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                                .setPhone("123-456-7890")
+                                .build())
+                        .build()));
     }
 }
