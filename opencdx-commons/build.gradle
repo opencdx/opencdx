@@ -15,6 +15,7 @@ dependencies {
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
+    
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
 
     implementation "org.springframework:spring-context:${springContextVersion}"
