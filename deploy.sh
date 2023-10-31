@@ -264,7 +264,8 @@ if [ "$skip" = false ]; then
   stop_docker
 fi
 if [ "$wipe" = true ]; then
-  rm -rf ./data/*
+  echo "Wiping Data"
+  rm -rf ./data
 fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
