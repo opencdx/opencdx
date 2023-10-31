@@ -140,6 +140,7 @@ print_usage() {
     echo "  --deploy   Will Start Docker and launch the user on the Docker Menu."
     echo "  --jmeter   Will Start JMeter test 60 seconds after deployment."
     echo "  --fast     Will perform a fast build skipping tests."
+    echo "  --wipe  Will prevent wiping the contents of the ./data directory."
     echo "  --help     Show this help message."
     exit 0
 }
@@ -216,6 +217,7 @@ check=false
 deploy=false
 jmeter=false
 fast_build=false
+wipe=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -245,6 +247,9 @@ for arg in "$@"; do
     --fast)
         fast_build=true
         ;;
+    --wipe)
+        wipe=true
+        ;;
     --help)
         print_usage
         ;;
@@ -258,7 +263,9 @@ done
 if [ "$skip" = false ]; then
   stop_docker
 fi
-
+if [ "$wipe" = true ]; then
+  rm -rf ./data/*
+fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     if ./gradlew build publish -x test -x dependencyCheckAggregate; then
