@@ -20,9 +20,12 @@ import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.grpc.media.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import java.io.InputStream;
+import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -46,9 +49,12 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     /**
      * Default Constructor used for normal operation.
      */
-    public OpenCDXMediaClientImpl() {
-        ManagedChannel channel =
-                ManagedChannelBuilder.forAddress("media", 9090).usePlaintext().build();
+    public OpenCDXMediaClientImpl() throws SSLException {
+        InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        ManagedChannel channel = NettyChannelBuilder.forAddress("media", 9090)
+                .useTransportSecurity()
+                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .build();
 
         this.mediaServiceBlockingStub = MediaServiceGrpc.newBlockingStub(channel);
     }
