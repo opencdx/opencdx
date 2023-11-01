@@ -25,11 +25,10 @@ import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import cdx.opencdx.communications.service.OpenCDXCommunicationService;
-import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
-import cdx.opencdx.communications.service.OpenCDXSMSService;
-import cdx.opencdx.communications.service.impl.OpenCDXCommunicationServiceImpl;
+import cdx.opencdx.communications.service.*;
+import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailServiceImpl;
+import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsServiceImpl;
+import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -86,7 +85,11 @@ class GrpcCommunicationsControllerTest {
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
 
-    OpenCDXCommunicationService openCDXCommunicationService;
+    OpenCDXNotificationService openCDXNotificationService;
+
+    OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+
+    OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
 
     GrpcCommunicationsController grpcCommunicationsController;
 
@@ -133,18 +136,28 @@ class GrpcCommunicationsControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
         Mockito.when(this.openCDXNotificationEventRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
-
-        this.openCDXCommunicationService = new OpenCDXCommunicationServiceImpl(
+        this.openCDXCommunicationEmailService = new OpenCDXCommunicationEmailServiceImpl(
                 this.openCDXAuditService,
                 openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
+                objectMapper);
+        this.openCDXCommunicationSmsService = new OpenCDXCommunicationSmsServiceImpl(
+                this.openCDXAuditService,
+                openCDXNotificationEventRepository,
                 openCDXSMSTemplateRespository,
+                objectMapper);
+        this.openCDXNotificationService = new OpenCDXNotificationServiceImpl(
+                this.openCDXAuditService,
+                openCDXNotificationEventRepository,
                 openCDXNotificaitonRepository,
                 openCDXEmailService,
                 openCDXSMSService,
                 openCDXHTMLProcessor,
+                openCDXCommunicationSmsService,
+                openCDXCommunicationEmailService,
                 objectMapper);
-        this.grpcCommunicationsController = new GrpcCommunicationsController(this.openCDXCommunicationService);
+        this.grpcCommunicationsController = new GrpcCommunicationsController(
+                this.openCDXNotificationService, openCDXCommunicationEmailService, openCDXCommunicationSmsService);
     }
 
     @AfterEach

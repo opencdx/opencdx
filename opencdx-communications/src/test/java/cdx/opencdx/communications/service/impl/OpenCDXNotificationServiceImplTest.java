@@ -26,10 +26,7 @@ import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import cdx.opencdx.communications.service.OpenCDXCommunicationService;
-import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
-import cdx.opencdx.communications.service.OpenCDXSMSService;
+import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +51,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXCommunicationServiceImplTest {
+class OpenCDXNotificationServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
@@ -82,7 +79,14 @@ class OpenCDXCommunicationServiceImplTest {
     @Mock
     OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
 
-    OpenCDXCommunicationService openCDXCommunicationService;
+    @Mock
+    OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+
+    @Mock
+    OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+
+    @Mock
+    OpenCDXNotificationService openCDXNotificationService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
@@ -110,15 +114,15 @@ class OpenCDXCommunicationServiceImplTest {
                 });
 
         this.objectMapper = Mockito.mock(ObjectMapper.class);
-        this.openCDXCommunicationService = new OpenCDXCommunicationServiceImpl(
+        this.openCDXNotificationService = new OpenCDXNotificationServiceImpl(
                 this.openCDXAuditService,
-                openCDXEmailTemplateRepository,
                 openCDXNotificationEventRepository,
-                openCDXSMSTemplateRespository,
                 openCDXNotificaitonRepository,
                 openCDXEmailService,
                 openCDXSMSService,
                 openCDXHTMLProcessor,
+                openCDXCommunicationSmsService,
+                openCDXCommunicationEmailService,
                 objectMapper);
     }
 
@@ -126,113 +130,9 @@ class OpenCDXCommunicationServiceImplTest {
     void tearDown() {
         Mockito.reset(
                 this.objectMapper,
-                this.openCDXEmailTemplateRepository,
-                this.openCDXNotificationEventRepository,
-                this.openCDXSMSTemplateRespository);
-    }
-
-    @Test
-    void createEmailTemplate() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.createEmailTemplate(emailTemplate);
-        });
-    }
-
-    @Test
-    void updateEmailTemplate() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.updateEmailTemplate(emailTemplate);
-        });
-    }
-
-    @Test
-    void updateEmailTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        EmailTemplate emailTemplate = EmailTemplate.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.openCDXCommunicationService.updateEmailTemplate(emailTemplate);
-        });
-    }
-
-    @Test
-    void deleteEmailTemplate() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.deleteEmailTemplate(templateRequest);
-        });
-    }
-
-    @Test
-    void deleteEmailTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.openCDXNotificationEventRepository.existsByEmailTemplateId(Mockito.any(ObjectId.class)))
-                .thenReturn(true);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertFalse(this.openCDXCommunicationService
-                .deleteEmailTemplate(templateRequest)
-                .getSuccess());
-    }
-
-    @Test
-    void createSMSTemplate() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.createSMSTemplate(smsTemplate);
-        });
-    }
-
-    @Test
-    void updateSMSTemplate() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.updateSMSTemplate(smsTemplate);
-        });
-    }
-
-    @Test
-    void updateSMSTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        SMSTemplate smsTemplate = SMSTemplate.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.openCDXCommunicationService.updateSMSTemplate(smsTemplate);
-        });
-    }
-
-    @Test
-    void deleteSMSTemplate() throws JsonProcessingException {
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.deleteSMSTemplate(templateRequest);
-        });
-    }
-
-    @Test
-    void deleteSMSTemplateFail() throws JsonProcessingException {
-        Mockito.when(this.openCDXNotificationEventRepository.existsBySmsTemplateId(Mockito.any(ObjectId.class)))
-                .thenReturn(true);
-        TemplateRequest templateRequest = TemplateRequest.newBuilder(TemplateRequest.getDefaultInstance())
-                .setTemplateId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertFalse(this.openCDXCommunicationService
-                .deleteSMSTemplate(templateRequest)
-                .getSuccess());
+                // this.openCDXEmailTemplateRepository,
+                this.openCDXNotificationEventRepository);
+        //  this.openCDXSMSTemplateRespository);
     }
 
     @Test
@@ -240,7 +140,7 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.createNotificationEvent(notificationEvent);
+            this.openCDXNotificationService.createNotificationEvent(notificationEvent);
         });
     }
 
@@ -251,7 +151,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .setEventId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.updateNotificationEvent(notificationEvent);
+            this.openCDXNotificationService.updateNotificationEvent(notificationEvent);
         });
     }
 
@@ -260,7 +160,7 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         NotificationEvent notificationEvent = NotificationEvent.getDefaultInstance();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.openCDXCommunicationService.updateNotificationEvent(notificationEvent);
+            this.openCDXNotificationService.updateNotificationEvent(notificationEvent);
         });
     }
 
@@ -271,7 +171,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.deleteNotificationEvent(templateRequest);
+            this.openCDXNotificationService.deleteNotificationEvent(templateRequest);
         });
     }
 
@@ -283,7 +183,7 @@ class OpenCDXCommunicationServiceImplTest {
         TemplateRequest templateRequest = TemplateRequest.newBuilder()
                 .setTemplateId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertFalse(this.openCDXCommunicationService
+        Assertions.assertFalse(this.openCDXNotificationService
                 .deleteNotificationEvent(templateRequest)
                 .getSuccess());
     }
@@ -298,7 +198,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .setEventId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -313,20 +213,21 @@ class OpenCDXCommunicationServiceImplTest {
 
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
-
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -340,7 +241,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -356,19 +257,21 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -382,7 +285,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -398,19 +301,21 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -424,7 +329,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -450,7 +355,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -466,19 +371,21 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -490,7 +397,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -504,12 +411,13 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -520,7 +428,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -536,19 +444,21 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -564,7 +474,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -582,19 +492,22 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .setSubject("test")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -608,7 +521,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -626,19 +539,21 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -652,7 +567,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.sendNotification(notification);
+            this.openCDXNotificationService.sendNotification(notification);
         });
     }
 
@@ -672,19 +587,21 @@ class OpenCDXCommunicationServiceImplTest {
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(eventModel));
 
-        OpenCDXSMSTemplateModel smsModel = new OpenCDXSMSTemplateModel();
-        smsModel.setMessage("This is a test string for SMS");
-        smsModel.setVariables(List.of("A", "B", "C"));
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
 
-        Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(smsModel));
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
 
-        OpenCDXEmailTemplateModel emailModel = new OpenCDXEmailTemplateModel();
-        emailModel.setContent("This is a test string for SMS");
-        emailModel.setVariables(List.of("A", "B", "C"));
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
 
-        Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(emailModel));
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
 
         Map<String, String> variablesMap = new HashMap<>();
         variablesMap.put("A", "Alpha");
@@ -705,7 +622,7 @@ class OpenCDXCommunicationServiceImplTest {
                 .variables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXCommunicationService.processOpenCDXNotification(notification);
+            this.openCDXNotificationService.processOpenCDXNotification(notification);
         });
     }
 }

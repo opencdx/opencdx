@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.communications.service;
 
-import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -23,76 +22,9 @@ import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.grpc.communication.*;
 
 /**
- * Interface for the OpenCDXCommunicationService
+ * Interface for the OpenCDXNotificationService
  */
-public interface OpenCDXCommunicationService {
-
-    /**
-     * Create an Email Template
-     * @param emailTemplate EmailTemplate to create.
-     * @return the created EmailTemplate.
-     * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
-     */
-    EmailTemplate createEmailTemplate(EmailTemplate emailTemplate) throws OpenCDXClientException;
-
-    /**
-     * Retrieve an Email Template
-     * @param templateRequest Request ID of email template to retrieve.
-     * @return the requested EmailTemplate.
-     * @exception OpenCDXNotFound Template with requested ID not found.
-     */
-    EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound;
-
-    /**
-     * Update an Email Template
-     * @param emailTemplate Updated EmailTemplate.
-     * @return updated EmailTemplate.
-     * @exception OpenCDXFailedPrecondition Missing template id.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
-     */
-    EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate)
-            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
-
-    /**
-     * Delete an Email Template
-     * @param templateRequest Request ID of the email template to delete
-     * @return SuccessResponse indicating if the action was successful.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
-     */
-    SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
-
-    /**
-     * Create an SMS Template
-     * @param smsTemplate SMSTemplate to create
-     * @return the created SMSTemplate.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
-     */
-    SMSTemplate createSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXNotAcceptable;
-
-    /**
-     * Get an SMS Template
-     * @param templateRequest Request ID of the SMSTemplate to retrieve.
-     * @return the requested SMSTemplate
-     * @exception OpenCDXNotFound Template with requested ID not found.
-     */
-    SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound, OpenCDXNotAcceptable;
-
-    /**
-     * Update SMS Template
-     * @param smsTemplate SMSTemplate to update.
-     * @return the updated SMSTemplate.
-     * @exception OpenCDXFailedPrecondition Missing template id.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
-     */
-    SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate) throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable;
-
-    /**
-     * Delete SMS Template
-     * @param templateRequest Request ID of the SMSTemplate to delete.
-     * @return SuccessResponse indicating if the action was successful.
-     * @exception OpenCDXNotAcceptable Failed to convert to JSON
-     */
-    SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable;
+public interface OpenCDXNotificationService {
 
     /**
      * Create a Notification Event
@@ -140,19 +72,6 @@ public interface OpenCDXCommunicationService {
     SuccessResponse sendNotification(Notification notification)
             throws OpenCDXFailedPrecondition, OpenCDXNotFound, OpenCDXNotAcceptable;
 
-    /**
-     * List of all SMSTemplates
-     * @param request Request indicating pagination, sorting, and page size.
-     * @return requested SMSTemplates with page, sorting, and page size
-     */
-    SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request);
-
-    /**
-     * List of all EmailTemplates
-     * @param request Request indicating pagination, sorting, and page size.
-     * @return requested EmailTemplates with page, sorting, and page size
-     */
-    EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request);
     /**
      * List of all NotificationEvent
      * @param request Request indicating pagination, sorting, and page size.
