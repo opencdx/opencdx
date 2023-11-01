@@ -21,9 +21,12 @@ import cdx.opencdx.grpc.audit.AuditServiceGrpc;
 import cdx.opencdx.grpc.audit.AuditStatus;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import java.io.InputStream;
+import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -42,9 +45,12 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
     /**
      * Default Constructor used for normal operation.
      */
-    public OpenCDXAuditClientImpl() {
-        ManagedChannel channel =
-                ManagedChannelBuilder.forAddress("audit", 9090).usePlaintext().build();
+    public OpenCDXAuditClientImpl() throws SSLException {
+        InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        ManagedChannel channel = NettyChannelBuilder.forAddress("audit", 9090)
+                .useTransportSecurity()
+                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .build();
 
         this.auditServiceBlockingStub = AuditServiceGrpc.newBlockingStub(channel);
     }
