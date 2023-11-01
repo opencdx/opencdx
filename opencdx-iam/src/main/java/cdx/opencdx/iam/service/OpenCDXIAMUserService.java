@@ -70,4 +70,11 @@ public interface OpenCDXIAMUserService {
      * @return Response if the user exists.
      */
     public UserExistsResponse userExists(UserExistsRequest request);
+
+    /**
+     * Method to authenticate user login.
+     * @param request Request to authenticate user
+     * @return Response if the user login is successful.
+     */
+    public LoginResponse login(LoginRequest request);
 }

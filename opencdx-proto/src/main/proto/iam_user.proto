@@ -28,6 +28,9 @@ service IamUserService {
 
   // Check if an IAM user with a given ID exists.
   rpc UserExists(UserExistsRequest) returns (UserExistsResponse);
+
+  // Authenticate IAM user.
+  rpc Login(LoginRequest) returns (LoginResponse);
 }
 
 // Enum for IAM User Types

@@ -83,4 +83,10 @@ public class OpenCDXIAMUserGrpcController extends IamUserServiceGrpc.IamUserServ
         responseObserver.onNext(this.openCDXIAMUserService.userExists(request));
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.login(request));
+        responseObserver.onCompleted();
+    }
 }

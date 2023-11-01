@@ -17,8 +17,10 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.*;
 import cdx.opencdx.grpc.iam.*;
@@ -32,6 +34,9 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +58,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
 
     /**
      * Constructor taking the a PersonRepository
@@ -67,11 +74,15 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             ObjectMapper objectMapper,
             OpenCDXAuditService openCDXAuditService,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            JwtTokenUtil jwtTokenUtil) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     /**
@@ -330,5 +341,32 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         return UserExistsResponse.newBuilder()
                 .setIamUser(model.getProtobufMessage())
                 .build();
+    }
+
+    /**
+     * Method to authenticate user login.
+     *
+     * @param request Request to authenticate user
+     * @return Response if the user login is successful.
+     */
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+
+            OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
+                    .findByEmail(request.getUserName())
+                    .orElseThrow(() -> new OpenCDXUnauthorized(
+                            "OpenCDXIAMUserRestController",
+                            1,
+                            "Failed to authenticate user: " + request.getUserName()));
+            String token = jwtTokenUtil.generateAccessToken(userModel);
+
+            return LoginResponse.newBuilder().setToken(token).build();
+        } catch (BadCredentialsException ex) {
+            throw new OpenCDXUnauthorized(
+                    "OpenCDXIAMUserRestController", 2, "Failed to authenticate user: " + request.getUserName(), ex);
+        }
     }
 }
