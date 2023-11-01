@@ -19,20 +19,11 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
-import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
-import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
-import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
-import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
-import cdx.opencdx.communications.service.OpenCDXCommunicationService;
-import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
-import cdx.opencdx.communications.service.OpenCDXSMSService;
+import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
@@ -58,249 +49,56 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationService {
-    private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
+public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationService {
 
-    private static final String DOMAIN = "OpenCDXCommunicationServiceImpl";
+    private static final String DOMAIN = "OpenCDXNotificationServiceImpl";
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
     private final OpenCDXAuditService openCDXAuditService;
-    private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
-    private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
     private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
     private final OpenCDXEmailService openCDXEmailService;
     private final OpenCDXSMSService openCDXSMSService;
     private final OpenCDXHTMLProcessor openCDXHTMLProcessor;
+
+    private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+
+    private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
 
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking some repositoroes
      *
      * @param openCDXAuditService                Audit service for tracking FDA requirements
-     * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
-     * @param openCDXSMSTemplateRespository      Repository for saving SMS Templates
      * @param openCDXNotificaitonRepository      Repository for saving Notificaitons
      * @param openCDXEmailService                Email service for sending emails
      * @param openCDXSMSService                  SMS Service for sending SMS
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
+     * @param openCDXCommunicationSmsService
+     * @param openCDXCommunicationEmailService
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
-    public OpenCDXCommunicationServiceImpl(
+    public OpenCDXNotificationServiceImpl(
             OpenCDXAuditService openCDXAuditService,
-            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
-            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificaitonRepository openCDXNotificaitonRepository,
             OpenCDXEmailService openCDXEmailService,
             OpenCDXSMSService openCDXSMSService,
             OpenCDXHTMLProcessor openCDXHTMLProcessor,
+            OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
+            OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
-        this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
-        this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
         this.openCDXEmailService = openCDXEmailService;
         this.openCDXSMSService = openCDXSMSService;
         this.openCDXHTMLProcessor = openCDXHTMLProcessor;
+        this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
+        this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
-    }
-
-    @Override
-    public EmailTemplate createEmailTemplate(EmailTemplate rawEmailTemplate) throws OpenCDXNotAcceptable {
-        String sanity = openCDXHtmlSanitizer.sanitize(rawEmailTemplate.getContent());
-        EmailTemplate emailTemplate =
-                EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
-        try {
-            this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Creating Email Template",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    emailTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(emailTemplate));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert EmailTemplate", e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
-            throw openCDXNotAcceptable;
-        }
-        OpenCDXEmailTemplateModel model =
-                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
-
-        log.info("Created Email Template: {}", model.getId());
-        return model.getProtobufMessage();
-    }
-
-    @Cacheable(value = "email_templates", key = "#templateRequest.templateId")
-    @Override
-    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
-        return this.openCDXEmailTemplateRepository
-                .findById(new ObjectId(templateRequest.getTemplateId()))
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        DOMAIN, 1, "Failed to find email template: " + templateRequest.getTemplateId()))
-                .getProtobufMessage();
-    }
-
-    @CacheEvict(value = "email_templates", key = "#rawEmailTemplate.templateId")
-    @Override
-    public EmailTemplate updateEmailTemplate(EmailTemplate rawEmailTemplate)
-            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
-        String sanity = openCDXHtmlSanitizer.sanitize(rawEmailTemplate.getContent());
-        EmailTemplate emailTemplate =
-                EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
-        if (!emailTemplate.hasTemplateId()) {
-            throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
-        }
-        try {
-            this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Updating Email Template",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    emailTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(emailTemplate));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert EmailTemplate", e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, emailTemplate.toString());
-            throw openCDXNotAcceptable;
-        }
-        OpenCDXEmailTemplateModel model =
-                this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
-
-        log.info("Updated Email Template: {}", model.getId());
-        return model.getProtobufMessage();
-    }
-
-    @CacheEvict(value = "email_templates", key = "#templateRequest.templateId")
-    @Override
-    public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-
-        if (this.openCDXNotificationEventRepository.existsByEmailTemplateId(
-                new ObjectId(templateRequest.getTemplateId()))) {
-            return SuccessResponse.newBuilder().setSuccess(false).build();
-        }
-
-        try {
-            this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Deleting Email Template",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    templateRequest.getTemplateId(),
-                    this.objectMapper.writeValueAsString(templateRequest));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_TEMPLATE_REQUEST, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
-            throw openCDXNotAcceptable;
-        }
-
-        this.openCDXEmailTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
-        log.info("Deleted email template: {}", templateRequest.getTemplateId());
-        return SuccessResponse.newBuilder().setSuccess(true).build();
-    }
-
-    @Override
-    public SMSTemplate createSMSTemplate(SMSTemplate rawSmsTemplate) throws OpenCDXNotAcceptable {
-        String sanity = openCDXHtmlSanitizer.sanitize(rawSmsTemplate.getMessage());
-        SMSTemplate smsTemplate =
-                SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
-        try {
-            this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Creating SMS Template",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    smsTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(smsTemplate));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 4, "Failed to convert SMSTemplate", e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
-            throw openCDXNotAcceptable;
-        }
-        OpenCDXSMSTemplateModel model =
-                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
-        log.info("Created SMS template: {}", model.getId());
-        return model.getProtobufMessage();
-    }
-
-    @Cacheable(value = "sms_templates", key = "#templateRequest.templateId")
-    @Override
-    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotFound {
-        return this.openCDXSMSTemplateRespository
-                .findById(new ObjectId(templateRequest.getTemplateId()))
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        DOMAIN, 1, "Failed to find sms template: " + templateRequest.getTemplateId()))
-                .getProtobufMessage();
-    }
-
-    @CacheEvict(value = "sms_templates", key = "#rawSmsTemplate.templateId")
-    @Override
-    public SMSTemplate updateSMSTemplate(SMSTemplate rawSmsTemplate)
-            throws OpenCDXFailedPrecondition, OpenCDXNotAcceptable {
-        String sanity = openCDXHtmlSanitizer.sanitize(rawSmsTemplate.getMessage());
-        SMSTemplate smsTemplate =
-                SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
-        if (!smsTemplate.hasTemplateId()) {
-            throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
-        }
-        try {
-            this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Updating SMS Template",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    smsTemplate.getTemplateId(),
-                    this.objectMapper.writeValueAsString(smsTemplate));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 5, "Failed to convert SMSTemplate", e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, smsTemplate.toString());
-            throw openCDXNotAcceptable;
-        }
-        OpenCDXSMSTemplateModel model =
-                this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
-
-        log.info("Updated SMS Template: {}", model.getId());
-        return model.getProtobufMessage();
-    }
-
-    @CacheEvict(value = "sms_templates", key = "#templateRequest.templateId")
-    @Override
-    public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest) throws OpenCDXNotAcceptable {
-        if (this.openCDXNotificationEventRepository.existsBySmsTemplateId(
-                new ObjectId(templateRequest.getTemplateId()))) {
-            return SuccessResponse.newBuilder().setSuccess(false).build();
-        }
-        try {
-            this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
-                    "Deleting SMS Template",
-                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    templateRequest.getTemplateId(),
-                    this.objectMapper.writeValueAsString(templateRequest));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 8, FAILED_TO_CONVERT_TEMPLATE_REQUEST, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, templateRequest.toString());
-            throw openCDXNotAcceptable;
-        }
-        this.openCDXSMSTemplateRespository.deleteById(new ObjectId(templateRequest.getTemplateId()));
-        log.info("Deleted SMS Template: {}", templateRequest.getTemplateId());
-        return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
     @Override
@@ -423,7 +221,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
             CommunicationAuditRecord.Builder auditBuilder,
             Map<String, Object> objectVariableMap,
             NotificationEvent notificationEvent) {
-        SMSTemplate smsTemplate = this.getSMSTemplate(TemplateRequest.newBuilder()
+        SMSTemplate smsTemplate = this.openCDXCommunicationSmsService.getSMSTemplate(TemplateRequest.newBuilder()
                 .setTemplateId(notificationEvent.getSmsTemplateId())
                 .build());
         String message = this.processHTML(
@@ -450,9 +248,10 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
             CommunicationAuditRecord.Builder auditBuilder,
             Map<String, Object> objectVariableMap,
             NotificationEvent notificationEvent) {
-        EmailTemplate emailTemplate = this.getEmailTemplate(TemplateRequest.newBuilder()
-                .setTemplateId(notificationEvent.getEmailTemplateId())
-                .build());
+        EmailTemplate emailTemplate =
+                this.openCDXCommunicationEmailService.getEmailTemplate(TemplateRequest.newBuilder()
+                        .setTemplateId(notificationEvent.getEmailTemplateId())
+                        .build());
         String subject = this.processHTML(
                 emailTemplate.getSubject(),
                 emailTemplate.getVariablesList().stream().toList(),
@@ -534,38 +333,6 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         }
 
         return this.openCDXHTMLProcessor.processHTML(template, data);
-    }
-
-    @Override
-    public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
-
-        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize()));
-
-        return SMSTemplateListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
-                .addAllTemplates(all.get()
-                        .map(OpenCDXSMSTemplateModel::getProtobufMessage)
-                        .toList())
-                .build();
-    }
-
-    @Override
-    public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
-        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize()));
-        return EmailTemplateListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
-                .addAllTemplates(all.get()
-                        .map(OpenCDXEmailTemplateModel::getProtobufMessage)
-                        .toList())
-                .build();
     }
 
     @Override
