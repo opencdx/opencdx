@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
@@ -33,7 +34,6 @@ import cdx.opencdx.communications.service.OpenCDXCommunicationService;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
 import cdx.opencdx.communications.service.OpenCDXSMSService;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -72,6 +72,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     private final OpenCDXEmailService openCDXEmailService;
     private final OpenCDXSMSService openCDXSMSService;
     private final OpenCDXHTMLProcessor openCDXHTMLProcessor;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     private final ObjectMapper objectMapper;
     /**
@@ -85,6 +86,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
      * @param openCDXEmailService                Email service for sending emails
      * @param openCDXSMSService                  SMS Service for sending SMS
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
+     * @param openCDXCurrentUser                 Current User Service to access information.
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
@@ -97,6 +99,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
             OpenCDXEmailService openCDXEmailService,
             OpenCDXSMSService openCDXSMSService,
             OpenCDXHTMLProcessor openCDXHTMLProcessor,
+            OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
@@ -106,6 +109,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         this.openCDXEmailService = openCDXEmailService;
         this.openCDXSMSService = openCDXSMSService;
         this.openCDXHTMLProcessor = openCDXHTMLProcessor;
+        this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
     }
 
@@ -116,8 +120,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
                 EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Creating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
@@ -158,8 +162,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Updating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
@@ -189,8 +193,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Deleting Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
@@ -215,8 +219,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
                 SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Creating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
@@ -256,8 +260,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Updating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
@@ -285,8 +289,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Deleting SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
@@ -307,8 +311,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Creating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
@@ -347,8 +351,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Updating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
@@ -375,8 +379,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Deleting Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
@@ -486,8 +490,8 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
 
         try {
             this.openCDXAuditService.communication(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
                     UUID.randomUUID().toString(),

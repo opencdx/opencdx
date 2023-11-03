@@ -15,11 +15,15 @@
  */
 package cdx.opencdx.helloworld.service.impl;
 
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.HelloWorldService;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,10 +49,19 @@ class HelloWorldServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
     @BeforeEach
     void beforeEach() {
         this.personRepository = Mockito.mock(PersonRepository.class);
-        this.helloWorldService = new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService);
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+        this.helloWorldService =
+                new HelloWorldServiceImpl(this.personRepository, this.openCDXAuditService, openCDXCurrentUser);
     }
 
     @AfterEach

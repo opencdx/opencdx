@@ -18,10 +18,10 @@ package cdx.opencdx.connected.test.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,7 +48,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
-
+    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
 
     /**
@@ -56,14 +56,17 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      *
      * @param openCDXAuditService            user for recording PHI
      * @param openCDXConnectedTestRepository Mongo Repository for OpenCDXConnectedTest
+     * @param openCDXCurrentUser             Current User Service
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      */
     public OpenCDXConnectedTestServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
     }
 
@@ -75,8 +78,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         try {
             this.openCDXAuditService.phiCreated(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_SYSTEM,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Connected Test Submitted.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
@@ -105,8 +108,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         try {
             this.openCDXAuditService.phiAccessed(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Connected Test Accessed.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),

@@ -16,7 +16,12 @@
 package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.grpc.audit.AgentType;
 
 public interface OpenCDXCurrentUser {
     OpenCDXIAMUserModel getCurrentUser();
+
+    OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser);
+
+    AgentType getCurrentUserType();
 }

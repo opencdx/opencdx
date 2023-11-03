@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.audit.AgentType;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
+    public static final String DOMAIN = "OpenCDXCurrentUserImpl";
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
     public OpenCDXCurrentUserImpl(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
@@ -40,9 +42,26 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
                     .findByEmail(authentication.getName())
-                    .orElseThrow(() -> new OpenCDXNotFound(
-                            "OpenCDXCurrentUserImpl", 2, "Current User not found: " + authentication.getName()));
+                    .orElseThrow(() ->
+                            new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
         }
-        throw new OpenCDXUnauthorized("OpenCDXCurrentUserImpl", 1, "No user Authenticated. No Current User.");
+        throw new OpenCDXUnauthorized(DOMAIN, 1, "No user Authenticated. No Current User.");
+    }
+
+    @Override
+    public OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return this.openCDXIAMUserRepository
+                    .findByEmail(authentication.getName())
+                    .orElseThrow(() ->
+                            new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
+        }
+        return defaultUser;
+    }
+
+    @Override
+    public AgentType getCurrentUserType() {
+        return AgentType.AGENT_TYPE_HUMAN_USER;
     }
 }

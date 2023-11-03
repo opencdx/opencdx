@@ -111,11 +111,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .build());
         try {
             this.openCDXAuditService.piiCreated(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser(model).getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    model.getId().toHexString(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -143,11 +143,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         all.forEach(model -> {
             try {
                 this.openCDXAuditService.piiAccessed(
-                        ObjectId.get().toHexString(),
-                        AgentType.AGENT_TYPE_HUMAN_USER,
+                        this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                        this.openCDXCurrentUser.getCurrentUserType(),
                         USER_RECORD_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        ObjectId.get().toHexString(),
+                        model.getId().toHexString(),
                         IAM_USER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
@@ -183,11 +183,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         try {
             this.openCDXAuditService.piiAccessed(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    model.getId().toHexString(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -226,11 +226,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         try {
             this.openCDXAuditService.piiUpdated(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    model.getId().toHexString(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -267,10 +267,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model = this.openCDXIAMUserRepository.save(model);
 
         this.openCDXAuditService.passwordChange(
-                ObjectId.get().toHexString(),
-                AgentType.AGENT_TYPE_HUMAN_USER,
+                this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                this.openCDXCurrentUser.getCurrentUserType(),
                 "User Password Change",
-                ObjectId.get().toHexString());
+                model.getId().toHexString());
         return ChangePasswordResponse.newBuilder()
                 .setIamUser(model.getProtobufMessage())
                 .build();
@@ -295,11 +295,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         try {
             this.openCDXAuditService.piiDeleted(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    userModel.getId().toHexString(),
                     IAM_USER + userModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(userModel));
         } catch (JsonProcessingException e) {
@@ -330,11 +330,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         try {
             this.openCDXAuditService.piiAccessed(
-                    ObjectId.get().toHexString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    model.getId().toHexString(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -384,8 +384,26 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public CurrentUserResponse currentUser(CurrentUserRequest request) {
+        OpenCDXIAMUserModel model = this.openCDXCurrentUser.getCurrentUser();
+
+        try {
+            this.openCDXAuditService.piiAccessed(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    USER_RECORD_ACCESSED,
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    model.getId().toHexString(),
+                    IAM_USER + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 8, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return CurrentUserResponse.newBuilder()
-                .setIamUser(this.openCDXCurrentUser.getCurrentUser().getProtobufMessage())
+                .setIamUser(model.getProtobufMessage())
                 .build();
     }
 }

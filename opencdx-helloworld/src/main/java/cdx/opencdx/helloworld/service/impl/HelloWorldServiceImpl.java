@@ -16,7 +16,7 @@
 package cdx.opencdx.helloworld.service.impl;
 
 import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
@@ -36,16 +36,23 @@ public class HelloWorldServiceImpl implements HelloWorldService {
 
     private final PersonRepository personRepository;
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
      * Constructor taking the a PersonRepository
-     * @param personRepository repository for interacting with the database.
+     *
+     * @param personRepository    repository for interacting with the database.
      * @param openCDXAuditService Audit service for tracking FDA requirements
+     * @param openCDXCurrentUser
      */
     @Autowired
-    public HelloWorldServiceImpl(PersonRepository personRepository, OpenCDXAuditService openCDXAuditService) {
+    public HelloWorldServiceImpl(
+            PersonRepository personRepository,
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.personRepository = personRepository;
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     /**
@@ -58,8 +65,8 @@ public class HelloWorldServiceImpl implements HelloWorldService {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
         this.openCDXAuditService.piiCreated(
-                UUID.randomUUID().toString(),
-                AgentType.AGENT_TYPE_SYSTEM,
+                this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                this.openCDXCurrentUser.getCurrentUserType(),
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                 UUID.randomUUID().toString(),
