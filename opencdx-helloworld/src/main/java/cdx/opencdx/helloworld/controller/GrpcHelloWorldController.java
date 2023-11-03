@@ -22,6 +22,7 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Hello World
@@ -47,6 +48,7 @@ public class GrpcHelloWorldController extends GreeterGrpc.GreeterImplBase {
      * @param request Request to process
      * @param responseObserver Observer to process the response
      */
+    @Secured({})
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
 

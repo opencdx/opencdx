@@ -18,16 +18,18 @@ package cdx.opencdx.helloworld.security;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.security.GrpcSecurity;
 import org.lognet.springboot.grpc.security.GrpcSecurityConfigurerAdapter;
+import org.springframework.context.annotation.Configuration;
 
 @Slf4j
+@Configuration
 public class GrpcSecurityConfig extends GrpcSecurityConfigurerAdapter {
 
     public GrpcSecurityConfig() {
-        // Explicitly left empty
+        log.info("Created GrpcSecurityConfig");
     }
 
     @Override
     public void configure(GrpcSecurity builder) throws Exception {
-        builder.authorizeRequests().anyMethod().authenticated();
+        builder.authorizeRequests().anyMethod().authenticated().withSecuredAnnotation();
     }
 }

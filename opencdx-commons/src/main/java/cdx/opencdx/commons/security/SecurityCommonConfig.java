@@ -50,7 +50,7 @@ public class SecurityCommonConfig {
         this.jwtTokenUtil = new JwtTokenUtil();
         this.jwtTokenFilter = new JwtTokenFilter(jwtTokenUtil, userDetailsService);
     }
-
+    
     @Bean
     @Primary
     public JwtTokenGrpcSchema jwtTokenGrpcSchema() {

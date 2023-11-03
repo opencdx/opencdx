@@ -11,3 +11,10 @@ grpc:
   security:
     auth:
       enabled: true
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
