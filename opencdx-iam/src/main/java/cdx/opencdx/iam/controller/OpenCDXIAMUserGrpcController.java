@@ -98,6 +98,7 @@ public class OpenCDXIAMUserGrpcController extends IamUserServiceGrpc.IamUserServ
     }
 
     @Override
+    @Secured({})
     public void currentUser(CurrentUserRequest request, StreamObserver<CurrentUserResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.currentUser(request));
         responseObserver.onCompleted();
