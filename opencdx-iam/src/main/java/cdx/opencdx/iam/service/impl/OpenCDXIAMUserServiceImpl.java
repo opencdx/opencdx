@@ -30,7 +30,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -385,14 +384,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public CurrentUserResponse currentUser(CurrentUserRequest request) {
-
-        Optional<OpenCDXIAMUserModel> currentUser = this.openCDXCurrentUser.getCurrentUser();
-
-        if (currentUser.isPresent()) {
-            return CurrentUserResponse.newBuilder()
-                    .setIamUser(currentUser.get().getProtobufMessage())
-                    .build();
-        }
-        throw new OpenCDXUnauthorized(DOMAIN, 1, "No user Authenticated.");
+        return CurrentUserResponse.newBuilder()
+                .setIamUser(this.openCDXCurrentUser.getCurrentUser().getProtobufMessage())
+                .build();
     }
 }

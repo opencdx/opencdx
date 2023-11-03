@@ -15,10 +15,11 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import java.util.Optional;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,11 +35,14 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     }
 
     @Override
-    public Optional<OpenCDXIAMUserModel> getCurrentUser() {
+    public OpenCDXIAMUserModel getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return this.openCDXIAMUserRepository.findByEmail(authentication.getName());
+            return this.openCDXIAMUserRepository
+                    .findByEmail(authentication.getName())
+                    .orElseThrow(() -> new OpenCDXNotFound(
+                            "OpenCDXCurrentUserImpl", 2, "Current User not found: " + authentication.getName()));
         }
-        return Optional.empty();
+        throw new OpenCDXUnauthorized("OpenCDXCurrentUserImpl", 1, "No user Authenticated. No Current User.");
     }
 }

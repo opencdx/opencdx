@@ -16,8 +16,7 @@
 package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import java.util.Optional;
 
 public interface OpenCDXCurrentUser {
-    Optional<OpenCDXIAMUserModel> getCurrentUser();
+    OpenCDXIAMUserModel getCurrentUser();
 }
