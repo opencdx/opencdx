@@ -53,6 +53,12 @@ public class SecurityCommonConfig {
 
     @Bean
     @Primary
+    public JwtTokenGrpcSchema jwtTokenGrpcSchema() {
+        return new JwtTokenGrpcSchema(this.jwtTokenUtil, this.userDetailsService);
+    }
+
+    @Bean
+    @Primary
     @SuppressWarnings("java:S1874")
     public UserDetailsService userDetailsService(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         return this.userDetailsService;

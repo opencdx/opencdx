@@ -18,6 +18,7 @@ package cdx.opencdx.helloworld.security;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.security.JwtTokenFilter;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 /**
  * Application Configuration
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @ExcludeFromJacocoGeneratedReport

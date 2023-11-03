@@ -6,3 +6,8 @@ spring:
 opencdx:
   helloworld:
     format: "Hello %s!"
+
+grpc:
+  security:
+    auth:
+      enabled: true

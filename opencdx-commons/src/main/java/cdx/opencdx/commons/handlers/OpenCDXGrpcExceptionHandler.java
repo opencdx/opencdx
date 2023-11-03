@@ -19,12 +19,14 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXException;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
+import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import io.grpc.Status;
 import io.grpc.protobuf.StatusProto;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.recovery.GRpcExceptionHandler;
 import org.lognet.springboot.grpc.recovery.GRpcExceptionScope;
 import org.lognet.springboot.grpc.recovery.GRpcServiceAdvice;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 
 /**
  * gRPC Exception Handler
@@ -33,6 +35,9 @@ import org.lognet.springboot.grpc.recovery.GRpcServiceAdvice;
 @GRpcServiceAdvice
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXGrpcExceptionHandler {
+
+    public static final String GRPC_EXCEPTION_HANDLER = "GRPC_EXCEPTION_HANDLER";
+
     /**
      * Default Constructor
      */
@@ -40,6 +45,21 @@ public class OpenCDXGrpcExceptionHandler {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
+    /**
+     * Handler for AuthenticationCredentialsNotFoundException
+     * @param cause AuthenticationCredentialsNotFoundException thrown
+     * @param scope GRpcExceptionScope for processing
+     * @return Status providing the google code and status information
+     */
+    @GRpcExceptionHandler
+    public Status handleAuthenticationCredentialsNotFoundException(
+            AuthenticationCredentialsNotFoundException cause, GRpcExceptionScope scope) {
+        log.error("Response Exception in handleOpenCDXException: {} {}", cause.getMessage());
+        return StatusProto.toStatusException(
+                        new OpenCDXUnauthorized(GRPC_EXCEPTION_HANDLER, 3, cause.getMessage(), cause)
+                                .getGrpcStatus(null))
+                .getStatus();
+    }
     /**
      * Handler for OpenCDXExceptions
      * @param cause OpenCDXEception thrown
@@ -60,7 +80,7 @@ public class OpenCDXGrpcExceptionHandler {
     @GRpcExceptionHandler
     public Status handleOpenCDXClientException(OpenCDXClientException cause, GRpcExceptionScope scope) {
         log.error("Response Exception in handleOpenCDXClientException: {} {}", cause.getMessage());
-        return StatusProto.toStatusException(new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, cause.getMessage(), cause)
+        return StatusProto.toStatusException(new OpenCDXInternal(GRPC_EXCEPTION_HANDLER, 1, cause.getMessage(), cause)
                         .getGrpcStatus(cause.getDetailsList()))
                 .getStatus();
     }
@@ -74,8 +94,7 @@ public class OpenCDXGrpcExceptionHandler {
     public Status handleException(Exception cause, GRpcExceptionScope scope) {
         log.error("Response Exception in handleException: {} {}", cause.getMessage());
         return StatusProto.toStatusException(
-                        new OpenCDXInternal("GRPC_EXCEPTION_HANDLER", 1, "UnCaught Exception", cause)
-                                .getGrpcStatus(null))
+                        new OpenCDXInternal(GRPC_EXCEPTION_HANDLER, 2, "UnCaught Exception", cause).getGrpcStatus(null))
                 .getStatus();
     }
 }
