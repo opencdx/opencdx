@@ -369,4 +369,20 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     "OpenCDXIAMUserRestController", 2, "Failed to authenticate user: " + request.getUserName(), ex);
         }
     }
+
+    /**
+     * Method to fetch current user.
+     *
+     * @param request Request to fetch current user
+     * @return Response is the current user.
+     */
+    @Override
+    public CurrentUserResponse currentUser(CurrentUserRequest request) {
+        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + request.getId()));
+        return CurrentUserResponse.newBuilder()
+                .setIamUser(model.getProtobufMessage())
+                .build();
+    }
 }

@@ -77,4 +77,12 @@ public interface OpenCDXIAMUserService {
      * @return Response if the user login is successful.
      */
     public LoginResponse login(LoginRequest request);
+
+    /**
+     * Method to fetch current user.
+     *
+     * @param request Request to fetch current user
+     * @return Response is the current user.
+     */
+    public CurrentUserResponse currentUser(CurrentUserRequest request);
 }

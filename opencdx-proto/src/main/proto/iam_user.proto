@@ -31,6 +31,9 @@ service IamUserService {
 
   // Authenticate IAM user.
   rpc Login(LoginRequest) returns (LoginResponse);
+
+  // Get Current User
+  rpc CurrentUser(CurrentUserRequest) returns (CurrentUserResponse);
 }
 
 // Enum for IAM User Types
@@ -74,6 +77,18 @@ message LoginRequest {
 message LoginResponse {
   // JWT Token to use for authorization
   string token = 1;
+}
+
+// Request message for current user
+message CurrentUserRequest {
+  // Unique ID of the IAM user.
+  string id = 1;
+}
+
+// Response message for current user
+message CurrentUserResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
 }
 
 // Request message for user sign-up.
