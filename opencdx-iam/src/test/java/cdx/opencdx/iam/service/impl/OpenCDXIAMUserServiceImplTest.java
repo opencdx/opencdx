@@ -25,6 +25,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -69,6 +70,9 @@ class OpenCDXIAMUserServiceImplTest {
     ObjectMapper objectMapper;
 
     @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Mock
     ObjectMapper objectMapper1;
 
     @Autowired
@@ -96,13 +100,21 @@ class OpenCDXIAMUserServiceImplTest {
                         return argument;
                     }
                 });
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser()).thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+            @Override
+            public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                return Optional.of(OpenCDXIAMUserModel.builder().build());
+            }
+        });
+
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
     }
 
     @AfterEach
@@ -184,7 +196,8 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
         OpenCDXIAMUserModel model3 = OpenCDXIAMUserModel.builder()
                 .id(ObjectId.get())
                 .firstName("name")
@@ -212,7 +225,8 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -235,7 +249,8 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -257,7 +272,8 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -279,7 +295,8 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())

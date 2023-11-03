@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.*;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,13 +63,16 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
 
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+
     /**
      * Constructor taking the a PersonRepository
      *
-     * @param objectMapper Object Mapper for converting to JSON
+     * @param objectMapper             Object Mapper for converting to JSON
      * @param openCDXAuditService      Audit service for tracking FDA requirements
      * @param openCDXIAMUserRepository Repository for saving users.
-     * @param passwordEncoder Password Encoder to use for encrypting and testing passwords.
+     * @param passwordEncoder          Password Encoder to use for encrypting and testing passwords.
+     * @param openCDXCurrentUser
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(
@@ -76,13 +81,15 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            JwtTokenUtil jwtTokenUtil) {
+            JwtTokenUtil jwtTokenUtil,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     /**
@@ -378,11 +385,14 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public CurrentUserResponse currentUser(CurrentUserRequest request) {
-        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
-                .findById(new ObjectId(request.getId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + request.getId()));
-        return CurrentUserResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
-                .build();
+
+        Optional<OpenCDXIAMUserModel> currentUser = this.openCDXCurrentUser.getCurrentUser();
+
+        if (currentUser.isPresent()) {
+            return CurrentUserResponse.newBuilder()
+                    .setIamUser(currentUser.get().getProtobufMessage())
+                    .build();
+        }
+        throw new OpenCDXUnauthorized(DOMAIN, 1, "No user Authenticated.");
     }
 }

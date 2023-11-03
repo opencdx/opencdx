@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
@@ -68,6 +69,9 @@ class OpenCDXIAMUserGrpcControllerTest {
 
     OpenCDXIAMUserService openCDXIAMUserService;
 
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
     OpenCDXIAMUserGrpcController openCDXIAMUserGrpcController;
 
     @MockBean
@@ -109,13 +113,21 @@ class OpenCDXIAMUserGrpcControllerTest {
                     }
                 });
 
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser()).thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+            @Override
+            public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                return Optional.of(OpenCDXIAMUserModel.builder().build());
+            }
+        });
+
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,
                 this.openCDXIAMUserRepository,
                 this.passwordEncoder,
                 this.authenticationManager,
-                this.jwtTokenUtil);
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 
