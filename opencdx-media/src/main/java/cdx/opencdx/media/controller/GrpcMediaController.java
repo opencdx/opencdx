@@ -22,6 +22,7 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Media Service
@@ -41,30 +42,35 @@ public class GrpcMediaController extends MediaServiceGrpc.MediaServiceImplBase {
         this.openCDXMediaService = openCDXMediaService;
     }
 
+    @Secured({})
     @Override
     public void createMedia(CreateMediaRequest request, StreamObserver<CreateMediaResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMediaService.createMedia(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void listMedia(ListMediaRequest request, StreamObserver<ListMediaResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMediaService.listMedia(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void getMedia(GetMediaRequest request, StreamObserver<GetMediaResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMediaService.getMedia(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void updateMedia(UpdateMediaRequest request, StreamObserver<UpdateMediaResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMediaService.updateMedia(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void deleteMedia(DeleteMediaRequest request, StreamObserver<DeleteMediaResponse> responseObserver) {
         responseObserver.onNext(this.openCDXMediaService.deleteMedia(request));

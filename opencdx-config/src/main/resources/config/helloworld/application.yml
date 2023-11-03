@@ -6,15 +6,3 @@ spring:
 opencdx:
   helloworld:
     format: "Hello %s!"
-
-grpc:
-  security:
-    auth:
-      enabled: true
-
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG

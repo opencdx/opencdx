@@ -62,6 +62,7 @@ public class OpenCDXUserDetailsServiceImpl implements UserDetailsService {
                     .build();
         }
 
-        return null;
+        log.error("Failed to find user: {}", username);
+        throw new UsernameNotFoundException("username");
     }
 }

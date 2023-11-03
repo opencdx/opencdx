@@ -22,6 +22,7 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Hello World
@@ -47,6 +48,7 @@ public class GrpcConnectedTestController extends HealthcareServiceGrpc.Healthcar
      * @param request ConnectedTest submitted.
      * @param responseObserver Observer to process the response
      */
+    @Secured({})
     @Override
     public void submitTest(ConnectedTest request, StreamObserver<TestSubmissionResponse> responseObserver) {
         responseObserver.onNext(this.openCDXConnectedTestService.submitTest(request));
@@ -58,12 +60,14 @@ public class GrpcConnectedTestController extends HealthcareServiceGrpc.Healthcar
      * @param request Request with the ID to retrieve.
      * @param responseObserver Observer to process the response
      */
+    @Secured({})
     @Override
     public void getTestDetailsById(TestIdRequest request, StreamObserver<ConnectedTest> responseObserver) {
         responseObserver.onNext(this.openCDXConnectedTestService.getTestDetailsById(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void listConnectedTests(
             ConnectedTestListRequest request, StreamObserver<ConnectedTestListResponse> responseObserver) {
@@ -72,6 +76,7 @@ public class GrpcConnectedTestController extends HealthcareServiceGrpc.Healthcar
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void listConnectedTestsByNHID(
             ConnectedTestListByNHIDRequest request, StreamObserver<ConnectedTestListByNHIDResponse> responseObserver) {

@@ -23,6 +23,7 @@ import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Audit Service
@@ -47,6 +48,7 @@ public class GrpcAuditController extends AuditServiceGrpc.AuditServiceImplBase {
      * @param request Request the process
      * @param responseObserver Observer to process the response
      */
+    @Secured({})
     @Override
     public void event(AuditEvent request, StreamObserver<AuditStatus> responseObserver) {
         log.info("Received Audit Event from: {}", request.getAuditSource().getSystemInfo());
