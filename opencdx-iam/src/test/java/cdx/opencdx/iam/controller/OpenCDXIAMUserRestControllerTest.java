@@ -44,6 +44,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -69,6 +70,9 @@ class OpenCDXIAMUserRestControllerTest {
 
     @MockBean
     Connection connection;
+
+    @MockBean
+    AuthenticationManager authenticationManager;
 
     @BeforeEach
     public void setup() {
@@ -221,6 +225,28 @@ class OpenCDXIAMUserRestControllerTest {
                 .perform(post("/user/exists")
                         .content(this.objectMapper.writeValueAsString(UserExistsRequest.newBuilder()
                                 .setId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void login() throws Exception {
+        when(this.openCDXIAMUserRepository.findByEmail(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.of(OpenCDXIAMUserModel.builder().build());
+                    }
+                });
+        MvcResult result = this.mockMvc
+                .perform(post("/user/login")
+                        .content(this.objectMapper.writeValueAsString(LoginRequest.newBuilder()
+                                .setUserName("username")
+                                .setPassword("password")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
