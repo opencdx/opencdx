@@ -51,7 +51,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     @Override
     public OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
                     .findByEmail(authentication.getName())
                     .orElseThrow(() ->
