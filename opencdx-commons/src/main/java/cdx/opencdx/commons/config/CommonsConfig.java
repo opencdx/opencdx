@@ -59,6 +59,10 @@ public class CommonsConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
+    /**
+     * Default Password Encoder
+     * @return Delegating password Encoder
+     */
     @Bean
     @Primary
     @Description("Password Encoder using the recommend Spring Delegating encoder.")

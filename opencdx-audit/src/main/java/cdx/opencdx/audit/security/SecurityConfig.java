@@ -42,7 +42,10 @@ public class SecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
     private final CorsConfigurationSource corsConfigurationSource;
     /**
-     * Default Constructor
+     * Constructore for Security Configuraiton
+     * @param configuration Authentication Configuration to use
+     * @param jwtTokenFilter Filter for using JWT
+     * @param corsConfigurationSource CORS configuration
      */
     public SecurityConfig(
             AuthenticationConfiguration configuration,
@@ -52,7 +55,12 @@ public class SecurityConfig {
         this.jwtTokenFilter = jwtTokenFilter;
         this.corsConfigurationSource = corsConfigurationSource;
     }
-
+    /**
+     * Setup default Security filter Chain
+     * @param http HttpSecurity for configuration
+     * @return Security Filter Chain to as default
+     * @throws Exception processing failed.
+     */
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.cors(httpSecurityCorsConfigurer ->
@@ -72,7 +80,11 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Expose authentication manager bean
+    /**
+     * Expose authentication manager bean
+     * @return the AuthenticationManager
+     * @throws Exception error with authentication manager.
+     */
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return this.configuration.getAuthenticationManager();

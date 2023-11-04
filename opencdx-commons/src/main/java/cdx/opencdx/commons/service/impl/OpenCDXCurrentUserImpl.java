@@ -26,12 +26,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementaiton based on JWT
+ */
 @Service
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
-    public static final String DOMAIN = "OpenCDXCurrentUserImpl";
+    private static final String DOMAIN = "OpenCDXCurrentUserImpl";
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
+    /**
+     * Consturtor for OpenCDXCurrentUser service.
+     * @param openCDXIAMUserRepository Repository to access users.
+     */
     public OpenCDXCurrentUserImpl(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }

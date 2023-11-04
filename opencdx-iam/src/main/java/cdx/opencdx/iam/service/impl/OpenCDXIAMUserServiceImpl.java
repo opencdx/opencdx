@@ -71,7 +71,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param openCDXAuditService      Audit service for tracking FDA requirements
      * @param openCDXIAMUserRepository Repository for saving users.
      * @param passwordEncoder          Password Encoder to use for encrypting and testing passwords.
-     * @param openCDXCurrentUser
+     * @param openCDXCurrentUser       Current User Service
+     * @param authenticationManager    AuthenticationManager for the service
+     * @param jwtTokenUtil              Utility class for JWT Tokens
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(

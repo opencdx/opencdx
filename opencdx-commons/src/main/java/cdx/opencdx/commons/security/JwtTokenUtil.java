@@ -28,6 +28,9 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Utility for JWT Tokens
+ */
 @Slf4j
 @SuppressWarnings({"java:S1874", "java:S6437"})
 public class JwtTokenUtil {
@@ -42,6 +45,11 @@ public class JwtTokenUtil {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
+    /**
+     * Method to generate a token for a user.
+     * @param user Model of user to generate token for.
+     * @return String containing the token.
+     */
     public String generateAccessToken(OpenCDXIAMUserModel user) {
         return Jwts.builder()
                 .subject(format("%s,%s", user.getId(), user.getEmail()))
@@ -52,6 +60,11 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    /**
+     * Method to get the user ID from the Token
+     * @param token JWT Token
+     * @return String representing the user id.
+     */
     public String getUserId(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET.getBytes())
@@ -62,6 +75,11 @@ public class JwtTokenUtil {
         return claims.getSubject().split(",")[0];
     }
 
+    /**
+     * Method to get the username in the JWT Token
+     * @param token JWT Token
+     * @return String containing the username.
+     */
     public String getUsername(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET.getBytes())
@@ -72,6 +90,11 @@ public class JwtTokenUtil {
         return claims.getSubject().split(",")[1];
     }
 
+    /**
+     * Get the expiration date for the token
+     * @param token JWT TOken
+     * @return Date representing when the token will expire.
+     */
     public Date getExpirationDate(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET.getBytes())
@@ -82,6 +105,11 @@ public class JwtTokenUtil {
         return claims.getExpiration();
     }
 
+    /**
+     * Method to validate a JWT Token
+     * @param token Token to authenticate
+     * @return boolean indicating if validated.
+     */
     public boolean validate(String token) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET.getBytes()).build().parseClaimsJws(token);

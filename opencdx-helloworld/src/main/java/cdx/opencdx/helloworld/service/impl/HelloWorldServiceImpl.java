@@ -43,7 +43,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
      *
      * @param personRepository    repository for interacting with the database.
      * @param openCDXAuditService Audit service for tracking FDA requirements
-     * @param openCDXCurrentUser
+     * @param openCDXCurrentUser Current User Service.
      */
     @Autowired
     public HelloWorldServiceImpl(

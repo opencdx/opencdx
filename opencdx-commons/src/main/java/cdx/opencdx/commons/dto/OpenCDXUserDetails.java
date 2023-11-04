@@ -17,7 +17,11 @@ package cdx.opencdx.commons.dto;
 
 import java.util.Collection;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,21 +29,48 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * OpenCDX Implementation of the User Details
  */
+@Data
+@AllArgsConstructor
 @Builder
 public class OpenCDXUserDetails implements UserDetails {
+    /**
+     * Default Constructor
+     */
+    public OpenCDXUserDetails() {
+        // Explicit left empty
+    }
 
+    /**
+     * Email address used as username
+     */
     private String email;
+
+    /**
+     * Encrypted Password for user.
+     */
     private String password;
 
+    /**
+     * Boolean indicating if user is enabled.
+     */
     @Builder.Default
     private boolean enabled = true;
 
+    /**
+     * Boolean indicating if account expired.
+     */
     @Builder.Default
     private boolean accountExpired = false;
 
+    /**
+     * Boolean indicating if credentials expired
+     */
     @Builder.Default
     private boolean credentialsExpired = false;
 
+    /**
+     * Boolean indicating if account is locked
+     */
     @Builder.Default
     private boolean accountLocked = false;
 

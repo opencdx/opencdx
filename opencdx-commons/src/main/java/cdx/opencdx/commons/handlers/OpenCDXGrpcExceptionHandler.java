@@ -36,7 +36,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXGrpcExceptionHandler {
 
-    public static final String GRPC_EXCEPTION_HANDLER = "GRPC_EXCEPTION_HANDLER";
+    private static final String GRPC_EXCEPTION_HANDLER = "GRPC_EXCEPTION_HANDLER";
 
     /**
      * Default Constructor

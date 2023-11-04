@@ -39,7 +39,7 @@ public class OpenCDXUserDetailsServiceImpl implements UserDetailsService {
     /**
      * Constructor to access the User Repository
      *
-     * @param openCDXIAMUserRepository
+     * @param openCDXIAMUserRepository Repository for accessing MongoDB for users.
      */
     public OpenCDXUserDetailsServiceImpl(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;

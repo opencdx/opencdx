@@ -31,6 +31,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * Filter for JWT Tokens
+ */
 @Slf4j
 @ExcludeFromJacocoGeneratedReport
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -39,6 +42,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
+    /**
+     * Constructor for JWT Token FIlter
+     * @param jwtTokenUtil Utility class for JWT Tokens
+     * @param userDetailsService User Detail Service for accessing users.
+     */
     public JwtTokenFilter(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

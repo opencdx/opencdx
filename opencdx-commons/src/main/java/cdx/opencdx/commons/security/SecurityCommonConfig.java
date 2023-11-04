@@ -40,8 +40,11 @@ public class SecurityCommonConfig {
     private JwtTokenFilter jwtTokenFilter;
     private UserDetailsService userDetailsService;
     private JwtTokenUtil jwtTokenUtil;
+
     /**
-     * Default Constructor
+     * Security Common Configuration
+     * @param configuration Authentication Configuration
+     * @param openCDXIAMUserRepository Repository for accessing users.
      */
     public SecurityCommonConfig(
             AuthenticationConfiguration configuration, OpenCDXIAMUserRepository openCDXIAMUserRepository) {
@@ -51,31 +54,51 @@ public class SecurityCommonConfig {
         this.jwtTokenFilter = new JwtTokenFilter(jwtTokenUtil, userDetailsService);
     }
 
+    /**
+     * Get the GRPC Token Schema
+     * @return JwtTokenGrpcSchema to use for users
+     */
     @Bean
     @Primary
     public JwtTokenGrpcSchema jwtTokenGrpcSchema() {
         return new JwtTokenGrpcSchema(this.jwtTokenUtil, this.userDetailsService);
     }
 
+    /**
+     * UserDetailsService based on the OpenCDX
+     * @return the UserDetailsService to use.
+     */
     @Bean
     @Primary
     @SuppressWarnings("java:S1874")
-    public UserDetailsService userDetailsService(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+    public UserDetailsService userDetailsService() {
         return this.userDetailsService;
     }
 
+    /**
+     * Utility bean for JWt tokens
+     * @return JwtTokenUtil
+     */
     @Primary
     @Bean
     public JwtTokenUtil jwtTokenUtil() {
         return this.jwtTokenUtil;
     }
 
+    /**
+     * The Token Filer for JWT
+     * @return JwtTokenFilter for OpenCDX
+     */
     @Primary
     @Bean
     public JwtTokenFilter jwtTokenFilter() {
         return this.jwtTokenFilter;
     }
 
+    /**
+     * CORS Configuration
+     * @return CorsConfigurationSource to used
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();

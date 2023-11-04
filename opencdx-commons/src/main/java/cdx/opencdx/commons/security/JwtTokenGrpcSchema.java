@@ -24,12 +24,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * Schema for JWT Token in gRPC
+ */
 @Slf4j
 public class JwtTokenGrpcSchema implements AuthenticationSchemeSelector {
 
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
 
+    /**
+     * Constructor for JWT Token Schema for gRPC
+     * @param jwtTokenUtil Utility class for JWT Tokens
+     * @param userDetailsService UserDetailsService for accessing user records.
+     */
     public JwtTokenGrpcSchema(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
