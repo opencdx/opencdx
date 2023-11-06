@@ -15,7 +15,9 @@
  */
 package cdx.opencdx.communications.controller;
 
-import cdx.opencdx.communications.service.OpenCDXCommunicationService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
+import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
+import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
@@ -32,105 +34,116 @@ import org.springframework.security.access.annotation.Secured;
 @Observed(name = "opencdx")
 public class GrpcCommunicationsController extends CommunicationServiceGrpc.CommunicationServiceImplBase {
 
-    private final OpenCDXCommunicationService openCDXCommunicationService;
+    private final OpenCDXNotificationService openCDXNotificationService;
+
+    private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
 
     /**
      * Constructor using the gRPC Communications Controller.
-     * @param openCDXCommunicationService service to use for processing
+     *
+     * @param openCDXNotificationService       service to process notifications
+     * @param openCDXCommunicationEmailService service to process email request
+     * @param openCDXCommunicationSmsService   service to process SMS request
      */
     @Autowired
-    public GrpcCommunicationsController(OpenCDXCommunicationService openCDXCommunicationService) {
-        this.openCDXCommunicationService = openCDXCommunicationService;
+    public GrpcCommunicationsController(
+            OpenCDXNotificationService openCDXNotificationService,
+            OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
+            OpenCDXCommunicationSmsService openCDXCommunicationSmsService) {
+        this.openCDXNotificationService = openCDXNotificationService;
+        this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
+        this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
     }
 
     @Secured({})
     @Override
     public void createEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.createEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailService.createEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void getEmailTemplate(TemplateRequest request, StreamObserver<EmailTemplate> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.getEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailService.getEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void updateEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.updateEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailService.updateEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void deleteEmailTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.deleteEmailTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailService.deleteEmailTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void createSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.createSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsService.createSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void getSMSTemplate(TemplateRequest request, StreamObserver<SMSTemplate> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.getSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsService.getSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void updateSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.updateSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsService.updateSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void deleteSMSTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.deleteSMSTemplate(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsService.deleteSMSTemplate(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void createNotificationEvent(NotificationEvent request, StreamObserver<NotificationEvent> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.createNotificationEvent(request));
+        responseObserver.onNext(this.openCDXNotificationService.createNotificationEvent(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void getNotificationEvent(TemplateRequest request, StreamObserver<NotificationEvent> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.getNotificationEvent(request));
+        responseObserver.onNext(this.openCDXNotificationService.getNotificationEvent(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void updateNotificationEvent(NotificationEvent request, StreamObserver<NotificationEvent> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.updateNotificationEvent(request));
+        responseObserver.onNext(this.openCDXNotificationService.updateNotificationEvent(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void deleteNotificationEvent(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.deleteNotificationEvent(request));
+        responseObserver.onNext(this.openCDXNotificationService.deleteNotificationEvent(request));
         responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void sendNotification(Notification request, StreamObserver<SuccessResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.sendNotification(request));
+        responseObserver.onNext(this.openCDXNotificationService.sendNotification(request));
         responseObserver.onCompleted();
     }
 
@@ -138,7 +151,7 @@ public class GrpcCommunicationsController extends CommunicationServiceGrpc.Commu
     @Override
     public void listSMSTemplates(
             SMSTemplateListRequest request, StreamObserver<SMSTemplateListResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.listSMSTemplates(request));
+        responseObserver.onNext(this.openCDXCommunicationSmsService.listSMSTemplates(request));
         responseObserver.onCompleted();
     }
 
@@ -146,7 +159,7 @@ public class GrpcCommunicationsController extends CommunicationServiceGrpc.Commu
     @Override
     public void listEmailTemplates(
             EmailTemplateListRequest request, StreamObserver<EmailTemplateListResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.listEmailTemplates(request));
+        responseObserver.onNext(this.openCDXCommunicationEmailService.listEmailTemplates(request));
         responseObserver.onCompleted();
     }
 
@@ -154,7 +167,7 @@ public class GrpcCommunicationsController extends CommunicationServiceGrpc.Commu
     @Override
     public void listNotificationEvents(
             NotificationEventListRequest request, StreamObserver<NotificationEventListResponse> responseObserver) {
-        responseObserver.onNext(this.openCDXCommunicationService.listNotificationEvents(request));
+        responseObserver.onNext(this.openCDXNotificationService.listNotificationEvents(request));
         responseObserver.onCompleted();
     }
 }

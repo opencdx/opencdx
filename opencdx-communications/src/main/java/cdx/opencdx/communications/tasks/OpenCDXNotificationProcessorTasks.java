@@ -16,7 +16,7 @@
 package cdx.opencdx.communications.tasks;
 
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
-import cdx.opencdx.communications.service.OpenCDXCommunicationService;
+import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +32,19 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXNotificationProcessorTasks {
     private static final String PROCESSING_NOTIFICATION = "Processing Notification: {}";
-    private OpenCDXCommunicationService openCDXCommunicationService;
+    private OpenCDXNotificationService openCDXNotificationService;
     private OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
 
     /**
-     * Constructor with the OpenCDXCommunicationService class used to send notifications
+     * Constructor with the OpenCDXNotificationService class used to send notifications
      *
-     * @param openCDXCommunicationService Communication Service to use.
+     * @param openCDXNotificationService Communication Service to use.
      * @param openCDXNotificaitonRepository Repository used to lookup notifications.
      */
     public OpenCDXNotificationProcessorTasks(
-            OpenCDXCommunicationService openCDXCommunicationService,
+            OpenCDXNotificationService openCDXNotificationService,
             OpenCDXNotificaitonRepository openCDXNotificaitonRepository) {
-        this.openCDXCommunicationService = openCDXCommunicationService;
+        this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
     }
 
@@ -63,7 +63,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         this.openCDXNotificaitonRepository
@@ -72,7 +72,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         this.openCDXNotificaitonRepository
@@ -80,7 +80,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationPriority.NOTIFICATION_PRIORITY_HIGH, NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         this.openCDXNotificaitonRepository
@@ -88,7 +88,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationPriority.NOTIFICATION_PRIORITY_HIGH, NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         log.info("Completed High Priority Notifications Processing");
@@ -108,7 +108,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         this.openCDXNotificaitonRepository
@@ -117,7 +117,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         log.info("Completed Medium Priority Notifications Processing");
@@ -136,7 +136,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationPriority.NOTIFICATION_PRIORITY_LOW, NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         this.openCDXNotificaitonRepository
@@ -144,7 +144,7 @@ public class OpenCDXNotificationProcessorTasks {
                         NotificationPriority.NOTIFICATION_PRIORITY_LOW, NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
-                    this.openCDXCommunicationService.processOpenCDXNotification(notification);
+                    this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
 
         log.info("Completed Low Priority Notifications Processing");
