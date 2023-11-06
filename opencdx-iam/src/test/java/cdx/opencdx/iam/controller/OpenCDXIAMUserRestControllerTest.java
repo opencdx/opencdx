@@ -86,7 +86,8 @@ class OpenCDXIAMUserRestControllerTest {
 
     @BeforeEach
     public void setup() {
-        when(this.openCDXCommunicationClient.sendNotification(any())).thenReturn(SuccessResponse.getDefaultInstance());
+        when(this.openCDXCommunicationClient.sendNotification(any(), any()))
+                .thenReturn(SuccessResponse.getDefaultInstance());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))

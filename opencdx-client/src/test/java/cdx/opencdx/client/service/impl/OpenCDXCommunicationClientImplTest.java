@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.grpc.communication.*;
@@ -44,6 +45,7 @@ class OpenCDXCommunicationClientImplTest {
     @BeforeEach
     void setUp() {
         this.blockingStub = Mockito.mock(CommunicationServiceGrpc.CommunicationServiceBlockingStub.class);
+        Mockito.when(this.blockingStub.withCallCredentials(Mockito.any())).thenReturn(this.blockingStub);
         this.client = new OpenCDXCommunicationClientImpl(this.blockingStub);
         this.smsTemplate = SMSTemplate.newBuilder().build();
         this.emailTemplate = EmailTemplate.newBuilder().build();
@@ -235,7 +237,7 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.sendNotification(Mockito.any(Notification.class)))
                 .thenReturn(successResponse);
         Assertions.assertNotNull(
-                this.client.sendNotification(Notification.newBuilder().build()));
+                this.client.sendNotification(Notification.newBuilder().build(), new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -243,7 +245,9 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.sendNotification(Mockito.any(Notification.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         Notification notification = Notification.newBuilder().build();
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.client.sendNotification(notification));
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.client.sendNotification(notification, openCDXCallCredentials));
     }
 
     @Test

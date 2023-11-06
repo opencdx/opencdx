@@ -347,7 +347,7 @@ public class CommunicationsChangeSet {
                 .eventDescription("Notification to user of an event.")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d375f"))
                 .emailRetry(4)
-                .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
+                .priority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE)
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXNotificationEventRepository.save(openCDXNotificationEventModel);

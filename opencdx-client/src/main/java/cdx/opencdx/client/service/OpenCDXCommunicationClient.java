@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.communication.*;
 
@@ -129,12 +130,14 @@ public interface OpenCDXCommunicationClient {
     /**
      * Send Notification
      * @param notification Notification information to trigger.
+     * @param openCDXCallCredentials Call Credentials to use for send.
      * @return SuccessResponse indicating if the action was successful.
      * @exception OpenCDXClientException OpenCDXNotFound Template not found
      * @exception OpenCDXClientException OpenCDXFailedPrecondition Missing variable from data for substitution.
      * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse sendNotification(Notification notification) throws OpenCDXClientException;
+    SuccessResponse sendNotification(Notification notification, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 
     /**
      * List of all SMSTemplates

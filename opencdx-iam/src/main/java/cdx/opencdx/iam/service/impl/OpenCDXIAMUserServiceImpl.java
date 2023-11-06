@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -126,19 +127,21 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .password(this.passwordEncoder.encode(request.getPassword()))
                 .build());
 
-        this.openCDXCommunicationClient.sendNotification(Notification.newBuilder()
-                .setEventId(OpenCDXCommunicationClient.VERIFY_EMAIL_USER)
-                .addAllToEmail(List.of(model.getEmail()))
-                .putAllVariables(Map.of(
-                        FIRST_NAME,
-                        model.getFirstName(),
-                        LAST_NAME,
-                        model.getLastName(),
-                        "user_id",
-                        model.getId().toHexString(),
-                        "verification_server",
-                        appProperties.getVerificationUrl()))
-                .build());
+        this.openCDXCommunicationClient.sendNotification(
+                Notification.newBuilder()
+                        .setEventId(OpenCDXCommunicationClient.VERIFY_EMAIL_USER)
+                        .addAllToEmail(List.of(model.getEmail()))
+                        .putAllVariables(Map.of(
+                                FIRST_NAME,
+                                model.getFirstName(),
+                                LAST_NAME,
+                                model.getLastName(),
+                                "user_id",
+                                model.getId().toHexString(),
+                                "verification_server",
+                                appProperties.getVerificationUrl()))
+                        .build(),
+                new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
 
         try {
             this.openCDXAuditService.piiCreated(
@@ -297,18 +300,20 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         model = this.openCDXIAMUserRepository.save(model);
 
-        this.openCDXCommunicationClient.sendNotification(Notification.newBuilder()
-                .setEventId(OpenCDXCommunicationClient.CHANGE_PASSWORD)
-                .addAllToEmail(List.of(model.getEmail()))
-                .addAllToPhoneNumber(List.of(model.getPhone()))
-                .putAllVariables(Map.of(
-                        FIRST_NAME,
-                        model.getFirstName(),
-                        LAST_NAME,
-                        model.getLastName(),
-                        "notification",
-                        "Password changed"))
-                .build());
+        this.openCDXCommunicationClient.sendNotification(
+                Notification.newBuilder()
+                        .setEventId(OpenCDXCommunicationClient.CHANGE_PASSWORD)
+                        .addAllToEmail(List.of(model.getEmail()))
+                        .addAllToPhoneNumber(List.of(model.getPhone()))
+                        .putAllVariables(Map.of(
+                                FIRST_NAME,
+                                model.getFirstName(),
+                                LAST_NAME,
+                                model.getLastName(),
+                                "notification",
+                                "Password changed"))
+                        .build(),
+                new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
 
         this.openCDXAuditService.passwordChange(
                 this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
@@ -408,12 +413,19 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model.setEmailVerified(true);
         model = this.openCDXIAMUserRepository.save(model);
 
-        this.openCDXCommunicationClient.sendNotification(Notification.newBuilder()
-                .setEventId(OpenCDXCommunicationClient.WELCOME_EMAIL_USER)
-                .addAllToEmail(List.of(model.getEmail()))
-                .putAllVariables(Map.of(
-                        FIRST_NAME, model.getFirstName(), LAST_NAME, model.getLastName(), "email", model.getEmail()))
-                .build());
+        this.openCDXCommunicationClient.sendNotification(
+                Notification.newBuilder()
+                        .setEventId(OpenCDXCommunicationClient.WELCOME_EMAIL_USER)
+                        .addAllToEmail(List.of(model.getEmail()))
+                        .putAllVariables(Map.of(
+                                FIRST_NAME,
+                                model.getFirstName(),
+                                LAST_NAME,
+                                model.getLastName(),
+                                "email",
+                                model.getEmail()))
+                        .build(),
+                new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
 
         try {
             this.openCDXAuditService.piiUpdated(
