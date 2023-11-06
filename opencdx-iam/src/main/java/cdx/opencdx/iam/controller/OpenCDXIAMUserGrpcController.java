@@ -22,6 +22,7 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Hello World
@@ -48,39 +49,58 @@ public class OpenCDXIAMUserGrpcController extends IamUserServiceGrpc.IamUserServ
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void listIamUsers(ListIamUsersRequest request, StreamObserver<ListIamUsersResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.listIamUsers(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void getIamUser(GetIamUserRequest request, StreamObserver<GetIamUserResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.getIamUser(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void updateIamUser(UpdateIamUserRequest request, StreamObserver<UpdateIamUserResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.updateIamUser(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void changePassword(ChangePasswordRequest request, StreamObserver<ChangePasswordResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.changePassword(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void deleteIamUser(DeleteIamUserRequest request, StreamObserver<DeleteIamUserResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.deleteIamUser(request));
         responseObserver.onCompleted();
     }
 
+    @Secured({})
     @Override
     public void userExists(UserExistsRequest request, StreamObserver<UserExistsResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMUserService.userExists(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.login(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void currentUser(CurrentUserRequest request, StreamObserver<CurrentUserResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMUserService.currentUser(request));
         responseObserver.onCompleted();
     }
 }

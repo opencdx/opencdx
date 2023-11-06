@@ -18,15 +18,19 @@ package cdx.opencdx.media;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  * Application class for this microservice
  */
 @EnableDiscoveryClient
+@EnableCaching
 @SpringBootApplication
 @ComponentScan(basePackages = {"cdx.opencdx"})
+@EnableMongoRepositories(basePackages = {"cdx.opencdx"})
 @ExcludeFromJacocoGeneratedReport
 public class Application {
     /**

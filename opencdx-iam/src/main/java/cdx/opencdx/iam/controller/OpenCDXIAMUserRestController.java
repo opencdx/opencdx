@@ -20,6 +20,7 @@ import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,8 @@ public class OpenCDXIAMUserRestController {
 
     /**
      * Constructor that takes a OpenCDXIAMUserService
-     * @param openCDXIAMUserService service for processing requests.
+     *
+     * @param openCDXIAMUserService    service for processing requests.
      */
     @Autowired
     public OpenCDXIAMUserRestController(OpenCDXIAMUserService openCDXIAMUserService) {
@@ -122,5 +124,44 @@ public class OpenCDXIAMUserRestController {
     @PostMapping("/exists")
     public ResponseEntity<UserExistsResponse> userExists(@RequestBody UserExistsRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.userExists(request), HttpStatus.OK);
+    }
+
+    /**
+     * Verifies the email of requested user.
+     * @param id ID of the user to retrieve
+     * @return Response with the user.
+     */
+    @GetMapping("/verify/{id}")
+    @SuppressWarnings("java:S3740")
+    public ResponseEntity verifyEmailIamUser(@PathVariable String id) {
+        this.openCDXIAMUserService.verifyEmailIamUser(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Method to authenticate user login.
+     * @param request LoginRequest to authenticate user
+     * @return Response with login token.
+     */
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.AUTHORIZATION,
+                        this.openCDXIAMUserService.login(request).getToken())
+                .body(this.openCDXIAMUserService.login(request));
+    }
+
+    /**
+     * Method to authenticate user login.
+     * @param id LoginRequest to authenticate user
+     * @return Response with login token.
+     */
+    @GetMapping("/current/{id}")
+    public ResponseEntity<CurrentUserResponse> currentUser(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXIAMUserService.currentUser(
+                        CurrentUserRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 }

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.grpc.communication.*;
@@ -198,9 +199,10 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SuccessResponse sendNotification(Notification notification) throws OpenCDXClientException {
+    public SuccessResponse sendNotification(Notification notification, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
-            return blockingStub.sendNotification(notification);
+            return blockingStub.withCallCredentials(openCDXCallCredentials).sendNotification(notification);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(

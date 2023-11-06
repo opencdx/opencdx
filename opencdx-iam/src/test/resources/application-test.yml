@@ -27,3 +27,9 @@ spring:
 
 mongock:
   change-logs-scan-package: cdx.opencdx.iam.changelog
+
+opencdx:
+  iam:
+    verificationUrl: "https://localhost:8680/verify"
+  client:
+    communication: true

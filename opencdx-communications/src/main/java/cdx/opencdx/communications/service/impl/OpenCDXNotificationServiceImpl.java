@@ -19,12 +19,12 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.service.*;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -64,7 +64,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
-
+    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking some repositoroes
@@ -75,6 +75,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXEmailService                Email service for sending emails
      * @param openCDXSMSService                  SMS Service for sending SMS
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
+     * @param openCDXCurrentUser                 Current User Service to access information.
      * @param openCDXCommunicationSmsService
      * @param openCDXCommunicationEmailService
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
@@ -87,6 +88,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXEmailService openCDXEmailService,
             OpenCDXSMSService openCDXSMSService,
             OpenCDXHTMLProcessor openCDXHTMLProcessor,
+            OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper) {
@@ -96,6 +98,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.openCDXEmailService = openCDXEmailService;
         this.openCDXSMSService = openCDXSMSService;
         this.openCDXHTMLProcessor = openCDXHTMLProcessor;
+        this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
@@ -105,8 +108,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Creating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
@@ -145,8 +148,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Updating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
@@ -173,8 +176,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Deleting Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
@@ -285,8 +288,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
         try {
             this.openCDXAuditService.communication(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
                     UUID.randomUUID().toString(),

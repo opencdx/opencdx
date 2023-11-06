@@ -15,12 +15,14 @@
  */
 package cdx.opencdx.iam.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Configuration
+@EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
     /**
      * Default Constructor

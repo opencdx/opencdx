@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.communication.*;
 
@@ -22,6 +23,11 @@ import cdx.opencdx.grpc.communication.*;
  * Interface for the Open CDX Communication Client.
  */
 public interface OpenCDXCommunicationClient {
+
+    String VERIFY_EMAIL_USER = "60f1e6b1f075a361a94d3760";
+    String CHANGE_PASSWORD = "60f1e6b1f075a361a94d3750";
+    String WELCOME_EMAIL_USER = "60f1e6b1f075a361a94d373e";
+
     /**
      * Create an Email Template
      * @param emailTemplate EmailTemplate to create.
@@ -124,12 +130,14 @@ public interface OpenCDXCommunicationClient {
     /**
      * Send Notification
      * @param notification Notification information to trigger.
+     * @param openCDXCallCredentials Call Credentials to use for send.
      * @return SuccessResponse indicating if the action was successful.
      * @exception OpenCDXClientException OpenCDXNotFound Template not found
      * @exception OpenCDXClientException OpenCDXFailedPrecondition Missing variable from data for substitution.
      * @exception OpenCDXClientException OpenCDXNotAcceptable Failed to convert to JSON
      */
-    SuccessResponse sendNotification(Notification notification) throws OpenCDXClientException;
+    SuccessResponse sendNotification(Notification notification, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 
     /**
      * List of all SMSTemplates

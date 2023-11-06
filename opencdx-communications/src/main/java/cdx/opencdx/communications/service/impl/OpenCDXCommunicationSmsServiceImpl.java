@@ -19,20 +19,19 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import cdx.opencdx.communications.service.*;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking some repositoroes
@@ -64,6 +64,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
      * @param openCDXAuditService                Audit service for tracking FDA requirements
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
      * @param openCDXSMSTemplateRespository      Repository for saving SMS Templates
+     * @param openCDXCurrentUser                 Current User Service to access information.
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
@@ -71,10 +72,12 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
             OpenCDXAuditService openCDXAuditService,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXSMSTemplateRespository = openCDXSMSTemplateRespository;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
     }
 
@@ -85,8 +88,8 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
                 SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Creating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
@@ -126,8 +129,8 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Updating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
@@ -155,8 +158,8 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Deleting SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),

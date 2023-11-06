@@ -15,9 +15,11 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
+    
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}"
     implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
     implementation "net.javacrumbs.shedlock:shedlock-provider-mongo:${shedlockVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
 
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"

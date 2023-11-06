@@ -15,10 +15,18 @@
  */
 package cdx.opencdx.iam.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,14 +44,16 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXIAMUserGrpcControllerTest {
@@ -62,7 +72,22 @@ class OpenCDXIAMUserGrpcControllerTest {
 
     OpenCDXIAMUserService openCDXIAMUserService;
 
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
     OpenCDXIAMUserGrpcController openCDXIAMUserGrpcController;
+
+    @MockBean
+    AuthenticationManager authenticationManager;
+
+    @MockBean
+    JwtTokenUtil jwtTokenUtil;
+
+    @MockBean
+    OpenCDXCommunicationClient openCDXCommunicationClient;
+
+    @Autowired
+    AppProperties appProperties;
 
     @BeforeEach
     void setUp() {
@@ -86,12 +111,37 @@ class OpenCDXIAMUserGrpcControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
+                                .firstName("FName")
+                                .lastName("LName")
+                                .email("ab@safehealth.me")
+                                .phone("123-456-7890")
                                 .build());
                     }
                 });
+        when(this.openCDXIAMUserRepository.findByEmail(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.of(OpenCDXIAMUserModel.builder().build());
+                    }
+                });
+
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
 
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.passwordEncoder);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.passwordEncoder,
+                this.authenticationManager,
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser,
+                this.appProperties,
+                this.openCDXCommunicationClient);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 
@@ -192,6 +242,21 @@ class OpenCDXIAMUserGrpcControllerTest {
                 responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserExistsResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void login() {
+        when(jwtTokenUtil.generateAccessToken(any())).thenReturn("token");
+        StreamObserver<LoginResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMUserGrpcController.login(
+                LoginRequest.newBuilder()
+                        .setUserName("username")
+                        .setPassword("password")
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LoginResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

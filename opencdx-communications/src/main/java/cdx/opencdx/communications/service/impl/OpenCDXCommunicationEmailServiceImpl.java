@@ -19,20 +19,19 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.service.*;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
-
+    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     /**
      * Constructor taking some repositories
@@ -65,6 +64,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
      * @param openCDXAuditService                Audit service for tracking FDA requirements
      * @param openCDXEmailTemplateRepository     Repository for saving Email Templates
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
+     * @param openCDXCurrentUser                 Current User Service to access information.
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired
@@ -72,10 +72,12 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
             OpenCDXAuditService openCDXAuditService,
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXEmailTemplateRepository = openCDXEmailTemplateRepository;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
     }
 
@@ -86,8 +88,8 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
                 EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Creating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
@@ -128,8 +130,8 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         }
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Updating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
@@ -159,8 +161,8 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
 
         try {
             this.openCDXAuditService.config(
-                    UUID.randomUUID().toString(),
-                    AgentType.AGENT_TYPE_HUMAN_USER,
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
                     "Deleting Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),

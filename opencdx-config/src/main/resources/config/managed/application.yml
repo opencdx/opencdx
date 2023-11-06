@@ -59,3 +59,6 @@ grpc:
   security:
     cert-chain: file:/certs/${spring.application.name}-cert.pem
     private-key: file:/certs/${spring.application.name}-key.pem
+    auth:
+      enabled: true
+

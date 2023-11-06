@@ -28,6 +28,12 @@ service IamUserService {
 
   // Check if an IAM user with a given ID exists.
   rpc UserExists(UserExistsRequest) returns (UserExistsResponse);
+
+  // Authenticate IAM user.
+  rpc Login(LoginRequest) returns (LoginResponse);
+
+  // Get Current User
+  rpc CurrentUser(CurrentUserRequest) returns (CurrentUserResponse);
 }
 
 // Enum for IAM User Types
@@ -58,6 +64,31 @@ enum IamUserStatus {
 
   // Deleted IAM user status.
   IAM_USER_STATUS_DELETED = 3;
+}
+
+message LoginRequest {
+  // User name for the user on login request.
+  string user_name = 1;
+
+  // Password for user on login.
+  string password = 2;
+}
+
+message LoginResponse {
+  // JWT Token to use for authorization
+  string token = 1;
+}
+
+// Request message for current user
+message CurrentUserRequest {
+  // Unique ID of the IAM user.
+  string id = 1;
+}
+
+// Response message for current user
+message CurrentUserResponse {
+  // IAM user information.
+  IamUser iam_user = 1;
 }
 
 // Request message for user sign-up.

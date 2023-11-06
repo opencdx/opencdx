@@ -51,6 +51,27 @@ class IamTest {
     }
 
     @Test
+    void LoginRequest() throws JsonProcessingException {
+        log.info(
+                "LoginRequest: {}",
+                this.mapper.writeValueAsString(LoginRequest.newBuilder()
+                        .setUserName("jeff.miller@safehealth.me")
+                        .setPassword("password")
+                        .build()));
+    }
+
+    @Test
+    void UserExistsRequest() throws JsonProcessingException {
+        log.info(
+                "UserExistsRequest:\n {}",
+                this.mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(UserExistsRequest.newBuilder()
+                                .setId("653f1755c4203f57f39843f3")
+                                .build()));
+    }
+
+    @Test
     void testSignUpResponse() throws JsonProcessingException {
         log.info(
                 "SignUpResponse: {}",

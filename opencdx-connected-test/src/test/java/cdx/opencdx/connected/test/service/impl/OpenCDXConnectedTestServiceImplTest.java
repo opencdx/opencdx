@@ -16,10 +16,13 @@
 package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +43,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @Slf4j
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXConnectedTestServiceImplTest {
@@ -56,10 +59,18 @@ class OpenCDXConnectedTestServiceImplTest {
     @Mock
     OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
 
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
     @BeforeEach
     void beforeEach() {
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
-                this.openCDXAuditService, openCDXConnectedTestRepository, objectMapper);
+                this.openCDXAuditService, openCDXConnectedTestRepository, openCDXCurrentUser, objectMapper);
     }
 
     @AfterEach
@@ -97,7 +108,7 @@ class OpenCDXConnectedTestServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         OpenCDXConnectedTestServiceImpl testOpenCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
-                this.openCDXAuditService, this.openCDXConnectedTestRepository, mapper);
+                this.openCDXAuditService, this.openCDXConnectedTestRepository, openCDXCurrentUser, mapper);
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
@@ -139,7 +150,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 .thenReturn(Optional.of(openCDXConnectedTest));
 
         OpenCDXConnectedTestServiceImpl testOpenCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
-                this.openCDXAuditService, this.openCDXConnectedTestRepository, mapper);
+                this.openCDXAuditService, this.openCDXConnectedTestRepository, openCDXCurrentUser, mapper);
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
                 .setTestId(openCDXConnectedTest.getId().toHexString())
                 .build();
