@@ -16,6 +16,10 @@
 package cdx.opencdx.iam.changelog;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.grpc.iam.IamUserStatus;
+import cdx.opencdx.grpc.iam.IamUserType;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
@@ -42,5 +46,26 @@ public class IAMChangeSet {
     @ChangeSet(order = "001", id = "Setup Users Email Index", author = "Gaurav Mishra")
     public void setupIndexes(MongockTemplate mongockTemplate) {
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
+    }
+
+    /**
+     * Setup Default User for OpenCDX
+     * @param openCDXIAMUserRepository User Repository for saving default user.
+     */
+    @ChangeSet(order = "002", id = "Setup Default User", author = "Jeff Miller")
+    public void setupDefaultUser(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .email("admin@opencdx.org")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .firstName("Admin")
+                .lastName("OpenCDX")
+                .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                .password("password")
+                .build());
+    }
+
+    @ChangeSet(order = "003", id = "Setup Users System Index", author = "Jeff Miller")
+    public void setupSystemIndex(MongockTemplate mongockTemplate) {
+        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));
     }
 }
