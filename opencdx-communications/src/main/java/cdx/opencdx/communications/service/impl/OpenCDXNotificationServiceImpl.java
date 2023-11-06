@@ -341,7 +341,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
         Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageNumber()));
+                PageRequest.of(request.getPageNumber(), request.getPageSize()));
         return NotificationEventListResponse.newBuilder()
                 .setPageCount(all.getTotalPages())
                 .setPageNumber(request.getPageNumber())
