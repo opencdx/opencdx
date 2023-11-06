@@ -64,6 +64,10 @@ public class IAMChangeSet {
                 .build());
     }
 
+    /**
+     * Create an index based on the system name
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     */
     @ChangeSet(order = "003", id = "Setup Users System Index", author = "Jeff Miller")
     public void setupSystemIndex(MongockTemplate mongockTemplate) {
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));

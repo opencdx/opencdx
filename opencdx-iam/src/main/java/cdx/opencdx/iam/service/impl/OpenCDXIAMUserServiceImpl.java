@@ -60,8 +60,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String IAM_USER = "IAM_USER: ";
-    public static final String FIRST_NAME = "firstName";
-    public static final String LAST_NAME = "lastName";
+    private static final String FIRST_NAME = "firstName";
+    private static final String LAST_NAME = "lastName";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
@@ -82,10 +82,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param openCDXIAMUserRepository Repository for saving users.
      * @param passwordEncoder Password Encoder to use for encrypting and testing passwords.
      * @param appProperties App Properties is used to set the common variables to supply from config.
-     * @param passwordEncoder          Password Encoder to use for encrypting and testing passwords.
      * @param openCDXCurrentUser       Current User Service
      * @param authenticationManager    AuthenticationManager for the service
      * @param jwtTokenUtil              Utility class for JWT Tokens
+     * @param openCDXCommunicationClient Communication Client for triggering events
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(
@@ -402,7 +402,6 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * Method to verify user email
      *
      * @param id Request for the user to get.
-     * @return Response with the requested user.
      */
     @Override
     public void verifyEmailIamUser(String id) {

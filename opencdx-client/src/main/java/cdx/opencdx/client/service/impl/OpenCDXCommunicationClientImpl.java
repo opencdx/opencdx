@@ -45,6 +45,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
 
     /**
      * Default Constructor used for normal operation.
+     * @throws IOException creating Client
      */
     public OpenCDXCommunicationClientImpl() throws IOException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");

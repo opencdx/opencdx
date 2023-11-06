@@ -76,8 +76,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXSMSService                  SMS Service for sending SMS
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
      * @param openCDXCurrentUser                 Current User Service to access information.
-     * @param openCDXCommunicationSmsService
-     * @param openCDXCommunicationEmailService
+     * @param openCDXCommunicationSmsService     SMS Service to use for handling SMS
+     * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      */
     @Autowired

@@ -48,6 +48,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
     /**
      * Default Constructor used for normal operation.
+     * @throws SSLException creating Client
      */
     public OpenCDXMediaClientImpl() throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");

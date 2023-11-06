@@ -44,6 +44,7 @@ public class OpenCDXAuditClientImpl extends OpenCDXAuditClientAbstract {
 
     /**
      * Default Constructor used for normal operation.
+     * @throws SSLException if issue with connection
      */
     public OpenCDXAuditClientImpl() throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");

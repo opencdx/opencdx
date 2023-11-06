@@ -23,11 +23,18 @@ import io.grpc.Status;
 import java.util.concurrent.Executor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * gRPC Credentials to use for gRPC Clients
+ */
 @Slf4j
 public class OpenCDXCallCredentials extends CallCredentials {
 
     private String token;
 
+    /**
+     * Contrustor taking the token to use.
+     * @param token String containing the token.
+     */
     public OpenCDXCallCredentials(String token) {
         this.token = token;
     }

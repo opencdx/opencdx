@@ -45,6 +45,7 @@ public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
 
     /**
      * Default Constructor used for normal operation.
+     * @throws SSLException creating Client
      */
     public OpenCDXHelloworldClientImpl() throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
