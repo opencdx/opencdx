@@ -153,10 +153,10 @@ message EducationEntry {
 
 // Employee identity information.
 message EmployeeIdentity {
-  string OrganizationId = 1; // Organization ID
-  string WorkspaceId = 2; // Workspace ID
+  string organization_id = 1; // Organization ID
+  string workspace_id = 2; // Workspace ID
   string employee_id = 3; // Employee ID
-  bool IdentityVerified = 4; // Whether employee identity is verified
+  bool identity_verified = 4; // Whether employee identity is verified
   string status = 5; // Employee status
 }
 
