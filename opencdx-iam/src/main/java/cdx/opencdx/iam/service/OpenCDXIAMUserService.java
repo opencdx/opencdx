@@ -85,4 +85,11 @@ public interface OpenCDXIAMUserService {
      * @return Response is the current user.
      */
     public CurrentUserResponse currentUser(CurrentUserRequest request);
+
+    /**
+     * Method to verify user email.
+     * @param id Request for the user to get.
+     * @return Response with the requested user.
+     */
+    public void verifyEmailIamUser(String id);
 }

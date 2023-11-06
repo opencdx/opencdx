@@ -15,19 +15,21 @@
  */
 package cdx.opencdx.iam.config;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Application Configuration
+ * Application Properties
  */
-@Configuration
-@EnableConfigurationProperties(AppProperties.class)
-public class AppConfig {
+@Data
+@ConfigurationProperties("opencdx.iam")
+public class AppProperties {
     /**
      * Default Constructor
      */
-    public AppConfig() {
+    public AppProperties() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
+
+    private String verificationUrl;
 }

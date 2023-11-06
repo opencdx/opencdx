@@ -127,6 +127,18 @@ public class OpenCDXIAMUserRestController {
     }
 
     /**
+     * Verifies the email of requested user.
+     * @param id ID of the user to retrieve
+     * @return Response with the user.
+     */
+    @GetMapping("/verify/{id}")
+    @SuppressWarnings("java:S3740")
+    public ResponseEntity verifyEmailIamUser(@PathVariable String id) {
+        this.openCDXIAMUserService.verifyEmailIamUser(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * Method to authenticate user login.
      * @param request LoginRequest to authenticate user
      * @return Response with login token.

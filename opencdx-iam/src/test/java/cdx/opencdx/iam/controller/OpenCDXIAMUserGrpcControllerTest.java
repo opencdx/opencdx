@@ -18,6 +18,7 @@ package cdx.opencdx.iam.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
@@ -25,6 +26,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,6 +83,12 @@ class OpenCDXIAMUserGrpcControllerTest {
     @MockBean
     JwtTokenUtil jwtTokenUtil;
 
+    @MockBean
+    OpenCDXCommunicationClient openCDXCommunicationClient;
+
+    @Autowired
+    AppProperties appProperties;
+
     @BeforeEach
     void setUp() {
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -103,6 +111,10 @@ class OpenCDXIAMUserGrpcControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
+                                .firstName("FName")
+                                .lastName("LName")
+                                .email("ab@safehealth.me")
+                                .phone("123-456-7890")
                                 .build());
                     }
                 });
@@ -127,7 +139,9 @@ class OpenCDXIAMUserGrpcControllerTest {
                 this.passwordEncoder,
                 this.authenticationManager,
                 this.jwtTokenUtil,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.appProperties,
+                this.openCDXCommunicationClient);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 

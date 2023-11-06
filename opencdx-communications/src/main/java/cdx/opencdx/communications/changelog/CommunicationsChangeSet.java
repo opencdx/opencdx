@@ -51,7 +51,7 @@ public class CommunicationsChangeSet {
      * Welcome Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
-     * @param openCDXNotificationEventRepository Notificaiton Event Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
      */
     @ChangeSet(order = "001", id = "Create Welcome Template", author = "Gaurav Mishra")
     public void generateWelcomeTemplates(
@@ -98,7 +98,7 @@ public class CommunicationsChangeSet {
      * Newsletter Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
-     * @param openCDXNotificationEventRepository Notificaiton Event Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
      */
     @ChangeSet(order = "002", id = "Create Newsletter Template", author = "Gaurav Mishra")
     public void generateNewsletterTemplate(
@@ -131,7 +131,7 @@ public class CommunicationsChangeSet {
      * Alert Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
-     * @param openCDXNotificationEventRepository Notificaiton Event Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
      */
     @ChangeSet(order = "003", id = "Create Alert Template", author = "Gaurav Mishra")
     public void generateAlertTemplate(
@@ -178,7 +178,7 @@ public class CommunicationsChangeSet {
      * Reminder Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
-     * @param openCDXNotificationEventRepository Notificaiton Event Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
      */
     @ChangeSet(order = "004", id = "Create Reminder Template", author = "Gaurav Mishra")
     public void generateReminderTemplate(
@@ -225,7 +225,7 @@ public class CommunicationsChangeSet {
      * Confirmation Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
-     * @param openCDXNotificationEventRepository Notificaiton Event Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
      */
     @ChangeSet(order = "005", id = "Create Confirmation Template", author = "Gaurav Mishra")
     public void generateConfirmationTemplate(
@@ -274,7 +274,7 @@ public class CommunicationsChangeSet {
      * Notification Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
-     * @param openCDXNotificationEventRepository Notificaiton Event Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
      */
     @ChangeSet(order = "006", id = "Create Notification Template", author = "Gaurav Mishra")
     public void generateNotificationTemplate(
@@ -313,6 +313,43 @@ public class CommunicationsChangeSet {
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
+        openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
+    }
+
+    /**
+     * Email Verify Template
+     * @param openCDXEmailTemplateRepository Email Template Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
+     */
+    @ChangeSet(order = "007", id = "Create Email Verify Template", author = "Gaurav Mishra")
+    public void generateEmailVerifyTemplate(
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository) {
+        OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d375f"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .subject("OpenCDX Notification")
+                .content(
+                        """
+                        Dear ${firstName} ${lastName},
+
+                        To verify your email : ${email} click the link below :
+                        <a href="${verification_server}/${user_id}" target="_blank">${verification_server}/${user_id}</a>
+
+                        Thank you!
+                        """)
+                .variables(List.of(FIRST_NAME, LAST_NAME, "verification_server", "user_id"))
+                .build();
+
+        OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3760"))
+                .eventName("Notification to user")
+                .eventDescription("Notification to user of an event.")
+                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d375f"))
+                .emailRetry(4)
+                .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
+                .build();
+        openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
     }
 }

@@ -19,10 +19,12 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.communication.SuccessResponse;
 import cdx.opencdx.grpc.iam.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
@@ -79,8 +81,12 @@ class OpenCDXIAMUserRestControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @MockBean
+    OpenCDXCommunicationClient openCDXCommunicationClient;
+
     @BeforeEach
     public void setup() {
+        when(this.openCDXCommunicationClient.sendNotification(any())).thenReturn(SuccessResponse.getDefaultInstance());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
@@ -106,6 +112,10 @@ class OpenCDXIAMUserRestControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
+                                .firstName("FName")
+                                .lastName("LName")
+                                .email("ab@safehealth.me")
+                                .phone("123-456-7990")
                                 .build());
                     }
                 });
@@ -237,6 +247,19 @@ class OpenCDXIAMUserRestControllerTest {
                         .content(this.objectMapper.writeValueAsString(UserExistsRequest.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void verifyEmailIamUser() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/user/verify/" + ObjectId.get().toHexString())
+                        .content(this.objectMapper.writeValueAsString(
+                                ObjectId.get().toHexString()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

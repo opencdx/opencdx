@@ -86,7 +86,7 @@ public class SecurityConfig {
      * Expose authentication manager bean
      * @return the AuthenticationManager
      * @throws Exception error with authentication manager.
-      */
+     */
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return this.configuration.getAuthenticationManager();
