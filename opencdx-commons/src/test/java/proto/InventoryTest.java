@@ -151,7 +151,7 @@ class InventoryTest {
                                 .setIsFdaAuthorized(true)
                                 .setDeviceStatus("Super Cool!!!!!")
                                 .setAssociatedSoftwareVersion("1.0.0.1")
-                                .addAllTestCaseIds(List.of("1","2","3"))
+                                .addAllTestCaseIds(List.of("1", "2", "3"))
                                 .build()));
     }
 
@@ -165,7 +165,9 @@ class InventoryTest {
                                 .setId(ObjectId.get().toHexString())
                                 .setManufacturerId(ObjectId.get().toHexString())
                                 .setVendorId(ObjectId.get().toHexString())
-                                .addAllDeviceIds(List.of(ObjectId.get().toHexString(),ObjectId.get().toHexString()))
+                                .addAllDeviceIds(List.of(
+                                        ObjectId.get().toHexString(),
+                                        ObjectId.get().toHexString()))
                                 .setNumberOfTests(8)
                                 .setPackagingDate(this.getTimeStamp(Instant.now()))
                                 .setExpiryDate(this.getTimeStamp(Instant.now()))
