@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 /**
  * Implementaiton based on JWT
  */
+@ExcludeFromJacocoGeneratedReport
 @Service
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 

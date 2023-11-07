@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.dto;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @AllArgsConstructor
 @Builder
+@ExcludeFromJacocoGeneratedReport
 public class OpenCDXUserDetails implements UserDetails {
     /**
      * Default Constructor

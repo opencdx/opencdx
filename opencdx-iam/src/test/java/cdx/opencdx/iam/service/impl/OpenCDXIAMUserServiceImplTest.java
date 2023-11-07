@@ -424,4 +424,39 @@ class OpenCDXIAMUserServiceImplTest {
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
+
+    @Test
+    void testCurrentUser() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("");
+
+        ObjectId id = ObjectId.get();
+        OpenCDXCurrentUser currentUser = Mockito.mock(OpenCDXCurrentUser.class);
+        Mockito.when(currentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder()
+                        .id(id)
+                        .firstName("FName")
+                        .lastName("LName")
+                        .email("ab@safehealth.me")
+                        .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .build());
+        Mockito.when(currentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.passwordEncoder,
+                this.authenticationManager,
+                this.jwtTokenUtil,
+                currentUser,
+                this.appProperties,
+                this.openCDXCommunicationClient,
+                this.openCDXNationalHealthIdentifier);
+        Assertions.assertEquals(
+                id.toHexString(),
+                this.openCDXIAMUserService
+                        .currentUser(CurrentUserRequest.newBuilder().build())
+                        .getIamUser()
+                        .getId());
+    }
 }
