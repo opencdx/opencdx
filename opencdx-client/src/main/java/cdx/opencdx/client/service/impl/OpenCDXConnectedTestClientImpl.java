@@ -19,117 +19,100 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.grpc.connected.*;
 import com.google.rpc.Code;
-import java.util.ArrayList;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import io.grpc.ManagedChannel;
+import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.observation.annotation.Observed;
+import java.io.InputStream;
+import javax.net.ssl.SSLException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
-/**
- * WebClient for Connected tests.
- */
+@Slf4j
+@Observed(name = "opencdx")
+@Service
+@ConditionalOnProperty(prefix = "opencdx.client", name = "connected-test", havingValue = "true")
 public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClient {
 
-    private static final String DOMAIN = "OpenCDXConnectedTestClient";
+    private static final String DOMAIN = "OpenCDXConnectedTestClientImpl";
 
-    private static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error";
-
-    private final WebClient webClient;
+    private final HealthcareServiceGrpc.HealthcareServiceBlockingStub healthcareServiceBlockingStub;
 
     /**
-     * Constructor using WebClient
-     *
-     * @param webClient WebClient to be used.
+     * Default Constructor used for normal operation.
+     * @throws SSLException creating Client
      */
-    public OpenCDXConnectedTestClientImpl(WebClient webClient) {
-        this.webClient = webClient;
+    public OpenCDXConnectedTestClientImpl() throws SSLException {
+        InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        ManagedChannel channel = NettyChannelBuilder.forAddress("connected-test", 9090)
+                .useTransportSecurity()
+                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .build();
+
+        this.healthcareServiceBlockingStub = HealthcareServiceGrpc.newBlockingStub(channel);
+    }
+
+    /**
+     * Constructore for creating the OpenCDXConnectedTestClientImpl
+     * @param healthcareServiceBlockingStub gRPC Stub for the client.
+     */
+    public OpenCDXConnectedTestClientImpl(
+            HealthcareServiceGrpc.HealthcareServiceBlockingStub healthcareServiceBlockingStub) {
+        this.healthcareServiceBlockingStub = healthcareServiceBlockingStub;
     }
 
     @Override
-    public TestSubmissionResponse submitTest(ConnectedTest connectedTest) throws OpenCDXClientException {
+    public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
         try {
-            return webClient
-                    .post()
-                    .uri("")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .bodyValue(connectedTest)
-                    .retrieve()
-                    .bodyToMono(TestSubmissionResponse.class)
-                    .block();
-        } catch (Exception ex) {
-            Code statusCode = Code.INTERNAL;
-            String message = INTERNAL_SERVER_ERROR_MESSAGE;
-            if (ex instanceof WebClientResponseException) {
-                message = ex.getMessage();
-            }
-            throw new OpenCDXClientException(statusCode, DOMAIN, 2, message, new ArrayList<>(), ex);
+            log.info("Processing submit test: {}", connectedTest);
+            return healthcareServiceBlockingStub.submitTest(connectedTest);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 1, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
     @Override
-    public ConnectedTest getTestDetailsById(String id) throws OpenCDXClientException {
+    public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest) {
         try {
-            return webClient
-                    .get()
-                    .uri("/" + id)
-                    .retrieve()
-                    .bodyToMono(ConnectedTest.class)
-                    .block();
+            log.info("Processing test details by Id: {}", testIdRequest);
+            return healthcareServiceBlockingStub.getTestDetailsById(testIdRequest);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
-        } catch (Exception ex) {
-            Code statusCode = Code.INTERNAL;
-            String message = INTERNAL_SERVER_ERROR_MESSAGE;
-            if (ex instanceof WebClientResponseException) {
-                message = ex.getMessage();
-            }
-            throw new OpenCDXClientException(statusCode, DOMAIN, 2, message, new ArrayList<>(), ex);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 2, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
     @Override
-    public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest connectedTestListRequest)
-            throws OpenCDXClientException {
+    public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest connectedTestListRequest) {
         try {
-            return webClient
-                    .post()
-                    .uri("/list")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(connectedTestListRequest)
-                    .retrieve()
-                    .bodyToMono(ConnectedTestListResponse.class)
-                    .block();
+            log.info("Processing listConnectedTests: {}", connectedTestListRequest);
+            return healthcareServiceBlockingStub.listConnectedTests(connectedTestListRequest);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
-        } catch (Exception ex) {
-            Code statusCode = Code.INTERNAL;
-            String message = INTERNAL_SERVER_ERROR_MESSAGE;
-            if (ex instanceof WebClientResponseException) {
-                message = ex.getMessage();
-            }
-            throw new OpenCDXClientException(statusCode, DOMAIN, 2, message, new ArrayList<>(), ex);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 3, status.getMessage(), status.getDetailsList(), e);
         }
     }
 
     @Override
     public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(
-            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest) throws OpenCDXClientException {
+            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest) {
         try {
-            return webClient
-                    .post()
-                    .uri("/listbynhid")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(connectedTestListByNHIDRequest)
-                    .retrieve()
-                    .bodyToMono(ConnectedTestListByNHIDResponse.class)
-                    .block();
+            log.info("Processing listConnectedTestsByNHID: {}", connectedTestListByNHIDRequest);
+            return healthcareServiceBlockingStub.listConnectedTestsByNHID(connectedTestListByNHIDRequest);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
-        } catch (Exception ex) {
-            Code statusCode = Code.INTERNAL;
-            String message = INTERNAL_SERVER_ERROR_MESSAGE;
-            if (ex instanceof WebClientResponseException) {
-                message = ex.getMessage();
-            }
-            throw new OpenCDXClientException(statusCode, DOMAIN, 2, message, new ArrayList<>(), ex);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()), DOMAIN, 4, status.getMessage(), status.getDetailsList(), e);
         }
     }
 }

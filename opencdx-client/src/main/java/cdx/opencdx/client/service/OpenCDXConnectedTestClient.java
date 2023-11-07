@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.client.service;
 
-import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.connected.*;
 
 /**
- * Interface for the Connected Tests client
+ * Client Interface to the gRPC Connected Tests service
  */
 public interface OpenCDXConnectedTestClient {
 
@@ -27,37 +26,32 @@ public interface OpenCDXConnectedTestClient {
      * Method to submit a ConnectedTest for processing.
      *
      * @param connectedTest ConnectedTest submitted
-     * @return ID for the connectedTest
-     * @throws OpenCDXClientException Exception in the client.
+     * @return TestSubmissionResponse for the connectedTest
      */
-    TestSubmissionResponse submitTest(ConnectedTest connectedTest) throws OpenCDXClientException;
+    TestSubmissionResponse submitTest(ConnectedTest connectedTest);
 
     /**
      * Method to get a ConnectedTest
      *
-     * @param id id of the ConnectedTest to retrieve.
+     * @param testIdRequest id of the ConnectedTest to retrieve.
      * @return The requested ConnectedTest.
-     * @throws OpenCDXClientException Exception in the client.
      */
-    ConnectedTest getTestDetailsById(String id) throws OpenCDXClientException;
+    ConnectedTest getTestDetailsById(TestIdRequest testIdRequest);
 
     /**
      * List Connected tests
      *
      * @param connectedTestListRequest request for Connected Tests.
      * @return the requested connected tests.
-     * @throws OpenCDXClientException Exception in the client.
      */
-    ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest connectedTestListRequest)
-            throws OpenCDXClientException;
+    ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest connectedTestListRequest);
 
     /**
      * List Connected tests by national health id
      *
      * @param connectedTestListByNHIDRequest request for Connected Tests.
      * @return the requested connected tests
-     * @throws OpenCDXClientException Exception in the client.
      */
     ConnectedTestListByNHIDResponse listConnectedTestsByNHID(
-            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest) throws OpenCDXClientException;
+            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest);
 }
