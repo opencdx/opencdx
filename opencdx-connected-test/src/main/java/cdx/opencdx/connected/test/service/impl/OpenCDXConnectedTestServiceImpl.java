@@ -30,8 +30,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -42,7 +40,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-@ExtendWith(MockitoExtension.class)
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
     private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
