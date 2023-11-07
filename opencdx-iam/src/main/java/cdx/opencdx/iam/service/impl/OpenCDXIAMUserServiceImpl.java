@@ -17,6 +17,7 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
+import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
@@ -460,21 +461,25 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     @Override
     public LoginResponse login(LoginRequest request) {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
 
             OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
                     .findByEmail(request.getUserName())
                     .orElseThrow(() -> new OpenCDXUnauthorized(
-                            "OpenCDXIAMUserRestController",
-                            1,
-                            "Failed to authenticate user: " + request.getUserName()));
-            String token = jwtTokenUtil.generateAccessToken(userModel);
+                            DOMAIN, 1, "Failed to authenticate user: " + request.getUserName()));
 
-            return LoginResponse.newBuilder().setToken(token).build();
+            if (userModel.getEmailVerified()) {
+
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
+
+                String token = jwtTokenUtil.generateAccessToken(userModel);
+
+                return LoginResponse.newBuilder().setToken(token).build();
+            } else {
+                throw new OpenCDXFailedPrecondition(DOMAIN, 10, "User Email not verified");
+            }
         } catch (BadCredentialsException ex) {
-            throw new OpenCDXUnauthorized(
-                    "OpenCDXIAMUserRestController", 2, "Failed to authenticate user: " + request.getUserName(), ex);
+            throw new OpenCDXUnauthorized(DOMAIN, 2, "Failed to authenticate user: " + request.getUserName(), ex);
         }
     }
 

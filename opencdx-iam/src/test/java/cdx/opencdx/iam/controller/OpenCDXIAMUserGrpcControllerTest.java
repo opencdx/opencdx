@@ -119,6 +119,7 @@ class OpenCDXIAMUserGrpcControllerTest {
                                 .lastName("LName")
                                 .email("ab@safehealth.me")
                                 .phone("123-456-7890")
+                                .emailVerified(true)
                                 .build());
                     }
                 });
@@ -126,7 +127,15 @@ class OpenCDXIAMUserGrpcControllerTest {
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
-                        return Optional.of(OpenCDXIAMUserModel.builder().build());
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(ObjectId.get())
+                                .password("{noop}pass")
+                                .firstName("FName")
+                                .lastName("LName")
+                                .email("ab@safehealth.me")
+                                .phone("123-456-7890")
+                                .emailVerified(true)
+                                .build());
                     }
                 });
 
