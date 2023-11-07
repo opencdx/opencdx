@@ -13,6 +13,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion"
 
     implementation project(":opencdx-proto")
+    implementation "com.hubspot.jackson:jackson-datatype-protobuf:${jacksonProtobufVersion}"
 
     testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
     testImplementation "org.junit.jupiter:junit-jupiter"

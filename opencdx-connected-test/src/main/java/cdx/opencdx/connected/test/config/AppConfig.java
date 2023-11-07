@@ -19,6 +19,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.http.converter.protobuf.ProtobufJsonFormatHttpMessageConverter;
 
 /**
  * Applicaiton Configuration
@@ -42,5 +43,10 @@ public class AppConfig {
     @Description("Demonstration on how to document a bean.")
     public String format(AppProperties appProperties) {
         return appProperties.getFormat();
+    }
+
+    @Bean
+    ProtobufJsonFormatHttpMessageConverter protobufHttpMessageConverter() {
+        return new ProtobufJsonFormatHttpMessageConverter();
     }
 }

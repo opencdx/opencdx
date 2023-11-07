@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.http.converter.protobuf.ProtobufJsonFormatHttpMessageConverter;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
@@ -42,8 +43,22 @@ public class ClientConfig {
     @Bean
     @Description("Web client for Media upload/download")
     OpenCDXMediaUpDownClient mediaUpDown() {
+
         WebClient mediaUpDownWebClient =
                 WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
         return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
+    }
+
+    @Bean
+    @Description("Web client for Connected test ")
+    OpenCDXConnectedTestClient connectedtest() {
+        WebClient openCDXConnectedTestClient =
+                WebClient.builder().baseUrl("$(opencdx.client.connected-test").build();
+        return new OpenCDXConnectedTestClientImpl(openCDXConnectedTestClient);
+    }
+
+    @Bean
+    ProtobufJsonFormatHttpMessageConverter protobufHttpMessageConverter() {
+        return new ProtobufJsonFormatHttpMessageConverter();
     }
 }
