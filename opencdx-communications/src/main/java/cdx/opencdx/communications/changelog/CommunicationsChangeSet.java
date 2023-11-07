@@ -334,7 +334,7 @@ public class CommunicationsChangeSet {
                         Dear [[${firstName}]] [[${lastName}]],
 
                         To verify your email : [[${email}]] click the link below :
-                        <a href="@{|${verification_server}/${user_id}|}" target="_blank">[[${verification_server}]]/[[${user_id}]]</a>
+                        <a th:href="@{|${verification_server}/${user_id}|}" target="_blank">[[${verification_server}]]/[[${user_id}]]</a>
 
                         Thank you!
                         """)
