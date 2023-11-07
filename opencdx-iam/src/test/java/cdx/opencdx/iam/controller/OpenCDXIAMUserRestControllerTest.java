@@ -117,6 +117,7 @@ class OpenCDXIAMUserRestControllerTest {
                                 .lastName("LName")
                                 .email("ab@safehealth.me")
                                 .phone("123-456-7990")
+                                .type(IamUserType.IAM_USER_TYPE_REGULAR)
                                 .build());
                     }
                 });

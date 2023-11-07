@@ -17,3 +17,5 @@ _**Links are part of the build not available from GitHub.**_
 **OpenCDXMessageHandler** - Interface for implementing subscribers to the OpenCDXMessageService.
 
 **OpenCDXHtmlSanitizer** - Interface for implementing an HTML sanitizer. Current implementaiton is based on owasp-java-html-sanitizer.
+
+**OpenCDXNationalHealthIdentifier** - Interface for generating the National Health Id.  Current implementation is based on Email address.

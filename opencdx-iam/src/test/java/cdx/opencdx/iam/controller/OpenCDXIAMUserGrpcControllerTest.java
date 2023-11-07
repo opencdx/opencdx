@@ -24,6 +24,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -66,6 +67,9 @@ class OpenCDXIAMUserGrpcControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
 
     @Mock
     OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -141,7 +145,8 @@ class OpenCDXIAMUserGrpcControllerTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient);
+                this.openCDXCommunicationClient,
+                this.openCDXNationalHealthIdentifier);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 

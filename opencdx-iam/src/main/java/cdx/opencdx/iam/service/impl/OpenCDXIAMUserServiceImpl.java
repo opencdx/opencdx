@@ -25,6 +25,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.*;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.iam.*;
@@ -74,6 +75,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
+    private final OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
+
     /**
      * Constructor taking the a PersonRepository
      *
@@ -86,6 +89,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param authenticationManager    AuthenticationManager for the service
      * @param jwtTokenUtil              Utility class for JWT Tokens
      * @param openCDXCommunicationClient Communication Client for triggering events
+     * @param openCDXNationalHealthIdentifier OpenCDXNationalHealthIdentifier for generating National Health Id.
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(
@@ -97,7 +101,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             JwtTokenUtil jwtTokenUtil,
             OpenCDXCurrentUser openCDXCurrentUser,
             AppProperties appProperties,
-            OpenCDXCommunicationClient openCDXCommunicationClient) {
+            OpenCDXCommunicationClient openCDXCommunicationClient,
+            OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
@@ -107,6 +112,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXCommunicationClient = openCDXCommunicationClient;
         this.appProperties = appProperties;
+        this.openCDXNationalHealthIdentifier = openCDXNationalHealthIdentifier;
     }
 
     /**
@@ -410,6 +416,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + id));
 
         model.setEmailVerified(true);
+        model.setNationalHealthId(this.openCDXNationalHealthIdentifier.generateNationalHealthId(model));
         model = this.openCDXIAMUserRepository.save(model);
 
         this.openCDXCommunicationClient.sendNotification(
