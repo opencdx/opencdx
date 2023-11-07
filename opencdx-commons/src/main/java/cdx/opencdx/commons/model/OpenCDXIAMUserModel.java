@@ -51,6 +51,7 @@ public class OpenCDXIAMUserModel {
     private IamUserType type;
     private String phone;
     private String password;
+    private String nationalHealthId;
 
     @Builder.Default
     private boolean accountExpired = false;
@@ -90,6 +91,7 @@ public class OpenCDXIAMUserModel {
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
         this.phone = iamUser.getPhone();
+        this.nationalHealthId = iamUser.getNationalHealthId();
     }
 
     /**
@@ -138,6 +140,9 @@ public class OpenCDXIAMUserModel {
         }
         if (this.phone != null) {
             builder.setPhone(this.phone);
+        }
+        if (this.nationalHealthId != null) {
+            builder.setNationalHealthId(this.nationalHealthId);
         }
         return builder.build();
     }

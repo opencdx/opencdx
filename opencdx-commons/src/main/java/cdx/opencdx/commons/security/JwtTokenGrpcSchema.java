@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.security;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * Schema for JWT Token in gRPC
  */
 @Slf4j
+@ExcludeFromJacocoGeneratedReport
 public class JwtTokenGrpcSchema implements AuthenticationSchemeSelector {
 
     private final JwtTokenUtil jwtTokenUtil;
@@ -48,7 +50,6 @@ public class JwtTokenGrpcSchema implements AuthenticationSchemeSelector {
     public Optional<Authentication> getAuthScheme(CharSequence authorization) {
         String header = authorization.toString();
         if (header.startsWith("Bearer ")) {
-            log.info("Token: {}", header);
             // Get jwt token and validate
             final String token = header.split(" ")[1].trim();
             if (jwtTokenUtil.validate(token)) {
