@@ -64,9 +64,9 @@ public class CommunicationsChangeSet {
                 .subject("Welcome to OpenCDX")
                 .content(
                         """
-                        Welcome ${firstName} ${lastName},
+                        Welcome [[${firstName}]] [[${lastName}]],
 
-                        Welcome to OpenCDX. Your account has been setup with your username: ${email}.
+                        Welcome to OpenCDX. Your account has been setup with your username: [[${email}]].
 
                         Thank you!
                         """)
@@ -75,7 +75,7 @@ public class CommunicationsChangeSet {
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373c"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
-                .message("Welcome ${firstName} ${lastName} to OpenCDX.  Your username is: ${email}.")
+                .message("Welcome [[${firstName}]] [[${lastName}]] to OpenCDX.  Your username is: [[${email}]].")
                 .variables(List.of(FIRST_NAME, LAST_NAME, "email"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -110,7 +110,7 @@ public class CommunicationsChangeSet {
                 .templateType(TemplateType.TEMPLATE_TYPE_NEWSLETTER)
                 .subject("OpenCDX Newsletter")
                 .content("""
-                        ${message}.
+                        [[${message}]].
                         """)
                 .variables(List.of(MESSAGE))
                 .build();
@@ -144,9 +144,9 @@ public class CommunicationsChangeSet {
                 .subject("OpenCDX Alert")
                 .content(
                         """
-                        Dear ${firstName} ${lastName},
+                        Dear [[${firstName}]] [[${lastName}]],
 
-                        Please be advised you are receiving this alert for the following reason: ${reason}.
+                        Please be advised you are receiving this alert for the following reason: [[${reason}]].
 
                         Thank you!
                         """)
@@ -191,9 +191,9 @@ public class CommunicationsChangeSet {
                 .subject("OpenCDX Reminder")
                 .content(
                         """
-                        Dear ${firstName} ${lastName},
+                        Dear [[${firstName}]] [[${lastName}]],
 
-                        Reminder you have ${reminder}.
+                        Reminder you have [[${reminder}]].
 
                         Thank you!
                         """)
@@ -238,9 +238,9 @@ public class CommunicationsChangeSet {
                 .subject("OpenCDX Confirmation")
                 .content(
                         """
-                        Dear ${firstName} ${lastName},
+                        Dear [[${firstName}]] [[${lastName}]],
 
-                        This is to confirm you have ${confirmation}. If this is not accurate
+                        This is to confirm you have [[${confirmation}]]. If this is not accurate
                         please contact OpenCDX immediately.
 
                         Thank you!
@@ -287,9 +287,9 @@ public class CommunicationsChangeSet {
                 .subject("OpenCDX Notification")
                 .content(
                         """
-                        Dear ${firstName} ${lastName},
+                        Dear [[${firstName}]] [[${lastName}]],
 
-                        This is to notify you of ${notification}.
+                        This is to notify you of [[${notification}]].
 
                         Thank you!
                         """)
