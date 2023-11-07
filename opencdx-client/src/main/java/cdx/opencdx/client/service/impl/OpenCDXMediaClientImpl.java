@@ -26,6 +26,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
      * Default Constructor used for normal operation.
      * @throws SSLException creating Client
      */
+    @Generated
     public OpenCDXMediaClientImpl() throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
         ManagedChannel channel = NettyChannelBuilder.forAddress("media", 9090)

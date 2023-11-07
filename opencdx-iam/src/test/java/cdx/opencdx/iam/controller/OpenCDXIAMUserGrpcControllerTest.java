@@ -24,6 +24,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -66,6 +67,9 @@ class OpenCDXIAMUserGrpcControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
 
     @Mock
     OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -115,6 +119,7 @@ class OpenCDXIAMUserGrpcControllerTest {
                                 .lastName("LName")
                                 .email("ab@safehealth.me")
                                 .phone("123-456-7890")
+                                .emailVerified(true)
                                 .build());
                     }
                 });
@@ -122,7 +127,15 @@ class OpenCDXIAMUserGrpcControllerTest {
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
-                        return Optional.of(OpenCDXIAMUserModel.builder().build());
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(ObjectId.get())
+                                .password("{noop}pass")
+                                .firstName("FName")
+                                .lastName("LName")
+                                .email("ab@safehealth.me")
+                                .phone("123-456-7890")
+                                .emailVerified(true)
+                                .build());
                     }
                 });
 
@@ -141,7 +154,8 @@ class OpenCDXIAMUserGrpcControllerTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient);
+                this.openCDXCommunicationClient,
+                this.openCDXNationalHealthIdentifier);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }
 
