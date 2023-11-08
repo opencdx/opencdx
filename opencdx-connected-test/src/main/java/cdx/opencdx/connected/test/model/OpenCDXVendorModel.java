@@ -36,16 +36,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXVendorModel {
 
     @Id
-    protected ObjectId id;
+    private ObjectId id;
 
-    protected String name;
-    protected Address address;
-    protected String contact;
-    protected String email;
-    protected String phone;
-    protected String website;
-    protected String description;
-    protected List<String> certifications;
+    private String name;
+    private Address address;
+    private String contact;
+    private String email;
+    private String phone;
+    private String website;
+    private String description;
+    private List<String> certifications;
 
     public OpenCDXVendorModel(Vendor vendor) {
         if (vendor.hasId()) {
