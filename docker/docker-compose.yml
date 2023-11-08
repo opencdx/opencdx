@@ -212,13 +212,15 @@ services:
   admin:
     image: opencdx/admin:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8761/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8761/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 5s
     ports:
       - "8761:8761"
+    volumes:
+      - ../certs:/certs
 
   config:
     image: opencdx/config:latest

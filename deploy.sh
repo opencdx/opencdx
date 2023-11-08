@@ -62,17 +62,17 @@ open_reports() {
     admin)
         echo "Opening Admin Dashboard..."
         if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
+            start https://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
         else
-            open http://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
+            open https://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
         fi
         ;;
    discovery)
         echo "Opening Discovery Dashboard..."
         if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
+            start https://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
         else
-            open http://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
+            open https://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
         fi
         ;;
 
