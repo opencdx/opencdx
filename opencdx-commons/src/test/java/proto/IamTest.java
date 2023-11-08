@@ -47,6 +47,7 @@ class IamTest {
                         .setPassword("password")
                         .setSystemName("System Name")
                         .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .setPhone("123-456-7890")
                         .build()));
     }
 
