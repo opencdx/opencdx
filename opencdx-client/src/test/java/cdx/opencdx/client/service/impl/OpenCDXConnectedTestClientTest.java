@@ -1,0 +1,129 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package cdx.opencdx.client.service.impl;
+
+import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
+import cdx.opencdx.grpc.connected.*;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+class OpenCDXConnectedTestClientTest {
+
+    @Mock
+    HealthcareServiceGrpc.HealthcareServiceBlockingStub healthcareServiceBlockingStub;
+
+    OpenCDXConnectedTestClient openCDXConnectedTestClient;
+
+    @BeforeEach
+    void setUp() {
+        this.healthcareServiceBlockingStub = Mockito.mock(HealthcareServiceGrpc.HealthcareServiceBlockingStub.class);
+        this.openCDXConnectedTestClient = new OpenCDXConnectedTestClientImpl(this.healthcareServiceBlockingStub);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.healthcareServiceBlockingStub);
+    }
+
+    @Test
+    void submitTest() {
+        Mockito.when(this.healthcareServiceBlockingStub.submitTest(Mockito.any(ConnectedTest.class)))
+                .thenReturn(TestSubmissionResponse.getDefaultInstance());
+
+        Assertions.assertEquals(
+                TestSubmissionResponse.getDefaultInstance(),
+                this.openCDXConnectedTestClient.submitTest(ConnectedTest.getDefaultInstance()));
+    }
+
+    @Test
+    void submitTestException() {
+        Mockito.when(this.healthcareServiceBlockingStub.submitTest(Mockito.any(ConnectedTest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        ConnectedTest request = ConnectedTest.getDefaultInstance();
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.submitTest(request));
+    }
+
+    @Test
+    void testDetailsById() {
+        Mockito.when(this.healthcareServiceBlockingStub.getTestDetailsById(Mockito.any(TestIdRequest.class)))
+                .thenReturn(ConnectedTest.getDefaultInstance());
+
+        Assertions.assertEquals(
+                ConnectedTest.getDefaultInstance(),
+                this.openCDXConnectedTestClient.getTestDetailsById(TestIdRequest.getDefaultInstance()));
+    }
+
+    @Test
+    void testDetailsByIdException() {
+        Mockito.when(this.healthcareServiceBlockingStub.getTestDetailsById(Mockito.any(TestIdRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        TestIdRequest request = TestIdRequest.getDefaultInstance();
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.getTestDetailsById(request));
+    }
+
+    @Test
+    void listConnectedTestsByNHID() {
+        Mockito.when(this.healthcareServiceBlockingStub.listConnectedTestsByNHID(
+                        Mockito.any(ConnectedTestListByNHIDRequest.class)))
+                .thenReturn(ConnectedTestListByNHIDResponse.getDefaultInstance());
+
+        Assertions.assertEquals(
+                ConnectedTestListByNHIDResponse.getDefaultInstance(),
+                this.openCDXConnectedTestClient.listConnectedTestsByNHID(
+                        ConnectedTestListByNHIDRequest.getDefaultInstance()));
+    }
+
+    @Test
+    void listConnectedTestsByNHIDException() {
+        Mockito.when(this.healthcareServiceBlockingStub.listConnectedTestsByNHID(
+                        Mockito.any(ConnectedTestListByNHIDRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.getDefaultInstance();
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.listConnectedTestsByNHID(request));
+    }
+
+    @Test
+    void listConnectedTests() {
+        Mockito.when(this.healthcareServiceBlockingStub.listConnectedTests(Mockito.any(ConnectedTestListRequest.class)))
+                .thenReturn(ConnectedTestListResponse.getDefaultInstance());
+
+        Assertions.assertEquals(
+                ConnectedTestListResponse.getDefaultInstance(),
+                this.openCDXConnectedTestClient.listConnectedTests(ConnectedTestListRequest.getDefaultInstance()));
+    }
+
+    @Test
+    void llistConnectedTestsException() {
+        Mockito.when(this.healthcareServiceBlockingStub.listConnectedTests(Mockito.any(ConnectedTestListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        ConnectedTestListRequest request = ConnectedTestListRequest.getDefaultInstance();
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.listConnectedTests(request));
+    }
+}

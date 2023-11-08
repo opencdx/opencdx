@@ -42,6 +42,7 @@ public class ClientConfig {
     @Bean
     @Description("Web client for Media upload/download")
     OpenCDXMediaUpDownClient mediaUpDown() {
+
         WebClient mediaUpDownWebClient =
                 WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
         return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
