@@ -25,4 +25,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @SuppressWarnings("java:S100")
-public interface OpenCDXManufacturerRepository extends MongoRepository<OpenCDXManufacturerModel, ObjectId> {}
+public interface OpenCDXManufacturerRepository extends MongoRepository<OpenCDXManufacturerModel, ObjectId> {
+    Boolean existsByAddress_Country(String country);
+}

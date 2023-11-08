@@ -19,4 +19,6 @@ import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorModel, ObjectId> {}
+public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorModel, ObjectId> {
+    Boolean existsByAddress_Country(String country);
+}
