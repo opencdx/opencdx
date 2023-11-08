@@ -22,4 +22,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceModel, ObjectId> {
     Boolean existsByManufacturerCountryId(ObjectId manufacturerCountryId);
     Boolean existsByVendorCountryId(ObjectId vendorCountryId);
+
+    Boolean existsByManufacturerId(ObjectId manfacturerId);
 }

@@ -24,4 +24,6 @@ import org.springframework.stereotype.Repository;
  * Repository for protobuf Testcase
  */
 @Repository
-public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {}
+public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {
+    Boolean existsByManufacturerId(ObjectId manfacturerId);
+}

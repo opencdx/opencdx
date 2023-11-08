@@ -15,14 +15,19 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.OpenCDXCountryRepository;
+import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
+import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -31,32 +36,44 @@ import org.springframework.stereotype.Service;
 public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerService {
 
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
-    private final OpenCDXCountryRepository openCDXCountryRepository;
+    private final OpenCDXDeviceRepository openCDXDeviceRepository;
+    private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
+
 
     public OpenCDXManufacturerServiceImpl(
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
-            OpenCDXCountryRepository openCDXCountryRepository) {
+            OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
-        this.openCDXCountryRepository = openCDXCountryRepository;
+        this.openCDXDeviceRepository = openCDXDeviceRepository;
+        this.openCDXTestCaseRepository = openCDXTestCaseRepository;
+
     }
 
     @Override
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
-        return Manufacturer.getDefaultInstance();
+        return this.openCDXManufacturerRepository.findById(new ObjectId(request.getManufacturerId()))
+                .orElseThrow(() ->
+                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 3, "Failed to find manufacturer: " + request.getManufacturerId()))
+                .getProtobufMessage();
     }
 
     @Override
     public Manufacturer addManufacturer(Manufacturer request) {
-        return Manufacturer.getDefaultInstance();
+        return this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request)).getProtobufMessage();
     }
 
     @Override
     public Manufacturer updateManufacturer(Manufacturer request) {
-        return Manufacturer.getDefaultInstance();
+        return this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request)).getProtobufMessage();
     }
 
     @Override
     public DeleteResponse deleteManufacturer(ManufacturerIdRequest request) {
-        return DeleteResponse.getDefaultInstance();
+        if(this.openCDXDeviceRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))
+        || this.openCDXTestCaseRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))) {
+            return DeleteResponse.newBuilder().setSuccess(false).setMessage("Manufacturer: " + request.getManufacturerId() + " is in use.").build();
+        }
+        this.openCDXManufacturerRepository.deleteById(new ObjectId(request.getManufacturerId()));
+        return DeleteResponse.newBuilder().setSuccess(true).setMessage("Manufacturer: " + request.getManufacturerId() + " is deleted.").build();
     }
 }

@@ -67,10 +67,6 @@ class RestCountryControllerTest {
     private OpenCDXManufacturerRepository openCDXManufacturerRepository;
     @MockBean
     private OpenCDXDeviceRepository openCDXDeviceRepository;
-    @MockBean
-    private OpenCDXTestCaseRepository openCDXTestCaseRepository;
-
-
 
     private MockMvc mockMvc;
 
