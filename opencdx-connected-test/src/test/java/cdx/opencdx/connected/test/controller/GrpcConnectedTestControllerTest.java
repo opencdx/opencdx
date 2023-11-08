@@ -19,7 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
+import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
@@ -92,7 +92,7 @@ class GrpcConnectedTestControllerTest {
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
-        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         this.grpcConnectedTestController.submitTest(connectedTest, responseObserver);
 
@@ -106,11 +106,11 @@ class GrpcConnectedTestControllerTest {
     @Test
     void getTestDetailsById() {
         StreamObserver<ConnectedTest> responseObserver = Mockito.mock(StreamObserver.class);
-        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
-        OpenCDXConnectedTest openCDXConnectedTest =
-                new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+        OpenCDXConnectedTestModel openCDXConnectedTestModel =
+                new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(10)
@@ -119,20 +119,20 @@ class GrpcConnectedTestControllerTest {
                         .build());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(openCDXConnectedTest));
+                .thenReturn(Optional.of(openCDXConnectedTestModel));
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
                 .setTestId(ObjectId.get().toHexString())
                 .build();
         this.grpcConnectedTestController.getTestDetailsById(testIdRequest, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(openCDXConnectedTest.getProtobufMessage());
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(openCDXConnectedTestModel.getProtobufMessage());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
     void getTestDetailsByIdFail() {
         StreamObserver<ConnectedTest> responseObserver = Mockito.mock(StreamObserver.class);
-        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))

@@ -35,7 +35,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Document("connected-test")
-public class OpenCDXConnectedTest {
+public class OpenCDXConnectedTestModel {
 
     @Id
     private ObjectId id;
@@ -54,7 +54,7 @@ public class OpenCDXConnectedTest {
      * Constructor from protobuf message ConnectedTest
      * @param connectedTest Protobuf message to generate from
      */
-    public OpenCDXConnectedTest(ConnectedTest connectedTest) {
+    public OpenCDXConnectedTestModel(ConnectedTest connectedTest) {
         if (connectedTest.getBasicInfo().hasId()) {
             this.id = new ObjectId(connectedTest.getBasicInfo().getId());
         }
@@ -73,7 +73,6 @@ public class OpenCDXConnectedTest {
      */
     public ConnectedTest getProtobufMessage() {
         ConnectedTest.Builder builder = ConnectedTest.newBuilder();
-        log.info("BasicInfo: {}", basicInfo);
         if (this.basicInfo != null) {
             builder.setBasicInfo(BasicInfo.newBuilder(this.basicInfo)
                     .setId(this.id.toHexString())
