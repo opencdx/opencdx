@@ -33,7 +33,8 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
 
-    public OpenCDXVendorServiceImpl(OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository) {
+    public OpenCDXVendorServiceImpl(
+            OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXCountryRepository = openCDXCountryRepository;
     }

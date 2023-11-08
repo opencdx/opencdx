@@ -33,7 +33,9 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
 
-    public OpenCDXManufacturerServiceImpl(OpenCDXManufacturerRepository openCDXManufacturerRepository, OpenCDXCountryRepository openCDXCountryRepository) {
+    public OpenCDXManufacturerServiceImpl(
+            OpenCDXManufacturerRepository openCDXManufacturerRepository,
+            OpenCDXCountryRepository openCDXCountryRepository) {
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
         this.openCDXCountryRepository = openCDXCountryRepository;
     }

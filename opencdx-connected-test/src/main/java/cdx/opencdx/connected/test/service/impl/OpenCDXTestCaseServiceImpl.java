@@ -34,13 +34,19 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
-    public OpenCDXTestCaseServiceImpl(OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository, OpenCDXManufacturerRepository openCDXManufacturerRepository, OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+    public OpenCDXTestCaseServiceImpl(
+            OpenCDXVendorRepository openCDXVendorRepository,
+            OpenCDXCountryRepository openCDXCountryRepository,
+            OpenCDXManufacturerRepository openCDXManufacturerRepository,
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXCountryRepository = openCDXCountryRepository;
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
     }
+
     @Override
     public TestCase getTestCaseById(TestCaseIdRequest request) {
         return TestCase.getDefaultInstance();

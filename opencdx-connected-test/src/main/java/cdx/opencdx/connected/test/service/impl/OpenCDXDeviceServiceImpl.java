@@ -34,7 +34,12 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
-    public OpenCDXDeviceServiceImpl(OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository, OpenCDXManufacturerRepository openCDXManufacturerRepository, OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+    public OpenCDXDeviceServiceImpl(
+            OpenCDXVendorRepository openCDXVendorRepository,
+            OpenCDXCountryRepository openCDXCountryRepository,
+            OpenCDXManufacturerRepository openCDXManufacturerRepository,
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXCountryRepository = openCDXCountryRepository;
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
