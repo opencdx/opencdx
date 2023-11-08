@@ -132,12 +132,14 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .type(request.getType())
                 .password(this.passwordEncoder.encode(request.getPassword()))
+                .phone(request.getPhone())
                 .build());
 
         this.openCDXCommunicationClient.sendNotification(
                 Notification.newBuilder()
                         .setEventId(OpenCDXCommunicationClient.VERIFY_EMAIL_USER)
                         .addAllToEmail(List.of(model.getEmail()))
+                        .addAllToPhoneNumber(List.of(model.getPhone()))
                         .putAllVariables(Map.of(
                                 FIRST_NAME,
                                 model.getFirstName(),
