@@ -15,8 +15,13 @@
  */
 package cdx.opencdx.connected.test.repository;
 
-import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
+import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceModel, ObjectId> {}
+/**
+ * Repository for protobuf Testcase
+ */
+@Repository
+public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {}

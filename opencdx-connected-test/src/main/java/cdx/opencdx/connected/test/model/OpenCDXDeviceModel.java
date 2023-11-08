@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import java.time.Instant;
-import java.util.List;
-
 import cdx.opencdx.grpc.inventory.Device;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -68,7 +67,7 @@ public class OpenCDXDeviceModel {
     private List<ObjectId> testCaseIds;
 
     public OpenCDXDeviceModel(Device device) {
-        if(device.hasId()) {
+        if (device.hasId()) {
             this.id = new ObjectId(device.getId());
         }
         this.type = device.getType();
@@ -77,12 +76,14 @@ public class OpenCDXDeviceModel {
         this.manufacturerCountryId = new ObjectId(device.getManufacturerCountryId());
         this.vendorId = new ObjectId(device.getVendorId());
         this.vendorCountryId = new ObjectId(device.getVendorCountryId());
-        if(device.hasManufactureDate()) {
+        if (device.hasManufactureDate()) {
             this.manufacturerDate = Instant.ofEpochSecond(
-                    device.getManufactureDate().getSeconds(), device.getManufactureDate().getNanos());
+                    device.getManufactureDate().getSeconds(),
+                    device.getManufactureDate().getNanos());
         }
-        if(device.hasExpiryDate()) {
-            this.expiryDate = Instant.ofEpochSecond(device.getExpiryDate().getSeconds(), device.getExpiryDate().getNanos());
+        if (device.hasExpiryDate()) {
+            this.expiryDate = Instant.ofEpochSecond(
+                    device.getExpiryDate().getSeconds(), device.getExpiryDate().getNanos());
         }
         this.batchNumber = device.getBatchNumber();
         this.serialNumber = device.getSerialNumber();
@@ -90,8 +91,10 @@ public class OpenCDXDeviceModel {
         this.testSensitivity = device.getTestSensitivity();
         this.testSpecificity = device.getTestSpecificity();
         this.storageRequirements = device.getStorageRequirements();
-        if(device.hasTestValidationDate()) {
-            this.testValidationDate = Instant.ofEpochSecond(device.getTestValidationDate().getSeconds(), device.getTestValidationDate().getNanos());
+        if (device.hasTestValidationDate()) {
+            this.testValidationDate = Instant.ofEpochSecond(
+                    device.getTestValidationDate().getSeconds(),
+                    device.getTestValidationDate().getNanos());
         }
         this.approvalStatus = device.getApprovalStatus();
         this.url = device.getUrl();
@@ -104,97 +107,109 @@ public class OpenCDXDeviceModel {
         this.fdaAuthorized = device.getIsFdaAuthorized();
         this.deviceStatus = device.getDeviceStatus();
         this.associatedSoftwareVersion = device.getAssociatedSoftwareVersion();
-        this.testCaseIds = device.getTestCaseIdsList().stream().map(ObjectId::new).toList();
+        this.testCaseIds =
+                device.getTestCaseIdsList().stream().map(ObjectId::new).toList();
     }
 
+    @SuppressWarnings("java:S3776")
     public Device getProtobufMessage() {
         Device.Builder builder = Device.newBuilder();
 
-        if(this.id != null) {
+        if (this.id != null) {
             builder.setId(this.id.toHexString());
         }
 
-        if(this.manufacturerDate != null) {
-            builder.setManufactureDate(Timestamp.newBuilder().setSeconds(this.manufacturerDate.getEpochSecond()).setNanos(this.manufacturerDate.getNano()).build());
+        if (this.manufacturerDate != null) {
+            builder.setManufactureDate(Timestamp.newBuilder()
+                    .setSeconds(this.manufacturerDate.getEpochSecond())
+                    .setNanos(this.manufacturerDate.getNano())
+                    .build());
         }
-        if(this.expiryDate != null) {
-            builder.setExpiryDate(Timestamp.newBuilder().setSeconds(this.expiryDate.getEpochSecond()).setNanos(this.expiryDate.getNano()).build());
+        if (this.expiryDate != null) {
+            builder.setExpiryDate(Timestamp.newBuilder()
+                    .setSeconds(this.expiryDate.getEpochSecond())
+                    .setNanos(this.expiryDate.getNano())
+                    .build());
         }
-        if(this.testValidationDate != null) {
-            builder.setTestValidationDate(Timestamp.newBuilder().setSeconds(this.testValidationDate.getEpochSecond()).setNanos(this.testValidationDate.getNano()).build());
+        if (this.testValidationDate != null) {
+            builder.setTestValidationDate(Timestamp.newBuilder()
+                    .setSeconds(this.testValidationDate.getEpochSecond())
+                    .setNanos(this.testValidationDate.getNano())
+                    .build());
         }
 
-        if(this.type !=null) {
+        if (this.type != null) {
             builder.setType(this.type);
         }
-        if(this.model != null) {
+        if (this.model != null) {
             builder.setModel(this.model);
         }
-        if(this.manufacturerId != null) {
+        if (this.manufacturerId != null) {
             builder.setManufacturerId(this.manufacturerId.toHexString());
         }
-        if(this.manufacturerCountryId != null) {
+        if (this.manufacturerCountryId != null) {
             builder.setManufacturerCountryId(this.manufacturerCountryId.toHexString());
         }
-        if(this.vendorId != null) {
+        if (this.vendorId != null) {
             builder.setVendorId(this.vendorId.toHexString());
         }
-        if(this.vendorCountryId != null) {
+        if (this.vendorCountryId != null) {
             builder.setVendorCountryId(this.vendorCountryId.toHexString());
         }
-        if(this.batchNumber != null) {
+        if (this.batchNumber != null) {
             builder.setBatchNumber(this.batchNumber);
         }
-        if(this.serialNumber != null) {
+        if (this.serialNumber != null) {
             builder.setSerialNumber(this.serialNumber);
         }
-        if(this.testTypeId != null) {
+        if (this.testTypeId != null) {
             builder.setTestTypeId(this.testTypeId);
         }
-        if(this.testSensitivity != null) {
+        if (this.testSensitivity != null) {
             builder.setTestSensitivity(this.testSensitivity);
         }
-        if(this.testSpecificity != null) {
+        if (this.testSpecificity != null) {
             builder.setTestSpecificity(this.testSpecificity);
         }
-        if(this.storageRequirements != null) {
+        if (this.storageRequirements != null) {
             builder.setStorageRequirements(this.storageRequirements);
         }
-        if(this.approvalStatus != null) {
+        if (this.approvalStatus != null) {
             builder.setApprovalStatus(this.approvalStatus);
         }
-        if(this.url != null) {
+        if (this.url != null) {
             builder.setUrl(this.url);
         }
-        if(this.notes != null) {
+        if (this.notes != null) {
             builder.setNotes(this.notes);
         }
-        if(this.safety != null) {
+        if (this.safety != null) {
             builder.setSafety(this.safety);
         }
-        if(this.userInstructions != null) {
+        if (this.userInstructions != null) {
             builder.setUserInstructions(this.userInstructions);
         }
-        if(this.limitations != null) {
+        if (this.limitations != null) {
             builder.setLimitations(this.limitations);
         }
-        if(this.warrantyInfo != null) {
+        if (this.warrantyInfo != null) {
             builder.setWarrantyInfo(this.warrantyInfo);
         }
-        if(this.intendedUseAge != null) {
+        if (this.intendedUseAge != null) {
             builder.setIntendedUseAge(this.intendedUseAge);
         }
-        if(this.fdaAuthorized != null) {
+        if (this.fdaAuthorized != null) {
             builder.setIsFdaAuthorized(this.fdaAuthorized);
         }
-        if(this.deviceStatus != null) {
+        if (this.deviceStatus != null) {
             builder.setDeviceStatus(this.deviceStatus);
         }
-        if(this.associatedSoftwareVersion != null) {
+        if (this.associatedSoftwareVersion != null) {
             builder.setAssociatedSoftwareVersion(this.associatedSoftwareVersion);
         }
-        if(this.testCaseIds != null && this.testCaseIds.size() > 0) {
-            builder.addAllTestCaseIds(this.testCaseIds.stream().map(ObjectId::toHexString).toList());
+        if (this.testCaseIds != null && !this.testCaseIds.isEmpty()) {
+            builder.addAllTestCaseIds(
+                    this.testCaseIds.stream().map(ObjectId::toHexString).toList());
         }
 
         return builder.build();

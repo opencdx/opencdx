@@ -80,8 +80,8 @@ message Device {
 // TestCase message represents a case or package of tests.
 message TestCase {
     optional string id = 1;                 // Unique ID for the test case
-    string manufacturer_id = 2;     // ID of the manufacturer
-    string vendor_id = 3;           // ID of the vendor
+    optional string manufacturer_id = 2;     // ID of the manufacturer
+    optional string vendor_id = 3;           // ID of the vendor
     repeated string device_ids = 4; // IDs of the devices included in the test case
     int32 number_of_tests = 5;      // Number of tests included in the test case
     google.protobuf.Timestamp packaging_date = 6;      // Date of packaging
