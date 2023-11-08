@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.connected.test.repository.OpenCDXCountryRepository;
+import cdx.opencdx.connected.test.repository.OpenCDXVendorRepository;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Vendor;
@@ -27,6 +29,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
+
+    private final OpenCDXVendorRepository openCDXVendorRepository;
+    private final OpenCDXCountryRepository openCDXCountryRepository;
+
+    public OpenCDXVendorServiceImpl(OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository) {
+        this.openCDXVendorRepository = openCDXVendorRepository;
+        this.openCDXCountryRepository = openCDXCountryRepository;
+    }
+
     @Override
     public Vendor getVendorById(VendorIdRequest request) {
         return Vendor.getDefaultInstance();

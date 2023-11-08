@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.connected.test.repository.OpenCDXCountryRepository;
+import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Manufacturer;
@@ -27,6 +29,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerService {
+
+    private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
+    private final OpenCDXCountryRepository openCDXCountryRepository;
+
+    public OpenCDXManufacturerServiceImpl(OpenCDXManufacturerRepository openCDXManufacturerRepository, OpenCDXCountryRepository openCDXCountryRepository) {
+        this.openCDXManufacturerRepository = openCDXManufacturerRepository;
+        this.openCDXCountryRepository = openCDXCountryRepository;
+    }
+
     @Override
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
         return Manufacturer.getDefaultInstance();

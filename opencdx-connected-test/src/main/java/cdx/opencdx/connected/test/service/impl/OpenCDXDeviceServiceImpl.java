@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Device;
@@ -27,6 +28,20 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
+    private final OpenCDXVendorRepository openCDXVendorRepository;
+    private final OpenCDXCountryRepository openCDXCountryRepository;
+    private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
+    private final OpenCDXDeviceRepository openCDXDeviceRepository;
+    private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
+
+    public OpenCDXDeviceServiceImpl(OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository, OpenCDXManufacturerRepository openCDXManufacturerRepository, OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+        this.openCDXVendorRepository = openCDXVendorRepository;
+        this.openCDXCountryRepository = openCDXCountryRepository;
+        this.openCDXManufacturerRepository = openCDXManufacturerRepository;
+        this.openCDXDeviceRepository = openCDXDeviceRepository;
+        this.openCDXTestCaseRepository = openCDXTestCaseRepository;
+    }
+
     @Override
     public Device getDeviceById(DeviceIdRequest request) {
         return Device.getDefaultInstance();

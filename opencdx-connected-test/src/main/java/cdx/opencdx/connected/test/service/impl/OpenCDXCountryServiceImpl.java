@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.connected.test.repository.OpenCDXCountryRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.grpc.inventory.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
@@ -27,6 +28,13 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
+
+    private final OpenCDXCountryRepository openCDXCountryRepository;
+
+    public OpenCDXCountryServiceImpl(OpenCDXCountryRepository openCDXCountryRepository) {
+        this.openCDXCountryRepository = openCDXCountryRepository;
+    }
+
     @Override
     public Country getCountryById(CountryIdRequest request) {
         return Country.getDefaultInstance();

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.TestCase;
@@ -27,6 +28,19 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
+    private final OpenCDXVendorRepository openCDXVendorRepository;
+    private final OpenCDXCountryRepository openCDXCountryRepository;
+    private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
+    private final OpenCDXDeviceRepository openCDXDeviceRepository;
+    private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
+
+    public OpenCDXTestCaseServiceImpl(OpenCDXVendorRepository openCDXVendorRepository, OpenCDXCountryRepository openCDXCountryRepository, OpenCDXManufacturerRepository openCDXManufacturerRepository, OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+        this.openCDXVendorRepository = openCDXVendorRepository;
+        this.openCDXCountryRepository = openCDXCountryRepository;
+        this.openCDXManufacturerRepository = openCDXManufacturerRepository;
+        this.openCDXDeviceRepository = openCDXDeviceRepository;
+        this.openCDXTestCaseRepository = openCDXTestCaseRepository;
+    }
     @Override
     public TestCase getTestCaseById(TestCaseIdRequest request) {
         return TestCase.getDefaultInstance();
