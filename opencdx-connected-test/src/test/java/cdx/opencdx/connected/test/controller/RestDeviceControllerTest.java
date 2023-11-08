@@ -21,6 +21,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
+import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
+import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
+import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.grpc.inventory.Device;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +33,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -40,6 +47,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Optional;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})
@@ -58,8 +67,32 @@ class RestDeviceControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @MockBean
+    private OpenCDXDeviceRepository openCDXDeviceRepository;
+
     @BeforeEach
     public void setup() {
+        Mockito.when(openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
+                .thenAnswer(new Answer<OpenCDXDeviceModel>() {
+                    @Override
+                    public OpenCDXDeviceModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXDeviceModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXDeviceModel>>() {
+                    @Override
+                    public Optional<OpenCDXDeviceModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXDeviceModel.builder()
+                                .id(argument)
+                                .build());
+                    }
+                });
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
@@ -83,6 +116,10 @@ class RestDeviceControllerTest {
         Device device = Device.newBuilder(Device.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
                 .setDeviceStatus("deviceStatus")
+                .setManufacturerId(ObjectId.get().toHexString())
+                .setManufacturerCountryId(ObjectId.get().toHexString())
+                .setVendorCountryId(ObjectId.get().toHexString())
+                .setVendorId(ObjectId.get().toHexString())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -98,6 +135,10 @@ class RestDeviceControllerTest {
     void updateDevice() throws Exception {
         Device device = Device.newBuilder(Device.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
+                .setManufacturerId(ObjectId.get().toHexString())
+                .setVendorId(ObjectId.get().toHexString())
+                .setManufacturerCountryId(ObjectId.get().toHexString())
+                .setVendorCountryId(ObjectId.get().toHexString())
                 .setDeviceStatus("deviceStatus")
                 .build();
 
