@@ -46,7 +46,10 @@ public class OpenCDXIAMUserModel {
     private String lastName;
     private String email;
     private String systemName;
-    private Boolean emailVerified;
+
+    @Builder.Default
+    private Boolean emailVerified = false;
+
     private IamUserStatus status;
     private IamUserType type;
     private String phone;

@@ -11,3 +11,5 @@ queue:
 
 mongock:
   change-logs-scan-package: cdx.opencdx.communications.changelog
+  max-waiting-for-lock-minutes: 5
+  lock-acquired-for-minutes: 3

@@ -5,6 +5,8 @@ spring:
 
 mongock:
   change-logs-scan-package: cdx.opencdx.iam.changelog
+  max-waiting-for-lock-minutes: 5
+  lock-acquired-for-minutes: 3
 
 logging:
   level:
