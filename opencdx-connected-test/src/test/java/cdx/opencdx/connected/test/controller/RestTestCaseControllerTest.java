@@ -21,6 +21,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
+import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
+import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.grpc.inventory.TestCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +32,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -40,6 +46,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Optional;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})
@@ -58,8 +66,32 @@ class RestTestCaseControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @MockBean
+    private OpenCDXTestCaseRepository openCDXTestCaseRepository;
+
     @BeforeEach
     public void setup() {
+        Mockito.when(openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
+                .thenAnswer(new Answer<OpenCDXTestCaseModel>() {
+                    @Override
+                    public OpenCDXTestCaseModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXTestCaseModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXTestCaseModel>>() {
+                    @Override
+                    public Optional<OpenCDXTestCaseModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXTestCaseModel.builder()
+                                .id(argument)
+                                .build());
+                    }
+                });
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
@@ -83,7 +115,8 @@ class RestTestCaseControllerTest {
     void addTestCase() throws Exception {
         TestCase testCase = TestCase.newBuilder(TestCase.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setManufacturerId("manufacturerId")
+                .setManufacturerId(ObjectId.get().toHexString())
+                .setVendorId(ObjectId.get().toHexString())
                 .setBatchNumber("2")
                 .build();
 
@@ -100,7 +133,8 @@ class RestTestCaseControllerTest {
     void updateTestCase() throws Exception {
         TestCase testCase = TestCase.newBuilder(TestCase.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setManufacturerId("manufacturerId")
+                .setManufacturerId(ObjectId.get().toHexString())
+                .setVendorId(ObjectId.get().toHexString())
                 .setBatchNumber("2")
                 .build();
 

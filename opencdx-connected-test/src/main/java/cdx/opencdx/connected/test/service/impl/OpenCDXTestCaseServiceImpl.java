@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
+import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
@@ -22,48 +25,41 @@ import cdx.opencdx.grpc.inventory.TestCase;
 import cdx.opencdx.grpc.inventory.TestCaseIdRequest;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
-    private final OpenCDXVendorRepository openCDXVendorRepository;
-    private final OpenCDXCountryRepository openCDXCountryRepository;
-    private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
-    private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
     public OpenCDXTestCaseServiceImpl(
-            OpenCDXVendorRepository openCDXVendorRepository,
-            OpenCDXCountryRepository openCDXCountryRepository,
-            OpenCDXManufacturerRepository openCDXManufacturerRepository,
-            OpenCDXDeviceRepository openCDXDeviceRepository,
             OpenCDXTestCaseRepository openCDXTestCaseRepository) {
-        this.openCDXVendorRepository = openCDXVendorRepository;
-        this.openCDXCountryRepository = openCDXCountryRepository;
-        this.openCDXManufacturerRepository = openCDXManufacturerRepository;
-        this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
     }
 
     @Override
     public TestCase getTestCaseById(TestCaseIdRequest request) {
-        return TestCase.getDefaultInstance();
+        return this.openCDXTestCaseRepository.findById(new ObjectId(request.getTestCaseId()))
+                .orElseThrow(() ->
+                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getTestCaseId()))
+                .getProtobufMessage();
     }
 
     @Override
     public TestCase addTestCase(TestCase request) {
-        return TestCase.getDefaultInstance();
+        return this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request)).getProtobufMessage();
     }
 
     @Override
     public TestCase updateTestCase(TestCase request) {
-        return TestCase.getDefaultInstance();
+        return this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request)).getProtobufMessage();
     }
 
     @Override
     public DeleteResponse deleteTestCase(TestCaseIdRequest request) {
-        return DeleteResponse.getDefaultInstance();
+        this.openCDXTestCaseRepository.deleteById(new ObjectId(request.getTestCaseId()));
+        return DeleteResponse.newBuilder().setSuccess(true).setMessage("TestCase: " + request.getTestCaseId() + " is deleted.").build();
     }
 }
