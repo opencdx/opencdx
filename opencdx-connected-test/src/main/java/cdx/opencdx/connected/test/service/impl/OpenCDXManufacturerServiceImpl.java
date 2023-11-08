@@ -53,7 +53,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
         return this.openCDXManufacturerRepository.findById(new ObjectId(request.getManufacturerId()))
                 .orElseThrow(() ->
-                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 3, "Failed to find manufacturer: " + request.getManufacturerId()))
+                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 1, "Failed to find manufacturer: " + request.getManufacturerId()))
                 .getProtobufMessage();
     }
 

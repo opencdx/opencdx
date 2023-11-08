@@ -56,7 +56,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     public Country getCountryById(CountryIdRequest request) {
         return this.openCDXCountryRepository.findById(new ObjectId(request.getCountryId()))
                 .orElseThrow(() ->
-                        new OpenCDXNotFound(DOMAIN, 3, "Failed to find country: " + request.getCountryId()))
+                        new OpenCDXNotFound(DOMAIN, 1, "Failed to find country: " + request.getCountryId()))
                 .getProtobufMessage();
     }
 
