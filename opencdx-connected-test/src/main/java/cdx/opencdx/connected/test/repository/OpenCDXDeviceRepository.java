@@ -34,7 +34,6 @@ public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceMo
      * @param vendorCountryId Country code to look for
      * @return Boolean indicating if successful
      */
-
     Boolean existsByVendorCountryId(ObjectId vendorCountryId);
     /**
      * Determine if an entity had a Country code
