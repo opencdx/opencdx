@@ -75,7 +75,9 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     public CreateMediaResponse createMedia(CreateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Create Media: {}", request);
-            return mediaServiceBlockingStub.withCallCredentials(openCDXCallCredentials).createMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .createMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
@@ -88,7 +90,9 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Delete Media: {}", request);
-            return mediaServiceBlockingStub.withCallCredentials(openCDXCallCredentials).deleteMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .deleteMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -100,7 +104,9 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     public GetMediaResponse getMedia(GetMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Get Media: {}", request);
-            return mediaServiceBlockingStub.withCallCredentials(openCDXCallCredentials).getMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -112,7 +118,9 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Update Media: {}", request);
-            return mediaServiceBlockingStub.withCallCredentials(openCDXCallCredentials).updateMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .updateMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -124,7 +132,9 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     public ListMediaResponse listMedia(ListMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing List Media: {}", request);
-            return mediaServiceBlockingStub.withCallCredentials(openCDXCallCredentials).listMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .listMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(

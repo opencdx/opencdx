@@ -75,8 +75,9 @@ public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
     public String sayHello(String name, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
 
         try {
-            HelloReply helloReply = greeterBlockingStub.withCallCredentials(openCDXCallCredentials).sayHello(
-                    HelloRequest.newBuilder().setName(name).build());
+            HelloReply helloReply = greeterBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .sayHello(HelloRequest.newBuilder().setName(name).build());
 
             return helloReply.getMessage();
         } catch (StatusRuntimeException e) {

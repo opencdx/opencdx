@@ -48,7 +48,8 @@ public interface OpenCDXConnectedTestClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return the requested connected tests.
      */
-    ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest connectedTestListRequest, OpenCDXCallCredentials openCDXCallCredentials);
+    ConnectedTestListResponse listConnectedTests(
+            ConnectedTestListRequest connectedTestListRequest, OpenCDXCallCredentials openCDXCallCredentials);
 
     /**
      * List Connected tests by national health id
@@ -58,5 +59,6 @@ public interface OpenCDXConnectedTestClient {
      * @return the requested connected tests
      */
     ConnectedTestListByNHIDResponse listConnectedTestsByNHID(
-            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest, OpenCDXCallCredentials openCDXCallCredentials);
+            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest,
+            OpenCDXCallCredentials openCDXCallCredentials);
 }

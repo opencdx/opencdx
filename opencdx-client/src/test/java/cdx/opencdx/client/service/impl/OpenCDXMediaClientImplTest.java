@@ -39,7 +39,8 @@ class OpenCDXMediaClientImplTest {
     void setUp() {
         this.mediaServiceBlockingStub = Mockito.mock(MediaServiceGrpc.MediaServiceBlockingStub.class);
         this.openCDXMediaClient = new OpenCDXMediaClientImpl(this.mediaServiceBlockingStub);
-        Mockito.when(this.mediaServiceBlockingStub.withCallCredentials(Mockito.any())).thenReturn(this.mediaServiceBlockingStub);
+        Mockito.when(this.mediaServiceBlockingStub.withCallCredentials(Mockito.any()))
+                .thenReturn(this.mediaServiceBlockingStub);
     }
 
     @AfterEach
@@ -54,7 +55,8 @@ class OpenCDXMediaClientImplTest {
 
         Assertions.assertEquals(
                 CreateMediaResponse.getDefaultInstance(),
-                this.openCDXMediaClient.createMedia(CreateMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
+                this.openCDXMediaClient.createMedia(
+                        CreateMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -63,7 +65,9 @@ class OpenCDXMediaClientImplTest {
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
 
         CreateMediaRequest request = CreateMediaRequest.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXMediaClient.createMedia(request, new OpenCDXCallCredentials("Bearer")));
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXMediaClient.createMedia(request, new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -73,7 +77,8 @@ class OpenCDXMediaClientImplTest {
 
         Assertions.assertEquals(
                 DeleteMediaResponse.getDefaultInstance(),
-                this.openCDXMediaClient.deleteMedia(DeleteMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
+                this.openCDXMediaClient.deleteMedia(
+                        DeleteMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -82,7 +87,9 @@ class OpenCDXMediaClientImplTest {
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
 
         DeleteMediaRequest request = DeleteMediaRequest.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXMediaClient.deleteMedia(request, new OpenCDXCallCredentials("Bearer")));
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXMediaClient.deleteMedia(request, new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -92,7 +99,8 @@ class OpenCDXMediaClientImplTest {
 
         Assertions.assertEquals(
                 GetMediaResponse.getDefaultInstance(),
-                this.openCDXMediaClient.getMedia(GetMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
+                this.openCDXMediaClient.getMedia(
+                        GetMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -100,7 +108,9 @@ class OpenCDXMediaClientImplTest {
         Mockito.when(this.mediaServiceBlockingStub.getMedia(Mockito.any(GetMediaRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         GetMediaRequest request = GetMediaRequest.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXMediaClient.getMedia(request, new OpenCDXCallCredentials("Bearer")));
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXMediaClient.getMedia(request, new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -110,7 +120,8 @@ class OpenCDXMediaClientImplTest {
 
         Assertions.assertEquals(
                 UpdateMediaResponse.getDefaultInstance(),
-                this.openCDXMediaClient.updateMedia(UpdateMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
+                this.openCDXMediaClient.updateMedia(
+                        UpdateMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -118,7 +129,9 @@ class OpenCDXMediaClientImplTest {
         Mockito.when(this.mediaServiceBlockingStub.updateMedia(Mockito.any(UpdateMediaRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         UpdateMediaRequest request = UpdateMediaRequest.getDefaultInstance();
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXMediaClient.updateMedia(request, new OpenCDXCallCredentials("Bearer")));
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXMediaClient.updateMedia(request, new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -128,7 +141,8 @@ class OpenCDXMediaClientImplTest {
 
         Assertions.assertEquals(
                 ListMediaResponse.getDefaultInstance(),
-                this.openCDXMediaClient.listMedia(ListMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
+                this.openCDXMediaClient.listMedia(
+                        ListMediaRequest.getDefaultInstance(), new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -137,6 +151,8 @@ class OpenCDXMediaClientImplTest {
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         ListMediaRequest request = ListMediaRequest.getDefaultInstance();
 
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXMediaClient.listMedia(request, new OpenCDXCallCredentials("Bearer")));
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXMediaClient.listMedia(request, new OpenCDXCallCredentials("Bearer")));
     }
 }

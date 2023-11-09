@@ -68,10 +68,13 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     }
 
     @Override
-    public TestSubmissionResponse submitTest(ConnectedTest connectedTest, OpenCDXCallCredentials openCDXCallCredentials) {
+    public TestSubmissionResponse submitTest(
+            ConnectedTest connectedTest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing submit test: {}", connectedTest);
-            return healthcareServiceBlockingStub.withCallCredentials(openCDXCallCredentials).submitTest(connectedTest);
+            return healthcareServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .submitTest(connectedTest);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
@@ -81,10 +84,13 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     }
 
     @Override
-    public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest, OpenCDXCallCredentials openCDXCallCredentials) {
+    public ConnectedTest getTestDetailsById(
+            TestIdRequest testIdRequest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing test details by Id: {}", testIdRequest);
-            return healthcareServiceBlockingStub.withCallCredentials(openCDXCallCredentials).getTestDetailsById(testIdRequest);
+            return healthcareServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getTestDetailsById(testIdRequest);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
@@ -94,10 +100,13 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     }
 
     @Override
-    public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest connectedTestListRequest, OpenCDXCallCredentials openCDXCallCredentials) {
+    public ConnectedTestListResponse listConnectedTests(
+            ConnectedTestListRequest connectedTestListRequest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing listConnectedTests: {}", connectedTestListRequest);
-            return healthcareServiceBlockingStub.withCallCredentials(openCDXCallCredentials).listConnectedTests(connectedTestListRequest);
+            return healthcareServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .listConnectedTests(connectedTestListRequest);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
@@ -108,10 +117,13 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
 
     @Override
     public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(
-            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest, OpenCDXCallCredentials openCDXCallCredentials) {
+            ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest,
+            OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing listConnectedTestsByNHID: {}", connectedTestListByNHIDRequest);
-            return healthcareServiceBlockingStub.withCallCredentials(openCDXCallCredentials).listConnectedTestsByNHID(connectedTestListByNHIDRequest);
+            return healthcareServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .listConnectedTestsByNHID(connectedTestListByNHIDRequest);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 

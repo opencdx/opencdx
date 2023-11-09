@@ -66,7 +66,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public EmailTemplate createEmailTemplate(EmailTemplate emailTemplate, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.createEmailTemplate(emailTemplate);
         } catch (StatusRuntimeException e) {
@@ -77,7 +78,9 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public EmailTemplate getEmailTemplate(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public EmailTemplate getEmailTemplate(
+            TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).getEmailTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
@@ -88,7 +91,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public EmailTemplate updateEmailTemplate(EmailTemplate emailTemplate, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).updateEmailTemplate(emailTemplate);
         } catch (StatusRuntimeException e) {
@@ -99,7 +103,9 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SuccessResponse deleteEmailTemplate(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public SuccessResponse deleteEmailTemplate(
+            TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).deleteEmailTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
@@ -110,7 +116,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public SMSTemplate createSMSTemplate(SMSTemplate smsTemplate, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).createSMSTemplate(smsTemplate);
         } catch (StatusRuntimeException e) {
@@ -121,7 +128,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public SMSTemplate getSMSTemplate(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).getSMSTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
@@ -132,7 +140,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public SMSTemplate updateSMSTemplate(SMSTemplate smsTemplate, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).updateSMSTemplate(smsTemplate);
         } catch (StatusRuntimeException e) {
@@ -143,7 +152,9 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SuccessResponse deleteSMSTemplate(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public SuccessResponse deleteSMSTemplate(
+            TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).deleteSMSTemplate(templateRequest);
         } catch (StatusRuntimeException e) {
@@ -154,7 +165,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent, OpenCDXCallCredentials openCDXCallCredentials)
+    public NotificationEvent createNotificationEvent(
+            NotificationEvent notificationEvent, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).createNotificationEvent(notificationEvent);
@@ -166,7 +178,9 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public NotificationEvent getNotificationEvent(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public NotificationEvent getNotificationEvent(
+            TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).getNotificationEvent(templateRequest);
         } catch (StatusRuntimeException e) {
@@ -177,7 +191,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public NotificationEvent updateNotificationEvent(NotificationEvent notificationEvent, OpenCDXCallCredentials openCDXCallCredentials)
+    public NotificationEvent updateNotificationEvent(
+            NotificationEvent notificationEvent, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).updateNotificationEvent(notificationEvent);
@@ -189,7 +204,9 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SuccessResponse deleteNotificationEvent(TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
+    public SuccessResponse deleteNotificationEvent(
+            TemplateRequest templateRequest, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).deleteNotificationEvent(templateRequest);
         } catch (StatusRuntimeException e) {
@@ -203,7 +220,10 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     public SuccessResponse sendNotification(Notification notification, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
-            return blockingStub.withCallCredentials(openCDXCallCredentials).withCallCredentials(openCDXCallCredentials).sendNotification(notification);
+            return blockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .withCallCredentials(openCDXCallCredentials)
+                    .sendNotification(notification);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -212,7 +232,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public SMSTemplateListResponse listSMSTemplates(
+            SMSTemplateListRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).listSMSTemplates(request);
         } catch (StatusRuntimeException e) {
@@ -223,7 +244,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public EmailTemplateListResponse listEmailTemplates(
+            EmailTemplateListRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).listEmailTemplates(request);
         } catch (StatusRuntimeException e) {
@@ -234,7 +256,8 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
     }
 
     @Override
-    public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
+    public NotificationEventListResponse listNotificationEvents(
+            NotificationEventListRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             return blockingStub.withCallCredentials(openCDXCallCredentials).listNotificationEvents(request);
         } catch (StatusRuntimeException e) {
