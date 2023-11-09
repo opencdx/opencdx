@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.audit.*;
 import com.google.rpc.Code;
@@ -35,9 +36,14 @@ class OpenCDXAuditClientImplTest {
 
     OpenCDXAuditClientImpl openCDXAuditService;
 
+    OpenCDXCallCredentials openCDXCallCredentials;
+
     @BeforeEach
     void setUp() {
+        openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         this.auditServiceBlockingStub = Mockito.mock(AuditServiceGrpc.AuditServiceBlockingStub.class);
+        Mockito.when(this.auditServiceBlockingStub.withCallCredentials(Mockito.any()))
+                .thenReturn(this.auditServiceBlockingStub);
         Mockito.when(this.auditServiceBlockingStub.event(Mockito.any(AuditEvent.class)))
                 .thenReturn(AuditStatus.newBuilder().setSuccess(true).build());
         this.openCDXAuditService = new OpenCDXAuditClientImpl("test", this.auditServiceBlockingStub);
@@ -52,7 +58,7 @@ class OpenCDXAuditClientImplTest {
     void userLoginSucceed() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userLoginSucceed(
-                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose");
+                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_HUMAN_USER, "purpose", openCDXCallCredentials);
         });
     }
 
@@ -60,7 +66,7 @@ class OpenCDXAuditClientImplTest {
     void userLoginFailure() {
         Assertions.assertDoesNotThrow(() -> {
             this.openCDXAuditService.userLoginFailure(
-                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
+                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose", openCDXCallCredentials);
         });
     }
 
@@ -72,7 +78,8 @@ class OpenCDXAuditClientImplTest {
         String id = UUID.randomUUID().toString();
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXAuditService.userLoginFailure(id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose"));
+                () -> this.openCDXAuditService.userLoginFailure(
+                        id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose", openCDXCallCredentials));
     }
 
     @Test
@@ -82,7 +89,8 @@ class OpenCDXAuditClientImplTest {
 
         String id = UUID.randomUUID().toString();
         try {
-            this.openCDXAuditService.userLoginFailure(id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose");
+            this.openCDXAuditService.userLoginFailure(
+                    id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose", openCDXCallCredentials);
         } catch (OpenCDXClientException e) {
             Assertions.assertEquals(Code.INTERNAL, e.getCode());
             System.out.println(e.toString());
@@ -92,7 +100,8 @@ class OpenCDXAuditClientImplTest {
     @Test
     void userLogout() {
         Assertions.assertDoesNotThrow(() -> {
-            this.openCDXAuditService.userLogout(UUID.randomUUID().toString(), AgentType.AGENT_TYPE_SYSTEM, "purpose");
+            this.openCDXAuditService.userLogout(
+                    UUID.randomUUID().toString(), AgentType.AGENT_TYPE_SYSTEM, "purpose", openCDXCallCredentials);
         });
     }
 
@@ -103,7 +112,8 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    openCDXCallCredentials);
         });
     }
 
@@ -114,7 +124,8 @@ class OpenCDXAuditClientImplTest {
                     UUID.randomUUID().toString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "purpose",
-                    UUID.randomUUID().toString());
+                    UUID.randomUUID().toString(),
+                    openCDXCallCredentials);
         });
     }
 
@@ -128,7 +139,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -142,7 +154,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -156,7 +169,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -170,7 +184,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -184,7 +199,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -198,7 +214,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -212,7 +229,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -226,7 +244,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -240,7 +259,8 @@ class OpenCDXAuditClientImplTest {
                     SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                     UUID.randomUUID().toString(),
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 
@@ -253,7 +273,8 @@ class OpenCDXAuditClientImplTest {
                     "purpose",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     "COMMUNICATION: 123",
-                    "{\"name\":\"John\", \"age\":30, \"car\":null}");
+                    "{\"name\":\"John\", \"age\":30, \"car\":null}",
+                    openCDXCallCredentials);
         });
     }
 }
