@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.grpc.connected.*;
@@ -41,6 +42,8 @@ class OpenCDXConnectedTestClientTest {
     void setUp() {
         this.healthcareServiceBlockingStub = Mockito.mock(HealthcareServiceGrpc.HealthcareServiceBlockingStub.class);
         this.openCDXConnectedTestClient = new OpenCDXConnectedTestClientImpl(this.healthcareServiceBlockingStub);
+        Mockito.when(this.healthcareServiceBlockingStub.withCallCredentials(Mockito.any()))
+                .thenReturn(this.healthcareServiceBlockingStub);
     }
 
     @AfterEach
@@ -52,10 +55,10 @@ class OpenCDXConnectedTestClientTest {
     void submitTest() {
         Mockito.when(this.healthcareServiceBlockingStub.submitTest(Mockito.any(ConnectedTest.class)))
                 .thenReturn(TestSubmissionResponse.getDefaultInstance());
-
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 TestSubmissionResponse.getDefaultInstance(),
-                this.openCDXConnectedTestClient.submitTest(ConnectedTest.getDefaultInstance()));
+                this.openCDXConnectedTestClient.submitTest(ConnectedTest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -63,18 +66,21 @@ class OpenCDXConnectedTestClientTest {
         Mockito.when(this.healthcareServiceBlockingStub.submitTest(Mockito.any(ConnectedTest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         ConnectedTest request = ConnectedTest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
-                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.submitTest(request));
+                OpenCDXClientException.class,
+                () -> this.openCDXConnectedTestClient.submitTest(request, openCDXCallCredentials));
     }
 
     @Test
     void testDetailsById() {
         Mockito.when(this.healthcareServiceBlockingStub.getTestDetailsById(Mockito.any(TestIdRequest.class)))
                 .thenReturn(ConnectedTest.getDefaultInstance());
-
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ConnectedTest.getDefaultInstance(),
-                this.openCDXConnectedTestClient.getTestDetailsById(TestIdRequest.getDefaultInstance()));
+                this.openCDXConnectedTestClient.getTestDetailsById(
+                        TestIdRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -82,8 +88,10 @@ class OpenCDXConnectedTestClientTest {
         Mockito.when(this.healthcareServiceBlockingStub.getTestDetailsById(Mockito.any(TestIdRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         TestIdRequest request = TestIdRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
-                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.getTestDetailsById(request));
+                OpenCDXClientException.class,
+                () -> this.openCDXConnectedTestClient.getTestDetailsById(request, openCDXCallCredentials));
     }
 
     @Test
@@ -91,11 +99,11 @@ class OpenCDXConnectedTestClientTest {
         Mockito.when(this.healthcareServiceBlockingStub.listConnectedTestsByNHID(
                         Mockito.any(ConnectedTestListByNHIDRequest.class)))
                 .thenReturn(ConnectedTestListByNHIDResponse.getDefaultInstance());
-
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ConnectedTestListByNHIDResponse.getDefaultInstance(),
                 this.openCDXConnectedTestClient.listConnectedTestsByNHID(
-                        ConnectedTestListByNHIDRequest.getDefaultInstance()));
+                        ConnectedTestListByNHIDRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -104,18 +112,21 @@ class OpenCDXConnectedTestClientTest {
                         Mockito.any(ConnectedTestListByNHIDRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
-                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.listConnectedTestsByNHID(request));
+                OpenCDXClientException.class,
+                () -> this.openCDXConnectedTestClient.listConnectedTestsByNHID(request, openCDXCallCredentials));
     }
 
     @Test
     void listConnectedTests() {
         Mockito.when(this.healthcareServiceBlockingStub.listConnectedTests(Mockito.any(ConnectedTestListRequest.class)))
                 .thenReturn(ConnectedTestListResponse.getDefaultInstance());
-
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
                 ConnectedTestListResponse.getDefaultInstance(),
-                this.openCDXConnectedTestClient.listConnectedTests(ConnectedTestListRequest.getDefaultInstance()));
+                this.openCDXConnectedTestClient.listConnectedTests(
+                        ConnectedTestListRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
@@ -123,7 +134,9 @@ class OpenCDXConnectedTestClientTest {
         Mockito.when(this.healthcareServiceBlockingStub.listConnectedTests(Mockito.any(ConnectedTestListRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         ConnectedTestListRequest request = ConnectedTestListRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
-                OpenCDXClientException.class, () -> this.openCDXConnectedTestClient.listConnectedTests(request));
+                OpenCDXClientException.class,
+                () -> this.openCDXConnectedTestClient.listConnectedTests(request, openCDXCallCredentials));
     }
 }

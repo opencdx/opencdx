@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 
 /**
@@ -24,7 +25,8 @@ public interface OpenCDXHelloworldClient {
     /**
      * Method to gRPC Call Hello World Service sayHello() api.
      * @param name Name to pass
+     * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    String sayHello(String name) throws OpenCDXClientException;
+    String sayHello(String name, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException;
 }
