@@ -52,18 +52,17 @@ class OpenCDXHelloworldClientImplTest {
     void sayHello() {
         Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
                 .thenReturn(HelloReply.newBuilder().setMessage("Hello Bob!").build());
-
-        Assertions.assertEquals(
-                "Hello Bob!", this.openCDXHelloworldClient.sayHello("Bob", new OpenCDXCallCredentials("Bearer")));
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals("Hello Bob!", this.openCDXHelloworldClient.sayHello("Bob", openCDXCallCredentials));
     }
 
     @Test
     void sayHelloException() {
         Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXHelloworldClient.sayHello("Bob", new OpenCDXCallCredentials("Bearer")));
+                () -> this.openCDXHelloworldClient.sayHello("Bob", openCDXCallCredentials));
     }
 }
