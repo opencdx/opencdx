@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXHelloworldClient;
 import cdx.opencdx.grpc.helloworld.*;
@@ -38,6 +39,7 @@ class OpenCDXHelloworldClientImplTest {
     void setUp() {
         this.greeterBlockingStub = Mockito.mock(GreeterGrpc.GreeterBlockingStub.class);
         this.openCDXHelloworldClient = new OpenCDXHelloworldClientImpl(this.greeterBlockingStub);
+        Mockito.when(this.greeterBlockingStub.withCallCredentials(Mockito.any())).thenReturn(this.greeterBlockingStub);
     }
 
     @AfterEach
@@ -50,7 +52,7 @@ class OpenCDXHelloworldClientImplTest {
         Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
                 .thenReturn(HelloReply.newBuilder().setMessage("Hello Bob!").build());
 
-        Assertions.assertEquals("Hello Bob!", this.openCDXHelloworldClient.sayHello("Bob"));
+        Assertions.assertEquals("Hello Bob!", this.openCDXHelloworldClient.sayHello("Bob", new OpenCDXCallCredentials("Bearer")));
     }
 
     @Test
@@ -58,6 +60,6 @@ class OpenCDXHelloworldClientImplTest {
         Mockito.when(this.greeterBlockingStub.sayHello(Mockito.any(HelloRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
 
-        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXHelloworldClient.sayHello("Bob"));
+        Assertions.assertThrows(OpenCDXClientException.class, () -> this.openCDXHelloworldClient.sayHello("Bob", new OpenCDXCallCredentials("Bearer")));
     }
 }
