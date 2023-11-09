@@ -19,6 +19,14 @@ import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+/**
+ * Repository for Mongo Vendor documents
+ */
 public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorModel, ObjectId> {
+    /**
+     * Determine if a country is used in the address of a vendor
+     * @param country String of the vendor id
+     * @return Boolean indicating if found.
+     */
     Boolean existsByAddressCountry(String country);
 }

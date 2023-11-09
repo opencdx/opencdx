@@ -28,6 +28,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Entity for Device Protobuf message.
+ */
 @Slf4j
 @Data
 @Builder
@@ -66,6 +69,10 @@ public class OpenCDXDeviceModel {
     private String associatedSoftwareVersion;
     private List<ObjectId> testCaseIds;
 
+    /**
+     * Create Device entity from this protobuf message
+     * @param device Protobuf message to use for creation.
+     */
     public OpenCDXDeviceModel(Device device) {
         if (device.hasId()) {
             this.id = new ObjectId(device.getId());
@@ -111,6 +118,10 @@ public class OpenCDXDeviceModel {
                 device.getTestCaseIdsList().stream().map(ObjectId::new).toList();
     }
 
+    /**
+     * Method to get Protobuf Message
+     * @return Device protobuf message
+     */
     @SuppressWarnings("java:S3776")
     public Device getProtobufMessage() {
         Device.Builder builder = Device.newBuilder();

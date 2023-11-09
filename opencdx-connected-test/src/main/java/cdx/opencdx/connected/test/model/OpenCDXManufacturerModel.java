@@ -27,6 +27,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Model for Manufacturer Protobuf Message
+ */
 @Slf4j
 @Builder
 @Data
@@ -47,6 +50,10 @@ public class OpenCDXManufacturerModel {
     private String description;
     private List<String> certifications;
 
+    /**
+     * Create this entity from the Manufacturer protobuf message
+     * @param manufacturer Protobuf message to create this entity from.
+     */
     public OpenCDXManufacturerModel(Manufacturer manufacturer) {
         if (manufacturer.hasId()) {
             this.setId(new ObjectId(manufacturer.getId()));
@@ -63,6 +70,10 @@ public class OpenCDXManufacturerModel {
         this.setCertifications(manufacturer.getManufacturerCertificationsList());
     }
 
+    /**
+     * Method to get Protobuf Message
+     * @return Manufactuerer Protobuf message from this entity.
+     */
     public Manufacturer getProtobufMessage() {
         Manufacturer.Builder builder = Manufacturer.newBuilder();
         if (this.getId() != null) {

@@ -41,6 +41,10 @@ public class OpenCDXCountryModel {
 
     private String name;
 
+    /**
+     * Create this model from this protobuf message
+     * @param country Protobuf message to create from
+     */
     public OpenCDXCountryModel(Country country) {
         if (country.hasId()) {
             this.id = new ObjectId(country.getId());
@@ -48,6 +52,10 @@ public class OpenCDXCountryModel {
         this.name = country.getName();
     }
 
+    /**
+     * Method to get Protobuf Message
+     * @return Country protobuf message
+     */
     public Country getProtobufMessage() {
         Country.Builder builder = Country.newBuilder();
         if (this.id != null) {

@@ -19,12 +19,33 @@ import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+/**
+ * Repository for persisting Device entities.
+ */
 public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceModel, ObjectId> {
+    /**
+     * Determine if an entity had a Country code
+     * @param manufacturerCountryId Country code to look for
+     * @return Boolean indicating if successful
+     */
     Boolean existsByManufacturerCountryId(ObjectId manufacturerCountryId);
+    /**
+     * Determine if an entity had a Country code
+     * @param vendorCountryId Country code to look for
+     * @return Boolean indicating if successful
+     */
 
     Boolean existsByVendorCountryId(ObjectId vendorCountryId);
-
+    /**
+     * Determine if an entity had a Country code
+     * @param vendorId Vendor to look for
+     * @return Boolean indicating if successful
+     */
     Boolean existsByVendorId(ObjectId vendorId);
-
+    /**
+     * Determine if an entity had a Country code
+     * @param manfacturerId Manufacturer code to look for
+     * @return Boolean indicating if successful
+     */
     Boolean existsByManufacturerId(ObjectId manfacturerId);
 }

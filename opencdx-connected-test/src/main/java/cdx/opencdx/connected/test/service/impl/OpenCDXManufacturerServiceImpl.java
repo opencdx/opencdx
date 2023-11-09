@@ -29,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for Manufacturer Protobuf Messages
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
@@ -38,6 +41,12 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
+    /**
+     * Constructor for the Manufacturer Service
+     * @param openCDXManufacturerRepository Repository for Manufactuer entities
+     * @param openCDXDeviceRepository Repository for Device entities
+     * @param openCDXTestCaseRepository Repository for TestCase entities
+     */
     public OpenCDXManufacturerServiceImpl(
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository,

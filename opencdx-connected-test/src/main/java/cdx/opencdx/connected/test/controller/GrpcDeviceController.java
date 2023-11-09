@@ -26,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.security.access.annotation.Secured;
 
+/**
+ * GrPC Device Controller for services
+ */
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
@@ -33,6 +36,10 @@ public class GrpcDeviceController extends DeviceServiceGrpc.DeviceServiceImplBas
 
     private final OpenCDXDeviceService openCDXDeviceService;
 
+    /**
+     * Setup the GRPC Device Controller
+     * @param openCDXDeviceService Service for processing requests.
+     */
     public GrpcDeviceController(OpenCDXDeviceService openCDXDeviceService) {
         this.openCDXDeviceService = openCDXDeviceService;
     }

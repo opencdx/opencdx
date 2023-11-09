@@ -25,7 +25,17 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {
+    /**
+     * Determine if en entity has a manufacturer ID
+     * @param manufacturerId Mandufacturer ID to search for
+     * @return Boolean indicating if found.
+     */
     Boolean existsByManufacturerId(ObjectId manufacturerId);
 
+    /**
+     * Determine if an entity has a vendor ID
+     * @param vendorId Vendor ID to search for
+     * @return Boolean indicating if found.
+     */
     Boolean existsByVendorId(ObjectId vendorId);
 }

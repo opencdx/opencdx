@@ -27,17 +27,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for Country Protobuf messages
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
-    public static final String DOMAIN = "OpenCDXCountryServiceImpl";
+    private static final String DOMAIN = "OpenCDXCountryServiceImpl";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
 
+    /**
+     * Protobuf Country service
+     * @param openCDXVendorRepository Repository for Vendors
+     * @param openCDXCountryRepository Repository for Country
+     * @param openCDXManufacturerRepository Repository for Manufacturer
+     * @param openCDXDeviceRepository Repository for Device
+     */
     public OpenCDXCountryServiceImpl(
             OpenCDXVendorRepository openCDXVendorRepository,
             OpenCDXCountryRepository openCDXCountryRepository,

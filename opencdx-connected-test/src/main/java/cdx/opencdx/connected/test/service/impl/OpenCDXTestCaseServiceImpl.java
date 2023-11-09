@@ -27,12 +27,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for Protobuf TestCase messages
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
+    /**
+     * Constructor for the TestCase Service
+     * @param openCDXTestCaseRepository Repository for persiting OpenCDXTestCaseModel
+     */
     public OpenCDXTestCaseServiceImpl(OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
     }

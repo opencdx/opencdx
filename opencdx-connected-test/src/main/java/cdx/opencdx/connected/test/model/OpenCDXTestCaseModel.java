@@ -27,6 +27,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Entity for the TestCase Protobuf message.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -49,6 +52,10 @@ public class OpenCDXTestCaseModel {
     private String userInstructions;
     private String limitations;
 
+    /**
+     * Create this entity from a TestCase Protobuf message
+     * @param testCase TestCase to create this entity from.
+     */
     public OpenCDXTestCaseModel(TestCase testCase) {
         if (testCase.hasId()) {
             this.id = new ObjectId(testCase.getId());
@@ -75,6 +82,10 @@ public class OpenCDXTestCaseModel {
         this.limitations = testCase.getLimitations();
     }
 
+    /**
+     * Method to get Protobuf Message
+     * @return TestCase protobuf message from this entity.
+     */
     public TestCase getProtobufMessage() {
         TestCase.Builder builder = TestCase.newBuilder();
 

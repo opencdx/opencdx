@@ -26,5 +26,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @SuppressWarnings("java:S100")
 public interface OpenCDXManufacturerRepository extends MongoRepository<OpenCDXManufacturerModel, ObjectId> {
+    /**
+     * Method to determine if a country is used in an address of an entity.
+     * @param country Country ID to search for.
+     * @return Boolean indicating if found.
+     */
     Boolean existsByAddress_Country(String country);
 }

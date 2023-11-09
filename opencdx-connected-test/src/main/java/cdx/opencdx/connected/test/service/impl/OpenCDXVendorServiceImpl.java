@@ -29,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for vendor activities.
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
@@ -38,6 +41,12 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
+    /**
+     * OpenCdx Vendor Service
+     * @param openCDXVendorRepository Repository for vendors
+     * @param openCDXDeviceRepository Repository for Devices
+     * @param openCDXTestCaseRepository Repository for TestCases
+     */
     public OpenCDXVendorServiceImpl(
             OpenCDXVendorRepository openCDXVendorRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository,

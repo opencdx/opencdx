@@ -36,6 +36,10 @@ public class GrpcTestCaseController extends TestCaseServiceGrpc.TestCaseServiceI
 
     private final OpenCDXTestCaseService openCDXTestCaseService;
 
+    /**
+     * Seutp the GRPC Test Case Controller
+     * @param openCDXTestCaseService TestCase Service for processing
+     */
     public GrpcTestCaseController(OpenCDXTestCaseService openCDXTestCaseService) {
         this.openCDXTestCaseService = openCDXTestCaseService;
     }

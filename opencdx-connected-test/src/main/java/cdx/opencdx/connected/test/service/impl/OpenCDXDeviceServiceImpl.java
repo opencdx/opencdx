@@ -27,12 +27,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for Device Protobuf Messages
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
 
+    /**
+     * Constructor for the Device Service
+     * @param openCDXDeviceRepository Repository for persisting Device
+     */
     public OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository openCDXDeviceRepository) {
         this.openCDXDeviceRepository = openCDXDeviceRepository;
     }
