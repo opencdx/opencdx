@@ -27,6 +27,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealthIdentifier {
+    /**
+     * Default Constructor
+     */
+    public OpenCDXNationalHealthIdentifierImpl() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     @Override
     public String generateNationalHealthId(OpenCDXIAMUserModel userModel) {
         if (userModel.getType().equals(IamUserType.IAM_USER_TYPE_REGULAR)) {

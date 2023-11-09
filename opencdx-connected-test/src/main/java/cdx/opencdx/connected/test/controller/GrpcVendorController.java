@@ -26,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.security.access.annotation.Secured;
 
+/**
+ * GRPC Vendor Controller
+ */
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
@@ -33,6 +36,10 @@ public class GrpcVendorController extends VendorServiceGrpc.VendorServiceImplBas
 
     private final OpenCDXVendorService openCDXVendorService;
 
+    /**
+     * Setup the GRPC Vendor Controller
+     * @param openCDXVendorService Vendor service for processing.
+     */
     public GrpcVendorController(OpenCDXVendorService openCDXVendorService) {
         this.openCDXVendorService = openCDXVendorService;
     }

@@ -26,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.security.access.annotation.Secured;
 
+/**
+ * GRPC Controller for GRPC services
+ */
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
@@ -33,6 +36,10 @@ public class GrpcManufacturerController extends ManufacturerServiceGrpc.Manufact
 
     private final OpenCDXManufacturerService openCDXManufacturerService;
 
+    /**
+     * GRPC Controller for Manufacturer
+     * @param openCDXManufacturerService Serivce for processing requests.
+     */
     public GrpcManufacturerController(OpenCDXManufacturerService openCDXManufacturerService) {
         this.openCDXManufacturerService = openCDXManufacturerService;
     }

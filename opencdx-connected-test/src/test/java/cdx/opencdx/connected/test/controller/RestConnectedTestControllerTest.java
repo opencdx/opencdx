@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
+import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.connected.*;
@@ -100,7 +100,7 @@ class RestConnectedTestControllerTest {
 
     @Test
     void submitTest() throws Exception {
-        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTest.class)))
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         ConnectedTest connectedTest = ConnectedTest.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
@@ -122,8 +122,8 @@ class RestConnectedTestControllerTest {
 
     @Test
     void getTestDetailsById() throws Exception {
-        OpenCDXConnectedTest openCDXConnectedTest =
-                new OpenCDXConnectedTest(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+        OpenCDXConnectedTestModel openCDXConnectedTestModel =
+                new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(10)
@@ -132,15 +132,15 @@ class RestConnectedTestControllerTest {
                         .build());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(openCDXConnectedTest));
+                .thenReturn(Optional.of(openCDXConnectedTestModel));
 
         MvcResult result = this.mockMvc
-                .perform(get("/" + openCDXConnectedTest.getId()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/" + openCDXConnectedTestModel.getId()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         Assertions.assertEquals(
-                this.objectMapper.writeValueAsString(openCDXConnectedTest.getProtobufMessage()), content);
+                this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()), content);
         this.generateJSON();
     }
 
