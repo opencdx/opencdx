@@ -609,7 +609,11 @@ class OpenCDXNotificationServiceImplTest {
                 .thenReturn(smsTemplate);
 
         EmailTemplate emailTemplate = EmailTemplate.newBuilder()
-                .setContent("This is a test string for SMS")
+                .setContent("This is a test string for SMS Dear [[${firstName}]] [[${lastName}]],\n" + "\n"
+                        + "                        To verify your email : [[${email}]] click the link below :\n"
+                        + "                        <a th:href=\"@{|${verification_server}/${user_id}|}\" target=\"_blank\">[[${verification_server}]]/[[${user_id}]]</a>\n"
+                        + "\n"
+                        + "                        Thank you!")
                 .addAllVariables(List.of("A", "B", "C"))
                 .build();
 
@@ -620,6 +624,11 @@ class OpenCDXNotificationServiceImplTest {
         variablesMap.put("A", "Alpha");
         variablesMap.put("B", "Beta");
         variablesMap.put("C", "Gnarly");
+        variablesMap.put("firstName", "FNAME");
+        variablesMap.put("lastName", "LNAME");
+        variablesMap.put("email", "EMAIL");
+        variablesMap.put("verification_server", "VERIFICATION-SERVER");
+        variablesMap.put("user_id", "USER-ID");
 
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())

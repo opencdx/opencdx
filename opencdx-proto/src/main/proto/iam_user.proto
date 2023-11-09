@@ -110,6 +110,9 @@ message SignUpRequest {
 
   // Password for the user account.
   string password = 6;
+
+  // Phone number of the user.
+  string phone = 7;
 }
 
 // Response message for user sign-up.
@@ -251,4 +254,7 @@ message IamUser {
 
   // Phone number of the user.
   string phone = 11;
+
+  // National Health ID of the user.
+  string national_health_id = 12;
 }

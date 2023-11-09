@@ -15,24 +15,26 @@
  */
 package cdx.opencdx.connected.test.repository;
 
-import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
+import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
  */
+@Repository
 @SuppressWarnings("java:S100")
-public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTest, ObjectId> {
+public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTestModel, ObjectId> {
     /**
      * Lookup ConnectedTests for a user.
      * @param userId User to lookup
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTest> findAllByUserId(ObjectId userId, Pageable pageable);
+    Page<OpenCDXConnectedTestModel> findAllByUserId(ObjectId userId, Pageable pageable);
 
     /**
      * Lookup ConnectedTests by national health id
@@ -40,5 +42,5 @@ public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXC
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTest> findAllByNationalHealthId(Integer nationalHealthId, Pageable pageable);
+    Page<OpenCDXConnectedTestModel> findAllByNationalHealthId(Integer nationalHealthId, Pageable pageable);
 }

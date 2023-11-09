@@ -60,7 +60,8 @@ public class IAMChangeSet {
                 .firstName("Admin")
                 .lastName("OpenCDX")
                 .type(IamUserType.IAM_USER_TYPE_REGULAR)
-                .password("password")
+                .password("{bcrypt}$2a$10$nHiiVDdMtK3I/gRZYybaOO9dm2KBJ.y2sYmA2IttTB/BvgjnMrQiG")
+                .emailVerified(true)
                 .build());
     }
 

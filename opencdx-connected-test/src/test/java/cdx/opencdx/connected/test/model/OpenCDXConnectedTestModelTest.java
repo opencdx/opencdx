@@ -35,7 +35,7 @@ class OpenCDXConnectedTestModelTest {
                 .setBasicInfo(basicInfo)
                 .build();
 
-        OpenCDXConnectedTest model = new OpenCDXConnectedTest(connectedTest);
+        OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel(connectedTest);
 
         Assertions.assertEquals(
                 connectedTest.getBasicInfo().getId(),
@@ -53,14 +53,14 @@ class OpenCDXConnectedTestModelTest {
                 .setBasicInfo(basicInfo)
                 .build();
 
-        OpenCDXConnectedTest model = new OpenCDXConnectedTest(connectedTest);
+        OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel(connectedTest);
         log.info(model.toString());
         Assertions.assertNotEquals(connectedTest, model.getProtobufMessage());
     }
 
     @Test
     void getProtobufMessage_3() {
-        OpenCDXConnectedTest model = new OpenCDXConnectedTest();
+        OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel();
         Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
     }
 
@@ -74,7 +74,7 @@ class OpenCDXConnectedTestModelTest {
                         .build())
                 .build();
 
-        OpenCDXConnectedTest model = new OpenCDXConnectedTest(connectedTest);
+        OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel(connectedTest);
         log.info(model.toString());
         Assertions.assertEquals(
                 connectedTest.getBasicInfo().getId(),

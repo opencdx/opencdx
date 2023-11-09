@@ -19,7 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.model.OpenCDXConnectedTest;
+import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
@@ -30,8 +30,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -42,7 +40,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-@ExtendWith(MockitoExtension.class)
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
     private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
@@ -73,7 +70,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
         ConnectedTest submittedTest = this.openCDXConnectedTestRepository
-                .save(new OpenCDXConnectedTest(connectedTest))
+                .save(new OpenCDXConnectedTestModel(connectedTest))
                 .getProtobufMessage();
 
         try {
@@ -131,7 +128,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         ObjectId objectId = new ObjectId(request.getUserId());
 
         log.info("Searching Database");
-        Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByUserId(
+        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(
                 objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
         log.info("found database results");
 
@@ -140,8 +137,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addAllConnectedTests(
-                        all.get().map(OpenCDXConnectedTest::getProtobufMessage).toList())
+                .addAllConnectedTests(all.get()
+                        .map(OpenCDXConnectedTestModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 
@@ -157,7 +155,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         Integer nationalHealthId = request.getNationalHealthId();
 
         log.info("Searching Database");
-        Page<OpenCDXConnectedTest> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(
                 nationalHealthId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
         log.info("found database results");
 
@@ -166,8 +164,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addAllConnectedTests(
-                        all.get().map(OpenCDXConnectedTest::getProtobufMessage).toList())
+                .addAllConnectedTests(all.get()
+                        .map(OpenCDXConnectedTestModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 }

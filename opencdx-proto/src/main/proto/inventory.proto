@@ -2,6 +2,8 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.inventory;
 
+import "google/protobuf/timestamp.proto";
+
 // Address message defines the address details.
 message Address {
     string street = 1;        // Street address
@@ -13,13 +15,13 @@ message Address {
 
 // Country message represents a country.
 message Country {
-    string id = 1;    // Country ID
+    optional string id = 1;    // Country ID
     string name = 2;  // Country name
 }
 
 // Manufacturer message represents a manufacturer.
 message Manufacturer {
-    string id = 1;                       // Manufacturer ID
+    optional string id = 1;                       // Manufacturer ID
     string name = 2;                     // Manufacturer name
     Address manufacturer_address = 3;    // Manufacturer's address
     string manufacturer_contact = 4;     // Manufacturer's contact information
@@ -32,7 +34,7 @@ message Manufacturer {
 
 // Vendor message represents a vendor.
 message Vendor {
-    string id = 1;               // Vendor ID
+    optional string id = 1;               // Vendor ID
     string vendor_name = 2;      // Vendor name
     Address vendor_address = 3;  // Vendor's address
     string vendor_contact = 4;   // Vendor's contact information
@@ -45,22 +47,22 @@ message Vendor {
 
 // Device message represents a device.
 message Device {
-    string id = 1;                      // Device ID
+    optional string id = 1;                      // Device ID
     string type = 2;                    // Device type
     string model = 3;                   // Device model
     string manufacturer_id = 4;         // ID of the manufacturer
     string manufacturer_country_id = 5; // ID of the manufacturer's country
     string vendor_id = 6;               // ID of the vendor
     string vendor_country_id = 7;      // ID of the vendor's country
-    string manufacture_date = 8;       // Date of manufacture
-    string expiry_date = 9;            // Date of expiry
+    google.protobuf.Timestamp manufacture_date = 8;       // Date of manufacture
+    google.protobuf.Timestamp expiry_date = 9;            // Date of expiry
     string batch_number = 10;          // Batch number
     string serial_number = 11;         // Serial number
     string test_type_id = 12;          // ID of the test type
     double test_sensitivity = 13;      // Test sensitivity
     double test_specificity = 14;      // Test specificity
     string storage_requirements = 15;  // Storage requirements
-    string test_validation_date = 16;   // Test validation date
+    google.protobuf.Timestamp test_validation_date = 16;   // Test validation date
     string approval_status = 17;       // Approval status
     string url = 18;                   // URL related to the device
     string notes = 19;                 // Additional notes
@@ -77,13 +79,13 @@ message Device {
 
 // TestCase message represents a case or package of tests.
 message TestCase {
-    string id = 1;                 // Unique ID for the test case
-    string manufacturer_id = 2;     // ID of the manufacturer
-    string vendor_id = 3;           // ID of the vendor
+    optional string id = 1;                 // Unique ID for the test case
+    optional string manufacturer_id = 2;     // ID of the manufacturer
+    optional string vendor_id = 3;           // ID of the vendor
     repeated string device_ids = 4; // IDs of the devices included in the test case
     int32 number_of_tests = 5;      // Number of tests included in the test case
-    string packaging_date = 6;      // Date of packaging
-    string expiry_date = 7;         // Expiry date of the test case
+    google.protobuf.Timestamp packaging_date = 6;      // Date of packaging
+    google.protobuf.Timestamp expiry_date = 7;         // Expiry date of the test case
     string batch_number = 8;        // Batch number
     string serial_number = 9;       // Serial number of the test case
     string storage_requirements = 10; // Storage requirements

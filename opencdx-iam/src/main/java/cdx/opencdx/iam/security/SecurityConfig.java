@@ -75,6 +75,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/user/login")
                         .permitAll()
+                        .requestMatchers("/user/verify/**")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
