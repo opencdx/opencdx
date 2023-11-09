@@ -19,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.grpc.inventory.Country;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -46,8 +46,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Optional;
-
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -61,10 +59,13 @@ class RestCountryControllerTest {
 
     @MockBean
     private OpenCDXVendorRepository openCDXVendorRepository;
+
     @MockBean
     private OpenCDXCountryRepository openCDXCountryRepository;
+
     @MockBean
     private OpenCDXManufacturerRepository openCDXManufacturerRepository;
+
     @MockBean
     private OpenCDXDeviceRepository openCDXDeviceRepository;
 
@@ -77,15 +78,15 @@ class RestCountryControllerTest {
     public void setup() {
         Mockito.when(openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .thenAnswer(new Answer<OpenCDXCountryModel>() {
-                                @Override
-                                public OpenCDXCountryModel answer(InvocationOnMock invocation) throws Throwable {
-                                    OpenCDXCountryModel argument = invocation.getArgument(0);
-                                    if (argument.getId() == null) {
-                                        argument.setId(ObjectId.get());
-                                    }
-                                    return argument;
-                                }
-                            });
+                    @Override
+                    public OpenCDXCountryModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXCountryModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
         Mockito.when(openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXCountryModel>>() {
                     @Override
@@ -97,10 +98,14 @@ class RestCountryControllerTest {
                                 .build());
                     }
                 });
-        Mockito.when(this.openCDXManufacturerRepository.existsByAddress_Country(Mockito.anyString())).thenReturn(false);
-        Mockito.when(this.openCDXVendorRepository.existsByAddress_Country(Mockito.anyString())).thenReturn(false);
-        Mockito.when(this.openCDXDeviceRepository.existsByVendorCountryId(Mockito.any(ObjectId.class))).thenReturn(false);
-        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerCountryId(Mockito.any(ObjectId.class))).thenReturn(false);
+        Mockito.when(this.openCDXManufacturerRepository.existsByAddress_Country(Mockito.anyString()))
+                .thenReturn(false);
+        Mockito.when(this.openCDXVendorRepository.existsByAddressCountry(Mockito.anyString()))
+                .thenReturn(false);
+        Mockito.when(this.openCDXDeviceRepository.existsByVendorCountryId(Mockito.any(ObjectId.class)))
+                .thenReturn(false);
+        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerCountryId(Mockito.any(ObjectId.class)))
+                .thenReturn(false);
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();

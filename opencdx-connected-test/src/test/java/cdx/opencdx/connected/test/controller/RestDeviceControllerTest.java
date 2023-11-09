@@ -22,11 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
-import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
-import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.grpc.inventory.Device;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -47,8 +46,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Optional;
 
 @Slf4j
 @ActiveProfiles({"test", "managed"})
@@ -88,9 +85,8 @@ class RestDeviceControllerTest {
                     @Override
                     public Optional<OpenCDXDeviceModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXDeviceModel.builder()
-                                .id(argument)
-                                .build());
+                        return Optional.of(
+                                OpenCDXDeviceModel.builder().id(argument).build());
                     }
                 });
         MockitoAnnotations.openMocks(this);

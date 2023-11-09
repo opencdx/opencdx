@@ -17,7 +17,6 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
-import cdx.opencdx.connected.test.repository.OpenCDXCountryRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
@@ -39,41 +38,53 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
-
     public OpenCDXManufacturerServiceImpl(
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
-            OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
-
     }
 
     @Override
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
-        return this.openCDXManufacturerRepository.findById(new ObjectId(request.getManufacturerId()))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 1, "Failed to find manufacturer: " + request.getManufacturerId()))
+        return this.openCDXManufacturerRepository
+                .findById(new ObjectId(request.getManufacturerId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl",
+                        1,
+                        "Failed to find manufacturer: " + request.getManufacturerId()))
                 .getProtobufMessage();
     }
 
     @Override
     public Manufacturer addManufacturer(Manufacturer request) {
-        return this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request)).getProtobufMessage();
+        return this.openCDXManufacturerRepository
+                .save(new OpenCDXManufacturerModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public Manufacturer updateManufacturer(Manufacturer request) {
-        return this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request)).getProtobufMessage();
+        return this.openCDXManufacturerRepository
+                .save(new OpenCDXManufacturerModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public DeleteResponse deleteManufacturer(ManufacturerIdRequest request) {
-        if(this.openCDXDeviceRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))
-        || this.openCDXTestCaseRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))) {
-            return DeleteResponse.newBuilder().setSuccess(false).setMessage("Manufacturer: " + request.getManufacturerId() + " is in use.").build();
+        if (this.openCDXDeviceRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))
+                || this.openCDXTestCaseRepository.existsByManufacturerId(new ObjectId(request.getManufacturerId()))) {
+            return DeleteResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Manufacturer: " + request.getManufacturerId() + " is in use.")
+                    .build();
         }
         this.openCDXManufacturerRepository.deleteById(new ObjectId(request.getManufacturerId()));
-        return DeleteResponse.newBuilder().setSuccess(true).setMessage("Manufacturer: " + request.getManufacturerId() + " is deleted.").build();
+        return DeleteResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Manufacturer: " + request.getManufacturerId() + " is deleted.")
+                .build();
     }
 }

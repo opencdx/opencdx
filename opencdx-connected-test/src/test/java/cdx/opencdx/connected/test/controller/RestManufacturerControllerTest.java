@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -47,8 +47,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Optional;
-
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -68,8 +66,10 @@ class RestManufacturerControllerTest {
 
     @MockBean
     private OpenCDXManufacturerRepository openCDXManufacturerRepository;
+
     @MockBean
     private OpenCDXDeviceRepository openCDXDeviceRepository;
+
     @MockBean
     private OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
@@ -91,13 +91,14 @@ class RestManufacturerControllerTest {
                     @Override
                     public Optional<OpenCDXManufacturerModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXManufacturerModel.builder()
-                                .id(argument)
-                                .build());
+                        return Optional.of(
+                                OpenCDXManufacturerModel.builder().id(argument).build());
                     }
                 });
-        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerId(Mockito.any(ObjectId.class))).thenReturn(false);
-        Mockito.when(this.openCDXTestCaseRepository.existsByManufacturerId(Mockito.any(ObjectId.class))).thenReturn(false);
+        Mockito.when(this.openCDXDeviceRepository.existsByManufacturerId(Mockito.any(ObjectId.class)))
+                .thenReturn(false);
+        Mockito.when(this.openCDXTestCaseRepository.existsByManufacturerId(Mockito.any(ObjectId.class)))
+                .thenReturn(false);
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }

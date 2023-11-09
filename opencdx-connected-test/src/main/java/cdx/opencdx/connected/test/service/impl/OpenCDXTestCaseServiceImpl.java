@@ -17,7 +17,6 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
-import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
@@ -34,32 +33,39 @@ import org.springframework.stereotype.Service;
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
-    public OpenCDXTestCaseServiceImpl(
-            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+    public OpenCDXTestCaseServiceImpl(OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
     }
 
     @Override
     public TestCase getTestCaseById(TestCaseIdRequest request) {
-        return this.openCDXTestCaseRepository.findById(new ObjectId(request.getTestCaseId()))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getTestCaseId()))
+        return this.openCDXTestCaseRepository
+                .findById(new ObjectId(request.getTestCaseId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getTestCaseId()))
                 .getProtobufMessage();
     }
 
     @Override
     public TestCase addTestCase(TestCase request) {
-        return this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request)).getProtobufMessage();
+        return this.openCDXTestCaseRepository
+                .save(new OpenCDXTestCaseModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public TestCase updateTestCase(TestCase request) {
-        return this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request)).getProtobufMessage();
+        return this.openCDXTestCaseRepository
+                .save(new OpenCDXTestCaseModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public DeleteResponse deleteTestCase(TestCaseIdRequest request) {
         this.openCDXTestCaseRepository.deleteById(new ObjectId(request.getTestCaseId()));
-        return DeleteResponse.newBuilder().setSuccess(true).setMessage("TestCase: " + request.getTestCaseId() + " is deleted.").build();
+        return DeleteResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("TestCase: " + request.getTestCaseId() + " is deleted.")
+                .build();
     }
 }

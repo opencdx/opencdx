@@ -26,5 +26,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {
     Boolean existsByManufacturerId(ObjectId manufacturerId);
+
     Boolean existsByVendorId(ObjectId vendorId);
 }

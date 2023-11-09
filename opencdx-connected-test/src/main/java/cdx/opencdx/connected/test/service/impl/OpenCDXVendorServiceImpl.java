@@ -16,7 +16,6 @@
 package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
@@ -40,7 +39,9 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
 
     public OpenCDXVendorServiceImpl(
-            OpenCDXVendorRepository openCDXVendorRepository, OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+            OpenCDXVendorRepository openCDXVendorRepository,
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
@@ -48,29 +49,40 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     @Override
     public Vendor getVendorById(VendorIdRequest request) {
-        return this.openCDXVendorRepository.findById(new ObjectId(request.getVendorId()))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 1, "Failed to find vendor: " + request.getVendorId()))
+        return this.openCDXVendorRepository
+                .findById(new ObjectId(request.getVendorId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find vendor: " + request.getVendorId()))
                 .getProtobufMessage();
     }
 
     @Override
     public Vendor addVendor(Vendor request) {
-        return this.openCDXVendorRepository.save(new OpenCDXVendorModel(request)).getProtobufMessage();
+        return this.openCDXVendorRepository
+                .save(new OpenCDXVendorModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public Vendor updateVendor(Vendor request) {
-        return this.openCDXVendorRepository.save(new OpenCDXVendorModel(request)).getProtobufMessage();
+        return this.openCDXVendorRepository
+                .save(new OpenCDXVendorModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public DeleteResponse deleteVendor(VendorIdRequest request) {
-        if(this.openCDXDeviceRepository.existsByVendorId(new ObjectId(request.getVendorId()))
+        if (this.openCDXDeviceRepository.existsByVendorId(new ObjectId(request.getVendorId()))
                 || this.openCDXTestCaseRepository.existsByVendorId(new ObjectId(request.getVendorId()))) {
-            return DeleteResponse.newBuilder().setSuccess(false).setMessage("Vendor: " + request.getVendorId() + " is in use.").build();
+            return DeleteResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Vendor: " + request.getVendorId() + " is in use.")
+                    .build();
         }
         this.openCDXVendorRepository.deleteById(new ObjectId(request.getVendorId()));
-        return DeleteResponse.newBuilder().setSuccess(true).setMessage("Vendor: " + request.getVendorId() + " is deleted.").build();
+        return DeleteResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Vendor: " + request.getVendorId() + " is deleted.")
+                .build();
     }
 }

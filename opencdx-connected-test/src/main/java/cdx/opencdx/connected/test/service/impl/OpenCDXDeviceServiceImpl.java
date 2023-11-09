@@ -17,7 +17,6 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
-import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
@@ -34,32 +33,39 @@ import org.springframework.stereotype.Service;
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
 
-    public OpenCDXDeviceServiceImpl(
-            OpenCDXDeviceRepository openCDXDeviceRepository) {
+    public OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository openCDXDeviceRepository) {
         this.openCDXDeviceRepository = openCDXDeviceRepository;
     }
 
     @Override
     public Device getDeviceById(DeviceIdRequest request) {
-        return this.openCDXDeviceRepository.findById(new ObjectId(request.getDeviceId()))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound("OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getDeviceId()))
+        return this.openCDXDeviceRepository
+                .findById(new ObjectId(request.getDeviceId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getDeviceId()))
                 .getProtobufMessage();
     }
 
     @Override
     public Device addDevice(Device request) {
-        return this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request)).getProtobufMessage();
+        return this.openCDXDeviceRepository
+                .save(new OpenCDXDeviceModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public Device updateDevice(Device request) {
-        return this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request)).getProtobufMessage();
+        return this.openCDXDeviceRepository
+                .save(new OpenCDXDeviceModel(request))
+                .getProtobufMessage();
     }
 
     @Override
     public DeleteResponse deleteDevice(DeviceIdRequest request) {
         this.openCDXDeviceRepository.deleteById(new ObjectId(request.getDeviceId()));
-        return DeleteResponse.newBuilder().setSuccess(true).setMessage("Device: " + request.getDeviceId() + " is deleted.").build();
+        return DeleteResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Device: " + request.getDeviceId() + " is deleted.")
+                .build();
     }
 }
