@@ -20,11 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXVendorRepository;
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.Vendor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -77,6 +79,11 @@ class RestVendorControllerTest {
 
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
         Mockito.when(openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
                 .thenAnswer(new Answer<OpenCDXVendorModel>() {
                     @Override

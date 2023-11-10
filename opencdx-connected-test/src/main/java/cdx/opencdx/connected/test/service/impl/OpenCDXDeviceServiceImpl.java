@@ -15,17 +15,25 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.DeviceIdRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for Device Protobuf Messages
@@ -35,13 +43,23 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final ObjectMapper objectMapper;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor for the Device Service
+     *
      * @param openCDXDeviceRepository Repository for persisting Device
+     * @param openCDXCurrentUser      Current User Service to access information.
+     * @param objectMapper            ObjectMapper used for converting messages for the audit system.
+     * @param openCDXAuditService     Audit service for tracking FDA requirements
      */
-    public OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository openCDXDeviceRepository) {
+    public OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXCurrentUser openCDXCurrentUser, ObjectMapper objectMapper, OpenCDXAuditService openCDXAuditService) {
         this.openCDXDeviceRepository = openCDXDeviceRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
+        this.objectMapper = objectMapper;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     @Override
@@ -55,15 +73,45 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
 
     @Override
     public Device addDevice(Device request) {
-        return this.openCDXDeviceRepository
-                .save(new OpenCDXDeviceModel(request))
+        OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Creating Device",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXDeviceModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXDeviceModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable("OpenCDXDeviceServiceImpl", 2, "Failed to convert OpenCDXDeviceModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXDeviceModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXDeviceModel
                 .getProtobufMessage();
     }
 
     @Override
     public Device updateDevice(Device request) {
-        return this.openCDXDeviceRepository
-                .save(new OpenCDXDeviceModel(request))
+        OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Updating Device",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXDeviceModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXDeviceModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable("OpenCDXDeviceServiceImpl", 3, "Failed to convert OpenCDXDeviceModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXDeviceModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXDeviceModel
                 .getProtobufMessage();
     }
 

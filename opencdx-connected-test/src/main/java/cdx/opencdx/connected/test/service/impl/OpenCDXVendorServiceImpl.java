@@ -15,19 +15,27 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXVendorRepository;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Vendor;
 import cdx.opencdx.grpc.inventory.VendorIdRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Service for vendor activities.
@@ -40,20 +48,30 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final ObjectMapper objectMapper;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * OpenCdx Vendor Service
-     * @param openCDXVendorRepository Repository for vendors
-     * @param openCDXDeviceRepository Repository for Devices
+     *
+     * @param openCDXVendorRepository   Repository for vendors
+     * @param openCDXDeviceRepository   Repository for Devices
      * @param openCDXTestCaseRepository Repository for TestCases
+     * @param openCDXCurrentUser        Current User Service to access information.
+     * @param objectMapper              ObjectMapper used for converting messages for the audit system.
+     * @param openCDXAuditService       Audit service for tracking FDA requirements
      */
     public OpenCDXVendorServiceImpl(
             OpenCDXVendorRepository openCDXVendorRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository,
-            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+            OpenCDXTestCaseRepository openCDXTestCaseRepository, OpenCDXCurrentUser openCDXCurrentUser, ObjectMapper objectMapper, OpenCDXAuditService openCDXAuditService) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
+        this.objectMapper = objectMapper;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     @Override
@@ -67,15 +85,45 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     @Override
     public Vendor addVendor(Vendor request) {
-        return this.openCDXVendorRepository
-                .save(new OpenCDXVendorModel(request))
+        OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Creating Vendor",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXVendorModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXVendorModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable("OpenCDXVendorServiceImpl", 2, "Failed to convert OpenCDXVendorModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXVendorModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXVendorModel
                 .getProtobufMessage();
     }
 
     @Override
     public Vendor updateVendor(Vendor request) {
-        return this.openCDXVendorRepository
-                .save(new OpenCDXVendorModel(request))
+        OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Updating Vendor",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXVendorModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXVendorModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable("OpenCDXVendorServiceImpl", 3, "Failed to convert OpenCDXVendorModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXVendorModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXVendorModel
                 .getProtobufMessage();
     }
 
