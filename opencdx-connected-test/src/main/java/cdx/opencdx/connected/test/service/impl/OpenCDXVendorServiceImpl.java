@@ -31,11 +31,10 @@ import cdx.opencdx.grpc.inventory.VendorIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 /**
  * Service for vendor activities.
@@ -65,7 +64,10 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public OpenCDXVendorServiceImpl(
             OpenCDXVendorRepository openCDXVendorRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository,
-            OpenCDXTestCaseRepository openCDXTestCaseRepository, OpenCDXCurrentUser openCDXCurrentUser, ObjectMapper objectMapper, OpenCDXAuditService openCDXAuditService) {
+            OpenCDXTestCaseRepository openCDXTestCaseRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
@@ -101,8 +103,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
             openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXVendorModel.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXVendorModel
-                .getProtobufMessage();
+        return openCDXVendorModel.getProtobufMessage();
     }
 
     @Override
@@ -123,8 +124,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
             openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXVendorModel.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXVendorModel
-                .getProtobufMessage();
+        return openCDXVendorModel.getProtobufMessage();
     }
 
     @Override

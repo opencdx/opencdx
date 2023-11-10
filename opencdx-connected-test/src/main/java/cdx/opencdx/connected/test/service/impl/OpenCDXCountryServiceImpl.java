@@ -29,11 +29,10 @@ import cdx.opencdx.grpc.inventory.DeleteResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 /**
  * Service for Country Protobuf messages
@@ -67,7 +66,10 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
             OpenCDXVendorRepository openCDXVendorRepository,
             OpenCDXCountryRepository openCDXCountryRepository,
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
-            OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXCurrentUser openCDXCurrentUser, ObjectMapper objectMapper, OpenCDXAuditService openCDXAuditService) {
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXCountryRepository = openCDXCountryRepository;
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
@@ -103,8 +105,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
             openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXCountryModel.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXCountryModel
-                .getProtobufMessage();
+        return openCDXCountryModel.getProtobufMessage();
     }
 
     @Override
@@ -125,8 +126,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
             openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXCountryModel.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXCountryModel
-                .getProtobufMessage();
+        return openCDXCountryModel.getProtobufMessage();
     }
 
     @Override

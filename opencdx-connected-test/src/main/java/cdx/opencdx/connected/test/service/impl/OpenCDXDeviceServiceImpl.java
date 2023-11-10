@@ -29,11 +29,10 @@ import cdx.opencdx.grpc.inventory.DeviceIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 /**
  * Service for Device Protobuf Messages
@@ -55,7 +54,11 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
      * @param objectMapper            ObjectMapper used for converting messages for the audit system.
      * @param openCDXAuditService     Audit service for tracking FDA requirements
      */
-    public OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository openCDXDeviceRepository, OpenCDXCurrentUser openCDXCurrentUser, ObjectMapper objectMapper, OpenCDXAuditService openCDXAuditService) {
+    public OpenCDXDeviceServiceImpl(
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
@@ -89,8 +92,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
             openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXDeviceModel.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXDeviceModel
-                .getProtobufMessage();
+        return openCDXDeviceModel.getProtobufMessage();
     }
 
     @Override
@@ -111,8 +113,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
             openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXDeviceModel.toString());
             throw openCDXNotAcceptable;
         }
-        return openCDXDeviceModel
-                .getProtobufMessage();
+        return openCDXDeviceModel.getProtobufMessage();
     }
 
     @Override
