@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.model;
 
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
@@ -65,6 +66,20 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private boolean accountLocked = false;
 
+    /**
+     * Method to identify AgentType for Audit
+     * @return AgentType corresponding to IamUser.
+     */
+    public AgentType getAgentType() {
+        if (this.type == null) {
+            return AgentType.AGENT_TYPE_UNSPECIFIED;
+        }
+        return switch (type) {
+            case IAM_USER_TYPE_TRIAL, IAM_USER_TYPE_REGULAR -> AgentType.AGENT_TYPE_HUMAN_USER;
+            case IAM_USER_TYPE_SYSTEM -> AgentType.AGENT_TYPE_SYSTEM;
+            default -> AgentType.AGENT_TYPE_UNSPECIFIED;
+        };
+    }
     /**
      * Constructor to convert in an IamUser
      * @param iamUser IamUser to read in.

@@ -15,16 +15,23 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -37,48 +44,90 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerService {
 
+    public static final String DOMAIN = "OpenCDXManufacturerServiceImpl";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final ObjectMapper objectMapper;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor for the Manufacturer Service
+     *
      * @param openCDXManufacturerRepository Repository for Manufactuer entities
-     * @param openCDXDeviceRepository Repository for Device entities
-     * @param openCDXTestCaseRepository Repository for TestCase entities
+     * @param openCDXDeviceRepository       Repository for Device entities
+     * @param openCDXTestCaseRepository     Repository for TestCase entities
+     * @param openCDXCurrentUser            Current User Service to access information.
+     * @param objectMapper                  ObjectMapper used for converting messages for the audit system.
+     * @param openCDXAuditService           Audit service for tracking FDA requirements
      */
     public OpenCDXManufacturerServiceImpl(
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository,
-            OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+            OpenCDXTestCaseRepository openCDXTestCaseRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
+        this.objectMapper = objectMapper;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     @Override
     public Manufacturer getManufacturerById(ManufacturerIdRequest request) {
         return this.openCDXManufacturerRepository
                 .findById(new ObjectId(request.getManufacturerId()))
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        "OpenCDXManufacturerServiceImpl",
-                        1,
-                        "Failed to find manufacturer: " + request.getManufacturerId()))
+                .orElseThrow(() ->
+                        new OpenCDXNotFound(DOMAIN, 1, "Failed to find manufacturer: " + request.getManufacturerId()))
                 .getProtobufMessage();
     }
 
     @Override
     public Manufacturer addManufacturer(Manufacturer request) {
-        return this.openCDXManufacturerRepository
-                .save(new OpenCDXManufacturerModel(request))
-                .getProtobufMessage();
+        OpenCDXManufacturerModel openCDXManufacturerModel =
+                this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Creating Manufacturer",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXManufacturerModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXManufacturerModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXManufacturerModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXManufacturerModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXManufacturerModel.getProtobufMessage();
     }
 
     @Override
     public Manufacturer updateManufacturer(Manufacturer request) {
-        return this.openCDXManufacturerRepository
-                .save(new OpenCDXManufacturerModel(request))
-                .getProtobufMessage();
+        OpenCDXManufacturerModel openCDXManufacturerModel =
+                this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Updating Manufacturer",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXManufacturerModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXManufacturerModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXManufacturerModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXManufacturerModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXManufacturerModel.getProtobufMessage();
     }
 
     @Override

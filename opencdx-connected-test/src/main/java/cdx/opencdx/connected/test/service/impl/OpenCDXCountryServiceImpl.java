@@ -15,14 +15,21 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.inventory.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -40,23 +47,36 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final ObjectMapper objectMapper;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Protobuf Country service
-     * @param openCDXVendorRepository Repository for Vendors
-     * @param openCDXCountryRepository Repository for Country
+     *
+     * @param openCDXVendorRepository       Repository for Vendors
+     * @param openCDXCountryRepository      Repository for Country
      * @param openCDXManufacturerRepository Repository for Manufacturer
-     * @param openCDXDeviceRepository Repository for Device
+     * @param openCDXDeviceRepository       Repository for Device
+     * @param openCDXCurrentUser            Current User Service to access information.
+     * @param objectMapper                  ObjectMapper used for converting messages for the audit system.
+     * @param openCDXAuditService                Audit service for tracking FDA requirements
      */
     public OpenCDXCountryServiceImpl(
             OpenCDXVendorRepository openCDXVendorRepository,
             OpenCDXCountryRepository openCDXCountryRepository,
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
-            OpenCDXDeviceRepository openCDXDeviceRepository) {
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXCountryRepository = openCDXCountryRepository;
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
+        this.objectMapper = objectMapper;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     @Override
@@ -69,16 +89,44 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     @Override
     public Country addCountry(Country request) {
-        return this.openCDXCountryRepository
-                .save(new OpenCDXCountryModel(request))
-                .getProtobufMessage();
+        OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository.save(new OpenCDXCountryModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Creating Country",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXCountryModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXCountryModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXCountryModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXCountryModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXCountryModel.getProtobufMessage();
     }
 
     @Override
     public Country updateCountry(Country request) {
-        return this.openCDXCountryRepository
-                .save(new OpenCDXCountryModel(request))
-                .getProtobufMessage();
+        OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository.save(new OpenCDXCountryModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Updating Country",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXCountryModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXCountryModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXCountryModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXCountryModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXCountryModel.getProtobufMessage();
     }
 
     @Override

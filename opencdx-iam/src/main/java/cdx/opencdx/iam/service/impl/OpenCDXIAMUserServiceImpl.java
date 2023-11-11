@@ -43,9 +43,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -476,12 +474,34 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
                 String token = jwtTokenUtil.generateAccessToken(userModel);
 
+                this.openCDXAuditService.userLoginSucceed(
+                        userModel.getId().toHexString(), userModel.getAgentType(), "Successful Login");
+
                 return LoginResponse.newBuilder().setToken(token).build();
             } else {
+                this.openCDXAuditService.userLoginFailure(
+                        userModel.getId().toHexString(), userModel.getAgentType(), "Emailed not verified");
+
                 throw new OpenCDXFailedPrecondition(DOMAIN, 10, "User Email not verified");
             }
         } catch (BadCredentialsException ex) {
+            this.openCDXAuditService.userLoginFailure(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Failed Login with invalid credentials");
             throw new OpenCDXUnauthorized(DOMAIN, 2, "Failed to authenticate user: " + request.getUserName(), ex);
+        } catch (LockedException ex) {
+            this.openCDXAuditService.userLoginFailure(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Failed Login account locked");
+            throw new OpenCDXUnauthorized(DOMAIN, 3, "Account locked: " + request.getUserName(), ex);
+        } catch (DisabledException ex) {
+            this.openCDXAuditService.userLoginFailure(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Failed Login account disabled");
+            throw new OpenCDXUnauthorized(DOMAIN, 3, "Account disabled: " + request.getUserName(), ex);
         }
     }
 

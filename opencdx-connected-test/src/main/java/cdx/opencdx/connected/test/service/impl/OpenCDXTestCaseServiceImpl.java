@@ -15,14 +15,21 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import cdx.opencdx.grpc.inventory.TestCase;
 import cdx.opencdx.grpc.inventory.TestCaseIdRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -35,13 +42,27 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final ObjectMapper objectMapper;
+    private final OpenCDXAuditService openCDXAuditService;
 
     /**
      * Constructor for the TestCase Service
+     *
      * @param openCDXTestCaseRepository Repository for persiting OpenCDXTestCaseModel
+     * @param openCDXCurrentUser        Current User Service to access information.
+     * @param objectMapper              ObjectMapper used for converting messages for the audit system.
+     * @param openCDXAuditService       Audit service for tracking FDA requirements
      */
-    public OpenCDXTestCaseServiceImpl(OpenCDXTestCaseRepository openCDXTestCaseRepository) {
+    public OpenCDXTestCaseServiceImpl(
+            OpenCDXTestCaseRepository openCDXTestCaseRepository,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper,
+            OpenCDXAuditService openCDXAuditService) {
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
+        this.objectMapper = objectMapper;
+        this.openCDXAuditService = openCDXAuditService;
     }
 
     @Override
@@ -55,16 +76,46 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
 
     @Override
     public TestCase addTestCase(TestCase request) {
-        return this.openCDXTestCaseRepository
-                .save(new OpenCDXTestCaseModel(request))
-                .getProtobufMessage();
+        OpenCDXTestCaseModel openCDXTestCaseModel =
+                this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Creating TestCase",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXTestCaseModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXTestCaseModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
+                    "OpenCDXTestCaseServiceImpl", 2, "Failed to convert OpenCDXTestCaseModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXTestCaseModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXTestCaseModel.getProtobufMessage();
     }
 
     @Override
     public TestCase updateTestCase(TestCase request) {
-        return this.openCDXTestCaseRepository
-                .save(new OpenCDXTestCaseModel(request))
-                .getProtobufMessage();
+        OpenCDXTestCaseModel openCDXTestCaseModel =
+                this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request));
+        try {
+            this.openCDXAuditService.config(
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUserType(),
+                    "Updating TestCase",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    openCDXTestCaseModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXTestCaseModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
+                    "OpenCDXTestCaseServiceImpl", 3, "Failed to convert OpenCDXTestCaseModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXTestCaseModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXTestCaseModel.getProtobufMessage();
     }
 
     @Override
