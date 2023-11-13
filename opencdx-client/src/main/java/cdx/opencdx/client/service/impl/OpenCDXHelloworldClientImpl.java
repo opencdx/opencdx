@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXHelloworldClient;
 import cdx.opencdx.grpc.helloworld.GreeterGrpc;
@@ -71,11 +72,12 @@ public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
      * @param name Name to say Hello to.
      * @return String containing the Hello message.
      */
-    public String sayHello(String name) throws OpenCDXClientException {
+    public String sayHello(String name, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
 
         try {
-            HelloReply helloReply = greeterBlockingStub.sayHello(
-                    HelloRequest.newBuilder().setName(name).build());
+            HelloReply helloReply = greeterBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .sayHello(HelloRequest.newBuilder().setName(name).build());
 
             return helloReply.getMessage();
         } catch (StatusRuntimeException e) {

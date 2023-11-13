@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.client.service.impl;
 
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.grpc.media.*;
@@ -71,10 +72,12 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     }
 
     @Override
-    public CreateMediaResponse createMedia(CreateMediaRequest request) {
+    public CreateMediaResponse createMedia(CreateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Create Media: {}", request);
-            return mediaServiceBlockingStub.createMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .createMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
 
@@ -84,10 +87,12 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     }
 
     @Override
-    public DeleteMediaResponse deleteMedia(DeleteMediaRequest request) {
+    public DeleteMediaResponse deleteMedia(DeleteMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Delete Media: {}", request);
-            return mediaServiceBlockingStub.deleteMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .deleteMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -96,10 +101,12 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     }
 
     @Override
-    public GetMediaResponse getMedia(GetMediaRequest request) {
+    public GetMediaResponse getMedia(GetMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Get Media: {}", request);
-            return mediaServiceBlockingStub.getMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -108,10 +115,12 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     }
 
     @Override
-    public UpdateMediaResponse updateMedia(UpdateMediaRequest request) {
+    public UpdateMediaResponse updateMedia(UpdateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing Update Media: {}", request);
-            return mediaServiceBlockingStub.updateMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .updateMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
@@ -120,10 +129,12 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     }
 
     @Override
-    public ListMediaResponse listMedia(ListMediaRequest request) {
+    public ListMediaResponse listMedia(ListMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Processing List Media: {}", request);
-            return mediaServiceBlockingStub.listMedia(request);
+            return mediaServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .listMedia(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(

@@ -1,4 +1,4 @@
-![image](./opencdx.svg)
+# OpenCDx
 
 
 ## Technology Used

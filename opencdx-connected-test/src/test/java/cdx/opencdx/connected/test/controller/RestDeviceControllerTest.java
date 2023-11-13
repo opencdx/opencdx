@@ -20,9 +20,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.Device;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -69,6 +71,11 @@ class RestDeviceControllerTest {
 
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
         Mockito.when(openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
                 .thenAnswer(new Answer<OpenCDXDeviceModel>() {
                     @Override
