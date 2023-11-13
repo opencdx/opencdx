@@ -301,7 +301,6 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 Notification.newBuilder()
                         .setEventId(OpenCDXCommunicationClient.CHANGE_PASSWORD)
                         .addAllToEmail(List.of(model.getUsername()))
-                        .addAllToPhoneNumber(List.of(model.getPhone()))
                         .putAllVariables(Map.of(
                                 FIRST_NAME,
                                 model.getFullName().getFirstName(),

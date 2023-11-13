@@ -121,7 +121,6 @@ class OpenCDXIAMUserGrpcControllerTest {
                                         .setLastName("bob")
                                         .build())
                                 .username("ab@safehealth.me")
-                                .phone("123-456-7890")
                                 .emailVerified(true)
                                 .build());
                     }
@@ -134,7 +133,6 @@ class OpenCDXIAMUserGrpcControllerTest {
                                 .id(ObjectId.get())
                                 .password("{noop}pass")
                                 .username("ab@safehealth.me")
-                                .phone("123-456-7890")
                                 .emailVerified(true)
                                 .build());
                     }

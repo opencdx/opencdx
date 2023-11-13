@@ -119,7 +119,6 @@ class OpenCDXIAMUserRestControllerTest {
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
-                                .phone("123-456-7990")
                                 .type(IamUserType.IAM_USER_TYPE_REGULAR)
                                 .build());
                     }
@@ -282,7 +281,6 @@ class OpenCDXIAMUserRestControllerTest {
                                 .id(ObjectId.get())
                                 .password("{noop}pass")
                                 .username("ab@safehealth.me")
-                                .phone("123-456-7890")
                                 .emailVerified(true)
                                 .build());
                     }

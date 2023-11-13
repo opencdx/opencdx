@@ -54,7 +54,6 @@ public class OpenCDXIAMUserModel {
 
     private IamUserStatus status;
     private IamUserType type;
-    private String phone;
     private String password;
     private String nationalHealthId;
 
