@@ -36,7 +36,6 @@ class OpenCDXIAMUserModelTest {
                 .setEmailVerified(false)
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                .setPhone("123-456-7890")
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
@@ -52,7 +51,6 @@ class OpenCDXIAMUserModelTest {
                 .setEmailVerified(false)
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                .setPhone("123-456-7890")
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);

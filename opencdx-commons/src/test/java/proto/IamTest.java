@@ -47,7 +47,6 @@ class IamTest {
                         .setPassword("password")
                         .setSystemName("System Name")
                         .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                        .setPhone("123-456-7890")
                         .build()));
     }
 
@@ -83,7 +82,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -114,7 +112,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build()))));
     }
 
@@ -137,7 +134,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -153,7 +149,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -181,7 +176,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -197,7 +191,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -221,7 +214,6 @@ class IamTest {
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }

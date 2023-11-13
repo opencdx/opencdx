@@ -92,7 +92,6 @@ public class OpenCDXIAMUserModel {
         this.username = request.getUsername();
         this.status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
         this.type = request.getType();
-        this.phone = request.getPhone();
     }
     /**
      * Constructor to convert in an IamUser
@@ -120,8 +119,6 @@ public class OpenCDXIAMUserModel {
         this.emailVerified = iamUser.getEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
-        this.phone = iamUser.getPhone();
-        this.nationalHealthId = iamUser.getNationalHealthId();
     }
 
     /**
@@ -161,12 +158,6 @@ public class OpenCDXIAMUserModel {
         }
         if (this.type != null) {
             builder.setType(this.type);
-        }
-        if (this.phone != null) {
-            builder.setPhone(this.phone);
-        }
-        if (this.nationalHealthId != null) {
-            builder.setNationalHealthId(this.nationalHealthId);
         }
         return builder.build();
     }
