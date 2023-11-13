@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+package cdx.opencdx.grpc.organization;
+
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto"; // Import for the Empty message
+
+// Definition for an organization
+message Organization {
+  optional string organization_id = 1; // Unique identifier for the organization
+  optional string name = 2; // Name of the organization
+  optional string description = 3; // Description of the organization
+  optional string founding_date = 4; // Date when the organization was founded
+  optional string address = 5; // Physical address of the organization
+  optional string website = 6; // Organization's website URL
+  optional string industry = 7; // Industry or sector of the organization
+  optional double revenue = 8; // Annual revenue of the organization
+  optional string logo_url = 9; // URL to the organization's logo
+  repeated string social_media_links = 10; // Links to social media profiles
+  optional string mission_statement = 11; // Mission statement of the organization
+  optional string vision_statement = 12; // Vision statement of the organization
+  repeated ContactInfo contacts = 13; // Contact information for the organization
+  repeated Workspace workspace = 14; // Departments (Workspaces) within the organization
+}
+
+// Definition for a workspace
+message Workspace {
+  optional string id = 1; // Unique identifier for the workspace
+  optional string name = 2; // Name of the workspace
+  optional string description = 3; // Description of the workspace
+  optional string created_date = 4; // Date when the workspace was created
+  optional string location = 5; // Physical location of the workspace
+  optional string manager = 6; // Name of the workspace manager
+  optional int32 capacity = 7; // Maximum capacity of the workspace
+  repeated string facilities = 8; // Facilities available within the workspace
+  optional string workspace_type = 9; // Type of workspace (e.g., office, co-working space)
+  repeated string workspace_image_urls = 10; // URLs to images of the workspace
+  optional string usage_policy = 11; // Policies and rules for using the workspace
+  optional string availability_schedule = 12; // Schedule of when the workspace is available
+  repeated Department departments = 13; // Departments within the workspace
+}
+
+// Contact information for an organization or workspace
+message ContactInfo {
+  optional string contact_name = 1; // Name of the contact person
+  optional string email = 2; // Email address of the contact person
+  optional string phone = 3; // Phone number of the contact person
+}
+
+// Department within an organization or workspace
+message Department {
+  optional string id = 1; // Unique identifier for the department
+  optional string name = 2; // Name of the department
+  optional string description = 3; // Description of the department
+  repeated Employee employees = 4; // Employees within the department
+}
+
+// Employee within a department
+message Employee {
+  optional string employee_id = 1; // Unique identifier for the employee
+  optional string name = 2; // Name of the employee
+  optional string title = 3; // Title or position of the employee
+  optional string email = 4; // Email address of the employee
+  optional string phone = 5; // Phone number of the employee
+}
+
+// Empty message used in RPC methods
+message Empty {}
+
+// Request for creating an organization
+message CreateOrganizationRequest {
+  optional Organization organization = 1; // Organization details for creation
+}
+
+// Response for creating an organization
+message CreateOrganizationResponse {
+  optional Organization organization = 1; // Created organization details
+}
+
+// Request for retrieving organization details by ID
+message GetOrganizationDetailsByIdRequest {
+  optional string organization_id = 1; // Unique identifier for the organization
+}
+
+// Response for retrieving organization details by ID
+message GetOrganizationDetailsByIdResponse {
+  optional Organization organization = 1; // Retrieved organization details
+}
+
+// Request for updating organization details
+message UpdateOrganizationRequest {
+  optional Organization organization = 1; // Updated organization details
+}
+
+// Response for updating organization details
+message UpdateOrganizationResponse {
+  optional Organization organization = 1; // Updated organization details
+}
+
+// Response for listing all organizations
+message ListOrganizationsResponse {
+  repeated Organization organizations = 1; // List of organizations
+}
+
+// Request for creating a workspace within an organization
+message CreateWorkspaceRequest {
+  optional Workspace workspace = 1; // Workspace details for creation
+}
+
+// Response for creating a workspace within an organization
+message CreateWorkspaceResponse {
+  optional Workspace workspace = 1; // Created workspace details
+}
+
+// Request for retrieving workspace details by ID
+message GetWorkspaceDetailsByIdRequest {
+  optional string workspace_id = 1; // Unique identifier for the workspace
+}
+
+// Response for retrieving workspace details by ID
+message GetWorkspaceDetailsByIdResponse {
+  optional Workspace workspace = 1; // Retrieved workspace details
+}
+
+// Request for updating workspace details
+message UpdateWorkspaceRequest {
+  optional Workspace workspace = 1; // Updated workspace details
+}
+
+// Response for updating workspace details
+message UpdateWorkspaceResponse {
+  optional Workspace workspace = 1; // Updated workspace details
+}
+
+// Response for listing all workspaces within an organization
+message ListWorkspacesResponse {
+  repeated Workspace workspaces = 1; // List of workspaces
+}
+
+service OrganizationService {
+  // RPC method to create a new organization
+  rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse);
+
+  // RPC method to retrieve organization details by ID
+  rpc GetOrganizationDetailsById(GetOrganizationDetailsByIdRequest) returns (GetOrganizationDetailsByIdResponse);
+
+  // RPC method to update organization details
+  rpc UpdateOrganization(UpdateOrganizationRequest) returns (UpdateOrganizationResponse);
+
+  // RPC method to list all organizations
+  rpc ListOrganizations(Empty) returns (ListOrganizationsResponse);
+}
+
+service WorkspaceService {
+  // RPC method to create a new workspace within an organization
+  rpc CreateWorkspace(CreateWorkspaceRequest) returns (CreateWorkspaceResponse);
+
+  // RPC method to retrieve workspace details by ID
+  rpc GetWorkspaceDetailsById(GetWorkspaceDetailsByIdRequest) returns (GetWorkspaceDetailsByIdResponse);
+
+  // RPC method to update workspace details
+  rpc UpdateWorkspace(UpdateWorkspaceRequest) returns (UpdateWorkspaceResponse);
+
+  // RPC method to list all workspaces within an organization
+  rpc ListWorkspaces(Empty) returns (ListWorkspacesResponse);
+}
