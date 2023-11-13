@@ -33,6 +33,7 @@ import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.communication.CommunicationServiceGrpc;
 import cdx.opencdx.grpc.communication.SuccessResponse;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -224,10 +225,8 @@ class OpenCDXIAMUserServiceImplTest {
                 this.appProperties,
                 this.openCDXCommunicationClient,
                 this.openCDXNationalHealthIdentifier);
-        OpenCDXIAMUserModel model3 = OpenCDXIAMUserModel.builder()
-                .id(ObjectId.get())
-                .firstName("name")
-                .build();
+        OpenCDXIAMUserModel model3 =
+                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
         when(this.openCDXIAMUserRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model3), PageRequest.of(1, 10), 1));
         ListIamUsersRequest request = ListIamUsersRequest.newBuilder()
@@ -338,7 +337,7 @@ class OpenCDXIAMUserServiceImplTest {
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
-                        .email("test@opencdx.org")
+                        .username("test@opencdx.org")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .password("{noop}pass")
                         .build()));
@@ -389,10 +388,12 @@ class OpenCDXIAMUserServiceImplTest {
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
-                        .firstName("FName")
-                        .lastName("LName")
-                        .email("ab@safehealth.me")
+                        .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("bob")
+                                .setLastName("bob")
+                                .build())
                         .build()));
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
@@ -416,10 +417,12 @@ class OpenCDXIAMUserServiceImplTest {
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
-                        .firstName("FName")
-                        .lastName("LName")
-                        .email("ab@safehealth.me")
+                        .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("bob")
+                                .setLastName("bob")
+                                .build())
                         .build()));
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
@@ -435,9 +438,7 @@ class OpenCDXIAMUserServiceImplTest {
         Mockito.when(currentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder()
                         .id(id)
-                        .firstName("FName")
-                        .lastName("LName")
-                        .email("ab@safehealth.me")
+                        .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build());
         Mockito.when(currentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);

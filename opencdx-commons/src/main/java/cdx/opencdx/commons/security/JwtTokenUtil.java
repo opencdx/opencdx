@@ -52,7 +52,7 @@ public class JwtTokenUtil {
      */
     public String generateAccessToken(OpenCDXIAMUserModel user) {
         return Jwts.builder()
-                .subject(format("%s,%s", user.getId(), user.getEmail()))
+                .subject(format("%s,%s", user.getId(), user.getUsername()))
                 .issuer(JWT_ISSUER)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 4 * 60 * 60 * 1000))

@@ -48,12 +48,12 @@ public class OpenCDXUserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Cacheable("user-details")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<OpenCDXIAMUserModel> model = this.openCDXIAMUserRepository.findByEmail(username);
+        Optional<OpenCDXIAMUserModel> model = this.openCDXIAMUserRepository.findByUsername(username);
 
         if (model.isPresent()) {
 
             return OpenCDXUserDetails.builder()
-                    .email(model.get().getEmail())
+                    .email(model.get().getUsername())
                     .password(model.get().getPassword())
                     .enabled(model.get().getStatus().equals(IamUserStatus.IAM_USER_STATUS_ACTIVE))
                     .accountExpired(model.get().isAccountExpired())

@@ -27,6 +27,7 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
@@ -115,24 +116,24 @@ class OpenCDXIAMUserGrpcControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
-                                .firstName("FName")
-                                .lastName("LName")
-                                .email("ab@safehealth.me")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .username("ab@safehealth.me")
                                 .phone("123-456-7890")
                                 .emailVerified(true)
                                 .build());
                     }
                 });
-        when(this.openCDXIAMUserRepository.findByEmail(Mockito.any(String.class)))
+        when(this.openCDXIAMUserRepository.findByUsername(Mockito.any(String.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(ObjectId.get())
                                 .password("{noop}pass")
-                                .firstName("FName")
-                                .lastName("LName")
-                                .email("ab@safehealth.me")
+                                .username("ab@safehealth.me")
                                 .phone("123-456-7890")
                                 .emailVerified(true)
                                 .build());

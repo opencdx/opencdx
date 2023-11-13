@@ -50,7 +50,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
-                    .findByEmail(authentication.getName())
+                    .findByUsername(authentication.getName())
                     .orElseThrow(() ->
                             new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
         }
@@ -62,7 +62,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
-                    .findByEmail(authentication.getName())
+                    .findByUsername(authentication.getName())
                     .orElseThrow(() ->
                             new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
         }

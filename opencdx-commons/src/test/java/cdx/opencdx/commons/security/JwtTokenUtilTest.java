@@ -18,7 +18,6 @@ package cdx.opencdx.commons.security;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import io.jsonwebtoken.*;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +34,7 @@ class JwtTokenUtilTest {
     void setUp() {
         this.jwtTokenUtil = new JwtTokenUtil();
         openCDXIAMUserModel = Mockito.mock(OpenCDXIAMUserModel.class);
-        when(openCDXIAMUserModel.getEmail()).thenReturn("ab@safehealth.com");
+        when(openCDXIAMUserModel.getUsername()).thenReturn("ab@safehealth.com");
         when(openCDXIAMUserModel.getId()).thenReturn(new ObjectId("653f1755c4203f57f39843f3"));
         token = jwtTokenUtil.generateAccessToken(openCDXIAMUserModel);
     }

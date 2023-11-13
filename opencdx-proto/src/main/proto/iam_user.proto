@@ -231,12 +231,6 @@ message IamUser {
   // Timestamp when the user was last updated.
   optional google.protobuf.Timestamp updated_at = 3;
 
-  // First name of the user.
-  string first_name = 4;
-
-  // Last name of the user.
-  string last_name = 5;
-
   // Name of the system
   string system_name = 6;
 

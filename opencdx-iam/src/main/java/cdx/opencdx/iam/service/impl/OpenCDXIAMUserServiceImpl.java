@@ -122,27 +122,20 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public SignUpResponse signUp(SignUpRequest request) {
-        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .systemName(request.getSystemName())
-                .email(request.getEmail())
-                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .type(request.getType())
-                .password(this.passwordEncoder.encode(request.getPassword()))
-                .phone(request.getPhone())
-                .build());
+        OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(request);
+        model.setPassword(this.passwordEncoder.encode(request.getPassword()));
+        model = this.openCDXIAMUserRepository.save(model);
 
         this.openCDXCommunicationClient.sendNotification(
                 Notification.newBuilder()
                         .setEventId(OpenCDXCommunicationClient.VERIFY_EMAIL_USER)
-                        .addAllToEmail(List.of(model.getEmail()))
+                        .addAllToEmail(List.of(model.getUsername()))
                         .addAllToPhoneNumber(List.of(model.getPhone()))
                         .putAllVariables(Map.of(
                                 FIRST_NAME,
-                                model.getFirstName(),
+                                model.getFullName().getFirstName(),
                                 LAST_NAME,
-                                model.getLastName(),
+                                model.getFullName().getLastName(),
                                 "user_id",
                                 model.getId().toHexString(),
                                 "verification_server",
@@ -167,7 +160,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             throw openCDXNotAcceptable;
         }
         return SignUpResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
+                .setIamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -205,8 +198,9 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .setPageNumber(request.getPageNumber())
                 .setPageSize(request.getPageSize())
                 .setSortAscending(request.getSortAscending())
-                .addAllIamUsers(
-                        all.get().map(OpenCDXIAMUserModel::getProtobufMessage).toList())
+                .addAllIamUsers(all.get()
+                        .map(OpenCDXIAMUserModel::getIamUserProtobufMessage)
+                        .toList())
                 .build();
     }
 
@@ -239,7 +233,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             throw openCDXNotAcceptable;
         }
         return GetIamUserResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
+                .setIamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -256,9 +250,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 3, FAILED_TO_FIND_USER + request.getIamUser().getId()));
 
-        model.setEmail(request.getIamUser().getEmail());
-        model.setFirstName(request.getIamUser().getFirstName());
-        model.setLastName(request.getIamUser().getLastName());
+        model.setUsername(request.getIamUser().getEmail());
         model.setPhone(request.getIamUser().getPhone());
         model.setSystemName(request.getIamUser().getSystemName());
         model.setType(request.getIamUser().getType());
@@ -282,7 +274,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             throw openCDXNotAcceptable;
         }
         return UpdateIamUserResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
+                .setIamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -310,13 +302,13 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         this.openCDXCommunicationClient.sendNotification(
                 Notification.newBuilder()
                         .setEventId(OpenCDXCommunicationClient.CHANGE_PASSWORD)
-                        .addAllToEmail(List.of(model.getEmail()))
+                        .addAllToEmail(List.of(model.getUsername()))
                         .addAllToPhoneNumber(List.of(model.getPhone()))
                         .putAllVariables(Map.of(
                                 FIRST_NAME,
-                                model.getFirstName(),
+                                model.getFullName().getFirstName(),
                                 LAST_NAME,
-                                model.getLastName(),
+                                model.getFullName().getLastName(),
                                 "notification",
                                 "Password changed"))
                         .build(),
@@ -328,7 +320,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 "User Password Change",
                 model.getId().toHexString());
         return ChangePasswordResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
+                .setIamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -366,7 +358,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             throw openCDXNotAcceptable;
         }
         return DeleteIamUserResponse.newBuilder()
-                .setIamUser(userModel.getProtobufMessage())
+                .setIamUser(userModel.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -401,7 +393,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             throw openCDXNotAcceptable;
         }
         return UserExistsResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
+                .setIamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 
@@ -423,14 +415,14 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         this.openCDXCommunicationClient.sendNotification(
                 Notification.newBuilder()
                         .setEventId(OpenCDXCommunicationClient.WELCOME_EMAIL_USER)
-                        .addAllToEmail(List.of(model.getEmail()))
+                        .addAllToEmail(List.of(model.getUsername()))
                         .putAllVariables(Map.of(
                                 FIRST_NAME,
-                                model.getFirstName(),
+                                model.getFullName().getFirstName(),
                                 LAST_NAME,
-                                model.getLastName(),
+                                model.getFullName().getLastName(),
                                 "email",
-                                model.getEmail()))
+                                model.getUsername()))
                         .build(),
                 new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
 
@@ -463,7 +455,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         try {
 
             OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
-                    .findByEmail(request.getUserName())
+                    .findByUsername(request.getUserName())
                     .orElseThrow(() -> new OpenCDXUnauthorized(
                             DOMAIN, 1, "Failed to authenticate user: " + request.getUserName()));
 
@@ -532,7 +524,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             throw openCDXNotAcceptable;
         }
         return CurrentUserResponse.newBuilder()
-                .setIamUser(model.getProtobufMessage())
+                .setIamUser(model.getIamUserProtobufMessage())
                 .build();
     }
 }

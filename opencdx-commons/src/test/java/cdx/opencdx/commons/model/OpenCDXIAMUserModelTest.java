@@ -31,8 +31,6 @@ class OpenCDXIAMUserModelTest {
                 .setId(ObjectId.get().toHexString())
                 .setCreatedAt(Timestamp.getDefaultInstance())
                 .setUpdatedAt(Timestamp.getDefaultInstance())
-                .setFirstName("firstName")
-                .setLastName("lastName")
                 .setEmail("email")
                 .setSystemName("system")
                 .setEmailVerified(false)
@@ -43,14 +41,12 @@ class OpenCDXIAMUserModelTest {
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
 
-        assertEquals(user, model.getProtobufMessage());
+        assertEquals(user, model.getIamUserProtobufMessage());
     }
 
     @Test
     void getProtobufMessage_2() {
         IamUser user = IamUser.newBuilder()
-                .setFirstName("firstName")
-                .setLastName("lastName")
                 .setEmail("email")
                 .setSystemName("system")
                 .setEmailVerified(false)
@@ -61,7 +57,7 @@ class OpenCDXIAMUserModelTest {
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
 
-        assertNotEquals(user, model.getProtobufMessage());
+        assertNotEquals(user, model.getIamUserProtobufMessage());
     }
 
     @Test
@@ -69,6 +65,6 @@ class OpenCDXIAMUserModelTest {
 
         OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().build();
 
-        Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
+        Assertions.assertDoesNotThrow(() -> model.getIamUserProtobufMessage());
     }
 }

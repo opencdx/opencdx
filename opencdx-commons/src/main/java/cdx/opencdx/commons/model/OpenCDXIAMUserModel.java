@@ -19,6 +19,8 @@ import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.iam.SignUpRequest;
+import cdx.opencdx.grpc.profile.FullName;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -43,9 +45,8 @@ public class OpenCDXIAMUserModel {
 
     private Instant createdAt;
     private Instant updatedAt;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private FullName fullName;
+    private String username;
     private String systemName;
 
     @Builder.Default
@@ -80,6 +81,19 @@ public class OpenCDXIAMUserModel {
             default -> AgentType.AGENT_TYPE_UNSPECIFIED;
         };
     }
+
+    public OpenCDXIAMUserModel(SignUpRequest request) {
+
+        this.fullName = FullName.newBuilder()
+                .setFirstName(request.getFirstName())
+                .setLastName(request.getLastName())
+                .build();
+        this.systemName = request.getSystemName();
+        this.username = request.getEmail();
+        this.status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
+        this.type = request.getType();
+        this.phone = request.getPhone();
+    }
     /**
      * Constructor to convert in an IamUser
      * @param iamUser IamUser to read in.
@@ -102,9 +116,7 @@ public class OpenCDXIAMUserModel {
             this.updatedAt = Instant.now();
         }
 
-        this.firstName = iamUser.getFirstName();
-        this.lastName = iamUser.getLastName();
-        this.email = iamUser.getEmail();
+        this.username = iamUser.getEmail();
         this.emailVerified = iamUser.getEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
@@ -116,7 +128,7 @@ public class OpenCDXIAMUserModel {
      * Method to return a gRPC IamUser Message
      * @return gRPC IamUser Message
      */
-    public IamUser getProtobufMessage() {
+    public IamUser getIamUserProtobufMessage() {
         IamUser.Builder builder = IamUser.newBuilder();
 
         if (this.id != null) {
@@ -135,14 +147,8 @@ public class OpenCDXIAMUserModel {
                     .build());
         }
 
-        if (this.firstName != null) {
-            builder.setFirstName(this.firstName);
-        }
-        if (this.lastName != null) {
-            builder.setLastName(this.lastName);
-        }
-        if (this.email != null) {
-            builder.setEmail(this.email);
+        if (this.username != null) {
+            builder.setEmail(this.username);
         }
         if (this.systemName != null) {
             builder.setSystemName(this.systemName);

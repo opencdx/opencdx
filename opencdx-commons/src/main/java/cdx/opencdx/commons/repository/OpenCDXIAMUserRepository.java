@@ -28,8 +28,8 @@ import org.springframework.stereotype.Repository;
 public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUserModel, ObjectId> {
     /**
      * Method to find a user by their email address
-     * @param email String containing the email address to look up for the user.
+     * @param username String containing the email address to look up for the user.
      * @return Optional OpenCDXIAMUserModel of the user.
      */
-    Optional<OpenCDXIAMUserModel> findByEmail(String email);
+    Optional<OpenCDXIAMUserModel> findByUsername(String username);
 }

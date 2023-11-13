@@ -78,8 +78,6 @@ class IamTest {
                 "SignUpResponse: {}",
                 this.mapper.writeValueAsString(SignUpResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
@@ -111,8 +109,6 @@ class IamTest {
                         .setSortAscending(true)
                         .setPageCount(20)
                         .addAllIamUsers(List.of(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
@@ -136,8 +132,6 @@ class IamTest {
                 "UpdateIamUserRequest: {}",
                 this.mapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
@@ -154,8 +148,6 @@ class IamTest {
                 "UpdateIamUserResponse: {}",
                 this.mapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
@@ -184,8 +176,6 @@ class IamTest {
                 "ChangePasswordResponse: {}",
                 this.mapper.writeValueAsString(ChangePasswordResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
@@ -202,8 +192,6 @@ class IamTest {
                 "DeleteIamUserResponse: {}",
                 this.mapper.writeValueAsString(DeleteIamUserResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
@@ -228,8 +216,6 @@ class IamTest {
                 "UserExistsResponse: {}",
                 this.mapper.writeValueAsString(UserExistsResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
                                 .setEmail("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)

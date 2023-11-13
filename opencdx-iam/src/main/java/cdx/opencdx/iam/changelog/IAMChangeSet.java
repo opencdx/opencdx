@@ -20,6 +20,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.profile.FullName;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
@@ -55,10 +56,12 @@ public class IAMChangeSet {
     @ChangeSet(order = "002", id = "Setup Default User", author = "Jeff Miller")
     public void setupDefaultUser(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
-                .email("admin@opencdx.org")
+                .username("admin@opencdx.org")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .firstName("Admin")
-                .lastName("OpenCDX")
+                .fullName(FullName.newBuilder()
+                        .setLastName("Admin")
+                        .setLastName("OpenCDX")
+                        .build())
                 .type(IamUserType.IAM_USER_TYPE_REGULAR)
                 .password("{bcrypt}$2a$10$nHiiVDdMtK3I/gRZYybaOO9dm2KBJ.y2sYmA2IttTB/BvgjnMrQiG")
                 .emailVerified(true)
