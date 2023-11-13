@@ -89,7 +89,7 @@ public class OpenCDXIAMUserModel {
                 .setLastName(request.getLastName())
                 .build();
         this.systemName = request.getSystemName();
-        this.username = request.getEmail();
+        this.username = request.getUsername();
         this.status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
         this.type = request.getType();
         this.phone = request.getPhone();
@@ -116,7 +116,7 @@ public class OpenCDXIAMUserModel {
             this.updatedAt = Instant.now();
         }
 
-        this.username = iamUser.getEmail();
+        this.username = iamUser.getUsername();
         this.emailVerified = iamUser.getEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
@@ -148,7 +148,7 @@ public class OpenCDXIAMUserModel {
         }
 
         if (this.username != null) {
-            builder.setEmail(this.username);
+            builder.setUsername(this.username);
         }
         if (this.systemName != null) {
             builder.setSystemName(this.systemName);

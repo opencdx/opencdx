@@ -31,7 +31,7 @@ class OpenCDXIAMUserModelTest {
                 .setId(ObjectId.get().toHexString())
                 .setCreatedAt(Timestamp.getDefaultInstance())
                 .setUpdatedAt(Timestamp.getDefaultInstance())
-                .setEmail("email")
+                .setUsername("email")
                 .setSystemName("system")
                 .setEmailVerified(false)
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
@@ -47,7 +47,7 @@ class OpenCDXIAMUserModelTest {
     @Test
     void getProtobufMessage_2() {
         IamUser user = IamUser.newBuilder()
-                .setEmail("email")
+                .setUsername("email")
                 .setSystemName("system")
                 .setEmailVerified(false)
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)

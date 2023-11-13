@@ -106,7 +106,7 @@ message SignUpRequest {
   string system_name = 4;
 
   // Email address of the user.
-  string email = 5;
+  string username = 5;
 
   // Password for the user account.
   string password = 6;
@@ -235,7 +235,7 @@ message IamUser {
   string system_name = 6;
 
   // Email address of the user.
-  string email = 7;
+  string username = 7;
 
   // Indicates whether the user's email is verified.
   bool email_verified = 8;
