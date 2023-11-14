@@ -98,9 +98,9 @@ class RestCountryControllerTest {
                                 .build());
                     }
                 });
-        Mockito.when(this.openCDXManufacturerRepository.existsByAddress_Country_(Mockito.anyString()))
+        Mockito.when(this.openCDXManufacturerRepository.existsByAddress_CountryId(Mockito.any(ObjectId.class)))
                 .thenReturn(false);
-        Mockito.when(this.openCDXVendorRepository.existsByAddress_Country_(Mockito.anyString()))
+        Mockito.when(this.openCDXVendorRepository.existsByAddress_CountryId(Mockito.any(ObjectId.class)))
                 .thenReturn(false);
         Mockito.when(this.openCDXDeviceRepository.existsByVendorCountryId(Mockito.any(ObjectId.class)))
                 .thenReturn(false);
