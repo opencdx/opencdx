@@ -83,8 +83,8 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     @Override
     public DeleteResponse deleteCountry(CountryIdRequest request) {
-        if (this.openCDXManufacturerRepository.existsByAddress_Country(request.getCountryId())
-                || this.openCDXVendorRepository.existsByAddressCountry(request.getCountryId())
+        if (this.openCDXManufacturerRepository.existsByAddress_Country_(request.getCountryId())
+                || this.openCDXVendorRepository.existsByAddress_Country_(request.getCountryId())
                 || this.openCDXDeviceRepository.existsByManufacturerCountryId(new ObjectId(request.getCountryId()))
                 || this.openCDXDeviceRepository.existsByVendorCountryId(new ObjectId(request.getCountryId()))) {
             return DeleteResponse.newBuilder()

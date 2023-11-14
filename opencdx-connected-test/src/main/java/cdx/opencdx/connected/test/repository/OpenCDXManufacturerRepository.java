@@ -31,5 +31,5 @@ public interface OpenCDXManufacturerRepository extends MongoRepository<OpenCDXMa
      * @param country Country ID to search for.
      * @return Boolean indicating if found.
      */
-    Boolean existsByAddress_Country(String country);
+    Boolean existsByAddress_Country_(String country);
 }
