@@ -92,7 +92,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: https://admin:8761/eureka/
+      defaultZone: https://discovery:8761/eureka/
     registry-fetch-interval-seconds: 5
     tls:
       enabled: 'true'

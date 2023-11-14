@@ -43,7 +43,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: https://admin:8761/eureka/
+      defaultZone: https://discovery:8761/eureka/
     tls:
       enabled: 'true'
       key-store: file:/certs/opencdx-keystore.p12
