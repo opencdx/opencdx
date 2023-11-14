@@ -21,6 +21,7 @@ import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.iam.SignUpRequest;
 import cdx.opencdx.grpc.profile.*;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -209,6 +210,7 @@ public class OpenCDXIAMUserModel {
      * Method to return a gRPC UserProfile Message
      * @return gRPC UserProfile Message
      */
+    @SuppressWarnings("java:S3776")
     public UserProfile getUserProfileProtobufMessage() {
         UserProfile.Builder builder = UserProfile.newBuilder();
 
@@ -216,13 +218,73 @@ public class OpenCDXIAMUserModel {
             builder.setUserId(this.id.toHexString());
         }
 
-        if (this.status != null  && this.status.equals(IamUserStatus.IAM_USER_STATUS_ACTIVE)) {
-            builder.setIsActive(true);
-        } else {
-            builder.setIsActive(false);
+        builder.setIsActive(this.status != null && this.status.equals(IamUserStatus.IAM_USER_STATUS_ACTIVE));
+
+        if (this.nationalHealthId != null) {
+            builder.setNationalHealthId(this.nationalHealthId);
         }
 
-
+        if (this.fullName != null) {
+            builder.setFullName(this.fullName);
+        }
+        if (this.contactInfo != null) {
+            builder.addAllContacts(this.contactInfo);
+        }
+        if (this.gender != null) {
+            builder.setGender(this.gender);
+        }
+        if (this.dateOfBirth != null) {
+            builder.setDateOfBirth(this.dateOfBirth);
+        }
+        if (this.placeOfBirth != null) {
+            builder.setPlaceOfBirth(this.placeOfBirth);
+        }
+        if (this.primaryAddress != null) {
+            builder.setPrimaryAddress(this.primaryAddress);
+        }
+        if (this.photo != null && this.photo.length > 0) {
+            builder.setPhoto(ByteString.copyFrom(this.photo));
+        }
+        if (this.communication != null) {
+            builder.setCommunication(this.communication);
+        }
+        if (this.demographics != null) {
+            builder.setDemographics(this.demographics);
+        }
+        if (this.education != null) {
+            builder.setEducation(this.education);
+        }
+        if (this.employeeIdentity != null) {
+            builder.setEmployeeIdentity(this.employeeIdentity);
+        }
+        if (this.primaryContactInfo != null) {
+            builder.setPrimaryContactInfo(this.primaryContactInfo);
+        }
+        if (this.billingAddress != null) {
+            builder.setBillingAddress(this.billingAddress);
+        }
+        if (this.shippingAddress != null) {
+            builder.setShippingAddress(this.shippingAddress);
+        }
+        if (this.emergencyContact != null) {
+            builder.setEmergencyContact(this.emergencyContact);
+        }
+        if (this.pharmacyDetails != null) {
+            builder.setPharmacyDetails(this.pharmacyDetails);
+        }
+        if (this.vaccines != null) {
+            builder.addAllVaccineAdministered(this.vaccines);
+        }
+        if (this.dependents != null) {
+            builder.addAllDependentId(
+                    this.dependents.stream().map(ObjectId::toHexString).toList());
+        }
+        if (this.allergies != null) {
+            builder.addAllKnownAllergies(this.allergies);
+        }
+        if (this.medications != null) {
+            builder.addAllCurrentMedications(this.medications);
+        }
 
         return builder.build();
     }
