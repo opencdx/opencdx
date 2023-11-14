@@ -22,11 +22,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * Repository for Mongo Vendor documents
  */
+@SuppressWarnings("java:S100")
 public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorModel, ObjectId> {
     /**
      * Determine if a country is used in the address of a vendor
-     * @param country String of the vendor id
+     * @param countryId String of the vendor id
      * @return Boolean indicating if found.
      */
-    Boolean existsByAddressCountry(String country);
+    Boolean existsByAddress_CountryId(ObjectId countryId);
 }
