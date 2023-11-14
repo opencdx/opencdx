@@ -9,5 +9,5 @@ Host 8761 : Container 8761
 
 ## Links
 _**Links are part of the build not available from GitHub.**_
-- [Spring Admin Wallboard](https://localhost:8761/admin/wallboard)
+- [Spring Admin Wallboard](https://localhost:8861/admin/wallboard)
 - [Spring Discovery Server](https://localhost:8761)

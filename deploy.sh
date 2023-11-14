@@ -62,9 +62,9 @@ open_reports() {
     admin)
         echo "Opening Admin Dashboard..."
         if [[ "$OSTYPE" == "msys" ]]; then
-            start https://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
+            start https://localhost:8861/admin/wallboard || handle_error "Failed to open Admin Dashboard."
         else
-            open https://localhost:8761/admin/wallboard || handle_error "Failed to open Admin Dashboard."
+            open https://localhost:8861/admin/wallboard || handle_error "Failed to open Admin Dashboard."
         fi
         ;;
    discovery)
@@ -159,6 +159,7 @@ build_docker() {
     docker build -t opencdx/connected-test ./opencdx-connected-test || handle_error "Docker opencdx-connected-test build failed."
     docker build -t opencdx/iam ./opencdx-iam || handle_error "Docker opencdx-iam build failed."
     docker build -t opencdx/gateway ./opencdx-gateway || handle_error "Docker opencdx-gateway build failed."
+    docker build -t opencdx/discovery ./opencdx-discovery || handle_error "Docker opencdx-discovery build failed."
 }
 
 # Function to start Docker services
