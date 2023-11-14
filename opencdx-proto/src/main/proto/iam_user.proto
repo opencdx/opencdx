@@ -81,8 +81,6 @@ message LoginResponse {
 
 // Request message for current user
 message CurrentUserRequest {
-  // Unique ID of the IAM user.
-  string id = 1;
 }
 
 // Response message for current user

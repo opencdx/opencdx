@@ -157,11 +157,11 @@ public class OpenCDXIAMUserRestController {
      * @param id LoginRequest to authenticate user
      * @return Response with login token.
      */
-    @GetMapping("/current/{id}")
-    public ResponseEntity<CurrentUserResponse> currentUser(@PathVariable String id) {
+    @GetMapping("/current")
+    public ResponseEntity<CurrentUserResponse> currentUser() {
         return new ResponseEntity<>(
                 this.openCDXIAMUserService.currentUser(
-                        CurrentUserRequest.newBuilder().setId(id).build()),
+                        CurrentUserRequest.newBuilder().build()),
                 HttpStatus.OK);
     }
 }

@@ -3,7 +3,6 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.profile;
 
 import "google/protobuf/timestamp.proto";
-import "google/type/date.proto";
 
 // Enumeration for phone types.
 enum PhoneType {
