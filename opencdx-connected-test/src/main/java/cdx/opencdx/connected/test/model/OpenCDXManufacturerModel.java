@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.opencdx.grpc.inventory.Address;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -42,7 +41,7 @@ public class OpenCDXManufacturerModel {
     private ObjectId id;
 
     private String name;
-    private Address address;
+    private OpenCDXAddressModel address;
     private String contact;
     private String email;
     private String phone;
@@ -60,7 +59,7 @@ public class OpenCDXManufacturerModel {
         }
         this.setName(manufacturer.getName());
         if (manufacturer.hasManufacturerAddress()) {
-            this.setAddress(manufacturer.getManufacturerAddress());
+            this.address = new OpenCDXAddressModel(manufacturer.getManufacturerAddress());
         }
         this.setContact(manufacturer.getManufacturerContact());
         this.setEmail(manufacturer.getManufacturerEmail());
@@ -83,7 +82,7 @@ public class OpenCDXManufacturerModel {
             builder.setName(this.getName());
         }
         if (this.getAddress() != null) {
-            builder.setManufacturerAddress(this.getAddress());
+            builder.setManufacturerAddress(this.getAddress().getProtobufMessage());
         }
         if (this.getContact() != null) {
             builder.setManufacturerContact(this.getContact());
