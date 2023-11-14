@@ -222,7 +222,7 @@
         </ConfigTestElement>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - HelloWorld" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -384,7 +384,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Audit" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -558,7 +558,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Communications Immediate" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Communications Immediate" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
@@ -1462,7 +1462,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications High" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications High" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">100</stringProp>
@@ -2255,7 +2255,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Medium" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Medium" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">100</stringProp>
@@ -3048,7 +3048,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Low" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 100 Loops - Communications Low" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">100</stringProp>
@@ -3901,10 +3901,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops - Connected Test" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">500</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -4128,6 +4128,415 @@
     &quot;page_size&quot;: 1,
     &quot;sort_ascending&quot;: true,
     &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Country" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/add_country</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;name&quot;:&quot;US-INDIA&quot;}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Country Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">countryId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Country" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/get_country_by_id</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;country_id&quot;:&quot;${countryId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Country" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/update_country</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${countryId}&quot;,
+	&quot;name&quot;:&quot;Canada&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Manufacturer" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/add_manufacturer</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;name&quot;:&quot;PFIZER&quot;,
+  &quot;manufacturerAddress&quot; : {
+    &quot;street&quot; : &quot;1234 Main Street&quot;,
+    &quot;city&quot; : &quot;Hometown&quot;,
+    &quot;postalCode&quot; : &quot;12345&quot;,
+    &quot;region&quot; : &quot;Texas&quot;,
+    &quot;country&quot; : &quot;${countryId}&quot;
+  }
+ }</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Manufacturer Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">manufacturerId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Manufacturer" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/get_manufacturer_by_id</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;manufacturer_id&quot;:&quot;${manufacturerId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Manufacturer" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/update_manufacturer</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${manufacturerId}&quot;,&quot;name&quot;:&quot;RANBAXY&quot;,&quot;manufacturerAddress&quot; : {
+    &quot;street&quot; : &quot;1234 Main Street&quot;,
+    &quot;city&quot; : &quot;Hometown&quot;,
+    &quot;postalCode&quot; : &quot;12345&quot;,
+    &quot;region&quot; : &quot;Texas&quot;,
+    &quot;country&quot; : &quot;${countryId}&quot;
+  }}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Vendor" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/add_vendor</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${manufacturerId}&quot;,&quot;name&quot;:&quot;RANBAXY&quot;,&quot;manufacturerAddress&quot; : {
+    &quot;street&quot; : &quot;1234 Main Street&quot;,
+    &quot;city&quot; : &quot;Hometown&quot;,
+    &quot;postalCode&quot; : &quot;12345&quot;,
+    &quot;region&quot; : &quot;Texas&quot;,
+    &quot;country&quot; : &quot;${countryId}&quot;
+  }}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Vendor Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">vendorId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Vendor" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/get_vendor_by_id</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;vendor_id&quot;:&quot;${vendorId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Vendor" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/update_vendor</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${vendorId}&quot;,&quot;vendorName&quot;:&quot;VENDOR-UPDATED&quot;,&quot;vendorAddress&quot;:{
+    &quot;street&quot; : &quot;4567 Main Street&quot;,
+    &quot;city&quot; : &quot;Hometown Update&quot;,
+    &quot;postalCode&quot; : &quot;4567&quot;,
+    &quot;region&quot; : &quot;Texas&quot;,
+    &quot;country&quot; : &quot;${countryId}&quot;
+  }}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add TestCase" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/add_test_case</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract TestCase Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">testcaseId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update TestCase" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/update_test_case</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${testcaseId}&quot;,&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;batchNumber&quot;:&quot;21&quot;}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get TestCase" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/get_test_case_by_id</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;test_case_id&quot;:&quot;${testcaseId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Device" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/add_device</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract DeviceId Template ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">deviceId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Device" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/get_device_by_id</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;device_id&quot;:&quot;${deviceId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Device" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/update_device</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Delete Device" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.DeviceService/delete_device</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;device_id&quot;:&quot;${deviceId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Delete TestCase" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.TestCaseService/delete_test_case</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;test_case_id&quot;:&quot;${testcaseId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Delete Manufacturer" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.ManufacturerService/delete_manufacturer</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;manufacturer_id&quot;:&quot;${manufacturerId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Delete Vendor" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.VendorService/delete_vendor</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;vendor_id&quot;:&quot;${vendorId}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Delete Country" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/delete_country</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+	&quot;country_id&quot;:&quot;${countryId}&quot;
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
@@ -4711,6 +5120,25 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/testcase [DELETE]" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/connected-test/testcase/${testcaseId}</stringProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/manufacturer [DELETE]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -4749,25 +5177,6 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/testcase [DELETE]" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.path">/connected-test/testcase/${testcaseId}</stringProp>
-          <stringProp name="HTTPSampler.method">DELETE</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-          <boolProp name="HTTPSampler.image_parser">false</boolProp>
-          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-          <boolProp name="HTTPSampler.md5">false</boolProp>
-          <intProp name="HTTPSampler.ipSourceType">0</intProp>
-        </HTTPSamplerProxy>
-        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [DELETE]" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -4788,7 +5197,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops -Media" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="10 User / 500 Loops -Media" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">500</stringProp>
