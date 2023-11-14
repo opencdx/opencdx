@@ -6,18 +6,13 @@ spring:
       context-path: /admin
 
 server:
-  port: 8761
+  port: 8861
   ssl:
     enabled: true
     client-auth: none
     key-store: file:/certs/opencdx-keystore.p12
     key-store-password: opencdx
     key-alias: admin
-
-logging:
-  level:
-    com.netflix.eureka: OFF
-    com.netflix.discovery: OFF
 
 management:
   endpoint:
@@ -30,3 +25,23 @@ management:
     web:
       exposure:
         include: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: https://discovery:8761/eureka/
+    tls:
+      enabled: 'true'
+      key-store: file:/certs/opencdx-keystore.p12
+      key-store-type: PKCS12
+      key-store-password: opencdx
+      trust-store: file:/certs/opencdx-keystore.p12
+      trust-store-type: PKCS12
+      trust-store-password: opencdx
+      key-password: opencdx
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    statusPageUrl: https://${spring.application.name}:${server.port}/info
+    healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
+    homePageUrl: https://${spring.application.name}:${server.port}/

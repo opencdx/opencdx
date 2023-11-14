@@ -21,17 +21,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = {"eureka.client.tls.enabled=false"})
 class ApplicationTests {
-
-    @Mock
-    private DiscoveryClient discoveryClient;
 
     @BeforeEach
     void setup() {
