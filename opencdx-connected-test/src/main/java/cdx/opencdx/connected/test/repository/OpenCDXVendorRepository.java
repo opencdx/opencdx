@@ -28,5 +28,6 @@ public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorMo
      * @param country String of the vendor id
      * @return Boolean indicating if found.
      */
-    Boolean existsByAddressCountry(String country);
+    Boolean existsByAddress_Country_(String country);
+
 }

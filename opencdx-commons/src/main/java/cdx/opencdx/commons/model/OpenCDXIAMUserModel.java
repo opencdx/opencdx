@@ -20,9 +20,10 @@ import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.iam.SignUpRequest;
-import cdx.opencdx.grpc.profile.FullName;
+import cdx.opencdx.grpc.profile.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -66,6 +67,26 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private boolean accountLocked = false;
 
+    private List<ContactInfo> contactInfo;
+    private Gender gender;
+    private DateOfBirth dateOfBirth;
+    private PlaceOfBirth placeOfBirth;
+    private Address primaryAddress;
+    private byte[] photo;
+    private Preferences communication;
+    private Demographics demographics;
+    private Education education;
+    private EmployeeIdentity employeeIdentity;
+    private ContactInfo primaryContactInfo;
+    private Address billingAddress;
+    private Address shippingAddress;
+    private EmergencyContact emergencyContact;
+    private Pharmacy pharmacyDetails;
+
+    private List<Vaccine> vaccines;
+    private List<ObjectId> dependents;
+    private List<KnownAllergy> allergies;
+    private List<Medication> medications;
     /**
      * Method to identify AgentType for Audit
      * @return AgentType corresponding to IamUser.
@@ -79,6 +100,29 @@ public class OpenCDXIAMUserModel {
             case IAM_USER_TYPE_SYSTEM -> AgentType.AGENT_TYPE_SYSTEM;
             default -> AgentType.AGENT_TYPE_UNSPECIFIED;
         };
+    }
+
+    public OpenCDXIAMUserModel(UserProfile userProfile) {
+        this.id = new ObjectId(userProfile.getUserId());
+        this.nationalHealthId = userProfile.getNationalHealthId();
+        this.fullName = userProfile.getFullName();
+        this.contactInfo = userProfile.getContactsList();
+        this.gender = userProfile.getGender();
+        this.dateOfBirth = userProfile.getDateOfBirth();
+        this.primaryAddress = userProfile.getPrimaryAddress();
+        this.photo = userProfile.getPhoto().toByteArray();
+        this.communication = userProfile.getCommunication();
+        this.demographics = userProfile.getDemographics();
+        this.education = userProfile.getEducation();
+        this.employeeIdentity = userProfile.getEmployeeIdentity();
+        this.primaryContactInfo = userProfile.getPrimaryContactInfo();
+        this.billingAddress = userProfile.getBillingAddress();
+        this.shippingAddress = userProfile.getShippingAddress();
+        this.emergencyContact = userProfile.getEmergencyContact();
+        this.pharmacyDetails = userProfile.getPharmacyDetails();
+        this.vaccines = userProfile.getVaccineAdministeredList();
+        this.allergies = userProfile.getKnownAllergiesList();
+        this.medications = userProfile.getCurrentMedicationsList();
     }
 
     public OpenCDXIAMUserModel(SignUpRequest request) {
@@ -158,6 +202,28 @@ public class OpenCDXIAMUserModel {
         if (this.type != null) {
             builder.setType(this.type);
         }
+        return builder.build();
+    }
+
+    /**
+     * Method to return a gRPC UserProfile Message
+     * @return gRPC UserProfile Message
+     */
+    public UserProfile getUserProfileProtobufMessage() {
+        UserProfile.Builder builder = UserProfile.newBuilder();
+
+        if (this.id != null) {
+            builder.setUserId(this.id.toHexString());
+        }
+
+        if (this.status != null  && this.status.equals(IamUserStatus.IAM_USER_STATUS_ACTIVE)) {
+            builder.setIsActive(true);
+        } else {
+            builder.setIsActive(false);
+        }
+
+
+
         return builder.build();
     }
 }
