@@ -18,6 +18,7 @@ package cdx.opencdx.commons.repository;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import java.util.Optional;
 import org.bson.types.ObjectId;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -32,4 +33,8 @@ public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUser
      * @return Optional OpenCDXIAMUserModel of the user.
      */
     Optional<OpenCDXIAMUserModel> findByUsername(String username);
+
+    @Override
+    @CacheEvict(value = "user-details", key = "#entity.username")
+    <S extends OpenCDXIAMUserModel> S save(S entity);
 }
