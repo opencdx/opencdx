@@ -43,7 +43,16 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: http://admin:8761/eureka/
+      defaultZone: https://discovery:8761/eureka/
+    tls:
+      enabled: 'true'
+      key-store: file:/certs/opencdx-keystore.p12
+      key-store-type: PKCS12
+      key-store-password: opencdx
+      trust-store: file:/certs/opencdx-keystore.p12
+      trust-store-type: PKCS12
+      trust-store-password: opencdx
+      key-password: opencdx
   instance:
     nonSecurePortEnabled: false
     securePortEnabled: true
