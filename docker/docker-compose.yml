@@ -9,7 +9,7 @@ services:
         window: 60s
     image: opencdx/gateway:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8880/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -17,7 +17,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -27,6 +27,7 @@ services:
       - ../certs:/certs
     ports:
       - "8080:8080"
+
   helloworld:
     deploy:
       restart_policy:
@@ -36,7 +37,7 @@ services:
         window: 60s
     image: opencdx/helloworld:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/helloworld/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -44,7 +45,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -62,7 +63,7 @@ services:
         window: 60s
     image: opencdx/iam:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8680/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/iam/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -70,7 +71,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -88,7 +89,7 @@ services:
         window: 60s
     image: opencdx/media:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8480/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/media/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -96,7 +97,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -114,7 +115,7 @@ services:
         window: 60s
     image: opencdx/connected-test:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8580/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/connected-test/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -122,7 +123,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -140,7 +141,7 @@ services:
         window: 60s
     image: opencdx/communications:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8380/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/communications/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -148,7 +149,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -166,7 +167,7 @@ services:
         window: 60s
     image: opencdx/audit:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8280/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/audit/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -174,7 +175,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -192,7 +193,7 @@ services:
         window: 60s
     image: opencdx/tinkar:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8180/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/tinkar/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -200,7 +201,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-      admin:
+      discovery:
         condition: service_healthy
       database:
         condition: service_healthy
@@ -212,13 +213,31 @@ services:
   admin:
     image: opencdx/admin:latest
     healthcheck:
-      test: "curl --fail --silent localhost:8761/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8861/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    ports:
+      - "8861:8861"
+    depends_on:
+      discovery:
+        condition: service_healthy
+    volumes:
+      - ../certs:/certs
+
+  discovery:
+    image: opencdx/discovery:latest
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8761/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 5s
     ports:
       - "8761:8761"
+    volumes:
+      - ../certs:/certs
 
   config:
     image: opencdx/config:latest
@@ -227,7 +246,7 @@ services:
     ports:
       - "8888:8888"
     depends_on:
-      admin:
+      discovery:
         condition: service_healthy
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8888/actuator/health | grep UP || exit 1"
