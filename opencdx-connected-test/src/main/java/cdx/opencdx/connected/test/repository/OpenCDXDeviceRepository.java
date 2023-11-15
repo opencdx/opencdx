@@ -22,6 +22,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * Repository for persisting Device entities.
  */
+@SuppressWarnings("java:S100")
 public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceModel, ObjectId> {
     /**
      * Determine if an entity had a Country code
