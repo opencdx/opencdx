@@ -81,8 +81,6 @@ message LoginResponse {
 
 // Request message for current user
 message CurrentUserRequest {
-  // Unique ID of the IAM user.
-  string id = 1;
 }
 
 // Response message for current user
@@ -106,13 +104,10 @@ message SignUpRequest {
   string system_name = 4;
 
   // Email address of the user.
-  string email = 5;
+  string username = 5;
 
   // Password for the user account.
   string password = 6;
-
-  // Phone number of the user.
-  string phone = 7;
 }
 
 // Response message for user sign-up.
@@ -231,30 +226,18 @@ message IamUser {
   // Timestamp when the user was last updated.
   optional google.protobuf.Timestamp updated_at = 3;
 
-  // First name of the user.
-  string first_name = 4;
-
-  // Last name of the user.
-  string last_name = 5;
-
   // Name of the system
-  string system_name = 6;
+  string system_name = 4;
 
   // Email address of the user.
-  string email = 7;
+  string username = 5;
 
   // Indicates whether the user's email is verified.
-  bool email_verified = 8;
+  bool email_verified = 6;
 
   // Status of the user (e.g., Active, Inactive, Deleted).
-  IamUserStatus status = 9;
+  IamUserStatus status = 7;
 
   // Type of IAM user (e.g., Regular, System, Trial).
-  IamUserType type = 10;
-
-  // Phone number of the user.
-  string phone = 11;
-
-  // National Health ID of the user.
-  string national_health_id = 12;
+  IamUserType type = 8;
 }

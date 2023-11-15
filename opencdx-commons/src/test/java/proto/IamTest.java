@@ -41,13 +41,12 @@ class IamTest {
         log.info(
                 "SignUpRequest: {}",
                 this.mapper.writeValueAsString(SignUpRequest.newBuilder()
-                        .setEmail("bob@bob.com")
+                        .setUsername("bob@bob.com")
                         .setFirstName("First Name")
                         .setLastName("Last Name")
                         .setPassword("password")
                         .setSystemName("System Name")
                         .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                        .setPhone("123-456-7890")
                         .build()));
     }
 
@@ -78,14 +77,11 @@ class IamTest {
                 "SignUpResponse: {}",
                 this.mapper.writeValueAsString(SignUpResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -111,14 +107,11 @@ class IamTest {
                         .setSortAscending(true)
                         .setPageCount(20)
                         .addAllIamUsers(List.of(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build()))));
     }
 
@@ -136,14 +129,11 @@ class IamTest {
                 "UpdateIamUserRequest: {}",
                 this.mapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -154,14 +144,11 @@ class IamTest {
                 "UpdateIamUserResponse: {}",
                 this.mapper.writeValueAsString(UpdateIamUserRequest.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -184,14 +171,11 @@ class IamTest {
                 "ChangePasswordResponse: {}",
                 this.mapper.writeValueAsString(ChangePasswordResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -202,14 +186,11 @@ class IamTest {
                 "DeleteIamUserResponse: {}",
                 this.mapper.writeValueAsString(DeleteIamUserResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }
@@ -228,14 +209,11 @@ class IamTest {
                 "UserExistsResponse: {}",
                 this.mapper.writeValueAsString(UserExistsResponse.newBuilder()
                         .setIamUser(IamUser.newBuilder()
-                                .setFirstName("firstName")
-                                .setLastName("lastName")
-                                .setEmail("email")
+                                .setUsername("email")
                                 .setSystemName("system")
                                 .setEmailVerified(false)
                                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
-                                .setPhone("123-456-7890")
                                 .build())
                         .build()));
     }

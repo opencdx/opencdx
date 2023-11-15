@@ -38,7 +38,7 @@ message UserProfile {
   Demographics demographics = 11; // User's demographics information
   Education education = 12; // User's education information
   EmployeeIdentity employee_identity = 13; // User's employee identity information
-  ContactInfo contact_info = 16; // Additional contact information
+  ContactInfo primary_contact_info = 16; // Additional contact information
   Address billing_address = 17; // User's billing address
   Address shipping_address = 18; // User's shipping address
   EmergencyContact emergency_contact = 19; // User's emergency contact information

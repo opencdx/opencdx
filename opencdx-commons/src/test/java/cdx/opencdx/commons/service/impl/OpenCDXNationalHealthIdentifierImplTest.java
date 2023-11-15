@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.commons.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
@@ -38,7 +36,7 @@ class OpenCDXNationalHealthIdentifierImplTest {
     void testGenerateNationalHealthId() {
         Assertions.assertFalse(this.openCDXNationalHealthIdentifier
                 .generateNationalHealthId(OpenCDXIAMUserModel.builder()
-                        .email("bob@bob.com")
+                        .username("bob@bob.com")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build())
                 .isEmpty());
@@ -47,7 +45,7 @@ class OpenCDXNationalHealthIdentifierImplTest {
     @Test
     void testGenerateNationalHealthIdFail() {
         OpenCDXIAMUserModel userModel = OpenCDXIAMUserModel.builder()
-                .email("bob@bob.com")
+                .username("bob@bob.com")
                 .type(IamUserType.IAM_USER_TYPE_SYSTEM)
                 .build();
         Assertions.assertThrows(

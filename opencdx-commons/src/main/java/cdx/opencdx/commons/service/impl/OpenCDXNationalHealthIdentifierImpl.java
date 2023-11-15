@@ -37,7 +37,7 @@ public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealt
     @Override
     public String generateNationalHealthId(OpenCDXIAMUserModel userModel) {
         if (userModel.getType().equals(IamUserType.IAM_USER_TYPE_REGULAR)) {
-            return UUID.nameUUIDFromBytes(userModel.getEmail().getBytes()).toString();
+            return UUID.nameUUIDFromBytes(userModel.getUsername().getBytes()).toString();
         }
 
         throw new OpenCDXNotAcceptable(
