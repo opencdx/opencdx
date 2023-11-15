@@ -39,7 +39,6 @@ open_reports() {
         echo "Running Jmeter Tests"
         copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         rm -rf build/reports/jmeter
-        export JVM_ARGS="-Xms2g -Xmx4g"
         jmeter -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
         if [[ "$OSTYPE" == "msys" ]]; then
             start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
@@ -314,7 +313,7 @@ if [ "$no_menu" = false ]; then
       open_reports "admin";
       if [ "$jmeter" = true ]; then
         echo "Waiting to run JMeter tests"
-        sleep 300
+        sleep 60
         open_reports "jmeter"
       fi
       docker_menu;

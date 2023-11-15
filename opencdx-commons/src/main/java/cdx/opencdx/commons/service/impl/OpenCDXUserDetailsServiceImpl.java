@@ -22,6 +22,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +46,7 @@ public class OpenCDXUserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    @Cacheable("user-details")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<OpenCDXIAMUserModel> model = this.openCDXIAMUserRepository.findByUsername(username);
 
