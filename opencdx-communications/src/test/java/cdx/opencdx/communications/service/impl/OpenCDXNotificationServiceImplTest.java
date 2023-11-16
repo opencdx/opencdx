@@ -647,4 +647,85 @@ class OpenCDXNotificationServiceImplTest {
             this.openCDXNotificationService.processOpenCDXNotification(notification);
         });
     }
+
+    @Test
+    void failedSMS() throws JsonProcessingException {
+        OpenCDXSMSService openCDXSMSService = Mockito.mock(OpenCDXSMSService.class);
+        Mockito.when(openCDXSMSService.sendSMS(Mockito.any(), Mockito.anyList()))
+                .thenReturn(false);
+
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(ObjectId.get());
+        eventModel.setEmailTemplateId(ObjectId.get());
+        eventModel.setEventDescription("This is a test object");
+        eventModel.setEmailRetry(1);
+        eventModel.setSmsRetry(1);
+
+        eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
+
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
+
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS Dear [[${firstName}]] [[${lastName}]],\n" + "\n"
+                        + "                        To verify your email : [[${email}]] click the link below :\n"
+                        + "                        <a th:href=\"@{|${verification_server}/${user_id}|}\" target=\"_blank\">[[${verification_server}]]/[[${user_id}]]</a>\n"
+                        + "\n"
+                        + "                        Thank you!")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
+
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
+
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("B", "Beta");
+        variablesMap.put("C", "Gnarly");
+        variablesMap.put("firstName", "FNAME");
+        variablesMap.put("lastName", "LNAME");
+        variablesMap.put("email", "EMAIL");
+        variablesMap.put("verification_server", "VERIFICATION-SERVER");
+        variablesMap.put("user_id", "USER-ID");
+
+        OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
+                .eventId(ObjectId.get())
+                .id(ObjectId.get())
+                .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
+                .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
+                .timestamp(Instant.now())
+                .customData(Collections.emptyMap())
+                .phoneNumbers(List.of("123-456-7890", "098-765-4321"))
+                .bccEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
+                .emailFailCount(2)
+                .smsFailCount(2)
+                .variables(variablesMap)
+                .build();
+
+        OpenCDXNotificationService openCDXNotificationService = new OpenCDXNotificationServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXNotificationEventRepository,
+                this.openCDXNotificaitonRepository,
+                this.openCDXEmailService,
+                openCDXSMSService,
+                this.openCDXHTMLProcessor,
+                this.openCDXCurrentUser,
+                this.openCDXCommunicationSmsService,
+                this.openCDXCommunicationEmailService,
+                this.objectMapper);
+
+        Assertions.assertDoesNotThrow(() -> {
+            openCDXNotificationService.processOpenCDXNotification(notification);
+        });
+    }
 }
