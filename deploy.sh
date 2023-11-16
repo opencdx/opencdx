@@ -268,6 +268,8 @@ if [ "$wipe" = true ]; then
   echo "Wiping Data"
   rm -rf ./data
 fi
+
+./gradlew -stop all
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     if ./gradlew build publish -x test -x dependencyCheckAggregate; then
@@ -280,7 +282,7 @@ if [ "$fast_build" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
-    if ./gradlew clean spotlessApply build publish versionUpToDateReport versionReport; then
+    if ./gradlew clean spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
         echo "Build & Clean completed successfully"
     else
@@ -288,7 +290,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
         handle_error "Build failed. Please review output to determine the issue."
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
-    if ./gradlew spotlessApply build publish versionUpToDateReport versionReport; then
+    if ./gradlew spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
         echo "Build completed successfully"
     else
@@ -300,7 +302,7 @@ fi
 
 if [ "$check" = true ]; then
     echo "Performing Check on JavaDoc"
-    ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
+    ./gradlew dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc || handle_error "Failed to generate the JavaDoc."
     echo
     echo "Project Passes all checks"
 fi

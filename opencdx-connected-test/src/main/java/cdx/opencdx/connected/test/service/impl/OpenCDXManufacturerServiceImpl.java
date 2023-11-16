@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerService {
 
-    public static final String DOMAIN = "OpenCDXManufacturerServiceImpl";
+    private static final String DOMAIN = "OpenCDXManufacturerServiceImpl";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
