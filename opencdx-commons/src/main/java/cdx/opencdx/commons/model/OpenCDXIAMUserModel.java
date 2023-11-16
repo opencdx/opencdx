@@ -223,9 +223,7 @@ public class OpenCDXIAMUserModel {
     public UserProfile getUserProfileProtobufMessage() {
         UserProfile.Builder builder = UserProfile.newBuilder();
 
-        if (this.id != null) {
-            builder.setUserId(this.id.toHexString());
-        }
+        builder.setUserId(this.id.toHexString());
 
         builder.setIsActive(this.status != null && this.status.equals(IamUserStatus.IAM_USER_STATUS_ACTIVE));
 
