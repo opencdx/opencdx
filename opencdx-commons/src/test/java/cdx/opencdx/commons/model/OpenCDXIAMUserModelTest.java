@@ -73,18 +73,15 @@ class OpenCDXIAMUserModelTest {
                 .setId(ObjectId.get().toHexString())
                 .setCreatedAt(Timestamp.getDefaultInstance())
                 .setUpdatedAt(Timestamp.getDefaultInstance())
-                .setFirstName("firstName")
-                .setLastName("lastName")
-                .setEmail("email")
+                .setUsername("email")
                 .setSystemName("system")
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .setType(IamUserType.IAM_USER_TYPE_SYSTEM)
-                .setPhone("123-456-7890")
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
 
-        assertEquals(user, model.getProtobufMessage());
+        assertEquals(user, model.getIamUserProtobufMessage());
     }
 
     @Test

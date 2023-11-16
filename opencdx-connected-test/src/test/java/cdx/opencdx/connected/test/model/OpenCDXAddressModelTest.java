@@ -42,5 +42,4 @@ class OpenCDXAddressModelTest {
         OpenCDXAddressModel model = new OpenCDXAddressModel();
         Assertions.assertDoesNotThrow(() -> model.getProtobufMessage());
     }
-
 }

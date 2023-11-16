@@ -349,7 +349,7 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void login() {
-        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+        when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(
                         OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
         LoginRequest request = LoginRequest.newBuilder()
@@ -370,7 +370,7 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void loginCatch() {
-        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+        when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
                         .emailVerified(true)
@@ -385,7 +385,7 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void loginCatchLockedException() {
-        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+        when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
                         .emailVerified(true)
@@ -400,7 +400,7 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void loginCatchDisabledException() {
-        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+        when(this.openCDXIAMUserRepository.findByUsername(any(String.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
                         .emailVerified(true)
