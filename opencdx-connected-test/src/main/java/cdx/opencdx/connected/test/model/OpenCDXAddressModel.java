@@ -23,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
+/**
+ * Model for protobuf address.
+ */
 @Slf4j
 @Data
 @Builder
@@ -35,6 +38,10 @@ public class OpenCDXAddressModel {
     private String region;
     private ObjectId countryId;
 
+    /**
+     * Constructor from a protobuf address
+     * @param address protobuf address
+     */
     public OpenCDXAddressModel(Address address) {
         this.street = address.getStreet();
         this.city = address.getCity();
@@ -43,6 +50,10 @@ public class OpenCDXAddressModel {
         this.countryId = new ObjectId(address.getCountry());
     }
 
+    /**
+     * Method to get the protobuf address object
+     * @return protobuf address object
+     */
     public Address getProtobufMessage() {
         Address.Builder builder = Address.newBuilder();
 

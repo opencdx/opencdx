@@ -153,8 +153,7 @@ public class OpenCDXIAMUserRestController {
     }
 
     /**
-     * Method to authenticate user login.
-     * @param id LoginRequest to authenticate user
+     * Method to authenticate user login
      * @return Response with login token.
      */
     @GetMapping("/current")
