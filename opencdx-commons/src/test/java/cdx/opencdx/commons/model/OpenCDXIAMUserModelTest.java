@@ -17,6 +17,7 @@ package cdx.opencdx.commons.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
@@ -64,5 +65,35 @@ class OpenCDXIAMUserModelTest {
         OpenCDXIAMUserModel model = OpenCDXIAMUserModel.builder().build();
 
         Assertions.assertDoesNotThrow(() -> model.getIamUserProtobufMessage());
+    }
+
+    @Test
+    void getProtobufMessage_4() {
+        IamUser user = IamUser.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setCreatedAt(Timestamp.getDefaultInstance())
+                .setUpdatedAt(Timestamp.getDefaultInstance())
+                .setUsername("email")
+                .setSystemName("system")
+                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .setType(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .build();
+
+        OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
+
+        assertEquals(user, model.getIamUserProtobufMessage());
+    }
+
+    @Test
+    void getProtobufMessage_5() {
+        IamUser user = IamUser.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .setType(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .build();
+
+        OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
+
+        assertEquals(AgentType.AGENT_TYPE_SYSTEM, model.getAgentType());
     }
 }

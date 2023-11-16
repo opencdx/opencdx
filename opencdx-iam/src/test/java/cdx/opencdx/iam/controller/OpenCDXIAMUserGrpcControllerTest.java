@@ -272,4 +272,14 @@ class OpenCDXIAMUserGrpcControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LoginResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
+    @Test
+    void currentUser() {
+        StreamObserver<CurrentUserResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMUserGrpcController.currentUser(
+                CurrentUserRequest.newBuilder().build(), responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CurrentUserResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
 }
