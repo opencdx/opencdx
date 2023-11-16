@@ -40,10 +40,6 @@ ZERO Tolerance means for any code to be accepted at in a Pull Request, it must m
 - Jacoco reporting 90% code coverage.
 - Spotless code formatter.
 
-## Documentation
-- [Protoc Documentation](doc/protodoc/index.html)
-- [JavaDoc](doc/javadoc/index.html)
-
 ## Reports
 _**Reports are part of the build not available from GitHub.**_
 
