@@ -80,4 +80,21 @@ class OpenCDXConnectedTestModelTest {
                 connectedTest.getBasicInfo().getId(),
                 model.getProtobufMessage().getBasicInfo().getId());
     }
+
+    @Test
+    void getProtobufMessage_5() {
+        BasicInfo basicInfo = BasicInfo.newBuilder()
+                .setNationalHealthId(10)
+                .setUserId(ObjectId.get().toHexString())
+                .build();
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(basicInfo)
+                .build();
+
+        OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel(connectedTest);
+
+        Assertions.assertDoesNotThrow(() -> {
+            model.getNationalHealthId();
+        });
+    }
 }
