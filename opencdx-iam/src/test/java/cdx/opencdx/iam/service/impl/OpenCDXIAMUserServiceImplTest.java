@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 
 import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.client.service.impl.OpenCDXCommunicationClientImpl;
+import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
@@ -57,6 +58,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -344,18 +347,17 @@ class OpenCDXIAMUserServiceImplTest {
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.userExists(request));
     }
 
-    //    @Test
-    //    void login() {
-    //        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
-    //                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-    //                        .id(ObjectId.get())
-    //                        .build()));
-    //        LoginRequest request = LoginRequest.newBuilder()
-    //                .setUserName("username")
-    //                .setPassword("password")
-    //                .build();
-    //        Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
-    //    }
+    @Test
+    void login() {
+        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+                .thenReturn(Optional.of(
+                        OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
+        LoginRequest request = LoginRequest.newBuilder()
+                .setUserName("username")
+                .setPassword("password")
+                .build();
+        Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> this.openCDXIAMUserService.login(request));
+    }
 
     @Test
     void loginElse() {
@@ -368,7 +370,42 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void loginCatch() {
+        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .emailVerified(true)
+                        .build()));
         when(authenticationManager.authenticate(any())).thenThrow(BadCredentialsException.class);
+        LoginRequest request = LoginRequest.newBuilder()
+                .setUserName("username")
+                .setPassword("password")
+                .build();
+        Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
+    }
+
+    @Test
+    void loginCatchLockedException() {
+        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .emailVerified(true)
+                        .build()));
+        when(authenticationManager.authenticate(any())).thenThrow(LockedException.class);
+        LoginRequest request = LoginRequest.newBuilder()
+                .setUserName("username")
+                .setPassword("password")
+                .build();
+        Assertions.assertThrows(OpenCDXUnauthorized.class, () -> this.openCDXIAMUserService.login(request));
+    }
+
+    @Test
+    void loginCatchDisabledException() {
+        when(this.openCDXIAMUserRepository.findByEmail(any(String.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .emailVerified(true)
+                        .build()));
+        when(authenticationManager.authenticate(any())).thenThrow(DisabledException.class);
         LoginRequest request = LoginRequest.newBuilder()
                 .setUserName("username")
                 .setPassword("password")
@@ -459,5 +496,26 @@ class OpenCDXIAMUserServiceImplTest {
                         .currentUser(CurrentUserRequest.newBuilder().build())
                         .getIamUser()
                         .getId());
+    }
+
+    @Test
+    void testCurrentUserCatch() throws JsonProcessingException {
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
+                this.objectMapper1,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.passwordEncoder,
+                this.authenticationManager,
+                this.jwtTokenUtil,
+                this.openCDXCurrentUser,
+                this.appProperties,
+                this.openCDXCommunicationClient,
+                this.openCDXNationalHealthIdentifier);
+
+        CurrentUserRequest currentUserRequest = CurrentUserRequest.newBuilder().build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.currentUser(currentUserRequest));
     }
 }

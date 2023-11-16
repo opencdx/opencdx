@@ -297,4 +297,15 @@ class OpenCDXIAMUserRestControllerTest {
         String content = result.getResponse().getContentAsString();
         Assertions.assertNotNull(content);
     }
+
+    @Test
+    void currentUser() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/user/current/" + ObjectId.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
 }
