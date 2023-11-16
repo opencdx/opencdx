@@ -104,15 +104,6 @@ public class OpenCDXIAMUserModel {
     }
 
     /**
-     * Constructor from a UserProfile
-     * @param userProfile UserProfile to construct from.
-     */
-    public OpenCDXIAMUserModel(UserProfile userProfile) {
-        this.id = new ObjectId(userProfile.getUserId());
-        this.update(userProfile);
-    }
-
-    /**
      * Method to update the data with a protobuf UserProfile
      * @param userProfile UserProfile to update data from
      * @return reference to itself.
