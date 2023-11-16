@@ -102,7 +102,7 @@ open_reports() {
             open build/reports/jacoco/jacocoRootReport/html/index.html || handle_error "Failed to open the JaCoCo report."
         fi
         ;;
-    javadoc)
+    check)
         echo "Opening JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         if [[ "$OSTYPE" == "msys" ]]; then
@@ -110,6 +110,18 @@ open_reports() {
         else
             open build/docs/javadoc-all/index.html || handle_error "Failed to open the JavaDoc."
         fi
+        ;;
+    publish)
+      read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
+        echo "Cleaning doc folder"
+        rm -rf ./doc
+        mkdir doc
+        echo "Creating JavaDoc..."
+        ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
+        mv build/docs/javadoc-all ./doc/javadoc
+
+        mkdir -p doc/protodoc
+         protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
         ;;
     proto)
        echo "Opening Proto Doc..."
@@ -327,9 +339,10 @@ if [ "$no_menu" = false ]; then
         echo "1. Open Test Report"
         echo "2. Open Dependency Check Report"
         echo "3. Open JaCoCo Report"
-        echo "4. Open JavaDoc"
+        echo "4. Check code"
         echo "5. Open Proto Doc"
         echo "6. Docker Menu"
+        echo "7. Publish Doc"
 
         read -r -p "Enter your choice (x to Exit): " main_choice
 
@@ -337,9 +350,10 @@ if [ "$no_menu" = false ]; then
         1) open_reports "test" ;;
         2) open_reports "dependency" ;;
         3) open_reports "jacoco" ;;
-        4) open_reports "javadoc" ;;
+        4) open_reports "check" ;;
         5) open_reports "proto" ;;
         6) docker_menu ;;
+        7) open_reports "publish" ;;
         x)
             echo "Exiting..."
             exit 0
