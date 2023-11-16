@@ -105,6 +105,10 @@ public class OpenCDXIAMUserModel {
 
     public OpenCDXIAMUserModel(UserProfile userProfile) {
         this.id = new ObjectId(userProfile.getUserId());
+        this.update(userProfile);
+    }
+
+    public OpenCDXIAMUserModel update(UserProfile userProfile) {
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
@@ -124,6 +128,7 @@ public class OpenCDXIAMUserModel {
         this.vaccines = userProfile.getVaccineAdministeredList();
         this.allergies = userProfile.getKnownAllergiesList();
         this.medications = userProfile.getCurrentMedicationsList();
+        return this;
     }
 
     public OpenCDXIAMUserModel(SignUpRequest request) {
