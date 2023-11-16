@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package cdx.opencdx.grpc.routine;
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+/**
+ * Entities for the Routine System
+ */
+message Routine {
+  optional string routine_id = 1; // Unique identifier for each routine process
+  optional string name = 2; // Name or title for the routine process
+  optional string description = 3; // Additional details describing the nature of the routine
+  optional string status = 4; // Status indicating the state of the routine (e.g., in progress, completed)
+  google.protobuf.Timestamp creation_datetime = 5; // Timestamp for when the routine was created
+  google.protobuf.Timestamp last_updated_datetime = 6; // Timestamp for the last update to the routine
+  optional string assigned_user = 7; // User or team responsible for the routine
+  repeated string associated_protocols = 8; // Reference to clinical protocols linked to the routine
+}
+
+/**
+ * Entities for the Delivery Tracking System
+ */
+ message DeliveryTracking {
+  optional string delivery_id = 1; // Unique identifier for each tracked delivery
+  optional string order_id = 2; // Identifier linking the delivery to an order or request
+  optional string status = 3; // Status of the delivery (e.g., in transit, delivered)
+  google.protobuf.Timestamp start_datetime = 4; // Timestamp when the delivery process started
+  google.protobuf.Timestamp end_datetime = 5; // Timestamp when the delivery was completed
+  optional string current_location = 6; // Information about the current location of the delivery
+  optional string recipient = 7; // Information about the recipient or receiver of the delivery
+  repeated string delivery_items = 8; // Details of the items being delivered
+  optional string assigned_courier = 9; // Courier or delivery person responsible for the delivery
+}
+/**
+ * Entities for the Clinical Protocol Execution
+ */
+message ClinicalProtocolExecution {
+  optional string execution_id = 1; // Unique identifier for each execution of a clinical protocol
+  optional string routine_id = 2; // Reference to the routine associated with the clinical protocol execution
+  optional string protocol_id = 3; // Reference to the specific clinical protocol being executed
+  optional string status = 4; // Status of the protocol execution (e.g., not started, in progress, completed)
+  google.protobuf.Timestamp start_datetime = 5; // Timestamp when the execution of the protocol began
+  google.protobuf.Timestamp end_datetime = 6; // Timestamp when the execution was completed
+  optional string results = 7; // Details about the results or outcomes of the protocol execution
+  optional string assigned_medical_staff = 8; // Information about the medical professionals responsible for the protocol execution
+  repeated string steps = 9; // Representation of the individual steps or actions within the protocol
+}
+
+/**
+ * Entities for Trigger Conditions
+ */
+ message LabOrder {
+  optional string lab_order_id = 1; // Unique identifier for lab orders
+  optional string test_name = 2; // Name of the lab test
+  google.protobuf.Timestamp order_datetime= 3; // Timestamp of the lab order
+  optional string matched_value_set = 4; // Value set that triggered the eICR
+  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+}
+
+/**
+ * Diagnosis Data
+ */
+message Diagnosis {
+  optional string diagnosis_id = 1; // Unique identifier for diagnoses
+  optional string diagnosis_code = 2; // Diagnosis code
+  google.protobuf.Timestamp diagnosis_datetime= 3; // Timestamp of the diagnosis
+  optional string matched_value_set = 4; // Value set that triggered the eICR
+  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+}
+
+/**
+ * Suspected Diagnosis data
+ */
+message SuspectedDiagnosis {
+  optional string suspected_diagnosis_id = 1; // Unique identifier for suspected diagnoses
+  optional string diagnosis_code = 2; // Diagnosis code for suspected diagnoses
+  google.protobuf.Timestamp diagnosis_datetime= 3; // Timestamp of the suspected diagnosis
+  optional string matched_value_set = 4; // Value set that triggered the eICR
+  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+}
+
+/**
+ * Lab Result data
+ */
+message LabResult {
+  optional string result_id = 1; // Unique identifier for lab results
+  optional string result_value = 2; // Value of the lab result
+  google.protobuf.Timestamp result_datetime= 3; // Timestamp of the lab result
+  optional string matched_value_set = 4; // Value set that triggered the eICR
+  repeated string related_entities = 5; // Related entities (e.g., Patients, Lab Facilities)
+}
+
+/**
+ * Medication data
+ */
+message Medication {
+  optional string medication_id = 1; // Unique identifier for medications
+  optional string medication_name = 2; // Name of the medication
+  google.protobuf.Timestamp administration_datetime= 3; // Timestamp of medication administration
+  optional string matched_value_set = 4; // Value set that triggered the eICR
+  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+}
+
+// gRPC services and operations
+service RoutineSystemService {
+  // Create a new routine entity
+  rpc CreateRoutine(Routine) returns (Routine);
+
+  // Retrieve information about a routine entity by ID
+  rpc GetRoutineByID(Routine) returns (Routine);
+
+  // Create a new delivery tracking entity
+  rpc CreateDeliveryTracking(DeliveryTracking) returns (DeliveryTracking);
+
+  // Retrieve information about a delivery tracking entity by ID
+  rpc GetDeliveryTrackingByID(DeliveryTracking) returns (DeliveryTracking);
+
+  // Create a new clinical protocol execution entity
+  rpc CreateClinicalProtocolExecution(ClinicalProtocolExecution) returns (ClinicalProtocolExecution);
+
+  // Retrieve information about a clinical protocol execution entity by ID
+  rpc GetClinicalProtocolExecutionByID(ClinicalProtocolExecution) returns (ClinicalProtocolExecution);
+  
+  // Trigger a new lab order entity
+  rpc TriggerLabOrder(LabOrder) returns (LabOrder);
+
+  // Retrieve information about a lab order entity by ID
+  rpc GetLabOrderByID(LabOrder) returns (LabOrder);
+
+  // Trigger a new diagnosis entity
+  rpc TriggerDiagnosis(Diagnosis) returns (Diagnosis);
+
+  // Retrieve information about a diagnosis entity by ID
+  rpc GetDiagnosisByID(Diagnosis) returns (Diagnosis);
+
+  // Trigger a new suspected diagnosis entity
+  rpc TriggerSuspectedDiagnosis(SuspectedDiagnosis) returns (SuspectedDiagnosis);
+
+  // Retrieve information about a suspected diagnosis entity by ID
+  rpc GetSuspectedDiagnosisByID(SuspectedDiagnosis) returns (SuspectedDiagnosis);
+
+  // Trigger a new lab result entity
+  rpc TriggerLabResult(LabResult) returns (LabResult);
+
+  // Retrieve information about a lab result entity by ID
+  rpc GetLabResultByID(LabResult) returns (LabResult);
+
+  // Trigger a new medication entity
+  rpc TriggerMedication(Medication) returns (Medication);
+
+  // Retrieve information about a medication entity by ID
+  rpc GetMedicationByID(Medication) returns (Medication);
+}
+
