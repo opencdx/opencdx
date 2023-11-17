@@ -18,14 +18,13 @@ package cdx.opencdx.iam.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.config.AppProperties;
@@ -88,8 +87,8 @@ class OpenCDXIAMUserGrpcControllerTest {
     @MockBean
     JwtTokenUtil jwtTokenUtil;
 
-    @MockBean
-    OpenCDXCommunicationClient openCDXCommunicationClient;
+    @Autowired
+    OpenCDXCommunicationService openCDXCommunicationService;
 
     @Autowired
     AppProperties appProperties;
@@ -142,7 +141,6 @@ class OpenCDXIAMUserGrpcControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
 
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
@@ -153,7 +151,7 @@ class OpenCDXIAMUserGrpcControllerTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         this.openCDXIAMUserGrpcController = new OpenCDXIAMUserGrpcController(this.openCDXIAMUserService);
     }

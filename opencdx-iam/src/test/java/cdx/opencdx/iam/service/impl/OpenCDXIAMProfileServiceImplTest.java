@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.client.service.OpenCDXCommunicationClient;
-import cdx.opencdx.client.service.impl.OpenCDXCommunicationClientImpl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -29,8 +27,6 @@ import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.communication.CommunicationServiceGrpc;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.DeleteUserProfileRequest;
 import cdx.opencdx.grpc.profile.FullName;
@@ -86,11 +82,6 @@ class OpenCDXIAMProfileServiceImplTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    OpenCDXCommunicationClient openCDXCommunicationClient;
-
-    @Mock
-    CommunicationServiceGrpc.CommunicationServiceBlockingStub blockingStub;
-
     @Autowired
     AppProperties appProperties;
 
@@ -120,10 +111,6 @@ class OpenCDXIAMProfileServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
-        this.blockingStub = Mockito.mock(CommunicationServiceGrpc.CommunicationServiceBlockingStub.class);
-        Mockito.when(this.blockingStub.withCallCredentials(Mockito.any())).thenReturn(this.blockingStub);
-        this.openCDXCommunicationClient = new OpenCDXCommunicationClientImpl(this.blockingStub);
     }
 
     @AfterEach

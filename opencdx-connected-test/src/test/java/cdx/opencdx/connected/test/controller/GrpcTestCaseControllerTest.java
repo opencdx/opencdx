@@ -22,7 +22,6 @@ import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXTestCaseServiceImpl;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -79,7 +78,7 @@ class GrpcTestCaseControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+
         this.openCDXTestCaseService = new OpenCDXTestCaseServiceImpl(
                 this.openCDXTestCaseRepository, openCDXCurrentUser, objectMapper, this.openCDXAuditService);
         this.grpcTestCaseController = new GrpcTestCaseController(this.openCDXTestCaseService);

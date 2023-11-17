@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
@@ -74,9 +75,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 .getProtobufMessage();
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiCreated(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Connected Test Submitted.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),
@@ -104,9 +106,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 .getProtobufMessage();
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiAccessed(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Connected Test Accessed.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     ObjectId.get().toHexString(),

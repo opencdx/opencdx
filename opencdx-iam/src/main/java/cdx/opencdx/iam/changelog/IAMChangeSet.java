@@ -76,4 +76,20 @@ public class IAMChangeSet {
     public void setupSystemIndex(MongockTemplate mongockTemplate) {
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));
     }
+
+    /**
+     * Setup Communications System  for OpenCDX
+     * @param openCDXIAMUserRepository User Repository for saving default user.
+     */
+    @ChangeSet(order = "004", id = "Setup communications User", author = "Jeff Miller")
+    public void setupCommunicationsUser(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("communications")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Communications")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password("{bcrypt}$2a$10$FLbaCLMQvIW8u5ceN4BStujPq8dbXeyeIiazOPatFUwcaopXNqlAa")
+                .emailVerified(true)
+                .build());
+    }
 }

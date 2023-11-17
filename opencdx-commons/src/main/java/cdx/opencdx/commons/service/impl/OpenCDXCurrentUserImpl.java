@@ -21,9 +21,12 @@ import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.AgentType;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +37,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     private static final String DOMAIN = "OpenCDXCurrentUserImpl";
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
@@ -41,8 +47,11 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
      * Consturtor for OpenCDXCurrentUser service.
      * @param openCDXIAMUserRepository Repository to access users.
      */
-    public OpenCDXCurrentUserImpl(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+    public OpenCDXCurrentUserImpl(
+            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            @Value("${spring.application.name}") String applicationName) {
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.applicationName = applicationName;
     }
 
     @Override
@@ -70,7 +79,9 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     }
 
     @Override
-    public AgentType getCurrentUserType() {
-        return AgentType.AGENT_TYPE_HUMAN_USER;
+    public void configureAuthentication(String role) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                this.applicationName, role, List.of(new SimpleGrantedAuthority(role)));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

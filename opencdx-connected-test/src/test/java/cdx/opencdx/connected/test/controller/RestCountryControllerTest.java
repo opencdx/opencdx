@@ -23,7 +23,6 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.Country;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -82,7 +81,7 @@ class RestCountryControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+
         Mockito.when(openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .thenAnswer(new Answer<OpenCDXCountryModel>() {
                     @Override

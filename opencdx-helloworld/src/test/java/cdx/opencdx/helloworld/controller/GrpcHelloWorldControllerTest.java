@@ -18,7 +18,6 @@ package cdx.opencdx.helloworld.controller;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
@@ -62,7 +61,6 @@ class GrpcHelloWorldControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
 
         Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
         this.helloWorldService =

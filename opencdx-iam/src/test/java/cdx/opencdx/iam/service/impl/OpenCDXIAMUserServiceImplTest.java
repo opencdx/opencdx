@@ -18,8 +18,6 @@ package cdx.opencdx.iam.service.impl;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.client.service.OpenCDXCommunicationClient;
-import cdx.opencdx.client.service.impl.OpenCDXCommunicationClientImpl;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -28,11 +26,9 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.communication.CommunicationServiceGrpc;
-import cdx.opencdx.grpc.communication.SuccessResponse;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.config.AppProperties;
@@ -92,10 +88,8 @@ class OpenCDXIAMUserServiceImplTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    OpenCDXCommunicationClient openCDXCommunicationClient;
-
-    @Mock
-    CommunicationServiceGrpc.CommunicationServiceBlockingStub blockingStub;
+    @Autowired
+    OpenCDXCommunicationService openCDXCommunicationService;
 
     @Autowired
     AppProperties appProperties;
@@ -126,10 +120,6 @@ class OpenCDXIAMUserServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
-        this.blockingStub = Mockito.mock(CommunicationServiceGrpc.CommunicationServiceBlockingStub.class);
-        Mockito.when(this.blockingStub.withCallCredentials(Mockito.any())).thenReturn(this.blockingStub);
-        this.openCDXCommunicationClient = new OpenCDXCommunicationClientImpl(this.blockingStub);
 
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
@@ -140,7 +130,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
     }
 
@@ -226,7 +216,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         OpenCDXIAMUserModel model3 =
                 OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
@@ -256,7 +246,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
@@ -283,7 +273,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
@@ -309,7 +299,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
@@ -335,7 +325,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
@@ -415,7 +405,6 @@ class OpenCDXIAMUserServiceImplTest {
 
     @Test
     void verifyEmailIamUser() {
-        when(this.blockingStub.sendNotification(any())).thenReturn(SuccessResponse.getDefaultInstance());
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
@@ -449,7 +438,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
@@ -478,7 +467,6 @@ class OpenCDXIAMUserServiceImplTest {
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build());
-        Mockito.when(currentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,
@@ -488,7 +476,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 currentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
         Assertions.assertEquals(
                 id.toHexString(),
@@ -511,7 +499,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.jwtTokenUtil,
                 this.openCDXCurrentUser,
                 this.appProperties,
-                this.openCDXCommunicationClient,
+                this.openCDXCommunicationService,
                 this.openCDXNationalHealthIdentifier);
 
         CurrentUserRequest currentUserRequest = CurrentUserRequest.newBuilder().build();

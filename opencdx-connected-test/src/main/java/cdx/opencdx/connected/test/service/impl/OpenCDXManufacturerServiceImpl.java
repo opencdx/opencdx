@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
@@ -91,9 +92,10 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating Manufacturer",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXManufacturerModel.getId().toHexString(),
@@ -113,9 +115,10 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating Manufacturer",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXManufacturerModel.getId().toHexString(),

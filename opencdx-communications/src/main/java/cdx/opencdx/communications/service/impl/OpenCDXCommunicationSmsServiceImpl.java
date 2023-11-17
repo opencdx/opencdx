@@ -18,6 +18,7 @@ package cdx.opencdx.communications.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
@@ -87,9 +88,10 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
         SMSTemplate smsTemplate =
                 SMSTemplate.newBuilder(rawSmsTemplate).setMessage(sanity).build();
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
@@ -128,9 +130,10 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
             throw new OpenCDXFailedPrecondition(DOMAIN, 2, "Update method called without template id");
         }
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     smsTemplate.getTemplateId(),
@@ -157,9 +160,10 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Deleting SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),

@@ -24,7 +24,6 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.*;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -81,7 +80,7 @@ class RestManufacturerControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+
         Mockito.when(openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
                 .thenAnswer(new Answer<OpenCDXManufacturerModel>() {
                     @Override

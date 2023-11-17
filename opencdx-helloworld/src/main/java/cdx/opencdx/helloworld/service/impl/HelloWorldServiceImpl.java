@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.helloworld.service.impl;
 
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
@@ -64,9 +65,10 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
         this.personRepository.save(person);
+        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         this.openCDXAuditService.piiCreated(
-                this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                this.openCDXCurrentUser.getCurrentUserType(),
+                currentUser.getId().toHexString(),
+                currentUser.getAgentType(),
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                 UUID.randomUUID().toString(),
