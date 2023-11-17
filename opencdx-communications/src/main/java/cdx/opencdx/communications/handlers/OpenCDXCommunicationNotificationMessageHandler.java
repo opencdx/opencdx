@@ -17,6 +17,7 @@ package cdx.opencdx.communications.handlers;
 
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.grpc.communication.Notification;
@@ -25,12 +26,7 @@ import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Message Handler for Communication Microservice.
@@ -45,29 +41,32 @@ public class OpenCDXCommunicationNotificationMessageHandler implements OpenCDXMe
 
     private final OpenCDXMessageService openCDXMessageService;
 
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+
     /**
      * Constructor for the Audit microservice
      *
-     * @param objectMapper          Object mapper used for conversion
-     * @param openCDXMessageService Message service used for receiving messages.
+     * @param objectMapper               Object mapper used for conversion
      * @param openCDXNotificationService Notification Service to process Notification.
+     * @param openCDXMessageService      Message service used for receiving messages.
+     * @param openCDXCurrentUser Used to specify the system as the user.
      */
     public OpenCDXCommunicationNotificationMessageHandler(
             ObjectMapper objectMapper,
             OpenCDXNotificationService openCDXNotificationService,
-            OpenCDXMessageService openCDXMessageService) {
+            OpenCDXMessageService openCDXMessageService,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.objectMapper = objectMapper;
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXMessageService = openCDXMessageService;
+        this.openCDXCurrentUser = openCDXCurrentUser;
 
         this.openCDXMessageService.subscribe(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, this);
     }
 
     @Override
     public void receivedMessage(byte[] message) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                "admin@opencdx.org", "password", List.of(new SimpleGrantedAuthority("OPENCDX_USER")));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        this.openCDXCurrentUser.configureAuthentication("SYSTEM");
         try {
             Notification notification = objectMapper.readValue(message, Notification.class);
             log.info("Received Notification: {}", notification.getEventId());

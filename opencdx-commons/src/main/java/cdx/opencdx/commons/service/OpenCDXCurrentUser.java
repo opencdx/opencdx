@@ -41,4 +41,10 @@ public interface OpenCDXCurrentUser {
      * @return AgentType for the current user.
      */
     AgentType getCurrentUserType();
+
+    /**
+     * Method to assign the System as the current user with the specified role.
+     * @param role Role to assign to the system user.
+     */
+    void configureAuthentication(String role);
 }

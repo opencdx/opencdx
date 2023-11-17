@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.config;
 
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.communications.handlers.OpenCDXCommunicationNotificationMessageHandler;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
@@ -101,8 +102,9 @@ public class AppConfig {
     OpenCDXCommunicationNotificationMessageHandler openCDXCommunicationNotificationMessageHandler(
             ObjectMapper objectMapper,
             OpenCDXNotificationService openCDXNotificationService,
-            OpenCDXMessageService openCDXMessageService) {
+            OpenCDXMessageService openCDXMessageService,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         return new OpenCDXCommunicationNotificationMessageHandler(
-                objectMapper, openCDXNotificationService, openCDXMessageService);
+                objectMapper, openCDXNotificationService, openCDXMessageService, openCDXCurrentUser);
     }
 }

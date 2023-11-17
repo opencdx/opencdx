@@ -22,8 +22,11 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.AgentType;
+import java.util.List;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +75,12 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     @Override
     public AgentType getCurrentUserType() {
         return AgentType.AGENT_TYPE_HUMAN_USER;
+    }
+
+    @Override
+    public void configureAuthentication(String role) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                "admin@opencdx.org", role, List.of(new SimpleGrantedAuthority(role)));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

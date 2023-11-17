@@ -15,18 +15,14 @@
  */
 package cdx.opencdx.communications.tasks;
 
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,20 +36,24 @@ public class OpenCDXNotificationProcessorTasks {
     public static final String PRINCIPAL = "admin@opencdx.org";
     public static final String CREDENTIALS = "password";
     public static final String AUTHORITY = "OPENCDX_USER";
-    private OpenCDXNotificationService openCDXNotificationService;
-    private OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
+    private final OpenCDXNotificationService openCDXNotificationService;
+    private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
      * Constructor with the OpenCDXNotificationService class used to send notifications
      *
-     * @param openCDXNotificationService Communication Service to use.
+     * @param openCDXNotificationService    Communication Service to use.
      * @param openCDXNotificaitonRepository Repository used to lookup notifications.
+     * @param openCDXCurrentUser
      */
     public OpenCDXNotificationProcessorTasks(
             OpenCDXNotificationService openCDXNotificationService,
-            OpenCDXNotificaitonRepository openCDXNotificaitonRepository) {
+            OpenCDXNotificaitonRepository openCDXNotificaitonRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     /**
@@ -64,9 +64,7 @@ public class OpenCDXNotificationProcessorTasks {
     @SchedulerLock(name = "highPriorityNotifications")
     public void highPriorityNotifications() {
         log.info("Starting High Priority Notifications Processing");
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                PRINCIPAL, CREDENTIALS, List.of(new SimpleGrantedAuthority(AUTHORITY)));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        this.openCDXCurrentUser.configureAuthentication("SYSTEM");
 
         this.openCDXNotificaitonRepository
                 .findAllByPriorityAndEmailStatusOrderByTimestampAsc(
@@ -112,9 +110,7 @@ public class OpenCDXNotificationProcessorTasks {
     @SchedulerLock(name = "mediumPriorityNotifications")
     public void mediumPriorityNotifications() {
         log.info("Starting Medium Priority Notifications Processing");
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                PRINCIPAL, CREDENTIALS, List.of(new SimpleGrantedAuthority(AUTHORITY)));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        this.openCDXCurrentUser.configureAuthentication("SYSTEM");
 
         this.openCDXNotificaitonRepository
                 .findAllByPriorityAndEmailStatusOrderByTimestampAsc(
@@ -129,7 +125,7 @@ public class OpenCDXNotificationProcessorTasks {
                 .findAllByPriorityAndSmsStatusOrderByTimestampAsc(
                         NotificationPriority.NOTIFICATION_PRIORITY_MEDIUM,
                         NotificationStatus.NOTIFICATION_STATUS_PENDING)
-                .forEach(notification -> {
+                .forEach(notification -> {8
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
                     this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
@@ -144,9 +140,7 @@ public class OpenCDXNotificationProcessorTasks {
     @SchedulerLock(name = "lowPriorityNotifications")
     public void lowPriorityNotifications() {
         log.info("Starting Low Priority Notifications Processing");
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                PRINCIPAL, CREDENTIALS, List.of(new SimpleGrantedAuthority(AUTHORITY)));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        this.openCDXCurrentUser.configureAuthentication("lowPriorityNotifications");
 
         this.openCDXNotificaitonRepository
                 .findAllByPriorityAndEmailStatusOrderByTimestampAsc(
