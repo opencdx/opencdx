@@ -39,6 +39,7 @@ open_reports() {
         echo "Running Jmeter Tests"
         copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         rm -rf build/reports/jmeter
+        mkdir build/reports
         jmeter -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
         if [[ "$OSTYPE" == "msys" ]]; then
             start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
