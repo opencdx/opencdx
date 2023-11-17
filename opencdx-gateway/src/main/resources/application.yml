@@ -88,7 +88,12 @@ spring:
             - Path=/cdx.opencdx.grpc.inventory.VendorService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-
+        - id: grpc-iam-profile
+          uri: https://iam:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.profile.UserProfileService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:

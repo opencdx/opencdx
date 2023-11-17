@@ -241,6 +241,281 @@
 }</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Update User Profile" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/UpdateUserProfile</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+    &quot;updated_profile&quot;: {
+        &quot;billing_address&quot;: {
+            &quot;city&quot;: &quot;ad veniam Lorem&quot;,
+            &quot;country&quot;: &quot;reprehenderit deserunt occaecat adipisicing&quot;,
+            &quot;postal_code&quot;: &quot;sunt&quot;,
+            &quot;state&quot;: &quot;nisi ad&quot;,
+            &quot;street&quot;: &quot;dolor esse cillum Duis laborum&quot;
+        },
+        &quot;communication&quot;: {
+            &quot;language&quot;: &quot;nulla aute amet&quot;,
+            &quot;preferred&quot;: false,
+            &quot;time_zone&quot;: &quot;nisi&quot;
+        },
+        &quot;contacts&quot;: [],
+        &quot;current_medications&quot;: [
+            {
+                &quot;end_date&quot;: &quot;aute do dolore non&quot;,
+                &quot;pharmacy&quot;: &quot;sint in&quot;,
+                &quot;name&quot;: &quot;consectetur quis Lorem cupidatat sint&quot;,
+                &quot;is_prescription&quot;: false,
+                &quot;dosage&quot;: &quot;qui est non irure tempor&quot;,
+                &quot;frequency&quot;: &quot;dolore consequat in anim&quot;,
+                &quot;prescribing_doctor&quot;: &quot;aute culpa fugiat amet&quot;,
+                &quot;instructions&quot;: &quot;id occaecat cupidatat qui est&quot;,
+                &quot;route_of_administration&quot;: &quot;culpa officia&quot;,
+                &quot;start_date&quot;: &quot;commodo mollit labore Lorem&quot;
+            },
+            {
+                &quot;instructions&quot;: &quot;enim&quot;,
+                &quot;name&quot;: &quot;aliquip est nostrud&quot;,
+                &quot;prescribing_doctor&quot;: &quot;laborum minim culpa&quot;,
+                &quot;route_of_administration&quot;: &quot;et dolore nulla&quot;,
+                &quot;frequency&quot;: &quot;et ut reprehenderit laboris&quot;,
+                &quot;pharmacy&quot;: &quot;commodo&quot;,
+                &quot;is_prescription&quot;: true,
+                &quot;end_date&quot;: &quot;consequat fugiat deserunt&quot;,
+                &quot;start_date&quot;: &quot;quis nisi magna&quot;,
+                &quot;dosage&quot;: &quot;Duis cupidatat officia&quot;
+            },
+            {
+                &quot;route_of_administration&quot;: &quot;incididunt eiusmod&quot;,
+                &quot;is_prescription&quot;: false,
+                &quot;frequency&quot;: &quot;sint voluptate eu aute&quot;,
+                &quot;start_date&quot;: &quot;eu enim sunt in dolor&quot;,
+                &quot;prescribing_doctor&quot;: &quot;ex&quot;,
+                &quot;dosage&quot;: &quot;aute incididunt commodo minim do&quot;,
+                &quot;pharmacy&quot;: &quot;aliquip dolore quis dolore laborum&quot;,
+                &quot;end_date&quot;: &quot;cillum dolore amet commodo nulla&quot;,
+                &quot;instructions&quot;: &quot;eu exercitation dolor cillum sint&quot;,
+                &quot;name&quot;: &quot;sint voluptate dolore Lorem&quot;
+            },
+            {
+                &quot;dosage&quot;: &quot;do Ut&quot;,
+                &quot;frequency&quot;: &quot;consequat cillum&quot;,
+                &quot;instructions&quot;: &quot;Lorem&quot;,
+                &quot;prescribing_doctor&quot;: &quot;dolore velit&quot;,
+                &quot;route_of_administration&quot;: &quot;minim pariatur amet et aute&quot;,
+                &quot;end_date&quot;: &quot;voluptate minim fugiat&quot;,
+                &quot;name&quot;: &quot;esse cupidatat adipisicing sunt&quot;,
+                &quot;start_date&quot;: &quot;ipsum adipisicing proident&quot;,
+                &quot;pharmacy&quot;: &quot;nulla eiusmod mollit&quot;,
+                &quot;is_prescription&quot;: false
+            },
+            {
+                &quot;dosage&quot;: &quot;ullamco sit sunt non&quot;,
+                &quot;name&quot;: &quot;proident laborum ea in&quot;,
+                &quot;frequency&quot;: &quot;enim deserunt dolore consequat&quot;,
+                &quot;pharmacy&quot;: &quot;dolore quis laboris aute cillum&quot;,
+                &quot;start_date&quot;: &quot;velit cillum do&quot;,
+                &quot;end_date&quot;: &quot;velit anim aute enim&quot;,
+                &quot;prescribing_doctor&quot;: &quot;ex commodo dolore minim anim&quot;,
+                &quot;instructions&quot;: &quot;Excepteur ut dolor&quot;,
+                &quot;route_of_administration&quot;: &quot;quis reprehenderit dolore elit voluptate&quot;,
+                &quot;is_prescription&quot;: false
+            }
+        ],
+        &quot;date_of_birth&quot;: {
+            &quot;date&quot;: &quot;enim&quot;
+        },
+        &quot;demographics&quot;: {
+            &quot;ethnicity&quot;: &quot;sint fugiat tempor&quot;,
+            &quot;gender&quot;: 1,
+            &quot;nationality&quot;: &quot;Lorem dolor velit voluptate&quot;,
+            &quot;race&quot;: &quot;in reprehenderit adipisicing&quot;
+        },
+        &quot;dependent_id&quot;: [
+            &quot;65568c0a09e97b66d04ce8bf&quot;, &quot;65568c0a09e97b66d04ce8c0&quot;
+        ],
+        &quot;education&quot;: {
+            &quot;entries&quot;: [
+                {
+                    &quot;completion_date&quot;: &quot;anim in qui fugiat do&quot;,
+                    &quot;start_date&quot;: &quot;in officia ipsum&quot;,
+                    &quot;degree&quot;: &quot;ad anim consectetur cupidatat&quot;,
+                    &quot;institution&quot;: &quot;qui&quot;
+                },
+                {
+                    &quot;institution&quot;: &quot;mollit in Ut qui reprehenderit&quot;,
+                    &quot;completion_date&quot;: &quot;aliqua velit consequat&quot;,
+                    &quot;degree&quot;: &quot;laboris ullamco&quot;,
+                    &quot;start_date&quot;: &quot;laborum sit dolore Duis id&quot;
+                },
+                {
+                    &quot;degree&quot;: &quot;eu&quot;,
+                    &quot;start_date&quot;: &quot;ut ullamco cillum occaecat&quot;,
+                    &quot;institution&quot;: &quot;minim amet voluptate dolor ut&quot;,
+                    &quot;completion_date&quot;: &quot;id aute eiusmod nostrud qui&quot;
+                }
+            ]
+        },
+        &quot;emergency_contact&quot;: {
+            &quot;contact_name&quot;: &quot;magna eu eiusmod consectetur&quot;,
+            &quot;relationship&quot;: &quot;ullamco et ipsum esse laboris&quot;
+        },
+        &quot;employee_identity&quot;: {
+            &quot;employee_id&quot;: &quot;cupidatat ut&quot;,
+            &quot;identity_verified&quot;: true,
+            &quot;organization_id&quot;: &quot;cillum in irure consectetur&quot;,
+            &quot;status&quot;: &quot;cupidatat ad laborum ut&quot;,
+            &quot;workspace_id&quot;: &quot;incididunt nostrud&quot;
+        },
+        &quot;full_name&quot;: {
+            &quot;first_name&quot;: &quot;commodo in&quot;,
+            &quot;last_name&quot;: &quot;aliquip veniam&quot;,
+            &quot;middle_name&quot;: &quot;dolor minim anim aliqua&quot;,
+            &quot;suffix&quot;: &quot;aliqua&quot;,
+            &quot;title&quot;: &quot;Excepteur&quot;
+        },
+        &quot;gender&quot;: 3,
+        &quot;is_active&quot;: true,
+        &quot;known_allergies&quot;: [
+            {
+                &quot;is_severe&quot;: true,
+                &quot;reaction&quot;: &quot;irure&quot;,
+                &quot;last_occurrence&quot;: &quot;voluptate dolore laborum dolor nostrud&quot;,
+                &quot;allergen&quot;: &quot;officia aliqua ad cillum&quot;,
+                &quot;onset_date&quot;: &quot;consequat&quot;,
+                &quot;notes&quot;: &quot;deserunt in&quot;
+            },
+            {
+                &quot;last_occurrence&quot;: &quot;Duis dolor aute incididunt consectetur&quot;,
+                &quot;reaction&quot;: &quot;in eu exercitation&quot;,
+                &quot;is_severe&quot;: true,
+                &quot;notes&quot;: &quot;fugiat minim id&quot;,
+                &quot;onset_date&quot;: &quot;sunt occaecat adipisicing&quot;,
+                &quot;allergen&quot;: &quot;in labore consectetur incididunt&quot;
+            },
+            {
+                &quot;onset_date&quot;: &quot;sed&quot;,
+                &quot;last_occurrence&quot;: &quot;in fugiat deserunt&quot;,
+                &quot;reaction&quot;: &quot;voluptate tempor sunt aliqua&quot;,
+                &quot;allergen&quot;: &quot;Duis&quot;,
+                &quot;is_severe&quot;: true,
+                &quot;notes&quot;: &quot;laborum tempor commodo voluptate&quot;
+            },
+            {
+                &quot;last_occurrence&quot;: &quot;minim enim aliqua amet&quot;,
+                &quot;is_severe&quot;: false,
+                &quot;reaction&quot;: &quot;reprehenderit est&quot;,
+                &quot;onset_date&quot;: &quot;esse in ullamco proident ut&quot;,
+                &quot;notes&quot;: &quot;irure adipisicing&quot;,
+                &quot;allergen&quot;: &quot;consequat&quot;
+            },
+            {
+                &quot;onset_date&quot;: &quot;ipsum&quot;,
+                &quot;allergen&quot;: &quot;aliqua occaecat anim ullamco minim&quot;,
+                &quot;notes&quot;: &quot;quis do magna voluptate&quot;,
+                &quot;last_occurrence&quot;: &quot;commodo&quot;,
+                &quot;reaction&quot;: &quot;consequat officia Lorem ipsum&quot;,
+                &quot;is_severe&quot;: true
+            }
+        ],
+        &quot;national_health_id&quot;: &quot;elit et in&quot;,
+        &quot;pharmacy_details&quot;: {
+            &quot;pharmacy_name&quot;: &quot;aliqua&quot;
+        },
+        &quot;photo&quot;: &quot;/VYXch44E5jaCd0R+myjviEB&quot;,
+        &quot;place_of_birth&quot;: {
+            &quot;city&quot;: &quot;consequat Excepteur pariatur&quot;,
+            &quot;country&quot;: &quot;anim aliqua ad ut non&quot;,
+            &quot;state&quot;: &quot;enim officia ea commodo do&quot;
+        },
+        &quot;primary_address&quot;: {
+            &quot;city&quot;: &quot;Duis cupidatat&quot;,
+            &quot;country&quot;: &quot;Lorem aliqua&quot;,
+            &quot;postal_code&quot;: &quot;do&quot;,
+            &quot;state&quot;: &quot;velit do laborum ut&quot;,
+            &quot;street&quot;: &quot;consequat deserunt ea do id&quot;
+        },
+        &quot;primary_contact_info&quot;: {
+            &quot;email&quot;: &quot;velit ex enim cillum nulla&quot;,
+            &quot;fax_number&quot;: {
+                &quot;number&quot;: &quot;amet esse incididunt aute id&quot;,
+                &quot;type&quot;: 5
+            },
+            &quot;home_number&quot;: {
+                &quot;number&quot;: &quot;voluptate Excepteur tempor in quis&quot;,
+                &quot;type&quot;: &quot;PHONE_TYPE_MOBILE&quot;
+            },
+            &quot;mobile_number&quot;: {
+                &quot;number&quot;: &quot;in&quot;,
+                &quot;type&quot;: 3
+            },
+            &quot;work_number&quot;: {
+                &quot;number&quot;: &quot;adipisicing&quot;,
+                &quot;type&quot;: 5
+            }
+        },
+        &quot;shipping_address&quot;: {
+            &quot;city&quot;: &quot;ipsum&quot;,
+            &quot;country&quot;: &quot;incididunt&quot;,
+            &quot;postal_code&quot;: &quot;commodo eiusmod dolor&quot;,
+            &quot;state&quot;: &quot;aliquip dolor dolore&quot;,
+            &quot;street&quot;: &quot;ullamco dolore minim commodo&quot;
+        },
+        &quot;user_id&quot;: &quot;${user_id_g}&quot;,
+        &quot;vaccine_administered&quot;: [
+            {
+                &quot;manufacturer&quot;: &quot;nulla pariatur aute tempor est&quot;,
+                &quot;vaccine_type&quot;: &quot;nulla&quot;,
+                &quot;administration_date&quot;: &quot;magna Excepteur sed&quot;,
+                &quot;dose_number&quot;: 1564345021,
+                &quot;locality&quot;: &quot;eu in deserunt tempor&quot;,
+                &quot;fips&quot;: &quot;voluptate aliqua eiusmod do dolore&quot;,
+                &quot;facility_type&quot;: &quot;sunt&quot;,
+                &quot;health_district&quot;: &quot;dolore minim sint esse&quot;
+            },
+            {
+                &quot;vaccine_type&quot;: &quot;officia&quot;,
+                &quot;fips&quot;: &quot;cupidatat&quot;,
+                &quot;manufacturer&quot;: &quot;ex exercitation occaecat sed&quot;,
+                &quot;administration_date&quot;: &quot;officia ad Ut&quot;,
+                &quot;facility_type&quot;: &quot;nulla officia Lorem est amet&quot;,
+                &quot;health_district&quot;: &quot;est&quot;,
+                &quot;dose_number&quot;: 1029768126,
+                &quot;locality&quot;: &quot;in enim&quot;
+            }
+        ]
+    },
+    &quot;user_id&quot;: &quot;${user_id_g}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
+        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Get User Profile" enabled="true">
+          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+          <stringProp name="GRPCSampler.libFolder"></stringProp>
+          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+          <stringProp name="GRPCSampler.host">localhost</stringProp>
+          <stringProp name="GRPCSampler.port">8080</stringProp>
+          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/GetUserProfile</stringProp>
+          <stringProp name="GRPCSampler.deadline">1000</stringProp>
+          <boolProp name="GRPCSampler.tls">true</boolProp>
+          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{
+    &quot;user_id&quot;: &quot;${user_id_g}&quot;
+}</stringProp>
+        </vn.zalopay.benchmark.GRPCSampler>
+        <hashTree/>
         <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Change Password" enabled="true">
           <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
           <stringProp name="GRPCSampler.libFolder"></stringProp>
@@ -392,6 +667,241 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.path">/iam/user/${user_id_r}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/profile [POST]" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
+  &quot;updatedProfile&quot; : {&#xd;
+    &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
+    &quot;nationalHealthId&quot; : &quot;e1ad7eb6-3fd6-44e3-85fb-940ed70da28d&quot;,&#xd;
+    &quot;fullName&quot; : {&#xd;
+      &quot;title&quot; : &quot;&quot;,&#xd;
+      &quot;firstName&quot; : &quot;First&quot;,&#xd;
+      &quot;middleName&quot; : &quot;Middle&quot;,&#xd;
+      &quot;lastName&quot; : &quot;last&quot;,&#xd;
+      &quot;suffix&quot; : &quot;&quot;&#xd;
+    },&#xd;
+    &quot;contacts&quot; : [ {&#xd;
+      &quot;mobileNumber&quot; : {&#xd;
+        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+      },&#xd;
+      &quot;homeNumber&quot; : {&#xd;
+        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
+      },&#xd;
+      &quot;faxNumber&quot; : {&#xd;
+        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
+      },&#xd;
+      &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
+    } ],&#xd;
+    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
+    &quot;dateOfBirth&quot; : {&#xd;
+      &quot;date&quot; : &quot;1900/01/01&quot;&#xd;
+    },&#xd;
+    &quot;placeOfBirth&quot; : {&#xd;
+      &quot;country&quot; : &quot;USA&quot;,&#xd;
+      &quot;state&quot; : &quot;CA&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;&#xd;
+    },&#xd;
+    &quot;primaryAddress&quot; : {&#xd;
+      &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;CA&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
+      &quot;country&quot; : &quot;USA&quot;&#xd;
+    },&#xd;
+    &quot;photo&quot; : &quot;&quot;,&#xd;
+    &quot;communication&quot; : {&#xd;
+      &quot;language&quot; : &quot;EN&quot;,&#xd;
+      &quot;preferred&quot; : true,&#xd;
+      &quot;timeZone&quot; : &quot;EST&quot;&#xd;
+    },&#xd;
+    &quot;demographics&quot; : {&#xd;
+      &quot;ethnicity&quot; : &quot;Ethnicity&quot;,&#xd;
+      &quot;race&quot; : &quot;Race&quot;,&#xd;
+      &quot;nationality&quot; : &quot;USA&quot;,&#xd;
+      &quot;gender&quot; : &quot;GENDER_MALE&quot;&#xd;
+    },&#xd;
+    &quot;education&quot; : {&#xd;
+      &quot;entries&quot; : [ {&#xd;
+        &quot;degree&quot; : &quot;BA&quot;,&#xd;
+        &quot;institution&quot; : &quot;University&quot;,&#xd;
+        &quot;startDate&quot; : &quot;1992/08/01&quot;,&#xd;
+        &quot;completionDate&quot; : &quot;1996/05/30&quot;&#xd;
+      } ]&#xd;
+    },&#xd;
+    &quot;employeeIdentity&quot; : {&#xd;
+      &quot;organizationId&quot; : &quot;OrganizationId&quot;,&#xd;
+      &quot;workspaceId&quot; : &quot;WorkspaceID&quot;,&#xd;
+      &quot;employeeId&quot; : &quot;employeeID&quot;,&#xd;
+      &quot;identityVerified&quot; : true,&#xd;
+      &quot;status&quot; : &quot;Full Time&quot;&#xd;
+    },&#xd;
+    &quot;primaryContactInfo&quot; : {&#xd;
+      &quot;mobileNumber&quot; : {&#xd;
+        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+      },&#xd;
+      &quot;homeNumber&quot; : {&#xd;
+        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
+      },&#xd;
+      &quot;faxNumber&quot; : {&#xd;
+        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
+      },&#xd;
+      &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
+    },&#xd;
+    &quot;billingAddress&quot; : {&#xd;
+      &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;CA&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
+      &quot;country&quot; : &quot;USA&quot;&#xd;
+    },&#xd;
+    &quot;shippingAddress&quot; : {&#xd;
+      &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;CA&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
+      &quot;country&quot; : &quot;USA&quot;&#xd;
+    },&#xd;
+    &quot;emergencyContact&quot; : {&#xd;
+      &quot;relationship&quot; : &quot;Emergency Contact&quot;,&#xd;
+      &quot;contactName&quot; : &quot;Name&quot;,&#xd;
+      &quot;contactInfo&quot; : {&#xd;
+        &quot;mobileNumber&quot; : {&#xd;
+          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+        },&#xd;
+        &quot;homeNumber&quot; : {&#xd;
+          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
+        },&#xd;
+        &quot;faxNumber&quot; : {&#xd;
+          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
+        },&#xd;
+        &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
+      },&#xd;
+      &quot;residenceAddress&quot; : {&#xd;
+        &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+        &quot;city&quot; : &quot;City&quot;,&#xd;
+        &quot;state&quot; : &quot;CA&quot;,&#xd;
+        &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
+        &quot;country&quot; : &quot;USA&quot;&#xd;
+      },&#xd;
+      &quot;workAddress&quot; : {&#xd;
+        &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+        &quot;city&quot; : &quot;City&quot;,&#xd;
+        &quot;state&quot; : &quot;CA&quot;,&#xd;
+        &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
+        &quot;country&quot; : &quot;USA&quot;&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;pharmacyDetails&quot; : {&#xd;
+      &quot;pharmacyName&quot; : &quot;Pharmacy Name&quot;,&#xd;
+      &quot;pharmacyAddress&quot; : {&#xd;
+        &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+        &quot;city&quot; : &quot;City&quot;,&#xd;
+        &quot;state&quot; : &quot;CA&quot;,&#xd;
+        &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
+        &quot;country&quot; : &quot;USA&quot;&#xd;
+      },&#xd;
+      &quot;pharmacyContact&quot; : {&#xd;
+        &quot;mobileNumber&quot; : {&#xd;
+          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+        },&#xd;
+        &quot;homeNumber&quot; : {&#xd;
+          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
+        },&#xd;
+        &quot;faxNumber&quot; : {&#xd;
+          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
+        },&#xd;
+        &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;vaccineAdministered&quot; : [ {&#xd;
+      &quot;administrationDate&quot; : &quot;2021/06/01&quot;,&#xd;
+      &quot;fips&quot; : &quot;12345&quot;,&#xd;
+      &quot;locality&quot; : &quot;CA&quot;,&#xd;
+      &quot;healthDistrict&quot; : &quot;District&quot;,&#xd;
+      &quot;facilityType&quot; : &quot;Clinic&quot;,&#xd;
+      &quot;manufacturer&quot; : &quot;65568c0a09e97b66d04ce8be&quot;,&#xd;
+      &quot;doseNumber&quot; : 20,&#xd;
+      &quot;vaccineType&quot; : &quot;COVID-19&quot;&#xd;
+    } ],&#xd;
+    &quot;dependentId&quot; : [ &quot;65568c0a09e97b66d04ce8bf&quot;, &quot;65568c0a09e97b66d04ce8c0&quot; ],&#xd;
+    &quot;knownAllergies&quot; : [ {&#xd;
+      &quot;allergen&quot; : &quot;Evergreen Trees&quot;,&#xd;
+      &quot;reaction&quot; : &quot;Respiratory Distress&quot;,&#xd;
+      &quot;isSevere&quot; : true,&#xd;
+      &quot;onsetDate&quot; : &quot;1975/12/20&quot;,&#xd;
+      &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
+      &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
+    } ],&#xd;
+    &quot;currentMedications&quot; : [ {&#xd;
+      &quot;name&quot; : &quot;Singular&quot;,&#xd;
+      &quot;dosage&quot; : &quot;5mg&quot;,&#xd;
+      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,&#xd;
+      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,&#xd;
+      &quot;frequency&quot; : &quot;Daily&quot;,&#xd;
+      &quot;startDate&quot; : &quot;1976/12/26&quot;,&#xd;
+      &quot;endDate&quot; : &quot;EOL&quot;,&#xd;
+      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,&#xd;
+      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,&#xd;
+      &quot;isPrescription&quot; : true&#xd;
+    } ],&#xd;
+    &quot;isActive&quot; : false&#xd;
+  }&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/iam/profile</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/profile [GET]]" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.path">/iam/profile/${user_id_r}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
