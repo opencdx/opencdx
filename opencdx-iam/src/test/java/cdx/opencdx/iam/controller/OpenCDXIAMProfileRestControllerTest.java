@@ -16,17 +16,14 @@
 package cdx.opencdx.iam.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.communication.SuccessResponse;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.grpc.profile.Gender;
@@ -81,13 +78,8 @@ class OpenCDXIAMProfileRestControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
-    @MockBean
-    OpenCDXCommunicationClient openCDXCommunicationClient;
-
     @BeforeEach
     public void setup() {
-        when(this.openCDXCommunicationClient.sendNotification(any(), any()))
-                .thenReturn(SuccessResponse.getDefaultInstance());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))

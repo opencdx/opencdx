@@ -18,7 +18,6 @@ package cdx.opencdx.iam.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
@@ -83,9 +82,6 @@ class OpenCDXIAMProfileGrpcControllerTest {
 
     @MockBean
     JwtTokenUtil jwtTokenUtil;
-
-    @MockBean
-    OpenCDXCommunicationClient openCDXCommunicationClient;
 
     @Autowired
     AppProperties appProperties;

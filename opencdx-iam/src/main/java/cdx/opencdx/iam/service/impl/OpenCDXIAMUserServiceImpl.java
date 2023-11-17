@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.iam.service.impl;
 
-import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.client.service.OpenCDXCommunicationClient;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -25,6 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.*;
@@ -69,7 +68,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final OpenCDXCommunicationClient openCDXCommunicationClient;
+    private final OpenCDXCommunicationService openCDXCommunicationService;
     private final AppProperties appProperties;
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -87,7 +86,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param openCDXCurrentUser       Current User Service
      * @param authenticationManager    AuthenticationManager for the service
      * @param jwtTokenUtil              Utility class for JWT Tokens
-     * @param openCDXCommunicationClient Communication Client for triggering events
+     * @param openCDXCommunicationService Communication Client for triggering events
      * @param openCDXNationalHealthIdentifier OpenCDXNationalHealthIdentifier for generating National Health Id.
      */
     @Autowired
@@ -100,7 +99,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             JwtTokenUtil jwtTokenUtil,
             OpenCDXCurrentUser openCDXCurrentUser,
             AppProperties appProperties,
-            OpenCDXCommunicationClient openCDXCommunicationClient,
+            OpenCDXCommunicationService openCDXCommunicationService,
             OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
@@ -109,7 +108,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.openCDXCurrentUser = openCDXCurrentUser;
-        this.openCDXCommunicationClient = openCDXCommunicationClient;
+        this.openCDXCommunicationService = openCDXCommunicationService;
         this.appProperties = appProperties;
         this.openCDXNationalHealthIdentifier = openCDXNationalHealthIdentifier;
     }
@@ -126,21 +125,19 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model.setPassword(this.passwordEncoder.encode(request.getPassword()));
         model = this.openCDXIAMUserRepository.save(model);
 
-        this.openCDXCommunicationClient.sendNotification(
-                Notification.newBuilder()
-                        .setEventId(OpenCDXCommunicationClient.VERIFY_EMAIL_USER)
-                        .addAllToEmail(List.of(model.getUsername()))
-                        .putAllVariables(Map.of(
-                                FIRST_NAME,
-                                model.getFullName().getFirstName(),
-                                LAST_NAME,
-                                model.getFullName().getLastName(),
-                                "user_id",
-                                model.getId().toHexString(),
-                                "verification_server",
-                                appProperties.getVerificationUrl()))
-                        .build(),
-                new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
+        this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                .addAllToEmail(List.of(model.getUsername()))
+                .putAllVariables(Map.of(
+                        FIRST_NAME,
+                        model.getFullName().getFirstName(),
+                        LAST_NAME,
+                        model.getFullName().getLastName(),
+                        "user_id",
+                        model.getId().toHexString(),
+                        "verification_server",
+                        appProperties.getVerificationUrl()))
+                .build());
 
         try {
             this.openCDXAuditService.piiCreated(
@@ -297,19 +294,17 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         model = this.openCDXIAMUserRepository.save(model);
 
-        this.openCDXCommunicationClient.sendNotification(
-                Notification.newBuilder()
-                        .setEventId(OpenCDXCommunicationClient.CHANGE_PASSWORD)
-                        .addAllToEmail(List.of(model.getUsername()))
-                        .putAllVariables(Map.of(
-                                FIRST_NAME,
-                                model.getFullName().getFirstName(),
-                                LAST_NAME,
-                                model.getFullName().getLastName(),
-                                "notification",
-                                "Password changed"))
-                        .build(),
-                new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
+        this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.CHANGE_PASSWORD)
+                .addAllToEmail(List.of(model.getUsername()))
+                .putAllVariables(Map.of(
+                        FIRST_NAME,
+                        model.getFullName().getFirstName(),
+                        LAST_NAME,
+                        model.getFullName().getLastName(),
+                        "notification",
+                        "Password changed"))
+                .build());
 
         this.openCDXAuditService.passwordChange(
                 this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
@@ -409,19 +404,17 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model.setNationalHealthId(this.openCDXNationalHealthIdentifier.generateNationalHealthId(model));
         model = this.openCDXIAMUserRepository.save(model);
 
-        this.openCDXCommunicationClient.sendNotification(
-                Notification.newBuilder()
-                        .setEventId(OpenCDXCommunicationClient.WELCOME_EMAIL_USER)
-                        .addAllToEmail(List.of(model.getUsername()))
-                        .putAllVariables(Map.of(
-                                FIRST_NAME,
-                                model.getFullName().getFirstName(),
-                                LAST_NAME,
-                                model.getFullName().getLastName(),
-                                "email",
-                                model.getUsername()))
-                        .build(),
-                new OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
+        this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.WELCOME_EMAIL_USER)
+                .addAllToEmail(List.of(model.getUsername()))
+                .putAllVariables(Map.of(
+                        FIRST_NAME,
+                        model.getFullName().getFirstName(),
+                        LAST_NAME,
+                        model.getFullName().getLastName(),
+                        "email",
+                        model.getUsername()))
+                .build());
 
         try {
             this.openCDXAuditService.piiUpdated(

@@ -28,6 +28,8 @@ public interface OpenCDXMessageService {
      */
     public static final String AUDIT_MESSAGE_SUBJECT = "opencdx-audit-message";
 
+    public static final String NOTIFICATION_MESSAGE_SUBJECT = "opencdx-communication-notification-message";
+
     /**
      * Subscribe to a message subject and the handlers for received those messages
      * for processing.
