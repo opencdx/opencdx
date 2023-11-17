@@ -36,6 +36,7 @@ public class OpenCDXNotificationProcessorTasks {
     public static final String PRINCIPAL = "admin@opencdx.org";
     public static final String CREDENTIALS = "password";
     public static final String AUTHORITY = "OPENCDX_USER";
+    public static final String SYSTEM_ROLE = "SYSTEM";
     private final OpenCDXNotificationService openCDXNotificationService;
     private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -64,7 +65,7 @@ public class OpenCDXNotificationProcessorTasks {
     @SchedulerLock(name = "highPriorityNotifications")
     public void highPriorityNotifications() {
         log.info("Starting High Priority Notifications Processing");
-        this.openCDXCurrentUser.configureAuthentication("SYSTEM");
+        this.openCDXCurrentUser.configureAuthentication(SYSTEM_ROLE);
 
         this.openCDXNotificaitonRepository
                 .findAllByPriorityAndEmailStatusOrderByTimestampAsc(
@@ -110,7 +111,7 @@ public class OpenCDXNotificationProcessorTasks {
     @SchedulerLock(name = "mediumPriorityNotifications")
     public void mediumPriorityNotifications() {
         log.info("Starting Medium Priority Notifications Processing");
-        this.openCDXCurrentUser.configureAuthentication("SYSTEM");
+        this.openCDXCurrentUser.configureAuthentication(SYSTEM_ROLE);
 
         this.openCDXNotificaitonRepository
                 .findAllByPriorityAndEmailStatusOrderByTimestampAsc(
@@ -125,7 +126,7 @@ public class OpenCDXNotificationProcessorTasks {
                 .findAllByPriorityAndSmsStatusOrderByTimestampAsc(
                         NotificationPriority.NOTIFICATION_PRIORITY_MEDIUM,
                         NotificationStatus.NOTIFICATION_STATUS_PENDING)
-                .forEach(notification -> {8
+                .forEach(notification -> {
                     log.info(PROCESSING_NOTIFICATION, notification.getId());
                     this.openCDXNotificationService.processOpenCDXNotification(notification);
                 });
@@ -140,7 +141,7 @@ public class OpenCDXNotificationProcessorTasks {
     @SchedulerLock(name = "lowPriorityNotifications")
     public void lowPriorityNotifications() {
         log.info("Starting Low Priority Notifications Processing");
-        this.openCDXCurrentUser.configureAuthentication("lowPriorityNotifications");
+        this.openCDXCurrentUser.configureAuthentication(SYSTEM_ROLE);
 
         this.openCDXNotificaitonRepository
                 .findAllByPriorityAndEmailStatusOrderByTimestampAsc(
