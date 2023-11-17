@@ -15,12 +15,16 @@
  */
 package cdx.opencdx.communications.config;
 
+import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.communications.handlers.OpenCDXCommunicationNotificationMessageHandler;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
+import cdx.opencdx.communications.service.OpenCDXNotificationService;
 import cdx.opencdx.communications.service.OpenCDXSMSService;
 import cdx.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoClient;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.LockProvider;
@@ -82,5 +86,23 @@ public class AppConfig {
     @Description("Bean for the LockProvider for service synchronization.")
     public LockProvider lockProvider(MongoClient mongo, @Value("${spring.application.name}") String applicationName) {
         return new MongoLockProvider(mongo.getDatabase("opencdx").getCollection("lock-" + applicationName));
+    }
+
+    /**
+     * Bean for Notification Message Handling
+     * @param objectMapper ObjectMapper for converting bytes
+     * @param openCDXNotificationService Notification Service for handling the Notificaiton
+     * @param openCDXMessageService Message Service for Subscribing.
+     * @return the OpenCDXCommunicationNotificationMessageHandler bean
+     */
+    @Bean
+    @Description(
+            "OpenCDXCommunicationMessageHandler that is specific for handling communication messages for Notifications.")
+    OpenCDXCommunicationNotificationMessageHandler openCDXCommunicationNotificationMessageHandler(
+            ObjectMapper objectMapper,
+            OpenCDXNotificationService openCDXNotificationService,
+            OpenCDXMessageService openCDXMessageService) {
+        return new OpenCDXCommunicationNotificationMessageHandler(
+                objectMapper, openCDXNotificationService, openCDXMessageService);
     }
 }
