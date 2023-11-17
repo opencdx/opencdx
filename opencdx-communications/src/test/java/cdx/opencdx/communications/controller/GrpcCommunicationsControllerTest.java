@@ -34,7 +34,6 @@ import cdx.opencdx.communications.service.OpenCDXSMSService;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -150,7 +149,6 @@ class GrpcCommunicationsControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
 
         this.openCDXCommunicationEmailService = new OpenCDXCommunicationEmailServiceImpl(
                 this.openCDXAuditService,

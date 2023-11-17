@@ -18,6 +18,7 @@ package cdx.opencdx.communications.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
@@ -107,9 +108,10 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     @Override
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
@@ -147,9 +149,10 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             throw new OpenCDXFailedPrecondition(DOMAIN, 3, "Update method called without event id");
         }
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     notificationEvent.getEventId(),
@@ -175,9 +178,10 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             return SuccessResponse.newBuilder().setSuccess(false).build();
         }
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Deleting Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),
@@ -287,9 +291,10 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private void recordAudit(CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent) {
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.communication(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
                     UUID.randomUUID().toString(),

@@ -22,7 +22,6 @@ import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXCountryServiceImpl;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
@@ -78,7 +77,7 @@ class GrpcCountryControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+
         this.openCDXCountryService = new OpenCDXCountryServiceImpl(
                 this.openCDXVendorRepository,
                 this.openCDXCountryRepository,

@@ -18,6 +18,7 @@ package cdx.opencdx.communications.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
@@ -87,9 +88,10 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         EmailTemplate emailTemplate =
                 EmailTemplate.newBuilder(rawEmailTemplate).setContent(sanity).build();
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
@@ -129,9 +131,10 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Update method called without template id");
         }
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     emailTemplate.getTemplateId(),
@@ -160,9 +163,10 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         }
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Deleting Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     templateRequest.getTemplateId(),

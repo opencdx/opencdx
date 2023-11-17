@@ -77,9 +77,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getUserId()));
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiAccessed(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
@@ -107,9 +108,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         model = this.openCDXIAMUserRepository.save(model.update(request.getUpdatedProfile()));
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiUpdated(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
@@ -138,9 +140,10 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         log.info("Deleted User: {}", request.getUserId());
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiDeleted(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     userModel.getId().toHexString(),

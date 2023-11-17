@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
@@ -89,9 +90,10 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public Vendor addVendor(Vendor request) {
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating Vendor",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXVendorModel.getId().toHexString(),
@@ -110,9 +112,10 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public Vendor updateVendor(Vendor request) {
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating Vendor",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXVendorModel.getId().toHexString(),

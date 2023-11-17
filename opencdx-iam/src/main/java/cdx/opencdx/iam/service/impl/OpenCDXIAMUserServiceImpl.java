@@ -140,9 +140,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .build());
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser(model);
             this.openCDXAuditService.piiCreated(
-                    this.openCDXCurrentUser.getCurrentUser(model).getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
@@ -172,9 +173,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 this.openCDXIAMUserRepository.findAll(PageRequest.of(request.getPageNumber(), request.getPageSize()));
         all.forEach(model -> {
             try {
+                OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
                 this.openCDXAuditService.piiAccessed(
-                        this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                        this.openCDXCurrentUser.getCurrentUserType(),
+                        currentUser.getId().toHexString(),
+                        currentUser.getAgentType(),
                         USER_RECORD_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                         model.getId().toHexString(),
@@ -213,9 +215,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getId()));
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiAccessed(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
@@ -253,9 +256,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model = this.openCDXIAMUserRepository.save(model);
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiUpdated(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
@@ -305,10 +309,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                         "notification",
                         "Password changed"))
                 .build());
-
+        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         this.openCDXAuditService.passwordChange(
-                this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                this.openCDXCurrentUser.getCurrentUserType(),
+                currentUser.getId().toHexString(),
+                currentUser.getAgentType(),
                 "User Password Change",
                 model.getId().toHexString());
         return ChangePasswordResponse.newBuilder()
@@ -334,9 +338,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         log.info("Deleted User: {}", request.getId());
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiDeleted(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     userModel.getId().toHexString(),
@@ -369,9 +374,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model = this.openCDXIAMUserRepository.save(model);
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiAccessed(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
@@ -467,22 +473,21 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 throw new OpenCDXFailedPrecondition(DOMAIN, 10, "User Email not verified");
             }
         } catch (BadCredentialsException ex) {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.userLoginFailure(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Failed Login with invalid credentials");
             throw new OpenCDXUnauthorized(DOMAIN, 2, "Failed to authenticate user: " + request.getUserName(), ex);
         } catch (LockedException ex) {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.userLoginFailure(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
-                    "Failed Login account locked");
+                    currentUser.getId().toHexString(), currentUser.getAgentType(), "Failed Login account locked");
             throw new OpenCDXUnauthorized(DOMAIN, 3, "Account locked: " + request.getUserName(), ex);
         } catch (DisabledException ex) {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.userLoginFailure(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
-                    "Failed Login account disabled");
+                    currentUser.getId().toHexString(), currentUser.getAgentType(), "Failed Login account disabled");
             throw new OpenCDXUnauthorized(DOMAIN, 3, "Account disabled: " + request.getUserName(), ex);
         }
     }
@@ -498,9 +503,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         OpenCDXIAMUserModel model = this.openCDXCurrentUser.getCurrentUser();
 
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiAccessed(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),

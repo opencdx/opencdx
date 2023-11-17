@@ -16,7 +16,6 @@
 package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.grpc.audit.AgentType;
 
 /**
  * Service to get information on the current user
@@ -35,12 +34,6 @@ public interface OpenCDXCurrentUser {
      * @return Model for the current user.
      */
     OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser);
-
-    /**
-     * Method to get current user type
-     * @return AgentType for the current user.
-     */
-    AgentType getCurrentUserType();
 
     /**
      * Method to assign the System as the current user with the specified role.

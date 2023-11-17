@@ -24,7 +24,6 @@ import cdx.opencdx.connected.test.controller.GrpcVendorController;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.Vendor;
 import cdx.opencdx.grpc.inventory.VendorIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -85,7 +84,7 @@ class OpenCDXVendorServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+
         this.openCDXVendorService = new OpenCDXVendorServiceImpl(
                 this.openCDXVendorRepository,
                 this.openCDXDeviceRepository,

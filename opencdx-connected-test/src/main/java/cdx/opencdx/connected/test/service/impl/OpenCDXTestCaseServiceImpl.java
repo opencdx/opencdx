@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
@@ -79,9 +80,10 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
         OpenCDXTestCaseModel openCDXTestCaseModel =
                 this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating TestCase",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXTestCaseModel.getId().toHexString(),
@@ -101,9 +103,10 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
         OpenCDXTestCaseModel openCDXTestCaseModel =
                 this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating TestCase",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXTestCaseModel.getId().toHexString(),

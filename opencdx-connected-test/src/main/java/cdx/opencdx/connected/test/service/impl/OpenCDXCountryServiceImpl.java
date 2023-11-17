@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
@@ -91,9 +92,10 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     public Country addCountry(Country request) {
         OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository.save(new OpenCDXCountryModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Creating Country",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXCountryModel.getId().toHexString(),
@@ -112,9 +114,10 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     public Country updateCountry(Country request) {
         OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository.save(new OpenCDXCountryModel(request));
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
-                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
-                    this.openCDXCurrentUser.getCurrentUserType(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
                     "Updating Country",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     openCDXCountryModel.getId().toHexString(),

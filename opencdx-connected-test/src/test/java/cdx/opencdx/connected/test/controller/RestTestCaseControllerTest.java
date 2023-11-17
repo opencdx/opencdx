@@ -24,7 +24,6 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
-import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.inventory.TestCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -75,7 +74,7 @@ class RestTestCaseControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        Mockito.when(this.openCDXCurrentUser.getCurrentUserType()).thenReturn(AgentType.AGENT_TYPE_HUMAN_USER);
+
         Mockito.when(openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
                 .thenAnswer(new Answer<OpenCDXTestCaseModel>() {
                     @Override

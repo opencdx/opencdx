@@ -21,7 +21,6 @@ import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.audit.AgentType;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -77,11 +76,6 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
                             new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
         }
         return defaultUser;
-    }
-
-    @Override
-    public AgentType getCurrentUserType() {
-        return AgentType.AGENT_TYPE_HUMAN_USER;
     }
 
     @Override
