@@ -37,7 +37,7 @@ services:
         window: 60s
     image: opencdx/helloworld:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/helloworld/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -63,7 +63,7 @@ services:
         window: 60s
     image: opencdx/iam:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/iam/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -89,7 +89,7 @@ services:
         window: 60s
     image: opencdx/media:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/media/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -115,7 +115,7 @@ services:
         window: 60s
     image: opencdx/connected-test:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/connected-test/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -141,7 +141,7 @@ services:
         window: 60s
     image: opencdx/communications:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/communications/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -167,7 +167,7 @@ services:
         window: 60s
     image: opencdx/audit:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/audit/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
@@ -193,7 +193,7 @@ services:
         window: 60s
     image: opencdx/tinkar:latest
     healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/tinkar/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
