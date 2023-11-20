@@ -16,6 +16,7 @@
 package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -161,6 +162,120 @@ class OpenCDXConnectedTestServiceImplTest {
                 OpenCDXNotAcceptable.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
 
+    @Test
+    void submitTestFail2() throws JsonProcessingException {
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
+                        .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.empty();
+                    }
+                });
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        OpenCDXConnectedTestServiceImpl testOpenCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXConnectedTestRepository,
+                openCDXCurrentUser,
+                mapper,
+                openCDXCommunicationService,
+                openCDXIAMUserRepository);
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
+    }
+
+    @Test
+    void submitTestFail3() throws JsonProcessingException {
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
+                        .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .primaryContactInfo(null)
+                                .username("ab@safehealth.me")
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
+
+        OpenCDXConnectedTestServiceImpl testOpenCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXConnectedTestRepository,
+                openCDXCurrentUser,
+                objectMapper,
+                openCDXCommunicationService,
+                openCDXIAMUserRepository);
+        Assertions.assertDoesNotThrow( () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
+    }
+    @Test
+    void submitTestFail4() throws JsonProcessingException {
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
+                        .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(10)
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .primaryContactInfo(ContactInfo.newBuilder().setEmail("test@opencdx.org").build())
+                                .username("ab@safehealth.me")
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
+
+        OpenCDXConnectedTestServiceImpl testOpenCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXConnectedTestRepository,
+                openCDXCurrentUser,
+                objectMapper,
+                openCDXCommunicationService,
+                openCDXIAMUserRepository);
+        Assertions.assertDoesNotThrow( () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
+    }
     @Test
     void getTestDetailsById() {
         OpenCDXConnectedTestModel openCDXConnectedTestModel =

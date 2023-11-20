@@ -30,6 +30,7 @@ import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.profile.ContactInfo;
 import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
@@ -423,6 +424,23 @@ class OpenCDXIAMUserServiceImplTest {
                         .build()));
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
+    }
+    @Test
+    void verifyEmailIamUserPrimary() {
+        ObjectId objectId = ObjectId.get();
+        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(objectId)
+                        .username("ab@safehealth.me")
+                        .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("bob")
+                                .setLastName("bob")
+                                .build())
+                                .primaryContactInfo(ContactInfo.newBuilder().setEmail("abc@opencdx.org").build())
+                        .build()));
+
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(objectId.toHexString()));
     }
 
     @Test

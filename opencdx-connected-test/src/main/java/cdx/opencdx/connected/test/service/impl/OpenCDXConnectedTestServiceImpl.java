@@ -112,24 +112,25 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             throw openCDXNotAcceptable;
         }
 
-        Notification.Builder builder = Notification.newBuilder()
-                .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
-                .addAllToEmail(List.of(patient.getPrimaryContactInfo().getEmail()))
-                .putAllVariables(Map.of(
-                        "firstName",
-                        patient.getFullName().getFirstName(),
-                        "lastName",
-                        patient.getFullName().getLastName(),
-                        "notification",
-                        "OpenCDX received a new test for you: "
-                                + submittedTest.getTestDetails().getTestName()));
-        if (patient.getPrimaryContactInfo() != null
-                && patient.getPrimaryContactInfo().getMobileNumber() != null) {
-            builder.addAllToPhoneNumber(
-                    List.of(patient.getPrimaryContactInfo().getMobileNumber().getNumber()));
-        }
-        this.openCDXCommunicationService.sendNotification(builder.build());
+        if(patient.getPrimaryContactInfo() != null) {
 
+            Notification.Builder builder = Notification.newBuilder()
+                    .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                    .addAllToEmail(List.of(patient.getPrimaryContactInfo().getEmail()))
+                    .putAllVariables(Map.of(
+                            "firstName",
+                            patient.getFullName().getFirstName(),
+                            "lastName",
+                            patient.getFullName().getLastName(),
+                            "notification",
+                            "OpenCDX received a new test for you: "
+                                    + submittedTest.getTestDetails().getTestName()));
+            if ( patient.getPrimaryContactInfo().hasMobileNumber()) {
+                builder.addAllToPhoneNumber(
+                        List.of(patient.getPrimaryContactInfo().getMobileNumber().getNumber()));
+            }
+            this.openCDXCommunicationService.sendNotification(builder.build());
+        }
         return TestSubmissionResponse.newBuilder()
                 .setSubmissionId(submittedTest.getBasicInfo().getId())
                 .build();
