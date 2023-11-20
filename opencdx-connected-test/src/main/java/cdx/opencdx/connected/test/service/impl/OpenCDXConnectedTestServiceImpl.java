@@ -112,7 +112,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             throw openCDXNotAcceptable;
         }
 
-        if(patient.getPrimaryContactInfo() != null) {
+        if (patient.getPrimaryContactInfo() != null) {
 
             Notification.Builder builder = Notification.newBuilder()
                     .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
@@ -125,9 +125,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                             "notification",
                             "OpenCDX received a new test for you: "
                                     + submittedTest.getTestDetails().getTestName()));
-            if ( patient.getPrimaryContactInfo().hasMobileNumber()) {
-                builder.addAllToPhoneNumber(
-                        List.of(patient.getPrimaryContactInfo().getMobileNumber().getNumber()));
+            if (patient.getPrimaryContactInfo().hasMobileNumber()) {
+                builder.addAllToPhoneNumber(List.of(
+                        patient.getPrimaryContactInfo().getMobileNumber().getNumber()));
             }
             this.openCDXCommunicationService.sendNotification(builder.build());
         }

@@ -425,6 +425,7 @@ class OpenCDXIAMUserServiceImplTest {
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
+
     @Test
     void verifyEmailIamUserPrimary() {
         ObjectId objectId = ObjectId.get();
@@ -437,10 +438,13 @@ class OpenCDXIAMUserServiceImplTest {
                                 .setFirstName("bob")
                                 .setLastName("bob")
                                 .build())
-                                .primaryContactInfo(ContactInfo.newBuilder().setEmail("abc@opencdx.org").build())
+                        .primaryContactInfo(ContactInfo.newBuilder()
+                                .setEmail("abc@opencdx.org")
+                                .build())
                         .build()));
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(objectId.toHexString()));
+        String id = objectId.toHexString();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
     }
 
     @Test

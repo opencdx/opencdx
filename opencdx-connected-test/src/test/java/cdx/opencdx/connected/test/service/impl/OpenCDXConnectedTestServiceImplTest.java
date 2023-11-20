@@ -192,8 +192,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 mapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository);
-        Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
 
     @Test
@@ -234,8 +233,9 @@ class OpenCDXConnectedTestServiceImplTest {
                 objectMapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository);
-        Assertions.assertDoesNotThrow( () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
+        Assertions.assertDoesNotThrow(() -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
+
     @Test
     void submitTestFail4() throws JsonProcessingException {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
@@ -260,7 +260,9 @@ class OpenCDXConnectedTestServiceImplTest {
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
-                                .primaryContactInfo(ContactInfo.newBuilder().setEmail("test@opencdx.org").build())
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .setEmail("test@opencdx.org")
+                                        .build())
                                 .username("ab@safehealth.me")
                                 .emailVerified(true)
                                 .build());
@@ -274,8 +276,9 @@ class OpenCDXConnectedTestServiceImplTest {
                 objectMapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository);
-        Assertions.assertDoesNotThrow( () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
+        Assertions.assertDoesNotThrow(() -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
+
     @Test
     void getTestDetailsById() {
         OpenCDXConnectedTestModel openCDXConnectedTestModel =
