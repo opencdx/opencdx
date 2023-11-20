@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.handlers;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -33,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Observed(name = "opencdx")
+@ExcludeFromJacocoGeneratedReport
 public class OpenCDXCommunicationNotificationMessageHandler implements OpenCDXMessageHandler {
 
     private final ObjectMapper objectMapper;
