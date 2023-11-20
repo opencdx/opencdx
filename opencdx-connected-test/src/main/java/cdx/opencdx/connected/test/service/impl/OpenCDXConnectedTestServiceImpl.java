@@ -18,17 +18,22 @@ package cdx.opencdx.connected.test.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -48,6 +53,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
+    private final OpenCDXCommunicationService openCDXCommunicationService;
+
+    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
     /**
      * Constructore with OpenCDXAuditService
@@ -56,20 +64,32 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * @param openCDXConnectedTestRepository Mongo Repository for OpenCDXConnectedTest
      * @param openCDXCurrentUser             Current User Service
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
+     * @param openCDXCommunicationService    Communication Service for informing user test received.
+     * @param openCDXIAMUserRepository       Repository to look up patient.
      */
     public OpenCDXConnectedTestServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            OpenCDXCommunicationService openCDXCommunicationService,
+            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
+        this.openCDXCommunicationService = openCDXCommunicationService;
+        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }
 
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
+        ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getUserId());
+
+        OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
+                .findById(patientID)
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find patient"));
+
         ConnectedTest submittedTest = this.openCDXConnectedTestRepository
                 .save(new OpenCDXConnectedTestModel(connectedTest))
                 .getProtobufMessage();
@@ -81,7 +101,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     currentUser.getAgentType(),
                     "Connected Test Submitted.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    patient.getId().toHexString(),
                     "Connected Test Submissions",
                     this.objectMapper.writeValueAsString(submittedTest));
         } catch (JsonProcessingException e) {
@@ -91,7 +111,25 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             openCDXNotAcceptable.getMetaData().put("OBJECT", submittedTest.toString());
             throw openCDXNotAcceptable;
         }
-        log.info("Created test: {}", submittedTest.getBasicInfo().getId());
+
+        Notification.Builder builder = Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                .addAllToEmail(List.of(patient.getPrimaryContactInfo().getEmail()))
+                .putAllVariables(Map.of(
+                        "firstName",
+                        patient.getFullName().getFirstName(),
+                        "lastName",
+                        patient.getFullName().getLastName(),
+                        "notification",
+                        "OpenCDX received a new test for you: "
+                                + submittedTest.getTestDetails().getTestName()));
+        if (patient.getPrimaryContactInfo() != null
+                && patient.getPrimaryContactInfo().getMobileNumber() != null) {
+            builder.addAllToPhoneNumber(
+                    List.of(patient.getPrimaryContactInfo().getMobileNumber().getNumber()));
+        }
+        this.openCDXCommunicationService.sendNotification(builder.build());
+
         return TestSubmissionResponse.newBuilder()
                 .setSubmissionId(submittedTest.getBasicInfo().getId())
                 .build();

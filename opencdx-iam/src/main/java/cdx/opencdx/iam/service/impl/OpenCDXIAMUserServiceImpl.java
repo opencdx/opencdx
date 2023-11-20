@@ -29,6 +29,7 @@ import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.*;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.profile.ContactInfo;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -408,6 +409,14 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         model.setEmailVerified(true);
         model.setNationalHealthId(this.openCDXNationalHealthIdentifier.generateNationalHealthId(model));
+        if (model.getPrimaryContactInfo() == null) {
+            model.setPrimaryContactInfo(
+                    ContactInfo.newBuilder().setEmail(model.getUsername()).build());
+        } else {
+            model.setPrimaryContactInfo(ContactInfo.newBuilder(model.getPrimaryContactInfo())
+                    .setEmail(model.getUsername())
+                    .build());
+        }
         model = this.openCDXIAMUserRepository.save(model);
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()

@@ -26,6 +26,8 @@ public interface OpenCDXCommunicationService {
      * ID of the verify email notification event
      */
     String VERIFY_EMAIL_USER = "60f1e6b1f075a361a94d3760";
+
+    String NOTIFICATION = "60f1e6b1f075a361a94d3750";
     /**
      * ID of the Change password Notification Event.
      */

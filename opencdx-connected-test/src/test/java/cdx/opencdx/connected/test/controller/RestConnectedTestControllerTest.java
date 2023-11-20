@@ -20,10 +20,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.profile.ContactInfo;
+import cdx.opencdx.grpc.profile.FullName;
+import cdx.opencdx.grpc.profile.PhoneNumber;
+import cdx.opencdx.grpc.profile.PhoneType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
@@ -39,6 +44,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -76,8 +83,35 @@ class RestConnectedTestControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @MockBean
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .username("ab@safehealth.me")
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .setEmail("ab@safehealth.me")
+                                        .setMobileNumber(PhoneNumber.newBuilder()
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .setNumber("1234567890")
+                                                .build())
+                                        .build())
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))

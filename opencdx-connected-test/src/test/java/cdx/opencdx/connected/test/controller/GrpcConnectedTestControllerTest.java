@@ -17,13 +17,19 @@ package cdx.opencdx.connected.test.controller;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXConnectedTestServiceImpl;
 import cdx.opencdx.grpc.connected.*;
+import cdx.opencdx.grpc.profile.ContactInfo;
+import cdx.opencdx.grpc.profile.FullName;
+import cdx.opencdx.grpc.profile.PhoneNumber;
+import cdx.opencdx.grpc.profile.PhoneType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Collections;
@@ -37,6 +43,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -64,6 +72,12 @@ class GrpcConnectedTestControllerTest {
     GrpcConnectedTestController grpcConnectedTestController;
 
     @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    @Autowired
+    OpenCDXCommunicationService openCDXCommunicationService;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
@@ -73,8 +87,38 @@ class GrpcConnectedTestControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .username("ab@safehealth.me")
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .setEmail("ab@safehealth.me")
+                                        .setMobileNumber(PhoneNumber.newBuilder()
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .setNumber("1234567890")
+                                                .build())
+                                        .build())
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
+
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
-                this.openCDXAuditService, this.openCDXConnectedTestRepository, openCDXCurrentUser, objectMapper);
+                this.openCDXAuditService,
+                this.openCDXConnectedTestRepository,
+                openCDXCurrentUser,
+                objectMapper,
+                openCDXCommunicationService,
+                openCDXIAMUserRepository);
         this.grpcConnectedTestController = new GrpcConnectedTestController(this.openCDXConnectedTestService);
     }
 
