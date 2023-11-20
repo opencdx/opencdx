@@ -282,3 +282,13 @@ services:
     command: "-c /nats-server.conf"
     environment:
       NATS_STREAM_MAX_AGE: 86400s
+  zipkin:
+    image: openzipkin/zipkin:latest
+    healthcheck:
+      test: "curl --fail --silent localhost:9411/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    ports:
+      - "9411:9411"
