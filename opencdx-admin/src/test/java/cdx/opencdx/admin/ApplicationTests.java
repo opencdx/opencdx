@@ -24,9 +24,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"eureka.client.tls.enabled=false"})
+@SpringBootTest(
+        properties = {"spring.cloud.config.enabled=false", "eureka.client.tls.enabled=false", "mongock.enabled=false"})
 class ApplicationTests {
 
     @BeforeEach
