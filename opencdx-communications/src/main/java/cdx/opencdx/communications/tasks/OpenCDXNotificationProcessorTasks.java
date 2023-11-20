@@ -33,10 +33,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXNotificationProcessorTasks {
     private static final String PROCESSING_NOTIFICATION = "Processing Notification: {}";
-    public static final String PRINCIPAL = "admin@opencdx.org";
-    public static final String CREDENTIALS = "password";
-    public static final String AUTHORITY = "OPENCDX_USER";
-    public static final String SYSTEM_ROLE = "SYSTEM";
+    private static final String SYSTEM_ROLE = "SYSTEM";
     private final OpenCDXNotificationService openCDXNotificationService;
     private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -46,7 +43,7 @@ public class OpenCDXNotificationProcessorTasks {
      *
      * @param openCDXNotificationService    Communication Service to use.
      * @param openCDXNotificaitonRepository Repository used to lookup notifications.
-     * @param openCDXCurrentUser
+     * @param openCDXCurrentUser Current User Service for accessing authorization
      */
     public OpenCDXNotificationProcessorTasks(
             OpenCDXNotificationService openCDXNotificationService,

@@ -46,6 +46,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     /**
      * Consturtor for OpenCDXCurrentUser service.
      * @param openCDXIAMUserRepository Repository to access users.
+     * @param applicationName Name of application used as user
      */
     public OpenCDXCurrentUserImpl(
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
