@@ -23,7 +23,7 @@ message Routine {
 /**
  * Entities for the Delivery Tracking System
  */
-message DeliveryTracking {
+ message DeliveryTracking {
   optional string delivery_id = 1; // Unique identifier for each tracked delivery
   optional string order_id = 2; // Identifier linking the delivery to an order or request
   optional string status = 3; // Status of the delivery (e.g., in transit, delivered)
@@ -34,7 +34,6 @@ message DeliveryTracking {
   repeated string delivery_items = 8; // Details of the items being delivered
   optional string assigned_courier = 9; // Courier or delivery person responsible for the delivery
 }
-
 /**
  * Entities for the Clinical Protocol Execution
  */
@@ -53,7 +52,7 @@ message ClinicalProtocolExecution {
 /**
  * Entities for Trigger Conditions
  */
-message LabOrder {
+ message LabOrder {
   optional string lab_order_id = 1; // Unique identifier for lab orders
   optional string test_name = 2; // Name of the lab test
   google.protobuf.Timestamp order_datetime= 3; // Timestamp of the lab order
@@ -108,122 +107,51 @@ message Medication {
 // gRPC services and operations
 service RoutineSystemService {
   // Create a new routine entity
-  rpc Create(RoutineRequest) returns (RoutineResponse);
+  rpc CreateRoutine(Routine) returns (Routine);
 
   // Retrieve information about a routine entity by ID
-  rpc GetByID(RoutineRequest) returns (RoutineResponse);
+  rpc GetRoutineByID(Routine) returns (Routine);
 
   // Create a new delivery tracking entity
-  rpc CreateDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
+  rpc CreateDeliveryTracking(DeliveryTracking) returns (DeliveryTracking);
 
   // Retrieve information about a delivery tracking entity by ID
-  rpc GetDeliveryTrackingByID(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
+  rpc GetDeliveryTrackingByID(DeliveryTracking) returns (DeliveryTracking);
 
   // Create a new clinical protocol execution entity
-  rpc CreateClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
+  rpc CreateClinicalProtocolExecution(ClinicalProtocolExecution) returns (ClinicalProtocolExecution);
 
   // Retrieve information about a clinical protocol execution entity by ID
-  rpc GetClinicalProtocolExecutionByID(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
+  rpc GetClinicalProtocolExecutionByID(ClinicalProtocolExecution) returns (ClinicalProtocolExecution);
   
   // Trigger a new lab order entity
-  rpc TriggerLabOrder(LabOrderRequest) returns (LabOrderResponse);
+  rpc TriggerLabOrder(LabOrder) returns (LabOrder);
 
   // Retrieve information about a lab order entity by ID
-  rpc GetLabOrder(LabOrderRequest) returns (LabOrderResponse);
+  rpc GetLabOrderByID(LabOrder) returns (LabOrder);
 
   // Trigger a new diagnosis entity
-  rpc TriggerDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  rpc TriggerDiagnosis(Diagnosis) returns (Diagnosis);
 
   // Retrieve information about a diagnosis entity by ID
-  rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  rpc GetDiagnosisByID(Diagnosis) returns (Diagnosis);
 
   // Trigger a new suspected diagnosis entity
-  rpc TriggerSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
+  rpc TriggerSuspectedDiagnosis(SuspectedDiagnosis) returns (SuspectedDiagnosis);
 
   // Retrieve information about a suspected diagnosis entity by ID
-  rpc GetSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
+  rpc GetSuspectedDiagnosisByID(SuspectedDiagnosis) returns (SuspectedDiagnosis);
 
   // Trigger a new lab result entity
-  rpc TriggerLabResult(LabResultRequest) returns (LabResultResponse);
+  rpc TriggerLabResult(LabResult) returns (LabResult);
 
   // Retrieve information about a lab result entity by ID
-  rpc GetLabResult(LabResultRequest) returns (LabResultResponse);
+  rpc GetLabResultByID(LabResult) returns (LabResult);
 
   // Trigger a new medication entity
-  rpc TriggerMedication(MedicationRequest) returns (MedicationResponse);
+  rpc TriggerMedication(Medication) returns (Medication);
 
   // Retrieve information about a medication entity by ID
-  rpc GetMedication(MedicationRequest) returns (MedicationResponse);
+  rpc GetMedicationByID(Medication) returns (Medication);
 }
 
-// Request and Response messages for CreateRoutine operation
-message RoutineRequest {
-  string routine_id = 1;
-}
-
-message RoutineResponse {
-  Routine routine = 1;
-}
-
-// Request and Response messages for CreateDeliveryTracking operation
-message DeliveryTrackingRequest {
-  string delivery_id = 1;
-}
-
-message DeliveryTrackingResponse {
-  DeliveryTracking delivery_tracking = 1;
-}
-
-// Request and Response messages for CreateClinicalProtocolExecution operation
-message ClinicalProtocolExecutionRequest {
-  string execution_id = 1;
-}
-
-message ClinicalProtocolExecutionResponse {
-  ClinicalProtocolExecution clinical_protocol_execution = 1;
-}
-
-// Request and Response messages for TriggerLabOrder operation
-message LabOrderRequest {
-  string lab_order_id = 1;
-}
-
-message LabOrderResponse {
-  LabOrder lab_order = 1;
-}
-
-// Request and Response messages for TriggerDiagnosis operation
-message DiagnosisRequest {
-  string diagnosis_id = 1;
-}
-
-message DiagnosisResponse {
-  Diagnosis diagnosis = 1;
-}
-
-// Request and Response messages for TriggerSuspectedDiagnosis operation
-message SuspectedDiagnosisRequest {
-  string suspected_diagnosis_id = 1;
-}
-
-message SuspectedDiagnosisResponse {
-  SuspectedDiagnosis suspected_diagnosis = 1;
-}
-
-// Request and Response messages for TriggerLabResult operation
-message LabResultRequest {
-  string result_id = 1;
-}
-
-message LabResultResponse {
-  LabResult lab_result = 1;
-}
-
-// Request and Response messages for TriggerMedication operation
-message MedicationRequest {
-  string medication_id = 1;
-}
-
-message MedicationResponse {
-  Medication medication = 1;
-}
