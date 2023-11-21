@@ -304,7 +304,8 @@ services:
       # Uncomment to enable self-tracing
       #- SELF_TRACING_ENABLED=true
       # Uncomment to enable debug logging
-      # - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+      #- JAVA_OPTS=-Dlogging.level.zipkin=DEBUG -Xms512m -Xmx1g
+      - JAVA_OPTS=-Xms512m -Xmx1g
     healthcheck:
       test: "curl --fail --silent localhost:9411/actuator/health | grep UP || exit 1"
       interval: 5s
