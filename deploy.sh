@@ -140,6 +140,14 @@ open_reports() {
                echo "Skipping Proto documentation generation."
            fi
         ;;
+    micrometer_tracing)
+       echo "Opening Zipkin Microservice Tracing Dashboard..."
+        if [[ "$OSTYPE" == "msys" ]]; then
+            start http://localhost:9411/zipkin || handle_error "Failed to open Zipkin Dashboard."
+        else
+            open http://localhost:9411/zipkin || handle_error "Failed to open Zipkin Dashboard."
+        fi
+        ;;
     esac
 }
 # Print usage instructions
@@ -199,6 +207,7 @@ docker_menu() {
         echo "6. Open NATS Dashboard"
         echo "7. Run JMeter Test Script"
         echo "8. Open JMeter Test Script"
+        echo "9. Open Microservice Tracing Zipkin"
 
         read -r -p "Enter your choice (x to Exit Docker Menu): " docker_choice
 
@@ -211,6 +220,7 @@ docker_menu() {
         6) open_reports "nats" ;;
         7) open_reports "jmeter" ;;
         8) open_reports "jmeter_edit"  ;;
+        9) open_reports "micrometer_tracing"  ;;
         x)
             echo "Exiting Docker Menu..."
             break

@@ -17,3 +17,13 @@ spring:
     name: tinkar
   profiles:
     active: managed,nats,mongo,tinkar
+management:
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
+    propagation:
+      type: b3
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"

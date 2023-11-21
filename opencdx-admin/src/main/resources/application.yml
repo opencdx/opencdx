@@ -25,6 +25,13 @@ management:
     web:
       exposure:
         include: "*"
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
+    propagation:
+      type: b3
+logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+
 
 eureka:
   client:

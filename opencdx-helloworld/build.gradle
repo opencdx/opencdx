@@ -35,7 +35,9 @@ dependencies {
     implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
     implementation project(":opencdx-client")
-
+    implementation 'io.micrometer:micrometer-observation'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     testImplementation "io.nats:nats-spring:${natsSpringVersion}"
 }
 
