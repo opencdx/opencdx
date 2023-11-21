@@ -165,16 +165,17 @@ open_reports() {
 # Print usage instructions
 print_usage() {
     echo "Usage: $0 [--skip] [--clean] [--no_menu] [--all] [--help]"
-    echo "  --skip     Skip the build process and directly open reports/documentation."
-    echo "  --clean    Clean the project before building."
-    echo "  --no_menu  Skip the interactive menu and perform actions directly."
-    echo "  --all      Skip the interactive menu and open all available reports/documentation."
-    echo "  --check    Perform build and check all requirements"
-    echo "  --deploy   Will Start Docker and launch the user on the Docker Menu."
-    echo "  --jmeter   Will Start JMeter test 60 seconds after deployment."
-    echo "  --fast     Will perform a fast build skipping tests."
-    echo "  --wipe  Will prevent wiping the contents of the ./data directory."
-    echo "  --help     Show this help message."
+    echo "  --skip          Skip the build process and directly open reports/documentation."
+    echo "  --clean          Clean the project before building."
+    echo "  --no_menu       Skip the interactive menu and perform actions directly."
+    echo "  --all           Skip the interactive menu and open all available reports/documentation."
+    echo "  --check         Perform build and check all requirements"
+    echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
+    echo "  --jmeter        Will Start JMeter Smoke test 60 seconds after deployment."
+    echo "  --perfromance   Will Start JMeter Performance test 60 seconds after deployment."
+    echo "  --fast          Will perform a fast build skipping tests."
+    echo "  --wipe          Will prevent wiping the contents of the ./data directory."
+    echo "  --help          Show this help message."
     exit 0
 }
 
@@ -254,6 +255,7 @@ open_all=false
 check=false
 deploy=false
 jmeter=false
+performance=false
 fast_build=false
 wipe=false
 
@@ -281,6 +283,9 @@ for arg in "$@"; do
         ;;
     --jmeter)
         jmeter=true
+        ;;
+    --performance)
+        performance=true;
         ;;
     --fast)
         fast_build=true
@@ -356,6 +361,11 @@ if [ "$no_menu" = false ]; then
         sleep 60
         open_reports "jmeter"
       fi
+       if [ "$performance" = true ]; then
+              echo "Waiting to run JMeter tests"
+              sleep 60
+              open_reports "jmeter_performance"
+            fi
       docker_menu;
     fi
 
