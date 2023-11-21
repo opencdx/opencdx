@@ -413,6 +413,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">This is the package for maintaining controller for the REST API in spring</div>
 </dd>
+<dt><a href="cdx/opencdx/communications/handlers/package-summary.html">cdx.opencdx.communications.handlers</a> - package cdx.opencdx.communications.handlers</dt>
+<dd>
+<div class="block">This is the Service Interface package for defining interfaces for spring services.</div>
+</dd>
 <dt><a href="cdx/opencdx/communications/model/package-summary.html">cdx.opencdx.communications.model</a> - package cdx.opencdx.communications.model</dt>
 <dd>
 <div class="block">This is the package for maintaining Models for Database access with Hibernate.</div>
@@ -585,7 +589,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">This package is for the implementation of Spring Service Interfaces</div>
 </dd>
-<dt><a href="cdx/opencdx/client/service/OpenCDXCommunicationClient.html#CHANGE_PASSWORD" class="member-name-link">CHANGE_PASSWORD</a> - Static variable in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXCommunicationClient.html" title="interface in cdx.opencdx.client.service">OpenCDXCommunicationClient</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html#CHANGE_PASSWORD" class="member-name-link">CHANGE_PASSWORD</a> - Static variable in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a></dt>
 <dd>
 <div class="block">ID of the Change password Notification Event.</div>
 </dd>
@@ -663,6 +667,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/client/service/OpenCDXAuditClient.html#config(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">config(String, AgentType, String, SensitivityLevel, String, String, OpenCDXCallCredentials)</a> - Method in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXAuditClient.html" title="interface in cdx.opencdx.client.service">OpenCDXAuditClient</a></dt>
 <dd>
 <div class="block">Record Configuraiton Change</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html#configureAuthentication(java.lang.String)" class="member-name-link">configureAuthentication(String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCurrentUserImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html#configureAuthentication(java.lang.String)" class="member-name-link">configureAuthentication(String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></dt>
+<dd>
+<div class="block">Method to assign the System as the current user with the specified role.</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/controller/RestCommunicationsController.html#createEmailTemplate(cdx.opencdx.grpc.communication.EmailTemplate)" class="member-name-link">createEmailTemplate(EmailTemplate)</a> - Method in class cdx.opencdx.communications.controller.<a href="cdx/opencdx/communications/controller/RestCommunicationsController.html" title="class in cdx.opencdx.communications.controller">RestCommunicationsController</a></dt>
 <dd>
@@ -1173,12 +1183,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html#getCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">getCurrentUser(OpenCDXIAMUserModel)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></dt>
 <dd>
 <div class="block">Metho to get the current authenticated user, or return the default user.</div>
-</dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html#getCurrentUserType()" class="member-name-link">getCurrentUserType()</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCurrentUserImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html#getCurrentUserType()" class="member-name-link">getCurrentUserType()</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></dt>
-<dd>
-<div class="block">Method to get current user type</div>
 </dd>
 <dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXDeviceServiceImpl.html#getDeviceById(cdx.opencdx.grpc.inventory.DeviceIdRequest)" class="member-name-link">getDeviceById(DeviceIdRequest)</a> - Method in class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXDeviceServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXDeviceServiceImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -1900,6 +1904,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns boolean indicating if the List is not empty</div>
 </dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html#NOTIFICATION" class="member-name-link">NOTIFICATION</a> - Static variable in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a></dt>
+<dd>
+<div class="block">Notification ID for sending notifications.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXMessageService.html#NOTIFICATION_MESSAGE_SUBJECT" class="member-name-link">NOTIFICATION_MESSAGE_SUBJECT</a> - Static variable in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></dt>
+<dd>
+<div class="block">OpenCDXMessage Subject for Communication messages</div>
+</dd>
 </dl>
 <h2 class="title" id="I:O">O</h2>
 <dl class="index">
@@ -2048,6 +2060,26 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructor taking some repositories</div>
 </dd>
+<dt><a href="cdx/opencdx/communications/handlers/OpenCDXCommunicationNotificationMessageHandler.html" class="type-name-link" title="class in cdx.opencdx.communications.handlers">OpenCDXCommunicationNotificationMessageHandler</a> - Class in <a href="cdx/opencdx/communications/handlers/package-summary.html">cdx.opencdx.communications.handlers</a></dt>
+<dd>
+<div class="block">Message Handler for Communication Microservice.</div>
+</dd>
+<dt><a href="cdx/opencdx/communications/handlers/OpenCDXCommunicationNotificationMessageHandler.html#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.communications.service.OpenCDXNotificationService,cdx.opencdx.commons.service.OpenCDXMessageService,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXCommunicationNotificationMessageHandler(ObjectMapper, OpenCDXNotificationService, OpenCDXMessageService, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.communications.handlers.<a href="cdx/opencdx/communications/handlers/OpenCDXCommunicationNotificationMessageHandler.html" title="class in cdx.opencdx.communications.handlers">OpenCDXCommunicationNotificationMessageHandler</a></dt>
+<dd>
+<div class="block">Constructor for the Audit microservice</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
+<dd>
+<div class="block">Interface for sending Notificaitons as messages to OpenCDX-Communication.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">OpenCDXCommunicationServiceImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
+<dd>
+<div class="block">Implementaiton for OpenCDXCommunicationService</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXMessageService)" class="member-name-link">OpenCDXCommunicationServiceImpl(OpenCDXMessageService)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCommunicationServiceImpl</a></dt>
+<dd>
+<div class="block">Constructor to use the OpenCDXMessageService to send the notificaiton.</div>
+</dd>
 <dt><a href="cdx/opencdx/communications/service/OpenCDXCommunicationSmsService.html" class="type-name-link" title="interface in cdx.opencdx.communications.service">OpenCDXCommunicationSmsService</a> - Interface in <a href="cdx/opencdx/communications/service/package-summary.html">cdx.opencdx.communications.service</a></dt>
 <dd>
 <div class="block">Interface for the OpenCDXCommunicationSmsService</div>
@@ -2112,7 +2144,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing connected test Requests</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXConnectedTestServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">OpenCDXConnectedTestServiceImpl(OpenCDXAuditService, OpenCDXConnectedTestRepository, OpenCDXCurrentUser, ObjectMapper)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXConnectedTestServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXConnectedTestServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXConnectedTestServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCommunicationService,cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">OpenCDXConnectedTestServiceImpl(OpenCDXAuditService, OpenCDXConnectedTestRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXCommunicationService, OpenCDXIAMUserRepository)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXConnectedTestServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXConnectedTestServiceImpl</a></dt>
 <dd>
 <div class="block">Constructore with OpenCDXAuditService</div>
 </dd>
@@ -2148,7 +2180,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Implementaiton based on JWT</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html#%3Cinit%3E(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">OpenCDXCurrentUserImpl(OpenCDXIAMUserRepository)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCurrentUserImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html#%3Cinit%3E(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,java.lang.String)" class="member-name-link">OpenCDXCurrentUserImpl(OpenCDXIAMUserRepository, String)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCurrentUserImpl</a></dt>
 <dd>
 <div class="block">Consturtor for OpenCDXCurrentUser service.</div>
 </dd>
@@ -2417,7 +2449,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing HelloWorld Requests</div>
 </dd>
-<dt><a href="cdx/opencdx/iam/service/impl/OpenCDXIAMUserServiceImpl.html#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.authentication.AuthenticationManager,cdx.opencdx.commons.security.JwtTokenUtil,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.iam.config.AppProperties,cdx.opencdx.client.service.OpenCDXCommunicationClient,cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier)" class="member-name-link">OpenCDXIAMUserServiceImpl(ObjectMapper, OpenCDXAuditService, OpenCDXIAMUserRepository, PasswordEncoder, AuthenticationManager, JwtTokenUtil, OpenCDXCurrentUser, AppProperties, OpenCDXCommunicationClient, OpenCDXNationalHealthIdentifier)</a> - Constructor for class cdx.opencdx.iam.service.impl.<a href="cdx/opencdx/iam/service/impl/OpenCDXIAMUserServiceImpl.html" title="class in cdx.opencdx.iam.service.impl">OpenCDXIAMUserServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/iam/service/impl/OpenCDXIAMUserServiceImpl.html#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,org.springframework.security.crypto.password.PasswordEncoder,org.springframework.security.authentication.AuthenticationManager,cdx.opencdx.commons.security.JwtTokenUtil,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.iam.config.AppProperties,cdx.opencdx.commons.service.OpenCDXCommunicationService,cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier)" class="member-name-link">OpenCDXIAMUserServiceImpl(ObjectMapper, OpenCDXAuditService, OpenCDXIAMUserRepository, PasswordEncoder, AuthenticationManager, JwtTokenUtil, OpenCDXCurrentUser, AppProperties, OpenCDXCommunicationService, OpenCDXNationalHealthIdentifier)</a> - Constructor for class cdx.opencdx.iam.service.impl.<a href="cdx/opencdx/iam/service/impl/OpenCDXIAMUserServiceImpl.html" title="class in cdx.opencdx.iam.service.impl">OpenCDXIAMUserServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor taking the a PersonRepository</div>
 </dd>
@@ -2628,7 +2660,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service task for running schedule tasks for processing Notifications in the queue.</div>
 </dd>
-<dt><a href="cdx/opencdx/communications/tasks/OpenCDXNotificationProcessorTasks.html#%3Cinit%3E(cdx.opencdx.communications.service.OpenCDXNotificationService,cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository)" class="member-name-link">OpenCDXNotificationProcessorTasks(OpenCDXNotificationService, OpenCDXNotificaitonRepository)</a> - Constructor for class cdx.opencdx.communications.tasks.<a href="cdx/opencdx/communications/tasks/OpenCDXNotificationProcessorTasks.html" title="class in cdx.opencdx.communications.tasks">OpenCDXNotificationProcessorTasks</a></dt>
+<dt><a href="cdx/opencdx/communications/tasks/OpenCDXNotificationProcessorTasks.html#%3Cinit%3E(cdx.opencdx.communications.service.OpenCDXNotificationService,cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXNotificationProcessorTasks(OpenCDXNotificationService, OpenCDXNotificaitonRepository, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.communications.tasks.<a href="cdx/opencdx/communications/tasks/OpenCDXNotificationProcessorTasks.html" title="class in cdx.opencdx.communications.tasks">OpenCDXNotificationProcessorTasks</a></dt>
 <dd>
 <div class="block">Constructor with the OpenCDXNotificationService class used to send notifications</div>
 </dd>
@@ -3099,6 +3131,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Method to receive the byte array of data for the message being
  handled.</div>
 </dd>
+<dt><a href="cdx/opencdx/communications/handlers/OpenCDXCommunicationNotificationMessageHandler.html#receivedMessage(byte%5B%5D)" class="member-name-link">receivedMessage(byte[])</a> - Method in class cdx.opencdx.communications.handlers.<a href="cdx/opencdx/communications/handlers/OpenCDXCommunicationNotificationMessageHandler.html" title="class in cdx.opencdx.communications.handlers">OpenCDXCommunicationNotificationMessageHandler</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/commons/aspects/AuditAspect.html#removeCurrentThreadInfo()" class="member-name-link">removeCurrentThreadInfo()</a> - Static method in class cdx.opencdx.commons.aspects.<a href="cdx/opencdx/commons/aspects/AuditAspect.html" title="class in cdx.opencdx.commons.aspects">AuditAspect</a></dt>
 <dd>
 <div class="block">Clears the current thread information.</div>
@@ -3350,6 +3384,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Call to send en email to the specified users.</div>
 </dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html#sendNotification(cdx.opencdx.grpc.communication.Notification)" class="member-name-link">sendNotification(Notification)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCommunicationServiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html#sendNotification(cdx.opencdx.grpc.communication.Notification)" class="member-name-link">sendNotification(Notification)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a></dt>
+<dd>
+<div class="block">Method to send a Notificaiton to opencdx-communication</div>
+</dd>
 <dt><a href="cdx/opencdx/communications/controller/RestCommunicationsController.html#sendNotification(cdx.opencdx.grpc.communication.Notification)" class="member-name-link">sendNotification(Notification)</a> - Method in class cdx.opencdx.communications.controller.<a href="cdx/opencdx/communications/controller/RestCommunicationsController.html" title="class in cdx.opencdx.communications.controller">RestCommunicationsController</a></dt>
 <dd>
 <div class="block">Trigger a NotificationEvent to send messages</div>
@@ -3391,6 +3431,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/commons/exceptions/OpenCDXException.html#setMetaData(java.util.Map)" class="member-name-link">setMetaData(Map&lt;String, String&gt;)</a> - Method in exception class cdx.opencdx.commons.exceptions.<a href="cdx/opencdx/commons/exceptions/OpenCDXException.html" title="class in cdx.opencdx.commons.exceptions">OpenCDXException</a></dt>
 <dd>
 <div class="block">Sets the Metadata for this exception</div>
+</dd>
+<dt><a href="cdx/opencdx/iam/changelog/IAMChangeSet.html#setupCommunicationsUser(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">setupCommunicationsUser(OpenCDXIAMUserRepository)</a> - Method in class cdx.opencdx.iam.changelog.<a href="cdx/opencdx/iam/changelog/IAMChangeSet.html" title="class in cdx.opencdx.iam.changelog">IAMChangeSet</a></dt>
+<dd>
+<div class="block">Setup Communications System  for OpenCDX</div>
 </dd>
 <dt><a href="cdx/opencdx/iam/changelog/IAMChangeSet.html#setupDefaultUser(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">setupDefaultUser(OpenCDXIAMUserRepository)</a> - Method in class cdx.opencdx.iam.changelog.<a href="cdx/opencdx/iam/changelog/IAMChangeSet.html" title="class in cdx.opencdx.iam.changelog">IAMChangeSet</a></dt>
 <dd>
@@ -3776,7 +3820,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Method to validate a JWT Token</div>
 </dd>
-<dt><a href="cdx/opencdx/client/service/OpenCDXCommunicationClient.html#VERIFY_EMAIL_USER" class="member-name-link">VERIFY_EMAIL_USER</a> - Static variable in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXCommunicationClient.html" title="interface in cdx.opencdx.client.service">OpenCDXCommunicationClient</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html#VERIFY_EMAIL_USER" class="member-name-link">VERIFY_EMAIL_USER</a> - Static variable in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a></dt>
 <dd>
 <div class="block">ID of the verify email notification event</div>
 </dd>
@@ -3795,7 +3839,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:W">W</h2>
 <dl class="index">
-<dt><a href="cdx/opencdx/client/service/OpenCDXCommunicationClient.html#WELCOME_EMAIL_USER" class="member-name-link">WELCOME_EMAIL_USER</a> - Static variable in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXCommunicationClient.html" title="interface in cdx.opencdx.client.service">OpenCDXCommunicationClient</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html#WELCOME_EMAIL_USER" class="member-name-link">WELCOME_EMAIL_USER</a> - Static variable in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a></dt>
 <dd>
 <div class="block">ID of the welcome email notification event.</div>
 </dd>
