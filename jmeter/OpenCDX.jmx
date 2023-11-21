@@ -6,7 +6,13 @@
       <boolProp name="TestPlan.tearDown_on_shutdown">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-        <collectionProp name="Arguments.arguments"/>
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="userPrefix" elementType="Argument">
+            <stringProp name="Argument.name">userPrefix</stringProp>
+            <stringProp name="Argument.value">${__RandomString(6,qwertyuiopasdfghjklzxcvbnm)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
       </elementProp>
     </TestPlan>
     <hashTree>
@@ -38,7 +44,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;type&quot;:1,&quot;first_name&quot;:&quot;Open&quot;,&quot;last_name&quot;:&quot;Cdx&quot;,&quot;username&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;,&quot;system&quot;:&quot;opencdx-test&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;type&quot;:1,&quot;first_name&quot;:&quot;Open&quot;,&quot;last_name&quot;:&quot;Cdx&quot;,&quot;username&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;,&quot;system&quot;:&quot;opencdx-test&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
@@ -73,7 +79,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;type&quot;:&quot;IAM_USER_TYPE_REGULAR&quot;,&quot;firstName&quot;:&quot;Open&quot;,&quot;lastName&quot;:&quot;Cdx&quot;,&quot;username&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;type&quot;:&quot;IAM_USER_TYPE_REGULAR&quot;,&quot;firstName&quot;:&quot;Open&quot;,&quot;lastName&quot;:&quot;Cdx&quot;,&quot;username&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -151,7 +157,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -225,7 +231,7 @@
 	&quot;iam_user&quot;:{
 		&quot;id&quot;:&quot;${user_id_g}&quot;,
 		&quot;system_name&quot;:&quot;changed&quot;,
-		&quot;username&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,
+		&quot;username&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,
 		&quot;type&quot;:1
 	}
 }</stringProp>
@@ -551,7 +557,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password2&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -658,7 +664,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;iamUser&quot;:{&quot;id&quot;:&quot;${user_id_r}&quot;,&quot;systemName&quot;:&quot;changed&quot;,&quot;username&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;type&quot;:&quot;IAM_USER_TYPE_REGULAR&quot;}}</stringProp>
+                <stringProp name="Argument.value">{&quot;iamUser&quot;:{&quot;id&quot;:&quot;${user_id_r}&quot;,&quot;systemName&quot;:&quot;changed&quot;,&quot;username&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;type&quot;:&quot;IAM_USER_TYPE_REGULAR&quot;}}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -991,7 +997,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -1052,7 +1058,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -1202,7 +1208,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -1289,7 +1295,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -1429,7 +1435,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -1836,7 +1842,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -2386,7 +2392,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -2739,7 +2745,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -3232,7 +3238,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -3585,7 +3591,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -4078,7 +4084,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -4431,7 +4437,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -4981,7 +4987,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -5645,7 +5651,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -6333,7 +6339,7 @@
           <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
           <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
           <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+          <stringProp name="GRPCSampler.requestJson">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_g@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
         </vn.zalopay.benchmark.GRPCSampler>
         <hashTree>
           <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
@@ -6394,7 +6400,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;userName&quot;:&quot;open_${userPrefix}_${__threadNum}_r@opencdx.com&quot;,&quot;password&quot;:&quot;password&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
