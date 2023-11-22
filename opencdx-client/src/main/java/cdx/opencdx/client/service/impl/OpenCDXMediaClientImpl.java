@@ -29,6 +29,7 @@ import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Observed(name = "opencdx")
 @Service
-@ConditionalOnProperty(prefix = "opencdx.client", name = "media", havingValue = "true")
+@ConditionalOnProperty(prefix = "opencdx.client.media", name = "enabled", havingValue = "true")
 public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
     /**
@@ -50,12 +51,16 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
     /**
      * Default Constructor used for normal operation.
+     * @param server Server address for the gRPC Service.
+     * @param port Server port for the gRPC Service.
      * @throws SSLException creating Client
      */
     @Generated
-    public OpenCDXMediaClientImpl() throws SSLException {
+    public OpenCDXMediaClientImpl(
+            @Value("${opencdx.client.media.server}") String server, @Value("${opencdx.client.media.port}") Integer port)
+            throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
-        ManagedChannel channel = NettyChannelBuilder.forAddress("media", 9090)
+        ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
                 .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
                 .build();
