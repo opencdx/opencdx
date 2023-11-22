@@ -62,3 +62,6 @@ Thumbs.db
 /opencdx-media/downloads/
 /opencdx-media/uploads/
 /data
+
+/certs/*.pem
+/certs/*.p12
