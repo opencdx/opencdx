@@ -71,10 +71,17 @@ list_property_files() {
     if [ -z "$property_files" ]; then
         handle_error "No property files found in '$directory'."
     else
-        handle_info "Property files in '$directory':"
-        handle_info "$property_files"
+        handle_info "Tests available:"
+
+        # Iterate over each property file
+        while read -r file; do
+            # Extract the description property using awk
+            description=$(awk -F= '/^description=/ {print $2}' "$directory/$file.properties")
+            handle_info "$file - $description"
+        done <<< "$property_files"
     fi
 }
+
 
 run_jmeter_tests() {
     # Check for JMeter
