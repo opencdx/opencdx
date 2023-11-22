@@ -6,6 +6,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# Specify the required JDK version
+required_jdk_version="20"
+
 # This script automates the build and reporting process for a project.
 # Function to handle errors
 handle_error() {
@@ -342,6 +345,13 @@ for arg in "$@"; do
     esac
 done
 
+# Check for the required JDK version
+java_version=$(java -version 2>&1 | grep version | awk -F\" '{print $2}')
+if [[ "$java_version" == *"$required_jdk_version"* ]]; then
+    handle_info "JDK $required_jdk_version is installed."
+else
+    handle_error "JDK $required_jdk_version is required. Please install the required JDK version."
+fi
 
 # Check for Docker
 if ! command -v docker &> /dev/null; then
