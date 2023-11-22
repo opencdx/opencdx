@@ -1,16 +1,37 @@
 #!/bin/bash
 
-# This script automates the build and reporting process for a project.
+# ANSI color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 
+# This script automates the build and reporting process for a project.
 # Function to handle errors
 handle_error() {
-    echo "Error: $1"
+    if [ -t 1 ]; then
+        # Check if stdout is a terminal
+        echo -e "${RED}Error: $1${NC}"
+    else
+        echo "Error: $1"
+    fi
     exit 1
 }
+
+# Function to handle information messages
+handle_info() {
+    if [ -t 1 ]; then
+        # Check if stdout is a terminal
+        echo -e "${YELLOW}$1${NC}"
+    else
+        echo "$1"
+    fi
+}
+
 function copy_files() {
     # Check if the correct number of arguments are provided
     if [ "$#" -ne 2 ]; then
-        echo "Usage: copy_files <source_directory> <target_directory>"
+        handle_error "Usage: copy_files <source_directory> <target_directory>"
         return 1
     fi
 
@@ -19,28 +40,28 @@ function copy_files() {
 
     # Create the target directory if it doesn't exist
     if [ ! -d "$target_dir" ]; then
-        mkdir -p "$target_dir"
+        mkdir -p "$target_dir" || handle_error "Failed to create directory: $target_dir"
     fi
 
     # Remove files in the target directory (if it exists)
     if [ -d "$target_dir" ]; then
-        rm -r "$target_dir"/*
+        rm -r "$target_dir"/* || handle_error "Failed to remove files from directory: $target_dir"
     fi
 
     # Copy files from the source to the target directory
-    cp -r "$source_dir"/* "$target_dir"
+    cp -r "$source_dir"/* "$target_dir" || handle_error "Failed to copy files from $source_dir to $target_dir"
 }
 
 list_property_files() {
     directory=$1
 
     if [ -z "$directory" ]; then
-        echo "Error: Directory parameter is missing."
+        handle_error "Error: Directory parameter is missing."
         return 1
     fi
 
     if [ ! -d "$directory" ]; then
-        echo "Error: '$directory' is not a valid directory."
+        handle_error "Error: '$directory' is not a valid directory."
         return 1
     fi
 
@@ -48,14 +69,19 @@ list_property_files() {
     property_files=$(find "$directory" -type f -name "*.properties" -exec basename {} \; | sed 's/\.properties$//')
 
     if [ -z "$property_files" ]; then
-        echo "No property files found in '$directory'."
+        handle_error "No property files found in '$directory'."
     else
-        echo "Property files in '$directory':"
-        echo "$property_files"
+        handle_info "Property files in '$directory':"
+        handle_info "$property_files"
     fi
 }
 
 run_jmeter_tests() {
+    # Check for JMeter
+    if ! command -v jmeter &> /dev/null; then
+        handle_error "JMeter is not installed. Please install JMeter and try again."
+    fi
+
     if [ -z "$1" ]; then
        list_property_files ./jmeter
         read -p "Enter the properties file name: " properties_file
@@ -63,7 +89,7 @@ run_jmeter_tests() {
         properties_file=$1
     fi
 
-    echo "Running Jmeter Tests using $properties_file"
+    handle_info "Running Jmeter Tests using $properties_file"
 
     copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
     rm -rf build/reports/jmeter
@@ -78,7 +104,14 @@ run_jmeter_tests() {
     fi
 }
 
-
+# Usage: open_url <url>
+open_url() {
+    if [[ "$OSTYPE" == "msys" ]]; then
+        start "$1" || handle_error "Failed to open URL: $1"
+    else
+        open "$1" || handle_error "Failed to open URL: $1"
+    fi
+}
 # Function to open reports and documentation
 open_reports() {
     case $1 in
@@ -89,76 +122,45 @@ open_reports() {
         run_jmeter_tests performance
         ;;
     jmeter_edit)
-        echo "Opening JMeter Test Script in Editor"
+        handle_info "Opening JMeter Test Script in Editor"
         copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         jmeter -t ./jmeter/OpenCDX.jmx
         ;;
     nats)
-        echo "Opening NATS Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:8222/ || handle_error "Failed to open NATS Dashboard."
-        else
-            open http://localhost:8222/ || handle_error "Failed to open NATS Dashboard."
-        fi
+        handle_info "Opening NATS Dashboard..."
+        open_url "http://localhost:8222/"
         ;;
     admin)
-        echo "Opening Admin Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start https://localhost:8861/admin/wallboard || handle_error "Failed to open Admin Dashboard."
-        else
-            open https://localhost:8861/admin/wallboard || handle_error "Failed to open Admin Dashboard."
-        fi
+        handle_info "Opening Admin Dashboard..."
+        open_url "https://localhost:8861/admin/wallboard"
         ;;
    discovery)
-        echo "Opening Discovery Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start https://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
-        else
-            open https://localhost:8761 || handle_error "Failed to open Discovery Dashboard."
-        fi
+        handle_info "Opening Discovery Dashboard..."
+        open_url "https://localhost:8761"
         ;;
 
     test)
-        echo "Opening Test Report..."
+        handle_info "Opening Test Report..."
         ./gradlew testReport || handle_error "Failed to generate the test report."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/allTests/index.html || handle_error "Failed to open the test report."
-        else
-            open build/reports/allTests/index.html || handle_error "Failed to open the test report."
-        fi
-        ;;
-    dependency)
-        echo "Opening Dependency Check Report..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/dependency-check-report.html || handle_error "Failed to open the dependency check report."
-        else
-            open build/reports/dependency-check-report.html || handle_error "Failed to open the dependency check report."
-        fi
+        open_url "build/reports/allTests/index.html"
         ;;
     jacoco)
-        echo "Opening JaCoCo Report..."
+        handle_info "Opening JaCoCo Report..."
         ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/jacoco/jacocoRootReport/html/index.html || handle_error "Failed to open the JaCoCo report."
-        else
-            open build/reports/jacoco/jacocoRootReport/html/index.html || handle_error "Failed to open the JaCoCo report."
-        fi
+       open_url "build/reports/jacoco/jacocoRootReport/html/index.html"
         ;;
     check)
-        echo "Opening JavaDoc..."
+        handle_info "Opening JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/docs/javadoc-all/index.html || handle_error "Failed to open the JavaDoc."
-        else
-            open build/docs/javadoc-all/index.html || handle_error "Failed to open the JavaDoc."
-        fi
+        open_url "build/docs/javadoc-all/index.html"
+        open_url "build/reports/dependency-check-report.html"
         ;;
     publish)
-      read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
-        echo "Cleaning doc folder"
+      read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
+        handle_info "Cleaning doc folder"
         rm -rf ./doc
         mkdir doc
-        echo "Creating JavaDoc..."
+        handle_info "Creating JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         mv build/docs/javadoc-all ./doc/javadoc
 
@@ -166,28 +168,24 @@ open_reports() {
          protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
         ;;
     proto)
-       echo "Opening Proto Doc..."
+       handle_info "Opening Proto Doc..."
+           # Check for Protoc
+           if ! command -v protoc &> /dev/null; then
+               handle_error "Protoc is not installed. Please install Protoc and try again."
+           fi
            read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
 
            if [ -n "$proto_gen_doc_path" ]; then
                mkdir -p ./build/reports/proto
                protoc -Iopencdx-proto/src/main/proto --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
-               if [[ "$OSTYPE" == "msys" ]]; then
-                   start ./build/reports/proto/index.html || handle_error "Failed to open Proto documentation."
-               else
-                   open ./build/reports/proto/index.html || handle_error "Failed to open Proto documentation."
-               fi
+               open_url "./build/reports/proto/index.html"
            else
-               echo "Skipping Proto documentation generation."
+               handle_info "Skipping Proto documentation generation."
            fi
         ;;
     micrometer_tracing)
-       echo "Opening Zipkin Microservice Tracing Dashboard..."
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start http://localhost:9411/zipkin || handle_error "Failed to open Zipkin Dashboard."
-        else
-            open http://localhost:9411/zipkin || handle_error "Failed to open Zipkin Dashboard."
-        fi
+       handle_info "Opening Zipkin Microservice Tracing Dashboard..."
+        open_url "http://localhost:9411/zipkin"
         ;;
     esac
 }
@@ -210,31 +208,34 @@ print_usage() {
 }
 
 # Function to build Docker image
+build_docker_image() {
+    docker build -t "$1" "$2" || handle_error "Docker $1 build failed."
+}
 build_docker() {
-    echo "Building Docker images..."
-    docker build -t opencdx/mongodb ./opencdx-mongodb || handle_error "Docker opencdx-mongodb build failed."
-    docker build -t opencdx/helloworld ./opencdx-helloworld || handle_error "Docker opencdx-helloworld build failed."
-    docker build -t opencdx/admin ./opencdx-admin || handle_error "Docker opencdx-admin build failed."
-    docker build -t opencdx/config ./opencdx-config || handle_error "Docker opencdx-config build failed."
-    docker build -t opencdx/tinkar ./opencdx-tinkar || handle_error "Docker opencdx-tinkar build failed."
-    docker build -t opencdx/audit ./opencdx-audit || handle_error "Docker opencdx-audit build failed."
-    docker build -t opencdx/communications ./opencdx-communications || handle_error "Docker opencdx-communications build failed."
-    docker build -t opencdx/media ./opencdx-media || handle_error "Docker opencdx-media build failed."
-    docker build -t opencdx/connected-test ./opencdx-connected-test || handle_error "Docker opencdx-connected-test build failed."
-    docker build -t opencdx/iam ./opencdx-iam || handle_error "Docker opencdx-iam build failed."
-    docker build -t opencdx/gateway ./opencdx-gateway || handle_error "Docker opencdx-gateway build failed."
-    docker build -t opencdx/discovery ./opencdx-discovery || handle_error "Docker opencdx-discovery build failed."
+    handle_info "Building Docker images..."
+    build_docker_image opencdx/mongodb ./opencdx-mongodb
+    build_docker_image opencdx/helloworld ./opencdx-helloworld
+    build_docker_image opencdx/admin ./opencdx-admin
+    build_docker_image opencdx/config ./opencdx-config
+    build_docker_image opencdx/tinkar ./opencdx-tinkar
+    build_docker_image opencdx/audit ./opencdx-audit
+    build_docker_image opencdx/communications ./opencdx-communications
+    build_docker_image opencdx/media ./opencdx-media
+    build_docker_image opencdx/connected-test ./opencdx-connected-test
+    build_docker_image opencdx/iam ./opencdx-iam
+    build_docker_image opencdx/gateway ./opencdx-gateway
+    build_docker_image opencdx/discovery ./opencdx-discovery
 }
 
 # Function to start Docker services
 start_docker() {
-    echo "Starting Docker services..."
+    handle_info "Starting Docker services..."
     (cd docker && docker compose --project-name opencdx up -d) || handle_error "Failed to start Docker services."
 }
 
 # Function to stop Docker services
 stop_docker() {
-    echo "Stopping Docker services..."
+    handle_info "Stopping Docker services..."
     (cd docker && docker compose --project-name opencdx down) || handle_error "Failed to stop Docker services."
 }
 
@@ -265,7 +266,7 @@ docker_menu() {
         8) open_reports "jmeter_edit"  ;;
         9) open_reports "micrometer_tracing"  ;;
         x)
-            echo "Exiting Docker Menu..."
+            handle_info "Exiting Docker Menu..."
             break
             ;;
         *)
@@ -329,17 +330,29 @@ for arg in "$@"; do
         print_usage
         ;;
     *)
-        echo "Unknown option: $arg"
-        exit 1
+        handle_error "Unknown option: $arg"
         ;;
     esac
 done
+
+
+# Check for Docker
+if ! command -v docker &> /dev/null; then
+    handle_error "Docker is not installed. Please install Docker and try again."
+fi
+
+# Check for 'open' command (for macOS)
+if [[ "$OSTYPE" != "msys" ]] && ! command -v open &> /dev/null; then
+    handle_error "'open' command is not available. Please install it or use an appropriate alternative."
+fi
+
+handle_info "All dependencies are installed."
 
 if [ "$skip" = false ]; then
   stop_docker
 fi
 if [ "$wipe" = true ]; then
-  echo "Wiping Data"
+  handle_info "Wiping Data"
   rm -rf ./data
 fi
 
@@ -348,7 +361,7 @@ fi
 if [ "$fast_build" = true ]; then
     if ./gradlew build publish -x test -x dependencyCheckAggregate; then
         # Build Completed Successfully
-        echo "Fast Build & Clean completed successfully"
+        handle_info "Fast Build & Clean completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
@@ -358,7 +371,7 @@ elif [ "$clean" = true ] && [ "$skip" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     if ./gradlew clean spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
-        echo "Build & Clean completed successfully"
+        handle_info "Build & Clean completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
@@ -366,7 +379,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     if ./gradlew spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
-        echo "Build completed successfully"
+        handle_info "Build completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
@@ -375,10 +388,10 @@ fi
 
 
 if [ "$check" = true ]; then
-    echo "Performing Check on JavaDoc"
+    handle_info "Performing Check on JavaDoc"
     ./gradlew dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc || handle_error "Failed to generate the JavaDoc."
     echo
-    echo "Project Passes all checks"
+    handle_info "Project Passes all checks"
 fi
 echo
 # Main Menu
@@ -389,17 +402,17 @@ if [ "$no_menu" = false ]; then
       start_docker;
       open_reports "admin";
       if [ "$jmeter" = true ]; then
-        echo "Waiting to run JMeter tests"
+        handle_info "Waiting to run JMeter tests"
         sleep 60
         run_jmeter_tests "smoke"
       fi
       if [ "$performance" = true ]; then
-        echo "Waiting to run JMeter tests"
+        handle_info "Waiting to run JMeter tests"
         sleep 60
         run_jmeter_tests "performance"
       fi
       if [ "$soak" = true ]; then
-        echo "Waiting to run JMeter tests"
+        handle_info "Waiting to run JMeter tests"
         sleep 60
         run_jmeter_tests "soak"
       fi
@@ -410,29 +423,27 @@ if [ "$no_menu" = false ]; then
     while true; do
         echo "Main Menu:"
         echo "1. Open Test Report"
-        echo "2. Open Dependency Check Report"
+        echo "2. Publish Doc"
         echo "3. Open JaCoCo Report"
         echo "4. Check code"
         echo "5. Open Proto Doc"
         echo "6. Docker Menu"
-        echo "7. Publish Doc"
 
         read -r -p "Enter your choice (x to Exit): " main_choice
 
         case $main_choice in
         1) open_reports "test" ;;
-        2) open_reports "dependency" ;;
+        2) open_reports "publish" ;;
         3) open_reports "jacoco" ;;
         4) open_reports "check" ;;
         5) open_reports "proto" ;;
         6) docker_menu ;;
-        7) open_reports "publish" ;;
         x)
             echo "Exiting..."
             exit 0
             ;;
         *)
-            echo "Invalid choice."
+            handle_info "Invalid choice."
             ;;
         esac
     done
