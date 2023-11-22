@@ -26,8 +26,8 @@
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Properties Details" enabled="true">
-          <stringProp name="BeanShellSampler.query">log.info(&quot;Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Loops: &quot; + ${__P(lCount,1)});
-System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Loops: &quot; + ${__P(lCount,1)} + &quot; Server: &quot; + ${__P(serverName,localhost)} + &quot; Port: &quot; + ${__P(serverPort,8080)});</stringProp>
+          <stringProp name="BeanShellSampler.query">log.info(&quot;Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Duration: &quot; + ${__P(durationSec,1)});
+System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Rampup: &quot; + ${__P(rampUp,1)} + &quot; Duration: &quot; + ${__P(durationSec,60)} + &quot; seconds  Server: &quot; + ${__P(serverName,localhost)} + &quot; Port: &quot; + ${__P(serverPort,8080)});</stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
@@ -35,13 +35,13 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Integration Test" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,1)}</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>

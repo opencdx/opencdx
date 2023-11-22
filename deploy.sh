@@ -31,34 +31,63 @@ function copy_files() {
     cp -r "$source_dir"/* "$target_dir"
 }
 
+list_property_files() {
+    directory=$1
+
+    if [ -z "$directory" ]; then
+        echo "Error: Directory parameter is missing."
+        return 1
+    fi
+
+    if [ ! -d "$directory" ]; then
+        echo "Error: '$directory' is not a valid directory."
+        return 1
+    fi
+
+    # List all property files in the directory and remove the ".properties" extension
+    property_files=$(find "$directory" -type f -name "*.properties" -exec basename {} \; | sed 's/\.properties$//')
+
+    if [ -z "$property_files" ]; then
+        echo "No property files found in '$directory'."
+    else
+        echo "Property files in '$directory':"
+        echo "$property_files"
+    fi
+}
+
+run_jmeter_tests() {
+    if [ -z "$1" ]; then
+       list_property_files ./jmeter
+        read -p "Enter the properties file name: " properties_file
+    else
+        properties_file=$1
+    fi
+
+    echo "Running Jmeter Tests using $properties_file"
+
+    copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
+    rm -rf build/reports/jmeter
+    mkdir -p build/reports
+
+    jmeter -p "./jmeter/$properties_file.properties" -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
+
+    if [[ "$OSTYPE" == "msys" ]]; then
+        start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
+    else
+        open build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
+    fi
+}
+
 
 # Function to open reports and documentation
 open_reports() {
     case $1 in
     jmeter)
-        echo "Running Jmeter Tests"
-        copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
-        rm -rf build/reports/jmeter
-        mkdir build/reports
-        jmeter -p ./jmeter/smoke.properties -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
-        if [[ "$OSTYPE" == "msys" ]]; then
-            start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-        else
-            open build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-        fi
+        run_jmeter_tests smoke
         ;;
     jmeter_performance)
-            echo "Running Jmeter Tests"
-            copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
-            rm -rf build/reports/jmeter
-            mkdir build/reports
-            jmeter -p ./jmeter/performance.properties -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
-            if [[ "$OSTYPE" == "msys" ]]; then
-                start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-            else
-                open build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-            fi
-            ;;
+        run_jmeter_tests performance
+        ;;
     jmeter_edit)
         echo "Opening JMeter Test Script in Editor"
         copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
@@ -171,8 +200,9 @@ print_usage() {
     echo "  --all           Skip the interactive menu and open all available reports/documentation."
     echo "  --check         Perform build and check all requirements"
     echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
-    echo "  --jmeter        Will Start JMeter Smoke test 60 seconds after deployment."
-    echo "  --perfromance   Will Start JMeter Performance test 60 seconds after deployment."
+    echo "  --jmeter        Will Start JMeter Smoke test 60 seconds after deployment, 60 second duration."
+    echo "  --performance   Will Start JMeter Performance test 60 seconds after deployment. 1 hour duration"
+    echo "  --soak          Will Start JMeter Soak test 60 seconds after deployment. 8 hour duration"
     echo "  --fast          Will perform a fast build skipping tests."
     echo "  --wipe          Will prevent wiping the contents of the ./data directory."
     echo "  --help          Show this help message."
@@ -218,10 +248,9 @@ docker_menu() {
         echo "4. Open Admin Dashboard"
         echo "5. Open Discovery Dashboard"
         echo "6. Open NATS Dashboard"
-        echo "7. Run JMeter Smoke Test Script"
-        echo "8. Run JMeter Performance Test Script"
-        echo "9. Open JMeter Test Script"
-        echo "0. Open Microservice Tracing Zipkin"
+        echo "7. Run JMeter Test Script"
+        echo "8. Open JMeter Test Script"
+        echo "9. Open Microservice Tracing Zipkin"
 
         read -r -p "Enter your choice (x to Exit Docker Menu): " docker_choice
 
@@ -232,10 +261,9 @@ docker_menu() {
         4) open_reports "admin" ;;
         5) open_reports "discovery" ;;
         6) open_reports "nats" ;;
-        7) open_reports "jmeter" ;;
-        8) open_reports "jmeter_performance" ;;
-        9) open_reports "jmeter_edit"  ;;
-        0) open_reports "micrometer_tracing"  ;;
+        7) run_jmeter_tests ;;
+        8) open_reports "jmeter_edit"  ;;
+        9) open_reports "micrometer_tracing"  ;;
         x)
             echo "Exiting Docker Menu..."
             break
@@ -258,6 +286,7 @@ jmeter=false
 performance=false
 fast_build=false
 wipe=false
+soak=false;
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -286,6 +315,9 @@ for arg in "$@"; do
         ;;
     --performance)
         performance=true;
+        ;;
+    --soak)
+        soak=true;
         ;;
     --fast)
         fast_build=true
@@ -359,13 +391,19 @@ if [ "$no_menu" = false ]; then
       if [ "$jmeter" = true ]; then
         echo "Waiting to run JMeter tests"
         sleep 60
-        open_reports "jmeter"
+        run_jmeter_tests "smoke"
       fi
-       if [ "$performance" = true ]; then
-              echo "Waiting to run JMeter tests"
-              sleep 60
-              open_reports "jmeter_performance"
-            fi
+      if [ "$performance" = true ]; then
+        echo "Waiting to run JMeter tests"
+        sleep 60
+        run_jmeter_tests "performance"
+      fi
+      if [ "$soak" = true ]; then
+        echo "Waiting to run JMeter tests"
+        sleep 60
+        run_jmeter_tests "soak"
+      fi
+
       docker_menu;
     fi
 
