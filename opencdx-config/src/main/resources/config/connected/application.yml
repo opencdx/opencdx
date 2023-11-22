@@ -3,6 +3,3 @@ spring:
   application:
     name: connected-test
 
-opencdx:
-  helloworld:
-    format: "Hello %s!"
