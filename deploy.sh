@@ -371,6 +371,21 @@ fi
 if [ "$wipe" = true ]; then
   handle_info "Wiping Data"
   rm -rf ./data
+  rm -rf ./certs/*.pem
+  rm -rf ./certs/*.p12
+fi
+
+if [ ! -e ./certs/opencdx-keystore.p12 ]; then
+    handle_info "Generating Certificates"
+
+    # Change into the desired directory
+    cd ./certs
+
+    # Run the script in the current directory
+    ./certs.sh
+
+    # Move back to the original directory
+    cd ..
 fi
 
 ./gradlew -stop all
