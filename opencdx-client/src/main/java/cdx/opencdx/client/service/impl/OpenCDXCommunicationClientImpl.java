@@ -27,6 +27,8 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.io.InputStream;
+
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -50,6 +52,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * @param port Server port for the gRPC Service.
      * @throws IOException creating Client
      */
+    @Generated
     public OpenCDXCommunicationClientImpl(
             @Value("${opencdx.client.communications.server}") String server,
             @Value("${opencdx.client.communications.port}") Integer port)
