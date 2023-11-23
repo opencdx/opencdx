@@ -59,3 +59,8 @@ eureka:
     statusPageUrl: https://${spring.application.name}:${server.port}/info
     healthCheckUrl: https://${spring.application.name}:${server.port}/actuator/health
     homePageUrl: https://${spring.application.name}:${server.port}/
+encrypt:
+  keyStore:
+    location: file:/certs/config-server.jks
+    alias: config-server-key
+    password: opencdx
