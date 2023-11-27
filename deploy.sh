@@ -52,7 +52,7 @@ function copy_files() {
 
     # Remove files in the target directory (if it exists)
     if [ -d "$target_dir" ]; then
-        rm -r "$target_dir"/* || handle_error "Failed to remove files from directory: $target_dir"
+        rm -r "$target_dir"/* || handle_info "Failed to remove files from directory: $target_dir"
     fi
 
     # Copy files from the source to the target directory
