@@ -9,8 +9,8 @@ NC='\033[0m' # No Color
 # Specify the required JDK version
 required_jdk_version="20"
 
-# This script automates the build and reporting process for a project.
 # Function to handle errors
+# Parameters: $1 - Error message
 handle_error() {
     if [ -t 1 ]; then
         # Check if stdout is a terminal
@@ -22,6 +22,7 @@ handle_error() {
 }
 
 # Function to handle information messages
+# Parameters: $1 - Information message
 handle_info() {
     if [ -t 1 ]; then
         # Check if stdout is a terminal
@@ -31,6 +32,9 @@ handle_info() {
     fi
 }
 
+# Function to copy files from source to target directory
+# Parameters: $1 - Source directory, $2 - Target directory
+# Returns: 0 on success, 1 on failure
 function copy_files() {
     # Check if the correct number of arguments are provided
     if [ "$#" -ne 2 ]; then
@@ -55,6 +59,9 @@ function copy_files() {
     cp -r "$source_dir"/* "$target_dir" || handle_error "Failed to copy files from $source_dir to $target_dir"
 }
 
+# Function to list property files in a directory
+# Parameters: $1 - Directory containing property files
+# Returns: 0 on success, 1 on failure
 list_property_files() {
     directory=$1
 
@@ -85,7 +92,8 @@ list_property_files() {
     fi
 }
 
-
+# Function to run JMeter tests
+# Parameters: $1 (optional) - Properties file name
 run_jmeter_tests() {
     # Check for JMeter
     if ! command -v jmeter &> /dev/null; then
@@ -93,7 +101,7 @@ run_jmeter_tests() {
     fi
 
     if [ -z "$1" ]; then
-       list_property_files ./jmeter
+        list_property_files ./jmeter
         read -p "Enter the properties file name: " properties_file
     else
         properties_file=$1
@@ -122,7 +130,9 @@ open_url() {
         open "$1" || handle_error "Failed to open URL: $1"
     fi
 }
+
 # Function to open reports and documentation
+# Parameters: $1 - Type of report or documentation to open
 open_reports() {
     case $1 in
     jmeter)
@@ -144,11 +154,10 @@ open_reports() {
         handle_info "Opening Admin Dashboard..."
         open_url "https://localhost:8861/admin/wallboard"
         ;;
-   discovery)
+    discovery)
         handle_info "Opening Discovery Dashboard..."
         open_url "https://localhost:8761"
         ;;
-
     test)
         handle_info "Opening Test Report..."
         ./gradlew testReport || handle_error "Failed to generate the test report."
@@ -157,7 +166,7 @@ open_reports() {
     jacoco)
         handle_info "Opening JaCoCo Report..."
         ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
-       open_url "build/reports/jacoco/jacocoRootReport/html/index.html"
+        open_url "build/reports/jacoco/jacocoRootReport/html/index.html"
         ;;
     check)
         handle_info "Opening JavaDoc..."
@@ -166,7 +175,7 @@ open_reports() {
         open_url "build/reports/dependency-check-report.html"
         ;;
     publish)
-      read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
+        read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
         handle_info "Cleaning doc folder"
         rm -rf ./doc
         mkdir doc
@@ -175,30 +184,31 @@ open_reports() {
         mv build/docs/javadoc-all ./doc/javadoc
 
         mkdir -p doc/protodoc
-         protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+        protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
         ;;
     proto)
-       handle_info "Opening Proto Doc..."
-           # Check for Protoc
-           if ! command -v protoc &> /dev/null; then
-               handle_error "Protoc is not installed. Please install Protoc and try again."
-           fi
-           read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
+        handle_info "Opening Proto Doc..."
+        # Check for Protoc
+        if ! command -v protoc &> /dev/null; then
+            handle_error "Protoc is not installed. Please install Protoc and try again."
+        fi
+        read -p "Enter the path to proto-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
 
-           if [ -n "$proto_gen_doc_path" ]; then
-               mkdir -p ./build/reports/proto
-               protoc -Iopencdx-proto/src/main/proto --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
-               open_url "./build/reports/proto/index.html"
-           else
-               handle_info "Skipping Proto documentation generation."
-           fi
+        if [ -n "$proto_gen_doc_path" ]; then
+            mkdir -p ./build/reports/proto
+            protoc -Iopencdx-proto/src/main/proto --doc_out=./build/reports/proto --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+            open_url "./build/reports/proto/index.html"
+        else
+            handle_info "Skipping Proto documentation generation."
+        fi
         ;;
     micrometer_tracing)
-       handle_info "Opening Zipkin Microservice Tracing Dashboard..."
+        handle_info "Opening Zipkin Microservice Tracing Dashboard..."
         open_url "http://localhost:9411/zipkin"
         ;;
     esac
 }
+
 # Print usage instructions
 print_usage() {
     echo "Usage: $0 [--skip] [--clean] [--no_menu] [--all] [--help]"
@@ -366,13 +376,13 @@ fi
 handle_info "All dependencies are installed."
 
 if [ "$skip" = false ]; then
-  stop_docker
+    stop_docker
 fi
 if [ "$wipe" = true ]; then
-  handle_info "Wiping Data"
-  rm -rf ./data
-  rm -rf ./certs/*.pem
-  rm -rf ./certs/*.p12
+    handle_info "Wiping Data"
+    rm -rf ./data
+    rm -rf ./certs/*.pem
+    rm -rf ./certs/*.p12
 fi
 
 if [ ! -e ./certs/opencdx-keystore.p12 ]; then
@@ -418,7 +428,6 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
     fi
 fi
 
-
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
     ./gradlew dependencyCheckAggregate versionUpToDateReport versionReport allJavadoc || handle_error "Failed to generate the JavaDoc."
@@ -430,26 +439,26 @@ echo
 if [ "$no_menu" = false ]; then
 
     if [ "$deploy" = true ]; then
-      build_docker;
-      start_docker;
-      open_reports "admin";
-      if [ "$jmeter" = true ]; then
-        handle_info "Waiting to run JMeter tests"
-        sleep 60
-        run_jmeter_tests "smoke"
-      fi
-      if [ "$performance" = true ]; then
-        handle_info "Waiting to run JMeter tests"
-        sleep 60
-        run_jmeter_tests "performance"
-      fi
-      if [ "$soak" = true ]; then
-        handle_info "Waiting to run JMeter tests"
-        sleep 60
-        run_jmeter_tests "soak"
-      fi
+        build_docker;
+        start_docker;
+        open_reports "admin";
+        if [ "$jmeter" = true ]; then
+            handle_info "Waiting to run JMeter tests"
+            sleep 60
+            run_jmeter_tests "smoke"
+        fi
+        if [ "$performance" = true ]; then
+            handle_info "Waiting to run JMeter tests"
+            sleep 60
+            run_jmeter_tests "performance"
+        fi
+        if [ "$soak" = true ]; then
+            handle_info "Waiting to run JMeter tests"
+            sleep 60
+            run_jmeter_tests "soak"
+        fi
 
-      docker_menu;
+        docker_menu;
     fi
 
     while true; do
@@ -489,4 +498,3 @@ if [ "$open_all" = true ]; then
     open_reports "javadoc"
     open_reports "proto"
 fi
-
