@@ -16,6 +16,7 @@
 package cdx.opencdx.audit.controller;
 
 import cdx.opencdx.audit.handlers.OpenCDXAuditMessageHandler;
+import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
 import cdx.opencdx.grpc.audit.*;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -37,6 +39,9 @@ class GrpcAuditControllerTest {
 
     @Autowired
     OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
+
+    @MockBean
+    OpenCDXAuditEventRepository openCDXAuditEventRepository;
 
     @BeforeEach
     void setup() {
