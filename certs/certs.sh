@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# Function to check minimum OpenSSL version
+check_openssl_version() {
+    local min_version="3.1.2"
+    local openssl_version=$(openssl version | awk '{print $2}')
+    if [ "$(printf '%s\n' "$min_version" "$openssl_version" | sort -V | head -n1)" != "$min_version" ]; then
+        echo "Error: OpenSSL version $min_version or higher is required."
+        exit 1
+    fi
+}
+
+# Function to check minimum Keytool version
+check_keytool() {
+    local min_version="20.0.1"
+    local keytool_version=$(keytool -version | awk '{print $2}')
+    if [ "$(printf '%s\n' "$min_version" "$keytool_version" | sort -V | head -n1)" != "$min_version" ]; then
+        echo "Error: keytool version $min_version or higher is required."
+        exit 1
+    fi
+}
+
 generate_certificate() {
     local SERVICE_NAME=$1
 
@@ -11,6 +31,15 @@ generate_certificate() {
 
     rm "${SERVICE_NAME}-keystore.p12"
 }
+
+# Check OpenSSL version
+check_openssl_version
+
+# Check if keytool is installed
+check_keytool
+
+rm -rf ./*.pem
+rm -rf ./*.p12
 
 # Generate certificates for individual services
 generate_certificate "Audit"
