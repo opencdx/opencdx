@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.audit.handlers;
 
+import cdx.opencdx.audit.model.AuditEventModel;
+import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
@@ -36,14 +38,21 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
 
     private OpenCDXMessageService openCDXMessageService;
 
+    private OpenCDXAuditEventRepository openCDXAuditEventRepository;
+
     /**
      * Constructor for the Audit microservice
      * @param objectMapper Object mapper used for conversion
      * @param openCDXMessageService Message service used for receiving messages.
+     * @param openCDXAuditEventRepository Repository for storing audit messages.
      */
-    public OpenCDXAuditMessageHandler(ObjectMapper objectMapper, OpenCDXMessageService openCDXMessageService) {
+    public OpenCDXAuditMessageHandler(
+            ObjectMapper objectMapper,
+            OpenCDXMessageService openCDXMessageService,
+            OpenCDXAuditEventRepository openCDXAuditEventRepository) {
         this.objectMapper = objectMapper;
         this.openCDXMessageService = openCDXMessageService;
+        this.openCDXAuditEventRepository = openCDXAuditEventRepository;
 
         this.openCDXMessageService.subscribe(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, this);
     }
@@ -70,5 +79,6 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
      */
     public void processAuditEvent(AuditEvent event) {
         log.info("Audit Event:\n {}", event);
+        this.openCDXAuditEventRepository.save(new AuditEventModel(event));
     }
 }
