@@ -135,7 +135,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     /**
      * Handler wrapper for NATS
      */
-    protected class NatsMessageHandler implements MessageHandler {
+    protected static class NatsMessageHandler implements MessageHandler {
         OpenCDXMessageHandler handler;
 
         /**
