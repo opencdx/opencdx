@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package neural_predictor;
+
+// Input data for making predictions.
+message PredictorInput {
+  string testId = 1; // ID of the connected test
+  repeated float testFeatures = 2; // Features extracted from the test data
+}
+
+// Output of the prediction model.
+message PredictorOutput {
+  float predictedValue = 1; // The predicted outcome or parameter
+}
+
+// Service for the Neural Predictor.
+service NeuralPredictorService {
+  // Predict a value based on input data.
+  rpc Predict(PredictorInput) returns (PredictorOutput);
+}
