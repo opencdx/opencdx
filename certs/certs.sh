@@ -76,3 +76,6 @@ cat mongodb-key.pem mongodb-cert.pem > mongodb.pem
 
 # Concatenate client certs into a client truststore
 cat Audit-cert.pem Communications-cert.pem HelloWorld-cert.pem Media-cert.pem Admin-cert.pem > opencdx-clients.pem
+
+#Regenerating the JKS Keystore will require re-generating the encrypted password/passcodes in the configuration.
+#keytool -genkeypair -alias config-server-key -keyalg RSA -keysize 2048 -dname 'C=US,ST=CA,L=SanDiego,O=SafeHealth,OU=OpenCDx,CN=Config' -keypass opencdx -keystore config-server.jks -storepass opencdx
