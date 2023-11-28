@@ -8,13 +8,13 @@ option java_multiple_files = true;
 
 // Input data for making predictions.
 message PredictorInput {
-  string testId = 1; // ID of the connected test
+  optional string testId = 1; // ID of the connected test
   repeated float testFeatures = 2; // Features extracted from the test data
 }
 
 // Output of the prediction model.
 message PredictorOutput {
-  float predictedValue = 1; // The predicted outcome or parameter
+  optional float predictedValue = 1; // The predicted outcome or parameter
 }
 
 // Service for the Neural Predictor.
