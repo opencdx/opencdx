@@ -64,33 +64,4 @@ public class AuditEventModel {
         this.auditSource = auditEvent.getAuditSource();
         this.auditEntity = auditEvent.getAuditEntity();
     }
-
-    /**
-     * Method to get Protobuf Message
-     * @return Device protobuf message
-     */
-    public AuditEvent getProtobufmessage() {
-        AuditEvent.Builder builder = AuditEvent.newBuilder();
-
-        if (this.eventType != null) {
-            builder.setEventType(this.eventType);
-        }
-        if (this.actor != null) {
-            builder.setActor(this.actor);
-        }
-        if (this.dataObject != null) {
-            builder.setDataObject(this.dataObject);
-        }
-        if (this.purposeOfUse != null) {
-            builder.setPurposeOfUse(this.purposeOfUse);
-        }
-        if (this.auditSource != null) {
-            builder.setAuditSource(this.auditSource);
-        }
-        if (this.auditEntity != null) {
-            builder.setAuditEntity(this.auditEntity);
-        }
-
-        return builder.build();
-    }
 }
