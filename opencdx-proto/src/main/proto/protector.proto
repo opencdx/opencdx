@@ -8,64 +8,64 @@ option java_multiple_files = true;
 
 // Detailed anomaly detection data
 message AnomalyDetectionData {
-  string user_id = 1;
-  string data_access_pattern = 2;
-  string time_stamp = 3;
+  optional string user_id = 1;
+  optional string data_access_pattern = 2;
+  optional string time_stamp = 3;
   repeated string anomalies_detected = 4;
-  string source_ip = 5; // IP address of the user's device
-  string location = 6; // Geographic location of access
+  optional string source_ip = 5; // IP address of the user's device
+  optional string location = 6; // Geographic location of access
   repeated string affected_systems = 7; // Systems affected by the anomalies
-  string severity_level = 8; // Severity level of the anomaly
+  optional string severity_level = 8; // Severity level of the anomaly
   // Place holder to add fields for contextual information
 }
 
 // Comprehensive authorization control data
 message AuthorizationControlData {
-  string user_id = 1;
-  string data_access_level = 2;
-  string access_granted_by = 3;
+  optional string user_id = 1;
+  optional string data_access_level = 2;
+  optional string access_granted_by = 3;
   repeated string access_scopes = 4;
-  string access_validity_period = 5; // Time period for which access is valid
-  bool is_temporary_access = 6; // Indicates if access is temporary
+  optional string access_validity_period = 5; // Time period for which access is valid
+  optional bool is_temporary_access = 6; // Indicates if access is temporary
   repeated string conditional_access_params = 7; // Conditions under which access is granted
   // Place holder to add fields for fine-grained access control
 }
 
 // Privacy protection data with in-depth fields
 message PrivacyProtectionData {
-  string data_type = 1;
-  string anonymized_data = 2;
-  bool is_data_encrypted = 3;
-  string encryption_method = 4;
-  string data_retention_policy = 5; // Policy for data retention
-  bool has_data_sharing_agreement = 6; // Indicates if there's a data sharing agreement
-  string data_purpose = 7; // Purpose for which the data is collected
+  optional string data_type = 1;
+  optional string anonymized_data = 2;
+  optional bool is_data_encrypted = 3;
+  optional string encryption_method = 4;
+  optional string data_retention_policy = 5; // Policy for data retention
+  optional bool has_data_sharing_agreement = 6; // Indicates if there's a data sharing agreement
+  optional string data_purpose = 7; // Purpose for which the data is collected
   // Place holder to add fields for comprehensive data privacy management
 }
 
 // Elaborate real-time monitoring data
 message RealTimeMonitoringData {
-  string monitored_entity = 1;
-  string monitoring_details = 2;
-  string monitoring_start_time = 3;
-  string monitoring_end_time = 4;
+  optional string monitored_entity = 1;
+  optional string monitoring_details = 2;
+  optional string monitoring_start_time = 3;
+  optional string monitoring_end_time = 4;
   repeated string triggered_alerts = 5; // Alerts triggered during monitoring
-  string monitoring_frequency = 6; // Frequency of monitoring activity
-  bool is_continuous_monitoring = 7; // Indicates if monitoring is continuous
-  string responsible_monitoring_team = 8; // Team responsible for monitoring
+  optional string monitoring_frequency = 6; // Frequency of monitoring activity
+  optional bool is_continuous_monitoring = 7; // Indicates if monitoring is continuous
+  optional string responsible_monitoring_team = 8; // Team responsible for monitoring
   // Place holder to add for detailed monitoring insights
 }
 
 // Expanded user behavior analysis data
 message UserBehaviorAnalysisData {
-  string user_id = 1;
-  string behavior_pattern = 2;
+  optional string user_id = 1;
+  optional string behavior_pattern = 2;
   repeated string associated_activities = 3;
-  string analysis_time_frame = 4;
+  optional string analysis_time_frame = 4;
   repeated string historical_behavior_data = 5; // Historical data of user behavior
-  string risk_assessment = 6; // Risk assessment based on behavior
-  bool is_behavior_outlier = 7; // Indicates if behavior is an outlier
-  string behavior_consequence = 8; // Potential consequences of the behavior
+  optional string risk_assessment = 6; // Risk assessment based on behavior
+  optional bool is_behavior_outlier = 7; // Indicates if behavior is an outlier
+  optional string behavior_consequence = 8; // Potential consequences of the behavior
   // Place holder to add fields for a thorough behavior analysis
 }
 
