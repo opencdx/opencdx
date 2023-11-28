@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
 import io.nats.client.Connection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -49,6 +50,9 @@ class RestAuditControllerTest {
 
     @MockBean
     Connection connection;
+
+    @MockBean
+    OpenCDXAuditEventRepository openCDXAuditEventRepository;
 
     @BeforeEach
     public void setup() {

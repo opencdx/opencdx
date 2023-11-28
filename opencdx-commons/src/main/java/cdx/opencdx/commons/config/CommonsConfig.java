@@ -113,15 +113,19 @@ public class CommonsConfig {
      * OpenCDXMessageService Bean based on NATS
      * @param natsConnection NATS Connection
      * @param objectMapper Object Mapper to use.
+     * @param applicationName Name of the service.
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")
     @Description("NATS implementation of the OpenCDXMessageService.")
     @Primary
     @ConditionalOnProperty(prefix = "nats.spring", name = "server")
-    public OpenCDXMessageService natsOpenCDXMessageService(Connection natsConnection, ObjectMapper objectMapper) {
+    public OpenCDXMessageService natsOpenCDXMessageService(
+            Connection natsConnection,
+            ObjectMapper objectMapper,
+            @Value("${spring.application.name}") String applicationName) {
         log.info("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName);
     }
 
     @Bean("noop")

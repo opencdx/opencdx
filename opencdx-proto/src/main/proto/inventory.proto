@@ -48,34 +48,34 @@ message Vendor {
 // Device message represents a device.
 message Device {
     optional string id = 1;                      // Device ID
-    string name = 2;                    // Device name
-    string type = 3;                    // Device type
-    string model = 4;                   // Device model
-    string manufacturer_id = 5;         // ID of the manufacturer
-    string manufacturer_country_id = 6; // ID of the manufacturer's country
-    string vendor_id = 7;               // ID of the vendor
-    string vendor_country_id = 8;      // ID of the vendor's country
-    google.protobuf.Timestamp manufacture_date = 9;       // Date of manufacture
-    google.protobuf.Timestamp expiry_date = 10;            // Date of expiry
-    string batch_number = 11;          // Batch number
-    string serial_number = 12;         // Serial number
-    string test_type_id = 13;          // ID of the test type
-    double test_sensitivity = 14;      // Test sensitivity
-    double test_specificity = 15;      // Test specificity
-    string storage_requirements = 16;  // Storage requirements
-    google.protobuf.Timestamp test_validation_date = 17;   // Test validation date
-    string approval_status = 18;       // Approval status
-    string url = 19;                   // URL related to the device
-    string notes = 20;                 // Additional notes
-    string safety = 21;                // Safety information
-    string user_instructions = 22;    // User instructions
-    string limitations = 23;          // Limitations of the device
-    string warranty_info = 24;         // Warranty information
-    int32 intended_use_age = 25;      // Intended use age
-    bool is_fda_authorized = 26;      // FDA authorization status
-    string device_status = 27;        // Device status
-    string associated_software_version = 28; // Associated software version
-    repeated string test_case_ids = 29;     // IDs of the test cases this device is part of
+    string type = 2;                    // Device type
+    string model = 3;                   // Device model
+    string manufacturer_id = 4;         // ID of the manufacturer
+    string manufacturer_country_id = 5; // ID of the manufacturer's country
+    string vendor_id = 6;               // ID of the vendor
+    string vendor_country_id = 7;      // ID of the vendor's country
+    google.protobuf.Timestamp manufacture_date = 8;       // Date of manufacture
+    google.protobuf.Timestamp expiry_date = 9;            // Date of expiry
+    string batch_number = 10;          // Batch number
+    string serial_number = 11;         // Serial number
+    string test_type_id = 12;          // ID of the test type
+    double test_sensitivity = 13;      // Test sensitivity
+    double test_specificity = 14;      // Test specificity
+    string storage_requirements = 15;  // Storage requirements
+    google.protobuf.Timestamp test_validation_date = 16;   // Test validation date
+    string approval_status = 17;       // Approval status
+    string url = 18;                   // URL related to the device
+    string notes = 19;                 // Additional notes
+    string safety = 20;                // Safety information
+    string user_instructions = 21;    // User instructions
+    string limitations = 22;          // Limitations of the device
+    string warranty_info = 23;         // Warranty information
+    int32 intended_use_age = 24;      // Intended use age
+    bool is_fda_authorized = 25;      // FDA authorization status
+    string device_status = 26;        // Device status
+    string associated_software_version = 27; // Associated software version
+    repeated string test_case_ids = 28;     // IDs of the test cases this device is part of
+    string name = 29;                       // Name of the device
 }
 
 // TestCase message represents a case or package of tests.

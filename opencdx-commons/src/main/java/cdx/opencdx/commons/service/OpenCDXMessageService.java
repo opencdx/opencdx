@@ -32,7 +32,7 @@ public interface OpenCDXMessageService {
      * OpenCDXMessage Subject for Communication messages
      */
     public static final String NOTIFICATION_MESSAGE_SUBJECT = "opencdx.communication.notification.message";
-    
+
     /**
      * Subscribe to a message subject and the handlers for received those messages
      * for processing.

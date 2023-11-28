@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.audit.handlers;
 
+import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import cdx.opencdx.grpc.audit.*;
@@ -25,12 +26,17 @@ import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 class OpenCDXAuditMessageHandlerTest {
 
+    @Mock
+    OpenCDXAuditEventRepository openCDXAuditEventRepository;
+
     @Test
     void receivedMessage() throws JsonProcessingException {
+        this.openCDXAuditEventRepository = Mockito.mock(OpenCDXAuditEventRepository.class);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new ProtobufModule());
         objectMapper.registerModule(new JavaTimeModule());
@@ -39,8 +45,8 @@ class OpenCDXAuditMessageHandlerTest {
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PHI_CREATED)
                 .build();
         String json = objectMapper.writeValueAsString(event);
-        OpenCDXAuditMessageHandler openCDXAuditMessageHandler =
-                new OpenCDXAuditMessageHandler(objectMapper, new NoOpOpenCDXMessageServiceImpl());
+        OpenCDXAuditMessageHandler openCDXAuditMessageHandler = new OpenCDXAuditMessageHandler(
+                objectMapper, new NoOpOpenCDXMessageServiceImpl(), openCDXAuditEventRepository);
         Assertions.assertDoesNotThrow(() -> openCDXAuditMessageHandler.receivedMessage(json.getBytes()));
     }
 
@@ -57,8 +63,8 @@ class OpenCDXAuditMessageHandlerTest {
         byte[] bytes = objectMapper.writeValueAsString(event).getBytes();
 
         Mockito.when(mapper.readValue(bytes, AuditEvent.class)).thenThrow(new IOException("Test"));
-        OpenCDXAuditMessageHandler openCDXAuditMessageHandler =
-                new OpenCDXAuditMessageHandler(mapper, new NoOpOpenCDXMessageServiceImpl());
+        OpenCDXAuditMessageHandler openCDXAuditMessageHandler = new OpenCDXAuditMessageHandler(
+                mapper, new NoOpOpenCDXMessageServiceImpl(), openCDXAuditEventRepository);
         Assertions.assertThrows(OpenCDXInternal.class, () -> openCDXAuditMessageHandler.receivedMessage(bytes));
     }
 }

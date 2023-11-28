@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.config;
+package cdx.opencdx.audit.repository;
 
-import lombok.Generated;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.config.server.EnableConfigServer;
+import cdx.opencdx.audit.model.AuditEventModel;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-@EnableConfigServer
-@SpringBootApplication
-@Generated
-public class Application {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
+/**
+ * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
+ */
+@Repository
+public interface OpenCDXAuditEventRepository extends MongoRepository<AuditEventModel, ObjectId> {}
