@@ -44,6 +44,7 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
      * Constructor for the Audit microservice
      * @param objectMapper Object mapper used for conversion
      * @param openCDXMessageService Message service used for receiving messages.
+     * @param openCDXAuditEventRepository Repository for storing audit messages.
      */
     public OpenCDXAuditMessageHandler(
             ObjectMapper objectMapper,
