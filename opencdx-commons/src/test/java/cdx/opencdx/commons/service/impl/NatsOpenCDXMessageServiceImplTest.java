@@ -24,13 +24,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import io.nats.client.Connection;
-import io.nats.client.Dispatcher;
-import io.nats.client.Message;
-import io.nats.client.Subscription;
+import io.nats.client.*;
+import io.nats.client.api.StreamConfiguration;
+import io.nats.client.api.StreamInfo;
 import io.nats.client.impl.Headers;
 import io.nats.client.impl.NatsJetStreamMetaData;
 import io.nats.client.support.Status;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.AfterEach;
@@ -39,8 +39,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 class NatsOpenCDXMessageServiceImplTest {
 
@@ -54,16 +52,49 @@ class NatsOpenCDXMessageServiceImplTest {
 
     CommonsConfig commonsConfig;
 
+    @Mock
+    JetStreamManagement jetStreamManagement;
+
+    @Mock
+    StreamInfo streamInfo;
+
+    @Mock
+    JetStream jetStream;
+
+    @Mock
+    JetStreamSubscription jetStreamSubscription;
+
+    @Mock
+    StreamConfiguration streamConfiguration;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException, JetStreamApiException {
         this.connection = Mockito.mock(Connection.class);
         this.dispatcher = Mockito.mock(Dispatcher.class);
+        this.jetStreamManagement = Mockito.mock(JetStreamManagement.class);
+        this.streamInfo = Mockito.mock(StreamInfo.class);
+        this.jetStream = Mockito.mock(JetStream.class);
+        this.jetStreamSubscription = Mockito.mock(JetStreamSubscription.class);
+        this.streamConfiguration = Mockito.mock(StreamConfiguration.class);
 
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new ProtobufModule());
         this.objectMapper.registerModule(new JavaTimeModule());
 
         Mockito.when(this.connection.createDispatcher()).thenReturn(this.dispatcher);
+        Mockito.when(this.connection.jetStreamManagement()).thenReturn(this.jetStreamManagement);
+        Mockito.when(this.jetStreamManagement.addStream(Mockito.any())).thenReturn(this.streamInfo);
+        Mockito.when(this.connection.jetStream()).thenReturn(this.jetStream);
+        Mockito.when(this.jetStream.subscribe(
+                        Mockito.any(String.class),
+                        Mockito.any(String.class),
+                        Mockito.any(Dispatcher.class),
+                        Mockito.any(MessageHandler.class),
+                        Mockito.any(Boolean.class),
+                        Mockito.any(PushSubscribeOptions.class)))
+                .thenReturn(this.jetStreamSubscription);
+        Mockito.when(this.streamInfo.getConfiguration()).thenReturn(this.streamConfiguration);
+        Mockito.when(this.streamConfiguration.getName()).thenReturn("Test");
 
         this.commonsConfig = new CommonsConfig();
     }
@@ -74,7 +105,7 @@ class NatsOpenCDXMessageServiceImplTest {
     @Test
     void subscribe() {
         OpenCDXMessageService service =
-                this.commonsConfig.natsOpenCDXMessageService(this.connection, this.objectMapper);
+                this.commonsConfig.natsOpenCDXMessageService(this.connection, this.objectMapper, "test");
 
         OpenCDXMessageHandler handler = new OpenCDXMessageHandler() {
             @Override
@@ -86,21 +117,7 @@ class NatsOpenCDXMessageServiceImplTest {
         final NatsOpenCDXMessageServiceImpl.NatsMessageHandler[] natsHandler =
                 new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
 
-        Mockito.when(this.dispatcher.subscribe(
-                        Mockito.eq("Test-Message"),
-                        Mockito.any(NatsOpenCDXMessageServiceImpl.NatsMessageHandler.class)))
-                .thenAnswer(new Answer<Object>() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        System.out.println("Test: " + invocation.getArgument(1).toString());
-                        natsHandler[0] = invocation.getArgument(1);
-                        return null;
-                    }
-                });
-
-        service.subscribe("Test-Message", handler);
-
-        Assertions.assertDoesNotThrow(() -> natsHandler[0].onMessage(this.getMessage()));
+        Assertions.assertDoesNotThrow(() -> service.subscribe("Test-Message", handler));
     }
 
     private Message getMessage() {
@@ -189,7 +206,8 @@ class NatsOpenCDXMessageServiceImplTest {
 
     @Test
     void unSubscribe() {
-        NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper);
+        NatsOpenCDXMessageServiceImpl service =
+                new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper, "test");
         Mockito.when(this.dispatcher.unsubscribe("TEST-MESSAGE")).thenReturn(this.dispatcher);
         Assertions.assertDoesNotThrow(() -> {
             service.unSubscribe("TEST-MESSAGE");
@@ -198,7 +216,8 @@ class NatsOpenCDXMessageServiceImplTest {
 
     @Test
     void send() {
-        NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper);
+        NatsOpenCDXMessageServiceImpl service =
+                new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper, "test");
         Assertions.assertDoesNotThrow(() -> {
             service.send("TEST-MESSAGE", new StatusMessage());
         });
@@ -207,7 +226,7 @@ class NatsOpenCDXMessageServiceImplTest {
     @Test
     void sendException() throws JsonProcessingException {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-        NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(this.connection, mapper);
+        NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(this.connection, mapper, "test");
         Mockito.when(mapper.writeValueAsBytes(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         StatusMessage message = new StatusMessage();

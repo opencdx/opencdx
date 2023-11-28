@@ -16,18 +16,20 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.annotations.RetryAnnotation;
+import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import io.nats.client.Connection;
-import io.nats.client.Dispatcher;
-import io.nats.client.Message;
-import io.nats.client.MessageHandler;
+import io.nats.client.*;
+import io.nats.client.api.*;
+import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * NATS based implementation of OpenCDXMessageService
@@ -36,34 +38,82 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
+    public static final String DOMAIN = "NatsOpenCDXMessageServiceImpl";
+    public static final String OPENCDX = "opencdx";
     private final Connection natsConnection;
     private final Dispatcher dispatcher;
 
     private final ObjectMapper objectMapper;
+    private final String applicationName;
+    private final Map<String, JetStreamSubscription> subscriptionMap;
 
     /**
      * Constructor for setting up NATS based OpenCDXMessageService
      * @param natsConnection NATS Connection
      * @param objectMapper Jackson Object Mapper
      */
-    public NatsOpenCDXMessageServiceImpl(Connection natsConnection, ObjectMapper objectMapper) {
+    public NatsOpenCDXMessageServiceImpl(
+            Connection natsConnection,
+            ObjectMapper objectMapper,
+            @Value("${spring.application.name}") String applicationName) {
+        this.subscriptionMap = new HashMap<>();
+        this.applicationName = applicationName;
         this.natsConnection = natsConnection;
         this.objectMapper = objectMapper;
         this.dispatcher = this.natsConnection.createDispatcher();
+        try {
+            JetStreamManagement jetStreamManagement = this.natsConnection.jetStreamManagement();
+            StreamConfiguration configuration = StreamConfiguration.builder()
+                    .name(OPENCDX)
+                    .subjects(
+                            OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT,
+                            OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT)
+                    .maxAge(Duration.ofDays(7))
+                    .maxConsumers(2)
+                    .storageType(StorageType.File)
+                    .noAck(false)
+                    .build();
+
+            StreamInfo streamInfo = jetStreamManagement.addStream(configuration);
+
+            if (streamInfo != null) {
+                log.info("JetStream created successfully: "
+                        + streamInfo.getConfiguration().getName());
+            } else {
+                throw new OpenCDXInternal(DOMAIN, 3, "Failed to create JetStream");
+            }
+        } catch (JetStreamApiException | IOException e) {
+            throw new OpenCDXInternal(DOMAIN, 2, "Failed to create JetStream", e);
+        }
     }
 
     @Override
     @RetryAnnotation
     public void subscribe(String subject, OpenCDXMessageHandler handler) {
         log.info("Subscribing to: {}", subject);
+        PushSubscribeOptions subscribeOptions = PushSubscribeOptions.builder().stream(OPENCDX)
+                .durable(this.applicationName)
+                .build();
 
-        this.dispatcher.subscribe(subject, new NatsMessageHandler(handler));
+        try {
+            JetStreamSubscription subscription = natsConnection
+                    .jetStream()
+                    .subscribe(
+                            subject, OPENCDX, this.dispatcher, new NatsMessageHandler(handler), true, subscribeOptions);
+            this.subscriptionMap.put(subject, subscription);
+        } catch (IOException | JetStreamApiException e) {
+            throw new OpenCDXInternal(DOMAIN, 2, "Failed JetStream Subscribe", e);
+        }
     }
 
     @Override
     @RetryAnnotation
     public void unSubscribe(String subject) {
-        this.dispatcher.unsubscribe(subject);
+        JetStreamSubscription jetStreamSubscription = this.subscriptionMap.get(subject);
+        if (jetStreamSubscription != null && jetStreamSubscription.isActive()) {
+            jetStreamSubscription.unsubscribe();
+        }
+        this.subscriptionMap.remove(subject);
     }
 
     @Override
@@ -71,10 +121,10 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void send(String subject, Object object) {
 
         try {
-            natsConnection.publish(subject, this.objectMapper.writeValueAsBytes(object));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
-                    "NatsOpenCDXMessageServiceImpl", 1, "Failed NATS Publish on: " + object.toString(), e);
+            natsConnection.jetStream().publish(subject, this.objectMapper.writeValueAsBytes(object));
+        } catch (IOException | JetStreamApiException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed NATS Publish on: " + object.toString(), e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("Subject", subject);
             openCDXNotAcceptable.getMetaData().put("Object", object.toString());
