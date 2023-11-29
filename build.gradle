@@ -114,6 +114,7 @@ def exportedProjects = [
         ":opencdx-connected-test",
         ":opencdx-helloworld",
         ":opencdx-iam",
+        ":opencdx-routine",
         ":opencdx-media",
         ":opencdx-tinkar"
 ]

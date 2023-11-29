@@ -243,6 +243,7 @@ build_docker() {
     build_docker_image opencdx/media ./opencdx-media
     build_docker_image opencdx/connected-test ./opencdx-connected-test
     build_docker_image opencdx/iam ./opencdx-iam
+	build_docker_image opencdx/routine ./opencdx-routine 
     build_docker_image opencdx/gateway ./opencdx-gateway
     build_docker_image opencdx/discovery ./opencdx-discovery
     build_docker_image opencdx/frontend ./opencdx-frontend
