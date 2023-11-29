@@ -4,8 +4,6 @@ option java_multiple_files = true;
 
 package cdx.opencdx.grpc.neural.protector;
 
-option java_multiple_files = true;
-
 // Detailed anomaly detection data
 message AnomalyDetectionData {
   optional string user_id = 1;
@@ -79,4 +77,9 @@ service NeuralProtectorService {
   rpc AnalyzeUserBehavior(UserBehaviorAnalysisData) returns (SecurityResponse);
 
   // Placeholder to define new new operations as the system evolves
+}
+
+message SecurityResponse {
+    // The create media
+    string response = 1;
 }
