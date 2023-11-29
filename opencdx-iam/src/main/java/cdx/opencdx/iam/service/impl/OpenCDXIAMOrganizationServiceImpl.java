@@ -119,11 +119,11 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     public UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request) {
 
         if (!this.openCDXIAMOrganizationRepository.existsById(
-                new ObjectId(request.getOrganization().getOrganizationId()))) {
+                new ObjectId(request.getOrganization().getId()))) {
             throw new OpenCDXNotFound(
                     DOMAIN,
                     3,
-                    "FAILED_TO_FIND_ORGANIZATION" + request.getOrganization().getOrganizationId());
+                    "FAILED_TO_FIND_ORGANIZATION" + request.getOrganization().getId());
         }
         OpenCDXIAMOrganizationModel model =
                 this.openCDXIAMOrganizationRepository.save(new OpenCDXIAMOrganizationModel(request.getOrganization()));

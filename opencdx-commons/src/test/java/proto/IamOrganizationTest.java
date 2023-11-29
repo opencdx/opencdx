@@ -106,7 +106,7 @@ class IamOrganizationTest {
 
     Organization getOrganization() {
         return Organization.newBuilder()
-                .setOrganizationId(ObjectId.get().toHexString())
+                .setId(ObjectId.get().toHexString())
                 .setName("OrganizationName")
                 .setDescription("OrganizationDescription")
                 .setFoundingDate(Timestamp.newBuilder().setSeconds(1696435104))

@@ -10,7 +10,7 @@ import "google/protobuf/empty.proto"; // Import for the Empty message
 
 // Definition for an organization
 message Organization {
-  optional string organization_id = 1; // Unique identifier for the organization
+  optional string id = 1; // Unique identifier for the organization
   optional string name = 2; // Name of the organization
   optional string description = 3; // Description of the organization
   optional google.protobuf.Timestamp founding_date = 4; // Date when the organization was founded

@@ -62,8 +62,8 @@ public class OpenCDXIAMOrganizationModel {
      * @param organization Protobuf message to generate from
      */
     public OpenCDXIAMOrganizationModel(Organization organization) {
-        if (organization.hasOrganizationId()) {
-            this.id = new ObjectId(organization.getOrganizationId());
+        if (organization.hasId()) {
+            this.id = new ObjectId(organization.getId());
         }
         this.name = organization.getName();
         this.description = organization.getDescription();
@@ -95,7 +95,7 @@ public class OpenCDXIAMOrganizationModel {
         Organization.Builder builder = Organization.newBuilder();
 
         if (this.id != null) {
-            builder.setOrganizationId(this.id.toHexString());
+            builder.setId(this.id.toHexString());
         }
         if (this.name != null) {
             builder.setName(this.name);

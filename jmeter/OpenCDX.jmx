@@ -1315,7 +1315,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">organization_g</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.organization_id</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
             </JSONPostProcessor>
@@ -1336,7 +1336,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
   &quot;organization&quot; : {
-    &quot;organizationId&quot; : &quot;${organization_g}&quot;,
+    &quot;id&quot; : &quot;${organization_g}&quot;,
     &quot;name&quot; : &quot;OrganizationName&quot;,
     &quot;description&quot; : &quot;OrganizationDescription&quot;,
     &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
@@ -1442,7 +1442,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">organization_r</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.organizationId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
             </JSONPostProcessor>
@@ -1456,7 +1456,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
   &quot;organization&quot; : {&#xd;
-    &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
+    &quot;id&quot; : &quot;${organization_r}&quot;,&#xd;
     &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
     &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
     &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
