@@ -18,6 +18,8 @@ package cdx.opencdx.iam.model;
 import cdx.opencdx.grpc.organization.ContactInfo;
 import cdx.opencdx.grpc.organization.Organization;
 import cdx.opencdx.grpc.organization.Workspace;
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +46,7 @@ public class OpenCDXIAMOrganizationModel {
 
     private String name;
     private String description;
-    private String foundingDate;
+    private Instant foundingDate;
     private String address;
     private String website;
     private String industry;
@@ -67,7 +69,9 @@ public class OpenCDXIAMOrganizationModel {
         this.name = organization.getName();
         this.description = organization.getDescription();
         if (organization.hasFoundingDate()) {
-            this.foundingDate = organization.getFoundingDate();
+            this.foundingDate = Instant.ofEpochSecond(
+                    organization.getFoundingDate().getSeconds(),
+                    organization.getFoundingDate().getNanos());
         }
         this.address = organization.getAddress();
         this.website = organization.getWebsite();
@@ -100,7 +104,10 @@ public class OpenCDXIAMOrganizationModel {
             builder.setDescription(this.description);
         }
         if (this.foundingDate != null) {
-            builder.setFoundingDate(this.foundingDate);
+            builder.setFoundingDate(Timestamp.newBuilder()
+                    .setSeconds(this.foundingDate.getEpochSecond())
+                    .setNanos(this.foundingDate.getNano())
+                    .build());
         }
         if (this.address != null) {
             builder.setAddress(this.address);

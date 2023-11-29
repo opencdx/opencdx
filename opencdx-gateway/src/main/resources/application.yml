@@ -100,6 +100,18 @@ spring:
             - Path=/cdx.opencdx.grpc.profile.UserProfileService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-iam-workspace
+          uri: https://iam:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.organization.WorkspaceService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-iam-organization
+          uri: https://iam:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.organization.OrganizationService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:

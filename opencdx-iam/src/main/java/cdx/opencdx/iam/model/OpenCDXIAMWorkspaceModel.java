@@ -17,6 +17,8 @@ package cdx.opencdx.iam.model;
 
 import cdx.opencdx.grpc.organization.Department;
 import cdx.opencdx.grpc.organization.Workspace;
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +44,7 @@ public class OpenCDXIAMWorkspaceModel {
 
     private String name;
     private String description;
-    private String createDate;
+    private Instant createDate;
     private String location;
     private String manager;
     private Integer capacity;
@@ -64,7 +66,9 @@ public class OpenCDXIAMWorkspaceModel {
         this.name = workspace.getName();
         this.description = workspace.getDescription();
         if (workspace.hasCreatedDate()) {
-            this.createDate = workspace.getCreatedDate();
+            this.createDate = Instant.ofEpochSecond(
+                    workspace.getCreatedDate().getSeconds(),
+                    workspace.getCreatedDate().getNanos());
         }
         this.location = workspace.getLocation();
         this.manager = workspace.getManager();
@@ -94,7 +98,10 @@ public class OpenCDXIAMWorkspaceModel {
             builder.setDescription(this.description);
         }
         if (this.createDate != null) {
-            builder.setCreatedDate(this.createDate);
+            builder.setCreatedDate(Timestamp.newBuilder()
+                    .setSeconds(this.createDate.getEpochSecond())
+                    .setNanos(this.createDate.getNano())
+                    .build());
         }
         if (this.location != null) {
             builder.setLocation(this.location);
