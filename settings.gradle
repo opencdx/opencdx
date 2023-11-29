@@ -23,6 +23,7 @@ include('opencdx-helloworld',
         'opencdx-media',
         'opencdx-connected-test',
         'opencdx-iam',
+        'opencdx-predictor',
         'opencdx-gateway',
         'opencdx-discovery'
 )
