@@ -122,7 +122,8 @@ class IamOrganizationTest {
                         .setEmail("test@opencdx.org")
                         .setPhone("1234567890")
                         .build()))
-                .addAllWorkspace(List.of(this.getWorkSpace(), this.getWorkSpace()))
+                .addAllWorkspaceIds(
+                        List.of(ObjectId.get().toHexString(), ObjectId.get().toHexString()))
                 .build();
     }
 

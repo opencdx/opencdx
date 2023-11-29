@@ -17,7 +17,6 @@ package cdx.opencdx.iam.model;
 
 import cdx.opencdx.grpc.organization.ContactInfo;
 import cdx.opencdx.grpc.organization.Organization;
-import cdx.opencdx.grpc.organization.Workspace;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -56,7 +55,7 @@ public class OpenCDXIAMOrganizationModel {
     private String missionStatement;
     private String visionStatement;
     private List<ContactInfo> contactInfo;
-    private List<Workspace> workspace;
+    private List<ObjectId> workspaceIds;
 
     /**
      * Constructor from protobuf message Organization
@@ -84,7 +83,8 @@ public class OpenCDXIAMOrganizationModel {
         this.missionStatement = organization.getMissionStatement();
         this.visionStatement = organization.getVisionStatement();
         this.contactInfo = organization.getContactsList();
-        this.workspace = organization.getWorkspaceList();
+        this.workspaceIds =
+                organization.getWorkspaceIdsList().stream().map(ObjectId::new).toList();
     }
 
     /**
@@ -136,8 +136,9 @@ public class OpenCDXIAMOrganizationModel {
         if (this.contactInfo != null) {
             builder.addAllContacts(this.contactInfo);
         }
-        if (this.workspace != null) {
-            builder.addAllWorkspace(this.workspace);
+        if (this.workspaceIds != null) {
+            builder.addAllWorkspaceIds(
+                    this.workspaceIds.stream().map(ObjectId::toHexString).toList());
         }
 
         return builder.build();

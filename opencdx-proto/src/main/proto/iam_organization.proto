@@ -23,7 +23,7 @@ message Organization {
   optional string mission_statement = 11; // Mission statement of the organization
   optional string vision_statement = 12; // Vision statement of the organization
   repeated ContactInfo contacts = 13; // Contact information for the organization
-  repeated Workspace workspace = 14; // Departments (Workspaces) within the organization
+  repeated string workspace_ids = 14; // Departments (Workspaces) within the organization
 }
 
 // Definition for a workspace
