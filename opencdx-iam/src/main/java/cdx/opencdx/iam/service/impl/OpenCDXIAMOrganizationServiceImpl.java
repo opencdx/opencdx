@@ -16,26 +16,27 @@
 package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bson.types.ObjectId;
-
+import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Service;
 
+@Slf4j
+@Service
+@Observed(name = "opencdx")
 public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganizationService {
 
     private static final String DOMAIN = "OpenCDXIAMOrganizationServiceImpl";
 
     private final OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository;
 
-    public OpenCDXIAMOrganizationServiceImpl(
-            OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository) {
+    public OpenCDXIAMOrganizationServiceImpl(OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository) {
         this.openCDXIAMOrganizationRepository = openCDXIAMOrganizationRepository;
     }
 
@@ -51,7 +52,9 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
         OpenCDXIAMOrganizationModel model = new OpenCDXIAMOrganizationModel(request.getOrganization());
         model = this.openCDXIAMOrganizationRepository.save(model);
 
-        return CreateOrganizationResponse.newBuilder().setOrganization(model.getProtobufMessage()).build();
+        return CreateOrganizationResponse.newBuilder()
+                .setOrganization(model.getProtobufMessage())
+                .build();
     }
 
     /**
@@ -62,11 +65,13 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
      */
     @Override
     public GetOrganizationDetailsByIdResponse getOrganizationDetailsById(GetOrganizationDetailsByIdRequest request) {
-        OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository.findById(
-                new ObjectId(request.getOrganizationId())).orElseThrow(() -> new OpenCDXNotFound(
-                DOMAIN, 3,
-                "FAILED_TO_FIND_ORGANIZATION" + request.getOrganizationId()));
-        return GetOrganizationDetailsByIdResponse.newBuilder().setOrganization(model.getProtobufMessage()).build();
+        OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository
+                .findById(new ObjectId(request.getOrganizationId()))
+                .orElseThrow(() ->
+                        new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_ORGANIZATION" + request.getOrganizationId()));
+        return GetOrganizationDetailsByIdResponse.newBuilder()
+                .setOrganization(model.getProtobufMessage())
+                .build();
     }
 
     /**
@@ -78,14 +83,19 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     @Override
     public UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request) {
 
-        OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository.findById(
-                new ObjectId(request.getOrganization().getOrganizationId())).orElseThrow(() -> new OpenCDXNotFound(
-                        DOMAIN, 3,
-                "FAILED_TO_FIND_ORGANIZATION" + request.getOrganization().getOrganizationId()));
+        OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository
+                .findById(new ObjectId(request.getOrganization().getOrganizationId()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        "FAILED_TO_FIND_ORGANIZATION"
+                                + request.getOrganization().getOrganizationId()));
         model.setName(request.getOrganization().getName());
         model.setAddress(request.getOrganization().getAddress());
         model = this.openCDXIAMOrganizationRepository.save(model);
-        return UpdateOrganizationResponse.newBuilder().setOrganization(model.getProtobufMessage()).build();
+        return UpdateOrganizationResponse.newBuilder()
+                .setOrganization(model.getProtobufMessage())
+                .build();
     }
 
     /**
@@ -98,7 +108,9 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     public ListOrganizationsResponse listOrganizations() {
         List<OpenCDXIAMOrganizationModel> all = this.openCDXIAMOrganizationRepository.findAll();
         return ListOrganizationsResponse.newBuilder()
-                .addAllOrganizations(all.stream().map(OpenCDXIAMOrganizationModel::getProtobufMessage)
-                        .collect(Collectors.toList())).build();
+                .addAllOrganizations(all.stream()
+                        .map(OpenCDXIAMOrganizationModel::getProtobufMessage)
+                        .collect(Collectors.toList()))
+                .build();
     }
 }

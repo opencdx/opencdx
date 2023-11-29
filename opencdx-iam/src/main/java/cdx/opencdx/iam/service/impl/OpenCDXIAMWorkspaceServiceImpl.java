@@ -17,7 +17,13 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.service.OpenCDXIAMWorkspaceService;
+import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
+@Slf4j
+@Service
+@Observed(name = "opencdx")
 public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceService {
 
     /**
