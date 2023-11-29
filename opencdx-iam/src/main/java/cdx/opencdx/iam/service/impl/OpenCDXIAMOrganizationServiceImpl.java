@@ -15,12 +15,20 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +44,19 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
 
     private final OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository;
 
-    public OpenCDXIAMOrganizationServiceImpl(OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository) {
+    private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final ObjectMapper objectMapper;
+
+    public OpenCDXIAMOrganizationServiceImpl(
+            OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository,
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            ObjectMapper objectMapper) {
         this.openCDXIAMOrganizationRepository = openCDXIAMOrganizationRepository;
+        this.openCDXAuditService = openCDXAuditService;
+        this.openCDXCurrentUser = openCDXCurrentUser;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -51,6 +70,23 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
 
         OpenCDXIAMOrganizationModel model = new OpenCDXIAMOrganizationModel(request.getOrganization());
         model = this.openCDXIAMOrganizationRepository.save(model);
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Create Organization",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    "Create Organization_" + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXIAMModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("Object", request.toString());
+            throw openCDXNotAcceptable;
+        }
 
         return CreateOrganizationResponse.newBuilder()
                 .setOrganization(model.getProtobufMessage())
@@ -83,16 +119,31 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     @Override
     public UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request) {
 
-        OpenCDXIAMOrganizationModel model = this.openCDXIAMOrganizationRepository
-                .findById(new ObjectId(request.getOrganization().getOrganizationId()))
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        DOMAIN,
-                        3,
-                        "FAILED_TO_FIND_ORGANIZATION"
-                                + request.getOrganization().getOrganizationId()));
-        model.setName(request.getOrganization().getName());
-        model.setAddress(request.getOrganization().getAddress());
-        model = this.openCDXIAMOrganizationRepository.save(model);
+        if (!this.openCDXIAMOrganizationRepository.existsById(
+                new ObjectId(request.getOrganization().getOrganizationId()))) {
+            throw new OpenCDXNotFound(
+                    DOMAIN,
+                    3,
+                    "FAILED_TO_FIND_ORGANIZATION" + request.getOrganization().getOrganizationId());
+        }
+        OpenCDXIAMOrganizationModel model =
+                this.openCDXIAMOrganizationRepository.save(new OpenCDXIAMOrganizationModel(request.getOrganization()));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Update Organization",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    "Update Organization_" + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXIAMModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("Object", request.toString());
+            throw openCDXNotAcceptable;
+        }
         return UpdateOrganizationResponse.newBuilder()
                 .setOrganization(model.getProtobufMessage())
                 .build();

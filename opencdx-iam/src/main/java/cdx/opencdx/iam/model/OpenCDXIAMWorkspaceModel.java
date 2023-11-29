@@ -45,7 +45,7 @@ public class OpenCDXIAMWorkspaceModel {
     private String createDate;
     private String location;
     private String manager;
-    private int capacity;
+    private Integer capacity;
     private List<String> facilities;
     private String workspaceType;
     private List<String> workspaceImageUrls;
@@ -103,7 +103,9 @@ public class OpenCDXIAMWorkspaceModel {
             builder.setManager(this.manager);
         }
 
-        builder.setCapacity(this.capacity);
+        if (this.capacity != null) {
+            builder.setCapacity(this.capacity);
+        }
 
         if (this.facilities != null) {
             builder.addAllFacilities(this.facilities);

@@ -40,7 +40,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OpenCDXIAMOrganizationModel {
 
     @Id
-    private ObjectId organizationId;
+    private ObjectId id;
 
     private String name;
     private String description;
@@ -62,7 +62,7 @@ public class OpenCDXIAMOrganizationModel {
      */
     public OpenCDXIAMOrganizationModel(Organization organization) {
         if (organization.hasOrganizationId()) {
-            this.organizationId = new ObjectId(organization.getOrganizationId());
+            this.id = new ObjectId(organization.getOrganizationId());
         }
         this.name = organization.getName();
         this.description = organization.getDescription();
@@ -90,8 +90,8 @@ public class OpenCDXIAMOrganizationModel {
     public Organization getProtobufMessage() {
         Organization.Builder builder = Organization.newBuilder();
 
-        if (this.organizationId != null) {
-            builder.setOrganizationId(this.organizationId.toHexString());
+        if (this.id != null) {
+            builder.setOrganizationId(this.id.toHexString());
         }
         if (this.name != null) {
             builder.setName(this.name);
