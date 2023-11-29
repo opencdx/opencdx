@@ -27,7 +27,9 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.io.InputStream;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-@ConditionalOnProperty(prefix = "opencdx.client", name = "communication", havingValue = "true")
+@ConditionalOnProperty(prefix = "opencdx.client.communications", name = "enabled", havingValue = "true")
 public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClient {
 
     private static final String DOMAIN = "OpenCDXCommunicationClientImpl";
@@ -45,11 +47,17 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
 
     /**
      * Default Constructor used for normal operation.
+     * @param server Server address for the gRPC Service.
+     * @param port Server port for the gRPC Service.
      * @throws IOException creating Client
      */
-    public OpenCDXCommunicationClientImpl() throws IOException {
+    @Generated
+    public OpenCDXCommunicationClientImpl(
+            @Value("${opencdx.client.communications.server}") String server,
+            @Value("${opencdx.client.communications.port}") Integer port)
+            throws IOException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
-        ManagedChannel channel = NettyChannelBuilder.forAddress("communications", 9090)
+        ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
                 .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
                 .build();

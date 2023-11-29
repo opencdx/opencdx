@@ -3,6 +3,3 @@ spring:
   application:
     name: media
 
-opencdx:
-  helloworld:
-    format: "Hello %s!"

@@ -24,6 +24,7 @@ cdx.opencdx.communications
 cdx.opencdx.communications.changelog
 cdx.opencdx.communications.config
 cdx.opencdx.communications.controller
+cdx.opencdx.communications.handlers
 cdx.opencdx.communications.model
 cdx.opencdx.communications.repository
 cdx.opencdx.communications.security

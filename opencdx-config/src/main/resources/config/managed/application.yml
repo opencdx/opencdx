@@ -24,10 +24,10 @@ eureka:
       enabled: 'true'
       key-store: file:/certs/opencdx-keystore.p12
       key-store-type: PKCS12
-      key-store-password: opencdx
+      key-store-password: ${keystore.password}
       trust-store: file:/certs/opencdx-keystore.p12
       trust-store-type: PKCS12
-      trust-store-password: opencdx
+      trust-store-password: ${truststore.password}
       key-password: opencdx
   instance:
     nonSecurePortEnabled: false
@@ -50,7 +50,7 @@ spring:
             alias: ${spring.application.name}
           keystore:
             location: file:/certs/opencdx-keystore.p12
-            password: opencdx
+            password: ${keystore.password}
             keystore.type: PKCS12
 
 # Enable SSL for REST
@@ -71,3 +71,5 @@ grpc:
     auth:
       enabled: true
 
+keystore.password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='
+truststore.password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='

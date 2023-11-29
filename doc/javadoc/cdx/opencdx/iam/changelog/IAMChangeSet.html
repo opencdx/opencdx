@@ -122,18 +122,23 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupDefaultUser(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">setupDefaultUser</a><wbr>(<a href="../../commons/repository/OpenCDXIAMUserRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXIAMUserRepository</a>&nbsp;openCDXIAMUserRepository)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupCommunicationsUser(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">setupCommunicationsUser</a><wbr>(<a href="../../commons/repository/OpenCDXIAMUserRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXIAMUserRepository</a>&nbsp;openCDXIAMUserRepository)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Setup Default User for OpenCDX</div>
+<div class="block">Setup Communications System  for OpenCDX</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupIndexes(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate)" class="member-name-link">setupIndexes</a><wbr>(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate&nbsp;mongockTemplate)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupDefaultUser(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">setupDefaultUser</a><wbr>(<a href="../../commons/repository/OpenCDXIAMUserRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXIAMUserRepository</a>&nbsp;openCDXIAMUserRepository)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Setup Index on email for users.</div>
+<div class="block">Setup Default User for OpenCDX</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupSystemIndex(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate)" class="member-name-link">setupSystemIndex</a><wbr>(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate&nbsp;mongockTemplate)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupIndexes(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate)" class="member-name-link">setupIndexes</a><wbr>(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate&nbsp;mongockTemplate)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Setup Index on email for users.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupSystemIndex(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate)" class="member-name-link">setupSystemIndex</a><wbr>(com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate&nbsp;mongockTemplate)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create an index based on the system name</div>
 </div>
 </div>
@@ -198,6 +203,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>mongockTemplate</code> - MongockTemplate to modify MongoDB.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setupCommunicationsUser(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)">
+<h3>setupCommunicationsUser</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupCommunicationsUser</span><wbr><span class="parameters">(<a href="../../commons/repository/OpenCDXIAMUserRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXIAMUserRepository</a>&nbsp;openCDXIAMUserRepository)</span></div>
+<div class="block">Setup Communications System  for OpenCDX</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>openCDXIAMUserRepository</code> - User Repository for saving default user.</dd>
 </dl>
 </section>
 </li>

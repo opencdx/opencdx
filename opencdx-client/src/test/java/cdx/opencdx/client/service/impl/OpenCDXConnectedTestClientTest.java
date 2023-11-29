@@ -21,7 +21,6 @@ import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.grpc.connected.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
-import javax.net.ssl.SSLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -139,14 +138,5 @@ class OpenCDXConnectedTestClientTest {
         Assertions.assertThrows(
                 OpenCDXClientException.class,
                 () -> this.openCDXConnectedTestClient.listConnectedTests(request, openCDXCallCredentials));
-    }
-
-    @Test
-    void testNoArgConst() throws SSLException {
-        OpenCDXConnectedTestClientImpl client = new OpenCDXConnectedTestClientImpl();
-        TestIdRequest request = TestIdRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class, () -> client.getTestDetailsById(request, openCDXCallCredentials));
     }
 }

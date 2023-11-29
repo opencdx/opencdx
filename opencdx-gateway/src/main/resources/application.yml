@@ -22,6 +22,12 @@ spring:
           lower-case-service-id: true
       enabled: true
       routes:
+        - id: frontend
+          uri: http://frontend:3000
+          predicates:
+            - Path=/frontend/**
+          filters:
+            - RewritePath=/frontend/(?<segment>.*), /$\{segment}
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
@@ -128,6 +134,15 @@ management:
     web:
       exposure:
         include: "*"
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
+    propagation:
+      type: b3
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
 server:
   port: 8080
   ssl:

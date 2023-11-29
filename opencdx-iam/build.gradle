@@ -39,7 +39,9 @@ dependencies {
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
-
+    implementation 'io.micrometer:micrometer-observation'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     testImplementation "io.nats:nats-spring:${natsSpringVersion}"
 }
 

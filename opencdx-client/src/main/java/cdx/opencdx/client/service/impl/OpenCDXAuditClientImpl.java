@@ -41,7 +41,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-@ConditionalOnProperty(prefix = "opencdx.client", name = "audit", havingValue = "true")
+@ConditionalOnProperty(prefix = "opencdx.client.audit", name = "enabled", havingValue = "true")
 public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
 
     @Value("${spring.application.name}")
@@ -50,13 +50,17 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
     private final AuditServiceGrpc.AuditServiceBlockingStub auditServiceBlockingStub;
 
     /**
-     * Default Constructor used for normal operation.
+     * Default Constructor used for normal operation
+     * @param server Server address for the gRPC Service.
+     * @param port Server port for the gRPC Service.
      * @throws SSLException if issue with connection
      */
     @Generated
-    public OpenCDXAuditClientImpl() throws SSLException {
+    public OpenCDXAuditClientImpl(
+            @Value("${opencdx.client.audit.server}") String server, @Value("${opencdx.client.audit.port}") Integer port)
+            throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
-        ManagedChannel channel = NettyChannelBuilder.forAddress("audit", 9090)
+        ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
                 .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
                 .build();
