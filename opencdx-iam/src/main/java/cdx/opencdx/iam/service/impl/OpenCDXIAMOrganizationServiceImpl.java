@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -82,7 +81,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXIAMModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXIAMOrganizationModel", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("Object", request.toString());
             throw openCDXNotAcceptable;
@@ -139,7 +138,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert OpenCDXIAMModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXIAMOrganizationModel", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("Object", request.toString());
             throw openCDXNotAcceptable;
@@ -161,7 +160,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
         return ListOrganizationsResponse.newBuilder()
                 .addAllOrganizations(all.stream()
                         .map(OpenCDXIAMOrganizationModel::getProtobufMessage)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 }
