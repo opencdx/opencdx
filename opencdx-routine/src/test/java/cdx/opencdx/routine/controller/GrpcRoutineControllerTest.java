@@ -44,7 +44,6 @@ import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse;
 import cdx.opencdx.routine.service.impl.RoutineServiceImpl;
 import io.grpc.stub.StreamObserver;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,12 +88,11 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateRoutine() {
         StreamObserver<RoutineResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createRoutine( 
-                 RoutineRequest.newBuilder(RoutineRequest.getDefaultInstance())
-                         .setRoutine(Routine.newBuilder()
-                                .setRoutineId("789").build())
-                         .build(),
-                 responseObserver);
+        this.grpcRoutineController.createRoutine(
+                RoutineRequest.newBuilder(RoutineRequest.getDefaultInstance())
+                        .setRoutine(Routine.newBuilder().setRoutineId("789").build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(RoutineResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -102,12 +100,12 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetRoutine() {
         StreamObserver<RoutineResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getRoutine(RoutineRequest.newBuilder()
-                .setRoutine(Routine.newBuilder()
-                        .setRoutineId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getRoutine(
+                RoutineRequest.newBuilder()
+                        .setRoutine(Routine.newBuilder().setRoutineId("789").build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(RoutineResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -116,11 +114,12 @@ class GrpcRoutineControllerTest {
     void testCreateDeliveryTracking() {
         StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcRoutineController.createDeliveryTracking(
-                 DeliveryTrackingRequest.newBuilder(DeliveryTrackingRequest.getDefaultInstance())
-                         .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setDeliveryId("789").build())
-                         .build(),
-                 responseObserver);
+                DeliveryTrackingRequest.newBuilder(DeliveryTrackingRequest.getDefaultInstance())
+                        .setDeliveryTracking(DeliveryTracking.newBuilder()
+                                .setDeliveryId("789")
+                                .build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeliveryTrackingResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -128,12 +127,14 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetDeliveryTracking() {
         StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getDeliveryTracking(DeliveryTrackingRequest.newBuilder()
-                .setDeliveryTracking(DeliveryTracking.newBuilder()
-                        .setDeliveryId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getDeliveryTracking(
+                DeliveryTrackingRequest.newBuilder()
+                        .setDeliveryTracking(DeliveryTracking.newBuilder()
+                                .setDeliveryId("789")
+                                .build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeliveryTrackingResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -141,12 +142,13 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateClinicalProtocolExecution() {
         StreamObserver<ClinicalProtocolExecutionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createClinicalProtocolExecution( 
+        this.grpcRoutineController.createClinicalProtocolExecution(
                 ClinicalProtocolExecutionRequest.newBuilder(ClinicalProtocolExecutionRequest.getDefaultInstance())
-                    .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
-                            .setExecutionId("789").build())
-                            .build(),
-                 responseObserver);
+                        .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
+                                .setExecutionId("789")
+                                .build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ClinicalProtocolExecutionResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -154,12 +156,14 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetClinicalProtocolExecution() {
         StreamObserver<ClinicalProtocolExecutionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getClinicalProtocolExecution(ClinicalProtocolExecutionRequest.newBuilder()
-                .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
-                        .setExecutionId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getClinicalProtocolExecution(
+                ClinicalProtocolExecutionRequest.newBuilder()
+                        .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
+                                .setExecutionId("789")
+                                .build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ClinicalProtocolExecutionResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -167,12 +171,11 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateLabOrder() {
         StreamObserver<LabOrderResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createLabOrder( 
+        this.grpcRoutineController.createLabOrder(
                 LabOrderRequest.newBuilder(LabOrderRequest.getDefaultInstance())
-                         .setLabOrder(LabOrder.newBuilder()
-                                .setLabOrderId("789").build())
-                         .build(),
-                 responseObserver);
+                        .setLabOrder(LabOrder.newBuilder().setLabOrderId("789").build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LabOrderResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -180,12 +183,12 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetLabOrder() {
         StreamObserver<LabOrderResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getLabOrder(LabOrderRequest.newBuilder()
-                .setLabOrder(LabOrder.newBuilder()
-                        .setLabOrderId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getLabOrder(
+                LabOrderRequest.newBuilder()
+                        .setLabOrder(LabOrder.newBuilder().setLabOrderId("789").build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LabOrderResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -193,12 +196,12 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateDiagnosis() {
         StreamObserver<DiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createDiagnosis( 
-                 DiagnosisRequest.newBuilder(DiagnosisRequest.getDefaultInstance())
-                         .setDiagnosis(Diagnosis.newBuilder()
-                                .setDiagnosisId("789").build())
-                         .build(),
-                 responseObserver);
+        this.grpcRoutineController.createDiagnosis(
+                DiagnosisRequest.newBuilder(DiagnosisRequest.getDefaultInstance())
+                        .setDiagnosis(
+                                Diagnosis.newBuilder().setDiagnosisId("789").build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DiagnosisResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -206,25 +209,27 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetDiagnosis() {
         StreamObserver<DiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getDiagnosis(DiagnosisRequest.newBuilder()
-                         .setDiagnosis(Diagnosis.newBuilder()
-                                .setDiagnosisId("789").build())
-                         .build(),
+        this.grpcRoutineController.getDiagnosis(
+                DiagnosisRequest.newBuilder()
+                        .setDiagnosis(
+                                Diagnosis.newBuilder().setDiagnosisId("789").build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DiagnosisResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
-    
+
     @Test
     void testCreateSuspectedDiagnosis() {
         StreamObserver<SuspectedDiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createSuspectedDiagnosis( 
-                 SuspectedDiagnosisRequest.newBuilder(SuspectedDiagnosisRequest.getDefaultInstance())
-                         .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                                .setSuspectedDiagnosisId("789").build())
-                         .build(),
-                 responseObserver);
+        this.grpcRoutineController.createSuspectedDiagnosis(
+                SuspectedDiagnosisRequest.newBuilder(SuspectedDiagnosisRequest.getDefaultInstance())
+                        .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
+                                .setSuspectedDiagnosisId("789")
+                                .build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SuspectedDiagnosisResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -232,25 +237,26 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetSuspectedDiagnosis() {
         StreamObserver<SuspectedDiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getSuspectedDiagnosis(SuspectedDiagnosisRequest.newBuilder()
-                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
-                        .setSuspectedDiagnosisId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getSuspectedDiagnosis(
+                SuspectedDiagnosisRequest.newBuilder()
+                        .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
+                                .setSuspectedDiagnosisId("789")
+                                .build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SuspectedDiagnosisResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }    
+    }
 
     @Test
     void testCreateLabResult() {
         StreamObserver<LabResultResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createLabResult( 
-                 LabResultRequest.newBuilder(LabResultRequest.getDefaultInstance())
-                         .setLabResult(LabResult.newBuilder()
-                                .setResultId("789").build())
-                         .build(),
-                 responseObserver);
+        this.grpcRoutineController.createLabResult(
+                LabResultRequest.newBuilder(LabResultRequest.getDefaultInstance())
+                        .setLabResult(LabResult.newBuilder().setResultId("789").build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LabResultResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -258,25 +264,25 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetLabResult() {
         StreamObserver<LabResultResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getLabResult(LabResultRequest.newBuilder()
-                .setLabResult(LabResult.newBuilder()
-                        .setResultId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getLabResult(
+                LabResultRequest.newBuilder()
+                        .setLabResult(LabResult.newBuilder().setResultId("789").build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LabResultResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }    
+    }
 
     @Test
     void testCreateMedication() {
         StreamObserver<MedicationResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createMedication( 
-                 MedicationRequest.newBuilder(MedicationRequest.getDefaultInstance())
-                         .setMedication(Medication.newBuilder()
-                                .setMedicationId("789").build())
-                         .build(),
-                 responseObserver);
+        this.grpcRoutineController.createMedication(
+                MedicationRequest.newBuilder(MedicationRequest.getDefaultInstance())
+                        .setMedication(
+                                Medication.newBuilder().setMedicationId("789").build())
+                        .build(),
+                responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(MedicationResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
@@ -284,15 +290,14 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetMedication() {
         StreamObserver<MedicationResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getMedication(MedicationRequest.newBuilder()
-                .setMedication(Medication.newBuilder()
-                        .setMedicationId("789").build())
-                        .build(), 
+        this.grpcRoutineController.getMedication(
+                MedicationRequest.newBuilder()
+                        .setMedication(
+                                Medication.newBuilder().setMedicationId("789").build())
+                        .build(),
                 responseObserver);
-        
+
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(MedicationResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }  
-
-
+    }
 }
