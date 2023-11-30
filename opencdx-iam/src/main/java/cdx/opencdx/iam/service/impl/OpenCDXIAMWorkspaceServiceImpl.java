@@ -121,7 +121,7 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
             throw new OpenCDXNotFound(
                     DOMAIN,
                     3,
-                    "FAILED_TO_FIND_ORGANIZATION" + request.getWorkspace().getId());
+                    "FAILED_TO_FIND_WORKSPACE" + request.getWorkspace().getId());
         }
         OpenCDXIAMWorkspaceModel model =
                 this.openCDXIAMWorkspaceRepository.save(new OpenCDXIAMWorkspaceModel(request.getWorkspace()));

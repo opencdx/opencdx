@@ -1,0 +1,159 @@
+package cdx.opencdx.iam.controller;
+
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.security.JwtTokenUtil;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
+import cdx.opencdx.grpc.iam.SignUpRequest;
+import cdx.opencdx.grpc.iam.SignUpResponse;
+import cdx.opencdx.grpc.organization.*;
+import cdx.opencdx.grpc.profile.FullName;
+import cdx.opencdx.iam.config.AppProperties;
+import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
+import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
+import cdx.opencdx.iam.service.OpenCDXIAMUserService;
+import cdx.opencdx.iam.service.OpenCDXIAMWorkspaceService;
+import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
+import cdx.opencdx.iam.service.impl.OpenCDXIAMWorkspaceServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.grpc.stub.StreamObserver;
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@ActiveProfiles({"test", "managed"})
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+class OpenCDXIAMWorkspaceGrpcControllerTest {
+
+    @Autowired
+    OpenCDXAuditService openCDXAuditService;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Mock
+    OpenCDXIAMWorkspaceRepository openCDXIAMWorkspaceRepository;
+
+    OpenCDXIAMWorkspaceService openCDXIAMWorkspaceService;
+
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
+    OpenCDXIAMWorkspaceGrpcController openCDXIAMWorkspaceGrpcController;
+
+    @MockBean
+    AuthenticationManager authenticationManager;
+
+    @MockBean
+    JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    OpenCDXCommunicationService openCDXCommunicationService;
+
+    @Autowired
+    AppProperties appProperties;
+    @BeforeEach
+    void setUp() {
+        this.openCDXIAMWorkspaceRepository = Mockito.mock(OpenCDXIAMWorkspaceRepository.class);
+        Mockito.when(this.openCDXIAMWorkspaceRepository.save(Mockito.any(OpenCDXIAMWorkspaceModel.class)))
+                .thenAnswer(new Answer<OpenCDXIAMWorkspaceModel>() {
+                    @Override
+                    public OpenCDXIAMWorkspaceModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIAMWorkspaceModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMWorkspaceModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMWorkspaceModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMWorkspaceModel.builder()
+                                .id(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(ObjectId.class))).thenReturn(true);
+
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+
+        this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
+                this.openCDXIAMWorkspaceRepository,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper);
+        this.openCDXIAMWorkspaceGrpcController = new OpenCDXIAMWorkspaceGrpcController(this.openCDXIAMWorkspaceService);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.openCDXIAMWorkspaceRepository);
+    }
+
+    @Test
+    void createWorkspace() {
+        StreamObserver<CreateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMWorkspaceGrpcController.createWorkspace(CreateWorkspaceRequest.getDefaultInstance(), responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateWorkspaceResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getWorkspaceDetailsById() {
+        StreamObserver<GetWorkspaceDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMWorkspaceGrpcController.getWorkspaceDetailsById(GetWorkspaceDetailsByIdRequest.newBuilder(GetWorkspaceDetailsByIdRequest.getDefaultInstance()).setWorkspaceId(ObjectId.get().toHexString()).build(), responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetWorkspaceDetailsByIdResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateWorkspace() {
+        StreamObserver<UpdateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMWorkspaceGrpcController.updateWorkspace(UpdateWorkspaceRequest.newBuilder(UpdateWorkspaceRequest.getDefaultInstance()).setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance()).setId(ObjectId.get().toHexString()).build()).build(), responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UpdateWorkspaceResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listWorkspaces() {
+        StreamObserver<ListWorkspacesResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMWorkspaceGrpcController.listWorkspaces(Empty.getDefaultInstance(), responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListWorkspacesResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+}
