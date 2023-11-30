@@ -38,8 +38,8 @@ import org.springframework.beans.factory.annotation.Value;
 @Observed(name = "opencdx")
 public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
-    public static final String DOMAIN = "NatsOpenCDXMessageServiceImpl";
-    public static final String OPENCDX = "opencdx";
+    private static final String DOMAIN = "NatsOpenCDXMessageServiceImpl";
+    private static final String OPENCDX = "opencdx";
     private final Connection natsConnection;
     private final Dispatcher dispatcher;
 
@@ -51,6 +51,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      * Constructor for setting up NATS based OpenCDXMessageService
      * @param natsConnection NATS Connection
      * @param objectMapper Jackson Object Mapper
+     * @param applicationName Name of the Service
      */
     public NatsOpenCDXMessageServiceImpl(
             Connection natsConnection,
