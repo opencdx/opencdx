@@ -1,5 +1,7 @@
 package cdx.opencdx.iam.controller;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
@@ -18,10 +20,12 @@ import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import cdx.opencdx.iam.service.OpenCDXIAMWorkspaceService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMUserServiceImpl;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMWorkspaceServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -129,7 +133,23 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateWorkspaceResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+    @Test
+    void createWorkspace_fail() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
+        this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
+                this.openCDXIAMWorkspaceRepository,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                mapper);
+
+        this.openCDXIAMWorkspaceGrpcController = new OpenCDXIAMWorkspaceGrpcController(this.openCDXIAMWorkspaceService);
+
+        StreamObserver<CreateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        CreateWorkspaceRequest request = CreateWorkspaceRequest.getDefaultInstance();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () ->this.openCDXIAMWorkspaceGrpcController.createWorkspace(request, responseObserver));
+    }
     @Test
     void getWorkspaceDetailsById() {
         StreamObserver<GetWorkspaceDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -137,6 +157,24 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetWorkspaceDetailsByIdResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getWorkspaceDetailsById_fail() {
+        this.openCDXIAMWorkspaceRepository = Mockito.mock(OpenCDXIAMWorkspaceRepository.class);
+        Mockito.when(this.openCDXIAMWorkspaceRepository.findById(Mockito.any(ObjectId.class))).thenReturn(Optional.empty());
+
+        this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
+                this.openCDXIAMWorkspaceRepository,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper);
+
+        this.openCDXIAMWorkspaceGrpcController = new OpenCDXIAMWorkspaceGrpcController(this.openCDXIAMWorkspaceService);
+
+        StreamObserver<GetWorkspaceDetailsByIdResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        GetWorkspaceDetailsByIdRequest request = GetWorkspaceDetailsByIdRequest.newBuilder(GetWorkspaceDetailsByIdRequest.getDefaultInstance()).setWorkspaceId(ObjectId.get().toHexString()).build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () ->this.openCDXIAMWorkspaceGrpcController.getWorkspaceDetailsById(request, responseObserver));
     }
 
     @Test
@@ -148,6 +186,40 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
+    @Test
+    void updateWorkspace_fail1() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
+                this.openCDXIAMWorkspaceRepository,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                mapper);
+
+        this.openCDXIAMWorkspaceGrpcController = new OpenCDXIAMWorkspaceGrpcController(this.openCDXIAMWorkspaceService);
+        StreamObserver<UpdateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        UpdateWorkspaceRequest request = UpdateWorkspaceRequest.newBuilder(UpdateWorkspaceRequest.getDefaultInstance()).setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance()).setId(ObjectId.get().toHexString()).build()).build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () ->this.openCDXIAMWorkspaceGrpcController.updateWorkspace(request, responseObserver));
+    }
+    @Test
+    void updateWorkspace_fail2() throws JsonProcessingException {
+        this.openCDXIAMWorkspaceRepository = Mockito.mock(OpenCDXIAMWorkspaceRepository.class);
+        Mockito.when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(ObjectId.class))).thenReturn(false);
+
+        this.openCDXIAMWorkspaceService = new OpenCDXIAMWorkspaceServiceImpl(
+                this.openCDXIAMWorkspaceRepository,
+                this.openCDXAuditService,
+                this.openCDXCurrentUser,
+                this.objectMapper);
+
+        this.openCDXIAMWorkspaceGrpcController = new OpenCDXIAMWorkspaceGrpcController(this.openCDXIAMWorkspaceService);
+        StreamObserver<UpdateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        UpdateWorkspaceRequest request = UpdateWorkspaceRequest.newBuilder(UpdateWorkspaceRequest.getDefaultInstance()).setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance()).setId(ObjectId.get().toHexString()).build()).build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () ->this.openCDXIAMWorkspaceGrpcController.updateWorkspace(request, responseObserver));
+    }
     @Test
     void listWorkspaces() {
         StreamObserver<ListWorkspacesResponse> responseObserver = Mockito.mock(StreamObserver.class);
