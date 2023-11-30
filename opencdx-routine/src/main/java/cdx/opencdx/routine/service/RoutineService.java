@@ -42,34 +42,26 @@ public interface RoutineService {
      * @return Message generated for this request.
      */
     RoutineResponse createRoutine(RoutineRequest request);
-
     RoutineResponse getRoutine(RoutineRequest request);
 
     DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request);
-
     DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request);
 
     ClinicalProtocolExecutionResponse createClinicalProtocolExecution(ClinicalProtocolExecutionRequest request);
-
     ClinicalProtocolExecutionResponse getClinicalProtocolExecution(ClinicalProtocolExecutionRequest request);
 
     LabOrderResponse triggerLabOrder(LabOrderRequest request);
-
     LabOrderResponse getLabOrder(LabOrderRequest request);
 
     DiagnosisResponse triggerDiagnosis(DiagnosisRequest request);
-
     DiagnosisResponse getDiagnosis(DiagnosisRequest request);
 
     SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request);
-
     SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request);
 
     LabResultResponse triggerLabResult(LabResultRequest request);
-
     LabResultResponse getLabResult(LabResultRequest request);
 
     MedicationResponse triggerMedication(MedicationRequest request);
-
     MedicationResponse getMedication(MedicationRequest request);
 }
