@@ -70,4 +70,131 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    // Delivery Tracking
+    @Override
+    @Secured({})
+    public void createDeliveryTracking(
+            DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
+        DeliveryTrackingResponse response = routineService.createDeliveryTracking(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getDeliveryTracking(
+            DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
+        DeliveryTrackingResponse response = routineService.getDeliveryTracking(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    // ClinicalProtocolExecution
+    @Override
+    @Secured({})
+    public void createClinicalProtocolExecution(
+            ClinicalProtocolExecutionRequest request,
+            StreamObserver<ClinicalProtocolExecutionResponse> responseObserver) {
+        ClinicalProtocolExecutionResponse response = routineService.createClinicalProtocolExecution(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getClinicalProtocolExecution(
+            ClinicalProtocolExecutionRequest request,
+            StreamObserver<ClinicalProtocolExecutionResponse> responseObserver) {
+        ClinicalProtocolExecutionResponse response = routineService.getClinicalProtocolExecution(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    // Lab Order
+    @Override
+    @Secured({})
+    public void createLabOrder(LabOrderRequest request, StreamObserver<LabOrderResponse> responseObserver) {
+        LabOrderResponse response = routineService.triggerLabOrder(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getLabOrder(LabOrderRequest request, StreamObserver<LabOrderResponse> responseObserver) {
+        LabOrderResponse response = routineService.getLabOrder(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    // Diagnosis
+    @Override
+    @Secured({})
+    public void createDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
+        DiagnosisResponse response = routineService.triggerDiagnosis(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
+        DiagnosisResponse response = routineService.getDiagnosis(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    // Suspected Diagnosis
+    @Override
+    @Secured({})
+    public void createSuspectedDiagnosis(
+            SuspectedDiagnosisRequest request, StreamObserver<SuspectedDiagnosisResponse> responseObserver) {
+        SuspectedDiagnosisResponse response = routineService.triggerSuspectedDiagnosis(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getSuspectedDiagnosis(
+            SuspectedDiagnosisRequest request, StreamObserver<SuspectedDiagnosisResponse> responseObserver) {
+        SuspectedDiagnosisResponse response = routineService.getSuspectedDiagnosis(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    // Lab Result
+    @Override
+    @Secured({})
+    public void createLabResult(LabResultRequest request, StreamObserver<LabResultResponse> responseObserver) {
+        LabResultResponse response = routineService.triggerLabResult(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getLabResult(LabResultRequest request, StreamObserver<LabResultResponse> responseObserver) {
+        LabResultResponse response = routineService.getLabResult(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    // Medication
+    @Override
+    @Secured({})
+    public void createMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
+        MedicationResponse response = routineService.triggerMedication(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @Secured({})
+    public void getMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
+        MedicationResponse response = routineService.getMedication(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }

@@ -78,4 +78,128 @@ public class RestRoutineController {
         RoutineResponse response = routineService.getRoutine(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    // Delivery Tracking
+    @PostMapping("/deliveryTracking")
+    public ResponseEntity<DeliveryTrackingResponse> createDeliveryTracking(
+            @RequestBody DeliveryTrackingRequest request) {
+        DeliveryTrackingResponse response = routineService.createDeliveryTracking(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/deliveryTracking/{deliveryId}")
+    public ResponseEntity<DeliveryTrackingResponse> getDeliveryTracking(
+            @PathVariable(value = "deliveryId") String deliveryId) {
+        DeliveryTrackingRequest request = DeliveryTrackingRequest.newBuilder()
+                .setDeliveryTracking(
+                        DeliveryTracking.newBuilder().setDeliveryId(deliveryId).build())
+                .build();
+        DeliveryTrackingResponse response = routineService.getDeliveryTracking(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // Clinical Protocol Execution
+    @PostMapping("/clinicalProtocolExecution")
+    public ResponseEntity<ClinicalProtocolExecutionResponse> createClinicalProtocolExecution(
+            @RequestBody ClinicalProtocolExecutionRequest request) {
+        ClinicalProtocolExecutionResponse response = routineService.createClinicalProtocolExecution(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/clinicalProtocolExecution/{executionId}")
+    public ResponseEntity<ClinicalProtocolExecutionResponse> getClinicalProtocolExecution(
+            @PathVariable(value = "executionId") String executionId) {
+        ClinicalProtocolExecutionRequest request = ClinicalProtocolExecutionRequest.newBuilder()
+                .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
+                        .setExecutionId(executionId)
+                        .build())
+                .build();
+        ClinicalProtocolExecutionResponse response = routineService.getClinicalProtocolExecution(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // Lab Order
+    @PostMapping("/labOrder")
+    public ResponseEntity<LabOrderResponse> triggerLabOrder(@RequestBody LabOrderRequest request) {
+        LabOrderResponse response = routineService.triggerLabOrder(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/labOrder/{labOrderId}")
+    public ResponseEntity<LabOrderResponse> getLabOrder(@PathVariable(value = "labOrderId") String labOrderId) {
+        LabOrderRequest request = LabOrderRequest.newBuilder()
+                .setLabOrder(LabOrder.newBuilder().setLabOrderId(labOrderId).build())
+                .build();
+        LabOrderResponse response = routineService.getLabOrder(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // Diagnosis
+    @PostMapping("/diagnosis")
+    public ResponseEntity<DiagnosisResponse> triggerDiagnosis(@RequestBody DiagnosisRequest request) {
+        DiagnosisResponse response = routineService.triggerDiagnosis(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/diagnosis/{diagnosisId}")
+    public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable(value = "diagnosisId") String diagnosisId) {
+        DiagnosisRequest request = DiagnosisRequest.newBuilder()
+                .setDiagnosis(Diagnosis.newBuilder().setDiagnosisId(diagnosisId).build())
+                .build();
+        DiagnosisResponse response = routineService.getDiagnosis(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // Suspected Diagnosis
+    @PostMapping("/suspectedDiagnosis")
+    public ResponseEntity<SuspectedDiagnosisResponse> triggerSuspectedDiagnosis(
+            @RequestBody SuspectedDiagnosisRequest request) {
+        SuspectedDiagnosisResponse response = routineService.triggerSuspectedDiagnosis(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/suspectedDiagnosis/{suspectedDiagnosisId}")
+    public ResponseEntity<SuspectedDiagnosisResponse> getSuspectedDiagnosis(
+            @PathVariable(value = "suspectedDiagnosisId") String suspectedDiagnosisId) {
+        SuspectedDiagnosisRequest request = SuspectedDiagnosisRequest.newBuilder()
+                .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
+                        .setSuspectedDiagnosisId(suspectedDiagnosisId)
+                        .build())
+                .build();
+        SuspectedDiagnosisResponse response = routineService.getSuspectedDiagnosis(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // Lab Result
+    @PostMapping("/labResult")
+    public ResponseEntity<LabResultResponse> triggerLabResult(@RequestBody LabResultRequest request) {
+        LabResultResponse response = routineService.triggerLabResult(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/labResult/{resultId}")
+    public ResponseEntity<LabResultResponse> getLabResult(@PathVariable(value = "resultId") String resultId) {
+        LabResultRequest request = LabResultRequest.newBuilder()
+                .setLabResult(LabResult.newBuilder().setResultId(resultId).build())
+                .build();
+        LabResultResponse response = routineService.getLabResult(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // Medication
+    @PostMapping("/medication")
+    public ResponseEntity<MedicationResponse> triggerMedication(@RequestBody MedicationRequest request) {
+        MedicationResponse response = routineService.triggerMedication(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/medication/{medicationId}")
+    public ResponseEntity<MedicationResponse> getMedication(@PathVariable(value = "medicationId") String medicationId) {
+        MedicationRequest request = MedicationRequest.newBuilder()
+                .setMedication(
+                        Medication.newBuilder().setMedicationId(medicationId).build())
+                .build();
+        MedicationResponse response = routineService.getMedication(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
