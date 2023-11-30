@@ -88,9 +88,8 @@ public class OpenCDXIAMWorkspaceModel {
     public Workspace getProtobufMessage() {
         Workspace.Builder builder = Workspace.newBuilder();
 
-        if (this.id != null) {
-            builder.setId(this.id.toHexString());
-        }
+        builder.setId(this.id.toHexString());
+
         if (this.name != null) {
             builder.setName(this.name);
         }

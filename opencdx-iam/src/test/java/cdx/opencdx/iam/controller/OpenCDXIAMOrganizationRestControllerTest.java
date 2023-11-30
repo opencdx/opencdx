@@ -8,6 +8,7 @@ import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -109,7 +110,7 @@ class OpenCDXIAMOrganizationRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/organization")
                         .content(this.objectMapper.writeValueAsString(
-                                CreateOrganizationRequest.newBuilder().setOrganization(Organization.newBuilder().build()).build()))
+                                CreateOrganizationRequest.newBuilder().setOrganization(Organization.newBuilder().setFoundingDate(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build()).build()).build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

@@ -13,6 +13,7 @@ import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -117,7 +118,7 @@ class OpenCDXIAMWorkspaceRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/workspace")
                         .content(this.objectMapper.writeValueAsString(
-                                CreateWorkspaceRequest.newBuilder().setWorkspace(Workspace.newBuilder().build()).build()))
+                                CreateWorkspaceRequest.newBuilder().setWorkspace(Workspace.newBuilder().setCreatedDate(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build()).build()).build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();

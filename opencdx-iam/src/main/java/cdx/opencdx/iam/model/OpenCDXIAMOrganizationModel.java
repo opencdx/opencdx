@@ -75,9 +75,7 @@ public class OpenCDXIAMOrganizationModel {
         this.address = organization.getAddress();
         this.website = organization.getWebsite();
         this.industry = organization.getIndustry();
-        if (organization.hasRevenue()) {
-            this.revenue = organization.getRevenue();
-        }
+        this.revenue = organization.getRevenue();
         this.logoUrl = organization.getLogoUrl();
         this.socialMediaLinks = organization.getSocialMediaLinksList();
         this.missionStatement = organization.getMissionStatement();
@@ -94,9 +92,8 @@ public class OpenCDXIAMOrganizationModel {
     public Organization getProtobufMessage() {
         Organization.Builder builder = Organization.newBuilder();
 
-        if (this.id != null) {
-            builder.setId(this.id.toHexString());
-        }
+        builder.setId(this.id.toHexString());
+
         if (this.name != null) {
             builder.setName(this.name);
         }
