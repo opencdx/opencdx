@@ -51,7 +51,7 @@ message ClinicalProtocolExecution {
 }
 
 /**
- * Entities for Trigger Conditions
+ * Entities for Create Conditions
  */
 message LabOrder {
   optional string lab_order_id = 1; // Unique identifier for lab orders
@@ -125,32 +125,32 @@ service RoutineSystemService {
   // Retrieve information about a clinical protocol execution entity 
   rpc GetClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
 
-  // Trigger a new lab order entity
-  rpc TriggerLabOrder(LabOrderRequest) returns (LabOrderResponse);
+  // Create a new lab order entity
+  rpc CreateLabOrder(LabOrderRequest) returns (LabOrderResponse);
 
   // Retrieve information about a lab order entity 
   rpc GetLabOrder(LabOrderRequest) returns (LabOrderResponse);
 
-  // Trigger a new diagnosis entity
-  rpc TriggerDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
+  // Create a new diagnosis entity
+  rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
 
   // Retrieve information about a diagnosis entity 
   rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
 
-  // Trigger a new suspected diagnosis entity
-  rpc TriggerSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
+  // Create a new suspected diagnosis entity
+  rpc CreateSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
 
   // Retrieve information about a suspected diagnosis entity 
   rpc GetSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
 
-  // Trigger a new lab result entity
-  rpc TriggerLabResult(LabResultRequest) returns (LabResultResponse);
+  // Create a new lab result entity
+  rpc CreateLabResult(LabResultRequest) returns (LabResultResponse);
 
   // Retrieve information about a lab result entity 
   rpc GetLabResult(LabResultRequest) returns (LabResultResponse);
 
-  // Trigger a new medication entity
-  rpc TriggerMedication(MedicationRequest) returns (MedicationResponse);
+  // Create a new medication entity
+  rpc CreateMedication(MedicationRequest) returns (MedicationResponse);
 
   // Retrieve information about a medication entity 
   rpc GetMedication(MedicationRequest) returns (MedicationResponse);
@@ -183,7 +183,7 @@ message ClinicalProtocolExecutionResponse {
   ClinicalProtocolExecution clinical_protocol_execution = 1;
 }
 
-// Request and Response messages for TriggerLabOrder operation
+// Request and Response messages for CreateLabOrder operation
 message LabOrderRequest {
   LabOrder lab_order = 1;
 }
@@ -192,7 +192,7 @@ message LabOrderResponse {
   LabOrder lab_order = 1;
 }
 
-// Request and Response messages for TriggerDiagnosis operation
+// Request and Response messages for CreateDiagnosis operation
 message DiagnosisRequest {
   Diagnosis diagnosis = 1;
 }
@@ -201,7 +201,7 @@ message DiagnosisResponse {
   Diagnosis diagnosis = 1;
 }
 
-// Request and Response messages for TriggerSuspectedDiagnosis operation
+// Request and Response messages for CreateSuspectedDiagnosis operation
 message SuspectedDiagnosisRequest {
   SuspectedDiagnosis suspected_diagnosis = 1;
 }
@@ -210,7 +210,7 @@ message SuspectedDiagnosisResponse {
   SuspectedDiagnosis suspected_diagnosis = 1;
 }
 
-// Request and Response messages for TriggerLabResult operation
+// Request and Response messages for CreateLabResult operation
 message LabResultRequest {
   LabResult lab_result = 1;
 }
@@ -219,7 +219,7 @@ message LabResultResponse {
   LabResult lab_result = 1;
 }
 
-// Request and Response messages for TriggerMedication operation
+// Request and Response messages for CreateMedication operation
 message MedicationRequest {
   Medication medication = 1;
 }
