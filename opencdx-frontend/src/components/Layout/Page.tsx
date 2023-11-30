@@ -6,13 +6,9 @@ import {Suspense} from 'react';
 import * as React from 'react';
 import {useRouter} from 'next/router';
 import {SidebarNav} from './SidebarNav';
-import {Footer} from './Footer';
 import {Toc} from './Toc';
-import SocialBanner from '../SocialBanner';
 import {DocsPageFooter} from 'components/DocsFooter';
 import {Seo} from 'components/Seo';
-import ButtonLink from 'components/ButtonLink';
-import {IconNavArrow} from 'components/Icon/IconNavArrow';
 import PageHeading from 'components/PageHeading';
 import {getRouteMeta} from './getRouteMeta';
 import {TocContext} from '../MDX/TocContext';
@@ -86,12 +82,10 @@ export function Page({children, toc, routeTree, meta, section}: PageProps) {
   let hasColumns = true;
   let showSidebar = true;
   let showToc = true;
-  let showSurvey = true;
   if (isHomePage || isBlogIndex) {
     hasColumns = false;
     showSidebar = false;
     showToc = false;
-    showSurvey = false;
   } 
 
   let searchOrder;

@@ -2,7 +2,7 @@ import React from 'react';
 // import exampleHTML from './doc/javadoc/index.html';
 // import exampleHTML from './example.html';
 // import './nats.css';
-function Proto ({children}) {
+function Proto () {
 
   
     // useEffect(() => {

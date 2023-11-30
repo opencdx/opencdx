@@ -9,7 +9,6 @@ import {ChallengeContents} from './Challenges';
 import {IconHint} from '../../Icon/IconHint';
 import {IconSolution} from '../../Icon/IconSolution';
 import {IconArrowSmall} from '../../Icon/IconArrowSmall';
-import {H4} from '../Heading';
 
 interface ChallengeProps {
   isRecipes?: boolean;
@@ -21,7 +20,6 @@ interface ChallengeProps {
 
 export function Challenge({
   isRecipes,
-  totalChallenges,
   currentChallenge,
   hasNextChallenge,
   handleClickNextChallenge,
