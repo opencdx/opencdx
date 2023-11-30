@@ -56,7 +56,7 @@ public class RoutineServiceImpl implements RoutineService {
     public RoutineResponse createRoutine(RoutineRequest request) {
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Routine record create",
@@ -77,7 +77,7 @@ public class RoutineServiceImpl implements RoutineService {
     public RoutineResponse getRoutine(RoutineRequest request) {
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Routine record requested",
@@ -92,7 +92,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Delivery Tracking record create",
@@ -114,7 +114,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Delivery Tracking record requested",
@@ -136,7 +136,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public ClinicalProtocolExecutionResponse createClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Clinical Protocol Execution record create",
@@ -158,7 +158,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public ClinicalProtocolExecutionResponse getClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Clinical Protocol Execution record requested",
@@ -180,7 +180,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabOrderResponse triggerLabOrder(LabOrderRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Lab Order record trigger",
@@ -200,7 +200,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabOrderResponse getLabOrder(LabOrderRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Lab Order record requested",
@@ -220,7 +220,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DiagnosisResponse triggerDiagnosis(DiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Diagnosis record trigger",
@@ -242,7 +242,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DiagnosisResponse getDiagnosis(DiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Diagnosis record requested",
@@ -264,7 +264,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Suspected Diagnosis record trigger",
@@ -286,7 +286,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Suspected Diagnosis record requested",
@@ -308,7 +308,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabResultResponse triggerLabResult(LabResultRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Lab Result record trigger",
@@ -330,7 +330,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabResultResponse getLabResult(LabResultRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Lab Result record requested",
@@ -352,7 +352,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public MedicationResponse triggerMedication(MedicationRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Medication record trigger",
@@ -374,7 +374,7 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public MedicationResponse getMedication(MedicationRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
+        this.openCDXAuditService.phiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "Medication record requested",
