@@ -34,6 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the Organization Service
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
@@ -47,6 +50,13 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
 
+    /**
+     * Organizatgion Service
+     * @param  openCDXIAMOrganizationRepository, Database repository for Organization
+     * @param openCDXAuditService Audit Service to record information
+     * @param openCDXCurrentUser Current User for accessing the current user.
+     * @param objectMapper ObjectMapper for converting to JSON
+     */
     public OpenCDXIAMOrganizationServiceImpl(
             OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository,
             OpenCDXAuditService openCDXAuditService,

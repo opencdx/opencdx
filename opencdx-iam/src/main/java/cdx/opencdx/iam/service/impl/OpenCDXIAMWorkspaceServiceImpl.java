@@ -34,6 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the Workspace Service
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
@@ -47,6 +50,13 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
 
+    /**
+     * Worksapce Service
+     * @param openCDXIAMWorkspaceRepository Database repository for Workspace
+     * @param openCDXAuditService Audit Service to record information
+     * @param openCDXCurrentUser Current User for accessing the current user.
+     * @param objectMapper ObjectMapper for converting to JSON
+     */
     public OpenCDXIAMWorkspaceServiceImpl(
             OpenCDXIAMWorkspaceRepository openCDXIAMWorkspaceRepository,
             OpenCDXAuditService openCDXAuditService,

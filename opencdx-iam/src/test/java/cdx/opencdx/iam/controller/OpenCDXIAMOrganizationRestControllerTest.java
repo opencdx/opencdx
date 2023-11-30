@@ -1,15 +1,33 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.iam.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
-import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
-import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -32,12 +50,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -62,6 +74,7 @@ class OpenCDXIAMOrganizationRestControllerTest {
 
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
+
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -101,16 +114,24 @@ class OpenCDXIAMOrganizationRestControllerTest {
         Mockito.reset(this.connection);
         Mockito.reset(this.openCDXIAMOrganizationRepository);
     }
+
     @Test
     void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
         Assertions.assertNotNull(mockMvc);
     }
+
     @Test
     void createOrganization() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/organization")
-                        .content(this.objectMapper.writeValueAsString(
-                                CreateOrganizationRequest.newBuilder().setOrganization(Organization.newBuilder().setFoundingDate(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build()).build()).build()))
+                        .content(this.objectMapper.writeValueAsString(CreateOrganizationRequest.newBuilder()
+                                .setOrganization(Organization.newBuilder()
+                                        .setFoundingDate(Timestamp.newBuilder()
+                                                .setSeconds(10L)
+                                                .setNanos(5)
+                                                .build())
+                                        .build())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -121,7 +142,8 @@ class OpenCDXIAMOrganizationRestControllerTest {
     @Test
     void getOrganizationDetailsById() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/organization/"+ObjectId.get().toHexString())
+                .perform(MockMvcRequestBuilders.get(
+                                "/organization/" + ObjectId.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -130,11 +152,14 @@ class OpenCDXIAMOrganizationRestControllerTest {
     }
 
     @Test
-    void updateOrganization() throws Exception{
+    void updateOrganization() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.put("/organization")
-                        .content(this.objectMapper.writeValueAsString(
-                                UpdateOrganizationRequest.newBuilder().setOrganization(Organization.newBuilder().setId(ObjectId.get().toHexString()).build()).build()))
+                        .content(this.objectMapper.writeValueAsString(UpdateOrganizationRequest.newBuilder()
+                                .setOrganization(Organization.newBuilder()
+                                        .setId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -143,7 +168,7 @@ class OpenCDXIAMOrganizationRestControllerTest {
     }
 
     @Test
-    void listOrganizations() throws Exception{
+    void listOrganizations() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/organization/list")
                         .content("{}")

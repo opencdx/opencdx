@@ -38,6 +38,10 @@ public class OpenCDXIAMWorkspaceRestController {
 
     private final OpenCDXIAMWorkspaceService openCDXIAMWorkspaceService;
 
+    /**
+     * Constructor for the Workspace Rest Controller
+     * @param openCDXIAMWorkspaceService Service Interface
+     */
     public OpenCDXIAMWorkspaceRestController(OpenCDXIAMWorkspaceService openCDXIAMWorkspaceService) {
         this.openCDXIAMWorkspaceService = openCDXIAMWorkspaceService;
     }

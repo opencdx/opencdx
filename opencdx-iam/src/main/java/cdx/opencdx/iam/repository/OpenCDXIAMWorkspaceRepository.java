@@ -20,5 +20,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Interface for the Database workspace model.
+ */
 @Repository
 public interface OpenCDXIAMWorkspaceRepository extends MongoRepository<OpenCDXIAMWorkspaceModel, ObjectId> {}

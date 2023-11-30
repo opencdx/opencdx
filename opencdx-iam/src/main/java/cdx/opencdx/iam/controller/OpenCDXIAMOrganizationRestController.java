@@ -37,6 +37,10 @@ import org.springframework.web.bind.annotation.*;
 public class OpenCDXIAMOrganizationRestController {
     private final OpenCDXIAMOrganizationService openCDXIAMOrganizationService;
 
+    /**
+     * Constructor for the Organizatgion Rest Controller
+     * @param openCDXIAMOrganizationService Service Interface
+     */
     public OpenCDXIAMOrganizationRestController(OpenCDXIAMOrganizationService openCDXIAMOrganizationService) {
         this.openCDXIAMOrganizationService = openCDXIAMOrganizationService;
     }

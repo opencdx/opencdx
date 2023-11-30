@@ -1,20 +1,35 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.iam.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.iam.IamUserType;
-import cdx.opencdx.grpc.iam.SignUpRequest;
 import cdx.opencdx.grpc.organization.CreateWorkspaceRequest;
 import cdx.opencdx.grpc.organization.UpdateWorkspaceRequest;
 import cdx.opencdx.grpc.organization.Workspace;
-import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMWorkspaceRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import io.nats.client.Connection;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -37,14 +52,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -70,6 +77,7 @@ class OpenCDXIAMWorkspaceRestControllerTest {
 
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
+
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -93,9 +101,8 @@ class OpenCDXIAMWorkspaceRestControllerTest {
                     @Override
                     public Optional<OpenCDXIAMWorkspaceModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMWorkspaceModel.builder()
-                                .id(argument)
-                                .build());
+                        return Optional.of(
+                                OpenCDXIAMWorkspaceModel.builder().id(argument).build());
                     }
                 });
         when(this.openCDXIAMWorkspaceRepository.existsById(Mockito.any(ObjectId.class)))
@@ -109,16 +116,24 @@ class OpenCDXIAMWorkspaceRestControllerTest {
         Mockito.reset(this.connection);
         Mockito.reset(this.openCDXIAMWorkspaceRepository);
     }
+
     @Test
     void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
         Assertions.assertNotNull(mockMvc);
     }
+
     @Test
     void createWorkspace() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/workspace")
-                        .content(this.objectMapper.writeValueAsString(
-                                CreateWorkspaceRequest.newBuilder().setWorkspace(Workspace.newBuilder().setCreatedDate(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build()).build()).build()))
+                        .content(this.objectMapper.writeValueAsString(CreateWorkspaceRequest.newBuilder()
+                                .setWorkspace(Workspace.newBuilder()
+                                        .setCreatedDate(Timestamp.newBuilder()
+                                                .setSeconds(10L)
+                                                .setNanos(5)
+                                                .build())
+                                        .build())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -129,7 +144,8 @@ class OpenCDXIAMWorkspaceRestControllerTest {
     @Test
     void getWorkspaceDetailsById() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/workspace/"+ObjectId.get().toHexString())
+                .perform(MockMvcRequestBuilders.get(
+                                "/workspace/" + ObjectId.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -141,8 +157,11 @@ class OpenCDXIAMWorkspaceRestControllerTest {
     void updateWorkspace() throws Exception {
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.put("/workspace")
-                        .content(this.objectMapper.writeValueAsString(
-                                UpdateWorkspaceRequest.newBuilder().setWorkspace(Workspace.newBuilder().setId(ObjectId.get().toHexString()).build()).build()))
+                        .content(this.objectMapper.writeValueAsString(UpdateWorkspaceRequest.newBuilder()
+                                .setWorkspace(Workspace.newBuilder()
+                                        .setId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
