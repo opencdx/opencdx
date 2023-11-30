@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.connected.test.service;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  * Interface for the OpenCDXCDCPayloadService
  */
@@ -23,5 +26,5 @@ public interface OpenCDXCDCPayloadService {
      * Prepares a payload to be sent to CDC for a connected test.
      * @param testId Id for a Connected Test
      */
-    public void getCDCPayload(String testId);
+    public void getCDCPayload(String testId) throws URISyntaxException, IOException;
 }

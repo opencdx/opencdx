@@ -68,6 +68,9 @@ public class OpenCDXDeviceModel {
     private String deviceStatus;
     private String associatedSoftwareVersion;
     private List<ObjectId> testCaseIds;
+    private String name;
+    private String shortDescription;
+    private String description;
 
     /**
      * Create Device entity from this protobuf message
@@ -116,6 +119,9 @@ public class OpenCDXDeviceModel {
         this.associatedSoftwareVersion = device.getAssociatedSoftwareVersion();
         this.testCaseIds =
                 device.getTestCaseIdsList().stream().map(ObjectId::new).toList();
+        this.name = device.getName();
+        this.shortDescription = device.getShortDescription();
+        this.description = device.getDescription();
     }
 
     /**
@@ -222,7 +228,15 @@ public class OpenCDXDeviceModel {
             builder.addAllTestCaseIds(
                     this.testCaseIds.stream().map(ObjectId::toHexString).toList());
         }
-
+        if (this.name != null) {
+            builder.setName(this.name);
+        }
+        if (this.shortDescription != null) {
+            builder.setShortDescription(this.shortDescription);
+        }
+        if (this.description != null) {
+            builder.setDescription(this.description);
+        }
         return builder.build();
     }
 }

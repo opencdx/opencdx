@@ -18,18 +18,16 @@ package cdx.opencdx.connected.test.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
+import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.ContactInfo;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -65,7 +63,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
 
-    public OpenCDXCDCPayloadServiceImpl (
+    public OpenCDXCDCPayloadServiceImpl(
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository) {
@@ -74,27 +72,25 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         this.openCDXDeviceRepository = openCDXDeviceRepository;
     }
 
-    public void getCDCPayload(String testId) {
+    public void getCDCPayload(String testId) throws URISyntaxException, IOException {
 
         // retrieve the connected test using the refId
-        ConnectedTest connectedTest = this.openCDXConnectedTestRepository
+        OpenCDXConnectedTestModel connectedTestModel = this.openCDXConnectedTestRepository
                 .findById(new ObjectId(testId))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testIdRequest.getTestId()))
-                .getProtobufMessage();
-
-        // Create Device
-        Device device = createDevice(connectedTest);
-
-        // Create Observation
-        Observation observation = createObservation(connectedTest, device.getId());
-
-        // Create DiagnosticReport
-        DiagnosticReport diagnosticReport = createDiagnosticReport(connectedTest, observation.getId());
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testId));
 
         // Retrieve Patient
-        String patientId = connectedTest.getBasicInfo().getUserId();
+        String patientId = connectedTestModel.getBasicInfo().getUserId();
         Patient patient = getPatientInfo(patientId);
+
+        // Create Device
+        Device device = createDevice(connectedTestModel, patientId);
+
+        // Create Observation
+        Observation observation = createObservation(connectedTestModel, device.getId());
+
+        // Create DiagnosticReport
+        DiagnosticReport diagnosticReport = createDiagnosticReport(connectedTestModel, observation.getId());
 
         // Create Bundle
         Bundle bundle = createBundle(patient, device, observation, diagnosticReport);
@@ -105,32 +101,138 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         sendToCDC(bundle);
     }
 
-    private Device createDevice(ConnectedTest connectedTest) throws IOException, URISyntaxException {
-        // retrieve the connected test using the refId
-        Device device = this.openCDXDeviceRepository
-                .findById(new ObjectId(connectedTest.getTestDetails().getDeviceIdentifier()))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound(DOMAIN, 3, "Failed to find device: " + connectedTest.getTestDetails().getDeviceIdentifier()))
-                .getProtobufMessage();
-        return null;
+    private Device createDevice(OpenCDXConnectedTestModel connectedTestModel, String patientId) {
+        // retrieve the device for the connected test
+        OpenCDXDeviceModel deviceModel = this.openCDXDeviceRepository
+                .findById(new ObjectId(connectedTestModel.getTestDetails().getDeviceIdentifier()))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        3,
+                        "Failed to find device: "
+                                + connectedTestModel.getTestDetails().getDeviceIdentifier()));
+
+        // Create a Device instance
+        Device device = new Device();
+
+        // Set the category for the report
+        Device.DeviceDeviceNameComponent deviceName = device.addDeviceName();
+        deviceName.setName(deviceModel.getName());
+        deviceName.setType(Device.DeviceNameType.USERFRIENDLYNAME);
+
+        device.setExpirationDate(Date.from(deviceModel.getExpiryDate()));
+        device.setLotNumber(deviceModel.getBatchNumber());
+        device.setSerialNumber(deviceModel.getSerialNumber());
+        //device.setManufacturerElement(new StringType(deviceModel.getManufacturerId().));
+        device.setModelNumber(deviceModel.getModel());
+        device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
+
+        // Set the patient
+        Reference subject = device.getPatient();
+        subject.setReference("Patient/" + patientId);
+
+        // Set the Type
+        Coding coding = device.getType().addCoding();
+        coding.setDisplay(deviceModel.getName());
+        device.getType().setText(deviceModel.getShortDescription());
+
+        // Set the meta attribute
+        Meta meta = device.getMeta();
+        meta.setLastUpdated(new Date());
+
+        // Set the Identifiers
+        Identifier identifier = device.addIdentifier();
+        identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
+        Coding typeCoding = identifier.getType().addCoding();
+        typeCoding.setCode("FILL");
+        typeCoding.setDisplay(String.valueOf(connectedTestModel.getId()));
+
+        // Give the report a status
+        device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
+
+        return device;
     }
 
-    private Observation createObservation(ConnectedTest entity, String deviceId)
-            throws IOException, URISyntaxException {
-        String input = createResource(entity, "Observation", deviceId);
-        // return parser.parseResource(Observation.class, input);
-        return null;
+    private Observation createObservation(OpenCDXConnectedTestModel entity, String deviceId) {
+        // Create an Observation instance
+        Observation observation = new Observation();
+
+        // Give the observation a status
+        observation.setStatus(Observation.ObservationStatus.FINAL);
+
+        // Set the category for the observation
+        CodeableConcept category = observation.addCategory();
+        Coding categoryCoding = category.addCoding();
+        categoryCoding.setCode("laboratory");
+        categoryCoding.setDisplay("laboratory");
+        categoryCoding.setSystem("https://terminology.hl7.org/CodeSystem/observation-category");
+
+        // Give the observation a code
+        Coding coding = observation.getCode().addCoding();
+        coding.setCode(data.getLoincCode().getCode()).setSystem(LOINC_URL).setDisplay(data.getLoincCode().getDisplay());
+
+        // Set the ID
+        observation.setId(entity.getExternalEvent().getId());
+
+        // Set the Identifiers
+        Identifier identifier = observation.addIdentifier();
+        identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
+        identifier.setValue(entity.getExternalEvent().getId());
+        Coding typeCoding = identifier.getType().addCoding();
+        typeCoding.setCode("FILL");
+        typeCoding.setDisplay(entity.getExternalEvent().getId());
+
+        //Set the value
+        observation.setValue(new StringType(data.getResult().getOutcome().toString()));
+
+        // Set the result interpretation
+//    CodeableConcept interpretation = observation.addInterpretation();
+//    interpretation.setText(data.getResult().getOutcome().toString());
+//    Coding interpretationCoding = interpretation.addCoding();
+//    interpretationCoding.setCode("Positive");
+//    interpretationCoding.setDisplay("Positive");
+//    interpretationCoding.setSystem("https://terminology.hl7.org/ValueSet/v3-ObservationInterpretationDetected");
+
+        // Set the Performer
+//    Reference reference = observation.addPerformer();
+//    //reference.setDisplay("PERFORMER NAME");
+//    reference.setReference("Practitioner/" + data.getProviderId());
+
+        // Set the reference range
+        Observation.ObservationReferenceRangeComponent comp1 = observation.addReferenceRange();
+        comp1.setText("Positive");
+        Observation.ObservationReferenceRangeComponent comp2 = observation.addReferenceRange();
+        comp2.setText("Negative");
+        Observation.ObservationReferenceRangeComponent comp3 = observation.addReferenceRange();
+        comp3.setText("Indeterminate");
+        Observation.ObservationReferenceRangeComponent comp4 = observation.addReferenceRange();
+        comp4.setText("Equivocal");
+
+        // Set the meta attribute
+        Meta meta = observation.getMeta();
+        meta.setLastUpdated(new Date());
+
+        // Give the report a status
+        observation.setStatus(Observation.ObservationStatus.FINAL);
+
+        // Set the subject
+        Reference subject = observation.getSubject();
+        //subject.setDisplay("PATIENT NAME");
+        subject.setReference("Patient/" + data.getPatientId());
+
+        // Set the Device
+        Reference deviceReference = observation.getDevice();
+        deviceReference.setReference(deviceId);
+
+        return observation;
     }
 
-    private DiagnosticReport createDiagnosticReport(ConnectedTest entity, String observationId)
-            throws IOException, URISyntaxException {
+    private DiagnosticReport createDiagnosticReport(OpenCDXConnectedTestModel entity, String observationId) {
         String input = createResource(entity, "DiagnosticReport", observationId);
         // return parser.parseResource(DiagnosticReport.class, input);
         return null;
     }
 
-    private String createResource(ConnectedTest entity, String resourceType, String refId)
-            throws IOException, URISyntaxException {
+    private String createResource(OpenCDXConnectedTestModel entity, String resourceType, String refId) {
 
         // retrieve the connected test using the refId
         //    OpenCDXCallCredentials credential = new
@@ -191,7 +293,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return patient;
     }
 
-    private StringEntity createResourceJson(ConnectedTest entity, String resourceType, String refId)
+    private StringEntity createResourceJson(OpenCDXConnectedTestModel entity, String resourceType, String refId)
             throws UnsupportedEncodingException {
         return null;
         //    return switch (resourceType) {
@@ -209,7 +311,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return obj.getString("id");
     }
 
-    private DiagnosticReport extractDiagnosticReport(ConnectedTest entity, String observationId) {
+    private DiagnosticReport extractDiagnosticReport(OpenCDXConnectedTestModel entity, String observationId) {
 
         //
         // ExternalConnectedTest data = entity.get
@@ -255,131 +357,6 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return diagnosticReport;
     }
 
-    private Observation extractObservation(ConnectedTest entity, String deviceId) {
-
-        // ExternalConnectedTest data = entity.getExternalEvent().getData();
-
-        // Create an Observation instance
-        Observation observation = new Observation();
-
-        // Give the observation a status
-        observation.setStatus(Observation.ObservationStatus.FINAL);
-
-        // Set the category for the observation
-        CodeableConcept category = observation.addCategory();
-        Coding categoryCoding = category.addCoding();
-        categoryCoding.setCode("laboratory");
-        categoryCoding.setDisplay("laboratory");
-        categoryCoding.setSystem("https://terminology.hl7.org/CodeSystem/observation-category");
-
-        // Give the observation a code
-        Coding coding = observation.getCode().addCoding();
-        // coding.setCode(data.getLoincCode().getCode()).setSystem(LOINC_URL).setDisplay(data.getLoincCode().getDisplay());
-
-        // Set the ID
-        // observation.setId(entity.getExternalEvent().getId());
-
-        // Set the Identifiers
-        Identifier identifier = observation.addIdentifier();
-        identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
-        // identifier.setValue(entity.getExternalEvent().getId());
-        Coding typeCoding = identifier.getType().addCoding();
-        typeCoding.setCode("FILL");
-        // typeCoding.setDisplay(entity.getExternalEvent().getId());
-
-        // Set the value
-        // observation.setValue(new StringType(data.getResult().getOutcome().toString()));
-
-        // Set the result interpretation
-        //    CodeableConcept interpretation = observation.addInterpretation();
-        //    interpretation.setText(data.getResult().getOutcome().toString());
-        //    Coding interpretationCoding = interpretation.addCoding();
-        //    interpretationCoding.setCode("Positive");
-        //    interpretationCoding.setDisplay("Positive");
-        //
-        // interpretationCoding.setSystem("https://terminology.hl7.org/ValueSet/v3-ObservationInterpretationDetected");
-
-        // Set the Performer
-        //    Reference reference = observation.addPerformer();
-        //    //reference.setDisplay("PERFORMER NAME");
-        //    reference.setReference("Practitioner/" + data.getProviderId());
-
-        // Set the reference range
-        Observation.ObservationReferenceRangeComponent comp1 = observation.addReferenceRange();
-        comp1.setText("Positive");
-        Observation.ObservationReferenceRangeComponent comp2 = observation.addReferenceRange();
-        comp2.setText("Negative");
-        Observation.ObservationReferenceRangeComponent comp3 = observation.addReferenceRange();
-        comp3.setText("Indeterminate");
-        Observation.ObservationReferenceRangeComponent comp4 = observation.addReferenceRange();
-        comp4.setText("Equivocal");
-
-        // Set the meta attribute
-        Meta meta = observation.getMeta();
-        meta.setLastUpdated(new Date());
-
-        // Give the report a status
-        observation.setStatus(Observation.ObservationStatus.FINAL);
-
-        // Set the subject
-        Reference subject = observation.getSubject();
-        // subject.setDisplay("PATIENT NAME");
-        // subject.setReference("Patient/" + data.getPatientId());
-
-        // Set the Device
-        Reference deviceReference = observation.getDevice();
-        deviceReference.setReference(deviceId);
-
-        return observation;
-    }
-
-    private Device extractDevice(ConnectedTest entity) {
-
-        // ExternalConnectedTest data = entity.getExternalEvent().getData();
-
-        // Create a Device instance
-        Device device = new Device();
-
-        // Set the category for the report
-        Device.DeviceDeviceNameComponent deviceName = device.addDeviceName();
-        // deviceName.setName(data.getDevice().getName());
-        deviceName.setType(Device.DeviceNameType.USERFRIENDLYNAME);
-
-        // device.setDistinctIdentifier();
-        device.setExpirationDate(Timestamp.valueOf(LocalDateTime.now().plusYears(1L)));
-        //    device.setLotNumber(data.getDevice().getLotNumber());
-        //    device.setSerialNumber(data.getDevice().getSerialNumber());
-        //    device.setManufacturerElement(new StringType(data.getDevice().getManufacturer()));
-        //    device.setModelNumber(data.getDevice().getModelNumber());
-        device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
-
-        // Set the patient
-        Reference subject = device.getPatient();
-        // subject.setDisplay("PATIENT NAME");
-        // subject.setReference("Patient/" + data.getPatientId());
-
-        // Set the Type
-        Coding coding = device.getType().addCoding();
-        // coding.setDisplay(data.getDevice().getName());
-        // device.getType().setText(data.getDevice().getShortDescription());
-
-        // Set the meta attribute
-        Meta meta = device.getMeta();
-        meta.setLastUpdated(new Date());
-
-        // Set the Identifiers
-        Identifier identifier = device.addIdentifier();
-        identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
-        // identifier.setValue(entity.getExternalEvent().getId());
-        Coding typeCoding = identifier.getType().addCoding();
-        typeCoding.setCode("FILL");
-        // typeCoding.setDisplay(entity.getExternalEvent().getId());
-
-        // Give the report a status
-        device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
-
-        return device;
-    }
 
     private Bundle createBundle(
             Patient patient, Device device, Observation observation, DiagnosticReport diagnosticReport) {

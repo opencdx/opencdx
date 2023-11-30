@@ -76,6 +76,8 @@ message Device {
     string associated_software_version = 27; // Associated software version
     repeated string test_case_ids = 28;     // IDs of the test cases this device is part of
     string name = 29;                       // Name of the device
+    string short_description = 30;          // Short description of the connected device
+    string description = 31;                // Detailed description of the connected device.
 }
 
 // TestCase message represents a case or package of tests.
