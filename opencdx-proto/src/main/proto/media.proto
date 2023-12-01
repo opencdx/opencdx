@@ -30,7 +30,7 @@ enum MediaType {
   MEDIA_TYPE_IMAGE = 1; // Media is image.
   MEDIA_TYPE_VIDEO = 2; // Media is a video.
   MEDIA_TYPE_ARCHIVE = 3; // Media is an archive.
-  MEDIA_TYPE_INTEGRATION = 4; // Media is an integraiton
+  MEDIA_TYPE_INTEGRATION = 4; // Media is an integration
   MEDIA_TYPE_BYTE_ARRAY = 5; // Media is a data stream
 }
 
@@ -99,7 +99,7 @@ message ListMediaResponse {
   repeated Media templates = 5; // List of Media
 }
 
-// TODO @dimy need to think about a more generic way to represent filtering and sorting (not a priority right now)
+// TODO need to think about a more generic way to represent filtering and sorting (not a priority right now)
 
 // Media Filter
 message MediaFilter {
