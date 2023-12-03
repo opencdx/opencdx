@@ -40,6 +40,12 @@ spring:
             - Path=/cdx.opencdx.grpc.audit.AuditService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-protector
+          uri: https://protector:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.protector.NeuralProtectorService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value            
         - id: grpc-communications
           uri: https://communications:9090
           predicates:

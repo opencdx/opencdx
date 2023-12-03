@@ -67,19 +67,40 @@ message UserBehaviorAnalysisData {
   // Place holder to add fields for a thorough behavior analysis
 }
 
-// Enhanced NeuralProtectorService with more detailed operations
+// NeuralProtectorService with operations
 service NeuralProtectorService {
-  // Enhanced RPC methods with detailed return types
-  rpc DetectAnomalies(AnomalyDetectionData) returns (SecurityResponse);
-  rpc EnforceAuthorizationControl(AuthorizationControlData) returns (SecurityResponse);
-  rpc ProtectPrivacy(PrivacyProtectionData) returns (SecurityResponse);
-  rpc MonitorRealTimeActivity(RealTimeMonitoringData) returns (SecurityResponse);
-  rpc AnalyzeUserBehavior(UserBehaviorAnalysisData) returns (SecurityResponse);
+  rpc DetectAnomalies(AnomalyDetectionDataRequest) returns (SecurityResponse);
+  rpc EnforceAuthorizationControl(AuthorizationControlDataRequest) returns (SecurityResponse);
+  rpc ProtectPrivacy(PrivacyProtectionDataRequest) returns (SecurityResponse);
+  rpc MonitorRealTimeActivity(RealTimeMonitoringDataRequest) returns (SecurityResponse);
+  rpc AnalyzeUserBehavior(UserBehaviorAnalysisDataRequest) returns (SecurityResponse);
 
-  // Placeholder to define new new operations as the system evolves
+  // Placeholder for future operations
 }
 
+// New request message formats for each RPC call
+
+message AnomalyDetectionDataRequest {
+  AnomalyDetectionData anomaly_detection_data = 1;
+}
+
+message AuthorizationControlDataRequest {
+  AuthorizationControlData authorization_control_data = 1;
+}
+
+message PrivacyProtectionDataRequest {
+  PrivacyProtectionData privacy_protection_data = 1;
+}
+
+message RealTimeMonitoringDataRequest {
+  RealTimeMonitoringData real_time_monitoring_data = 1;
+}
+
+message UserBehaviorAnalysisDataRequest {
+  UserBehaviorAnalysisData user_behavior_analysis_data = 1;
+}
+
+// PLACEHOLDER - SecurityResponse message
 message SecurityResponse {
-    // The create media
-    string response = 1;
+  string response = 1; // The create media
 }
