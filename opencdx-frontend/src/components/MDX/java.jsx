@@ -3,7 +3,7 @@ import React from 'react';
 // import exampleHTML from './example.html';
 // import './stylesheet.css';
 
-function Java ({children}) {
+function Java () {
   
     // useEffect(() => {
     //     const fetchHTMLFile = async () => {
