@@ -42,7 +42,7 @@ import cdx.opencdx.grpc.routine.RoutineResponse;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosis;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse;
-import cdx.opencdx.routine.service.impl.RoutineServiceImpl;
+import cdx.opencdx.routine.service.impl.OpenCDXRoutineServiceImpl;
 import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -59,14 +59,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class GrpcRoutineControllerTest {
+class OpenCDXGrpcRoutineControllerTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    RoutineServiceImpl routineService;
+    OpenCDXRoutineServiceImpl routineService;
 
-    GrpcRoutineController grpcRoutineController;
+    OpenCDXGrpcRoutineController openCDXGrpcRoutineController;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
@@ -78,8 +78,8 @@ class GrpcRoutineControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService = new RoutineServiceImpl(this.openCDXAuditService, openCDXCurrentUser);
-        this.grpcRoutineController = new GrpcRoutineController(this.routineService);
+        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, openCDXCurrentUser);
+        this.openCDXGrpcRoutineController = new OpenCDXGrpcRoutineController(this.routineService);
     }
 
     @AfterEach
@@ -88,7 +88,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateRoutine() {
         StreamObserver<RoutineResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createRoutine(
+        this.openCDXGrpcRoutineController.createRoutine(
                 RoutineRequest.newBuilder(RoutineRequest.getDefaultInstance())
                         .setRoutine(Routine.newBuilder().setRoutineId("789").build())
                         .build(),
@@ -100,7 +100,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetRoutine() {
         StreamObserver<RoutineResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getRoutine(
+        this.openCDXGrpcRoutineController.getRoutine(
                 RoutineRequest.newBuilder()
                         .setRoutine(Routine.newBuilder().setRoutineId("789").build())
                         .build(),
@@ -113,7 +113,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateDeliveryTracking() {
         StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createDeliveryTracking(
+        this.openCDXGrpcRoutineController.createDeliveryTracking(
                 DeliveryTrackingRequest.newBuilder(DeliveryTrackingRequest.getDefaultInstance())
                         .setDeliveryTracking(DeliveryTracking.newBuilder()
                                 .setDeliveryId("789")
@@ -127,7 +127,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetDeliveryTracking() {
         StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getDeliveryTracking(
+        this.openCDXGrpcRoutineController.getDeliveryTracking(
                 DeliveryTrackingRequest.newBuilder()
                         .setDeliveryTracking(DeliveryTracking.newBuilder()
                                 .setDeliveryId("789")
@@ -142,7 +142,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateClinicalProtocolExecution() {
         StreamObserver<ClinicalProtocolExecutionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createClinicalProtocolExecution(
+        this.openCDXGrpcRoutineController.createClinicalProtocolExecution(
                 ClinicalProtocolExecutionRequest.newBuilder(ClinicalProtocolExecutionRequest.getDefaultInstance())
                         .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
                                 .setExecutionId("789")
@@ -156,7 +156,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetClinicalProtocolExecution() {
         StreamObserver<ClinicalProtocolExecutionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getClinicalProtocolExecution(
+        this.openCDXGrpcRoutineController.getClinicalProtocolExecution(
                 ClinicalProtocolExecutionRequest.newBuilder()
                         .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
                                 .setExecutionId("789")
@@ -171,7 +171,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateLabOrder() {
         StreamObserver<LabOrderResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createLabOrder(
+        this.openCDXGrpcRoutineController.createLabOrder(
                 LabOrderRequest.newBuilder(LabOrderRequest.getDefaultInstance())
                         .setLabOrder(LabOrder.newBuilder().setLabOrderId("789").build())
                         .build(),
@@ -183,7 +183,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetLabOrder() {
         StreamObserver<LabOrderResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getLabOrder(
+        this.openCDXGrpcRoutineController.getLabOrder(
                 LabOrderRequest.newBuilder()
                         .setLabOrder(LabOrder.newBuilder().setLabOrderId("789").build())
                         .build(),
@@ -196,7 +196,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateDiagnosis() {
         StreamObserver<DiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createDiagnosis(
+        this.openCDXGrpcRoutineController.createDiagnosis(
                 DiagnosisRequest.newBuilder(DiagnosisRequest.getDefaultInstance())
                         .setDiagnosis(
                                 Diagnosis.newBuilder().setDiagnosisId("789").build())
@@ -209,7 +209,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetDiagnosis() {
         StreamObserver<DiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getDiagnosis(
+        this.openCDXGrpcRoutineController.getDiagnosis(
                 DiagnosisRequest.newBuilder()
                         .setDiagnosis(
                                 Diagnosis.newBuilder().setDiagnosisId("789").build())
@@ -223,7 +223,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateSuspectedDiagnosis() {
         StreamObserver<SuspectedDiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createSuspectedDiagnosis(
+        this.openCDXGrpcRoutineController.createSuspectedDiagnosis(
                 SuspectedDiagnosisRequest.newBuilder(SuspectedDiagnosisRequest.getDefaultInstance())
                         .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
                                 .setSuspectedDiagnosisId("789")
@@ -237,7 +237,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetSuspectedDiagnosis() {
         StreamObserver<SuspectedDiagnosisResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getSuspectedDiagnosis(
+        this.openCDXGrpcRoutineController.getSuspectedDiagnosis(
                 SuspectedDiagnosisRequest.newBuilder()
                         .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
                                 .setSuspectedDiagnosisId("789")
@@ -252,7 +252,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateLabResult() {
         StreamObserver<LabResultResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createLabResult(
+        this.openCDXGrpcRoutineController.createLabResult(
                 LabResultRequest.newBuilder(LabResultRequest.getDefaultInstance())
                         .setLabResult(LabResult.newBuilder().setResultId("789").build())
                         .build(),
@@ -264,7 +264,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetLabResult() {
         StreamObserver<LabResultResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getLabResult(
+        this.openCDXGrpcRoutineController.getLabResult(
                 LabResultRequest.newBuilder()
                         .setLabResult(LabResult.newBuilder().setResultId("789").build())
                         .build(),
@@ -277,7 +277,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testCreateMedication() {
         StreamObserver<MedicationResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.createMedication(
+        this.openCDXGrpcRoutineController.createMedication(
                 MedicationRequest.newBuilder(MedicationRequest.getDefaultInstance())
                         .setMedication(
                                 Medication.newBuilder().setMedicationId("789").build())
@@ -290,7 +290,7 @@ class GrpcRoutineControllerTest {
     @Test
     void testGetMedication() {
         StreamObserver<MedicationResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.grpcRoutineController.getMedication(
+        this.openCDXGrpcRoutineController.getMedication(
                 MedicationRequest.newBuilder()
                         .setMedication(
                                 Medication.newBuilder().setMedicationId("789").build())

@@ -16,7 +16,7 @@
 package cdx.opencdx.routine.controller;
 
 import cdx.opencdx.grpc.routine.*;
-import cdx.opencdx.routine.service.RoutineService;
+import cdx.opencdx.routine.service.OpenCDXRoutineService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -30,17 +30,17 @@ import org.springframework.security.access.annotation.Secured;
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
-public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSystemServiceImplBase {
+public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSystemServiceImplBase {
 
-    private final RoutineService routineService;
+    private final OpenCDXRoutineService openCDXRoutineService;
 
     /**
      * Constructor using the RoutineService
      * @param RoutineService service to use for processing
      */
     @Autowired
-    public GrpcRoutineController(final RoutineService routineService) {
-        this.routineService = routineService;
+    public OpenCDXGrpcRoutineController(final OpenCDXRoutineService openCDXRoutineService) {
+        this.openCDXRoutineService = openCDXRoutineService;
     }
 
     /**
@@ -51,7 +51,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void createRoutine(RoutineRequest request, StreamObserver<RoutineResponse> responseObserver) {
-        RoutineResponse response = routineService.createRoutine(request);
+        RoutineResponse response = openCDXRoutineService.createRoutine(request);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -65,7 +65,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void getRoutine(RoutineRequest request, StreamObserver<RoutineResponse> responseObserver) {
-        RoutineResponse response = routineService.getRoutine(request);
+        RoutineResponse response = openCDXRoutineService.getRoutine(request);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -76,7 +76,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Secured({})
     public void createDeliveryTracking(
             DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
-        DeliveryTrackingResponse response = routineService.createDeliveryTracking(request);
+        DeliveryTrackingResponse response = openCDXRoutineService.createDeliveryTracking(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -85,7 +85,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Secured({})
     public void getDeliveryTracking(
             DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
-        DeliveryTrackingResponse response = routineService.getDeliveryTracking(request);
+        DeliveryTrackingResponse response = openCDXRoutineService.getDeliveryTracking(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -96,7 +96,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     public void createClinicalProtocolExecution(
             ClinicalProtocolExecutionRequest request,
             StreamObserver<ClinicalProtocolExecutionResponse> responseObserver) {
-        ClinicalProtocolExecutionResponse response = routineService.createClinicalProtocolExecution(request);
+        ClinicalProtocolExecutionResponse response = openCDXRoutineService.createClinicalProtocolExecution(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -106,7 +106,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     public void getClinicalProtocolExecution(
             ClinicalProtocolExecutionRequest request,
             StreamObserver<ClinicalProtocolExecutionResponse> responseObserver) {
-        ClinicalProtocolExecutionResponse response = routineService.getClinicalProtocolExecution(request);
+        ClinicalProtocolExecutionResponse response = openCDXRoutineService.getClinicalProtocolExecution(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -115,7 +115,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void createLabOrder(LabOrderRequest request, StreamObserver<LabOrderResponse> responseObserver) {
-        LabOrderResponse response = routineService.triggerLabOrder(request);
+        LabOrderResponse response = openCDXRoutineService.triggerLabOrder(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -123,7 +123,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void getLabOrder(LabOrderRequest request, StreamObserver<LabOrderResponse> responseObserver) {
-        LabOrderResponse response = routineService.getLabOrder(request);
+        LabOrderResponse response = openCDXRoutineService.getLabOrder(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -132,7 +132,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void createDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
-        DiagnosisResponse response = routineService.triggerDiagnosis(request);
+        DiagnosisResponse response = openCDXRoutineService.triggerDiagnosis(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -140,7 +140,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void getDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
-        DiagnosisResponse response = routineService.getDiagnosis(request);
+        DiagnosisResponse response = openCDXRoutineService.getDiagnosis(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -150,7 +150,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Secured({})
     public void createSuspectedDiagnosis(
             SuspectedDiagnosisRequest request, StreamObserver<SuspectedDiagnosisResponse> responseObserver) {
-        SuspectedDiagnosisResponse response = routineService.triggerSuspectedDiagnosis(request);
+        SuspectedDiagnosisResponse response = openCDXRoutineService.triggerSuspectedDiagnosis(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -159,7 +159,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Secured({})
     public void getSuspectedDiagnosis(
             SuspectedDiagnosisRequest request, StreamObserver<SuspectedDiagnosisResponse> responseObserver) {
-        SuspectedDiagnosisResponse response = routineService.getSuspectedDiagnosis(request);
+        SuspectedDiagnosisResponse response = openCDXRoutineService.getSuspectedDiagnosis(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -168,7 +168,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void createLabResult(LabResultRequest request, StreamObserver<LabResultResponse> responseObserver) {
-        LabResultResponse response = routineService.triggerLabResult(request);
+        LabResultResponse response = openCDXRoutineService.triggerLabResult(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -176,7 +176,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void getLabResult(LabResultRequest request, StreamObserver<LabResultResponse> responseObserver) {
-        LabResultResponse response = routineService.getLabResult(request);
+        LabResultResponse response = openCDXRoutineService.getLabResult(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -185,7 +185,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void createMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
-        MedicationResponse response = routineService.triggerMedication(request);
+        MedicationResponse response = openCDXRoutineService.triggerMedication(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -193,7 +193,7 @@ public class GrpcRoutineController extends RoutineSystemServiceGrpc.RoutineSyste
     @Override
     @Secured({})
     public void getMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
-        MedicationResponse response = routineService.getMedication(request);
+        MedicationResponse response = openCDXRoutineService.getMedication(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

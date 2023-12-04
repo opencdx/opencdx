@@ -20,7 +20,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.routine.*;
-import cdx.opencdx.routine.service.RoutineService;
+import cdx.opencdx.routine.service.OpenCDXRoutineService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-public class RoutineServiceImpl implements RoutineService {
+public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -42,7 +42,7 @@ public class RoutineServiceImpl implements RoutineService {
      * @return Message indicating the completion of the delivery tracking creation
      */
     @Autowired
-    public RoutineServiceImpl(OpenCDXAuditService openCDXAuditService, OpenCDXCurrentUser openCDXCurrentUser) {
+    public OpenCDXRoutineServiceImpl(OpenCDXAuditService openCDXAuditService, OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
     }

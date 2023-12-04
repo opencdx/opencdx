@@ -16,7 +16,7 @@
 package cdx.opencdx.routine.controller;
 
 import cdx.opencdx.grpc.routine.*;
-import cdx.opencdx.routine.service.RoutineService;
+import cdx.opencdx.routine.service.OpenCDXRoutineService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,17 +40,17 @@ import org.springframework.web.bind.annotation.RestController;
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
-public class RestRoutineController {
+public class OpenCDXRestRoutineController {
 
-    private final RoutineService routineService;
+    private final OpenCDXRoutineService openCDXRoutineService;
 
     /**
      * Constructor that takes a RoutineService
-     * @param routineService service for processing requests.
+     * @param openCDXRoutineService service for processing requests.
      */
     @Autowired
-    public RestRoutineController(RoutineService routineService) {
-        this.routineService = routineService;
+    public OpenCDXRestRoutineController(OpenCDXRoutineService openCDXRoutineService) {
+        this.openCDXRoutineService = openCDXRoutineService;
     }
 
     /**
@@ -60,7 +60,7 @@ public class RestRoutineController {
      */
     @PostMapping
     public ResponseEntity<RoutineResponse> createRoutine(@RequestBody RoutineRequest request) {
-        RoutineResponse response = routineService.createRoutine(request);
+        RoutineResponse response = openCDXRoutineService.createRoutine(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -75,7 +75,7 @@ public class RestRoutineController {
                 .setRoutine(Routine.newBuilder().setRoutineId(routineId).build())
                 .build();
 
-        RoutineResponse response = routineService.getRoutine(request);
+        RoutineResponse response = openCDXRoutineService.getRoutine(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -83,7 +83,7 @@ public class RestRoutineController {
     @PostMapping("/deliveryTracking")
     public ResponseEntity<DeliveryTrackingResponse> createDeliveryTracking(
             @RequestBody DeliveryTrackingRequest request) {
-        DeliveryTrackingResponse response = routineService.createDeliveryTracking(request);
+        DeliveryTrackingResponse response = openCDXRoutineService.createDeliveryTracking(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -94,7 +94,7 @@ public class RestRoutineController {
                 .setDeliveryTracking(
                         DeliveryTracking.newBuilder().setDeliveryId(deliveryId).build())
                 .build();
-        DeliveryTrackingResponse response = routineService.getDeliveryTracking(request);
+        DeliveryTrackingResponse response = openCDXRoutineService.getDeliveryTracking(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -102,7 +102,7 @@ public class RestRoutineController {
     @PostMapping("/clinicalProtocolExecution")
     public ResponseEntity<ClinicalProtocolExecutionResponse> createClinicalProtocolExecution(
             @RequestBody ClinicalProtocolExecutionRequest request) {
-        ClinicalProtocolExecutionResponse response = routineService.createClinicalProtocolExecution(request);
+        ClinicalProtocolExecutionResponse response = openCDXRoutineService.createClinicalProtocolExecution(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -114,14 +114,14 @@ public class RestRoutineController {
                         .setExecutionId(executionId)
                         .build())
                 .build();
-        ClinicalProtocolExecutionResponse response = routineService.getClinicalProtocolExecution(request);
+        ClinicalProtocolExecutionResponse response = openCDXRoutineService.getClinicalProtocolExecution(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Lab Order
     @PostMapping("/labOrder")
     public ResponseEntity<LabOrderResponse> triggerLabOrder(@RequestBody LabOrderRequest request) {
-        LabOrderResponse response = routineService.triggerLabOrder(request);
+        LabOrderResponse response = openCDXRoutineService.triggerLabOrder(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -130,14 +130,14 @@ public class RestRoutineController {
         LabOrderRequest request = LabOrderRequest.newBuilder()
                 .setLabOrder(LabOrder.newBuilder().setLabOrderId(labOrderId).build())
                 .build();
-        LabOrderResponse response = routineService.getLabOrder(request);
+        LabOrderResponse response = openCDXRoutineService.getLabOrder(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Diagnosis
     @PostMapping("/diagnosis")
     public ResponseEntity<DiagnosisResponse> triggerDiagnosis(@RequestBody DiagnosisRequest request) {
-        DiagnosisResponse response = routineService.triggerDiagnosis(request);
+        DiagnosisResponse response = openCDXRoutineService.triggerDiagnosis(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -146,7 +146,7 @@ public class RestRoutineController {
         DiagnosisRequest request = DiagnosisRequest.newBuilder()
                 .setDiagnosis(Diagnosis.newBuilder().setDiagnosisId(diagnosisId).build())
                 .build();
-        DiagnosisResponse response = routineService.getDiagnosis(request);
+        DiagnosisResponse response = openCDXRoutineService.getDiagnosis(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -154,7 +154,7 @@ public class RestRoutineController {
     @PostMapping("/suspectedDiagnosis")
     public ResponseEntity<SuspectedDiagnosisResponse> triggerSuspectedDiagnosis(
             @RequestBody SuspectedDiagnosisRequest request) {
-        SuspectedDiagnosisResponse response = routineService.triggerSuspectedDiagnosis(request);
+        SuspectedDiagnosisResponse response = openCDXRoutineService.triggerSuspectedDiagnosis(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -166,14 +166,14 @@ public class RestRoutineController {
                         .setSuspectedDiagnosisId(suspectedDiagnosisId)
                         .build())
                 .build();
-        SuspectedDiagnosisResponse response = routineService.getSuspectedDiagnosis(request);
+        SuspectedDiagnosisResponse response = openCDXRoutineService.getSuspectedDiagnosis(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Lab Result
     @PostMapping("/labResult")
     public ResponseEntity<LabResultResponse> triggerLabResult(@RequestBody LabResultRequest request) {
-        LabResultResponse response = routineService.triggerLabResult(request);
+        LabResultResponse response = openCDXRoutineService.triggerLabResult(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -182,14 +182,14 @@ public class RestRoutineController {
         LabResultRequest request = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder().setResultId(resultId).build())
                 .build();
-        LabResultResponse response = routineService.getLabResult(request);
+        LabResultResponse response = openCDXRoutineService.getLabResult(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Medication
     @PostMapping("/medication")
     public ResponseEntity<MedicationResponse> triggerMedication(@RequestBody MedicationRequest request) {
-        MedicationResponse response = routineService.triggerMedication(request);
+        MedicationResponse response = openCDXRoutineService.triggerMedication(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -199,7 +199,7 @@ public class RestRoutineController {
                 .setMedication(
                         Medication.newBuilder().setMedicationId(medicationId).build())
                 .build();
-        MedicationResponse response = routineService.getMedication(request);
+        MedicationResponse response = openCDXRoutineService.getMedication(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

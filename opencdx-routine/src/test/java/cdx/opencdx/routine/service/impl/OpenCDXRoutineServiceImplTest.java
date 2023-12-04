@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.routine.service.impl;
 
-import static org.mockito.Mockito.*;
-
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -40,12 +38,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
-class RoutineServiceImplTest {
+class OpenCDXRoutineServiceImplTest {
 
     @Autowired
     ObjectMapper objectMapper;
 
-    RoutineServiceImpl routineService;
+    OpenCDXRoutineServiceImpl routineService;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
@@ -61,7 +59,7 @@ class RoutineServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService = new RoutineServiceImpl(this.openCDXAuditService, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, this.openCDXCurrentUser);
     }
 
     @AfterEach
