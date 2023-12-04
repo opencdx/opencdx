@@ -36,7 +36,7 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
 
     /**
      * Constructor using the RoutineService
-     * @param RoutineService service to use for processing
+     * @param openCDXRoutineService service to use for processing
      */
     @Autowired
     public OpenCDXGrpcRoutineController(final OpenCDXRoutineService openCDXRoutineService) {

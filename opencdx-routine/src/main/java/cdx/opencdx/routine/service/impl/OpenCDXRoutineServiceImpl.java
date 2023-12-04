@@ -38,8 +38,8 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
 
     /**
      * Process the provided DeliveryTrackingRequest to create delivery tracking.
-     * @param request The DeliveryTrackingRequest to be processed
-     * @return Message indicating the completion of the delivery tracking creation
+     * @param openCDXAuditService Audit Service for recording
+     * @param openCDXCurrentUser Current user system
      */
     @Autowired
     public OpenCDXRoutineServiceImpl(OpenCDXAuditService openCDXAuditService, OpenCDXCurrentUser openCDXCurrentUser) {
