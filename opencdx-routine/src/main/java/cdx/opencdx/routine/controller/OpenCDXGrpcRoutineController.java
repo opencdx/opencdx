@@ -35,8 +35,8 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
     private final OpenCDXRoutineService openCDXRoutineService;
 
     /**
-     * Constructor using the RoutineService
-     * @param openCDXRoutineService service to use for processing
+     * Constructor using the RoutineService.
+     * @param openCDXRoutineService Service to use for processing.
      */
     @Autowired
     public OpenCDXGrpcRoutineController(final OpenCDXRoutineService openCDXRoutineService) {
@@ -44,9 +44,9 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
     }
 
     /**
-     * gRPC Service Call to createRoutine
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
+     * gRPC Service Call to createRoutine.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
      */
     @Override
     @Secured({})
@@ -58,9 +58,9 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
     }
 
     /**
-     * gRPC Service Call to getRoutine
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
+     * gRPC Service Call to getRoutine.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
      */
     @Override
     @Secured({})
@@ -71,7 +71,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // Delivery Tracking
+    /**
+     * gRPC Service Call to createDeliveryTracking.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createDeliveryTracking(
@@ -81,6 +85,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getDeliveryTracking.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getDeliveryTracking(
@@ -90,7 +99,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // ClinicalProtocolExecution
+    /**
+     * gRPC Service Call to createClinicalProtocolExecution.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createClinicalProtocolExecution(
@@ -101,6 +114,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getClinicalProtocolExecution.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getClinicalProtocolExecution(
@@ -111,7 +129,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // Lab Order
+    /**
+     * gRPC Service Call to createLabOrder.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createLabOrder(LabOrderRequest request, StreamObserver<LabOrderResponse> responseObserver) {
@@ -120,6 +142,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getLabOrder.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getLabOrder(LabOrderRequest request, StreamObserver<LabOrderResponse> responseObserver) {
@@ -128,7 +155,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // Diagnosis
+    /**
+     * gRPC Service Call to createDiagnosis.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
@@ -137,6 +168,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getDiagnosis.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getDiagnosis(DiagnosisRequest request, StreamObserver<DiagnosisResponse> responseObserver) {
@@ -145,7 +181,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // Suspected Diagnosis
+    /**
+     * gRPC Service Call to createSuspectedDiagnosis.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createSuspectedDiagnosis(
@@ -155,6 +195,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getSuspectedDiagnosis.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getSuspectedDiagnosis(
@@ -164,7 +209,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // Lab Result
+    /**
+     * gRPC Service Call to createLabResult.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createLabResult(LabResultRequest request, StreamObserver<LabResultResponse> responseObserver) {
@@ -173,6 +222,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getLabResult.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getLabResult(LabResultRequest request, StreamObserver<LabResultResponse> responseObserver) {
@@ -181,7 +235,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
-    // Medication
+    /**
+     * gRPC Service Call to createMedication.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void createMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
@@ -190,6 +248,11 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onCompleted();
     }
 
+    /**
+     * gRPC Service Call to getMedication.
+     * @param request Request to process.
+     * @param responseObserver Observer to process the response.
+     */
     @Override
     @Secured({})
     public void getMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {

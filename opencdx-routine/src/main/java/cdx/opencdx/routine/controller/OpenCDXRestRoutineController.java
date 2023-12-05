@@ -23,15 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller for the /greeting api's
+ * Controller for the /routine API's
  */
 @Slf4j
 @RestController
@@ -45,8 +40,8 @@ public class OpenCDXRestRoutineController {
     private final OpenCDXRoutineService openCDXRoutineService;
 
     /**
-     * Constructor that takes a RoutineService
-     * @param openCDXRoutineService service for processing requests.
+     * Constructor that takes a RoutineService.
+     * @param openCDXRoutineService Service for processing requests.
      */
     @Autowired
     public OpenCDXRestRoutineController(OpenCDXRoutineService openCDXRoutineService) {
@@ -80,6 +75,11 @@ public class OpenCDXRestRoutineController {
     }
 
     // Delivery Tracking
+    /**
+     * Post Delivery Tracking Rest API
+     * @param request DeliveryTrackingRequest indicating input.
+     * @return DeliveryTrackingResponse with the data.
+     */
     @PostMapping("/deliveryTracking")
     public ResponseEntity<DeliveryTrackingResponse> createDeliveryTracking(
             @RequestBody DeliveryTrackingRequest request) {
@@ -87,6 +87,11 @@ public class OpenCDXRestRoutineController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Delivery Tracking using GET method
+     * @param deliveryId The ID of the delivery tracking to retrieve.
+     * @return DeliveryTrackingResponse with the data.
+     */
     @GetMapping("/deliveryTracking/{deliveryId}")
     public ResponseEntity<DeliveryTrackingResponse> getDeliveryTracking(
             @PathVariable(value = "deliveryId") String deliveryId) {
@@ -99,6 +104,11 @@ public class OpenCDXRestRoutineController {
     }
 
     // Clinical Protocol Execution
+    /**
+     * Post Clinical Protocol Execution Rest API
+     * @param request ClinicalProtocolExecutionRequest indicating input.
+     * @return ClinicalProtocolExecutionResponse with the data.
+     */
     @PostMapping("/clinicalProtocolExecution")
     public ResponseEntity<ClinicalProtocolExecutionResponse> createClinicalProtocolExecution(
             @RequestBody ClinicalProtocolExecutionRequest request) {
@@ -106,6 +116,11 @@ public class OpenCDXRestRoutineController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Clinical Protocol Execution using GET method
+     * @param executionId The ID of the clinical protocol execution to retrieve.
+     * @return ClinicalProtocolExecutionResponse with the data.
+     */
     @GetMapping("/clinicalProtocolExecution/{executionId}")
     public ResponseEntity<ClinicalProtocolExecutionResponse> getClinicalProtocolExecution(
             @PathVariable(value = "executionId") String executionId) {
@@ -119,12 +134,22 @@ public class OpenCDXRestRoutineController {
     }
 
     // Lab Order
+    /**
+     * Post Lab Order Rest API
+     * @param request LabOrderRequest indicating input.
+     * @return LabOrderResponse with the data.
+     */
     @PostMapping("/labOrder")
     public ResponseEntity<LabOrderResponse> triggerLabOrder(@RequestBody LabOrderRequest request) {
         LabOrderResponse response = openCDXRoutineService.triggerLabOrder(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Lab Order using GET method
+     * @param labOrderId The ID of the lab order to retrieve.
+     * @return LabOrderResponse with the data.
+     */
     @GetMapping("/labOrder/{labOrderId}")
     public ResponseEntity<LabOrderResponse> getLabOrder(@PathVariable(value = "labOrderId") String labOrderId) {
         LabOrderRequest request = LabOrderRequest.newBuilder()
@@ -135,12 +160,22 @@ public class OpenCDXRestRoutineController {
     }
 
     // Diagnosis
+    /**
+     * Post Diagnosis Rest API
+     * @param request DiagnosisRequest indicating input.
+     * @return DiagnosisResponse with the data.
+     */
     @PostMapping("/diagnosis")
     public ResponseEntity<DiagnosisResponse> triggerDiagnosis(@RequestBody DiagnosisRequest request) {
         DiagnosisResponse response = openCDXRoutineService.triggerDiagnosis(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Diagnosis using GET method
+     * @param diagnosisId The ID of the diagnosis to retrieve.
+     * @return DiagnosisResponse with the data.
+     */
     @GetMapping("/diagnosis/{diagnosisId}")
     public ResponseEntity<DiagnosisResponse> getDiagnosis(@PathVariable(value = "diagnosisId") String diagnosisId) {
         DiagnosisRequest request = DiagnosisRequest.newBuilder()
@@ -151,6 +186,11 @@ public class OpenCDXRestRoutineController {
     }
 
     // Suspected Diagnosis
+    /**
+     * Post Suspected Diagnosis Rest API
+     * @param request SuspectedDiagnosisRequest indicating input.
+     * @return SuspectedDiagnosisResponse with the data.
+     */
     @PostMapping("/suspectedDiagnosis")
     public ResponseEntity<SuspectedDiagnosisResponse> triggerSuspectedDiagnosis(
             @RequestBody SuspectedDiagnosisRequest request) {
@@ -158,6 +198,11 @@ public class OpenCDXRestRoutineController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Suspected Diagnosis using GET method
+     * @param suspectedDiagnosisId The ID of the suspected diagnosis to retrieve.
+     * @return SuspectedDiagnosisResponse with the data.
+     */
     @GetMapping("/suspectedDiagnosis/{suspectedDiagnosisId}")
     public ResponseEntity<SuspectedDiagnosisResponse> getSuspectedDiagnosis(
             @PathVariable(value = "suspectedDiagnosisId") String suspectedDiagnosisId) {
@@ -171,12 +216,22 @@ public class OpenCDXRestRoutineController {
     }
 
     // Lab Result
+    /**
+     * Post Lab Result Rest API
+     * @param request LabResultRequest indicating input.
+     * @return LabResultResponse with the data.
+     */
     @PostMapping("/labResult")
     public ResponseEntity<LabResultResponse> triggerLabResult(@RequestBody LabResultRequest request) {
         LabResultResponse response = openCDXRoutineService.triggerLabResult(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Lab Result using GET method
+     * @param resultId The ID of the lab result to retrieve.
+     * @return LabResultResponse with the data.
+     */
     @GetMapping("/labResult/{resultId}")
     public ResponseEntity<LabResultResponse> getLabResult(@PathVariable(value = "resultId") String resultId) {
         LabResultRequest request = LabResultRequest.newBuilder()
@@ -187,12 +242,22 @@ public class OpenCDXRestRoutineController {
     }
 
     // Medication
+    /**
+     * Post Medication Rest API
+     * @param request MedicationRequest indicating input.
+     * @return MedicationResponse with the data.
+     */
     @PostMapping("/medication")
     public ResponseEntity<MedicationResponse> triggerMedication(@RequestBody MedicationRequest request) {
         MedicationResponse response = openCDXRoutineService.triggerMedication(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Get Medication using GET method
+     * @param medicationId The ID of the medication to retrieve.
+     * @return MedicationResponse with the data.
+     */
     @GetMapping("/medication/{medicationId}")
     public ResponseEntity<MedicationResponse> getMedication(@PathVariable(value = "medicationId") String medicationId) {
         MedicationRequest request = MedicationRequest.newBuilder()
