@@ -58,6 +58,12 @@ spring:
             - Path=/cdx.opencdx.grpc.media.MediaService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-predictor
+          uri: https://predictor:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value            
         - id: grpc-iam
           uri: https://iam:9090
           predicates:
