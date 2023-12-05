@@ -19,8 +19,6 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
