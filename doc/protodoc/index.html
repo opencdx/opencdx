@@ -1052,7 +1052,23 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest"><span class="badge">M</span>ClinicalProtocolExecutionRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse"><span class="badge">M</span>ClinicalProtocolExecutionResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.routine.DeliveryTracking"><span class="badge">M</span>DeliveryTracking</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.DeliveryTrackingRequest"><span class="badge">M</span>DeliveryTrackingRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.DeliveryTrackingResponse"><span class="badge">M</span>DeliveryTrackingResponse</a>
                 </li>
               
                 <li>
@@ -1060,7 +1076,23 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.routine.DiagnosisRequest"><span class="badge">M</span>DiagnosisRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.DiagnosisResponse"><span class="badge">M</span>DiagnosisResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.routine.LabOrder"><span class="badge">M</span>LabOrder</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.LabOrderRequest"><span class="badge">M</span>LabOrderRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.LabOrderResponse"><span class="badge">M</span>LabOrderResponse</a>
                 </li>
               
                 <li>
@@ -1068,7 +1100,23 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.routine.LabResultRequest"><span class="badge">M</span>LabResultRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.LabResultResponse"><span class="badge">M</span>LabResultResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.routine.Medication"><span class="badge">M</span>Medication</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.MedicationRequest"><span class="badge">M</span>MedicationRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.MedicationResponse"><span class="badge">M</span>MedicationResponse</a>
                 </li>
               
                 <li>
@@ -1076,7 +1124,23 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.routine.RoutineRequest"><span class="badge">M</span>RoutineRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.RoutineResponse"><span class="badge">M</span>RoutineResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis"><span class="badge">M</span>SuspectedDiagnosis</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest"><span class="badge">M</span>SuspectedDiagnosisRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse"><span class="badge">M</span>SuspectedDiagnosisResponse</a>
                 </li>
               
               
@@ -5301,7 +5365,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             <tbody>
               
                 <tr>
-                  <td>organization_id</td>
+                  <td>id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Unique identifier for the organization </p></td>
@@ -5323,7 +5387,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>founding_date</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
                   <td><p>Date when the organization was founded </p></td>
                 </tr>
@@ -5392,8 +5456,8 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>workspace</td>
-                  <td><a href="#cdx.opencdx.grpc.organization.Workspace">Workspace</a></td>
+                  <td>workspace_ids</td>
+                  <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p>Departments (Workspaces) within the organization </p></td>
                 </tr>
@@ -5534,7 +5598,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>created_date</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
                   <td><p>Date when the workspace was created </p></td>
                 </tr>
@@ -8105,6 +8169,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>IDs of the test cases this device is part of </p></td>
                 </tr>
               
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Name of the device </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -9631,6 +9702,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest">ClinicalProtocolExecutionRequest</h3>
+        <p>Request and Response messages for CreateClinicalProtocolExecution operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>clinical_protocol_execution</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse">ClinicalProtocolExecutionResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>clinical_protocol_execution</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</h3>
         <p>Entities for the Delivery Tracking System</p>
 
@@ -9711,6 +9830,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.routine.DeliveryTrackingRequest">DeliveryTrackingRequest</h3>
+        <p>Request and Response messages for CreateDeliveryTracking operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delivery_tracking</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.DeliveryTrackingResponse">DeliveryTrackingResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delivery_tracking</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</h3>
         <p>Diagnosis Data</p>
 
@@ -9763,8 +9930,56 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.routine.DiagnosisRequest">DiagnosisRequest</h3>
+        <p>Request and Response messages for CreateDiagnosis operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>diagnosis</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.DiagnosisResponse">DiagnosisResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>diagnosis</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.routine.LabOrder">LabOrder</h3>
-        <p>Entities for Trigger Conditions</p>
+        <p>Entities for Create Conditions</p>
 
         
           <table class="field-table">
@@ -9806,6 +10021,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p>Related entities (e.g., Patients, Practitioners) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.LabOrderRequest">LabOrderRequest</h3>
+        <p>Request and Response messages for CreateLabOrder operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>lab_order</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.LabOrder">LabOrder</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.LabOrderResponse">LabOrderResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>lab_order</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.LabOrder">LabOrder</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -9867,6 +10130,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.routine.LabResultRequest">LabResultRequest</h3>
+        <p>Request and Response messages for CreateLabResult operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>lab_result</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.LabResult">LabResult</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.LabResultResponse">LabResultResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>lab_result</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.LabResult">LabResult</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.routine.Medication">Medication</h3>
         <p>Medication data</p>
 
@@ -9910,6 +10221,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p>Related entities (e.g., Patients, Practitioners) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.MedicationRequest">MedicationRequest</h3>
+        <p>Request and Response messages for CreateMedication operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>medication</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.Medication">Medication</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.MedicationResponse">MedicationResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>medication</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.Medication">Medication</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -9992,6 +10351,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.routine.RoutineRequest">RoutineRequest</h3>
+        <p>Request and Response messages for CreateRoutine operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>routine</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.Routine">Routine</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.RoutineResponse">RoutineResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>routine</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.Routine">Routine</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</h3>
         <p>Suspected Diagnosis data</p>
 
@@ -10044,6 +10451,54 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest">SuspectedDiagnosisRequest</h3>
+        <p>Request and Response messages for CreateSuspectedDiagnosis operation</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>suspected_diagnosis</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse">SuspectedDiagnosisResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>suspected_diagnosis</td>
+                  <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -10060,114 +10515,114 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             
               <tr>
                 <td>CreateRoutine</td>
-                <td><a href="#cdx.opencdx.grpc.routine.Routine">Routine</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.Routine">Routine</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.RoutineRequest">RoutineRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.RoutineResponse">RoutineResponse</a></td>
                 <td><p>Create a new routine entity</p></td>
               </tr>
             
               <tr>
-                <td>GetRoutineByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.Routine">Routine</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.Routine">Routine</a></td>
-                <td><p>Retrieve information about a routine entity by ID</p></td>
+                <td>GetRoutine</td>
+                <td><a href="#cdx.opencdx.grpc.routine.RoutineRequest">RoutineRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.RoutineResponse">RoutineResponse</a></td>
+                <td><p>Retrieve information about a routine entity</p></td>
               </tr>
             
               <tr>
                 <td>CreateDeliveryTracking</td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingRequest">DeliveryTrackingRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingResponse">DeliveryTrackingResponse</a></td>
                 <td><p>Create a new delivery tracking entity</p></td>
               </tr>
             
               <tr>
-                <td>GetDeliveryTrackingByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
-                <td><p>Retrieve information about a delivery tracking entity by ID</p></td>
+                <td>GetDeliveryTracking</td>
+                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingRequest">DeliveryTrackingRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingResponse">DeliveryTrackingResponse</a></td>
+                <td><p>Retrieve information about a delivery tracking entity</p></td>
               </tr>
             
               <tr>
                 <td>CreateClinicalProtocolExecution</td>
-                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest">ClinicalProtocolExecutionRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse">ClinicalProtocolExecutionResponse</a></td>
                 <td><p>Create a new clinical protocol execution entity</p></td>
               </tr>
             
               <tr>
-                <td>GetClinicalProtocolExecutionByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
-                <td><p>Retrieve information about a clinical protocol execution entity by ID</p></td>
+                <td>GetClinicalProtocolExecution</td>
+                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest">ClinicalProtocolExecutionRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse">ClinicalProtocolExecutionResponse</a></td>
+                <td><p>Retrieve information about a clinical protocol execution entity</p></td>
               </tr>
             
               <tr>
-                <td>TriggerLabOrder</td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabOrder">LabOrder</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabOrder">LabOrder</a></td>
-                <td><p>Trigger a new lab order entity</p></td>
+                <td>CreateLabOrder</td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabOrderRequest">LabOrderRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabOrderResponse">LabOrderResponse</a></td>
+                <td><p>Create a new lab order entity</p></td>
               </tr>
             
               <tr>
-                <td>GetLabOrderByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabOrder">LabOrder</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabOrder">LabOrder</a></td>
-                <td><p>Retrieve information about a lab order entity by ID</p></td>
+                <td>GetLabOrder</td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabOrderRequest">LabOrderRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabOrderResponse">LabOrderResponse</a></td>
+                <td><p>Retrieve information about a lab order entity</p></td>
               </tr>
             
               <tr>
-                <td>TriggerDiagnosis</td>
-                <td><a href="#cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</a></td>
-                <td><p>Trigger a new diagnosis entity</p></td>
+                <td>CreateDiagnosis</td>
+                <td><a href="#cdx.opencdx.grpc.routine.DiagnosisRequest">DiagnosisRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.DiagnosisResponse">DiagnosisResponse</a></td>
+                <td><p>Create a new diagnosis entity</p></td>
               </tr>
             
               <tr>
-                <td>GetDiagnosisByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.Diagnosis">Diagnosis</a></td>
-                <td><p>Retrieve information about a diagnosis entity by ID</p></td>
+                <td>GetDiagnosis</td>
+                <td><a href="#cdx.opencdx.grpc.routine.DiagnosisRequest">DiagnosisRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.DiagnosisResponse">DiagnosisResponse</a></td>
+                <td><p>Retrieve information about a diagnosis entity</p></td>
               </tr>
             
               <tr>
-                <td>TriggerSuspectedDiagnosis</td>
-                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</a></td>
-                <td><p>Trigger a new suspected diagnosis entity</p></td>
+                <td>CreateSuspectedDiagnosis</td>
+                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest">SuspectedDiagnosisRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse">SuspectedDiagnosisResponse</a></td>
+                <td><p>Create a new suspected diagnosis entity</p></td>
               </tr>
             
               <tr>
-                <td>GetSuspectedDiagnosisByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosis">SuspectedDiagnosis</a></td>
-                <td><p>Retrieve information about a suspected diagnosis entity by ID</p></td>
+                <td>GetSuspectedDiagnosis</td>
+                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest">SuspectedDiagnosisRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse">SuspectedDiagnosisResponse</a></td>
+                <td><p>Retrieve information about a suspected diagnosis entity</p></td>
               </tr>
             
               <tr>
-                <td>TriggerLabResult</td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabResult">LabResult</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabResult">LabResult</a></td>
-                <td><p>Trigger a new lab result entity</p></td>
+                <td>CreateLabResult</td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabResultRequest">LabResultRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabResultResponse">LabResultResponse</a></td>
+                <td><p>Create a new lab result entity</p></td>
               </tr>
             
               <tr>
-                <td>GetLabResultByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabResult">LabResult</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.LabResult">LabResult</a></td>
-                <td><p>Retrieve information about a lab result entity by ID</p></td>
+                <td>GetLabResult</td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabResultRequest">LabResultRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.LabResultResponse">LabResultResponse</a></td>
+                <td><p>Retrieve information about a lab result entity</p></td>
               </tr>
             
               <tr>
-                <td>TriggerMedication</td>
-                <td><a href="#cdx.opencdx.grpc.routine.Medication">Medication</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.Medication">Medication</a></td>
-                <td><p>Trigger a new medication entity</p></td>
+                <td>CreateMedication</td>
+                <td><a href="#cdx.opencdx.grpc.routine.MedicationRequest">MedicationRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.MedicationResponse">MedicationResponse</a></td>
+                <td><p>Create a new medication entity</p></td>
               </tr>
             
               <tr>
-                <td>GetMedicationByID</td>
-                <td><a href="#cdx.opencdx.grpc.routine.Medication">Medication</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.Medication">Medication</a></td>
-                <td><p>Retrieve information about a medication entity by ID</p></td>
+                <td>GetMedication</td>
+                <td><a href="#cdx.opencdx.grpc.routine.MedicationRequest">MedicationRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.routine.MedicationResponse">MedicationResponse</a></td>
+                <td><p>Retrieve information about a medication entity</p></td>
               </tr>
             
           </tbody>

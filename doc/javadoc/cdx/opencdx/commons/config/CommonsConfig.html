@@ -124,8 +124,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
- com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
+ com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+ <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 </div>
@@ -238,7 +239,7 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper)">
+<section class="detail" id="natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String)">
 <h3>natsOpenCDXMessageService</h3>
 <div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>("nats")
 <a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("NATS implementation of the OpenCDXMessageService.")
@@ -246,12 +247,15 @@ loadScripts(document, 'script');</script>
 @ConditionalOnProperty(prefix="nats.spring",
                        name="server")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></span>&nbsp;<span class="element-name">natsOpenCDXMessageService</span><wbr><span class="parameters">(io.nats.client.Connection&nbsp;natsConnection,
- com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</span></div>
+ com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+ <a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Value.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Value</a>("${spring.application.name}")
+ <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</span></div>
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>natsConnection</code> - NATS Connection</dd>
 <dd><code>objectMapper</code> - Object Mapper to use.</dd>
+<dd><code>applicationName</code> - Name of the service.</dd>
 <dt>Returns:</dt>
 <dd>OpenCDXMessageService to use for messaginging.</dd>
 </dl>

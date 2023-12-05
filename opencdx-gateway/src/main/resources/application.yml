@@ -58,6 +58,12 @@ spring:
             - Path=/cdx.opencdx.grpc.media.MediaService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-routine
+          uri: https://routine:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value            
         - id: grpc-iam
           uri: https://iam:9090
           predicates:

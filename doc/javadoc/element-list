@@ -2,6 +2,8 @@ cdx.opencdx.audit
 cdx.opencdx.audit.config
 cdx.opencdx.audit.controller
 cdx.opencdx.audit.handlers
+cdx.opencdx.audit.model
+cdx.opencdx.audit.repository
 cdx.opencdx.audit.security
 cdx.opencdx.client.config
 cdx.opencdx.client.dto
@@ -51,6 +53,8 @@ cdx.opencdx.iam
 cdx.opencdx.iam.changelog
 cdx.opencdx.iam.config
 cdx.opencdx.iam.controller
+cdx.opencdx.iam.model
+cdx.opencdx.iam.repository
 cdx.opencdx.iam.security
 cdx.opencdx.iam.service
 cdx.opencdx.iam.service.impl
@@ -63,6 +67,12 @@ cdx.opencdx.media.repository
 cdx.opencdx.media.security
 cdx.opencdx.media.service
 cdx.opencdx.media.service.impl
+cdx.opencdx.routine
+cdx.opencdx.routine.config
+cdx.opencdx.routine.controller
+cdx.opencdx.routine.security
+cdx.opencdx.routine.service
+cdx.opencdx.routine.service.impl
 cdx.opencdx.tinkar
 cdx.opencdx.tinkar.controller
 cdx.opencdx.tinkar.security

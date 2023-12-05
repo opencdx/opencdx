@@ -51,7 +51,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      * Constructor for setting up NATS based OpenCDXMessageService
      * @param natsConnection NATS Connection
      * @param objectMapper Jackson Object Mapper
-     * @param applicationName Name of the Service
+     * @param applicationName Name of the application
      */
     public NatsOpenCDXMessageServiceImpl(
             Connection natsConnection,
