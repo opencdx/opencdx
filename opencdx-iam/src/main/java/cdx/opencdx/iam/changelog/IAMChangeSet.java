@@ -26,6 +26,7 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.model.Indexes;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  * Change sets to MongoDB for IAM
@@ -56,6 +57,7 @@ public class IAMChangeSet {
     @ChangeSet(order = "002", id = "Setup Default User", author = "Jeff Miller")
     public void setupDefaultUser(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .id(new ObjectId("5f63a53ddcc67c7a1c3d93e8"))
                 .username("admin@opencdx.org")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .fullName(FullName.newBuilder()

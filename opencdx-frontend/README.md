@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# react.dev
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo contains the source code and documentation powering [react.dev](https://react.dev/).
 
-## Available Scripts
+## Getting started
 
-In the project directory, you can run:
+### Prerequisites
 
-### `npm start`
+1. Git
+1. Node: any 12.x version starting with v12.0.0 or greater
+1. Yarn: See [Yarn website for installation instructions](https://yarnpkg.com/lang/en/docs/install/)
+1. A fork of the repo (for any contributions)
+1. A clone of the [react.dev repo](https://github.com/reactjs/react.dev) on your local machine
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. `cd react.dev` to go into the project root
+3. `yarn` to install the website's npm dependencies
 
-### `npm test`
+### Running locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. `yarn dev` to start the development server (powered by [Next.js](https://nextjs.org/))
+1. `open http://localhost:3000` to open the site in your favorite browser
 
-### `npm run build`
+## Contributing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Guidelines
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The documentation is divided into several sections with a different tone and purpose. If you plan to write more than a few sentences, you might find it helpful to get familiar with the [contributing guidelines](https://github.com/reactjs/react.dev/blob/main/CONTRIBUTING.md#guidelines-for-text) for the appropriate sections.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Create a branch
 
-### `npm run eject`
+1. `git checkout main` from any folder in your local `react.dev` repository
+1. `git pull origin main` to ensure you have the latest main code
+1. `git checkout -b the-name-of-my-branch` (replacing `the-name-of-my-branch` with a suitable name) to create a branch
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Make the change
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Follow the ["Running locally"](#running-locally) instructions
+1. Save the files and check in the browser
+  1. Changes to React components in `src` will hot-reload
+  1. Changes to markdown files in `content` will hot-reload
+  1. If working with plugins, you may need to remove the `.cache` directory and restart the server
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Test the change
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. If possible, test any visual changes in all latest versions of common browsers, on both desktop and mobile.
+2. Run `yarn check-all`. (This will run Prettier, ESLint and validate types.)
 
-## Learn More
+### Push it
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. `git add -A && git commit -m "My message"` (replacing `My message` with a commit message, such as `Fix header logo on Android`) to stage and commit your changes
+1. `git push my-fork-name the-name-of-my-branch`
+1. Go to the [react.dev repo](https://github.com/reactjs/react.dev) and you should see recently pushed branches.
+1. Follow GitHub's instructions.
+1. If possible, include screenshots of visual changes. A preview build is triggered after your changes are pushed to GitHub.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Translation
 
-### Code Splitting
+If you are interested in translating `react.dev`, please see the current translation efforts [here](https://github.com/reactjs/react.dev/issues/4135).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+Content submitted to [react.dev](https://react.dev/) is CC-BY-4.0 licensed, as found in the [LICENSE-DOCS.md](https://github.com/reactjs/react.dev/blob/main/LICENSE-DOCS.md) file.
