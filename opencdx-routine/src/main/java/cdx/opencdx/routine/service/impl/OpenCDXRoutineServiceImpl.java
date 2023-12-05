@@ -46,10 +46,12 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
-     * Process the provided DeliveryTrackingRequest to create delivery tracking.
+     * Constructor for OpenCDXRoutineServiceImpl.
+     *
      * @param openCDXAuditService Audit Service for recording
-     * @param openCDXCurrentUser Current user system
-     */
+     * @param objectMapper        Object mapper for JSON processing
+     * @param openCDXCurrentUser  Current user system
+     */  
     @Autowired
     public OpenCDXRoutineServiceImpl(
             OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {
