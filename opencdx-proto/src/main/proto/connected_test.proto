@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.connected;
 
 import "google/protobuf/timestamp.proto";
+import "codeable.proto";
 
 // Define test format types 
 enum TestFormat {
@@ -116,6 +117,7 @@ message TestDetails {
   string medical_code = 23;       // Medical code associated with the test
   string test_name=24;       // Human readable test name
   TestFormat test_format = 25;       // Format or type of the test (e.g., "PCR", "Antigen", "Serology", etc.)
+  cdx.opencdx.grpc.codeable.Coding loinc_code = 26;    //LOINC Code
 }
 
 // Metadata related to a specific test.

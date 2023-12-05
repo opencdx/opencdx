@@ -18,35 +18,25 @@ package cdx.opencdx.connected.test.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
+import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
+import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.ContactInfo;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.bson.types.ObjectId;
 import org.hl7.fhir.r4.model.*;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -63,16 +53,24 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
 
+    private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
+
+    private final OpenCDXMessageService openCDXMessageService;
+
     public OpenCDXCDCPayloadServiceImpl(
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
-            OpenCDXDeviceRepository openCDXDeviceRepository) {
+            OpenCDXDeviceRepository openCDXDeviceRepository,
+            OpenCDXManufacturerRepository openCDXManufacturerRepository,
+            OpenCDXMessageService openCDXMessageService) {
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
+        this.openCDXManufacturerRepository = openCDXManufacturerRepository;
+        this.openCDXMessageService = openCDXMessageService;
     }
 
-    public void getCDCPayload(String testId) throws URISyntaxException, IOException {
+    public void sendCDCPayloadMessage(String testId) throws URISyntaxException, IOException {
 
         // retrieve the connected test using the refId
         OpenCDXConnectedTestModel connectedTestModel = this.openCDXConnectedTestRepository
@@ -87,18 +85,17 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         Device device = createDevice(connectedTestModel, patientId);
 
         // Create Observation
-        Observation observation = createObservation(connectedTestModel, device.getId());
+        Observation observation = createObservation(connectedTestModel, device.getId(), patientId);
 
         // Create DiagnosticReport
-        DiagnosticReport diagnosticReport = createDiagnosticReport(connectedTestModel, observation.getId());
+        DiagnosticReport diagnosticReport = createDiagnosticReport(connectedTestModel, observation.getId(), patientId);
 
         // Create Bundle
         Bundle bundle = createBundle(patient, device, observation, diagnosticReport);
-        // log.debug(parser.encodeResourceToString(bundle));
         log.debug(bundle.toString());
 
         // Send to CDC
-        sendToCDC(bundle);
+        sendMessage(bundle);
     }
 
     private Device createDevice(OpenCDXConnectedTestModel connectedTestModel, String patientId) {
@@ -122,13 +119,18 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         device.setExpirationDate(Date.from(deviceModel.getExpiryDate()));
         device.setLotNumber(deviceModel.getBatchNumber());
         device.setSerialNumber(deviceModel.getSerialNumber());
-        //device.setManufacturerElement(new StringType(deviceModel.getManufacturerId().));
         device.setModelNumber(deviceModel.getModel());
         device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
 
+        OpenCDXManufacturerModel manufacturerModel = this.openCDXManufacturerRepository
+                .findById(new ObjectId(String.valueOf(deviceModel.getManufacturerId())))
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN, 3, "Failed to find manufacturer: " + deviceModel.getManufacturerId()));
+        device.setManufacturerElement(new StringType(manufacturerModel.getName()));
+
         // Set the patient
         Reference subject = device.getPatient();
-        subject.setReference("Patient/" + patientId);
+        setPatientReference(patientId, subject);
 
         // Set the Type
         Coding coding = device.getType().addCoding();
@@ -152,7 +154,8 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return device;
     }
 
-    private Observation createObservation(OpenCDXConnectedTestModel entity, String deviceId) {
+    private Observation createObservation(
+            OpenCDXConnectedTestModel connectedTestModel, String deviceId, String patientId) {
         // Create an Observation instance
         Observation observation = new Observation();
 
@@ -168,34 +171,24 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
         // Give the observation a code
         Coding coding = observation.getCode().addCoding();
-        coding.setCode(data.getLoincCode().getCode()).setSystem(LOINC_URL).setDisplay(data.getLoincCode().getDisplay());
+        coding.setCode(connectedTestModel.getTestDetails().getLoincCode().getCode())
+                .setSystem(LOINC_URL)
+                .setDisplay(connectedTestModel.getTestDetails().getLoincCode().getDisplay());
 
         // Set the ID
-        observation.setId(entity.getExternalEvent().getId());
+        observation.setId(String.valueOf(connectedTestModel.getId()));
 
         // Set the Identifiers
         Identifier identifier = observation.addIdentifier();
         identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
-        identifier.setValue(entity.getExternalEvent().getId());
+        identifier.setValue(String.valueOf(connectedTestModel.getId()));
         Coding typeCoding = identifier.getType().addCoding();
         typeCoding.setCode("FILL");
-        typeCoding.setDisplay(entity.getExternalEvent().getId());
+        typeCoding.setDisplay(String.valueOf(connectedTestModel.getId()));
 
-        //Set the value
-        observation.setValue(new StringType(data.getResult().getOutcome().toString()));
-
-        // Set the result interpretation
-//    CodeableConcept interpretation = observation.addInterpretation();
-//    interpretation.setText(data.getResult().getOutcome().toString());
-//    Coding interpretationCoding = interpretation.addCoding();
-//    interpretationCoding.setCode("Positive");
-//    interpretationCoding.setDisplay("Positive");
-//    interpretationCoding.setSystem("https://terminology.hl7.org/ValueSet/v3-ObservationInterpretationDetected");
-
-        // Set the Performer
-//    Reference reference = observation.addPerformer();
-//    //reference.setDisplay("PERFORMER NAME");
-//    reference.setReference("Practitioner/" + data.getProviderId());
+        // Set the value
+        observation.setValue(new StringType(
+                connectedTestModel.getTestDetails().getOrderableTestResults(0).getTestResult()));
 
         // Set the reference range
         Observation.ObservationReferenceRangeComponent comp1 = observation.addReferenceRange();
@@ -216,8 +209,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
         // Set the subject
         Reference subject = observation.getSubject();
-        //subject.setDisplay("PATIENT NAME");
-        subject.setReference("Patient/" + data.getPatientId());
+        setPatientReference(patientId, subject);
 
         // Set the Device
         Reference deviceReference = observation.getDevice();
@@ -226,20 +218,48 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return observation;
     }
 
-    private DiagnosticReport createDiagnosticReport(OpenCDXConnectedTestModel entity, String observationId) {
-        String input = createResource(entity, "DiagnosticReport", observationId);
-        // return parser.parseResource(DiagnosticReport.class, input);
-        return null;
-    }
+    private DiagnosticReport createDiagnosticReport(
+            OpenCDXConnectedTestModel connectedTestModel, String observationId, String patientId) {
+        // Create an DiagnosticReport instance
+        DiagnosticReport diagnosticReport = new DiagnosticReport();
 
-    private String createResource(OpenCDXConnectedTestModel entity, String resourceType, String refId) {
+        // Set the category for the report
+        CodeableConcept codeableConcept = diagnosticReport.addCategory();
+        codeableConcept.setText("Report Category");
 
-        // retrieve the connected test using the refId
-        //    OpenCDXCallCredentials credential = new
-        // OpenCDXCallCredentials(this.jwtTokenUtil.generateAccessToken(model)));
-        //    TestIdRequest request = TestIdRequest.newBuilder().setTestId(refId).build();
-        //    openCDXConnectedTestClient.getTestDetailsById(request, credential);
-        return "";
+        // Give the diagnostic report a code
+        Coding coding = diagnosticReport.getCode().addCoding();
+        coding.setCode(connectedTestModel.getTestDetails().getLoincCode().getCode())
+                .setSystem(LOINC_URL)
+                .setDisplay(connectedTestModel.getTestDetails().getLoincCode().getDisplay());
+
+        // Set the ID
+        diagnosticReport.setId(String.valueOf(connectedTestModel.getId()));
+
+        // Set the Identifiers
+        Identifier identifier = diagnosticReport.addIdentifier();
+        identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
+        identifier.setValue(String.valueOf(connectedTestModel.getId()));
+        Coding typeCoding = identifier.getType().addCoding();
+        typeCoding.setCode("FILL");
+        typeCoding.setDisplay(String.valueOf(connectedTestModel.getId()));
+
+        // Set the meta attribute
+        Meta meta = diagnosticReport.getMeta();
+        meta.setLastUpdated(new Date());
+
+        // Set the observation reference
+        Reference reference = diagnosticReport.addResult();
+        reference.setReference(observationId);
+
+        // Give the report a status
+        diagnosticReport.setStatus(DiagnosticReport.DiagnosticReportStatus.FINAL);
+
+        // Set the subject
+        Reference subject = diagnosticReport.getSubject();
+        setPatientReference(patientId, subject);
+
+        return diagnosticReport;
     }
 
     private Patient getPatientInfo(String patientId) {
@@ -293,70 +313,10 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return patient;
     }
 
-    private StringEntity createResourceJson(OpenCDXConnectedTestModel entity, String resourceType, String refId)
-            throws UnsupportedEncodingException {
-        return null;
-        //    return switch (resourceType) {
-        //      case "DiagnosticReport" -> new
-        // StringEntity(parser.encodeResourceToString(extractDiagnosticReport(entity, refId)));
-        //      case "Observation" -> new StringEntity(parser.encodeResourceToString(extractObservation(entity,
-        // refId)));
-        //      case "Device" -> new StringEntity(parser.encodeResourceToString(extractDevice(entity)));
-        //      default -> null;
-        //    };
+    private void setPatientReference(String patientId, Reference reference) {
+        // Set the patient
+        reference.setReference("Patient/" + patientId);
     }
-
-    private String extractId(String json) throws JSONException {
-        JSONObject obj = new JSONObject(json);
-        return obj.getString("id");
-    }
-
-    private DiagnosticReport extractDiagnosticReport(OpenCDXConnectedTestModel entity, String observationId) {
-
-        //
-        // ExternalConnectedTest data = entity.get
-
-        // Create an DiagnosticReport instance
-        DiagnosticReport diagnosticReport = new DiagnosticReport();
-
-        // Set the category for the report
-        CodeableConcept codeableConcept = diagnosticReport.addCategory();
-        codeableConcept.setText("Report Category");
-
-        // Give the diagnostic report a code
-        Coding coding = diagnosticReport.getCode().addCoding();
-        // coding.setCode(data.getLoincCode().getCode()).setSystem(LOINC_URL).setDisplay(data.getLoincCode().getDisplay());
-
-        // Set the ID
-        // diagnosticReport.setId(entity.getExternalEvent().getId());
-
-        // Set the Identifiers
-        Identifier identifier = diagnosticReport.addIdentifier();
-        identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
-        // identifier.setValue(entity.getExternalEvent().getId());
-        Coding typeCoding = identifier.getType().addCoding();
-        typeCoding.setCode("FILL");
-        // typeCoding.setDisplay(entity.getExternalEvent().getId());
-
-        // Set the meta attribute
-        Meta meta = diagnosticReport.getMeta();
-        meta.setLastUpdated(new Date());
-
-        // Set the observation reference
-        Reference reference = diagnosticReport.addResult();
-        reference.setReference(observationId);
-
-        // Give the report a status
-        diagnosticReport.setStatus(DiagnosticReport.DiagnosticReportStatus.FINAL);
-
-        // Set the subject
-        Reference subject = diagnosticReport.getSubject();
-        // subject.setDisplay("PATIENT NAME");
-        // subject.setReference("Patient/" + data.getPatientId());
-
-        return diagnosticReport;
-    }
-
 
     private Bundle createBundle(
             Patient patient, Device device, Observation observation, DiagnosticReport diagnosticReport) {
@@ -388,39 +348,8 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return bundle;
     }
 
-    private void sendToCDC(Bundle bundle) throws URISyntaxException, IOException {
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            String uri = "https://staging.prime.cdc.gov/api/reports";
-
-            URIBuilder uriBuilder = new URIBuilder(uri);
-            // StringEntity requestEntity = new StringEntity(parser.encodeResourceToString(bundle).replaceAll("\n",
-            // ""));
-            StringEntity requestEntity = new StringEntity("");
-
-            HttpUriRequest request = RequestBuilder.post()
-                    .setUri(uriBuilder.build())
-                    .setEntity(requestEntity)
-                    .addHeader("Accept", "application/fhir+ndjson")
-                    .addHeader("Content-Type", "application/fhir+ndjson")
-                    .addHeader("client", "connectathon.CON_FULL_ELR_SENDER")
-                    .addHeader("x-functions-key", "CMVUUt4ySvpmasN55_Kz4Mu1SgzlaETrZbdxU41Si1NmAzFuCwiFLQ==")
-                    .build();
-
-            // Execute the request and process the results.
-            HttpResponse response = httpClient.execute(request);
-            HttpEntity responseEntity = response.getEntity();
-            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_CREATED) {
-                log.error(
-                        "Exception creating FHIR resource: {}\n",
-                        response.getStatusLine().toString());
-                responseEntity.writeTo(System.err);
-                throw new RuntimeException();
-            }
-            log.debug("{} FHIR resource bundle sent.");
-            log.debug(EntityUtils.toString(responseEntity));
-        } catch (Exception e) {
-            log.error("Failed sending request", e);
-            throw e;
-        }
+    private void sendMessage(Bundle bundle) throws URISyntaxException, IOException {
+        log.info("Sending CDC Payload Event: {}", bundle.getType());
+        this.openCDXMessageService.send(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, bundle);
     }
 }
