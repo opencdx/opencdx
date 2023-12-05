@@ -986,6 +986,562 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Create Workspace" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/CreateWorkspace</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;workspace&quot; : {
+    &quot;name&quot; : &quot;Workspace Name&quot;,
+    &quot;description&quot; : &quot;Workspace Description&quot;,
+    &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;location&quot; : &quot;San Diego, California, United States&quot;,
+    &quot;manager&quot; : &quot;Bob&quot;,
+    &quot;capacity&quot; : 32,
+    &quot;facilities&quot; : [ &quot;Facility A&quot;, &quot;Facility B&quot; ],
+    &quot;workspaceType&quot; : &quot;Workspace Type&quot;,
+    &quot;workspaceImageUrls&quot; : [ &quot;http://&quot;, &quot;http://&quot; ],
+    &quot;usagePolicy&quot; : &quot;usage Policy&quot;,
+    &quot;availabilitySchedule&quot; : &quot;Monday - Friday&quot;,
+    &quot;departments&quot; : [ {
+      &quot;id&quot; : &quot;656784a0f01b3b4e73b03fb4&quot;,
+      &quot;name&quot; : &quot;Department Name&quot;,
+      &quot;description&quot; : &quot;Department Description&quot;,
+      &quot;employees&quot; : [ {
+        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,
+        &quot;name&quot; : &quot;Employee Name&quot;,
+        &quot;title&quot; : &quot;Employee Title&quot;,
+        &quot;email&quot; : &quot;employee@deparment&quot;,
+        &quot;phone&quot; : &quot;1234567890&quot;
+      } ]
+    } ]
+  }
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">workspace_g</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.workspace.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Update Workspace" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/UpdateWorkspace</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;workspace&quot; : {
+    &quot;id&quot; : &quot;${workspace_g}&quot;,
+    &quot;name&quot; : &quot;Workspace Name&quot;,
+    &quot;description&quot; : &quot;Workspace Description&quot;,
+    &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;location&quot; : &quot;San Diego, California, United States&quot;,
+    &quot;manager&quot; : &quot;Bob&quot;,
+    &quot;capacity&quot; : 32,
+    &quot;facilities&quot; : [ &quot;Facility A&quot;, &quot;Facility B&quot; ],
+    &quot;workspaceType&quot; : &quot;Workspace Type&quot;,
+    &quot;workspaceImageUrls&quot; : [ &quot;http://&quot;, &quot;http://&quot; ],
+    &quot;usagePolicy&quot; : &quot;usage Policy&quot;,
+    &quot;availabilitySchedule&quot; : &quot;Monday - Friday&quot;,
+    &quot;departments&quot; : [ {
+      &quot;id&quot; : &quot;656784a0f01b3b4e73b03fb4&quot;,
+      &quot;name&quot; : &quot;Department Name&quot;,
+      &quot;description&quot; : &quot;Department Description&quot;,
+      &quot;employees&quot; : [ {
+        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,
+        &quot;name&quot; : &quot;Employee Name&quot;,
+        &quot;title&quot; : &quot;Employee Title&quot;,
+        &quot;email&quot; : &quot;employee@deparment&quot;,
+        &quot;phone&quot; : &quot;1234567890&quot;
+      } ]
+    } ]
+  }
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / GetWorkspaceDetailsById" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/GetWorkspaceDetailsById</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;workspace_id&quot;:&quot;${workspace_g}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Update Workspace" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.WorkspaceService/ListWorkspaces</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;workspace&quot; : {&#xd;
+    &quot;name&quot; : &quot;Workspace Name&quot;,&#xd;
+    &quot;description&quot; : &quot;Workspace Description&quot;,&#xd;
+    &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;location&quot; : &quot;San Diego, California, United States&quot;,&#xd;
+    &quot;manager&quot; : &quot;Bob&quot;,&#xd;
+    &quot;capacity&quot; : 32,&#xd;
+    &quot;facilities&quot; : [ &quot;Facility A&quot;, &quot;Facility B&quot; ],&#xd;
+    &quot;workspaceType&quot; : &quot;Workspace Type&quot;,&#xd;
+    &quot;workspaceImageUrls&quot; : [ &quot;http://&quot;, &quot;http://&quot; ],&#xd;
+    &quot;usagePolicy&quot; : &quot;usage Policy&quot;,&#xd;
+    &quot;availabilitySchedule&quot; : &quot;Monday - Friday&quot;,&#xd;
+    &quot;departments&quot; : [ {&#xd;
+      &quot;id&quot; : &quot;656784a0f01b3b4e73b03fb4&quot;,&#xd;
+      &quot;name&quot; : &quot;Department Name&quot;,&#xd;
+      &quot;description&quot; : &quot;Department Description&quot;,&#xd;
+      &quot;employees&quot; : [ {&#xd;
+        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,&#xd;
+        &quot;name&quot; : &quot;Employee Name&quot;,&#xd;
+        &quot;title&quot; : &quot;Employee Title&quot;,&#xd;
+        &quot;email&quot; : &quot;employee@deparment&quot;,&#xd;
+        &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+      } ]&#xd;
+    } ]&#xd;
+  }&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/workspace</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">workspace_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.workspace.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;workspace&quot; : {&#xd;
+    &quot;id&quot; : &quot;${workspace_r}&quot;,&#xd;
+    &quot;name&quot; : &quot;Workspace Name2&quot;,&#xd;
+    &quot;description&quot; : &quot;Workspace Description&quot;,&#xd;
+    &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;location&quot; : &quot;San Diego, California, United States&quot;,&#xd;
+    &quot;manager&quot; : &quot;Bob&quot;,&#xd;
+    &quot;capacity&quot; : 32,&#xd;
+    &quot;facilities&quot; : [ &quot;Facility A&quot;, &quot;Facility B&quot; ],&#xd;
+    &quot;workspaceType&quot; : &quot;Workspace Type&quot;,&#xd;
+    &quot;workspaceImageUrls&quot; : [ &quot;http://&quot;, &quot;http://&quot; ],&#xd;
+    &quot;usagePolicy&quot; : &quot;usage Policy&quot;,&#xd;
+    &quot;availabilitySchedule&quot; : &quot;Monday - Friday&quot;,&#xd;
+    &quot;departments&quot; : [ {&#xd;
+      &quot;id&quot; : &quot;656784a0f01b3b4e73b03fb4&quot;,&#xd;
+      &quot;name&quot; : &quot;Department Name&quot;,&#xd;
+      &quot;description&quot; : &quot;Department Description&quot;,&#xd;
+      &quot;employees&quot; : [ {&#xd;
+        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,&#xd;
+        &quot;name&quot; : &quot;Employee Name&quot;,&#xd;
+        &quot;title&quot; : &quot;Employee Title&quot;,&#xd;
+        &quot;email&quot; : &quot;employee@deparment&quot;,&#xd;
+        &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+      } ]&#xd;
+    } ]&#xd;
+  }&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/workspace</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/{id} [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/workspace/${workspace_r}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/workspace/list [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/workspace/list</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Create Organization" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/CreateOrganization</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;organization&quot; : {
+    &quot;name&quot; : &quot;OrganizationName&quot;,
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,
+    &quot;website&quot; : &quot;http://&quot;,
+    &quot;industry&quot; : &quot;Medical&quot;,
+    &quot;revenue&quot; : 100.0,
+    &quot;logoUrl&quot; : &quot;http://&quot;,
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
+    &quot;contacts&quot; : [ {
+      &quot;contactName&quot; : &quot;Contact Name&quot;,
+      &quot;email&quot; : &quot;test@opencdx.org&quot;,
+      &quot;phone&quot; : &quot;1234567890&quot;
+    } ],
+    &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot; ]
+  }
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">organization_g</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Update Organization" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/UpdateOrganization</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;organization&quot; : {
+    &quot;id&quot; : &quot;${organization_g}&quot;,
+    &quot;name&quot; : &quot;OrganizationName&quot;,
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,
+    &quot;website&quot; : &quot;http://&quot;,
+    &quot;industry&quot; : &quot;Medical&quot;,
+    &quot;revenue&quot; : 100.0,
+    &quot;logoUrl&quot; : &quot;http://&quot;,
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
+    &quot;contacts&quot; : [ {
+      &quot;contactName&quot; : &quot;Contact Name&quot;,
+      &quot;email&quot; : &quot;test@opencdx.org&quot;,
+      &quot;phone&quot; : &quot;1234567890&quot;
+    } ],
+    &quot;workspaceIds&quot; : [ &quot;${workspace_g}&quot;]
+  }
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / GetOrganizationDetailsById" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/GetOrganizationDetailsById</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;organization_id&quot;:&quot;${organization_g}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / List Organization" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/ListOrganizations</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;organization&quot; : {&#xd;
+    &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,&#xd;
+    &quot;website&quot; : &quot;http://&quot;,&#xd;
+    &quot;industry&quot; : &quot;Medical&quot;,&#xd;
+    &quot;revenue&quot; : 100.0,&#xd;
+    &quot;logoUrl&quot; : &quot;http://&quot;,&#xd;
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
+    &quot;contacts&quot; : [ {&#xd;
+      &quot;contactName&quot; : &quot;Contact Name&quot;,&#xd;
+      &quot;email&quot; : &quot;test@opencdx.org&quot;,&#xd;
+      &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+    } ],&#xd;
+    &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot; ]&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">organization_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;organization&quot; : {&#xd;
+    &quot;id&quot; : &quot;${organization_r}&quot;,&#xd;
+    &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,&#xd;
+    &quot;website&quot; : &quot;http://&quot;,&#xd;
+    &quot;industry&quot; : &quot;Medical&quot;,&#xd;
+    &quot;revenue&quot; : 100.0,&#xd;
+    &quot;logoUrl&quot; : &quot;http://&quot;,&#xd;
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
+    &quot;contacts&quot; : [ {&#xd;
+      &quot;contactName&quot; : &quot;Contact Name&quot;,&#xd;
+      &quot;email&quot; : &quot;test@opencdx.org&quot;,&#xd;
+      &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+    } ],&#xd;
+    &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot;]&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization/${organization_r}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/list [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization/list</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
         </hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
