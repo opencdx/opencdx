@@ -43,6 +43,7 @@ import cdx.opencdx.grpc.routine.SuspectedDiagnosis;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisResponse;
 import cdx.opencdx.routine.service.impl.RoutineServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -62,6 +63,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class GrpcRoutineControllerTest {
 
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     OpenCDXAuditService openCDXAuditService;
 
     RoutineServiceImpl routineService;
@@ -78,7 +82,7 @@ class GrpcRoutineControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService = new RoutineServiceImpl(this.openCDXAuditService, openCDXCurrentUser);
+        this.routineService = new RoutineServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
         this.grpcRoutineController = new GrpcRoutineController(this.routineService);
     }
 

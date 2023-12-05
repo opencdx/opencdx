@@ -61,7 +61,8 @@ class RoutineServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService = new RoutineServiceImpl(this.openCDXAuditService, this.openCDXCurrentUser);
+        this.routineService =
+                new RoutineServiceImpl(this.openCDXAuditService, this.objectMapper, this.openCDXCurrentUser);
     }
 
     @AfterEach

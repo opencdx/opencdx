@@ -15,13 +15,17 @@
  */
 package cdx.opencdx.routine.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.routine.service.RoutineService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,17 +37,27 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class RoutineServiceImpl implements RoutineService {
+
+    private static final String CONVERSION_ERROR = "Failed to convert Routine Request";
+    private static final String OBJECT = "OBJECT";
+
     private final OpenCDXAuditService openCDXAuditService;
+    private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
      * Process the provided DeliveryTrackingRequest to create delivery tracking.
      * @param request The DeliveryTrackingRequest to be processed
+     * @param objectMapper ObjectMapper used for converting messages for the audit system.
      * @return Message indicating the completion of the delivery tracking creation
      */
     @Autowired
-    public RoutineServiceImpl(OpenCDXAuditService openCDXAuditService, OpenCDXCurrentUser openCDXCurrentUser) {
+    public RoutineServiceImpl(
+            OpenCDXAuditService openCDXAuditService, 
+            ObjectMapper objectMapper, 
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXAuditService = openCDXAuditService;
+        this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
@@ -56,14 +70,22 @@ public class RoutineServiceImpl implements RoutineService {
     public RoutineResponse createRoutine(RoutineRequest request) {
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Routine record create",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getRoutine().getRoutineId(),
-                "ROUTINE: 145",
-                request.toString());
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Routine record create",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getRoutine().getRoutineId(),
+                    "ROUTINE: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
 
         return RoutineResponse.newBuilder().setRoutine(request.getRoutine()).build();
     }
@@ -77,14 +99,22 @@ public class RoutineServiceImpl implements RoutineService {
     public RoutineResponse getRoutine(RoutineRequest request) {
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Routine record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getRoutine().getRoutineId(),
-                "ROUTINE: 145",
-                request.toString());
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Routine record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getRoutine().getRoutineId(),
+                    "ROUTINE: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
 
         return RoutineResponse.newBuilder().setRoutine(request.getRoutine()).build();
     }
@@ -92,15 +122,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Delivery Tracking record create",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getDeliveryTracking().getDeliveryId(),
-                "DELIVERY_TRACKING: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Delivery Tracking record create",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getDeliveryTracking().getDeliveryId(),
+                    "DELIVERY_TRACKING: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return DeliveryTrackingResponse.newBuilder()
                 .setDeliveryTracking(request.getDeliveryTracking())
                 .build();
@@ -114,14 +151,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Delivery Tracking record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getDeliveryTracking().getDeliveryId(),
-                "DELIVERY_TRACKING: 145",
-                request.toString());
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Delivery Tracking record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getDeliveryTracking().getDeliveryId(),
+                    "DELIVERY_TRACKING: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
 
         return DeliveryTrackingResponse.newBuilder()
                 .setDeliveryTracking(request.getDeliveryTracking())
@@ -136,15 +181,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public ClinicalProtocolExecutionResponse createClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Clinical Protocol Execution record create",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getClinicalProtocolExecution().getExecutionId(),
-                "CLINICAL_PROTOCOL_EXECUTION: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Clinical Protocol Execution record create",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getClinicalProtocolExecution().getExecutionId(),
+                    "CLINICAL_PROTOCOL_EXECUTION: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return ClinicalProtocolExecutionResponse.newBuilder()
                 .setClinicalProtocolExecution(request.getClinicalProtocolExecution())
                 .build();
@@ -158,15 +210,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public ClinicalProtocolExecutionResponse getClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Clinical Protocol Execution record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getClinicalProtocolExecution().getExecutionId(),
-                "CLINICAL_PROTOCOL_EXECUTION: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Clinical Protocol Execution record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getClinicalProtocolExecution().getExecutionId(),
+                    "CLINICAL_PROTOCOL_EXECUTION: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return ClinicalProtocolExecutionResponse.newBuilder()
                 .setClinicalProtocolExecution(request.getClinicalProtocolExecution())
                 .build();
@@ -180,15 +239,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabOrderResponse triggerLabOrder(LabOrderRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Lab Order record trigger",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getLabOrder().getLabOrderId(),
-                "LAB_ORDER: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Lab Order record trigger",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getLabOrder().getLabOrderId(),
+                    "LAB_ORDER: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return LabOrderResponse.newBuilder().setLabOrder(request.getLabOrder()).build();
     }
 
@@ -200,15 +266,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabOrderResponse getLabOrder(LabOrderRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Lab Order record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getLabOrder().getLabOrderId(),
-                "LAB_ORDER: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Lab Order record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getLabOrder().getLabOrderId(),
+                    "LAB_ORDER: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return LabOrderResponse.newBuilder().setLabOrder(request.getLabOrder()).build();
     }
 
@@ -220,15 +293,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DiagnosisResponse triggerDiagnosis(DiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Diagnosis record trigger",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getDiagnosis().getDiagnosisId(),
-                "DIAGNOSIS: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Diagnosis record trigger",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getDiagnosis().getDiagnosisId(),
+                    "DIAGNOSIS: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return DiagnosisResponse.newBuilder()
                 .setDiagnosis(request.getDiagnosis())
                 .build();
@@ -242,15 +322,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public DiagnosisResponse getDiagnosis(DiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Diagnosis record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getDiagnosis().getDiagnosisId(),
-                "DIAGNOSIS: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Diagnosis record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getDiagnosis().getDiagnosisId(),
+                    "DIAGNOSIS: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return DiagnosisResponse.newBuilder()
                 .setDiagnosis(request.getDiagnosis())
                 .build();
@@ -264,15 +351,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Suspected Diagnosis record trigger",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getSuspectedDiagnosis().getSuspectedDiagnosisId(),
-                "SUSPECTED_DIAGNOSIS: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Suspected Diagnosis record trigger",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getSuspectedDiagnosis().getSuspectedDiagnosisId(),
+                    "SUSPECTED_DIAGNOSIS: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return SuspectedDiagnosisResponse.newBuilder()
                 .setSuspectedDiagnosis(request.getSuspectedDiagnosis())
                 .build();
@@ -286,15 +380,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Suspected Diagnosis record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getSuspectedDiagnosis().getSuspectedDiagnosisId(),
-                "SUSPECTED_DIAGNOSIS: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Suspected Diagnosis record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getSuspectedDiagnosis().getSuspectedDiagnosisId(),
+                    "SUSPECTED_DIAGNOSIS: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return SuspectedDiagnosisResponse.newBuilder()
                 .setSuspectedDiagnosis(request.getSuspectedDiagnosis())
                 .build();
@@ -308,15 +409,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabResultResponse triggerLabResult(LabResultRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Lab Result record trigger",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getLabResult().getResultId(),
-                "LAB_RESULT: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Lab Result record trigger",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getLabResult().getResultId(),
+                    "LAB_RESULT: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return LabResultResponse.newBuilder()
                 .setLabResult(request.getLabResult())
                 .build();
@@ -330,15 +438,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public LabResultResponse getLabResult(LabResultRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Lab Result record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getLabResult().getResultId(),
-                "LAB_RESULT: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Lab Result record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getLabResult().getResultId(),
+                    "LAB_RESULT: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return LabResultResponse.newBuilder()
                 .setLabResult(request.getLabResult())
                 .build();
@@ -352,15 +467,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public MedicationResponse triggerMedication(MedicationRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Medication record trigger",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getMedication().getMedicationId(),
-                "MEDICATION: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Medication record trigger",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getMedication().getMedicationId(),
+                    "MEDICATION: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return MedicationResponse.newBuilder()
                 .setMedication(request.getMedication())
                 .build();
@@ -374,15 +496,22 @@ public class RoutineServiceImpl implements RoutineService {
     @Override
     public MedicationResponse getMedication(MedicationRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.phiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "Medication record requested",
-                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                request.getMedication().getMedicationId(),
-                "MEDICATION: 145",
-                request.toString());
-
+        try {
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Medication record requested",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    request.getMedication().getMedicationId(),
+                    "MEDICATION: 145",
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
         return MedicationResponse.newBuilder()
                 .setMedication(request.getMedication())
                 .build();
