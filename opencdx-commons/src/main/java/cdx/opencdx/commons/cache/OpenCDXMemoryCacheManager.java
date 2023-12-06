@@ -19,24 +19,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
-@Slf4j
 public class OpenCDXMemoryCacheManager implements CacheManager {
-
-    public static final String CREATED_OPEN_CDX_MEMORY_CACHE_MANAGER = "Created OpenCDXMemoryCacheManager";
 
     private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
 
     public OpenCDXMemoryCacheManager() {
-        log.info(CREATED_OPEN_CDX_MEMORY_CACHE_MANAGER);
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
     @Override
     public Cache getCache(String name) {
-        log.info("getCache({})", name);
         Cache cache = this.cacheMap.get(name);
         if (cache == null) {
             cache = this.cacheMap.computeIfAbsent(name, this::createConcurrentMapCache);
@@ -46,7 +41,6 @@ public class OpenCDXMemoryCacheManager implements CacheManager {
 
     @Override
     public Collection<String> getCacheNames() {
-        log.info("getCacheNames()");
         return Collections.unmodifiableSet(this.cacheMap.keySet());
     }
     /**
@@ -55,7 +49,6 @@ public class OpenCDXMemoryCacheManager implements CacheManager {
      * @return the ConcurrentMapCache (or a decorator thereof)
      */
     protected Cache createConcurrentMapCache(String name) {
-        log.info("createConcurrentMapCache({})", name);
-        return new OpenCDXMemoryCache(name, new ConcurrentHashMap<>(256), false, 300000L);
+        return new OpenCDXMemoryCache(name, new ConcurrentHashMap<>(256), false, 300000L, 1000);
     }
 }

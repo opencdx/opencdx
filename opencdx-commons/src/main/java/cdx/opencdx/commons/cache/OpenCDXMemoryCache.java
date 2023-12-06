@@ -15,25 +15,27 @@
  */
 package cdx.opencdx.commons.cache;
 
+import java.util.Comparator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.core.serializer.support.SerializationDelegate;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-@Slf4j
 public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
+    private static final int MAX_ENTRIES = 1000;
     private final String name;
 
-    @SuppressWarnings("java:S1068")
     private long timeToIdle = 60000L;
+
+    private int maxEntries = MAX_ENTRIES;
 
     private final ConcurrentMap<Object, CacheValue> store;
 
@@ -44,7 +46,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param name the name of the cache
      */
     public OpenCDXMemoryCache(String name) {
-        this(name, new ConcurrentHashMap<>(256), true, 60000L);
+        this(name, new ConcurrentHashMap<>(256), true, 60000L, null, MAX_ENTRIES);
     }
 
     /**
@@ -54,7 +56,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * values for this cache
      */
     public OpenCDXMemoryCache(String name, boolean allowNullValues) {
-        this(name, new ConcurrentHashMap<>(256), allowNullValues, 60000L);
+        this(name, new ConcurrentHashMap<>(256), allowNullValues, 60000L, MAX_ENTRIES);
     }
 
     /**
@@ -64,10 +66,16 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param store the ConcurrentMap to use as an internal store
      * @param allowNullValues whether to allow {@code null} values
      * (adapting them to an internal null holder value)
+     *                        @param timeToIdle the time to live in milliseconds
+     * @param maxEntries    the maximum number of entries in the cache
      */
     public OpenCDXMemoryCache(
-            String name, ConcurrentMap<Object, CacheValue> store, boolean allowNullValues, long timeToIdle) {
-        this(name, store, allowNullValues, timeToIdle, null);
+            String name,
+            ConcurrentMap<Object, CacheValue> store,
+            boolean allowNullValues,
+            long timeToIdle,
+            int maxEntries) {
+        this(name, store, allowNullValues, timeToIdle, null, maxEntries);
     }
 
     /**
@@ -75,13 +83,15 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * given internal {@link ConcurrentMap} to use. If the
      * {@link SerializationDelegate} is specified,
      * {@link #isStoreByValue() store-by-value} is enabled
-     * @param name the name of the cache
-     * @param store the ConcurrentMap to use as an internal store
+     *
+     * @param name          the name of the cache
+     * @param store         the ConcurrentMap to use as an internal store
      * @param allowNullValues whether to allow {@code null} values
-     * (adapting them to an internal null holder value)
-     * @param timeToIdle the time to live in milliseconds
+     *                       (adapting them to an internal null holder value)
+     * @param timeToIdle    the time to live in milliseconds
      * @param serialization the {@link SerializationDelegate} to use
-     * to serialize cache entry or {@code null} to store the reference
+     *                      to serialize cache entry or {@code null} to store the reference
+     * @param maxEntries    the maximum number of entries in the cache
      * @since 4.3
      */
     protected OpenCDXMemoryCache(
@@ -89,7 +99,8 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
             ConcurrentMap<Object, CacheValue> store,
             boolean allowNullValues,
             long timeToIdle,
-            @Nullable SerializationDelegate serialization) {
+            @Nullable SerializationDelegate serialization,
+            int maxEntries) {
 
         super(allowNullValues);
         Assert.notNull(name, "Name must not be null");
@@ -98,6 +109,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         this.store = store;
         this.serialization = serialization;
         this.timeToIdle = timeToIdle;
+        this.maxEntries = maxEntries;
     }
 
     /**
@@ -181,6 +193,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Override
     public void put(Object key, @Nullable Object value) {
+        checkMaxEntries();
         this.store.put(key, new CacheValue(value));
     }
 
@@ -246,11 +259,28 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         long currentTime = System.currentTimeMillis();
         long maxIdleTime = currentTime - timeToIdle;
 
+        this.checkMaxEntries();
+
         store.entrySet().removeIf(entry -> {
             long lastAccessedTime = entry.getValue().getLastAccessed();
             boolean isIdle = lastAccessedTime <= maxIdleTime;
             return isIdle && (keyToPreserve.isEmpty() || !entry.getKey().equals(keyToPreserve.get()));
         });
+    }
+
+    private void checkMaxEntries() {
+        if (store.size() >= maxEntries) {
+            // Remove the oldest entry if max entries is reached
+            removeOldestEntry();
+        }
+    }
+
+    private void removeOldestEntry() {
+        Optional<Object> oldestKey = store.entrySet().stream()
+                .min(Comparator.comparingLong(entry -> entry.getValue().getLastAccessed()))
+                .map(Map.Entry::getKey);
+
+        oldestKey.ifPresent(this::evict);
     }
 
     // Inner class representing a cache value with last accessed timestamp
