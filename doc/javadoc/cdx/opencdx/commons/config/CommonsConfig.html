@@ -89,7 +89,8 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="annotations">@AutoConfiguration
+<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/annotation/EnableCaching.html" title="class or interface in org.springframework.cache.annotation" class="external-link">@EnableCaching</a>
+@AutoConfiguration
 <a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Configuration.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Configuration</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">CommonsConfig</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
@@ -123,31 +124,36 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/CacheManager.html" title="class or interface in org.springframework.cache" class="external-link">CacheManager</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cacheManager()" class="member-name-link">cacheManager</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Default Cache Manager</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
  com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
  <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.ObjectMapper</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#objectMapper()" class="member-name-link">objectMapper</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.ObjectMapper</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#objectMapper()" class="member-name-link">objectMapper</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generates the Jackson Objectmapper with the JSON-to/from-Protobuf Message support.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.observation.aop.ObservedAspect</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#observedAspect(io.micrometer.observation.ObservationRegistry)" class="member-name-link">observedAspect</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.observation.aop.ObservedAspect</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#observedAspect(io.micrometer.observation.ObservationRegistry)" class="member-name-link">observedAspect</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Observation Registry for the OpenCDX Performance Tracking.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.crypto.password.PasswordEncoder</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#passwordEncoder()" class="member-name-link">passwordEncoder</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.crypto.password.PasswordEncoder</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#passwordEncoder()" class="member-name-link">passwordEncoder</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Default Password Encoder</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitizer()" class="member-name-link">sanitizer</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitizer()" class="member-name-link">sanitizer</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXHtmlSanitizer</div>
 </div>
 </div>
@@ -182,6 +188,19 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="cacheManager()">
+<h3>cacheManager</h3>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/CacheManager.html" title="class or interface in org.springframework.cache" class="external-link">CacheManager</a></span>&nbsp;<span class="element-name">cacheManager</span>()</div>
+<div class="block">Default Cache Manager</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>OpenCDXMemoryCacheManager</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="passwordEncoder()">
 <h3>passwordEncoder</h3>

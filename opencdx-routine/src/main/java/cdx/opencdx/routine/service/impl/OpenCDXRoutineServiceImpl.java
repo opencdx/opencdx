@@ -51,7 +51,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      * @param openCDXAuditService Audit Service for recording
      * @param objectMapper        Object mapper for JSON processing
      * @param openCDXCurrentUser  Current user system
-     */  
+     */
     @Autowired
     public OpenCDXRoutineServiceImpl(
             OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {

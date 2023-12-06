@@ -12,6 +12,7 @@ cdx.opencdx.client.service
 cdx.opencdx.client.service.impl
 cdx.opencdx.commons.annotations
 cdx.opencdx.commons.aspects
+cdx.opencdx.commons.cache
 cdx.opencdx.commons.collections
 cdx.opencdx.commons.config
 cdx.opencdx.commons.dto
