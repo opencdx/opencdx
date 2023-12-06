@@ -67,6 +67,12 @@ cdx.opencdx.media.repository
 cdx.opencdx.media.security
 cdx.opencdx.media.service
 cdx.opencdx.media.service.impl
+cdx.opencdx.protector
+cdx.opencdx.protector.config
+cdx.opencdx.protector.controller
+cdx.opencdx.protector.security
+cdx.opencdx.protector.service
+cdx.opencdx.protector.service.impl
 cdx.opencdx.routine
 cdx.opencdx.routine.config
 cdx.opencdx.routine.controller
