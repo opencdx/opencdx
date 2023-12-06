@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -28,8 +30,6 @@ import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.ContactInfo;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -70,7 +70,9 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         this.openCDXMessageService = openCDXMessageService;
     }
 
-    public void sendCDCPayloadMessage(String testId) throws URISyntaxException, IOException {
+    public void sendCDCPayloadMessage(String testId) {
+
+        log.info(testId);
 
         // retrieve the connected test using the refId
         OpenCDXConnectedTestModel connectedTestModel = this.openCDXConnectedTestRepository
@@ -285,6 +287,9 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         patient.setName(List.of(name));
 
         ContactInfo primaryContact = user.getPrimaryContactInfo();
+        if (primaryContact == null) {
+            return patient;
+        }
         List<ContactPoint> telecomList = new ArrayList<>();
         telecomList.add(new ContactPoint()
                 .setSystem(ContactPoint.ContactPointSystem.PHONE)
@@ -348,8 +353,10 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return bundle;
     }
 
-    private void sendMessage(Bundle bundle) throws URISyntaxException, IOException {
-        log.info("Sending CDC Payload Event: {}", bundle.getType());
-        this.openCDXMessageService.send(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, bundle);
+    private void sendMessage(Bundle bundle) {
+        log.info("Sending CDC Payload Event: {}", bundle);
+        IParser parser = FhirContext.forR4().newJsonParser().setPrettyPrint(true);
+        String resource = parser.encodeResourceToString(bundle);
+        this.openCDXMessageService.send(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, resource);
     }
 }
