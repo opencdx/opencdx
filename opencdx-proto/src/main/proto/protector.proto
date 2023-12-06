@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package cdx.opencdx.grpc.neural.protector;
+
+option java_multiple_files = true;
+
+// Detailed anomaly detection data
+message AnomalyDetectionData {
+  optional string user_id = 1;
+  optional string data_access_pattern = 2;
+  optional string time_stamp = 3;
+  repeated string anomalies_detected = 4;
+  optional string source_ip = 5; // IP address of the user's device
+  optional string location = 6; // Geographic location of access
+  repeated string affected_systems = 7; // Systems affected by the anomalies
+  optional string severity_level = 8; // Severity level of the anomaly
+  // Placeholder to add fields for contextual information
+}
+
+// Comprehensive authorization control data
+message AuthorizationControlData {
+  optional string user_id = 1;
+  optional string data_access_level = 2;
+  optional string access_granted_by = 3;
+  repeated string access_scopes = 4;
+  optional string access_validity_period = 5; // Time period for which access is valid
+  optional bool is_temporary_access = 6; // Indicates if access is temporary
+  repeated string conditional_access_params = 7; // Conditions under which access is granted
+  // Placeholder to add fields for fine-grained access control
+}
+
+// Privacy protection data with in-depth fields
+message PrivacyProtectionData {
+  optional string data_type = 1;
+  optional string anonymized_data = 2;
+  optional bool is_data_encrypted = 3;
+  optional string encryption_method = 4;
+  optional string data_retention_policy = 5; // Policy for data retention
+  optional bool has_data_sharing_agreement = 6; // Indicates if there's a data sharing agreement
+  optional string data_purpose = 7; // Purpose for which the data is collected
+  // Placeholder to add fields for comprehensive data privacy management
+}
+
+// Elaborate real-time monitoring data
+message RealTimeMonitoringData {
+  optional string monitored_entity = 1;
+  optional string monitoring_details = 2;
+  optional string monitoring_start_time = 3;
+  optional string monitoring_end_time = 4;
+  repeated string triggered_alerts = 5; // Alerts triggered during monitoring
+  optional string monitoring_frequency = 6; // Frequency of monitoring activity
+  optional bool is_continuous_monitoring = 7; // Indicates if monitoring is continuous
+  optional string responsible_monitoring_team = 8; // Team responsible for monitoring
+  // Placeholder to add for detailed monitoring insights
+}
+
+// Expanded user behavior analysis data
+message UserBehaviorAnalysisData {
+  optional string user_id = 1;
+  optional string behavior_pattern = 2;
+  repeated string associated_activities = 3;
+  optional string analysis_time_frame = 4;
+  repeated string historical_behavior_data = 5; // Historical data of user behavior
+  optional string risk_assessment = 6; // Risk assessment based on behavior
+  optional bool is_behavior_outlier = 7; // Indicates if behavior is an outlier
+  optional string behavior_consequence = 8; // Potential consequences of the behavior
+  // Placeholder to add fields for a thorough behavior analysis
+}
+
+// NeuralProtectorService with operations
+service NeuralProtectorService {
+  rpc DetectAnomalies(AnomalyDetectionDataRequest) returns (SecurityResponse);
+  rpc EnforceAuthorizationControl(AuthorizationControlDataRequest) returns (SecurityResponse);
+  rpc ProtectPrivacy(PrivacyProtectionDataRequest) returns (SecurityResponse);
+  rpc MonitorRealTimeActivity(RealTimeMonitoringDataRequest) returns (SecurityResponse);
+  rpc AnalyzeUserBehavior(UserBehaviorAnalysisDataRequest) returns (SecurityResponse);
+
+  // Placeholder for future operations
+}
+
+// New request message formats for each RPC call
+
+message AnomalyDetectionDataRequest {
+  AnomalyDetectionData anomaly_detection_data = 1;
+}
+
+message AuthorizationControlDataRequest {
+  AuthorizationControlData authorization_control_data = 1;
+}
+
+message PrivacyProtectionDataRequest {
+  PrivacyProtectionData privacy_protection_data = 1;
+}
+
+message RealTimeMonitoringDataRequest {
+  RealTimeMonitoringData real_time_monitoring_data = 1;
+}
+
+message UserBehaviorAnalysisDataRequest {
+  UserBehaviorAnalysisData user_behavior_analysis_data = 1;
+}
+
+// PLACEHOLDER - SecurityResponse message
+message SecurityResponse {
+  string response = 1; // The create media
+}
