@@ -56,6 +56,6 @@ public class OpenCDXMemoryCacheManager implements CacheManager {
      */
     protected Cache createConcurrentMapCache(String name) {
         log.info("createConcurrentMapCache({})", name);
-        return new OpenCDXMemoryCache(name, new ConcurrentHashMap<>(256), false, null);
+        return new OpenCDXMemoryCache(name, new ConcurrentHashMap<>(256), false, 300000L);
     }
 }

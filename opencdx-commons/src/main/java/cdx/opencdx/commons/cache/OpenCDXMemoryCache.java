@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.cache;
 
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,6 +32,9 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     private final String name;
 
+    @SuppressWarnings("java:S1068")
+    private long timeToIdle = 60000L;
+
     private final ConcurrentMap<Object, CacheValue> store;
 
     @Nullable private final SerializationDelegate serialization;
@@ -40,7 +44,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param name the name of the cache
      */
     public OpenCDXMemoryCache(String name) {
-        this(name, new ConcurrentHashMap<>(256), true);
+        this(name, new ConcurrentHashMap<>(256), true, 60000L);
     }
 
     /**
@@ -50,7 +54,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * values for this cache
      */
     public OpenCDXMemoryCache(String name, boolean allowNullValues) {
-        this(name, new ConcurrentHashMap<>(256), allowNullValues);
+        this(name, new ConcurrentHashMap<>(256), allowNullValues, 60000L);
     }
 
     /**
@@ -61,8 +65,9 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param allowNullValues whether to allow {@code null} values
      * (adapting them to an internal null holder value)
      */
-    public OpenCDXMemoryCache(String name, ConcurrentMap<Object, CacheValue> store, boolean allowNullValues) {
-        this(name, store, allowNullValues, null);
+    public OpenCDXMemoryCache(
+            String name, ConcurrentMap<Object, CacheValue> store, boolean allowNullValues, long timeToIdle) {
+        this(name, store, allowNullValues, timeToIdle, null);
     }
 
     /**
@@ -74,6 +79,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param store the ConcurrentMap to use as an internal store
      * @param allowNullValues whether to allow {@code null} values
      * (adapting them to an internal null holder value)
+     * @param timeToIdle the time to live in milliseconds
      * @param serialization the {@link SerializationDelegate} to use
      * to serialize cache entry or {@code null} to store the reference
      * @since 4.3
@@ -82,6 +88,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
             String name,
             ConcurrentMap<Object, CacheValue> store,
             boolean allowNullValues,
+            long timeToIdle,
             @Nullable SerializationDelegate serialization) {
 
         super(allowNullValues);
@@ -90,6 +97,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         this.name = name;
         this.store = store;
         this.serialization = serialization;
+        this.timeToIdle = timeToIdle;
     }
 
     /**
@@ -109,11 +117,13 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Override
     public final ConcurrentMap<Object, CacheValue> getNativeCache() {
+        this.cleanUpIdleEntries(Optional.empty());
         return this.store;
     }
 
     @Override
     @Nullable protected Object lookup(Object key) {
+        this.cleanUpIdleEntries(Optional.of(key));
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
@@ -125,6 +135,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings({"java:S1181", "unchecked"})
     @Override
     @Nullable public <T> T get(Object key, Callable<T> valueLoader) {
+        this.cleanUpIdleEntries(Optional.of(key));
         CacheValue cacheValue = this.store.compute(key, (k, oldValue) -> {
             try {
                 T value = valueLoader.call();
@@ -142,6 +153,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @SuppressWarnings({"java:S1452", "java:S3358"})
     @Nullable public CompletableFuture<?> retrieve(Object key) {
+        this.cleanUpIdleEntries(Optional.of(key));
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
@@ -155,6 +167,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @SuppressWarnings("unchecked")
     public <T> CompletableFuture<T> retrieve(Object key, Supplier<CompletableFuture<T>> valueLoader) {
+        this.cleanUpIdleEntries(Optional.of(key));
         return CompletableFuture.supplyAsync(() -> {
             CacheValue cacheValue = this.store.compute(
                     key, (k, oldValue) -> new CacheValue(valueLoader.get().join()));
@@ -227,6 +240,17 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         } else {
             return super.fromStoreValue(storeValue);
         }
+    }
+
+    public void cleanUpIdleEntries(Optional<Object> keyToPreserve) {
+        long currentTime = System.currentTimeMillis();
+        long maxIdleTime = currentTime - timeToIdle;
+
+        store.entrySet().removeIf(entry -> {
+            long lastAccessedTime = entry.getValue().getLastAccessed();
+            boolean isIdle = lastAccessedTime <= maxIdleTime;
+            return isIdle && (keyToPreserve.isEmpty() || !entry.getKey().equals(keyToPreserve.get()));
+        });
     }
 
     // Inner class representing a cache value with last accessed timestamp
