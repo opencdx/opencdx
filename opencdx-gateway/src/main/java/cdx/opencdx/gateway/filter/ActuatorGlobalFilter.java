@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.gateway.filter;
 
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -23,7 +24,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+/**
+ * This filter prevents access to the actuator endpoints.
+ */
 @Slf4j
+@Generated
 public class ActuatorGlobalFilter implements GlobalFilter, Ordered {
     public ActuatorGlobalFilter() {
         log.info("ActuatorGlobalFilter loaded");

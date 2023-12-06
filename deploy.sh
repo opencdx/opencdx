@@ -172,7 +172,7 @@ open_reports() {
         handle_info "Opening JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         open_url "build/docs/javadoc-all/index.html"
-        open_url "build/reports/dependency-check-report.html"
+        #open_url "build/reports/dependency-check-report.html"
         ;;
     publish)
         read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
