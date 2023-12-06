@@ -23,7 +23,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
@@ -166,7 +165,6 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
         cacheValue.updateLastAccessed();
         return (T) cacheValue.getValue();
-
     }
 
     @SuppressWarnings({"java:S1452", "java:S3358"})

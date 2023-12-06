@@ -1,8 +1,22 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.commons.cache;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.cache.Cache;
-import org.springframework.core.serializer.support.SerializationDelegate;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -10,10 +24,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.cache.Cache;
+import org.springframework.core.serializer.support.SerializationDelegate;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-
+@SuppressWarnings("java:S2925")
 class OpenCDXMemoryCacheTest {
 
     @Test
@@ -103,11 +119,11 @@ class OpenCDXMemoryCacheTest {
         String key = "key";
         String value = "value";
 
-        CompletableFuture<String> futureResult = cache.retrieve(key, () -> CompletableFuture.completedFuture(value.toUpperCase()));
+        CompletableFuture<String> futureResult =
+                cache.retrieve(key, () -> CompletableFuture.completedFuture(value.toUpperCase()));
         assertEquals(value.toUpperCase(), futureResult.join());
         assertEquals(value.toUpperCase(), cache.get(key).get()); // Ensure value is cached
     }
-
 
     @Test
     void testCacheAsyncValueLoaderException() {
@@ -171,8 +187,7 @@ class OpenCDXMemoryCacheTest {
         assertFalse(cache.invalidate());
     }
 
-
-   @Test
+    @Test
     void testRetrieveWithExistingKey() {
         OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache");
         String key = "key";
@@ -183,9 +198,8 @@ class OpenCDXMemoryCacheTest {
         CompletableFuture<?> future = cache.retrieve(key);
 
         assertNotNull(future);
-       Cache.ValueWrapper wrapper = (Cache.ValueWrapper) future.join();
-       assertEquals(value, wrapper.get());
-
+        Cache.ValueWrapper wrapper = (Cache.ValueWrapper) future.join();
+        assertEquals(value, wrapper.get());
     }
 
     @Test
@@ -265,8 +279,8 @@ class OpenCDXMemoryCacheTest {
     @Test
     void testToStoreValueWithSerialization() throws IOException {
         SerializationDelegate serializationDelegate = mock(SerializationDelegate.class);
-        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache",new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
-
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache(
+                "testCache", new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
 
         String userValue = "value";
         byte[] serializedValue = {1, 2, 3}; // Mock serialized value
@@ -293,12 +307,13 @@ class OpenCDXMemoryCacheTest {
     @Test
     void testToStoreValueWithSerializationException() throws IOException {
         SerializationDelegate serializationDelegate = mock(SerializationDelegate.class);
-        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache",new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
-
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache(
+                "testCache", new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
 
         String userValue = "value";
 
-        Mockito.when(serializationDelegate.serializeToByteArray(userValue)).thenThrow(new RuntimeException("Serialization error"));
+        Mockito.when(serializationDelegate.serializeToByteArray(userValue))
+                .thenThrow(new RuntimeException("Serialization error"));
 
         assertThrows(IllegalArgumentException.class, () -> cache.toStoreValue(userValue));
     }
@@ -306,12 +321,14 @@ class OpenCDXMemoryCacheTest {
     @Test
     void testFromStoreValueWithSerialization() throws IOException {
         SerializationDelegate serializationDelegate = mock(SerializationDelegate.class);
-        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache",new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache(
+                "testCache", new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
 
         String deserializedValue = "value";
         byte[] serializedValue = {1, 2, 3}; // Mock serialized value
 
-        Mockito.when(serializationDelegate.deserializeFromByteArray(serializedValue)).thenReturn(deserializedValue);
+        Mockito.when(serializationDelegate.deserializeFromByteArray(serializedValue))
+                .thenReturn(deserializedValue);
 
         Object result = cache.fromStoreValue(serializedValue);
 
@@ -331,6 +348,7 @@ class OpenCDXMemoryCacheTest {
         assertNotNull(result);
         assertEquals(storeValue, result);
     }
+
     @Test
     void testFromStoreValueNull() {
         OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache");
@@ -339,15 +357,17 @@ class OpenCDXMemoryCacheTest {
 
         assertNull(result);
     }
+
     @Test
     void testFromStoreValueWithSerializationException() throws IOException {
         SerializationDelegate serializationDelegate = mock(SerializationDelegate.class);
-        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache",new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
-
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache(
+                "testCache", new ConcurrentHashMap<>(256), false, 300000L, serializationDelegate, 1000);
 
         byte[] serializedValue = {1, 2, 3}; // Mock serialized value
 
-        Mockito.when(serializationDelegate.deserializeFromByteArray(serializedValue)).thenThrow(new RuntimeException("Deserialization error"));
+        Mockito.when(serializationDelegate.deserializeFromByteArray(serializedValue))
+                .thenThrow(new RuntimeException("Deserialization error"));
 
         assertThrows(IllegalArgumentException.class, () -> cache.fromStoreValue(serializedValue));
     }
@@ -365,9 +385,12 @@ class OpenCDXMemoryCacheTest {
         OpenCDXMemoryCache.CacheValue cacheValue2 = mock(OpenCDXMemoryCache.CacheValue.class);
         OpenCDXMemoryCache.CacheValue cacheValue3 = mock(OpenCDXMemoryCache.CacheValue.class);
 
-        Mockito.when(cacheValue1.getLastAccessed()).thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
-        Mockito.when(cacheValue2.getLastAccessed()).thenReturn(System.currentTimeMillis() - 500);  // Last accessed 0.5 seconds ago
-        Mockito.when(cacheValue3.getLastAccessed()).thenReturn(System.currentTimeMillis() - 2000); // Last accessed 2 seconds ago
+        Mockito.when(cacheValue1.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
+        Mockito.when(cacheValue2.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 500); // Last accessed 0.5 seconds ago
+        Mockito.when(cacheValue3.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 2000); // Last accessed 2 seconds ago
 
         cache.getNativeCache().put(key1, cacheValue1);
         cache.getNativeCache().put(key2, cacheValue2);
@@ -393,9 +416,12 @@ class OpenCDXMemoryCacheTest {
         OpenCDXMemoryCache.CacheValue cacheValue2 = mock(OpenCDXMemoryCache.CacheValue.class);
         OpenCDXMemoryCache.CacheValue cacheValue3 = mock(OpenCDXMemoryCache.CacheValue.class);
 
-        Mockito.when(cacheValue1.getLastAccessed()).thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
-        Mockito.when(cacheValue2.getLastAccessed()).thenReturn(System.currentTimeMillis() - 500);  // Last accessed 0.5 seconds ago
-        Mockito.when(cacheValue3.getLastAccessed()).thenReturn(System.currentTimeMillis() - 2000); // Last accessed 2 seconds ago
+        Mockito.when(cacheValue1.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
+        Mockito.when(cacheValue2.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 500); // Last accessed 0.5 seconds ago
+        Mockito.when(cacheValue3.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 2000); // Last accessed 2 seconds ago
 
         cache.getNativeCache().put(key1, cacheValue1);
         cache.getNativeCache().put(key2, cacheValue2);
@@ -418,8 +444,10 @@ class OpenCDXMemoryCacheTest {
         OpenCDXMemoryCache.CacheValue cacheValue1 = mock(OpenCDXMemoryCache.CacheValue.class);
         OpenCDXMemoryCache.CacheValue cacheValue2 = mock(OpenCDXMemoryCache.CacheValue.class);
 
-        Mockito.when(cacheValue1.getLastAccessed()).thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
-        Mockito.when(cacheValue2.getLastAccessed()).thenReturn(System.currentTimeMillis() - 200000); // Last accessed 200 seconds ago
+        Mockito.when(cacheValue1.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
+        Mockito.when(cacheValue2.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 200000); // Last accessed 200 seconds ago
 
         cache.getNativeCache().put(key1, cacheValue1);
         cache.getNativeCache().put(key2, cacheValue2);
@@ -444,8 +472,10 @@ class OpenCDXMemoryCacheTest {
         OpenCDXMemoryCache.CacheValue cacheValue1 = mock(OpenCDXMemoryCache.CacheValue.class);
         OpenCDXMemoryCache.CacheValue cacheValue2 = mock(OpenCDXMemoryCache.CacheValue.class);
 
-        Mockito.when(cacheValue1.getLastAccessed()).thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
-        Mockito.when(cacheValue2.getLastAccessed()).thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
+        Mockito.when(cacheValue1.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
+        Mockito.when(cacheValue2.getLastAccessed())
+                .thenReturn(System.currentTimeMillis() - 1000); // Last accessed 1 second ago
 
         cache.getNativeCache().put(key1, cacheValue1);
         cache.getNativeCache().put(key2, cacheValue2);
