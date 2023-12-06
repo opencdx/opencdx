@@ -4,28 +4,38 @@ package cdx.opencdx.grpc.neural.predictor;
 
 option java_multiple_files = true;
 
-// Input data for making predictions.
+/**
+ * Input data for making predictions.
+ */
 message PredictorInput {
   optional string test_id = 1; // ID of the connected test
   repeated string test_features = 2; // Features extracted from the test data
 }
 
-// Output of the prediction model.
+/**
+ * Output of the prediction model.
+ */
 message PredictorOutput {
   optional string predicted_value = 1; // The predicted outcome or parameter
 }
 
-// Request message for the Neural Predictor.
+/**
+ * Request message for the Neural Predictor.
+ */
 message PredictorRequest {
   PredictorInput predictor_input = 1; // Input data for prediction
 }
 
-// Response message for the Neural Predictor.
+/**
+ * Response message for the Neural Predictor.
+ */
 message PredictorResponse {
   PredictorOutput predictor_output = 1; // Output of the prediction model
 }
 
-// Service for the Neural Predictor.
+/**
+ * Service for the Neural Predictor.
+ */
 service NeuralPredictorService {
   // Predict a value based on input data.
   rpc Predict(PredictorRequest) returns (PredictorResponse);
