@@ -23,6 +23,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.core.serializer.support.SerializationDelegate;
 import org.springframework.lang.Nullable;
@@ -33,8 +36,12 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     private static final int MAX_ENTRIES = 1000;
     private final String name;
 
+    @Getter
+    @Setter
     private long timeToIdle = 60000L;
 
+    @Getter
+    @Setter
     private int maxEntries = MAX_ENTRIES;
 
     private final ConcurrentMap<Object, CacheValue> store;
@@ -156,11 +163,10 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
                 throw new ValueRetrievalException(key, valueLoader, ex);
             }
         });
-        if (cacheValue != null) {
-            cacheValue.updateLastAccessed();
-            return (T) cacheValue.getValue();
-        }
-        return null;
+
+        cacheValue.updateLastAccessed();
+        return (T) cacheValue.getValue();
+
     }
 
     @SuppressWarnings({"java:S1452", "java:S3358"})
@@ -183,11 +189,8 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         return CompletableFuture.supplyAsync(() -> {
             CacheValue cacheValue = this.store.compute(
                     key, (k, oldValue) -> new CacheValue(valueLoader.get().join()));
-            if (cacheValue != null) {
-                cacheValue.updateLastAccessed();
-                return (T) cacheValue.getValue();
-            }
-            return null;
+            cacheValue.updateLastAccessed();
+            return (T) cacheValue.getValue();
         });
     }
 
@@ -269,7 +272,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     }
 
     private void checkMaxEntries() {
-        if (store.size() >= maxEntries) {
+        while (store.size() > maxEntries) {
             // Remove the oldest entry if max entries is reached
             removeOldestEntry();
         }
@@ -284,7 +287,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     }
 
     // Inner class representing a cache value with last accessed timestamp
-    private static class CacheValue {
+    public static class CacheValue {
         private final Object value;
         private volatile long lastAccessed;
 
