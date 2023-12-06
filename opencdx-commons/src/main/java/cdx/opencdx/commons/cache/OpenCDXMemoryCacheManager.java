@@ -16,32 +16,46 @@
 package cdx.opencdx.commons.cache;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
 @Slf4j
 public class OpenCDXMemoryCacheManager implements CacheManager {
 
     public static final String CREATED_OPEN_CDX_MEMORY_CACHE_MANAGER = "Created OpenCDXMemoryCacheManager";
 
-    private final ConcurrentMapCacheManager concurrentMapCacheManager;
+    private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
 
     public OpenCDXMemoryCacheManager() {
-        concurrentMapCacheManager = new ConcurrentMapCacheManager();
         log.info(CREATED_OPEN_CDX_MEMORY_CACHE_MANAGER);
     }
 
     @Override
     public Cache getCache(String name) {
         log.info("getCache({})", name);
-        return concurrentMapCacheManager.getCache(name);
+        Cache cache = this.cacheMap.get(name);
+        if (cache == null) {
+            cache = this.cacheMap.computeIfAbsent(name, this::createConcurrentMapCache);
+        }
+        return cache;
     }
 
     @Override
     public Collection<String> getCacheNames() {
         log.info("getCacheNames()");
-        return concurrentMapCacheManager.getCacheNames();
+        return Collections.unmodifiableSet(this.cacheMap.keySet());
+    }
+    /**
+     * Create a new ConcurrentMapCache instance for the specified cache name.
+     * @param name the name of the cache
+     * @return the ConcurrentMapCache (or a decorator thereof)
+     */
+    protected Cache createConcurrentMapCache(String name) {
+        log.info("createConcurrentMapCache({})", name);
+        return new OpenCDXMemoryCache(name, new ConcurrentHashMap<>(256), false, null);
     }
 }
