@@ -63,6 +63,10 @@ public class CommonsConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
+    /**
+     * Default Cache Manager
+     * @return OpenCDXMemoryCacheManager
+     */
     @Bean
     @Primary
     public CacheManager cacheManager() {

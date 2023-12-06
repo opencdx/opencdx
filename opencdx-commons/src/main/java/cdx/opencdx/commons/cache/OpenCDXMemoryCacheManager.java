@@ -22,10 +22,30 @@ import java.util.concurrent.ConcurrentMap;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
+/**
+ * Simple {@link CacheManager} implementation that lazily builds {@link OpenCDXMemoryCache}
+ * instances for each {@link #getCache} request.
+ *
+ * <p>By default, this implementation creates {@link OpenCDXMemoryCache} instances with a maximum
+ * size of 256 and no expiration. This can be overridden by using the appropriate constructor.
+ *
+ * <p>As this cache manager does not manage any shared resources, it does not implement
+ * {@link org.springframework.beans.factory.DisposableBean DisposableBean} or
+ * {@link org.springframework.context.Lifecycle Lifecycle}.
+ *
+ * <p>As of Spring Framework 4.3, this class is also a
+ * {@link org.springframework.cache.support.AbstractCacheManager} subclass.
+ *
+ * @since 4.1
+ * @see OpenCDXMemoryCache
+ */
 public class OpenCDXMemoryCacheManager implements CacheManager {
 
     private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
 
+    /**
+     * Create a new ConcurrentMapCacheManager with the default settings.
+     */
     public OpenCDXMemoryCacheManager() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }

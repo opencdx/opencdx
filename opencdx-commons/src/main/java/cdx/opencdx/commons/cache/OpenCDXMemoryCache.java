@@ -30,6 +30,25 @@ import org.springframework.core.serializer.support.SerializationDelegate;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
+/**
+ * Simple {@link org.springframework.cache.Cache} implementation based on the
+ * core JDK {@code java.util.concurrent} package.
+ *
+ * <p>Useful for testing or simple caching scenarios, typically in combination
+ * with {@link org.springframework.cache.support.SimpleCacheManager} or
+ * dynamically through {@link org.springframework.cache.concurrent.ConcurrentMapCacheManager}.
+ *
+ * <p>Note: As {@link ConcurrentMap} only accepts {@code null} values for
+ * reference keys, this class will replace them with an internal null holder
+ * value. This should not affect any actual store value serializability.
+ *
+ * <p>As of Spring Framework 4.3, this class is also a
+ * {@link org.springframework.cache.support.AbstractValueAdaptingCache} subclass.
+ *
+ * @since 3.1
+ * @see org.springframework.cache.support.SimpleCacheManager
+ * @see org.springframework.cache.concurrent.ConcurrentMapCacheManager
+ */
 public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     private static final int MAX_ENTRIES = 1000;
@@ -119,10 +138,10 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     }
 
     /**
-     * Return whether this cache stores a copy of each entry ({@code true}) or
-     * a reference ({@code false}, default). If store by value is enabled, each
-     * entry in the cache must be serializable.
-     * @since 4.3
+     * Return whether this cache stores a copy of each entry ({@code true})
+     * or a reference ({@code false}, default).
+     * @see #OpenCDXMemoryCache(String, ConcurrentMap, boolean, long, SerializationDelegate, int)
+     * @return whether this cache stores a copy of each entry or a reference
      */
     public final boolean isStoreByValue() {
         return (this.serialization != null);
@@ -167,6 +186,21 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         return (T) cacheValue.getValue();
     }
 
+    /**
+     * Return the value to which this cache maps the specified key,
+     * generically specifying a type that return value will be cast to.
+     * <p>Note: This variant of {@code get} does not allow for differentiating
+     * between a cached {@code null} value and no cache entry found at all.
+     * Use the standard {@link #get(Object)} variant for that purpose instead.
+     * @param key the key whose associated value is to be returned
+     * @return the value to which this cache maps the specified key
+     * (which may be {@code null} itself), or also {@code null} if
+     * the cache contains no mapping for this key
+     * @throws IllegalStateException if a cache entry has been found
+     * but failed to match the specified type
+     * @since 4.0
+     * @see #get(Object)
+     */
     @SuppressWarnings({"java:S1452", "java:S3358"})
     @Nullable public CompletableFuture<?> retrieve(Object key) {
         this.cleanUpIdleEntries(Optional.of(key));
@@ -181,6 +215,25 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         return null;
     }
 
+    /**
+     * Retrieve the value to which this cache maps the specified key,
+     * obtaining that value from {@code valueLoader} if necessary.
+     * <p>This method provides a simple substitute for the conventional
+     * "if cached, return; otherwise create, cache and return" pattern.
+     * <pre><code>Object value = cache.get(key, () -&gt; createValue(key));</code></pre>
+     * <p>If possible, implementations should ensure that the loading operation
+     * is synchronized so that the specified {@code valueLoader} is only called
+     * once in case of concurrent access on the same key.
+     * <p>If the {@code valueLoader} throws an exception, it is wrapped in a
+     * {@link ValueRetrievalException}
+     * @param <T> the type of the value being loaded
+     * @param key the key whose associated value is to be returned
+     * @param valueLoader the value loader to use to load the value if it is not in the cache
+     * @return the value to which this cache maps the specified key
+     * @throws ValueRetrievalException if the {@code valueLoader} throws an exception
+     * @see #get(Object, Callable)
+     * @since 4.3
+     */
     @SuppressWarnings("unchecked")
     public <T> CompletableFuture<T> retrieve(Object key, Supplier<CompletableFuture<T>> valueLoader) {
         this.cleanUpIdleEntries(Optional.of(key));
@@ -256,6 +309,10 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         }
     }
 
+    /**
+     * Clean up entries that have been idle for longer than the configured time to idle.
+     * @param keyToPreserve the key to preserve
+     */
     public void cleanUpIdleEntries(Optional<Object> keyToPreserve) {
         long currentTime = System.currentTimeMillis();
         long maxIdleTime = currentTime - timeToIdle;
@@ -284,24 +341,40 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         oldestKey.ifPresent(this::evict);
     }
 
-    // Inner class representing a cache value with last accessed timestamp
+    /**
+     * Wrapper object for the value stored in the map.
+     */
     public static class CacheValue {
         private final Object value;
         private volatile long lastAccessed;
-
+        /**
+         * Create a new CacheValue instance for the given value.
+         * @param value the value to cache
+         */
         public CacheValue(Object value) {
             this.value = value;
             updateLastAccessed();
         }
 
+        /**
+         * Get the value.
+         * @return the value
+         */
         public Object getValue() {
             return value;
         }
 
+        /**
+         * Get the last accessed timestamp.
+         * @return the timestamp
+         */
         public long getLastAccessed() {
             return lastAccessed;
         }
 
+        /**
+         * Update the last accessed timestamp to the current time.
+         */
         public void updateLastAccessed() {
             this.lastAccessed = System.currentTimeMillis();
         }
