@@ -13,27 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.commons.handlers;
+package cdx.opencdx.commons.cache;
 
+import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
 @Slf4j
-public class OpenCDXMemoryCacheManager extends ConcurrentMapCacheManager {
+public class OpenCDXMemoryCacheManager implements CacheManager {
+
+    public static final String CREATED_OPEN_CDX_MEMORY_CACHE_MANAGER = "Created OpenCDXMemoryCacheManager";
+
+    private final ConcurrentMapCacheManager concurrentMapCacheManager;
 
     public OpenCDXMemoryCacheManager() {
-        log.info("Creating OpenCDXMemoryCacheManager");
-    }
-
-    public OpenCDXMemoryCacheManager(String... cacheNames) {
-        super(cacheNames);
-        log.info("Creating OpenCDXMemoryCacheManager");
+        concurrentMapCacheManager = new ConcurrentMapCacheManager();
+        log.info(CREATED_OPEN_CDX_MEMORY_CACHE_MANAGER);
     }
 
     @Override
-    protected Cache createConcurrentMapCache(String name) {
-        log.info("Creating Cache for {}", name);
-        return new OpenCDXMemoryCache(name);
+    public Cache getCache(String name) {
+        log.info("getCache({})", name);
+        return concurrentMapCacheManager.getCache(name);
+    }
+
+    @Override
+    public Collection<String> getCacheNames() {
+        log.info("getCacheNames()");
+        return concurrentMapCacheManager.getCacheNames();
     }
 }

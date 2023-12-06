@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.commons.handlers;
+package cdx.opencdx.commons.cache;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;

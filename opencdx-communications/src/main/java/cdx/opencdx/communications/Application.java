@@ -20,7 +20,6 @@ import com.github.cloudyrock.spring.v5.EnableMongock;
 import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -31,7 +30,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableCaching
 @EnableScheduling
 @EnableMongock
 @EnableSchedulerLock(defaultLockAtMostFor = "10m")
