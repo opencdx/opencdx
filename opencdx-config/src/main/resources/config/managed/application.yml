@@ -52,7 +52,8 @@ spring:
             location: file:/certs/opencdx-keystore.p12
             password: ${keystore.password}
             keystore.type: PKCS12
-
+  cache:
+    type: generic
 # Enable SSL for REST
 server:
   port: 8080

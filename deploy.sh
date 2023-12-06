@@ -447,17 +447,17 @@ if [ "$no_menu" = false ]; then
         open_reports "admin";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run JMeter tests"
-            sleep 60
+            sleep 90
             run_jmeter_tests "smoke"
         fi
         if [ "$performance" = true ]; then
             handle_info "Waiting to run JMeter tests"
-            sleep 60
+            sleep 90
             run_jmeter_tests "performance"
         fi
         if [ "$soak" = true ]; then
             handle_info "Waiting to run JMeter tests"
-            sleep 60
+            sleep 90
             run_jmeter_tests "soak"
         fi
 

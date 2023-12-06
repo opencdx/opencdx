@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
@@ -34,6 +35,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +52,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Autoconfiguraiton class for opencdx-commons.
  */
 @Slf4j
+@EnableCaching
 @AutoConfiguration
 @Configuration
 public class CommonsConfig {
@@ -57,6 +61,16 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Default Cache Manager
+     * @return OpenCDXMemoryCacheManager
+     */
+    @Bean
+    @Primary
+    public CacheManager cacheManager() {
+        return new OpenCDXMemoryCacheManager();
     }
 
     /**
