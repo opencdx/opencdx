@@ -1,0 +1,89 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package cdx.opencdx.commons.handlers;
+
+import java.util.concurrent.ConcurrentMap;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
+
+public class OpenCDXCacheFactoryBean implements FactoryBean<OpenCDXMemoryCache>, BeanNameAware, InitializingBean {
+
+    private String name = "";
+
+    @Nullable private ConcurrentMap<Object, Object> store;
+
+    private boolean allowNullValues = true;
+
+    @Nullable private OpenCDXMemoryCache cache;
+
+    /**
+     * Specify the name of the cache.
+     * <p>Default is "" (empty String).
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Specify the ConcurrentMap to use as an internal store
+     * (possibly pre-populated).
+     * <p>Default is a standard {@link java.util.concurrent.ConcurrentHashMap}.
+     */
+    public void setStore(ConcurrentMap<Object, Object> store) {
+        this.store = store;
+    }
+
+    /**
+     * Set whether to allow {@code null} values
+     * (adapting them to an internal null holder value).
+     * <p>Default is "true".
+     */
+    public void setAllowNullValues(boolean allowNullValues) {
+        this.allowNullValues = allowNullValues;
+    }
+
+    @Override
+    public void setBeanName(String beanName) {
+        if (!StringUtils.hasLength(this.name)) {
+            setName(beanName);
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        this.cache = (this.store != null
+                ? new OpenCDXMemoryCache(this.name, this.store, this.allowNullValues)
+                : new OpenCDXMemoryCache(this.name, this.allowNullValues));
+    }
+
+    @Override
+    @Nullable public OpenCDXMemoryCache getObject() {
+        return this.cache;
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return OpenCDXMemoryCache.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
+}

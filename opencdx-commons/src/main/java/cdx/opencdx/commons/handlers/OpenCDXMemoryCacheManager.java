@@ -15,86 +15,25 @@
  */
 package cdx.opencdx.commons.handlers;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
 @Slf4j
 public class OpenCDXMemoryCacheManager extends ConcurrentMapCacheManager {
 
-    private int timeToIdle = 300000;
-
-    public OpenCDXMemoryCacheManager setTimeToIdle(int timeToIdle) {
-        this.timeToIdle = timeToIdle;
-        return this;
-    }
-
     public OpenCDXMemoryCacheManager() {
-        this.caches = new ConcurrentHashMap<>();
+        log.info("Creating OpenCDXMemoryCacheManager");
+    }
+
+    public OpenCDXMemoryCacheManager(String... cacheNames) {
+        super(cacheNames);
+        log.info("Creating OpenCDXMemoryCacheManager");
     }
 
     @Override
-    public Cache getCache(String name) {
-        OpenCDXMemoryCache cache = this.caches.get(name);
-        if (cache == null) {
-            synchronized (this.caches) {
-                cache = this.caches.get(name);
-                if (cache == null) {
-                    cache = new OpenCDXMemoryCache(name);
-                    this.caches.put(name, cache);
-                }
-            }
-        }
-        return cache;
-    }
-
-    @Override
-    public Collection<String> getCacheNames() {
-        return Collections.unmodifiableSet(this.caches.keySet());
-    }
-
-    @Slf4j
-    public static class OpenCDXMemoryCache extends ConcurrentMapCache {
-
-        private String name;
-
-        private ConcurrentHashMap<Object, Object> cache;
-
-        public OpenCDXMemoryCache(String name) {
-            super(name);
-            log.info("Created OpenCDXMemoryCache");
-            this.name = name;
-            this.cache = new ConcurrentHashMap<>();
-        }
-
-        @Override
-        protected Object lookup(Object key) {
-            log.info("lookup({})", key);
-            return super.lookup(key);
-        }
-
-        @Override
-        public <T> T get(Object key, Callable<T> valueLoader) {
-            log.info("get({})", key);
-            return super.get(key, valueLoader);
-        }
-
-        @Override
-        public void put(Object key, Object value) {
-            log.info("put({},{})", key, value);
-            super.put(key, value);
-        }
-
-        @Override
-        public ValueWrapper putIfAbsent(Object key, Object value) {
-            log.info("putIfAbsent({},{})", key, value);
-            return super.putIfAbsent(key, value);
-        }
+    protected Cache createConcurrentMapCache(String name) {
+        log.info("Creating Cache for {}", name);
+        return new OpenCDXMemoryCache(name);
     }
 }
