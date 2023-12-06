@@ -52,6 +52,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs    
 
@@ -78,6 +80,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
       
