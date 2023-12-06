@@ -8,6 +8,8 @@ services:
         max_attempts: 5
         window: 60s
     image: opencdx/gateway:latest
+    environment:
+      - JAVA_OPTS= -Djavax.net.debug=all
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -99,6 +101,7 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
+      - ../certs:/etc/ssl/certs
 
   media:
     deploy:
@@ -251,8 +254,8 @@ services:
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8761/actuator/health | grep UP || exit 1"
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 50s
+      retries: 15
       start_period: 5s
     ports:
       - "8761:8761"
@@ -271,8 +274,8 @@ services:
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8888/actuator/health | grep UP || exit 1"
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 50s
+      retries: 15
       start_period: 5s
 
   database:
@@ -285,8 +288,8 @@ services:
     healthcheck:
       test: "echo 'db.runCommand({serverStatus:1}).ok' | mongosh localhost:27017/test --quiet"
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 50s
+      retries: 15
       start_period: 5s
 
   nats:
@@ -307,12 +310,16 @@ services:
     container_name: mysql
     # Uncomment to expose the storage port for testing
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ../data:/opt/mysql/data
     restart: unless-stopped
   zipkin:
-    image: openzipkin/zipkin:latest
+    image: openzipkin/zipkin
+    volumes:
+      - ../certs:/certs
+      - ../certs:/etc/ssl/certs
+      #- ../opencdx-zipkin/zipkin.conf:/zipkin.conf
     environment:
       - STORAGE_TYPE=mysql
       # Point the zipkin at the storage backend
@@ -320,12 +327,23 @@ services:
       - MYSQL_USER=zipkin
       - MYSQL_PASS=zipkin
       # Uncomment to enable scribe
-      - SCRIBE_ENABLED=true
+      # - SCRIBE_ENABLED=true
       # Uncomment to enable self-tracing
       #- SELF_TRACING_ENABLED=true
       # Uncomment to enable debug logging
-      #- JAVA_OPTS=-Dlogging.level.zipkin=DEBUG -Xms512m -Xmx1g
-      - JAVA_OPTS=-Xms512m -Xmx1g
+      - JAVA_OPTS=  -Djavax.net.ssl.trustStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.trustStorePassword=opencdx -Djavax.net.ssl.trustStoreType=PKCS12 -Djavax.net.ssl.keyStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.keyStorePassword=opencdx -Djavax.net.ssl.keyStoreType=PKCS12
+      - ARMERIA_SSL_KEY_STORE=file:/certs/opencdx-keystore.p12
+      - ARMERIA_SSL_KEY_ALIAS=zipkin
+      - ARMERIA_SSL_KEY_STORE_PASSWORD=opencdx
+      - ARMERIA_SSL_KEY_STORE_TYPE=PKCS12
+      - ARMERIA_SSL_TRUST_STORE=file:/certs/opencdx-keystore.p12
+      - ARMERIA_SSL_TRUST_STORE_PASSWORD=opencdx
+      - ARMERIA_SSL_TRUST_STORE_TYPE=PKCS12
+      - ARMERIA_SSL_ENABLED=TRUE
+      - ARMERIA_PORTS_0_PORT=9411
+      - ARMERIA_PORTS_0_PROTOCOLS_0=https
+
+     #- JAVA_OPTS=-Xms512m -Xmx1g
     healthcheck:
       test: "curl --fail --silent localhost:9411/actuator/health | grep UP || exit 1"
       interval: 5s

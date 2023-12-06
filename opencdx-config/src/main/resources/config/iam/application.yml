@@ -2,7 +2,10 @@
 spring:
   application:
     name: iam
-
+server:
+  ssl:
+    trust-store: file:/certs/opencdx-keystore.p12
+    trust-store-password: opencdx
 mongock:
   change-logs-scan-package: cdx.opencdx.iam.changelog
   max-waiting-for-lock-minutes: 5

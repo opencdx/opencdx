@@ -71,9 +71,13 @@ generate_certificate "mongodb"
 # Generate certificates for NATS
 generate_certificate "nats"
 
+# Generate certificates for zipkin
+generate_certificate "zipkin"
 # Setup keys and certificate for Mongodb
 cat mongodb-key.pem mongodb-cert.pem > mongodb.pem
 
+# Setup keys and certificate for zipkin
+cat zipkin-key.pem zipkin-cert.pem > zipkin.pem
 # Concatenate client certs into a client truststore
 cat Audit-cert.pem Communications-cert.pem HelloWorld-cert.pem Media-cert.pem Admin-cert.pem > opencdx-clients.pem
 

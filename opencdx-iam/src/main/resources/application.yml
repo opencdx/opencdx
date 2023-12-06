@@ -11,12 +11,19 @@ spring:
         enabled: 'true'
         key-store-password: opencdx
       uri: https://Config:8888
+    compatibility-verifier:
+      enabled: false
   config:
     import: configserver:https://Config:8888
   application:
     name: iam
   profiles:
     active: managed,mongo,nats,iam
+  zipkin:
+    baseUrl: https://zipkin:9411/zipkin/
+  sleuth:
+    sampler:
+      probability: 1.0
 
 management:
   endpoints:
@@ -30,5 +37,9 @@ management:
       type: b3
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: https://zipkin:9411/api/v2/spans
 logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+server:
+  ssl:
+    trust-store: file:/certs/opencdx-keystore.12
+    trust-store-password: opencdx

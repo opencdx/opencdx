@@ -11,6 +11,19 @@ spring:
             location: file:/certs/opencdx-keystore.p12
             password: opencdx
             type: PKCS12
+
+  zipkin:
+    baseUrl: https://zipkin:9411/zipkin/
+    base-url: https://zipkin:9411/zipkin/
+    collector:
+      http:
+        endpoint: https://zipkin:9411/api/v2/spans
+        enabled: true
+    service:
+      name: zipkin
+  sleuth:
+    sampler:
+      probability: 1.0
   cloud:
     gateway:
       httpclient:
@@ -141,7 +154,11 @@ management:
       type: b3
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: https://zipkin:9411/api/v2/spans
+    ssl:
+      enabled: true
+      trust-store: file:/certs/opencdx-keystore.p12
+      trust-store-password: opencdx
 logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
 server:
   port: 8080
@@ -149,5 +166,7 @@ server:
     enabled: true
     bundle: web-server
     client-auth: none
+    trust-store: file:/certs/opencdx-keystore.p12
+    trust-store-password: opencdx
   http2:
     enabled: true
