@@ -1044,6 +1044,65 @@
         
           
           <li>
+            <a href="#protector.proto">protector.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.AnomalyDetectionData"><span class="badge">M</span>AnomalyDetectionData</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest"><span class="badge">M</span>AnomalyDetectionDataRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.AuthorizationControlData"><span class="badge">M</span>AuthorizationControlData</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest"><span class="badge">M</span>AuthorizationControlDataRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.PrivacyProtectionData"><span class="badge">M</span>PrivacyProtectionData</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest"><span class="badge">M</span>PrivacyProtectionDataRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.RealTimeMonitoringData"><span class="badge">M</span>RealTimeMonitoringData</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest"><span class="badge">M</span>RealTimeMonitoringDataRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.SecurityResponse"><span class="badge">M</span>SecurityResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData"><span class="badge">M</span>UserBehaviorAnalysisData</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest"><span class="badge">M</span>UserBehaviorAnalysisDataRequest</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.neural.protector.NeuralProtectorService"><span class="badge">S</span>NeuralProtectorService</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#routine.proto">routine.proto</a>
             <ul>
               
@@ -9608,6 +9667,604 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><a href="#cdx.opencdx.grpc.media.PreprocessMediaRequest">PreprocessMediaRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.media.PreprocessMediaResponse">PreprocessMediaResponse</a></td>
                 <td><p>Method to preprocess media</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="protector.proto">protector.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.AnomalyDetectionData">AnomalyDetectionData</h3>
+        <p>Detailed anomaly detection data.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>encounter_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Encounter ID associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the user associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>data_access_pattern</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Pattern of data access </p></td>
+                </tr>
+              
+                <tr>
+                  <td>time_stamp</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp of the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>anomalies_detected</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>List of detected anomalies </p></td>
+                </tr>
+              
+                <tr>
+                  <td>source_ip</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>IP address of the user&#39;s device </p></td>
+                </tr>
+              
+                <tr>
+                  <td>location</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Geographic location of access </p></td>
+                </tr>
+              
+                <tr>
+                  <td>affected_systems</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Systems affected by the anomalies </p></td>
+                </tr>
+              
+                <tr>
+                  <td>severity_level</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Severity level of the anomaly </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest">AnomalyDetectionDataRequest</h3>
+        <p>New request message formats for AnomalyDetectionData.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>anomaly_detection_data</td>
+                  <td><a href="#cdx.opencdx.grpc.neural.protector.AnomalyDetectionData">AnomalyDetectionData</a></td>
+                  <td></td>
+                  <td><p>Request containing detailed anomaly detection data </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.AuthorizationControlData">AuthorizationControlData</h3>
+        <p>Comprehensive authorization control data.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>encounter_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Encounter ID associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the user associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>data_access_level</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Level of data access </p></td>
+                </tr>
+              
+                <tr>
+                  <td>access_granted_by</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Entity granting access </p></td>
+                </tr>
+              
+                <tr>
+                  <td>access_scopes</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Scopes of access </p></td>
+                </tr>
+              
+                <tr>
+                  <td>access_validity_period</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Time period for which access is valid </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_temporary_access</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
+                  <td><p>Indicates if access is temporary </p></td>
+                </tr>
+              
+                <tr>
+                  <td>conditional_access_params</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Conditions under which access is granted </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest">AuthorizationControlDataRequest</h3>
+        <p>New request message formats for AuthorizationControlData.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>authorization_control_data</td>
+                  <td><a href="#cdx.opencdx.grpc.neural.protector.AuthorizationControlData">AuthorizationControlData</a></td>
+                  <td></td>
+                  <td><p>Request containing comprehensive authorization control data </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.PrivacyProtectionData">PrivacyProtectionData</h3>
+        <p>Privacy protection data with in-depth fields.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>encounter_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Encounter ID associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>data_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Type of data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>anonymized_data</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Anonymized data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_data_encrypted</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
+                  <td><p>Indicates if data is encrypted </p></td>
+                </tr>
+              
+                <tr>
+                  <td>encryption_method</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Method of data encryption </p></td>
+                </tr>
+              
+                <tr>
+                  <td>data_retention_policy</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Policy for data retention </p></td>
+                </tr>
+              
+                <tr>
+                  <td>has_data_sharing_agreement</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
+                  <td><p>Indicates if there&#39;s a data sharing agreement </p></td>
+                </tr>
+              
+                <tr>
+                  <td>data_purpose</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Purpose for which the data is collected </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest">PrivacyProtectionDataRequest</h3>
+        <p>New request message formats for PrivacyProtectionData.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>privacy_protection_data</td>
+                  <td><a href="#cdx.opencdx.grpc.neural.protector.PrivacyProtectionData">PrivacyProtectionData</a></td>
+                  <td></td>
+                  <td><p>Request containing privacy protection data with in-depth fields </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.RealTimeMonitoringData">RealTimeMonitoringData</h3>
+        <p>Elaborate real-time monitoring data.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>encounter_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Encounter ID associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>monitored_entity</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Entity being monitored </p></td>
+                </tr>
+              
+                <tr>
+                  <td>monitoring_details</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Details of monitoring </p></td>
+                </tr>
+              
+                <tr>
+                  <td>monitoring_start_time</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Start time of monitoring </p></td>
+                </tr>
+              
+                <tr>
+                  <td>monitoring_end_time</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>End time of monitoring </p></td>
+                </tr>
+              
+                <tr>
+                  <td>triggered_alerts</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Alerts triggered during monitoring </p></td>
+                </tr>
+              
+                <tr>
+                  <td>monitoring_frequency</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Frequency of monitoring activity </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_continuous_monitoring</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
+                  <td><p>Indicates if monitoring is continuous </p></td>
+                </tr>
+              
+                <tr>
+                  <td>responsible_monitoring_team</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Team responsible for monitoring </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest">RealTimeMonitoringDataRequest</h3>
+        <p>New request message formats for RealTimeMonitoringData.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>real_time_monitoring_data</td>
+                  <td><a href="#cdx.opencdx.grpc.neural.protector.RealTimeMonitoringData">RealTimeMonitoringData</a></td>
+                  <td></td>
+                  <td><p>Request containing elaborate real-time monitoring data </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.SecurityResponse">SecurityResponse</h3>
+        <p>SecurityResponse message returned by the NeuralProtectorService.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>encounter_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Encounter ID associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>response</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Response message from the NeuralProtectorService </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData">UserBehaviorAnalysisData</h3>
+        <p>Expanded user behavior analysis data.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>encounter_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Encounter ID associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the user associated with the data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>behavior_pattern</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Pattern of user behavior </p></td>
+                </tr>
+              
+                <tr>
+                  <td>associated_activities</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Activities associated with the behavior </p></td>
+                </tr>
+              
+                <tr>
+                  <td>analysis_time_frame</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Time frame for behavior analysis </p></td>
+                </tr>
+              
+                <tr>
+                  <td>historical_behavior_data</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Historical data of user behavior </p></td>
+                </tr>
+              
+                <tr>
+                  <td>risk_assessment</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Risk assessment based on behavior </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_behavior_outlier</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
+                  <td><p>Indicates if behavior is an outlier </p></td>
+                </tr>
+              
+                <tr>
+                  <td>behavior_consequence</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Potential consequences of the behavior </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest">UserBehaviorAnalysisDataRequest</h3>
+        <p>New request message formats for UserBehaviorAnalysisData.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user_behavior_analysis_data</td>
+                  <td><a href="#cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData">UserBehaviorAnalysisData</a></td>
+                  <td></td>
+                  <td><p>Request containing expanded user behavior analysis data </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="cdx.opencdx.grpc.neural.protector.NeuralProtectorService">NeuralProtectorService</h3>
+        <p>NeuralProtectorService with operations.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>DetectAnomalies</td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest">AnomalyDetectionDataRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.SecurityResponse">SecurityResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>EnforceAuthorizationControl</td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest">AuthorizationControlDataRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.SecurityResponse">SecurityResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ProtectPrivacy</td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest">PrivacyProtectionDataRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.SecurityResponse">SecurityResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>MonitorRealTimeActivity</td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest">RealTimeMonitoringDataRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.SecurityResponse">SecurityResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>AnalyzeUserBehavior</td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest">UserBehaviorAnalysisDataRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.neural.protector.SecurityResponse">SecurityResponse</a></td>
+                <td><p></p></td>
               </tr>
             
           </tbody>
