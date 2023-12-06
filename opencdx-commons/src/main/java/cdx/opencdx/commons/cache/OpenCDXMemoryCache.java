@@ -16,103 +16,239 @@
 package cdx.opencdx.commons.cache;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Supplier;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.core.serializer.support.SerializationDelegate;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
 @Slf4j
-public class OpenCDXMemoryCache extends ConcurrentMapCache {
+public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
-    public static final String CREATED_OPEN_CDX_MEMORY_CACHE = "Created OpenCDXMemoryCache";
+    private final String name;
 
+    private final ConcurrentMap<Object, CacheValue> store;
+
+    @Nullable private final SerializationDelegate serialization;
+
+    /**
+     * Create a new ConcurrentMapCache with the specified name.
+     * @param name the name of the cache
+     */
+    public OpenCDXMemoryCache(String name) {
+        this(name, new ConcurrentHashMap<>(256), true);
+    }
+
+    /**
+     * Create a new ConcurrentMapCache with the specified name.
+     * @param name the name of the cache
+     * @param allowNullValues whether to accept and convert {@code null}
+     * values for this cache
+     */
     public OpenCDXMemoryCache(String name, boolean allowNullValues) {
-        super(name, allowNullValues);
+        this(name, new ConcurrentHashMap<>(256), allowNullValues);
     }
 
-    public OpenCDXMemoryCache(String name, ConcurrentMap<Object, Object> store, boolean allowNullValues) {
-        super(name, store, allowNullValues);
-        log.info(CREATED_OPEN_CDX_MEMORY_CACHE);
+    /**
+     * Create a new ConcurrentMapCache with the specified name and the
+     * given internal {@link ConcurrentMap} to use.
+     * @param name the name of the cache
+     * @param store the ConcurrentMap to use as an internal store
+     * @param allowNullValues whether to allow {@code null} values
+     * (adapting them to an internal null holder value)
+     */
+    public OpenCDXMemoryCache(String name, ConcurrentMap<Object, CacheValue> store, boolean allowNullValues) {
+        this(name, store, allowNullValues, null);
     }
 
+    /**
+     * Create a new ConcurrentMapCache with the specified name and the
+     * given internal {@link ConcurrentMap} to use. If the
+     * {@link SerializationDelegate} is specified,
+     * {@link #isStoreByValue() store-by-value} is enabled
+     * @param name the name of the cache
+     * @param store the ConcurrentMap to use as an internal store
+     * @param allowNullValues whether to allow {@code null} values
+     * (adapting them to an internal null holder value)
+     * @param serialization the {@link SerializationDelegate} to use
+     * to serialize cache entry or {@code null} to store the reference
+     * @since 4.3
+     */
     protected OpenCDXMemoryCache(
             String name,
-            ConcurrentMap<Object, Object> store,
+            ConcurrentMap<Object, CacheValue> store,
             boolean allowNullValues,
-            SerializationDelegate serialization) {
-        super(name, store, allowNullValues, serialization);
-        log.info(CREATED_OPEN_CDX_MEMORY_CACHE);
+            @Nullable SerializationDelegate serialization) {
+
+        super(allowNullValues);
+        Assert.notNull(name, "Name must not be null");
+        Assert.notNull(store, "Store must not be null");
+        this.name = name;
+        this.store = store;
+        this.serialization = serialization;
     }
 
-    public OpenCDXMemoryCache(String name) {
-        super(name);
-        log.info(CREATED_OPEN_CDX_MEMORY_CACHE);
-    }
-
-    @Override
-    protected Object lookup(Object key) {
-        log.info("lookup({})", key);
-        return super.lookup(key);
-    }
-
-    @Override
-    public <T> T get(Object key, Callable<T> valueLoader) {
-        log.info("get({})", key);
-        return super.get(key, valueLoader);
-    }
-
-    @Override
-    public void put(Object key, Object value) {
-        log.info("put({},{})", key, value);
-        super.put(key, value);
+    /**
+     * Return whether this cache stores a copy of each entry ({@code true}) or
+     * a reference ({@code false}, default). If store by value is enabled, each
+     * entry in the cache must be serializable.
+     * @since 4.3
+     */
+    public final boolean isStoreByValue() {
+        return (this.serialization != null);
     }
 
     @Override
-    public Cache.ValueWrapper putIfAbsent(Object key, Object value) {
-        log.info("putIfAbsent({},{})", key, value);
-        return super.putIfAbsent(key, value);
+    public final String getName() {
+        return this.name;
+    }
+
+    @Override
+    public final ConcurrentMap<Object, CacheValue> getNativeCache() {
+        return this.store;
+    }
+
+    @Override
+    @Nullable protected Object lookup(Object key) {
+        CacheValue cacheValue = this.store.get(key);
+        if (cacheValue != null) {
+            cacheValue.updateLastAccessed();
+            return cacheValue.getValue();
+        }
+        return null;
+    }
+
+    @SuppressWarnings({"java:S1181", "unchecked"})
+    @Override
+    @Nullable public <T> T get(Object key, Callable<T> valueLoader) {
+        CacheValue cacheValue = this.store.compute(key, (k, oldValue) -> {
+            try {
+                T value = valueLoader.call();
+                return new CacheValue(value);
+            } catch (Throwable ex) {
+                throw new ValueRetrievalException(key, valueLoader, ex);
+            }
+        });
+        if (cacheValue != null) {
+            cacheValue.updateLastAccessed();
+            return (T) cacheValue.getValue();
+        }
+        return null;
+    }
+
+    @SuppressWarnings({"java:S1452", "java:S3358"})
+    @Nullable public CompletableFuture<?> retrieve(Object key) {
+        CacheValue cacheValue = this.store.get(key);
+        if (cacheValue != null) {
+            cacheValue.updateLastAccessed();
+            return CompletableFuture.completedFuture(
+                    isAllowNullValues()
+                            ? toValueWrapper(cacheValue.getValue())
+                            : fromStoreValue(cacheValue.getValue()));
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> CompletableFuture<T> retrieve(Object key, Supplier<CompletableFuture<T>> valueLoader) {
+        return CompletableFuture.supplyAsync(() -> {
+            CacheValue cacheValue = this.store.compute(
+                    key, (k, oldValue) -> new CacheValue(valueLoader.get().join()));
+            if (cacheValue != null) {
+                cacheValue.updateLastAccessed();
+                return (T) cacheValue.getValue();
+            }
+            return null;
+        });
+    }
+
+    @Override
+    public void put(Object key, @Nullable Object value) {
+        this.store.put(key, new CacheValue(value));
+    }
+
+    @Override
+    @Nullable public ValueWrapper putIfAbsent(Object key, @Nullable Object value) {
+        CacheValue existing = this.store.putIfAbsent(key, new CacheValue(value));
+        return toValueWrapper(existing);
     }
 
     @Override
     public void evict(Object key) {
-        log.info("evict({})", key);
-        super.evict(key);
+        this.store.remove(key);
     }
 
     @Override
     public boolean evictIfPresent(Object key) {
-        log.info("evictIfPresent({})", key);
-        return super.evictIfPresent(key);
+        return (this.store.remove(key) != null);
     }
 
     @Override
-    protected Object toStoreValue(Object userValue) {
-        log.info("toStoreValue({})", userValue);
-        return super.toStoreValue(userValue);
+    public void clear() {
+        this.store.clear();
     }
 
     @Override
-    protected Object fromStoreValue(Object storeValue) {
-        log.info("fromStoreValue({})", storeValue);
-        return super.fromStoreValue(storeValue);
+    public boolean invalidate() {
+        boolean notEmpty = !this.store.isEmpty();
+        this.store.clear();
+        return notEmpty;
     }
 
+    @SuppressWarnings("java:S1181")
     @Override
-    public ValueWrapper get(Object key) {
-        log.info("get({})", key);
-        return super.get(key);
+    protected Object toStoreValue(@Nullable Object userValue) {
+        Object storeValue = super.toStoreValue(userValue);
+        if (this.serialization != null) {
+            try {
+                return this.serialization.serializeToByteArray(storeValue);
+            } catch (Throwable ex) {
+                throw new IllegalArgumentException(
+                        "Failed to serialize cache value '" + userValue + "'. Does it implement Serializable?", ex);
+            }
+        } else {
+            return storeValue;
+        }
     }
 
+    @SuppressWarnings("java:S1181")
     @Override
-    public <T> T get(Object key, Class<T> type) {
-        log.info("get({},{})", key, type);
-        return super.get(key, type);
+    protected Object fromStoreValue(@Nullable Object storeValue) {
+        if (storeValue != null && this.serialization != null) {
+            try {
+                return super.fromStoreValue(this.serialization.deserializeFromByteArray((byte[]) storeValue));
+            } catch (Throwable ex) {
+                throw new IllegalArgumentException("Failed to deserialize cache value '" + storeValue + "'", ex);
+            }
+        } else {
+            return super.fromStoreValue(storeValue);
+        }
     }
 
-    @Override
-    protected ValueWrapper toValueWrapper(Object storeValue) {
-        log.info("toValueWrapper({})", storeValue);
-        return super.toValueWrapper(storeValue);
+    // Inner class representing a cache value with last accessed timestamp
+    private static class CacheValue {
+        private final Object value;
+        private volatile long lastAccessed;
+
+        public CacheValue(Object value) {
+            this.value = value;
+            updateLastAccessed();
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public long getLastAccessed() {
+            return lastAccessed;
+        }
+
+        public void updateLastAccessed() {
+            this.lastAccessed = System.currentTimeMillis();
+        }
     }
 }
