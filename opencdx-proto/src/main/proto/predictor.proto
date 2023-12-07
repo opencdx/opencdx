@@ -8,15 +8,17 @@ option java_multiple_files = true;
  * Input data for making predictions.
  */
 message PredictorInput {
-  optional string test_id = 1; // ID of the connected test
-  repeated string test_features = 2; // Features extracted from the test data
+  optional string encounter_id = 1; // Encounter ID associated with the data
+  optional string test_id = 2; // ID of the connected test
+  repeated string test_features = 3; // Features extracted from the test data
 }
 
 /**
  * Output of the prediction model.
  */
 message PredictorOutput {
-  optional string predicted_value = 1; // The predicted outcome or parameter
+  optional string encounter_id = 1; // Encounter ID associated with the data
+  optional string predicted_value = 2; // The predicted outcome or parameter
 }
 
 /**
