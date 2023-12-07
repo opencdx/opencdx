@@ -19,8 +19,6 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -34,15 +32,9 @@ public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUser
      * @param username String containing the email address to look up for the user.
      * @return Optional OpenCDXIAMUserModel of the user.
      */
-    @Cacheable(value = "findByUsername", key = "#username")
     Optional<OpenCDXIAMUserModel> findByUsername(String username);
 
     @Override
-    @Caching(
-            evict = {
-                @CacheEvict(value = "findByUsername", key = "#entity.username"),
-                @CacheEvict(value = "user-details", key = "#entity.username")
-            })
     @CacheEvict(value = "user-details", key = "#entity.username")
     <S extends OpenCDXIAMUserModel> S save(S entity);
 }

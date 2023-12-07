@@ -40,4 +40,10 @@ public interface OpenCDXCurrentUser {
      * @param role Role to assign to the system user.
      */
     void configureAuthentication(String role);
+
+    /**
+     * Method to assign the System as the current user with the specified role.
+     * @param allowBypassAuthentication Flag to bypass authentication.
+     */
+    void allowBypassAuthentication(boolean allowBypassAuthentication);
 }

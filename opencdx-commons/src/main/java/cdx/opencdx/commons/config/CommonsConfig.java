@@ -164,7 +164,6 @@ public class CommonsConfig {
     @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         log.info("Creating Mongo Template");
-        // TODO: switch in OpenCDXMongoAuditTemplate
-        return new MongoTemplate(mongoDbFactory, mongoConverter);
+        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 }
