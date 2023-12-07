@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.utils;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
  * Helper class to get the current user.
  */
 @Component
+@ExcludeFromJacocoGeneratedReport
 public class CurrentUserHelper {
 
     private static OpenCDXCurrentUser openCDXCurrentUser;

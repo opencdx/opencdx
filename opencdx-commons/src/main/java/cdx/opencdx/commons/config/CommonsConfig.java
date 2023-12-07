@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -162,6 +163,7 @@ public class CommonsConfig {
     @Primary
     @Profile("mongo")
     @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
+    @ExcludeFromJacocoGeneratedReport
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         log.info("Creating Mongo Template");
         return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
