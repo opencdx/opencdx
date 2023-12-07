@@ -90,7 +90,8 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
                     .findByUsername(authentication.getName())
-                    .orElse(defaultUser);
+                    .orElseThrow(
+                            () -> new OpenCDXNotFound(DOMAIN, 2, CURRENT_USER_NOT_FOUND + authentication.getName()));
         }
         return defaultUser;
     }
