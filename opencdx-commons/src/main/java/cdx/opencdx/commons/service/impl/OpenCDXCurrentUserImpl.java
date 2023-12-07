@@ -21,7 +21,10 @@ import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.iam.IamUserType;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,12 +36,18 @@ import org.springframework.stereotype.Service;
 /**
  * Implementaiton based on JWT
  */
+@Slf4j
 @ExcludeFromJacocoGeneratedReport
 @Service
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
+    public static final String CURRENT_USER_NOT_FOUND = "Current User not found: ";
+    public static final String BYPASSING_AUTHENTICATION = "Bypassing Authentication";
+
     @Value("${spring.application.name}")
     private String applicationName;
+
+    private boolean allowBypassAuthentication = false;
 
     private static final String DOMAIN = "OpenCDXCurrentUserImpl";
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -58,11 +67,19 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     @Override
     public OpenCDXIAMUserModel getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null && this.allowBypassAuthentication) {
+            log.warn(BYPASSING_AUTHENTICATION);
+            return OpenCDXIAMUserModel.builder()
+                    .systemName("ByPass User")
+                    .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                    .id(new ObjectId("000000000000000000000001"))
+                    .build();
+        }
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
                     .findByUsername(authentication.getName())
-                    .orElseThrow(() ->
-                            new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
+                    .orElseThrow(
+                            () -> new OpenCDXNotFound(DOMAIN, 2, CURRENT_USER_NOT_FOUND + authentication.getName()));
         }
         throw new OpenCDXUnauthorized(DOMAIN, 1, "No user Authenticated. No Current User.");
     }
@@ -73,8 +90,8 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
                     .findByUsername(authentication.getName())
-                    .orElseThrow(() ->
-                            new OpenCDXNotFound(DOMAIN, 2, "Current User not found: " + authentication.getName()));
+                    .orElseThrow(
+                            () -> new OpenCDXNotFound(DOMAIN, 2, CURRENT_USER_NOT_FOUND + authentication.getName()));
         }
         return defaultUser;
     }
@@ -84,5 +101,15 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 this.applicationName, role, List.of(new SimpleGrantedAuthority(role)));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    @Override
+    public void allowBypassAuthentication(boolean allowBypassAuthentication) {
+        if (allowBypassAuthentication) {
+            log.warn(BYPASSING_AUTHENTICATION);
+        } else {
+            log.warn("Requiring Authentication");
+        }
+        this.allowBypassAuthentication = allowBypassAuthentication;
     }
 }
