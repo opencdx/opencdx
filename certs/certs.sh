@@ -67,7 +67,6 @@ generate_certificate "Routine"
 generate_certificate "Predictor"
 generate_certificate "Protector"
 
-
 # Generate certificates for MongoDB
 generate_certificate "mongodb"
 
