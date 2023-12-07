@@ -88,6 +88,10 @@ public class OpenCDXIAMUserModel {
     private List<ObjectId> dependents;
     private List<KnownAllergy> allergies;
     private List<Medication> medications;
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
     /**
      * Method to identify AgentType for Audit
      * @return AgentType corresponding to IamUser.
@@ -172,6 +176,20 @@ public class OpenCDXIAMUserModel {
         this.emailVerified = iamUser.getEmailVerified();
         this.status = iamUser.getStatus();
         this.type = iamUser.getType();
+        if (iamUser.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    iamUser.getCreated().getSeconds(), iamUser.getCreated().getNanos());
+        }
+        if (iamUser.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    iamUser.getModified().getSeconds(), iamUser.getModified().getNanos());
+        }
+        if (iamUser.hasCreator()) {
+            this.creator = new ObjectId(iamUser.getCreator());
+        }
+        if (iamUser.hasModifier()) {
+            this.modifier = new ObjectId(iamUser.getModifier());
+        }
     }
 
     /**
@@ -211,6 +229,24 @@ public class OpenCDXIAMUserModel {
         }
         if (this.type != null) {
             builder.setType(this.type);
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
     }
@@ -292,7 +328,24 @@ public class OpenCDXIAMUserModel {
         if (this.medications != null) {
             builder.addAllCurrentMedications(this.medications);
         }
-
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
+        }
         return builder.build();
     }
 }

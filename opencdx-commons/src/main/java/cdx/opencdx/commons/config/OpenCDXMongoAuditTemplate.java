@@ -18,7 +18,7 @@ package cdx.opencdx.commons.config;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
@@ -51,7 +51,7 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     protected <T> T maybeCallBeforeSave(T object, Document document, String collection) {
         ObjectId identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
-        Date date = new Date();
+        Instant date = Instant.now();
 
         Object id = document.get("_id");
         Object creator = document.get("creator");
@@ -88,7 +88,7 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     private void updateRemovalQuery(String collectionName, Query query) {
         ObjectId identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
-        Date date = new Date();
+        Instant date = Instant.now();
 
         log.debug("Setting Modifier: {} modified: {}", identityID, date);
 

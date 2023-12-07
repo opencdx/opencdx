@@ -240,4 +240,8 @@ message IamUser {
 
   // Type of IAM user (e.g., Regular, System, Trial).
   IamUserType type = 8;
+  optional google.protobuf.Timestamp created = 9; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 10; // Timestamp when this event was modified.
+  optional string creator = 11; // ID of the creator of this event.
+  optional string modifier = 12; // ID of the modifier of this event.
 }

@@ -101,6 +101,13 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                     .jetStream()
                     .subscribe(
                             subject, OPENCDX, this.dispatcher, new NatsMessageHandler(handler), true, subscribeOptions);
+
+            log.info(
+                    "Queue: {} Subject: {} Active: {}",
+                    subscription.getQueueName(),
+                    subscription.getSubject(),
+                    subscription.isActive());
+
             this.subscriptionMap.put(subject, subscription);
         } catch (IOException | JetStreamApiException e) {
             throw new OpenCDXInternal(DOMAIN, 2, "Failed JetStream Subscribe", e);
@@ -148,7 +155,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
         }
 
         @Override
-        public void onMessage(Message msg) throws InterruptedException {
+        public void onMessage(Message msg) {
             handler.receivedMessage(msg.getData());
         }
     }

@@ -16,6 +16,8 @@
 package cdx.opencdx.connected.test.model;
 
 import cdx.opencdx.grpc.connected.*;
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,6 +52,11 @@ public class OpenCDXConnectedTestModel {
     private ProviderInfo providerInfo;
     private TestDetails testDetails;
 
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
+
     /**
      * Constructor from protobuf message ConnectedTest
      * @param connectedTest Protobuf message to generate from
@@ -66,6 +73,23 @@ public class OpenCDXConnectedTestModel {
         this.paymentDetails = connectedTest.getPaymentDetails();
         this.providerInfo = connectedTest.getProviderInfo();
         this.testDetails = connectedTest.getTestDetails();
+
+        if (connectedTest.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    connectedTest.getCreated().getSeconds(),
+                    connectedTest.getCreated().getNanos());
+        }
+        if (connectedTest.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    connectedTest.getModified().getSeconds(),
+                    connectedTest.getModified().getNanos());
+        }
+        if (connectedTest.hasCreator()) {
+            this.creator = new ObjectId(connectedTest.getCreator());
+        }
+        if (connectedTest.hasModifier()) {
+            this.modifier = new ObjectId(connectedTest.getModifier());
+        }
     }
     /**
      * Return this model as an ConnectedTest
@@ -94,6 +118,24 @@ public class OpenCDXConnectedTestModel {
         }
         if (this.testNotes != null) {
             builder.setTestNotes(this.testNotes);
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
     }
