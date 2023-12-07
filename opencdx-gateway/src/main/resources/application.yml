@@ -22,12 +22,6 @@ spring:
           lower-case-service-id: true
       enabled: true
       routes:
-        - id: frontend
-          uri: http://frontend:3000
-          predicates:
-            - Path=/frontend/**
-          filters:
-            - RewritePath=/frontend/(?<segment>.*), /$\{segment}
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
