@@ -55,6 +55,7 @@ public class CommunicationsChangeSet {
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "001", id = "Create Welcome Template", author = "Gaurav Mishra")
     public void generateWelcomeTemplates(
@@ -105,6 +106,7 @@ public class CommunicationsChangeSet {
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "002", id = "Create Newsletter Template", author = "Gaurav Mishra")
     public void generateNewsletterTemplate(
@@ -140,6 +142,7 @@ public class CommunicationsChangeSet {
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "003", id = "Create Alert Template", author = "Gaurav Mishra")
     public void generateAlertTemplate(
@@ -189,6 +192,7 @@ public class CommunicationsChangeSet {
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "004", id = "Create Reminder Template", author = "Gaurav Mishra")
     public void generateReminderTemplate(
@@ -238,6 +242,7 @@ public class CommunicationsChangeSet {
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "005", id = "Create Confirmation Template", author = "Gaurav Mishra")
     public void generateConfirmationTemplate(
@@ -289,6 +294,7 @@ public class CommunicationsChangeSet {
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXSMSTemplateRespository SMS Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "006", id = "Create Notification Template", author = "Gaurav Mishra")
     public void generateNotificationTemplate(
@@ -336,6 +342,7 @@ public class CommunicationsChangeSet {
      * Email Verify Template
      * @param openCDXEmailTemplateRepository Email Template Repository
      * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "007", id = "Create Email Verify Template", author = "Gaurav Mishra")
     public void generateEmailVerifyTemplate(

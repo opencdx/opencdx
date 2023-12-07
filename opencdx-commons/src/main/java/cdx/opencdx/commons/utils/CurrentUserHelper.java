@@ -35,6 +35,10 @@ public class CurrentUserHelper {
         CurrentUserHelper.openCDXCurrentUser = openCDXCurrentUser;
     }
 
+    /**
+     * Get the current user.
+     * @return Current user.
+     */
     public static OpenCDXCurrentUser getOpenCDXCurrentUser() {
         return CurrentUserHelper.openCDXCurrentUser;
     }

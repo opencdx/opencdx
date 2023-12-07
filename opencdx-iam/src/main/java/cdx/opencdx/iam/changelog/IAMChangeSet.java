@@ -36,7 +36,7 @@ import org.bson.types.ObjectId;
 @ExcludeFromJacocoGeneratedReport
 public class IAMChangeSet {
 
-    public static final String SCRAMBLED_PASSWORD =
+    private static final String SCRAMBLED_PASSWORD =
             "{bcrypt}$2a$10$FLbaCLMQvIW8u5ceN4BStujPq8dbXeyeIiazOPatFUwcaopXNqlAa";
     private static final String SYSTEM = "SYSTEM";
 
@@ -50,6 +50,7 @@ public class IAMChangeSet {
     /**
      * Setup Communications System  for OpenCDX
      * @param openCDXIAMUserRepository User Repository for saving default user.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "001", id = "Setup Service Users", author = "Jeff Miller")
     public void setServiceUsers(
@@ -136,6 +137,7 @@ public class IAMChangeSet {
     /**
      * Setup Index on email for users.
      * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "002", id = "Setup Users Email Index", author = "Gaurav Mishra")
     public void setupIndexes(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
@@ -146,6 +148,7 @@ public class IAMChangeSet {
     /**
      * Setup Default User for OpenCDX
      * @param openCDXIAMUserRepository User Repository for saving default user.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "003", id = "Setup Default User", author = "Jeff Miller")
     public void setupDefaultUser(
@@ -168,6 +171,7 @@ public class IAMChangeSet {
     /**
      * Create an index based on the system name
      * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
     @ChangeSet(order = "004", id = "Setup Users System Index", author = "Jeff Miller")
     public void setupSystemIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
