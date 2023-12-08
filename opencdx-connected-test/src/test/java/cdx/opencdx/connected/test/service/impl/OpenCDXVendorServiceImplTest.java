@@ -20,7 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.controller.GrpcVendorController;
+import cdx.opencdx.connected.test.controller.OpenCDXGrpcVendorController;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
@@ -73,7 +73,7 @@ class OpenCDXVendorServiceImplTest {
 
     OpenCDXVendorService openCDXVendorService;
 
-    GrpcVendorController grpcVendorController;
+    OpenCDXGrpcVendorController openCDXGrpcVendorController;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;

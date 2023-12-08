@@ -20,7 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.controller.GrpcTestCaseController;
+import cdx.opencdx.connected.test.controller.OpenCDXGrpcTestCaseController;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
@@ -73,7 +73,7 @@ class OpenCDXTestCaseServiceImplTest {
 
     OpenCDXTestCaseService openCDXTestCaseService;
 
-    GrpcTestCaseController grpcTestCaseController;
+    OpenCDXGrpcTestCaseController openCDXGrpcTestCaseController;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
