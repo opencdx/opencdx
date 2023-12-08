@@ -22,12 +22,6 @@ spring:
           lower-case-service-id: true
       enabled: true
       routes:
-        - id: frontend
-          uri: http://frontend:3000
-          predicates:
-            - Path=/frontend/**
-          filters:
-            - RewritePath=/frontend/(?<segment>.*), /$\{segment}
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
@@ -46,6 +40,12 @@ spring:
             - Path=/cdx.opencdx.grpc.protector.NeuralProtectorService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value            
+        - id: grpc-predictor
+          uri: https://predictor:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value  
         - id: grpc-communications
           uri: https://communications:9090
           predicates:
