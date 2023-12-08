@@ -1266,29 +1266,6 @@
             </ul>
           </li>
         
-          
-          <li>
-            <a href="#unit_test.proto">unit_test.proto</a>
-            <ul>
-              
-                <li>
-                  <a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestRequest"><span class="badge">M</span>UnitTestRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestResponse"><span class="badge">M</span>UnitTestResponse</a>
-                </li>
-              
-              
-              
-              
-                <li>
-                  <a href="#health.safe.api.opencdx.grpc.unit.test.UnitTest"><span class="badge">S</span>UnitTest</a>
-                </li>
-              
-            </ul>
-          </li>
-        
         <li><a href="#scalar-value-types">Scalar Value Types</a></li>
       </ul>
     </div>
@@ -1389,6 +1366,34 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                   <td><a href="#cdx.opencdx.grpc.anf.NarrativeCircumstance">NarrativeCircumstance</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -2223,7 +2228,7 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                 <tr>
                   <td>created</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
+                  <td>optional</td>
                   <td><p>Timestamp when this event occurred. </p></td>
                 </tr>
               
@@ -2267,6 +2272,27 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                   <td><a href="#cdx.opencdx.grpc.audit.AuditEntity">AuditEntity</a></td>
                   <td></td>
                   <td><p>Identifies whose data is being acted on. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -2718,6 +2744,34 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                   <td><p>Type of the email template. </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -2922,6 +2976,34 @@ Variables or placeholders. </p></td>
                   <td><p>List of the UUID&#39;s for each email recipient and for recipients phone numbers. </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -3071,6 +3153,34 @@ Variables or placeholders. </p></td>
                   <td><p>Number of attempts to try and send SMS. Defaults to 0 for infinite. </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -3204,6 +3314,34 @@ Variables or placeholders. </p></td>
                   <td><a href="#cdx.opencdx.grpc.communication.TemplateType">TemplateType</a></td>
                   <td></td>
                   <td><p>Type of the SMS template. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -3779,6 +3917,34 @@ Retrieve a list of SMS templates.</p></td>
                   <td><a href="#cdx.opencdx.grpc.connected.TestDetails">TestDetails</a></td>
                   <td></td>
                   <td><p>Test and result details block </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -5552,6 +5718,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>Departments (Workspaces) within the organization </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -5754,6 +5948,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#cdx.opencdx.grpc.organization.Department">Department</a></td>
                   <td>repeated</td>
                   <td><p>Departments within the workspace </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -6900,6 +7122,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>Indicates whether the user is active </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -7423,6 +7673,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#cdx.opencdx.grpc.iam.IamUserType">IamUserType</a></td>
                   <td></td>
                   <td><p>Type of IAM user (e.g., Regular, System, Trial). </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -7991,6 +8269,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>Country name </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -8266,6 +8572,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>Name of the device </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -8368,6 +8702,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p>Manufacturer&#39;s certifications </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -8502,6 +8864,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>Safety information </p></td>
                 </tr>
               
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -8604,6 +8994,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p>Vendor&#39;s certifications </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -9233,6 +9651,34 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#cdx.opencdx.grpc.media.MediaStatus">MediaStatus</a></td>
                   <td></td>
                   <td><p>Status </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -11542,108 +11988,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><a href="#cdx.opencdx.grpc.tinkar.TinkarRequest">TinkarRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.tinkar.TinkarReply">TinkarReply</a></td>
                 <td><p>Sends a greeting</p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-
-        
-    
-      
-      <div class="file-heading">
-        <h2 id="unit_test.proto">unit_test.proto</h2><a href="#title">Top</a>
-      </div>
-      <p></p>
-
-      
-        <h3 id="health.safe.api.opencdx.grpc.unit.test.UnitTestRequest">UnitTestRequest</h3>
-        <p>The request message containing the user's name.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>message</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>This is the description of message attribute of the UnitTestRequest message. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="health.safe.api.opencdx.grpc.unit.test.UnitTestResponse">UnitTestResponse</h3>
-        <p>The response message containing the greetings</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>message</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>This is the description of message attribute of the UnitTestResponse message. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-
-      
-
-      
-
-      
-        <h3 id="health.safe.api.opencdx.grpc.unit.test.UnitTest">UnitTest</h3>
-        <p>This proto is for use in unit testing gRPC Services and messages through out</p><p>the OpenCDx project.</p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>TestA</td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestRequest">UnitTestRequest</a></td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestResponse">UnitTestResponse</a></td>
-                <td><p>Used to Sends a greeting. TestB rpc takes UnitTestRequest as a input and return UnitTestResponse message.</p></td>
-              </tr>
-            
-              <tr>
-                <td>TestB</td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestRequest">UnitTestRequest</a></td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestResponse">UnitTestResponse</a></td>
-                <td><p>Used to Sends a greeting. TestB rpc takes UnitTestRequest as a input and return UnitTestResponse message.</p></td>
-              </tr>
-            
-              <tr>
-                <td>TestC</td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestRequest">UnitTestRequest</a></td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestResponse">UnitTestResponse</a></td>
-                <td><p>Used to Sends a greeting. TestB rpc takes UnitTestRequest as a input and return UnitTestResponse message.</p></td>
-              </tr>
-            
-              <tr>
-                <td>TestD</td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestRequest">UnitTestRequest</a></td>
-                <td><a href="#health.safe.api.opencdx.grpc.unit.test.UnitTestResponse">UnitTestResponse</a></td>
-                <td><p>Used to Sends a greeting. TestB rpc takes UnitTestRequest as a input and return UnitTestResponse message.</p></td>
               </tr>
             
           </tbody>

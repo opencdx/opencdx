@@ -23,6 +23,7 @@ cdx.opencdx.commons.repository
 cdx.opencdx.commons.security
 cdx.opencdx.commons.service
 cdx.opencdx.commons.service.impl
+cdx.opencdx.commons.utils
 cdx.opencdx.communications
 cdx.opencdx.communications.changelog
 cdx.opencdx.communications.config
