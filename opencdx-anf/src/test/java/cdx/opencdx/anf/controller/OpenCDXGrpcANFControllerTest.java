@@ -16,7 +16,7 @@
 package cdx.opencdx.anf.controller;
 
 import cdx.opencdx.anf.model.Person;
-import cdx.opencdx.anf.repository.PersonRepository;
+import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.impl.OpenCDXANFServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -45,7 +45,7 @@ class OpenCDXGrpcANFControllerTest {
     OpenCDXAuditService openCDXAuditService;
 
     @Mock
-    PersonRepository personRepository;
+    OpenCDXANFStatementRepository openCDXANFStatementRepository;
 
     OpenCDXANFServiceImpl helloWorldService;
 
@@ -56,21 +56,22 @@ class OpenCDXGrpcANFControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
+        this.openCDXANFStatementRepository = Mockito.mock(OpenCDXANFStatementRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService =
-                new OpenCDXANFServiceImpl(this.personRepository, this.openCDXAuditService, openCDXCurrentUser);
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(Person.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        this.helloWorldService = new OpenCDXANFServiceImpl(
+                this.openCDXANFStatementRepository, this.openCDXAuditService, openCDXCurrentUser, objectMapper);
         this.openCDXGrpcANFController = new OpenCDXGrpcANFController(this.helloWorldService);
     }
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.personRepository);
+        Mockito.reset(this.openCDXANFStatementRepository);
     }
 
     @Test

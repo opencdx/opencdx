@@ -16,7 +16,7 @@
 package cdx.opencdx.anf.service.impl;
 
 import cdx.opencdx.anf.model.Person;
-import cdx.opencdx.anf.repository.PersonRepository;
+import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -41,7 +41,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class OpenCDXANFServiceImplTest {
 
     @Mock
-    PersonRepository personRepository;
+    OpenCDXANFStatementRepository openCDXANFStatementRepository;
 
     OpenCDXANFService openCDXANFService;
 
@@ -53,25 +53,26 @@ class OpenCDXANFServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
+        this.openCDXANFStatementRepository = Mockito.mock(OpenCDXANFStatementRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.openCDXANFService =
-                new OpenCDXANFServiceImpl(this.personRepository, this.openCDXAuditService, openCDXCurrentUser);
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXANFStatementRepository, this.openCDXAuditService, openCDXCurrentUser, objectMapper);
     }
 
     @AfterEach
     void tearDown() {
-        Mockito.reset(this.personRepository);
+        Mockito.reset(this.openCDXANFStatementRepository);
     }
 
     @Test
     void testSayHello() {
         Person person = new Person();
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(Person.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
         Assertions.assertEquals(
                 "Hello Bob!",
                 this.openCDXANFService.sayHello(

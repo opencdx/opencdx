@@ -15,16 +15,20 @@
  */
 package cdx.opencdx.anf.service.impl;
 
-import cdx.opencdx.anf.model.Person;
-import cdx.opencdx.anf.repository.PersonRepository;
+import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
+import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.OpenCDXANFService;
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.anf.AnfStatement;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.helloworld.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.UUID;
+import java.util.HashMap;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,46 +38,133 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
-
-    private final PersonRepository personRepository;
+    private static final String DOMAIN = "OpenCDXANFServiceImpl";
+    public static final String ANF_STATEMENT = "anf-statement";
+    public static final String FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL =
+            "Failed to convert OpenCDXANFStatementModel";
+    public static final String OBJECT = "OBJECT";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final OpenCDXANFStatementRepository openCDXANFStatementRepository;
+    private final ObjectMapper objectMapper;
 
     /**
      * Constructor taking the a PersonRepository
      *
-     * @param personRepository    repository for interacting with the database.
-     * @param openCDXAuditService Audit service for tracking FDA requirements
-     * @param openCDXCurrentUser Current User Service.
+     * @param openCDXAuditService           Audit service for tracking FDA requirements
+     * @param openCDXCurrentUser            Current User Service.
+     * @param openCDXANFStatementRepository Repository for ANF Statements
+     * @param objectMapper
      */
     @Autowired
     public OpenCDXANFServiceImpl(
-            PersonRepository personRepository,
             OpenCDXAuditService openCDXAuditService,
-            OpenCDXCurrentUser openCDXCurrentUser) {
-        this.personRepository = personRepository;
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXANFStatementRepository openCDXANFStatementRepository,
+            ObjectMapper objectMapper) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXANFStatementRepository = openCDXANFStatementRepository;
+        this.objectMapper = objectMapper;
     }
 
-    /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
-     */
     @Override
-    public String sayHello(HelloRequest request) {
-        Person person = Person.builder().name(request.getName()).build();
-        this.personRepository.save(person);
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        this.openCDXAuditService.piiCreated(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "purpose",
-                SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                UUID.randomUUID().toString(),
-                "COMMUNICATION: 123",
-                "{\"name\":\"John\", \"age\":30, \"car\":null}");
-        return String.format("Hello %s!", request.getName().trim());
+    public AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request) {
+        OpenCDXANFStatementModel openCDXANFStatementModel =
+                this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.phiCreated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Creating ANF Statement",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ANF_STATEMENT,
+                    openCDXANFStatementModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXANFStatementModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXANFStatementModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXANFStatementModel.getProtobufMessage().getId();
+    }
+
+    @Override
+    public AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request) {
+        OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(
+                        () -> new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.phiAccessed(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Accessed ANF Statement",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ANF_STATEMENT,
+                    openCDXANFStatementModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXANFStatementModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXANFStatementModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXANFStatementModel.getProtobufMessage();
+    }
+
+    @Override
+    public AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request) {
+        OpenCDXANFStatementModel openCDXANFStatementModel =
+                this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.phiUpdated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Updating ANF Statement",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ANF_STATEMENT,
+                    openCDXANFStatementModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXANFStatementModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXANFStatementModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXANFStatementModel.getProtobufMessage().getId();
+    }
+
+    @Override
+    public AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request) {
+        OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(
+                        () -> new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.phiDeleted(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting ANF Statement",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    ANF_STATEMENT,
+                    openCDXANFStatementModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXANFStatementModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXANFStatementModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        return openCDXANFStatementModel.getProtobufMessage().getId();
     }
 }

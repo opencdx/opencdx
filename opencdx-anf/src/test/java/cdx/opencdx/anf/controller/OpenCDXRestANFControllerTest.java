@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.anf.model.Person;
-import cdx.opencdx.anf.repository.PersonRepository;
+import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import io.nats.client.Connection;
@@ -54,7 +54,7 @@ class OpenCDXRestANFControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    PersonRepository personRepository;
+    OpenCDXANFStatementRepository openCDXANFStatementRepository;
 
     @MockBean
     Connection connection;
@@ -70,15 +70,16 @@ class OpenCDXRestANFControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         MockitoAnnotations.openMocks(this);
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
+        this.openCDXANFStatementRepository = Mockito.mock(OpenCDXANFStatementRepository.class);
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(Person.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @AfterEach
     void tearDown() {
         Mockito.reset(this.connection);
-        Mockito.reset(this.personRepository);
+        Mockito.reset(this.openCDXANFStatementRepository);
     }
 
     @Test

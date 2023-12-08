@@ -15,16 +15,35 @@
  */
 package cdx.opencdx.anf.service;
 
-import cdx.opencdx.grpc.helloworld.HelloRequest;
+import cdx.opencdx.grpc.anf.AnfStatement;
 
 /**
- * Interface for the HelloWorldService
+ * Interface for the ANF Service
  */
 public interface OpenCDXANFService {
     /**
-     * Process the HelloRequest
-     * @param request request the process
-     * @return Message generated for this request.
+     * Create an ANF Statement
+     * @param request the request to create the statement
+     * @return the identifier of the statement
      */
-    String sayHello(HelloRequest request);
+    AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request);
+    /**
+     * Get an ANF Statement
+     *
+     * @param request the request to get the statement
+     * @return the statement
+     */
+    AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request);
+    /**
+     * Update an ANF Statement
+     * @param request the request to update the statement
+     * @return the identifier of the statement
+     */
+    AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request);
+    /**
+     * Delete an ANF Statement
+     * @param request the request to delete the statement
+     * @return the identifier of the statement
+     */
+    AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request);
 }

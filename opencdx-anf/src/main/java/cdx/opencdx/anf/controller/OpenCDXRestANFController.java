@@ -16,6 +16,7 @@
 package cdx.opencdx.anf.controller;
 
 import cdx.opencdx.anf.service.OpenCDXANFService;
+import cdx.opencdx.grpc.anf.AnfStatement;
 import cdx.opencdx.grpc.helloworld.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller for the /greeting api's
- */
 @Slf4j
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,10 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class OpenCDXRestANFController {
 
     private final OpenCDXANFService openCDXANFService;
-
     /**
-     * Constructor that takes a HelloWorldService
-     * @param openCDXANFService service for processing requests.
+     * Constructor with OpenCDXDeviceService for processing
+     * @param openCDXANFService OpenCDXDeviceService for processing requests.
      */
     @Autowired
     public OpenCDXRestANFController(OpenCDXANFService openCDXANFService) {
@@ -49,17 +43,47 @@ public class OpenCDXRestANFController {
     }
 
     /**
-     * Post Hello Rest API
-     * @param request HelloRequest indicating who to say hello to.
-     * @return HelloReply with the hello message.
+     * Method to get an ANF Statement by Id
+     * @param id id of the ANF Statement to retrieve.
+     * @return The requested ANF Statement.
      */
-    @PostMapping(value = "/hello")
-    public ResponseEntity<HelloReply> sayHello(@RequestBody HelloRequest request) {
-
+    @GetMapping("/{id}")
+    public ResponseEntity<AnfStatement.ANFStatement> getANFStatement(@PathVariable("id") String id) {
         return new ResponseEntity<>(
-                HelloReply.newBuilder()
-                        .setMessage(openCDXANFService.sayHello(request))
-                        .build(),
+                this.openCDXANFService.getANFStatement(
+                        AnfStatement.Identifier.newBuilder().setId(id).build()),
+                HttpStatus.OK);
+    }
+    /**
+     * Method to create an ANF Statement
+     * @param anfStatement ANF Statement to create.
+     * @return The created ANF Statement.
+     */
+    @PostMapping()
+    public ResponseEntity<AnfStatement.Identifier> createANFStatement(
+            @RequestBody AnfStatement.ANFStatement anfStatement) {
+        return new ResponseEntity<>(this.openCDXANFService.createANFStatement(anfStatement), HttpStatus.OK);
+    }
+    /**
+     * Method to update an ANF Statement
+     * @param anfStatement ANF Statement to update.
+     * @return The updated ANF Statement.
+     */
+    @PutMapping()
+    public ResponseEntity<AnfStatement.Identifier> updateANFStatement(
+            @RequestBody AnfStatement.ANFStatement anfStatement) {
+        return new ResponseEntity<>(this.openCDXANFService.updateANFStatement(anfStatement), HttpStatus.OK);
+    }
+    /**
+     * Method to delete an ANF Statement
+     * @param id id of the ANF Statement to delete.
+     * @return The deleted ANF Statement.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AnfStatement.Identifier> deleteANFStatement(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXANFService.deleteANFStatement(
+                        AnfStatement.Identifier.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
 }
