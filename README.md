@@ -59,6 +59,9 @@ For the latest command line options please use:
 
 `./deploy.sh --help`
 
+Execute the following to deploy application
+`./deploy.sh --deploy`
+
 ## JMeter Testing
 1. Download the latest version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi)
 2. Place Apache JMeter on your environment PATH
