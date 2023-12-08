@@ -25,6 +25,7 @@ include('opencdx-helloworld',
         'opencdx-iam',
         'opencdx-routine',	
         'opencdx-protector',
+        'opencdx-predictor',
         'opencdx-gateway',
         'opencdx-discovery'
 )

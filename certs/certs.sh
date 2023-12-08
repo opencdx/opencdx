@@ -64,6 +64,7 @@ generate_certificate "Admin"
 generate_certificate "Gateway"
 generate_certificate "Discovery"
 generate_certificate "Routine"
+generate_certificate "Predictor"
 generate_certificate "Protector"
 
 # Generate certificates for MongoDB

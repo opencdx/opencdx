@@ -16,7 +16,7 @@ logging:
       safe: DEBUG
 spring:
   application:
-    name: HelloWorld
+    name: protector
   cloud:
     config:
       enabled: false
