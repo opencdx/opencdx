@@ -15,14 +15,19 @@
  */
 package cdx.opencdx.anf.controller;
 
-import cdx.opencdx.anf.model.Person;
-import cdx.opencdx.anf.repository.PersonRepository;
+import static org.junit.jupiter.api.Assertions.*;
+
+import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
+import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
+import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.anf.service.impl.OpenCDXANFServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.helloworld.*;
+import cdx.opencdx.grpc.anf.AnfStatement;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,50 +43,110 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXGrpcANFControllerTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    @Mock
-    PersonRepository personRepository;
+    @Autowired
+    ObjectMapper objectMapper;
 
-    OpenCDXANFServiceImpl helloWorldService;
+    @Mock
+    OpenCDXANFStatementRepository openCDXANFStatementRepository;
 
     OpenCDXGrpcANFController openCDXGrpcANFController;
+
+    OpenCDXANFService openCDXANFService;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
     void setUp() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
-        this.helloWorldService =
-                new OpenCDXANFServiceImpl(this.personRepository, this.openCDXAuditService, openCDXCurrentUser);
-        this.openCDXGrpcANFController = new OpenCDXGrpcANFController(this.helloWorldService);
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, objectMapper);
+        this.openCDXGrpcANFController = new OpenCDXGrpcANFController(this.openCDXANFService);
     }
 
     @AfterEach
-    void tearDown() {
-        Mockito.reset(this.personRepository);
+    void tearDown() {}
+
+    @Test
+    void createANFStatement() {
+        StreamObserver<AnfStatement.Identifier> responseObserver = Mockito.mock(StreamObserver.class);
+
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        this.openCDXGrpcANFController.createANFStatement(anfStatement, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(anfStatement.getId());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
-    void sayHello() {
-        StreamObserver<HelloReply> responseObserver = Mockito.mock(StreamObserver.class);
-        HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
-        HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
+    void getANFStatement() {
+        StreamObserver<AnfStatement.ANFStatement> responseObserver = Mockito.mock(StreamObserver.class);
 
-        this.openCDXGrpcANFController.sayHello(helloRequest, responseObserver);
+        OpenCDXANFStatementModel openCDXANFStatementModel =
+                OpenCDXANFStatementModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXANFStatementModel));
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(openCDXANFStatementModel.getId().toString())
+                .build();
+        this.openCDXGrpcANFController.getANFStatement(identifier, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(helloReply);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(openCDXANFStatementModel.getProtobufMessage());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateANFStatement() {
+        StreamObserver<AnfStatement.Identifier> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        this.openCDXGrpcANFController.updateANFStatement(anfStatement, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(anfStatement.getId());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteANFStatement() {
+        StreamObserver<AnfStatement.Identifier> responseObserver = Mockito.mock(StreamObserver.class);
+
+        OpenCDXANFStatementModel openCDXANFStatementModel =
+                OpenCDXANFStatementModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXANFStatementModel));
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(openCDXANFStatementModel.getId().toString())
+                .build();
+        this.openCDXGrpcANFController.deleteANFStatement(identifier, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1))
+                .onNext(openCDXANFStatementModel.getProtobufMessage().getId());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

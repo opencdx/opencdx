@@ -124,6 +124,30 @@ spring:
             - Path=/cdx.opencdx.grpc.organization.OrganizationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-anf
+          uri: https://anf:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.anf.ANFService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-predictor
+          uri: https://predictor:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.neural.predictor.NeuralPredictorService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-protector
+          uri: https://protector:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.neural.protector.NeuralProtectorService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-routine
+          uri: https://routine:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:

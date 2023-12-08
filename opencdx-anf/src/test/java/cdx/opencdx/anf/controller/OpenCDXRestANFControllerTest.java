@@ -15,23 +15,28 @@
  */
 package cdx.opencdx.anf.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import cdx.opencdx.anf.model.Person;
-import cdx.opencdx.anf.repository.PersonRepository;
+import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
+import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import io.nats.client.Connection;
+import cdx.opencdx.grpc.anf.AnfStatement;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -43,24 +48,21 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+@Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXRestANFControllerTest {
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
 
+    @MockBean
+    private OpenCDXANFStatementRepository openCDXANFStatementRepository;
+
     private MockMvc mockMvc;
-
-    @MockBean
-    PersonRepository personRepository;
-
-    @MockBean
-    Connection connection;
-
-    @MockBean
-    OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
     public void setup() {
@@ -69,30 +71,83 @@ class OpenCDXRestANFControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
+        Mockito.when(openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenAnswer(new Answer<OpenCDXANFStatementModel>() {
+                    @Override
+                    public OpenCDXANFStatementModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXANFStatementModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXANFStatementModel>>() {
+                    @Override
+                    public Optional<OpenCDXANFStatementModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXANFStatementModel.builder().id(argument).build());
+                    }
+                });
+
         MockitoAnnotations.openMocks(this);
-        this.personRepository = Mockito.mock(PersonRepository.class);
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @AfterEach
-    void tearDown() {
-        Mockito.reset(this.connection);
-        Mockito.reset(this.personRepository);
-    }
+    @MockBean
+    OpenCDXCurrentUser openCDXCurrentUser;
 
     @Test
-    void checkMockMvc() throws Exception { // Assertions.assertNotNull(greetingController);
-        Assertions.assertNotNull(mockMvc);
-    }
-
-    @Test
-    void testGreetingHello() throws Exception {
+    void getANFStatement() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/hello").content("{\"name\": \"jeff\"}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
-        String content = result.getResponse().getContentAsString();
-        Assertions.assertEquals("{\"message\":\"Hello jeff!\"}", content);
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void createANFStatement() throws Exception {
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .setCreator(ObjectId.get().toHexString())
+                .setModified(Timestamp.newBuilder().setSeconds(1696733104))
+                .setModifier(ObjectId.get().toHexString())
+                .build();
+
+        MvcResult result = this.mockMvc
+                .perform(post("/")
+                        .content(this.objectMapper.writeValueAsString(anfStatement))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void updateANFStatement() throws Exception {
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        MvcResult result = this.mockMvc
+                .perform(put("/").content(this.objectMapper.writeValueAsString(anfStatement))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void deleteANFStatement() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(delete("/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
     }
 }

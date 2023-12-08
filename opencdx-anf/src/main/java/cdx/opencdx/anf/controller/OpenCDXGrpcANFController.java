@@ -16,7 +16,8 @@
 package cdx.opencdx.anf.controller;
 
 import cdx.opencdx.anf.service.OpenCDXANFService;
-import cdx.opencdx.grpc.helloworld.*;
+import cdx.opencdx.grpc.anf.ANFServiceGrpc;
+import cdx.opencdx.grpc.anf.AnfStatement;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ import org.springframework.security.access.annotation.Secured;
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
-public class OpenCDXGrpcANFController extends GreeterGrpc.GreeterImplBase {
+public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase {
 
     private final OpenCDXANFService openCDXANFService;
 
@@ -43,20 +44,35 @@ public class OpenCDXGrpcANFController extends GreeterGrpc.GreeterImplBase {
         this.openCDXANFService = openCDXANFService;
     }
 
-    /**
-     * sayHello gRPC Service Call
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
-     */
     @Secured({})
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+    public void createANFStatement(
+            AnfStatement.ANFStatement request, StreamObserver<AnfStatement.Identifier> responseObserver) {
+        responseObserver.onNext(this.openCDXANFService.createANFStatement(request));
+        responseObserver.onCompleted();
+    }
 
-        HelloReply reply = HelloReply.newBuilder()
-                .setMessage(this.openCDXANFService.sayHello(request))
-                .build();
+    @Secured({})
+    @Override
+    public void getANFStatement(
+            AnfStatement.Identifier request, StreamObserver<AnfStatement.ANFStatement> responseObserver) {
+        responseObserver.onNext(this.openCDXANFService.getANFStatement(request));
+        responseObserver.onCompleted();
+    }
 
-        responseObserver.onNext(reply);
+    @Secured({})
+    @Override
+    public void updateANFStatement(
+            AnfStatement.ANFStatement request, StreamObserver<AnfStatement.Identifier> responseObserver) {
+        responseObserver.onNext(this.openCDXANFService.updateANFStatement(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void deleteANFStatement(
+            AnfStatement.Identifier request, StreamObserver<AnfStatement.Identifier> responseObserver) {
+        responseObserver.onNext(this.openCDXANFService.deleteANFStatement(request));
         responseObserver.onCompleted();
     }
 }

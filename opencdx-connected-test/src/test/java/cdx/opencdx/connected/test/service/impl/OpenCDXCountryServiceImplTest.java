@@ -97,8 +97,7 @@ class OpenCDXCountryServiceImplTest {
 
     @Test
     void getCountryByIdElse() {
-        OpenCDXCountryModel openCDXCountryModel =
-                OpenCDXCountryModel.builder().id(ObjectId.get()).name("USA").build();
+
         Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))

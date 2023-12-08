@@ -119,10 +119,6 @@ class OpenCDXRestCountryControllerTest {
 
     @Test
     void getCountryById() throws Exception {
-        Country country = Country.newBuilder(Country.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
-                .setName("countryName")
-                .build();
 
         MvcResult result = this.mockMvc
                 .perform(get("/country/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -165,11 +161,6 @@ class OpenCDXRestCountryControllerTest {
 
     @Test
     void deleteCountry() throws Exception {
-        Country country = Country.newBuilder(Country.getDefaultInstance())
-                .setId(ObjectId.get().toHexString())
-                .setName("countryName")
-                .build();
-
         MvcResult result = this.mockMvc
                 .perform(delete("/country/" + ObjectId.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

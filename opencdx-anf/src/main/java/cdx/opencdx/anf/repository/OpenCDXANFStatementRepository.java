@@ -13,32 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.anf.model;
+package cdx.opencdx.anf.repository;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * Person record from database.
+ * Repository for OpenCDXANFStatementModel
  */
-@Data
-@AllArgsConstructor
-@Builder
-@Document("persons")
-public class Person {
-    /**
-     * Default Constructor
-     */
-    public Person() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    @Id
-    private ObjectId id;
-
-    private String name;
-}
+@Repository
+public interface OpenCDXANFStatementRepository extends MongoRepository<OpenCDXANFStatementModel, ObjectId> {}
