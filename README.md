@@ -60,7 +60,13 @@ For the latest command line options please use:
 `./deploy.sh --help`
 
 Execute the following to deploy application
+
 `./deploy.sh --deploy`
+
+Once the system is up, the list of deployed applications is available at:
+
+https://localhost:8861/admin/applications
+
 
 ## JMeter Testing
 1. Download the latest version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi)
