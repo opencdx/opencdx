@@ -157,7 +157,7 @@ class OpenCDXGrpcCountryControllerTest {
                 .setCountryId(ObjectId.get().toHexString())
                 .build();
         this.openCDXGrpcCountryController.deleteCountry(countryIdRequest, responseObserver);
-        // 65547749d31d264973faa369
+
         String message = "Country ID: " + countryIdRequest.getCountryId() + " deleted.";
         DeleteResponse deleteResponse =
                 DeleteResponse.newBuilder().setSuccess(true).setMessage(message).build();

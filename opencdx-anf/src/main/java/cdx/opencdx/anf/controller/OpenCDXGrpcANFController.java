@@ -18,7 +18,6 @@ package cdx.opencdx.anf.controller;
 import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.grpc.anf.ANFServiceGrpc;
 import cdx.opencdx.grpc.anf.AnfStatement;
-import cdx.opencdx.grpc.helloworld.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -49,27 +48,31 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
     @Override
     public void createANFStatement(
             AnfStatement.ANFStatement request, StreamObserver<AnfStatement.Identifier> responseObserver) {
-        super.createANFStatement(request, responseObserver);
+        responseObserver.onNext(this.openCDXANFService.createANFStatement(request));
+        responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void getANFStatement(
             AnfStatement.Identifier request, StreamObserver<AnfStatement.ANFStatement> responseObserver) {
-        super.getANFStatement(request, responseObserver);
+        responseObserver.onNext(this.openCDXANFService.getANFStatement(request));
+        responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void updateANFStatement(
             AnfStatement.ANFStatement request, StreamObserver<AnfStatement.Identifier> responseObserver) {
-        super.updateANFStatement(request, responseObserver);
+        responseObserver.onNext(this.openCDXANFService.updateANFStatement(request));
+        responseObserver.onCompleted();
     }
 
     @Secured({})
     @Override
     public void deleteANFStatement(
             AnfStatement.Identifier request, StreamObserver<AnfStatement.Identifier> responseObserver) {
-        super.deleteANFStatement(request, responseObserver);
+        responseObserver.onNext(this.openCDXANFService.deleteANFStatement(request));
+        responseObserver.onCompleted();
     }
 }

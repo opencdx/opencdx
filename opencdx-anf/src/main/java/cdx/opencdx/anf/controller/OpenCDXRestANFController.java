@@ -17,7 +17,6 @@ package cdx.opencdx.anf.controller;
 
 import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.grpc.anf.AnfStatement;
-import cdx.opencdx.grpc.helloworld.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

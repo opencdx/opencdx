@@ -15,19 +15,27 @@
  */
 package cdx.opencdx.anf.service.impl;
 
-import cdx.opencdx.anf.model.Person;
+import static org.junit.jupiter.api.Assertions.*;
+
+import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
 import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.OpenCDXANFService;
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.helloworld.*;
+import cdx.opencdx.grpc.anf.AnfStatement;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +43,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXANFServiceImplTest {
 
-    @Mock
-    OpenCDXANFStatementRepository openCDXANFStatementRepository;
+    @Autowired
+    ObjectMapper objectMapper;
 
     OpenCDXANFService openCDXANFService;
 
@@ -49,33 +58,126 @@ class OpenCDXANFServiceImplTest {
     OpenCDXAuditService openCDXAuditService;
 
     @Mock
+    OpenCDXANFStatementRepository openCDXANFStatementRepository;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
-    void beforeEach() {
-        this.openCDXANFStatementRepository = Mockito.mock(OpenCDXANFStatementRepository.class);
+    void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXANFStatementRepository, this.openCDXAuditService, openCDXCurrentUser, objectMapper);
-    }
-
-    @AfterEach
-    void tearDown() {
-        Mockito.reset(this.openCDXANFStatementRepository);
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, objectMapper);
     }
 
     @Test
-    void testSayHello() {
-        Person person = new Person();
-        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(Person.class)))
-                .thenAnswer(i -> i.getArguments()[0]);
-        Assertions.assertEquals(
-                "Hello Bob!",
-                this.openCDXANFService.sayHello(
-                        HelloRequest.newBuilder().setName(" Bob ").build()));
+    void createANFStatementJson() throws JsonProcessingException {
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXANFService.createANFStatement(anfStatement));
+    }
+
+    @Test
+    void getANFStatement() throws JsonProcessingException {
+
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXANFService.getANFStatement(identifier));
+    }
+
+    @Test
+    void getANFStatement_2() throws JsonProcessingException {
+
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(
+                        OpenCDXANFStatementModel.builder().id(ObjectId.get()).build()));
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXANFService.getANFStatement(identifier));
+    }
+
+    @Test
+    void updateANFStatement() throws JsonProcessingException {
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXANFService.updateANFStatement(anfStatement));
+    }
+
+    @Test
+    void deleteANFStatement() throws JsonProcessingException {
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXANFService.deleteANFStatement(identifier));
+    }
+
+    @Test
+    void deleteANFStatement_2() throws JsonProcessingException {
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(
+                        OpenCDXANFStatementModel.builder().id(ObjectId.get()).build()));
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXANFService.deleteANFStatement(identifier));
     }
 }

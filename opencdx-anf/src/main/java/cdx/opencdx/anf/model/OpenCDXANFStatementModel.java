@@ -90,13 +90,14 @@ public class OpenCDXANFStatementModel {
         this.status = AnfStatement.Status.STATUS_ACTIVE;
     }
 
+    @SuppressWarnings("java:S3776")
     public AnfStatement.ANFStatement getProtobufMessage() {
         AnfStatement.ANFStatement.Builder builder = AnfStatement.ANFStatement.newBuilder();
-        if (this.id != null) {
-            builder.setId(AnfStatement.Identifier.newBuilder()
-                    .setId(this.id.toHexString())
-                    .build());
-        }
+
+        builder.setId(AnfStatement.Identifier.newBuilder()
+                .setId(this.id.toHexString())
+                .build());
+
         if (this.time != null) {
             builder.setTime(this.time);
         }
@@ -143,7 +144,7 @@ public class OpenCDXANFStatementModel {
         if (this.modifier != null) {
             builder.setModifier(this.modifier.toHexString());
         }
-        if(this.status != null) {
+        if (this.status != null) {
             builder.setStatus(this.status);
         }
         return builder.build();

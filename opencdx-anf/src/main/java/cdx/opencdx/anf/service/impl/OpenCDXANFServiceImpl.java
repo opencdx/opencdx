@@ -19,6 +19,7 @@ import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
 import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -96,8 +97,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     public AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request) {
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new ObjectId(request.getId()))
-                .orElseThrow(
-                        () -> new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiAccessed(
@@ -146,8 +146,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     public AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request) {
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new ObjectId(request.getId()))
-                .orElseThrow(
-                        () -> new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiDeleted(

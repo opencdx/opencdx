@@ -46,25 +46,6 @@ service ANFService {
   rpc DeleteANFStatement (Identifier) returns (Identifier);  // Delete an ANFStatement by its Identifier
 }
 
-// Request message for creating a new PerformanceCircumstance.
-message CreatePerformanceCircumstanceRequest {
-  PerformanceCircumstance performance_circumstance = 1;  // The PerformanceCircumstance to be created
-}
-
-// Response message for creating a new PerformanceCircumstance.
-message CreatePerformanceCircumstanceResponse {
-  string status = 1;  // Status of the PerformanceCircumstance creation
-}
-
-// Request message for creating a new RequestCircumstance.
-message CreateRequestCircumstanceRequest {
-  RequestCircumstance request_circumstance = 1;  // The RequestCircumstance to be created
-}
-
-// Response message for creating a new RequestCircumstance.
-message CreateRequestCircumstanceResponse {
-  string status = 1;  // Status of the RequestCircumstance creation
-}
 
 // Unique identifier for an ANFStatement.
 message Identifier {
