@@ -51,6 +51,10 @@ class OpenCDXDeviceModelTest {
                 .setManufactureDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setExpiryDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setTestValidationDate(Timestamp.newBuilder().setSeconds(1696732104))
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
         OpenCDXDeviceModel model = new OpenCDXDeviceModel(device);
         Assertions.assertEquals(

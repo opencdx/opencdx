@@ -16,11 +16,13 @@
 package cdx.opencdx.gateway.config;
 
 import cdx.opencdx.gateway.filter.ActuatorGlobalFilter;
+import lombok.Generated;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Generated
 public class GatewayConfig {
     @Bean
     public GlobalFilter actuatorGlobalFilter() {

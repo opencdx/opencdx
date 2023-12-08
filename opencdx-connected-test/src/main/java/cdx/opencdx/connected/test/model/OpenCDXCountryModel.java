@@ -16,6 +16,8 @@
 package cdx.opencdx.connected.test.model;
 
 import cdx.opencdx.grpc.inventory.Country;
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +43,11 @@ public class OpenCDXCountryModel {
 
     private String name;
 
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
+
     /**
      * Create this model from this protobuf message
      * @param country Protobuf message to create from
@@ -50,6 +57,21 @@ public class OpenCDXCountryModel {
             this.id = new ObjectId(country.getId());
         }
         this.name = country.getName();
+
+        if (country.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    country.getCreated().getSeconds(), country.getCreated().getNanos());
+        }
+        if (country.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    country.getModified().getSeconds(), country.getModified().getNanos());
+        }
+        if (country.hasCreator()) {
+            this.creator = new ObjectId(country.getCreator());
+        }
+        if (country.hasModifier()) {
+            this.modifier = new ObjectId(country.getModifier());
+        }
     }
 
     /**
@@ -63,6 +85,24 @@ public class OpenCDXCountryModel {
         }
         if (this.name != null) {
             builder.setName(this.name);
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
     }

@@ -1,6 +1,8 @@
 syntax = "proto3";
 package cdx.opencdx.grpc.anf;
 
+import "google/protobuf/timestamp.proto";
+
 // Enum to represent different levels of health risk.
 enum HealthRisk {
   HEALTH_RISK_UNSPECIFIED = 0;  // Default, unspecified value
@@ -189,4 +191,8 @@ message ANFStatement {
     PerformanceCircumstance performance_circumstance = 10;
     NarrativeCircumstance narrative_circumstance = 11;
   }
+  optional google.protobuf.Timestamp created = 12; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 13; // Timestamp when this event was modified.
+  optional string creator = 14; // ID of the creator of this event.
+  optional string modifier = 15; // ID of the modifier of this event.
 }

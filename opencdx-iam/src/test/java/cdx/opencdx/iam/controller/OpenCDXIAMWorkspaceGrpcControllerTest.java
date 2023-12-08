@@ -32,6 +32,7 @@ import cdx.opencdx.iam.service.OpenCDXIAMWorkspaceService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMWorkspaceServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
 import org.bson.types.ObjectId;
@@ -136,7 +137,16 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
     void createWorkspace() {
         StreamObserver<CreateWorkspaceResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMWorkspaceGrpcController.createWorkspace(
-                CreateWorkspaceRequest.getDefaultInstance(), responseObserver);
+                CreateWorkspaceRequest.newBuilder(CreateWorkspaceRequest.getDefaultInstance())
+                        .setWorkspace(Workspace.newBuilder(Workspace.getDefaultInstance())
+                                .setName("test")
+                                .setCreated(Timestamp.getDefaultInstance())
+                                .setModified(Timestamp.getDefaultInstance())
+                                .setCreator(ObjectId.get().toHexString())
+                                .setModifier(ObjectId.get().toHexString())
+                                .build())
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateWorkspaceResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

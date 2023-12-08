@@ -193,6 +193,10 @@ message ConnectedTest {
   PaymentDetails payment_details = 4; // Payment details block
   ProviderInfo provider_info = 5;     // Provider details block
   TestDetails test_details = 6;       // Test and result details block
+  optional google.protobuf.Timestamp created = 7; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 8; // Timestamp when this event was modified.
+  optional string creator = 9; // ID of the creator of this event.
+  optional string modifier = 10; // ID of the modifier of this event.
 }
 
 /**

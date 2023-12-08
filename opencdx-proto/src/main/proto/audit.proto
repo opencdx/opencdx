@@ -89,13 +89,16 @@ message AuditEntity {
  * Audit Event information to record.
  */
 message AuditEvent {
-  google.protobuf.Timestamp created = 1; // Timestamp when this event occurred.
+  optional google.protobuf.Timestamp created = 1; // Timestamp when this event occurred.
   AuditEventType event_type = 2; // Identifies the type of event.
   Actor actor = 3; // Identifies who is causing the action
   DataObject data_object = 4; // Data that is being acted on.
   string purpose_of_use = 5; // Description of use of this data.
   AuditSource audit_source = 6; // Where did the event originate
   AuditEntity audit_entity = 7; // Identifies whose data is being acted on.
+  optional google.protobuf.Timestamp modified = 8; // Timestamp when this event was modified.
+  optional string creator = 9; // ID of the creator of this event.
+  optional string modifier = 10; // ID of the modifier of this event.
 }
 
 /**

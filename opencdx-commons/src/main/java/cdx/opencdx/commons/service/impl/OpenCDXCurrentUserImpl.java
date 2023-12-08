@@ -41,8 +41,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
-    public static final String CURRENT_USER_NOT_FOUND = "Current User not found: ";
-    public static final String BYPASSING_AUTHENTICATION = "Bypassing Authentication";
+    private static final String CURRENT_USER_NOT_FOUND = "Current User not found: ";
+    private static final String BYPASSING_AUTHENTICATION = "Bypassing Authentication";
 
     @Value("${spring.application.name}")
     private String applicationName;

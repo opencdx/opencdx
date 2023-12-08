@@ -16,6 +16,8 @@
 package cdx.opencdx.communications.model;
 
 import cdx.opencdx.grpc.communication.*;
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -45,6 +47,11 @@ public class OpenCDXEmailTemplateModel {
     private String content;
     private List<String> variables;
 
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
+
     /**
      * Constructor to create this model based on an EmailTemplate
      * @param template EmailTemplate to base this model on.
@@ -59,6 +66,20 @@ public class OpenCDXEmailTemplateModel {
         this.content = template.getContent();
 
         this.variables = new ArrayList<>(template.getVariablesList());
+        if (template.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    template.getCreated().getSeconds(), template.getCreated().getNanos());
+        }
+        if (template.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    template.getModified().getSeconds(), template.getModified().getNanos());
+        }
+        if (template.hasCreator()) {
+            this.creator = new ObjectId(template.getCreator());
+        }
+        if (template.hasModifier()) {
+            this.modifier = new ObjectId(template.getModifier());
+        }
     }
 
     /**
@@ -82,7 +103,24 @@ public class OpenCDXEmailTemplateModel {
         if (variables != null) {
             builder.addAllVariables(this.variables);
         }
-
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
+        }
         return builder.build();
     }
 }
