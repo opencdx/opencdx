@@ -18,6 +18,8 @@ package cdx.opencdx.connected.test.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.grpc.inventory.Country;
+import com.google.protobuf.Timestamp;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +34,29 @@ class OpenCDXCountryModelTest {
     @Test
     void getProtobufMessage_2() {
         OpenCDXCountryModel openCDXCountryModel =
-                new OpenCDXCountryModel(Country.newBuilder().setName("name").getDefaultInstanceForType());
+                new OpenCDXCountryModel(Country.newBuilder().setName("name")
+                        .setCreated(Timestamp.getDefaultInstance())
+                        .setModified(Timestamp.getDefaultInstance())
+                        .setCreator(ObjectId.get().toHexString())
+                        .setModifier(ObjectId.get().toHexString())
+                        .getDefaultInstanceForType());
+        Assertions.assertDoesNotThrow(() -> openCDXCountryModel.getProtobufMessage());
+    }
+    @Test
+    void getProtobufMessage_3() {
+        OpenCDXCountryModel openCDXCountryModel =
+                new OpenCDXCountryModel(Country.newBuilder().setName("name").build());
+        Assertions.assertDoesNotThrow(() -> openCDXCountryModel.getProtobufMessage());
+    }
+    @Test
+    void getProtobufMessage_4() {
+        OpenCDXCountryModel openCDXCountryModel =
+                new OpenCDXCountryModel(Country.newBuilder().setName("name")
+                        .setCreated(Timestamp.getDefaultInstance())
+                        .setModified(Timestamp.getDefaultInstance())
+                        .setCreator(ObjectId.get().toHexString())
+                        .setModifier(ObjectId.get().toHexString())
+                        .build());
         Assertions.assertDoesNotThrow(() -> openCDXCountryModel.getProtobufMessage());
     }
 }

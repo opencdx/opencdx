@@ -16,6 +16,7 @@
 package cdx.opencdx.connected.test.model;
 
 import cdx.opencdx.grpc.connected.*;
+import com.google.protobuf.Timestamp;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -30,9 +31,17 @@ class OpenCDXConnectedTestModelTest {
                 .setId(new ObjectId().toHexString())
                 .setNationalHealthId(10)
                 .setUserId(ObjectId.get().toHexString())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(basicInfo)
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXConnectedTestModel model = new OpenCDXConnectedTestModel(connectedTest);

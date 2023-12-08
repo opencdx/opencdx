@@ -30,6 +30,7 @@ import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMOrganizationServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
 import org.bson.types.ObjectId;
@@ -135,7 +136,15 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
     void createOrganization() {
         StreamObserver<CreateOrganizationResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMOrganizationGrpcController.createOrganization(
-                CreateOrganizationRequest.getDefaultInstance(), responseObserver);
+                CreateOrganizationRequest.newBuilder(CreateOrganizationRequest.getDefaultInstance())
+                        .setOrganization(Organization.newBuilder(Organization.getDefaultInstance())
+                                .setName("test")
+                                .setCreated(Timestamp.getDefaultInstance())
+                                .setModified(Timestamp.getDefaultInstance())
+                                .setCreator(ObjectId.get().toHexString())
+                                .setModifier(ObjectId.get().toHexString())
+                                .build())
+                        .build(), responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateOrganizationResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

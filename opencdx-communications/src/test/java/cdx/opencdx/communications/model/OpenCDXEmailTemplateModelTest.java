@@ -18,6 +18,7 @@ package cdx.opencdx.communications.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.grpc.communication.*;
+import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,10 @@ class OpenCDXEmailTemplateModelTest {
     void getProtobufMessage_1() {
         EmailTemplate emailTemplate = EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
                 .setTemplateId(ObjectId.get().toHexString())
+                 .setCreated(Timestamp.getDefaultInstance())
+                                .setModified(Timestamp.getDefaultInstance())
+                                .setCreator(ObjectId.get().toHexString())
+                                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);

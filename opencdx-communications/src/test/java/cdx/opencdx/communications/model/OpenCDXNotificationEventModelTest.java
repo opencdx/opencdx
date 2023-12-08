@@ -16,6 +16,7 @@
 package cdx.opencdx.communications.model;
 
 import cdx.opencdx.grpc.communication.*;
+import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,10 @@ class OpenCDXNotificationEventModelTest {
                 .setEventId(ObjectId.get().toHexString())
                 .setEmailTemplateId(ObjectId.get().toHexString())
                 .setSmsTemplateId(ObjectId.get().toHexString())
+                 .setCreated(Timestamp.getDefaultInstance())
+                                .setModified(Timestamp.getDefaultInstance())
+                                .setCreator(ObjectId.get().toHexString())
+                                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);
