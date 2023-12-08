@@ -26,7 +26,6 @@ class OpenCDXManufacturerModelTest {
     @Test
     void getProtobufMessage_1() {
         OpenCDXManufacturerModel manufacturerModel = OpenCDXManufacturerModel.builder()
-
                 .address(OpenCDXAddressModel.builder()
                         .street("Street")
                         .city("City")
@@ -60,6 +59,7 @@ class OpenCDXManufacturerModelTest {
         Assertions.assertEquals(
                 manufacturer.getName(), model.getProtobufMessage().getName());
     }
+
     @Test
     void getProtobufMessage_4() {
         Manufacturer manufacturer = Manufacturer.newBuilder()

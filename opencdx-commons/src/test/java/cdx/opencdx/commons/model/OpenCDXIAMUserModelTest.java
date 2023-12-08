@@ -128,8 +128,8 @@ class OpenCDXIAMUserModelTest {
                 .setModifier(ObjectId.get().toHexString())
                 .build();
 
-       model.update(profile);
+        model.update(profile);
 
-        assertNotNull( model.getUserProfileProtobufMessage());
+        assertNotNull(model.getUserProfileProtobufMessage());
     }
 }

@@ -31,10 +31,10 @@ class OpenCDXNotificationModelTest {
                 .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
                 .setTimestamp(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build())
-                 .setCreated(Timestamp.getDefaultInstance())
-                                .setModified(Timestamp.getDefaultInstance())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build());
 
         Assertions.assertNotNull(openCDXNotificationModel.getProtobufMessage());

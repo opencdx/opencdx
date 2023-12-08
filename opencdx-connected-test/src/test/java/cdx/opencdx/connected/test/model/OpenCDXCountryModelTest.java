@@ -33,30 +33,32 @@ class OpenCDXCountryModelTest {
 
     @Test
     void getProtobufMessage_2() {
-        OpenCDXCountryModel openCDXCountryModel =
-                new OpenCDXCountryModel(Country.newBuilder().setName("name")
-                        .setCreated(Timestamp.getDefaultInstance())
-                        .setModified(Timestamp.getDefaultInstance())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
-                        .getDefaultInstanceForType());
+        OpenCDXCountryModel openCDXCountryModel = new OpenCDXCountryModel(Country.newBuilder()
+                .setName("name")
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
+                .getDefaultInstanceForType());
         Assertions.assertDoesNotThrow(() -> openCDXCountryModel.getProtobufMessage());
     }
+
     @Test
     void getProtobufMessage_3() {
         OpenCDXCountryModel openCDXCountryModel =
                 new OpenCDXCountryModel(Country.newBuilder().setName("name").build());
         Assertions.assertDoesNotThrow(() -> openCDXCountryModel.getProtobufMessage());
     }
+
     @Test
     void getProtobufMessage_4() {
-        OpenCDXCountryModel openCDXCountryModel =
-                new OpenCDXCountryModel(Country.newBuilder().setName("name")
-                        .setCreated(Timestamp.getDefaultInstance())
-                        .setModified(Timestamp.getDefaultInstance())
-                        .setCreator(ObjectId.get().toHexString())
-                        .setModifier(ObjectId.get().toHexString())
-                        .build());
+        OpenCDXCountryModel openCDXCountryModel = new OpenCDXCountryModel(Country.newBuilder()
+                .setName("name")
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
+                .build());
         Assertions.assertDoesNotThrow(() -> openCDXCountryModel.getProtobufMessage());
     }
 }

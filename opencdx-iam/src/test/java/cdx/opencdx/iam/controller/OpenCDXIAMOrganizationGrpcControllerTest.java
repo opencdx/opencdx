@@ -144,7 +144,8 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
                                 .setCreator(ObjectId.get().toHexString())
                                 .setModifier(ObjectId.get().toHexString())
                                 .build())
-                        .build(), responseObserver);
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateOrganizationResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

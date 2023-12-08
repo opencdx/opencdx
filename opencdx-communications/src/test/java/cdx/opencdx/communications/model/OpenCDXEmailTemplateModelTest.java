@@ -29,10 +29,10 @@ class OpenCDXEmailTemplateModelTest {
     void getProtobufMessage_1() {
         EmailTemplate emailTemplate = EmailTemplate.newBuilder(EmailTemplate.getDefaultInstance())
                 .setTemplateId(ObjectId.get().toHexString())
-                 .setCreated(Timestamp.getDefaultInstance())
-                                .setModified(Timestamp.getDefaultInstance())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXEmailTemplateModel model = new OpenCDXEmailTemplateModel(emailTemplate);

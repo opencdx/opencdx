@@ -34,7 +34,6 @@ class OpenCDXVendorModelTest {
                         .region("Region")
                         .countryId(new ObjectId())
                         .build())
-
                 .build();
         Assertions.assertDoesNotThrow(() -> vendorModel.getProtobufMessage());
     }
@@ -61,6 +60,7 @@ class OpenCDXVendorModelTest {
         Assertions.assertEquals(
                 vendorModel.getVendorName(), model.getProtobufMessage().getVendorName());
     }
+
     @Test
     void getProtobufMessage_4() {
         Vendor vendorModel = Vendor.newBuilder()

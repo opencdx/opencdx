@@ -31,10 +31,10 @@ class OpenCDXSMSTemplateModelTest {
     void getProtobufMessage_1() {
         SMSTemplate smsTemplate = SMSTemplate.newBuilder(SMSTemplate.getDefaultInstance())
                 .setTemplateId(ObjectId.get().toHexString())
-                 .setCreated(Timestamp.getDefaultInstance())
-                                .setModified(Timestamp.getDefaultInstance())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXSMSTemplateModel model = new OpenCDXSMSTemplateModel(smsTemplate);

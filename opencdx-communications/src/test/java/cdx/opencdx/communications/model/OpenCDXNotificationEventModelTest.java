@@ -28,10 +28,10 @@ class OpenCDXNotificationEventModelTest {
                 .setEventId(ObjectId.get().toHexString())
                 .setEmailTemplateId(ObjectId.get().toHexString())
                 .setSmsTemplateId(ObjectId.get().toHexString())
-                 .setCreated(Timestamp.getDefaultInstance())
-                                .setModified(Timestamp.getDefaultInstance())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);

@@ -145,7 +145,8 @@ class OpenCDXIAMWorkspaceGrpcControllerTest {
                                 .setCreator(ObjectId.get().toHexString())
                                 .setModifier(ObjectId.get().toHexString())
                                 .build())
-                        .build(), responseObserver);
+                        .build(),
+                responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateWorkspaceResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
