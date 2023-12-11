@@ -108,21 +108,6 @@ class NatsOpenCDXMessageServiceImplTest {
     void tearDown() {}
 
     @Test
-    void NatsMessageHandler() throws InterruptedException {
-        OpenCDXMessageHandler handler = new OpenCDXMessageHandler() {
-            @Override
-            public void receivedMessage(byte[] message) {
-                Assertions.assertEquals("Test", new String(message));
-            }
-        };
-
-        NatsOpenCDXMessageServiceImpl.NatsMessageHandler natsMessageHandler =
-                new NatsOpenCDXMessageServiceImpl.NatsMessageHandler(handler);
-
-        Assertions.assertDoesNotThrow(() -> natsMessageHandler.onMessage(this.getMessage()));
-    }
-
-    @Test
     void subscribe() {
         OpenCDXMessageService service =
                 this.commonsConfig.natsOpenCDXMessageService(this.connection, this.objectMapper, "test");
@@ -133,9 +118,6 @@ class NatsOpenCDXMessageServiceImplTest {
                 Assertions.assertEquals("Test", new String(message));
             }
         };
-
-        final NatsOpenCDXMessageServiceImpl.NatsMessageHandler[] natsHandler =
-                new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
 
         Assertions.assertDoesNotThrow(() -> service.subscribe("Test-Message", handler));
     }
@@ -321,9 +303,6 @@ class NatsOpenCDXMessageServiceImplTest {
             }
         };
 
-        final NatsOpenCDXMessageServiceImpl.NatsMessageHandler[] natsHandler =
-                new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
-
         Assertions.assertThrows(OpenCDXInternal.class, () -> service.subscribe("Test-Message", handler));
     }
 
@@ -348,9 +327,6 @@ class NatsOpenCDXMessageServiceImplTest {
                 Assertions.assertEquals("Test", new String(message));
             }
         };
-
-        final NatsOpenCDXMessageServiceImpl.NatsMessageHandler[] natsHandler =
-                new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
 
         Assertions.assertThrows(OpenCDXInternal.class, () -> service.subscribe("Test-Message", handler));
     }
