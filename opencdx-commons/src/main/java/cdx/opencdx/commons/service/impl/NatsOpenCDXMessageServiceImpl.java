@@ -71,7 +71,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT,
                             OpenCDXMessageService.CDC_MESSAGE_SUBJECT)
                     .maxAge(Duration.ofDays(7))
-                    .maxConsumers(3)
+                    .maxConsumers(2)
                     .storageType(StorageType.File)
                     .noAck(false)
                     .build();

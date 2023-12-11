@@ -30,6 +30,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.ContactInfo;
+import io.micrometer.observation.annotation.Observed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@Observed(name = "opencdx")
 public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
     private static final String LOINC_URL = "https://loinc.org";
@@ -354,9 +356,9 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
     }
 
     private void sendMessage(Bundle bundle) {
-        log.info("Sending CDC Payload Event: {}", bundle);
         IParser parser = FhirContext.forR4().newJsonParser().setPrettyPrint(true);
-        String resource = parser.encodeResourceToString(bundle);
-        this.openCDXMessageService.send(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, resource);
+        String cdcPayload = parser.encodeResourceToString(bundle);
+        log.info("Sending CDC Payload Event: {}", cdcPayload);
+        this.openCDXMessageService.send(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, cdcPayload);
     }
 }
