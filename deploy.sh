@@ -124,11 +124,11 @@ run_jmeter_tests() {
 
 # Usage: open_url <url>
 open_url() {
-    #if [[ "$OSTYPE" == "msys" ]]; then
+    if [[ "$OSTYPE" == "msys" ]]; then
         start "$1" || handle_error "Failed to open URL: $1"
-    #else
-    #    start "$1" || handle_error "Failed to open URL: $1"
-    #fi
+    else
+        open "$1" || handle_error "Failed to open URL: $1"
+    fi
 }
 
 # Function to open reports and documentation

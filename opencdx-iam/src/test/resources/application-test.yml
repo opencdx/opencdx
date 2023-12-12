@@ -20,6 +20,8 @@ spring:
   cloud:
     config:
       enabled: false
+    compatibility-verifier:
+      enabled: false
   spring.data.mongodb:
     uri: mongodb+srv://<username>:<password>@database:27017/opencdx/
     username: root
