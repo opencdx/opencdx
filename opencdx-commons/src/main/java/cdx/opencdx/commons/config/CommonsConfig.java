@@ -19,6 +19,7 @@ import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
@@ -138,9 +139,10 @@ public class CommonsConfig {
     public OpenCDXMessageService natsOpenCDXMessageService(
             Connection natsConnection,
             ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
             @Value("${spring.application.name}") String applicationName) {
         log.info("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName, openCDXCurrentUser);
     }
 
     @Bean("noop")
