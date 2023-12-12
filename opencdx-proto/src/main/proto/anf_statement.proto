@@ -115,6 +115,12 @@ message Repetition {
   Measure event_frequency = 5;  // Frequency of the events
 }
 
+// Representation of the circumstances associated with a clinical statement
+message Circumstance {
+  Measure timing = 1;  // Timing information, represents a past or current time
+  repeated LogicalExpression purpose = 2;  // Purposes information
+}
+
 // Representation of a RequestCircumstance.
 message RequestCircumstance {
   repeated AssociatedStatement conditional_trigger = 1;  // Conditions that trigger the request
@@ -122,8 +128,7 @@ message RequestCircumstance {
   LogicalExpression priority = 3;  // Priority level of the request
   Measure requested_result = 4;  // Expected result of the request
   Repetition repetition = 5;  // Details about the repetition, optional
-  Measure timing = 6;  // Timing information, always represents a future time
-  repeated LogicalExpression purpose = 7;  // Purposes information
+  Circumstance circumstance = 6; // Circumstances associated with a clinical statement
 }
 
 // Representation of a PerformanceCircumstance.
@@ -131,17 +136,15 @@ message PerformanceCircumstance {
   LogicalExpression status = 1;  // Current status of the performance
   Measure result = 2;  // Result of the performance
   LogicalExpression health_risk = 3;  // Health risk level, optional
-  repeated Measure normal_range = 4;  // Normal range for the result, optional
+  Measure normal_range = 4;  // Normal range for the result, optional
   repeated Participant participant = 5;  // Participants in the performance
-  Measure timing = 6;  // Timing information, represents a past or current time
-  repeated LogicalExpression purpose = 7;  // Purposes information
+  Circumstance circumstance = 6; // Circumstances associated with a clinical statement
 }
 
 // Representation of a NarrativeCircumstance.
 message NarrativeCircumstance {
   string text = 1;  // Textual description or narrative
-  Measure timing = 2;  // Timing information, represents a past or current time
-  repeated LogicalExpression purpose = 3;  // Purposes information  
+  Circumstance circumstance = 2; // Circumstances associated with a clinical statement 
 }
 
 // Representation of a reference to other entities like patient records or health practitioners.
