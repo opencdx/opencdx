@@ -108,8 +108,9 @@ implements <a href="../../commons/handlers/OpenCDXMessageHandler.html" title="in
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXMessageService)" class="member-name-link">OpenCDXAuditMessageHandler</a><wbr>(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
- <a href="../../commons/service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a>&nbsp;openCDXMessageService)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXMessageService,cdx.opencdx.audit.repository.OpenCDXAuditEventRepository)" class="member-name-link">OpenCDXAuditMessageHandler</a><wbr>(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+ <a href="../../commons/service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a>&nbsp;openCDXMessageService,
+ <a href="../repository/OpenCDXAuditEventRepository.html" title="interface in cdx.opencdx.audit.repository">OpenCDXAuditEventRepository</a>&nbsp;openCDXAuditEventRepository)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructor for the Audit microservice</div>
 </div>
@@ -156,15 +157,17 @@ implements <a href="../../commons/handlers/OpenCDXMessageHandler.html" title="in
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXMessageService)">
+<section class="detail" id="&lt;init&gt;(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXMessageService,cdx.opencdx.audit.repository.OpenCDXAuditEventRepository)">
 <h3>OpenCDXAuditMessageHandler</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXAuditMessageHandler</span><wbr><span class="parameters">(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
- <a href="../../commons/service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a>&nbsp;openCDXMessageService)</span></div>
+ <a href="../../commons/service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a>&nbsp;openCDXMessageService,
+ <a href="../repository/OpenCDXAuditEventRepository.html" title="interface in cdx.opencdx.audit.repository">OpenCDXAuditEventRepository</a>&nbsp;openCDXAuditEventRepository)</span></div>
 <div class="block">Constructor for the Audit microservice</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>objectMapper</code> - Object mapper used for conversion</dd>
 <dd><code>openCDXMessageService</code> - Message service used for receiving messages.</dd>
+<dd><code>openCDXAuditEventRepository</code> - Repository for storing audit messages.</dd>
 </dl>
 </section>
 </li>

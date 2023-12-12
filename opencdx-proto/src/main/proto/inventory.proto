@@ -17,6 +17,10 @@ message Address {
 message Country {
     optional string id = 1;    // Country ID
     string name = 2;  // Country name
+    optional google.protobuf.Timestamp created = 3; // Timestamp when this event was created.
+    optional google.protobuf.Timestamp modified = 4; // Timestamp when this event was modified.
+    optional string creator = 5; // ID of the creator of this event.
+    optional string modifier = 6; // ID of the modifier of this event.
 }
 
 // Manufacturer message represents a manufacturer.
@@ -30,6 +34,10 @@ message Manufacturer {
     string manufacturer_website = 7;     // Manufacturer's website
     string manufacturer_description = 8; // Manufacturer's description
     repeated string manufacturer_certifications = 9; // Manufacturer's certifications
+    optional google.protobuf.Timestamp created = 10; // Timestamp when this event was created.
+    optional google.protobuf.Timestamp modified = 11; // Timestamp when this event was modified.
+    optional string creator = 12; // ID of the creator of this event.
+    optional string modifier = 13; // ID of the modifier of this event.
 }
 
 // Vendor message represents a vendor.
@@ -43,6 +51,10 @@ message Vendor {
     string vendor_website = 7;   // Vendor's website
     string vendor_description = 8; // Vendor's description
     repeated string vendor_certifications = 9; // Vendor's certifications
+    optional google.protobuf.Timestamp created = 10; // Timestamp when this event was created.
+    optional google.protobuf.Timestamp modified = 11; // Timestamp when this event was modified.
+    optional string creator = 12; // ID of the creator of this event.
+    optional string modifier = 13; // ID of the modifier of this event.
 }
 
 // Device message represents a device.
@@ -78,6 +90,10 @@ message Device {
     string name = 29;                       // Name of the device
     string short_description = 30;          // Short description of the connected device
     string description = 31;                // Detailed description of the connected device.
+    optional google.protobuf.Timestamp created = 32; // Timestamp when this event was created.
+    optional google.protobuf.Timestamp modified = 33; // Timestamp when this event was modified.
+    optional string creator = 34; // ID of the creator of this event.
+    optional string modifier = 35; // ID of the modifier of this event.
 }
 
 // TestCase message represents a case or package of tests.
@@ -95,6 +111,10 @@ message TestCase {
     string user_instructions = 11;    // User instructions for the test case
     string limitations = 12;         // Limitations of the test case
     string safety = 13;              // Safety information
+    optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
+    optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
+    optional string creator = 16; // ID of the creator of this event.
+    optional string modifier = 17; // ID of the modifier of this event.
 }
 
 // gRPC service for managing countries.

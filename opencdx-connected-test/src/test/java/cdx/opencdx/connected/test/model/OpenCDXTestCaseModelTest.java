@@ -48,6 +48,10 @@ class OpenCDXTestCaseModelTest {
                 .setPackagingDate(Timestamp.newBuilder().setSeconds(1696732104))
                 .setExpiryDate(Timestamp.newBuilder().setSeconds(1700138692))
                 .addAllDeviceIds(List.of(new ObjectId().toHexString()))
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
         OpenCDXTestCaseModel model = new OpenCDXTestCaseModel(testCase);
         Assertions.assertEquals(

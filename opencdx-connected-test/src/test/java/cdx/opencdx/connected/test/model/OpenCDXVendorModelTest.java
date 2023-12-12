@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.model;
 
 import cdx.opencdx.grpc.inventory.Address;
 import cdx.opencdx.grpc.inventory.Vendor;
+import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,23 @@ class OpenCDXVendorModelTest {
 
     @Test
     void getProtobufMessage_3() {
+        Vendor vendorModel = Vendor.newBuilder()
+                .setVendorName("vendorName")
+                .setVendorAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
+                .build();
+        OpenCDXVendorModel model = new OpenCDXVendorModel(vendorModel);
+        Assertions.assertEquals(
+                vendorModel.getVendorName(), model.getProtobufMessage().getVendorName());
+    }
+
+    @Test
+    void getProtobufMessage_4() {
         Vendor vendorModel = Vendor.newBuilder()
                 .setVendorName("vendorName")
                 .setVendorAddress(Address.newBuilder()

@@ -15,8 +15,11 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
@@ -34,6 +37,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +54,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Autoconfiguraiton class for opencdx-commons.
  */
 @Slf4j
+@EnableCaching
 @AutoConfiguration
 @Configuration
 public class CommonsConfig {
@@ -57,6 +63,16 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Default Cache Manager
+     * @return OpenCDXMemoryCacheManager
+     */
+    @Bean
+    @Primary
+    public CacheManager cacheManager() {
+        return new OpenCDXMemoryCacheManager();
     }
 
     /**
@@ -123,9 +139,10 @@ public class CommonsConfig {
     public OpenCDXMessageService natsOpenCDXMessageService(
             Connection natsConnection,
             ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
             @Value("${spring.application.name}") String applicationName) {
         log.info("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName, openCDXCurrentUser);
     }
 
     @Bean("noop")
@@ -148,9 +165,9 @@ public class CommonsConfig {
     @Primary
     @Profile("mongo")
     @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
+    @ExcludeFromJacocoGeneratedReport
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         log.info("Creating Mongo Template");
-        // TODO: switch in OpenCDXMongoAuditTemplate
-        return new MongoTemplate(mongoDbFactory, mongoConverter);
+        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 }

@@ -1,6 +1,8 @@
 syntax = "proto3";
 package cdx.opencdx.grpc.anf;
 
+import "google/protobuf/timestamp.proto";
+
 // Enum to represent different levels of health risk.
 enum HealthRisk {
   HEALTH_RISK_UNSPECIFIED = 0;  // Default, unspecified value
@@ -28,6 +30,13 @@ enum NormalRange {
   NORMAL_RANGE_CRITICAL = 4;  // The result is critically high or low
 }
 
+// Media Status
+enum Status {
+  STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
+  STATUS_ACTIVE = 1; // Media is active.
+  STATUS_DELETED = 2; // Media is being deleted.
+}
+
 // Service definition for ANF operations.
 // Provides CRUD operations for ANFStatement and circumstances.
 service ANFService {
@@ -35,29 +44,8 @@ service ANFService {
   rpc GetANFStatement (Identifier) returns (ANFStatement);  // Retrieve an existing ANFStatement by its Identifier
   rpc UpdateANFStatement (ANFStatement) returns (Identifier);  // Update an existing ANFStatement
   rpc DeleteANFStatement (Identifier) returns (Identifier);  // Delete an ANFStatement by its Identifier
-  rpc CreatePerformanceCircumstance (CreatePerformanceCircumstanceRequest) returns (CreatePerformanceCircumstanceResponse);  // Create a new PerformanceCircumstance
-  rpc CreateRequestCircumstance (CreateRequestCircumstanceRequest) returns (CreateRequestCircumstanceResponse);  // Create a new RequestCircumstance
 }
 
-// Request message for creating a new PerformanceCircumstance.
-message CreatePerformanceCircumstanceRequest {
-  PerformanceCircumstance performance_circumstance = 1;  // The PerformanceCircumstance to be created
-}
-
-// Response message for creating a new PerformanceCircumstance.
-message CreatePerformanceCircumstanceResponse {
-  string status = 1;  // Status of the PerformanceCircumstance creation
-}
-
-// Request message for creating a new RequestCircumstance.
-message CreateRequestCircumstanceRequest {
-  RequestCircumstance request_circumstance = 1;  // The RequestCircumstance to be created
-}
-
-// Response message for creating a new RequestCircumstance.
-message CreateRequestCircumstanceResponse {
-  string status = 1;  // Status of the RequestCircumstance creation
-}
 
 // Unique identifier for an ANFStatement.
 message Identifier {
@@ -189,4 +177,10 @@ message ANFStatement {
     PerformanceCircumstance performance_circumstance = 10;
     NarrativeCircumstance narrative_circumstance = 11;
   }
+  optional google.protobuf.Timestamp created = 12; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 13; // Timestamp when this event was modified.
+  optional string creator = 14; // ID of the creator of this event.
+  optional string modifier = 15; // ID of the modifier of this event.
+
+  Status status = 16; // Status of the ANFStatement
 }

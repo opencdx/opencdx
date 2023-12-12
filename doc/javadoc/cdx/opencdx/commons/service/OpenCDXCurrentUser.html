@@ -107,18 +107,23 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#configureAuthentication(java.lang.String)" class="member-name-link">configureAuthentication</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;role)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#allowBypassAuthentication(boolean)" class="member-name-link">allowBypassAuthentication</a><wbr>(boolean&nbsp;allowBypassAuthentication)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Method to assign the System as the current user with the specified role.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentUser()" class="member-name-link">getCurrentUser</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#configureAuthentication(java.lang.String)" class="member-name-link">configureAuthentication</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;role)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Method to get the current authenticated user.</div>
+<div class="block">Method to assign the System as the current user with the specified role.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">getCurrentUser</a><wbr>(<a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentUser()" class="member-name-link">getCurrentUser</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Method to get the current authenticated user.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">getCurrentUser</a><wbr>(<a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Metho to get the current authenticated user, or return the default user.</div>
 </div>
 </div>
@@ -168,6 +173,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>role</code> - Role to assign to the system user.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="allowBypassAuthentication(boolean)">
+<h3>allowBypassAuthentication</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">allowBypassAuthentication</span><wbr><span class="parameters">(boolean&nbsp;allowBypassAuthentication)</span></div>
+<div class="block">Method to assign the System as the current user with the specified role.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>allowBypassAuthentication</code> - Flag to bypass authentication.</dd>
 </dl>
 </section>
 </li>

@@ -19,6 +19,7 @@ import cdx.opencdx.commons.annotations.RetryAnnotation;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
@@ -41,27 +42,31 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     private static final String DOMAIN = "NatsOpenCDXMessageServiceImpl";
     private static final String OPENCDX = "opencdx";
     private final Connection natsConnection;
-    private final Dispatcher dispatcher;
 
     private final ObjectMapper objectMapper;
     private final String applicationName;
     private final Map<String, JetStreamSubscription> subscriptionMap;
 
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+
     /**
      * Constructor for setting up NATS based OpenCDXMessageService
      * @param natsConnection NATS Connection
      * @param objectMapper Jackson Object Mapper
-     * @param applicationName Name of the Service
+     * @param applicationName Name of the application
+     * @param openCDXCurrentUser System for setting the current user
      */
     public NatsOpenCDXMessageServiceImpl(
             Connection natsConnection,
             ObjectMapper objectMapper,
-            @Value("${spring.application.name}") String applicationName) {
+            @Value("${spring.application.name}") String applicationName,
+            OpenCDXCurrentUser openCDXCurrentUser) {
+        this.openCDXCurrentUser = openCDXCurrentUser;
         this.subscriptionMap = new HashMap<>();
         this.applicationName = applicationName;
         this.natsConnection = natsConnection;
         this.objectMapper = objectMapper;
-        this.dispatcher = this.natsConnection.createDispatcher();
+
         try {
             JetStreamManagement jetStreamManagement = this.natsConnection.jetStreamManagement();
             StreamConfiguration configuration = StreamConfiguration.builder()
@@ -71,7 +76,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT,
                             OpenCDXMessageService.CDC_MESSAGE_SUBJECT)
                     .maxAge(Duration.ofDays(7))
-                    .maxConsumers(2)
+                    .maxConsumers(10)
                     .storageType(StorageType.File)
                     .noAck(false)
                     .build();
@@ -94,14 +99,20 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void subscribe(String subject, OpenCDXMessageHandler handler) {
         log.info("Subscribing to: {}", subject);
         PushSubscribeOptions subscribeOptions = PushSubscribeOptions.builder().stream(OPENCDX)
-                .durable(this.applicationName)
+                .durable(this.applicationName + "_" + subject.replace(".", "_"))
                 .build();
 
         try {
+
             JetStreamSubscription subscription = natsConnection
                     .jetStream()
                     .subscribe(
-                            subject, OPENCDX, this.dispatcher, new NatsMessageHandler(handler), true, subscribeOptions);
+                            subject,
+                            this.natsConnection.createDispatcher(),
+                            new NatsMessageHandler(handler, this.openCDXCurrentUser),
+                            true,
+                            subscribeOptions);
+
             this.subscriptionMap.put(subject, subscription);
         } catch (IOException | JetStreamApiException e) {
             throw new OpenCDXInternal(DOMAIN, 2, "Failed JetStream Subscribe", e);
@@ -137,19 +148,27 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     /**
      * Handler wrapper for NATS
      */
+    @Slf4j
     protected static class NatsMessageHandler implements MessageHandler {
         OpenCDXMessageHandler handler;
 
+        private final OpenCDXCurrentUser openCDXCurrentUser;
+
         /**
          * Constructor for wrapping a OpenCDXMessageHandler
-         * @param handler OpenCDXMessageHandler to wrap.
+         *
+         * @param handler            OpenCDXMessageHandler to wrap.
+         * @param openCDXCurrentUser
          */
-        protected NatsMessageHandler(OpenCDXMessageHandler handler) {
+        protected NatsMessageHandler(OpenCDXMessageHandler handler, OpenCDXCurrentUser openCDXCurrentUser) {
             this.handler = handler;
+            this.openCDXCurrentUser = openCDXCurrentUser;
         }
 
         @Override
-        public void onMessage(Message msg) throws InterruptedException {
+        public void onMessage(Message msg) {
+            this.openCDXCurrentUser.configureAuthentication("SYSTEM");
+            log.debug("Received Message: {}", msg);
             handler.receivedMessage(msg.getData());
         }
     }

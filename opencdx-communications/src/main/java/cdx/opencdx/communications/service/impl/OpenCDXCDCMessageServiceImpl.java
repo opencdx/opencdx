@@ -55,12 +55,14 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
             URIBuilder uriBuilder = new URIBuilder(uri);
             StringEntity requestEntity = new StringEntity(message.replace("\n", ""));
 
+            log.info(message);
+
             HttpUriRequest request = RequestBuilder.post()
                     .setUri(uriBuilder.build())
                     .setEntity(requestEntity)
                     .addHeader("Accept", "application/fhir+ndjson")
                     .addHeader("Content-Type", "application/fhir+ndjson")
-                    .addHeader("client", "opencdx.CON_FULL_ELR_SENDER")
+                    .addHeader("client", "connectathon.CON_FULL_ELR_SENDER")
                     .addHeader("x-functions-key", "CMVUUt4ySvpmasN55_Kz4Mu1SgzlaETrZbdxU41Si1NmAzFuCwiFLQ==")
                     .build();
 
