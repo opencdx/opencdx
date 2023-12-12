@@ -75,7 +75,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT,
                             OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT)
                     .maxAge(Duration.ofDays(7))
-                    .maxConsumers(2)
+                    .maxConsumers(10)
                     .storageType(StorageType.File)
                     .noAck(false)
                     .build();
@@ -98,7 +98,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void subscribe(String subject, OpenCDXMessageHandler handler) {
         log.info("Subscribing to: {}", subject);
         PushSubscribeOptions subscribeOptions = PushSubscribeOptions.builder().stream(OPENCDX)
-                .durable(this.applicationName)
+                .durable(this.applicationName + "_" + subject.replace(".", "_"))
                 .build();
 
         try {
