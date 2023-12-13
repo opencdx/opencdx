@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.controller.OpenCDXGrpcVendorController;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
@@ -56,6 +57,9 @@ class OpenCDXVendorServiceImplTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
 
@@ -91,7 +95,8 @@ class OpenCDXVendorServiceImplTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 objectMapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -128,7 +133,8 @@ class OpenCDXVendorServiceImplTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 mapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVendorService1.addVendor(vendor));
     }
 
@@ -151,7 +157,8 @@ class OpenCDXVendorServiceImplTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 mapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVendorService1.updateVendor(vendor));
     }
 

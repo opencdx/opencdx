@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
@@ -51,6 +52,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * OpenCdx Vendor Service
@@ -68,13 +70,15 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
             OpenCDXTestCaseRepository openCDXTestCaseRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
-            OpenCDXAuditService openCDXAuditService) {
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXVendorRepository = openCDXVendorRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
@@ -88,6 +92,10 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     @Override
     public Vendor addVendor(Vendor request) {
+        if (request.hasVendorAddress()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "country", new ObjectId(request.getVendorAddress().getCountry()));
+        }
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -110,6 +118,10 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     @Override
     public Vendor updateVendor(Vendor request) {
+        if (request.hasVendorAddress()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "country", new ObjectId(request.getVendorAddress().getCountry()));
+        }
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
