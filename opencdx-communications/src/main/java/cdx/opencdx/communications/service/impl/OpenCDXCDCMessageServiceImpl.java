@@ -32,6 +32,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -45,6 +46,12 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
 
     private static final String DOMAIN = "OpenCDXCDCMessageServiceImpl";
 
+    @Value("${cdc.message.client}")
+    private String cdcClient;
+
+    @Value("${cdc.message.key}")
+    private String cdcKey;
+
     @Override
     public boolean sendCDCMessage(String message) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -53,31 +60,39 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
             String uri = "https://staging.prime.cdc.gov/api/reports";
 
             URIBuilder uriBuilder = new URIBuilder(uri);
-            StringEntity requestEntity = new StringEntity(message.replace("\n", ""));
 
-            log.info(message);
+            String requestString = message.replace("\\n", "")
+                    .replace("\\", "")
+                    .replace("\"{", "{")
+                    .replace("}\"", "}");
+
+            log.debug(requestString);
+
+            StringEntity requestEntity = new StringEntity(requestString);
 
             HttpUriRequest request = RequestBuilder.post()
                     .setUri(uriBuilder.build())
                     .setEntity(requestEntity)
                     .addHeader("Accept", "application/fhir+ndjson")
                     .addHeader("Content-Type", "application/fhir+ndjson")
-                    .addHeader("client", "connectathon.CON_FULL_ELR_SENDER")
-                    .addHeader("x-functions-key", "CMVUUt4ySvpmasN55_Kz4Mu1SgzlaETrZbdxU41Si1NmAzFuCwiFLQ==")
+                    .addHeader("client", cdcClient)
+                    .addHeader("x-functions-key", cdcKey)
                     .build();
 
             // Execute the request and process the results.
             HttpResponse response = httpClient.execute(request);
             HttpEntity responseEntity = response.getEntity();
+            log.debug(EntityUtils.toString(responseEntity));
+
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_CREATED) {
                 throw new OpenCDXInternalServerError(
                         DOMAIN,
                         1,
                         "Exception sending CDC message "
-                                + response.getStatusLine().toString());
+                                + response.getStatusLine().toString() + " " + EntityUtils.toString(responseEntity));
             }
-            log.debug("FHIR resource bundle sent.");
-            log.debug(EntityUtils.toString(responseEntity));
+            log.info("FHIR resource bundle sent.");
+
             return true;
         } catch (URISyntaxException e) {
             throw new OpenCDXBadRequest(DOMAIN, 1, "Invalid URL Syntax");
