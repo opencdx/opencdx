@@ -11,10 +11,13 @@ ENV PORT=3005
 COPY package*.json ./
 
 # Install app dependencies
+RUN npm install -g serve
 RUN yarn install
 
 # Copy the local source code to the container
 COPY . .
+
+RUN npm run build
 
 # Expose port 3005 to the outside world
 EXPOSE 3005
@@ -23,4 +26,4 @@ EXPOSE 3005
 # ENV REACT_APP_API_URL=http://localhost:3000
 
 # Command to run the application
-CMD ["npm", "start"]
+CMD serve -s build -l 3005
