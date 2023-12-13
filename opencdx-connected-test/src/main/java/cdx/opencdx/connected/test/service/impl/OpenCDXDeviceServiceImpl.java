@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
@@ -42,10 +43,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
+    public static final String COUNTRY = "country";
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for the Device Service
@@ -54,16 +57,19 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
      * @param openCDXCurrentUser      Current User Service to access information.
      * @param objectMapper            ObjectMapper used for converting messages for the audit system.
      * @param openCDXAuditService     Audit service for tracking FDA requirements
+     * @param openCDXDocumentValidator Document Validator for validating the Device
      */
     public OpenCDXDeviceServiceImpl(
             OpenCDXDeviceRepository openCDXDeviceRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
-            OpenCDXAuditService openCDXAuditService) {
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
@@ -77,6 +83,13 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
 
     @Override
     public Device addDevice(Device request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                COUNTRY, new ObjectId(request.getManufacturerCountryId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(request.getVendorCountryId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "manufacturer", new ObjectId(request.getManufacturerId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
+
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -99,6 +112,12 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
 
     @Override
     public Device updateDevice(Device request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                COUNTRY, new ObjectId(request.getManufacturerCountryId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(request.getVendorCountryId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "manufacturer", new ObjectId(request.getManufacturerId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
