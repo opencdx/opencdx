@@ -53,14 +53,14 @@ services:
     volumes:
       - ../certs:/certs
 
-  frontend:
+  dashboard:
     deploy:
       restart_policy:
         condition: on-failure
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/frontend:latest
+    image: opencdx/dashboard:latest
     depends_on:
       config:
         condition: service_healthy
@@ -73,7 +73,7 @@ services:
     volumes:
       - ../certs:/certs
     ports:
-      - "3000:3000"
+      - "3005:3005"
   iam:
     deploy:
       restart_policy:
