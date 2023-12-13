@@ -24,7 +24,6 @@ import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.OpenCDXHelloWorldService;
 import io.micrometer.observation.annotation.Observed;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +70,7 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
                 currentUser.getAgentType(),
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                UUID.randomUUID().toString(),
+                currentUser.getId().toHexString(),
                 "COMMUNICATION: 123",
                 "{\"name\":\"John\", \"age\":30, \"car\":null}");
         return String.format("Hello %s!", request.getName().trim());

@@ -16,12 +16,14 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.audit.*;
 import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -38,15 +40,20 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
 
     private OpenCDXMessageService messageService;
 
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
+
     /**
      * Constructor based on the OpenCDXMessageService
      * @param messageService Messaging Service to use,
      * @param applicationName Applicaiton name to set.
      */
     public OpenCDXAuditServiceImpl(
-            OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+            OpenCDXMessageService messageService,
+            @Value("${spring.application.name}") String applicationName,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.applicationName = applicationName;
         this.messageService = messageService;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
@@ -320,7 +327,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     }
 
     private AuditEntity getAuditEntity(String auditEntity) {
-        return AuditEntity.newBuilder().setPatientIdentifier(auditEntity).build();
+        return AuditEntity.newBuilder().setUserIdentifier(auditEntity).build();
     }
 
     private DataObject getDataObject(String jsonRecord, String resource, SensitivityLevel sensitivityLevel) {
@@ -333,6 +340,15 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
 
     private AuditStatus sendMessage(AuditEvent event) {
         log.info("Sending Audit Event: {}", event.getEventType());
+        if (event.hasActor()) {
+            openCDXDocumentValidator.validateDocumentOrLog(
+                    "users", new ObjectId(event.getActor().getIdentity()));
+        }
+        if (event.hasAuditEntity()) {
+            log.debug("Validating Audit Entity: {}", event.getAuditEntity().getUserIdentifier());
+            openCDXDocumentValidator.validateDocumentOrLog(
+                    "users", new ObjectId(event.getAuditEntity().getUserIdentifier()));
+        }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
         return AuditStatus.newBuilder().setSuccess(true).build();
     }

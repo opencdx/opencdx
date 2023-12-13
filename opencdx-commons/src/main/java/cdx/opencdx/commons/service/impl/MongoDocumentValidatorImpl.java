@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.commons.utils;
+package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import lombok.Getter;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,19 +25,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * This class is used to validate if a document exists in a collection.
  */
 @Slf4j
 @Component
-public class MongoDocumentValidator {
+public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.OpenCDXDocumentValidator {
 
+    public static final String DOMAIN = "MongoDocumentValidator";
     private final MongoTemplate mongoTemplate;
-
-    @Getter
-    private static MongoDocumentValidator instance;
 
     /**
      * Constructor
@@ -44,12 +41,12 @@ public class MongoDocumentValidator {
      * @param mongoTemplate MongoTemplate to use for validation
      */
     @SuppressWarnings("java:S3010")
-    public MongoDocumentValidator(MongoTemplate mongoTemplate) {
+    public MongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
-        MongoDocumentValidator.instance = this;
     }
 
-    protected boolean isCollectionExists(String collectionName) {
+    @Override
+    public boolean isCollectionExists(String collectionName) {
         return mongoTemplate.collectionExists(collectionName);
     }
 
@@ -60,8 +57,10 @@ public class MongoDocumentValidator {
      * @param documentId     Id of the document
      * @return true if the document exists, false otherwise
      */
-    public boolean documentExists(String collectionName, String documentId) {
-        return mongoTemplate.exists(Query.query(Criteria.where("_id").is(new ObjectId(documentId))), collectionName);
+    @Override
+    public boolean documentExists(String collectionName, ObjectId documentId) {
+        log.debug("Checking if document {} exists in collection {}", documentId.toHexString(), collectionName);
+        return mongoTemplate.exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
     }
 
     /**
@@ -71,7 +70,8 @@ public class MongoDocumentValidator {
      * @param documentId     Id of the document
      * @return true if the document exists, false otherwise
      */
-    public boolean validateDocumentOrLog(String collectionName, String documentId) {
+    @Override
+    public boolean validateDocumentOrLog(String collectionName, ObjectId documentId) {
         if (!isCollectionExists(collectionName)) {
             log.error("Collection {} does not exist", collectionName);
             return false;
@@ -89,15 +89,14 @@ public class MongoDocumentValidator {
      * @param collectionName Name of the collection
      * @param documentId     Id of the document
      */
-    public void validateDocumentOrThrow(String collectionName, String documentId) {
+    @Override
+    public void validateDocumentOrThrow(String collectionName, ObjectId documentId) {
         if (!isCollectionExists(collectionName)) {
-            throw new OpenCDXNotFound("MongoDocumentValidator", 1, "Collection " + collectionName + " does not exist");
+            throw new OpenCDXNotFound(DOMAIN, 1, "Collection " + collectionName + " does not exist");
         }
         if (!documentExists(collectionName, documentId)) {
             throw new OpenCDXNotFound(
-                    "MongoDocumentValidator",
-                    2,
-                    "Document " + documentId + " does not exist in collection " + collectionName);
+                    DOMAIN, 2, "Document " + documentId + " does not exist in collection " + collectionName);
         }
     }
 
@@ -108,8 +107,9 @@ public class MongoDocumentValidator {
      * @param documentIds    List of document IDs
      * @return true if all documents exist, false otherwise
      */
-    public boolean allDocumentsExist(String collectionName, List<String> documentIds) {
-        Criteria criteria = Criteria.where("_id").in(convertToObjectIdList(documentIds));
+    @Override
+    public boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds) {
+        Criteria criteria = Criteria.where("_id").in(documentIds);
         Query query = Query.query(criteria);
         return mongoTemplate.exists(query, collectionName);
     }
@@ -121,13 +121,17 @@ public class MongoDocumentValidator {
      * @param documentIds    List of document IDs
      * @return true if the document exists, false otherwise
      */
-    public boolean validateDocumentsOrLog(String collectionName, List<String> documentIds) {
+    @Override
+    public boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds) {
         if (!isCollectionExists(collectionName)) {
             log.error("Collection {} does not exist", collectionName);
             return false;
         }
         if (!allDocumentsExist(collectionName, documentIds)) {
-            log.error("Documents {} does not exist in collection {}", String.join(", ", documentIds), collectionName);
+            log.error(
+                    "Documents {} does not exist in collection {}",
+                    documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")),
+                    collectionName);
             return false;
         }
         return true;
@@ -139,22 +143,18 @@ public class MongoDocumentValidator {
      * @param collectionName Name of the collection
      * @param documentIds    List of document IDs
      */
-    public void validateDocumentsOrThrow(String collectionName, List<String> documentIds) {
+    @Override
+    public void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds) {
         if (!isCollectionExists(collectionName)) {
-            throw new OpenCDXNotFound("MongoDocumentValidator", 3, "Collection " + collectionName + " does not exist");
+            throw new OpenCDXNotFound(DOMAIN, 3, "Collection " + collectionName + " does not exist");
         }
         if (!allDocumentsExist(collectionName, documentIds)) {
             throw new OpenCDXNotFound(
-                    "MongoDocumentValidator",
+                    DOMAIN,
                     4,
-                    "Documents " + String.join(", ", documentIds) + " does not exist in collection " + collectionName);
+                    "Documents "
+                            + documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", "))
+                            + " does not exist in collection " + collectionName);
         }
-    }
-
-    // Helper method to convert document IDs to ObjectId list
-    private List<ObjectId> convertToObjectIdList(List<String> documentIds) {
-        return documentIds.stream()
-                .map(ObjectId::new)
-                .toList();
     }
 }

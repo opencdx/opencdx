@@ -71,7 +71,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
                     currentUser.getAgentType(),
                     "Anomaly Detection record",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    request.getAnomalyDetectionData().getEncounterId(),
+                    currentUser.getId().toHexString(),
                     "ANOMALY_DETECTION: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -99,7 +99,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
                     currentUser.getAgentType(),
                     "Authorization Control record",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    request.getAuthorizationControlData().getEncounterId(),
+                    currentUser.getId().toHexString(),
                     "AUTHORIZATION_CONTROL: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -127,7 +127,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
                     currentUser.getAgentType(),
                     "Privacy Protection record",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    request.getPrivacyProtectionData().getEncounterId(),
+                    currentUser.getId().toHexString(),
                     "PRIVACY_PROTECTION: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -155,7 +155,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
                     currentUser.getAgentType(),
                     "Real-time Monitoring record",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    request.getRealTimeMonitoringData().getEncounterId(),
+                    currentUser.getId().toHexString(),
                     "REAL_TIME_MONITORING: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -183,7 +183,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
                     currentUser.getAgentType(),
                     "User Behavior Analysis record",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    request.getUserBehaviorAnalysisData().getEncounterId(),
+                    currentUser.getId().toHexString(),
                     "USER_BEHAVIOR_ANALYSIS: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
