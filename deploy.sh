@@ -253,43 +253,162 @@ build_docker() {
 }
 
 # Function to start Docker services
+# Parameters: $1 - Docker Compose filename
 start_docker() {
-    handle_info "Starting Docker services..."
-    (cd docker && docker compose --project-name opencdx up -d) || handle_error "Failed to start Docker services."
+    if [ -z "$1" ]; then
+        handle_error "Error: Docker Compose filename is missing."
+    fi
+
+    handle_info "Starting Docker services using $1..."
+    (cd docker && docker compose --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
+
+    # Store the last used Docker Compose filename
+    echo "$1" > last_docker_compose_filename.txt
 }
 
 # Function to stop Docker services
+# Parameters: $1 (optional) - Docker Compose filename
 stop_docker() {
-    handle_info "Stopping Docker services..."
-    (cd docker && docker compose --project-name opencdx down) || handle_error "Failed to stop Docker services."
+    if [ -z "$1" ]; then
+        # If no filename is provided, use the last stored filename
+        if [ -e last_docker_compose_filename.txt ]; then
+            docker_compose_filename=$(cat last_docker_compose_filename.txt)
+        else
+            handle_error "Error: Docker Compose filename is missing."
+        fi
+    else
+        docker_compose_filename="$1"
+    fi
+
+    handle_info "Stopping Docker services using $docker_compose_filename..."
+    (cd docker && docker compose --project-name opencdx -f "$docker_compose_filename" down) || handle_error "Failed to stop Docker services."
 }
+
+generate_docker_compose() {
+  # Check if yq is installed
+  if ! command -v yq &> /dev/null; then
+    echo "Error: yq is not installed. Please install yq before running this script."
+    exit 1
+  fi
+
+  # Define the Docker Compose file
+  compose_file="docker/docker-compose.yml"
+
+  # Define services to always include
+  always_include=("discovery" "config" "database" "nats" "trace_storage" "zipkin_dependencies" "gateway" "iam")
+
+  # Extract service names from the original Docker Compose file using yq
+  services=($(yq e '.services | keys | .[]' "$compose_file"))
+
+  # Remove services specified in always_include
+  all_services=($(comm -23 <(printf '%s\n' "${services[@]}" | sort) <(printf '%s\n' "${always_include[@]}" | sort)))
+
+  # Display all services with selection indicator
+  display_services() {
+    clear
+    echo "All services:"
+    for ((i = 0; i < ${#all_services[@]}; i+=2)); do
+      service1="${all_services[$i]}"
+      padded_service1=$(printf "%-25s" "$service1")
+      indicator1="[ ]"
+      status1="Not Selected"
+      if [[ " ${selected_services[@]} " =~ " $service1 " ]]; then
+        indicator1="[x]"
+        status1="Selected"
+      fi
+
+      service2="${all_services[$i+1]:-}"
+      padded_service2=$(printf "%-25s" "$service2")
+      indicator2="[ ]"
+      status2="Not Selected"
+      if [[ " ${selected_services[@]} " =~ " $service2 " ]]; then
+        indicator2="[x]"
+        status2="Selected"
+      fi
+
+      echo -e "$((i+1)). $padded_service1 $indicator1\t$((i+2)). $padded_service2 $indicator2"
+    done
+  }
+
+  # Define an array to track selected services
+  selected_services=()
+
+  # Function to toggle service selection
+  toggle_service() {
+    local index="$REPLY"
+    if [[ $index -ge 1 && $index -le ${#all_services[@]} ]]; then
+      local service="${all_services[$index-1]}"
+      if [[ " ${selected_services[@]} " =~ " $service " ]]; then
+        selected_services=("${selected_services[@]/$service}")
+      else
+        selected_services+=("$service")
+      fi
+    else
+      echo "Invalid input. Please enter a valid service number."
+    fi
+  }
+
+  # Initial display of services
+  display_services
+
+  # Prompt user to select services or generate Docker Compose file
+  while true; do
+    read -p "Enter service number to toggle selection (or 'x' to generate Docker Compose file): " -r
+    echo
+    if [[ $REPLY =~ ^[0-9]+$ ]]; then
+      toggle_service
+      display_services
+    elif [[ $REPLY == "x" ]]; then
+      break
+    else
+      echo "Invalid input. Please enter a service number or 'x'."
+    fi
+  done
+
+  # Print version and selected services to the generated Docker Compose file
+  cat <<EOL > docker/generated-docker-compose.yaml
+version: '3'
+services:
+EOL
+
+  for service in "${selected_services[@]}" "${always_include[@]}"; do
+    # Print service header
+    echo "  $service:" >> docker/generated-docker-compose.yaml
+    # Print service configuration from the original file with proper indentation
+    yq e ".services.$service" "$compose_file" | sed 's/^/    /' >> docker/generated-docker-compose.yaml
+  done
+}
+
+
 
 # Function to manage Docker menu
 docker_menu() {
     while true; do
         echo "Docker Menu:"
         echo "1. Build Docker Image"
-        echo "2. Start Docker"
-        echo "3. Stop Docker"
-        echo "4. Open Admin Dashboard"
-        echo "5. Open Discovery Dashboard"
-        echo "6. Open NATS Dashboard"
-        echo "7. Run JMeter Test Script"
-        echo "8. Open JMeter Test Script"
-        echo "9. Open Microservice Tracing Zipkin"
+        echo "2. Start Docker (All Services)"
+        echo "3. Start Docker (Custom)"
+        echo "4. Stop Docker"
+        echo "5. Open Admin Dashboard"
+        echo "6. Open Discovery Dashboard"
+        echo "7. Open NATS Dashboard"
+        echo "8. Run JMeter Test Script"
+        echo "9. Open JMeter Test Script"
+        echo "10. Open Microservice Tracing Zipkin"
 
         read -r -p "Enter your choice (x to Exit Docker Menu): " docker_choice
 
         case $docker_choice in
         1) build_docker ;;
-        2) build_docker; start_docker ;;
-        3) stop_docker ;;
-        4) open_reports "admin" ;;
-        5) open_reports "discovery" ;;
-        6) open_reports "nats" ;;
-        7) run_jmeter_tests ;;
-        8) open_reports "jmeter_edit"  ;;
-        9) open_reports "micrometer_tracing"  ;;
+        2) build_docker; start_docker "docker-compose.yml";;
+        3) build_docker; generate_docker_compose; start_docker "generated-docker-compose.yaml";;
+        4) stop_docker ;;
+        5) open_reports "admin" ;;
+        6) open_reports "discovery" ;;
+        7) open_reports "nats" ;;
+        8) run_jmeter_tests ;;
+        9) open_reports "jmeter_edit"  ;;
+        10) open_reports "micrometer_tracing"  ;;
         x)
             handle_info "Exiting Docker Menu..."
             break
