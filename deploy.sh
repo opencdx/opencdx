@@ -222,7 +222,8 @@ print_usage() {
     echo "  --performance   Will Start JMeter Performance test 60 seconds after deployment. 1 hour duration"
     echo "  --soak          Will Start JMeter Soak test 60 seconds after deployment. 8 hour duration"
     echo "  --fast          Will perform a fast build skipping tests."
-    echo "  --wipe          Will prevent wiping the contents of the ./data directory."
+    echo "  --wipe          Will wipe the contents of the ./data directory."
+    echo "  --cert          Will wipe the contents of the ./certs directory."
     echo "  --help          Show this help message."
     exit 0
 }
@@ -311,6 +312,7 @@ jmeter=false
 performance=false
 fast_build=false
 wipe=false
+cert=false
 soak=false;
 
 # Parse command-line arguments
@@ -350,6 +352,9 @@ for arg in "$@"; do
     --wipe)
         wipe=true
         ;;
+    --cert)
+        cert=true
+        ;;
     --help)
         print_usage
         ;;
@@ -385,6 +390,9 @@ fi
 if [ "$wipe" = true ]; then
     handle_info "Wiping Data"
     rm -rf ./data
+fi
+if [ "$cert" = true ]; then
+    handle_info "Wiping Certificates"
     rm -rf ./certs/*.pem
     rm -rf ./certs/*.p12
 fi

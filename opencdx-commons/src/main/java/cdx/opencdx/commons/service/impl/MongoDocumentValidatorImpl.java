@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -58,6 +59,7 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      * @return true if the document exists, false otherwise
      */
     @Override
+    @Cacheable(value = "documentExists", key = "{#collectionName, #documentId}")
     public boolean documentExists(String collectionName, ObjectId documentId) {
         log.debug("Checking if document {} exists in collection {}", documentId.toHexString(), collectionName);
         boolean exists = mongoTemplate.exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
