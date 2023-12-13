@@ -18,14 +18,8 @@ package cdx.opencdx.commons.config;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
-import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
-import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
-import cdx.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
-import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
+import cdx.opencdx.commons.service.*;
+import cdx.opencdx.commons.service.impl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -156,9 +150,11 @@ public class CommonsConfig {
     @Bean
     @Description("OpenCDXOpenCDXAuditService for submitting audit messages through the message system.")
     OpenCDXAuditService openCDXAuditService(
-            OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+            OpenCDXMessageService messageService,
+            @Value("${spring.application.name}") String applicationName,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         log.info("Creaging Audit Service for {}", applicationName);
-        return new OpenCDXAuditServiceImpl(messageService, applicationName);
+        return new OpenCDXAuditServiceImpl(messageService, applicationName, openCDXDocumentValidator);
     }
 
     @Bean
@@ -169,5 +165,21 @@ public class CommonsConfig {
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         log.info("Creating Mongo Template");
         return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
+    }
+
+    @Bean
+    @Primary
+    @Profile("test")
+    OpenCDXDocumentValidator noOpDocumentValidator() {
+        log.info("Creating NoOp Document Validator");
+        return new NoOpDocumentValidatorImpl();
+    }
+
+    @Bean
+    @Profile("!test")
+    @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
+    OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
+        log.info("Creating Mongo Document Validator");
+        return new MongoDocumentValidatorImpl(mongoTemplate);
     }
 }

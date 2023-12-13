@@ -79,7 +79,7 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
                     currentUser.getAgentType(),
                     "Prediction request",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    request.getPredictorInput().getEncounterId(),
+                    currentUser.getId().toHexString(),
                     "PREDICTOR: 131",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {

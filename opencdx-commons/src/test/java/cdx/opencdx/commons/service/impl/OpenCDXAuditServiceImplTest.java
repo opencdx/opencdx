@@ -15,11 +15,10 @@
  */
 package cdx.opencdx.commons.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,29 +29,33 @@ class OpenCDXAuditServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        openCDXAuditService = new OpenCDXAuditServiceImpl(new NoOpOpenCDXMessageServiceImpl(), "test");
+        openCDXAuditService = new OpenCDXAuditServiceImpl(
+                new NoOpOpenCDXMessageServiceImpl(), "test", new NoOpDocumentValidatorImpl());
     }
 
     @Test
     void userLogout() {
-        Assertions.assertDoesNotThrow(
-                () -> openCDXAuditService.userLogout("test", AgentType.AGENT_TYPE_HUMAN_USER, "Logout"));
+        Assertions.assertDoesNotThrow(() -> openCDXAuditService.userLogout(
+                ObjectId.get().toHexString(), AgentType.AGENT_TYPE_HUMAN_USER, "Logout"));
     }
 
     @Test
     void userAccessChange() {
-        Assertions.assertDoesNotThrow(() ->
-                openCDXAuditService.userAccessChange("test", AgentType.AGENT_TYPE_HUMAN_USER, "Access Change", "test"));
+        Assertions.assertDoesNotThrow(() -> openCDXAuditService.userAccessChange(
+                ObjectId.get().toHexString(),
+                AgentType.AGENT_TYPE_HUMAN_USER,
+                "Access Change",
+                ObjectId.get().toHexString()));
     }
 
     @Test
     void phiUpdated() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.phiUpdated(
-                "test",
+                ObjectId.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Updated",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                "test",
+                ObjectId.get().toHexString(),
                 "resource",
                 "jsonRecord"));
     }
@@ -60,11 +63,11 @@ class OpenCDXAuditServiceImplTest {
     @Test
     void phiDeleted() {
         Assertions.assertDoesNotThrow(() -> openCDXAuditService.phiDeleted(
-                "test",
+                ObjectId.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "PHI Deleted",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                "test",
+                ObjectId.get().toHexString(),
                 "resource",
                 "jsonRecord"));
     }

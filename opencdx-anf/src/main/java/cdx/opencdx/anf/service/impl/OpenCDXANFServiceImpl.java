@@ -40,7 +40,6 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     private static final String DOMAIN = "OpenCDXANFServiceImpl";
-    public static final String ANF_STATEMENT = "anf-statement";
     public static final String FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL =
             "Failed to convert OpenCDXANFStatementModel";
     public static final String OBJECT = "OBJECT";
@@ -80,7 +79,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     currentUser.getAgentType(),
                     "Creating ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ANF_STATEMENT,
+                    currentUser.getId().toHexString(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -105,7 +104,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     currentUser.getAgentType(),
                     "Accessed ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ANF_STATEMENT,
+                    currentUser.getId().toHexString(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -129,7 +128,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     currentUser.getAgentType(),
                     "Updating ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ANF_STATEMENT,
+                    currentUser.getId().toHexString(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -154,7 +153,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     currentUser.getAgentType(),
                     "Deleting ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ANF_STATEMENT,
+                    currentUser.getId().toHexString(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {

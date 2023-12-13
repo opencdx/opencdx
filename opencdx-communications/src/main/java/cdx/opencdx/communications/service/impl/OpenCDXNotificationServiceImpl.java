@@ -34,7 +34,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -297,7 +296,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    UUID.randomUUID().toString(),
+                    currentUser.getId().toHexString(),
                     notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {
