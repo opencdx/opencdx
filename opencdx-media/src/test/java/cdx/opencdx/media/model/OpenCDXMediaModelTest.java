@@ -42,6 +42,10 @@ class OpenCDXMediaModelTest {
                 .setLocation("location")
                 .setEndpoint("media/downloads/1234")
                 .setStatus(MediaStatus.MEDIA_STATUS_ACTIVE)
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build());
 
         Assertions.assertNotNull(model.getProtobufMessage());

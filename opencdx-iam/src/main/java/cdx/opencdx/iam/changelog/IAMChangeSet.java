@@ -18,6 +18,7 @@ package cdx.opencdx.iam.changelog;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.FullName;
@@ -26,6 +27,7 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.model.Indexes;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  * Change sets to MongoDB for IAM
@@ -33,6 +35,11 @@ import java.util.List;
 @ChangeLog(order = "001")
 @ExcludeFromJacocoGeneratedReport
 public class IAMChangeSet {
+
+    private static final String SCRAMBLED_PASSWORD =
+            "{bcrypt}$2a$10$FLbaCLMQvIW8u5ceN4BStujPq8dbXeyeIiazOPatFUwcaopXNqlAa";
+    private static final String SYSTEM = "SYSTEM";
+
     /**
      * Default Constructor
      */
@@ -41,21 +48,114 @@ public class IAMChangeSet {
     }
 
     /**
+     * Setup Communications System  for OpenCDX
+     * @param openCDXIAMUserRepository User Repository for saving default user.
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @ChangeSet(order = "001", id = "Setup Service Users", author = "Jeff Miller")
+    public void setServiceUsers(
+            OpenCDXIAMUserRepository openCDXIAMUserRepository, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.allowBypassAuthentication(true);
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("iam")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-IAM")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXCurrentUser.allowBypassAuthentication(false);
+
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("audit")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Audit")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("communications")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Communications")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("connected-test")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Connected-Test")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("helloworld")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Helloworld")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("media")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Media")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("protector")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Protector")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("routine")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Routine")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("tinkar")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Tinkar")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+    }
+
+    /**
      * Setup Index on email for users.
      * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
-    @ChangeSet(order = "001", id = "Setup Users Email Index", author = "Gaurav Mishra")
-    public void setupIndexes(MongockTemplate mongockTemplate) {
+    @ChangeSet(order = "002", id = "Setup Users Email Index", author = "Gaurav Mishra")
+    public void setupIndexes(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
     }
 
     /**
      * Setup Default User for OpenCDX
      * @param openCDXIAMUserRepository User Repository for saving default user.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
-    @ChangeSet(order = "002", id = "Setup Default User", author = "Jeff Miller")
-    public void setupDefaultUser(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+    @ChangeSet(order = "003", id = "Setup Default User", author = "Jeff Miller")
+    public void setupDefaultUser(
+            OpenCDXIAMUserRepository openCDXIAMUserRepository, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
         openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .id(new ObjectId("5f63a53ddcc67c7a1c3d93e8"))
                 .username("admin@opencdx.org")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .fullName(FullName.newBuilder()
@@ -71,25 +171,11 @@ public class IAMChangeSet {
     /**
      * Create an index based on the system name
      * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
      */
-    @ChangeSet(order = "003", id = "Setup Users System Index", author = "Jeff Miller")
-    public void setupSystemIndex(MongockTemplate mongockTemplate) {
+    @ChangeSet(order = "004", id = "Setup Users System Index", author = "Jeff Miller")
+    public void setupSystemIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));
-    }
-
-    /**
-     * Setup Communications System  for OpenCDX
-     * @param openCDXIAMUserRepository User Repository for saving default user.
-     */
-    @ChangeSet(order = "004", id = "Setup communications User", author = "Jeff Miller")
-    public void setupCommunicationsUser(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
-        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
-                .username("communications")
-                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .systemName("OpenCDX-Communications")
-                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
-                .password("{bcrypt}$2a$10$FLbaCLMQvIW8u5ceN4BStujPq8dbXeyeIiazOPatFUwcaopXNqlAa")
-                .emailVerified(true)
-                .build());
     }
 }

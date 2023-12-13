@@ -24,6 +24,10 @@ message Organization {
   optional string vision_statement = 12; // Vision statement of the organization
   repeated ContactInfo contacts = 13; // Contact information for the organization
   repeated string workspace_ids = 14; // Departments (Workspaces) within the organization
+  optional google.protobuf.Timestamp created = 15; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 16; // Timestamp when this event was modified.
+  optional string creator = 17; // ID of the creator of this event.
+  optional string modifier = 18; // ID of the modifier of this event.
 }
 
 // Definition for a workspace
@@ -41,6 +45,10 @@ message Workspace {
   optional string usage_policy = 11; // Policies and rules for using the workspace
   optional string availability_schedule = 12; // Schedule of when the workspace is available
   repeated Department departments = 13; // Departments within the workspace
+  optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
+  optional string creator = 16; // ID of the creator of this event.
+  optional string modifier = 17; // ID of the modifier of this event.
 }
 
 // Contact information for an organization or workspace

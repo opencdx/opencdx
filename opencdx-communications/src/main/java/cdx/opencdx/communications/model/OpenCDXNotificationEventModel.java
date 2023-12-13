@@ -17,6 +17,8 @@ package cdx.opencdx.communications.model;
 
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.communication.*;
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,6 +55,11 @@ public class OpenCDXNotificationEventModel {
     @Builder.Default
     private Integer smsRetry = 0;
 
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
+
     /**
      * Constructor to create this model based on an NotificationEvent
      * @param event NotificationEvent to base this model on.
@@ -74,6 +81,21 @@ public class OpenCDXNotificationEventModel {
         this.priority = event.getPriority();
         this.smsRetry = event.getSmsRetry();
         this.emailRetry = event.getEmailRetry();
+
+        if (event.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    event.getCreated().getSeconds(), event.getCreated().getNanos());
+        }
+        if (event.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    event.getModified().getSeconds(), event.getModified().getNanos());
+        }
+        if (event.hasCreator()) {
+            this.creator = new ObjectId(event.getCreator());
+        }
+        if (event.hasModifier()) {
+            this.modifier = new ObjectId(event.getModifier());
+        }
     }
 
     /**
@@ -109,7 +131,24 @@ public class OpenCDXNotificationEventModel {
         }
         builder.setSmsRetry(this.smsRetry);
         builder.setEmailRetry(this.emailRetry);
-
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
+        }
         return builder.build();
     }
 }

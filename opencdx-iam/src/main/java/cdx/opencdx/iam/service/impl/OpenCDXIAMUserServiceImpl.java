@@ -122,6 +122,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public SignUpResponse signUp(SignUpRequest request) {
+        this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(request);
         model.setPassword(this.passwordEncoder.encode(request.getPassword()));
         model = this.openCDXIAMUserRepository.save(model);
@@ -403,6 +404,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public void verifyEmailIamUser(String id) {
+        this.openCDXCurrentUser.configureAuthentication("ROLE_SYSTEM");
         OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
                 .findById(new ObjectId(id))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + id));

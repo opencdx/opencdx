@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Discovery
+
+server:
+  port: 8761
+  ssl:
+    enabled: true
+    client-auth: none
+    key-store: file:/certs/opencdx-keystore.p12
+    key-store-password: opencdx
+    key-alias: discovery
+
+logging:
+  level:
+    com.netflix.eureka: OFF
+    com.netflix.discovery: OFF
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

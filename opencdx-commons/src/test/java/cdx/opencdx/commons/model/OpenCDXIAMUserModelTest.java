@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.profile.UserProfile;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -37,6 +38,10 @@ class OpenCDXIAMUserModelTest {
                 .setEmailVerified(false)
                 .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
@@ -95,5 +100,36 @@ class OpenCDXIAMUserModelTest {
         OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
 
         assertEquals(AgentType.AGENT_TYPE_SYSTEM, model.getAgentType());
+    }
+
+    @Test
+    void getProtobufMessage_6() {
+        IamUser user = IamUser.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setCreatedAt(Timestamp.getDefaultInstance())
+                .setUpdatedAt(Timestamp.getDefaultInstance())
+                .setUsername("email")
+                .setSystemName("system")
+                .setEmailVerified(false)
+                .setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .setType(IamUserType.IAM_USER_TYPE_REGULAR)
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
+                .build();
+
+        OpenCDXIAMUserModel model = new OpenCDXIAMUserModel(user);
+        UserProfile profile = UserProfile.newBuilder()
+                .setUserId(ObjectId.get().toHexString())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
+                .build();
+
+        model.update(profile);
+
+        assertNotNull(model.getUserProfileProtobufMessage());
     }
 }

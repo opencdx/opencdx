@@ -197,7 +197,7 @@ class OpenCDXNotificationProcessorTasksTest {
                 .thenReturn(List.of(notification));
 
         this.openCDXNotificationProcessorTasks = new OpenCDXNotificationProcessorTasks(
-                this.openCDXNotificationService, this.openCDXNotificaitonRepository, openCDXCurrentUser);
+                this.openCDXNotificationService, this.openCDXNotificaitonRepository, this.openCDXCurrentUser);
     }
 
     @AfterEach

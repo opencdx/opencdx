@@ -64,6 +64,10 @@ public class OpenCDXNotificationModel {
     private Map<String, String> variables;
     private List<ObjectId> recipients;
 
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
     /**
      * Constructor taking a Notification and generating the Model
      * @param notification Notificaiton to generate model for.
@@ -102,6 +106,23 @@ public class OpenCDXNotificationModel {
         this.variables = notification.getVariablesMap();
         this.recipients =
                 notification.getRecipientsIdList().stream().map(ObjectId::new).toList();
+
+        if (notification.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    notification.getCreated().getSeconds(),
+                    notification.getCreated().getNanos());
+        }
+        if (notification.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    notification.getModified().getSeconds(),
+                    notification.getModified().getNanos());
+        }
+        if (notification.hasCreator()) {
+            this.creator = new ObjectId(notification.getCreator());
+        }
+        if (notification.hasModifier()) {
+            this.modifier = new ObjectId(notification.getModifier());
+        }
     }
 
     /**
@@ -109,25 +130,45 @@ public class OpenCDXNotificationModel {
      * @return Notification as the protobuf message.
      */
     public Notification getProtobufMessage() {
-        return Notification.newBuilder()
-                .setQueueId(this.id.toHexString())
-                .setEventId(this.eventId.toHexString())
-                .setSmsStatus(this.smsStatus)
-                .setEmailStatus(this.emailStatus)
-                .setTimestamp(Timestamp.newBuilder()
-                        .setSeconds(this.timestamp.getEpochSecond())
-                        .setNanos(this.timestamp.getNano())
-                        .build())
-                .putAllCustomData(this.customData)
-                .addAllToEmail(ListUtils.safe(this.toEmail))
-                .addAllCcEmail(ListUtils.safe(this.ccEmail))
-                .addAllBccEmail(ListUtils.safe(this.bccEmail))
-                .addAllEmailAttachments(ListUtils.safe(this.attachments))
-                .addAllToPhoneNumber(ListUtils.safe(this.phoneNumbers))
-                .putAllVariables(this.variables)
-                .addAllRecipientsId(ListUtils.safe(this.recipients).stream()
-                        .map(ObjectId::toHexString)
-                        .toList())
-                .build();
+        Notification.Builder builder = Notification.newBuilder();
+        builder.setQueueId(this.id.toHexString());
+        builder.setEventId(this.eventId.toHexString());
+        builder.setSmsStatus(this.smsStatus);
+        builder.setEmailStatus(this.emailStatus);
+        builder.setTimestamp(Timestamp.newBuilder()
+                .setSeconds(this.timestamp.getEpochSecond())
+                .setNanos(this.timestamp.getNano())
+                .build());
+        builder.putAllCustomData(this.customData);
+        builder.addAllToEmail(ListUtils.safe(this.toEmail));
+        builder.addAllCcEmail(ListUtils.safe(this.ccEmail));
+        builder.addAllBccEmail(ListUtils.safe(this.bccEmail));
+        builder.addAllEmailAttachments(ListUtils.safe(this.attachments));
+        builder.addAllToPhoneNumber(ListUtils.safe(this.phoneNumbers));
+        builder.putAllVariables(this.variables);
+        builder.addAllRecipientsId(ListUtils.safe(this.recipients).stream()
+                .map(ObjectId::toHexString)
+                .toList());
+
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
+        }
+
+        return builder.build();
     }
 }

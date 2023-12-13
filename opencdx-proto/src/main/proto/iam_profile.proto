@@ -48,6 +48,10 @@ message UserProfile {
   repeated KnownAllergy known_allergies = 23; // A list of known allergies for the user
   repeated Medication current_medications = 24;  // A list of medications currently being taken by the user
   bool is_active = 25; // Indicates whether the user is active
+  optional google.protobuf.Timestamp created = 26; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 27; // Timestamp when this event was modified.
+  optional string creator = 28; // ID of the creator of this event.
+  optional string modifier = 29; // ID of the modifier of this event.
 }
 
 // Full name information.

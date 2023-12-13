@@ -1,0 +1,17 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: iam
+
+mongock:
+  change-logs-scan-package: cdx.opencdx.iam.changelog
+  max-waiting-for-lock-minutes: 5
+  lock-acquired-for-minutes: 3
+
+logging:
+  level:
+    org.springframework.security: trace
+
+opencdx:
+  iam:
+    verificationUrl: "https://localhost:8680/verify"

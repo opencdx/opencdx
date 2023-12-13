@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.model;
 
 import cdx.opencdx.grpc.inventory.Address;
 import cdx.opencdx.grpc.inventory.Manufacturer;
+import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,23 @@ class OpenCDXManufacturerModelTest {
 
     @Test
     void getProtobufMessage_3() {
+        Manufacturer manufacturer = Manufacturer.newBuilder()
+                .setName("vendorName")
+                .setManufacturerAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .setCreated(Timestamp.getDefaultInstance())
+                .setModified(Timestamp.getDefaultInstance())
+                .setCreator(ObjectId.get().toHexString())
+                .setModifier(ObjectId.get().toHexString())
+                .build();
+        OpenCDXManufacturerModel model = new OpenCDXManufacturerModel(manufacturer);
+        Assertions.assertEquals(
+                manufacturer.getName(), model.getProtobufMessage().getName());
+    }
+
+    @Test
+    void getProtobufMessage_4() {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setName("vendorName")
                 .setManufacturerAddress(Address.newBuilder()

@@ -56,6 +56,10 @@ public class OpenCDXIAMOrganizationModel {
     private String visionStatement;
     private List<ContactInfo> contactInfo;
     private List<ObjectId> workspaceIds;
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
 
     /**
      * Constructor from protobuf message Organization
@@ -83,12 +87,30 @@ public class OpenCDXIAMOrganizationModel {
         this.contactInfo = organization.getContactsList();
         this.workspaceIds =
                 organization.getWorkspaceIdsList().stream().map(ObjectId::new).toList();
+
+        if (organization.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    organization.getCreated().getSeconds(),
+                    organization.getCreated().getNanos());
+        }
+        if (organization.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    organization.getModified().getSeconds(),
+                    organization.getModified().getNanos());
+        }
+        if (organization.hasCreator()) {
+            this.creator = new ObjectId(organization.getCreator());
+        }
+        if (organization.hasModifier()) {
+            this.modifier = new ObjectId(organization.getModifier());
+        }
     }
 
     /**
      * Method to get the protobuf organization object
      * @return protobuf organization object
      */
+    @SuppressWarnings("java:S3776")
     public Organization getProtobufMessage() {
         Organization.Builder builder = Organization.newBuilder();
 
@@ -136,6 +158,24 @@ public class OpenCDXIAMOrganizationModel {
         if (this.workspaceIds != null) {
             builder.addAllWorkspaceIds(
                     this.workspaceIds.stream().map(ObjectId::toHexString).toList());
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
 
         return builder.build();

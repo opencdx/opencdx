@@ -1,0 +1,8 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: anf
+
+opencdx:
+  helloworld:
+    format: "Hello %s!"

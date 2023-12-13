@@ -1,0 +1,17 @@
+opencdx:
+  client:
+    audit:
+      server: audit
+      port: 8080
+    communications:
+      server: communications
+      port: 8080
+    connected-test:
+      server: connected-test
+      port: 8080
+    helloworld:
+      server: helloworld
+      port: 8080
+    media:
+      server: media
+      port: 8080

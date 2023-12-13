@@ -192,4 +192,9 @@ message Media {
 
   // Status
   MediaStatus status = 16;
+
+  optional google.protobuf.Timestamp created = 17; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 18; // Timestamp when this event was modified.
+  optional string creator = 19; // ID of the creator of this event.
+  optional string modifier = 20; // ID of the modifier of this event.
 }
