@@ -572,7 +572,7 @@ if [ "$no_menu" = false ]; then
 
     if [ "$deploy" = true ]; then
         build_docker;
-        start_docker;
+        start_docker "docker-compose.yml";
         open_reports "admin";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run JMeter tests"

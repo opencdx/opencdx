@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
@@ -77,6 +78,9 @@ class OpenCDXGrpcCommunicationsControllerTest {
 
     @Autowired
     OpenCDXEmailService openCDXEmailService;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
@@ -172,7 +176,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 openCDXCurrentUser,
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
-                objectMapper);
+                objectMapper,
+                this.openCDXDocumentValidator);
         this.openCDXGrpcCommunicationsController = new OpenCDXGrpcCommunicationsController(
                 this.openCDXNotificationService, openCDXCommunicationEmailService, openCDXCommunicationSmsService);
     }
