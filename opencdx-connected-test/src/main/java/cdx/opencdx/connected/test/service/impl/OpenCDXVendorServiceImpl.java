@@ -63,6 +63,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
      * @param openCDXCurrentUser        Current User Service to access information.
      * @param objectMapper              ObjectMapper used for converting messages for the audit system.
      * @param openCDXAuditService       Audit service for tracking FDA requirements
+     * @param openCDXDocumentValidator  Document Validator for validating documents.
      */
     public OpenCDXVendorServiceImpl(
             OpenCDXVendorRepository openCDXVendorRepository,
