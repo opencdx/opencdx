@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -58,9 +59,17 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      * @return true if the document exists, false otherwise
      */
     @Override
+    @Cacheable(value = "documentExists", key = "{#collectionName, #documentId}")
     public boolean documentExists(String collectionName, ObjectId documentId) {
         log.debug("Checking if document {} exists in collection {}", documentId.toHexString(), collectionName);
-        return mongoTemplate.exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
+        boolean exists = mongoTemplate.exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
+        if (exists) {
+            log.debug("Document {} exists in collection {}", documentId.toHexString(), collectionName);
+            return true;
+        } else {
+            log.debug("Document {} does not exist in collection {}", documentId.toHexString(), collectionName);
+            return false;
+        }
     }
 
     /**
@@ -109,9 +118,26 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds) {
+        log.debug(
+                "Checking if documents {} exist in collection {}",
+                documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")),
+                collectionName);
         Criteria criteria = Criteria.where("_id").in(documentIds);
         Query query = Query.query(criteria);
-        return mongoTemplate.exists(query, collectionName);
+        boolean exists = mongoTemplate.exists(query, collectionName);
+        if (exists) {
+            log.debug(
+                    "Documents {} exist in collection {}",
+                    documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")),
+                    collectionName);
+            return true;
+        } else {
+            log.debug(
+                    "Documents {} do not exist in collection {}",
+                    documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")),
+                    collectionName);
+            return false;
+        }
     }
 
     /**
