@@ -116,6 +116,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcVendorController.html#addVendor(cdx.opencdx.grpc.inventory.Vendor,io.grpc.stub.StreamObserver)" class="member-name-link">addVendor(Vendor, StreamObserver&lt;Vendor&gt;)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcVendorController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXGrpcVendorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#allDocumentsExist(java.lang.String,java.util.List)" class="member-name-link">allDocumentsExist(String, List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Check if all documents in the given list exist in the specified collection</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#allDocumentsExist(java.lang.String,java.util.List)" class="member-name-link">allDocumentsExist(String, List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#allDocumentsExist(java.lang.String,java.util.List)" class="member-name-link">allDocumentsExist(String, List&lt;ObjectId&gt;)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a list of documents exists</div>
+</dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html#allowBypassAuthentication(boolean)" class="member-name-link">allowBypassAuthentication(boolean)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCurrentUserImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html#allowBypassAuthentication(boolean)" class="member-name-link">allowBypassAuthentication(boolean)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></dt>
@@ -810,15 +820,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Default Constructor</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#communication(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">communication(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#communication(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">communication(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
-<dd>
-<div class="block">Record User Communication.</div>
-</dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#communication(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">communication(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/client/service/OpenCDXAuditClient.html#communication(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">communication(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXAuditClient.html" title="interface in cdx.opencdx.client.service">OpenCDXAuditClient</a></dt>
+<dd>
+<div class="block">Record User Communication.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#communication(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">communication(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#communication(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">communication(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
 <div class="block">Record User Communication.</div>
 </dd>
@@ -1250,6 +1260,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/protector/controller/OpenCDXGrpcProtectorController.html#detectAnomalies(cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest,io.grpc.stub.StreamObserver)" class="member-name-link">detectAnomalies(AnomalyDetectionDataRequest, StreamObserver&lt;SecurityResponse&gt;)</a> - Method in class cdx.opencdx.protector.controller.<a href="cdx/opencdx/protector/controller/OpenCDXGrpcProtectorController.html" title="class in cdx.opencdx.protector.controller">OpenCDXGrpcProtectorController</a></dt>
 <dd>
 <div class="block">gRPC Service Call to detectAnomalies.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#documentExists(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">documentExists(String, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Check if a document exists in a collection</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#documentExists(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">documentExists(String, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#documentExists(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">documentExists(String, ObjectId)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a document exists</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/security/JwtTokenFilter.html#doFilterInternal(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse,jakarta.servlet.FilterChain)" class="member-name-link">doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)</a> - Method in class cdx.opencdx.commons.security.<a href="cdx/opencdx/commons/security/JwtTokenFilter.html" title="class in cdx.opencdx.commons.security">JwtTokenFilter</a></dt>
 <dd>&nbsp;</dd>
@@ -2313,6 +2333,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Task that runs on a cron schedule of queue.priority.medium to process
  any pending Medium notifications.</div>
 </dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
+<dd>
+<div class="block">This class is used to validate if a document exists in a collection.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#%3Cinit%3E(org.springframework.data.mongodb.core.MongoTemplate)" class="member-name-link">MongoDocumentValidatorImpl(MongoTemplate)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Constructor</div>
+</dd>
 <dt><a href="cdx/opencdx/protector/service/impl/OpenCDXProtectorServiceImpl.html#monitorRealTimeActivity(cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest)" class="member-name-link">monitorRealTimeActivity(RealTimeMonitoringDataRequest)</a> - Method in class cdx.opencdx.protector.service.impl.<a href="cdx/opencdx/protector/service/impl/OpenCDXProtectorServiceImpl.html" title="class in cdx.opencdx.protector.service.impl">OpenCDXProtectorServiceImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/protector/service/OpenCDXProtectorService.html#monitorRealTimeActivity(cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest)" class="member-name-link">monitorRealTimeActivity(RealTimeMonitoringDataRequest)</a> - Method in interface cdx.opencdx.protector.service.<a href="cdx/opencdx/protector/service/OpenCDXProtectorService.html" title="interface in cdx.opencdx.protector.service">OpenCDXProtectorService</a></dt>
@@ -2326,11 +2354,11 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:N">N</h2>
 <dl class="index">
-<dt><a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.NatsMessageHandler.html#%3Cinit%3E(cdx.opencdx.commons.handlers.OpenCDXMessageHandler)" class="member-name-link">NatsMessageHandler(OpenCDXMessageHandler)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.NatsMessageHandler.html" title="class in cdx.opencdx.commons.service.impl">NatsOpenCDXMessageServiceImpl.NatsMessageHandler</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.NatsMessageHandler.html#%3Cinit%3E(cdx.opencdx.commons.handlers.OpenCDXMessageHandler,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">NatsMessageHandler(OpenCDXMessageHandler, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.NatsMessageHandler.html" title="class in cdx.opencdx.commons.service.impl">NatsOpenCDXMessageServiceImpl.NatsMessageHandler</a></dt>
 <dd>
 <div class="block">Constructor for wrapping a OpenCDXMessageHandler</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/config/CommonsConfig.html#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String)" class="member-name-link">natsOpenCDXMessageService(Connection, ObjectMapper, String)</a> - Method in class cdx.opencdx.commons.config.<a href="cdx/opencdx/commons/config/CommonsConfig.html" title="class in cdx.opencdx.commons.config">CommonsConfig</a></dt>
+<dt><a href="cdx/opencdx/commons/config/CommonsConfig.html#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String)" class="member-name-link">natsOpenCDXMessageService(Connection, ObjectMapper, OpenCDXCurrentUser, String)</a> - Method in class cdx.opencdx.commons.config.<a href="cdx/opencdx/commons/config/CommonsConfig.html" title="class in cdx.opencdx.commons.config">CommonsConfig</a></dt>
 <dd>
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 </dd>
@@ -2338,13 +2366,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">NATS based implementation of OpenCDXMessageService</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.html#%3Cinit%3E(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String)" class="member-name-link">NatsOpenCDXMessageServiceImpl(Connection, ObjectMapper, String)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">NatsOpenCDXMessageServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.html#%3Cinit%3E(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,java.lang.String,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">NatsOpenCDXMessageServiceImpl(Connection, ObjectMapper, String, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">NatsOpenCDXMessageServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for setting up NATS based OpenCDXMessageService</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/NatsOpenCDXMessageServiceImpl.NatsMessageHandler.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">NatsOpenCDXMessageServiceImpl.NatsMessageHandler</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
 <div class="block">Handler wrapper for NATS</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
+<dd>
+<div class="block">No-op implementation of OpenCDXDocumentValidator</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#%3Cinit%3E()" class="member-name-link">NoOpDocumentValidatorImpl()</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Default Constructor</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/NoOpOpenCDXMessageServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">NoOpOpenCDXMessageServiceImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
@@ -2445,7 +2481,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">OpenCDX-Audit based implementation of OpenCDXOpenCDXAuditService</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXMessageService,java.lang.String)" class="member-name-link">OpenCDXAuditServiceImpl(OpenCDXMessageService, String)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXMessageService,java.lang.String,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXAuditServiceImpl(OpenCDXMessageService, String, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor based on the OpenCDXMessageService</div>
 </dd>
@@ -2530,7 +2566,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Implementaiton for OpenCDXCommunicationService</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXMessageService)" class="member-name-link">OpenCDXCommunicationServiceImpl(OpenCDXMessageService)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCommunicationServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXMessageService,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXCommunicationServiceImpl(OpenCDXMessageService, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXCommunicationServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor to use the OpenCDXMessageService to send the notificaiton.</div>
 </dd>
@@ -2674,9 +2710,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for Device Protobuf Messages</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXDeviceServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)" class="member-name-link">OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXDeviceServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXDeviceServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXDeviceServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXDeviceServiceImpl(OpenCDXDeviceRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXDeviceServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXDeviceServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for the Device Service</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
+<dd>
+<div class="block">Service for validating documents</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/OpenCDXEmailService.html" class="type-name-link" title="interface in cdx.opencdx.communications.service">OpenCDXEmailService</a> - Interface in <a href="cdx/opencdx/communications/service/package-summary.html">cdx.opencdx.communications.service</a></dt>
 <dd>
@@ -2987,7 +3027,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Implementation of the Organization Service</div>
 </dd>
-<dt><a href="cdx/opencdx/iam/service/impl/OpenCDXIAMOrganizationServiceImpl.html#%3Cinit%3E(cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">OpenCDXIAMOrganizationServiceImpl(OpenCDXIAMOrganizationRepository, OpenCDXAuditService, OpenCDXCurrentUser, ObjectMapper)</a> - Constructor for class cdx.opencdx.iam.service.impl.<a href="cdx/opencdx/iam/service/impl/OpenCDXIAMOrganizationServiceImpl.html" title="class in cdx.opencdx.iam.service.impl">OpenCDXIAMOrganizationServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/iam/service/impl/OpenCDXIAMOrganizationServiceImpl.html#%3Cinit%3E(cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXIAMOrganizationServiceImpl(OpenCDXIAMOrganizationRepository, OpenCDXAuditService, OpenCDXCurrentUser, ObjectMapper, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.iam.service.impl.<a href="cdx/opencdx/iam/service/impl/OpenCDXIAMOrganizationServiceImpl.html" title="class in cdx.opencdx.iam.service.impl">OpenCDXIAMOrganizationServiceImpl</a></dt>
 <dd>
 <div class="block">Organizatgion Service</div>
 </dd>
@@ -3015,7 +3055,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing HelloWorld Requests</div>
 </dd>
-<dt><a href="cdx/opencdx/iam/service/impl/OpenCDXIAMProfileServiceImpl.html#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXIAMProfileServiceImpl(ObjectMapper, OpenCDXAuditService, OpenCDXIAMUserRepository, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.iam.service.impl.<a href="cdx/opencdx/iam/service/impl/OpenCDXIAMProfileServiceImpl.html" title="class in cdx.opencdx.iam.service.impl">OpenCDXIAMProfileServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/iam/service/impl/OpenCDXIAMProfileServiceImpl.html#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXIAMProfileServiceImpl(ObjectMapper, OpenCDXAuditService, OpenCDXIAMUserRepository, OpenCDXCurrentUser, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.iam.service.impl.<a href="cdx/opencdx/iam/service/impl/OpenCDXIAMProfileServiceImpl.html" title="class in cdx.opencdx.iam.service.impl">OpenCDXIAMProfileServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for setting up Profile service</div>
 </dd>
@@ -3155,7 +3195,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for Manufacturer Protobuf Messages</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXManufacturerServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)" class="member-name-link">OpenCDXManufacturerServiceImpl(OpenCDXManufacturerRepository, OpenCDXDeviceRepository, OpenCDXTestCaseRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXManufacturerServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXManufacturerServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXManufacturerServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXManufacturerServiceImpl(OpenCDXManufacturerRepository, OpenCDXDeviceRepository, OpenCDXTestCaseRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXManufacturerServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXManufacturerServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for the Manufacturer Service</div>
 </dd>
@@ -3350,7 +3390,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing Communications Requests.</div>
 </dd>
-<dt><a href="cdx/opencdx/communications/service/impl/OpenCDXNotificationServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository,cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository,cdx.opencdx.communications.service.OpenCDXEmailService,cdx.opencdx.communications.service.OpenCDXSMSService,cdx.opencdx.communications.service.OpenCDXHTMLProcessor,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.communications.service.OpenCDXCommunicationSmsService,cdx.opencdx.communications.service.OpenCDXCommunicationEmailService,com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">OpenCDXNotificationServiceImpl(OpenCDXAuditService, OpenCDXNotificationEventRepository, OpenCDXNotificaitonRepository, OpenCDXEmailService, OpenCDXSMSService, OpenCDXHTMLProcessor, OpenCDXCurrentUser, OpenCDXCommunicationSmsService, OpenCDXCommunicationEmailService, ObjectMapper)</a> - Constructor for class cdx.opencdx.communications.service.impl.<a href="cdx/opencdx/communications/service/impl/OpenCDXNotificationServiceImpl.html" title="class in cdx.opencdx.communications.service.impl">OpenCDXNotificationServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/communications/service/impl/OpenCDXNotificationServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository,cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository,cdx.opencdx.communications.service.OpenCDXEmailService,cdx.opencdx.communications.service.OpenCDXSMSService,cdx.opencdx.communications.service.OpenCDXHTMLProcessor,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.communications.service.OpenCDXCommunicationSmsService,cdx.opencdx.communications.service.OpenCDXCommunicationEmailService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXNotificationServiceImpl(OpenCDXAuditService, OpenCDXNotificationEventRepository, OpenCDXNotificaitonRepository, OpenCDXEmailService, OpenCDXSMSService, OpenCDXHTMLProcessor, OpenCDXCurrentUser, OpenCDXCommunicationSmsService, OpenCDXCommunicationEmailService, ObjectMapper, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.communications.service.impl.<a href="cdx/opencdx/communications/service/impl/OpenCDXNotificationServiceImpl.html" title="class in cdx.opencdx.communications.service.impl">OpenCDXNotificationServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor taking some repositoroes</div>
 </dd>
@@ -3594,7 +3634,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for Protobuf TestCase messages</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXTestCaseServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)" class="member-name-link">OpenCDXTestCaseServiceImpl(OpenCDXTestCaseRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXTestCaseServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXTestCaseServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXTestCaseServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXTestCaseServiceImpl(OpenCDXTestCaseRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXTestCaseServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXTestCaseServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for the TestCase Service</div>
 </dd>
@@ -3710,7 +3750,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for vendor activities.</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXVendorServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXVendorRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)" class="member-name-link">OpenCDXVendorServiceImpl(OpenCDXVendorRepository, OpenCDXDeviceRepository, OpenCDXTestCaseRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXVendorServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXVendorServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXVendorServiceImpl.html#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXVendorRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXVendorServiceImpl(OpenCDXVendorRepository, OpenCDXDeviceRepository, OpenCDXTestCaseRepository, OpenCDXCurrentUser, ObjectMapper, OpenCDXAuditService, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXVendorServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXVendorServiceImpl</a></dt>
 <dd>
 <div class="block">OpenCdx Vendor Service</div>
 </dd>
@@ -3733,15 +3773,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determines the total number of pages of data from a list given a page size</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#passwordChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String)" class="member-name-link">passwordChange(String, AgentType, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#passwordChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String)" class="member-name-link">passwordChange(String, AgentType, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
-<dd>
-<div class="block">Record user password changed to audit log.</div>
-</dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#passwordChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">passwordChange(String, AgentType, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/client/service/OpenCDXAuditClient.html#passwordChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">passwordChange(String, AgentType, String, String, OpenCDXCallCredentials)</a> - Method in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXAuditClient.html" title="interface in cdx.opencdx.client.service">OpenCDXAuditClient</a></dt>
+<dd>
+<div class="block">Record user password changed to audit log.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#passwordChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">passwordChange(String, AgentType, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#passwordChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">passwordChange(String, AgentType, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
 <div class="block">Record user password changed to audit log.</div>
 </dd>
@@ -3765,23 +3805,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Repository for interacting the "person" records</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiAccessed(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiAccessed(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
-<dd>
-<div class="block">Record user PHI information accessed to audit log.</div>
-</dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#phiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">phiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/client/service/OpenCDXAuditClient.html#phiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">phiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXAuditClient.html" title="interface in cdx.opencdx.client.service">OpenCDXAuditClient</a></dt>
 <dd>
 <div class="block">Record user PHI information accessed to audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiCreated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiCreated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record user PHI information created ot audit log.</div>
+<div class="block">Record user PHI information accessed to audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#phiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">phiCreated(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -3789,11 +3823,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record user PHI information created ot audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiDeleted(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiCreated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiDeleted(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiCreated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record user PHI information deleted to audit log.</div>
+<div class="block">Record user PHI information created ot audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#phiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">phiDeleted(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -3801,11 +3835,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record user PHI information deleted to audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiUpdated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiDeleted(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiUpdated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiDeleted(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record User PHI information updated to audit log.</div>
+<div class="block">Record user PHI information deleted to audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#phiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">phiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -3813,11 +3847,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record User PHI information updated to audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiAccessed(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#phiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiAccessed(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#phiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">phiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record User PII information accessed to audit log.</div>
+<div class="block">Record User PHI information updated to audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#piiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">piiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -3825,11 +3859,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record User PII information accessed to audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiCreated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiCreated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiAccessed(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiAccessed(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record User PII information created to audit log.</div>
+<div class="block">Record User PII information accessed to audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#piiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">piiCreated(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -3837,11 +3871,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record User PII information created to audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiDeleted(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiCreated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiDeleted(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiCreated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiCreated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record user PII Information deleted to audit log.</div>
+<div class="block">Record User PII information created to audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#piiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">piiDeleted(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -3849,15 +3883,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record user PII Information deleted to audit log.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiUpdated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiDeleted(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiUpdated(String, AgentType, String, SensitivityLevel, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiDeleted(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiDeleted(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
-<div class="block">Record user PII information updated to audit log.</div>
+<div class="block">Record user PII Information deleted to audit log.</div>
 </dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#piiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">piiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/client/service/OpenCDXAuditClient.html#piiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">piiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, OpenCDXCallCredentials)</a> - Method in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXAuditClient.html" title="interface in cdx.opencdx.client.service">OpenCDXAuditClient</a></dt>
+<dd>
+<div class="block">Record user PII information updated to audit log.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#piiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#piiUpdated(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,cdx.opencdx.grpc.audit.SensitivityLevel,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">piiUpdated(String, AgentType, String, SensitivityLevel, String, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
 <div class="block">Record user PII information updated to audit log.</div>
 </dd>
@@ -4561,15 +4601,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Method to upload files for storage.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#userAccessChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String)" class="member-name-link">userAccessChange(String, AgentType, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#userAccessChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String)" class="member-name-link">userAccessChange(String, AgentType, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
-<dd>
-<div class="block">Record user acccess changed to audit log.</div>
-</dd>
 <dt><a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html#userAccessChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">userAccessChange(String, AgentType, String, String, OpenCDXCallCredentials)</a> - Method in class cdx.opencdx.client.service.impl.<a href="cdx/opencdx/client/service/impl/OpenCDXAuditClientImpl.html" title="class in cdx.opencdx.client.service.impl">OpenCDXAuditClientImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/client/service/OpenCDXAuditClient.html#userAccessChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,cdx.opencdx.client.dto.OpenCDXCallCredentials)" class="member-name-link">userAccessChange(String, AgentType, String, String, OpenCDXCallCredentials)</a> - Method in interface cdx.opencdx.client.service.<a href="cdx/opencdx/client/service/OpenCDXAuditClient.html" title="interface in cdx.opencdx.client.service">OpenCDXAuditClient</a></dt>
+<dd>
+<div class="block">Record user acccess changed to audit log.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html#userAccessChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">userAccessChange(String, AgentType, String, String, String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html#userAccessChange(java.lang.String,cdx.opencdx.grpc.audit.AgentType,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">userAccessChange(String, AgentType, String, String, String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></dt>
 <dd>
 <div class="block">Record user acccess changed to audit log.</div>
 </dd>
@@ -4633,6 +4673,46 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/commons/security/JwtTokenUtil.html#validate(java.lang.String)" class="member-name-link">validate(String)</a> - Method in class cdx.opencdx.commons.security.<a href="cdx/opencdx/commons/security/JwtTokenUtil.html" title="class in cdx.opencdx.commons.security">JwtTokenUtil</a></dt>
 <dd>
 <div class="block">Method to validate a JWT Token</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#validateDocumentOrLog(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">validateDocumentOrLog(String, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Check if a document exists in a collection and log an error if it does not</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#validateDocumentOrLog(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">validateDocumentOrLog(String, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#validateDocumentOrLog(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">validateDocumentOrLog(String, ObjectId)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a document exists, if it does not log a warning</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#validateDocumentOrThrow(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">validateDocumentOrThrow(String, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Check if a document exists in a collection and throw an exception if it does not</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#validateDocumentOrThrow(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">validateDocumentOrThrow(String, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#validateDocumentOrThrow(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">validateDocumentOrThrow(String, ObjectId)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a document exists, if it does not throw an exception</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#validateDocumentsOrLog(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrLog(String, List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Check if a document exists in a collection and log an error if it does not</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#validateDocumentsOrLog(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrLog(String, List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#validateDocumentsOrLog(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrLog(String, List&lt;ObjectId&gt;)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a list of documents exists, if it does not log a warning</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#validateDocumentsOrThrow(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrThrow(String, List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>
+<div class="block">Check if a document exists in a collection and throw an exception if it does not</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#validateDocumentsOrThrow(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrThrow(String, List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#validateDocumentsOrThrow(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrThrow(String, List&lt;ObjectId&gt;)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a list of documents exists, if it does not throw an exception</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html#VERIFY_EMAIL_USER" class="member-name-link">VERIFY_EMAIL_USER</a> - Static variable in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a></dt>
 <dd>
