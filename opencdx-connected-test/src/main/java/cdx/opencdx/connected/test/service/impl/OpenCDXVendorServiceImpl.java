@@ -46,6 +46,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
+    public static final String VENDOR = "VENDOR: ";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
@@ -105,7 +106,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
                     currentUser.getAgentType(),
                     "Creating Vendor",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXVendorModel.getId().toHexString(),
+                    VENDOR + openCDXVendorModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXVendorModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -131,7 +132,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
                     currentUser.getAgentType(),
                     "Updating Vendor",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXVendorModel.getId().toHexString(),
+                    VENDOR + openCDXVendorModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXVendorModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

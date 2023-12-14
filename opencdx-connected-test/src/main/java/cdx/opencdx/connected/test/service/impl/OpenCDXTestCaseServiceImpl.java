@@ -43,6 +43,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
+    public static final String TESTCASE = "TESTCASE: ";
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
@@ -101,7 +102,7 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
                     currentUser.getAgentType(),
                     "Creating TestCase",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXTestCaseModel.getId().toHexString(),
+                    TESTCASE + openCDXTestCaseModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXTestCaseModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
@@ -124,7 +125,7 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
                     currentUser.getAgentType(),
                     "Updating TestCase",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXTestCaseModel.getId().toHexString(),
+                    TESTCASE + openCDXTestCaseModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXTestCaseModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(

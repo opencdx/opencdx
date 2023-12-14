@@ -43,6 +43,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceService {
 
     private static final String DOMAIN = "OpenCDXIAMWorkspaceServiceImpl";
+    public static final String WORKSPACE = "WORKSPACE: ";
 
     private final OpenCDXIAMWorkspaceRepository openCDXIAMWorkspaceRepository;
 
@@ -86,7 +87,7 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
                     currentUser.getAgentType(),
                     "Create WorkSpace",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "Create WorkSpace" + model.getId().toHexString(),
+                    WORKSPACE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -142,7 +143,7 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
                     currentUser.getAgentType(),
                     "Update WorkSpace",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "Update WorkSpace" + model.getId().toHexString(),
+                    WORKSPACE + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

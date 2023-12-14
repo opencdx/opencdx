@@ -187,19 +187,7 @@
                 </li>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.anf.CreatePerformanceCircumstanceRequest"><span class="badge">M</span>CreatePerformanceCircumstanceRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.anf.CreatePerformanceCircumstanceResponse"><span class="badge">M</span>CreatePerformanceCircumstanceResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.anf.CreateRequestCircumstanceRequest"><span class="badge">M</span>CreateRequestCircumstanceRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.anf.CreateRequestCircumstanceResponse"><span class="badge">M</span>CreateRequestCircumstanceResponse</a>
+                  <a href="#cdx.opencdx.grpc.anf.Circumstance"><span class="badge">M</span>Circumstance</a>
                 </li>
               
                 <li>
@@ -257,6 +245,10 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.anf.ResultStateStatus"><span class="badge">E</span>ResultStateStatus</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.anf.Status"><span class="badge">E</span>Status</a>
                 </li>
               
               
@@ -1396,6 +1388,13 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                   <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
+                <tr>
+                  <td>status</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.Status">Status</a></td>
+                  <td></td>
+                  <td><p>Status of the ANFStatement </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -1427,8 +1426,8 @@ For a Request of Action, the Timing will always represent a future time. </p></t
 
         
       
-        <h3 id="cdx.opencdx.grpc.anf.CreatePerformanceCircumstanceRequest">CreatePerformanceCircumstanceRequest</h3>
-        <p>Request message for creating a new PerformanceCircumstance.</p>
+        <h3 id="cdx.opencdx.grpc.anf.Circumstance">Circumstance</h3>
+        <p>Representation of the circumstances associated with a clinical statement</p>
 
         
           <table class="field-table">
@@ -1438,82 +1437,17 @@ For a Request of Action, the Timing will always represent a future time. </p></t
             <tbody>
               
                 <tr>
-                  <td>performance_circumstance</td>
-                  <td><a href="#cdx.opencdx.grpc.anf.PerformanceCircumstance">PerformanceCircumstance</a></td>
+                  <td>timing</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.Measure">Measure</a></td>
                   <td></td>
-                  <td><p>The PerformanceCircumstance to be created </p></td>
+                  <td><p>Timing information, represents a past or current time </p></td>
                 </tr>
               
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.anf.CreatePerformanceCircumstanceResponse">CreatePerformanceCircumstanceResponse</h3>
-        <p>Response message for creating a new PerformanceCircumstance.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
                 <tr>
-                  <td>status</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Status of the PerformanceCircumstance creation </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.anf.CreateRequestCircumstanceRequest">CreateRequestCircumstanceRequest</h3>
-        <p>Request message for creating a new RequestCircumstance.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>request_circumstance</td>
-                  <td><a href="#cdx.opencdx.grpc.anf.RequestCircumstance">RequestCircumstance</a></td>
-                  <td></td>
-                  <td><p>The RequestCircumstance to be created </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.anf.CreateRequestCircumstanceResponse">CreateRequestCircumstanceResponse</h3>
-        <p>Response message for creating a new RequestCircumstance.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>status</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Status of the RequestCircumstance creation </p></td>
+                  <td>purpose</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.LogicalExpression">LogicalExpression</a></td>
+                  <td>repeated</td>
+                  <td><p>Purposes information </p></td>
                 </tr>
               
             </tbody>
@@ -1647,6 +1581,13 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                   <td><p>Textual description or narrative </p></td>
                 </tr>
               
+                <tr>
+                  <td>circumstance</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.Circumstance">Circumstance</a></td>
+                  <td></td>
+                  <td><p>Circumstances associated with a clinical statement </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -1724,10 +1665,10 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                 </tr>
               
                 <tr>
-                  <td>timing</td>
-                  <td><a href="#cdx.opencdx.grpc.anf.Timing">Timing</a></td>
+                  <td>circumstance</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.Circumstance">Circumstance</a></td>
                   <td></td>
-                  <td><p>Timing information, represents a past or current time </p></td>
+                  <td><p>Circumstances associated with a clinical statement </p></td>
                 </tr>
               
             </tbody>
@@ -1904,10 +1845,10 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                 </tr>
               
                 <tr>
-                  <td>timing</td>
-                  <td><a href="#cdx.opencdx.grpc.anf.Timing">Timing</a></td>
+                  <td>circumstance</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.Circumstance">Circumstance</a></td>
                   <td></td>
-                  <td><p>Timing information, always represents a future time </p></td>
+                  <td><p>Circumstances associated with a clinical statement </p></td>
                 </tr>
               
             </tbody>
@@ -2073,6 +2014,35 @@ For a Request of Action, the Timing will always represent a future time. </p></t
           </tbody>
         </table>
       
+        <h3 id="cdx.opencdx.grpc.anf.Status">Status</h3>
+        <p>Media Status</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>STATUS_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Unspecified or unknown status</p></td>
+              </tr>
+            
+              <tr>
+                <td>STATUS_ACTIVE</td>
+                <td>1</td>
+                <td><p>Media is active.</p></td>
+              </tr>
+            
+              <tr>
+                <td>STATUS_DELETED</td>
+                <td>2</td>
+                <td><p>Media is being deleted.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
 
       
 
@@ -2111,20 +2081,6 @@ For a Request of Action, the Timing will always represent a future time. </p></t
                 <td><a href="#cdx.opencdx.grpc.anf.Identifier">Identifier</a></td>
                 <td><a href="#cdx.opencdx.grpc.anf.Identifier">Identifier</a></td>
                 <td><p>Delete an ANFStatement by its Identifier</p></td>
-              </tr>
-            
-              <tr>
-                <td>CreatePerformanceCircumstance</td>
-                <td><a href="#cdx.opencdx.grpc.anf.CreatePerformanceCircumstanceRequest">CreatePerformanceCircumstanceRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.anf.CreatePerformanceCircumstanceResponse">CreatePerformanceCircumstanceResponse</a></td>
-                <td><p>Create a new PerformanceCircumstance</p></td>
-              </tr>
-            
-              <tr>
-                <td>CreateRequestCircumstance</td>
-                <td><a href="#cdx.opencdx.grpc.anf.CreateRequestCircumstanceRequest">CreateRequestCircumstanceRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.anf.CreateRequestCircumstanceResponse">CreateRequestCircumstanceResponse</a></td>
-                <td><p>Create a new RequestCircumstance</p></td>
               </tr>
             
           </tbody>
@@ -3834,7 +3790,7 @@ Retrieve a list of SMS templates.</p></td>
               
                 <tr>
                   <td>national_health_id</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>National health ID of the user </p></td>
                 </tr>
@@ -6121,7 +6077,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td>country</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Country code </p></td>
+                  <td><p>Country ID </p></td>
                 </tr>
               
             </tbody>
@@ -9570,17 +9526,17 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>organization_slug</td>
+                  <td>organization_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Organization slug </p></td>
+                  <td><p>Organization id </p></td>
                 </tr>
               
                 <tr>
-                  <td>workspace_slug</td>
+                  <td>workspace_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Workspace slug </p></td>
+                  <td><p>Workspace id </p></td>
                 </tr>
               
                 <tr>

@@ -55,6 +55,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private static final String DOMAIN = "OpenCDXNotificationServiceImpl";
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
+    public static final String NOTIFICATION_EVENT = "NOTIFICATION-EVENT: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
@@ -126,7 +127,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     "Creating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    notificationEvent.getEventId(),
+                    NOTIFICATION_EVENT + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -167,7 +168,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     "Updating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    notificationEvent.getEventId(),
+                    NOTIFICATION_EVENT + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -196,7 +197,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     "Deleting Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    templateRequest.getTemplateId(),
+                    NOTIFICATION_EVENT + templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -311,7 +312,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     notificationEvent.getSensitivity(),
                     currentUser.getId().toHexString(),
                     currentUser.getNationalHealthId(),
-                    notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
+                    NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
