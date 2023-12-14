@@ -22,13 +22,6 @@ import org.bson.types.ObjectId;
  * Service for validating documents
  */
 public interface OpenCDXDocumentValidator {
-    /**
-     * Check if a collection exists
-     *
-     * @param collectionName Name of the collection to check
-     * @return True if the collection exists, false otherwise
-     */
-    boolean isCollectionExists(String collectionName);
 
     /**
      * Check if a document exists
