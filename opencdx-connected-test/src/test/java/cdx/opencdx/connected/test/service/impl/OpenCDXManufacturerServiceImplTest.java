@@ -28,6 +28,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
+import cdx.opencdx.grpc.inventory.Address;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -142,6 +143,35 @@ class OpenCDXManufacturerServiceImplTest {
     }
 
     @Test
+    void addManufacturer_2() throws JsonProcessingException {
+        OpenCDXManufacturerModel openCDXManufacturerModel =
+                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXManufacturerModel));
+        Manufacturer manufacturer = Manufacturer.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setManufacturerAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXManufacturerModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXManufacturerServiceImpl manufacturerService1 = new OpenCDXManufacturerServiceImpl(
+                this.openCDXManufacturerRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> manufacturerService1.addManufacturer(manufacturer));
+    }
+
+    @Test
     void updateManufacturer() throws JsonProcessingException {
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
@@ -151,6 +181,36 @@ class OpenCDXManufacturerServiceImplTest {
                 .thenReturn(Optional.of(openCDXManufacturerModel));
         Manufacturer manufacturer =
                 Manufacturer.newBuilder().setId(ObjectId.get().toHexString()).build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXManufacturerModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXManufacturerServiceImpl manufacturerService1 = new OpenCDXManufacturerServiceImpl(
+                this.openCDXManufacturerRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> manufacturerService1.updateManufacturer(manufacturer));
+    }
+
+    @Test
+    void updateManufacturer_2() throws JsonProcessingException {
+        OpenCDXManufacturerModel openCDXManufacturerModel =
+                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXManufacturerModel));
+        Manufacturer manufacturer = Manufacturer.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setManufacturerAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXManufacturerModel.class)))
                 .thenThrow(JsonProcessingException.class);

@@ -278,4 +278,12 @@ class OpenCDXDocumentValidatorTest {
 
         assertFalse(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
     }
+
+    @Test
+    void testAllDocumentsExist_EmptyDocumentIds() {
+        String collectionName = "existingCollection";
+        List<ObjectId> documentIds = Collections.emptyList();
+
+        assertTrue(documentValidator.allDocumentsExist(collectionName, documentIds));
+    }
 }

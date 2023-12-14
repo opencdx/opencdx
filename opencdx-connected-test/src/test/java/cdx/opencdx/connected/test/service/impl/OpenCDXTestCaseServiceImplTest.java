@@ -141,6 +141,30 @@ class OpenCDXTestCaseServiceImplTest {
     }
 
     @Test
+    void addTestCase_2() throws JsonProcessingException {
+        OpenCDXTestCaseModel openCDXTestCaseModel =
+                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXTestCaseModel));
+        TestCase testCase =
+                TestCase.newBuilder().setId(ObjectId.get().toHexString()).build();
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXTestCaseModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXTestCaseServiceImpl openCDXTestCaseService1 = new OpenCDXTestCaseServiceImpl(
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXTestCaseService1.addTestCase(testCase));
+    }
+
+    @Test
     void updateTestCase() throws JsonProcessingException {
         OpenCDXTestCaseModel openCDXTestCaseModel =
                 OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();

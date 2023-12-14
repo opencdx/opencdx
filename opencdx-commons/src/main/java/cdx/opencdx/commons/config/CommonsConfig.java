@@ -177,6 +177,7 @@ public class CommonsConfig {
 
     @Bean
     @Profile("!test")
+    @ExcludeFromJacocoGeneratedReport
     @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
     OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
         log.info("Creating Mongo Document Validator");

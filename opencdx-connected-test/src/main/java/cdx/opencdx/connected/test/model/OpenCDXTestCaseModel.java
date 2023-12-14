@@ -64,8 +64,12 @@ public class OpenCDXTestCaseModel {
         if (testCase.hasId()) {
             this.id = new ObjectId(testCase.getId());
         }
-        this.manufacturerId = new ObjectId(testCase.getManufacturerId());
-        this.vendorId = new ObjectId(testCase.getVendorId());
+        if (testCase.hasManufacturerId()) {
+            this.manufacturerId = new ObjectId(testCase.getManufacturerId());
+        }
+        if (testCase.hasVendorId()) {
+            this.vendorId = new ObjectId(testCase.getVendorId());
+        }
         if (testCase.hasPackagingDate()) {
             this.packagingDate = Instant.ofEpochSecond(
                     testCase.getPackagingDate().getSeconds(),
