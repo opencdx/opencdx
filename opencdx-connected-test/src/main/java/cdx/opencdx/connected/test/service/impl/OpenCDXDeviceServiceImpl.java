@@ -90,6 +90,10 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                 "manufacturer", new ObjectId(request.getManufacturerId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
 
+        this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                "testcases",
+                request.getTestCaseIdsList().stream().map(ObjectId::new).toList());
+
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -118,6 +122,10 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "manufacturer", new ObjectId(request.getManufacturerId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
+        this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                "testcases",
+                request.getTestCaseIdsList().stream().map(ObjectId::new).toList());
+
         OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository.save(new OpenCDXDeviceModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

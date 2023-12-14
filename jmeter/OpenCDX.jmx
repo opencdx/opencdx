@@ -5059,7 +5059,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId}&quot; ]}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract DeviceId Template ID" enabled="true">
@@ -5101,7 +5101,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId}&quot; ]}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Delete Device" enabled="true">
@@ -5611,7 +5611,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;}</stringProp>
+                  <stringProp name="Argument.value">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId}&quot; ]}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -5663,7 +5663,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;}</stringProp>
+                  <stringProp name="Argument.value">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId}&quot; ]}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
