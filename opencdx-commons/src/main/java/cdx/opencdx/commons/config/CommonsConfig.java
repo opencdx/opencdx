@@ -124,6 +124,7 @@ public class CommonsConfig {
      * @param natsConnection NATS Connection
      * @param objectMapper Object Mapper to use.
      * @param applicationName Name of the service.
+     * @param openCDXCurrentUser Current User Service
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")

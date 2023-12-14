@@ -157,7 +157,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
          * Constructor for wrapping a OpenCDXMessageHandler
          *
          * @param handler            OpenCDXMessageHandler to wrap.
-         * @param openCDXCurrentUser
+         * @param openCDXCurrentUser System for setting the current user
          */
         protected NatsMessageHandler(OpenCDXMessageHandler handler, OpenCDXCurrentUser openCDXCurrentUser) {
             this.handler = handler;

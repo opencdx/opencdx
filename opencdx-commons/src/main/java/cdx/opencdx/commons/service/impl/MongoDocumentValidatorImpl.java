@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.OpenCDXDocumentValidator {
 
-    public static final String DOMAIN = "MongoDocumentValidator";
+    private static final String DOMAIN = "MongoDocumentValidator";
     private final MongoTemplate mongoTemplate;
 
     /**
