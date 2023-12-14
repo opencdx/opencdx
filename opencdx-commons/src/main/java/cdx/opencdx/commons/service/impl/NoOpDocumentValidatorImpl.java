@@ -32,11 +32,6 @@ public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
     }
 
     @Override
-    public boolean isCollectionExists(String collectionName) {
-        return true;
-    }
-
-    @Override
     public boolean documentExists(String collectionName, ObjectId documentId) {
         return true;
     }

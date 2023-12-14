@@ -46,11 +46,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         this.mongoTemplate = mongoTemplate;
     }
 
-    @Override
-    public boolean isCollectionExists(String collectionName) {
-        return mongoTemplate.collectionExists(collectionName);
-    }
-
     /**
      * Check if a document exists in a collection
      *
@@ -81,10 +76,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public boolean validateDocumentOrLog(String collectionName, ObjectId documentId) {
-        if (!isCollectionExists(collectionName)) {
-            log.error("Collection {} does not exist", collectionName);
-            return false;
-        }
         if (!documentExists(collectionName, documentId)) {
             log.error("Document {} does not exist in collection {}", documentId, collectionName);
             return false;
@@ -100,9 +91,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public void validateDocumentOrThrow(String collectionName, ObjectId documentId) {
-        if (!isCollectionExists(collectionName)) {
-            throw new OpenCDXNotFound(DOMAIN, 1, "Collection " + collectionName + " does not exist");
-        }
         if (!documentExists(collectionName, documentId)) {
             throw new OpenCDXNotFound(
                     DOMAIN, 2, "Document " + documentId + " does not exist in collection " + collectionName);
@@ -152,10 +140,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds) {
-        if (!isCollectionExists(collectionName)) {
-            log.error("Collection {} does not exist", collectionName);
-            return false;
-        }
         if (!allDocumentsExist(collectionName, documentIds)) {
             log.error(
                     "Documents {} does not exist in collection {}",
@@ -174,9 +158,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds) {
-        if (!isCollectionExists(collectionName)) {
-            throw new OpenCDXNotFound(DOMAIN, 3, "Collection " + collectionName + " does not exist");
-        }
         if (!allDocumentsExist(collectionName, documentIds)) {
             throw new OpenCDXNotFound(
                     DOMAIN,
