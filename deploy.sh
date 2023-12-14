@@ -4,6 +4,7 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[1;36m'
 NC='\033[0m' # No Color
 
 # Specify the required JDK version
@@ -30,6 +31,15 @@ handle_info() {
     else
         echo "$1"
     fi
+}
+
+handle_menu() {
+      if [ -t 1 ]; then
+          # Check if stdout is a terminal
+          echo -e "${YELLOW}$1 ${BLUE}$2${NC}"
+      else
+          echo "$1 $2"
+      fi
 }
 
 # Function to copy files from source to target directory
@@ -115,20 +125,38 @@ run_jmeter_tests() {
 
     jmeter -p "./jmeter/$properties_file.properties" -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
 
-    if [[ "$OSTYPE" == "msys" ]]; then
-        start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-    else
-        open build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-    fi
+    open_url "build/reports/jmeter/index.html"
 }
 
 # Usage: open_url <url>
 open_url() {
-    if [[ "$OSTYPE" == "msys" ]]; then
+     if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "mingw" || "$OSTYPE" == "cygwin" ]]; then
         start "$1" || handle_error "Failed to open URL: $1"
     else
         open "$1" || handle_error "Failed to open URL: $1"
     fi
+}
+
+check_container_status() {
+    # Run the docker ps command with the specified format
+    docker ps -a -f "name=opencdx" --format "table {{.Names}}\t{{.Ports}}\t{{.Size}}\t{{.Status}}" | \
+    # Process each line
+    while IFS= read -r line; do
+        # Check if the line contains "(unhealthy)" or "(healthy)"
+        if echo "$line" | grep -q "(unhealthy)"; then
+            # Wrap the line in red ANSI color
+            printf "\033[0;31m%s\033[0m\n" "$line"
+        elif echo "$line" | grep -q "(healthy)"; then
+            # Wrap the line in green ANSI color
+            printf "\033[0;32m%s\033[0m\n" "$line"
+        else
+            # Output the line as is
+            echo "$line"
+        fi
+    done
+
+    # Prompt to wait for user input
+        read -n 1 -s -r -p "Press any key to continue..."
 }
 
 # Function to open reports and documentation
@@ -206,6 +234,11 @@ open_reports() {
         handle_info "Opening Zipkin Microservice Tracing Dashboard..."
         open_url "http://localhost:9411/zipkin"
         ;;
+
+    status)
+        handle_info "Checking Docker container status..."
+        check_container_status
+        ;;
     esac
 }
 
@@ -269,19 +302,8 @@ start_docker() {
 # Function to stop Docker services
 # Parameters: $1 (optional) - Docker Compose filename
 stop_docker() {
-    if [ -z "$1" ]; then
-        # If no filename is provided, use the last stored filename
-        if [ -e last_docker_compose_filename.txt ]; then
-            docker_compose_filename=$(cat last_docker_compose_filename.txt)
-        else
-            handle_error "Error: Docker Compose filename is missing."
-        fi
-    else
-        docker_compose_filename="$1"
-    fi
-
-    handle_info "Stopping Docker services using $docker_compose_filename..."
-    (cd docker && docker compose --project-name opencdx -f "$docker_compose_filename" down) || handle_error "Failed to stop Docker services."
+    handle_info "Stopping Docker services"
+    (cd docker && docker compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
 }
 
 generate_docker_compose() {
@@ -379,46 +401,87 @@ EOL
   done
 }
 
-
-
-# Function to manage Docker menu
-docker_menu() {
+menu() {
     while true; do
-        echo "Docker Menu:"
-        echo "1. Build Docker Image"
-        echo "2. Start Docker (All Services)"
-        echo "3. Start Docker (Custom)"
-        echo "4. Stop Docker"
-        echo "5. Open Admin Dashboard"
-        echo "6. Open Discovery Dashboard"
-        echo "7. Open NATS Dashboard"
-        echo "8. Run JMeter Test Script"
-        echo "9. Open JMeter Test Script"
-        echo "10. Open Microservice Tracing Zipkin"
+        clear
+        echo "OpenCDX Deployment Menu:"
 
-        read -r -p "Enter your choice (x to Exit Docker Menu): " docker_choice
+        # Define menu items
+        menu_items=(
+            "Build Docker Image" "Start Docker (All Services)"
+            "Start Docker (Custom)" "Stop Docker"
+            "Open Admin Dashboard" "Open Discovery Dashboard"
+            "Open NATS Dashboard" "Run JMeter Test Script"
+            "Open JMeter Test Script" "Open Microservice Tracing Zipkin"
+            "Open Test Report" "Publish Doc"
+            "Open JaCoCo Report" "Check code"
+            "Open Proto Doc" "Container Status"
+        )
 
-        case $docker_choice in
-        1) build_docker ;;
-        2) build_docker; start_docker "docker-compose.yml";;
-        3) build_docker; generate_docker_compose; start_docker "generated-docker-compose.yaml";;
-        4) stop_docker ;;
-        5) open_reports "admin" ;;
-        6) open_reports "discovery" ;;
-        7) open_reports "nats" ;;
-        8) run_jmeter_tests ;;
-        9) open_reports "jmeter_edit"  ;;
-        10) open_reports "micrometer_tracing"  ;;
-        x)
-            handle_info "Exiting Docker Menu..."
-            break
-            ;;
-        *)
-            echo "Invalid choice."
-            ;;
+        # Calculate the number of menu items
+        num_items=${#menu_items[@]}
+
+        # Calculate the number of items in each column
+        if [ $((num_items % 2)) -eq 0 ]; then
+            items_per_column=$((num_items / 2))
+        else
+            items_per_column=$(( (num_items + 1) / 2 ))
+        fi
+
+        # Display the menu in two columns
+        for ((i = 0; i < items_per_column; i++)); do
+          if [ -t 1 ]; then
+                  # Wrap the number in '\033[1;33m' (bold yellow) and the text in '\033[1;36m' (bold cyan)
+                 printf "\033[1;33m%-2s\033[0m. \033[1;36m%-38s\033[0m" "$((i + 1))" "${menu_items[i]}"
+                 # Check if the index is within bounds
+                     if [ $((i + 1 + items_per_column)) -le $num_items ]; then
+                         printf "  \033[1;33m%-2s\033[0m. \033[1;36m%-s\033[0m\n" "$((i + 1 + items_per_column))" "${menu_items[i + items_per_column]}"
+                     else
+                         printf "\n"  # Move to the next line without printing the second column
+                     fi
+              else
+                  printf "%-2s. %-38s" "$((i + 1))" "${menu_items[i]}"
+                  # Check if the index is within bounds
+                      if [ $((i + 1 + items_per_column)) -le $num_items ]; then
+                           printf "  %-2s. %-s\n" "$((i + 1+ items_per_column))" "${menu_items[i + items_per_column]}"
+                      else
+                          printf "\n"  # Move to the next line without printing the second column
+                      fi
+
+              fi
+
+        done
+
+        read -r -p "Enter your choice (x to Exit): " menu_choice
+
+        case $menu_choice in
+            1) build_docker ;;
+            2) build_docker; start_docker "docker-compose.yml" ;;
+            3) build_docker; generate_docker_compose; start_docker "generated-docker-compose.yaml" ;;
+            4) stop_docker ;;
+            5) open_reports "admin" ;;
+            6) open_reports "discovery" ;;
+            7) open_reports "nats" ;;
+            8) run_jmeter_tests ;;
+            9) open_reports "jmeter_edit" ;;
+            10) open_reports "micrometer_tracing" ;;
+            11) open_reports "test" ;;
+            12) open_reports "publish" ;;
+            13) open_reports "jacoco" ;;
+            14) open_reports "check" ;;
+            15) open_reports "proto" ;;
+            16) open_reports "status" ;;
+            x)
+                handle_info "Exiting..."
+                exit 0
+                ;;
+            *)
+                handle_info "Invalid choice. Please enter a valid option."
+                ;;
         esac
     done
 }
+
 
 # Initialize flags
 skip=false
@@ -589,37 +652,9 @@ if [ "$no_menu" = false ]; then
             sleep 90
             run_jmeter_tests "soak"
         fi
-
-        docker_menu;
     fi
 
-    while true; do
-        echo "Main Menu:"
-        echo "1. Open Test Report"
-        echo "2. Publish Doc"
-        echo "3. Open JaCoCo Report"
-        echo "4. Check code"
-        echo "5. Open Proto Doc"
-        echo "6. Docker Menu"
-
-        read -r -p "Enter your choice (x to Exit): " main_choice
-
-        case $main_choice in
-        1) open_reports "test" ;;
-        2) open_reports "publish" ;;
-        3) open_reports "jacoco" ;;
-        4) open_reports "check" ;;
-        5) open_reports "proto" ;;
-        6) docker_menu ;;
-        x)
-            echo "Exiting..."
-            exit 0
-            ;;
-        *)
-            handle_info "Invalid choice."
-            ;;
-        esac
-    done
+    menu;
 fi
 
 # If --all is specified, open all reports and documentation
