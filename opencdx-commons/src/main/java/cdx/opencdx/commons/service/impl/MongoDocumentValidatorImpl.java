@@ -118,6 +118,9 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds) {
+        if (documentIds.isEmpty()) {
+            return true;
+        }
         log.debug(
                 "Checking if documents {} exist in collection {}",
                 documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")),

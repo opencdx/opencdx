@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.controller.OpenCDXGrpcTestCaseController;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.*;
@@ -56,6 +57,9 @@ class OpenCDXTestCaseServiceImplTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
 
@@ -86,7 +90,11 @@ class OpenCDXTestCaseServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXTestCaseService = new OpenCDXTestCaseServiceImpl(
-                this.openCDXTestCaseRepository, openCDXCurrentUser, objectMapper, this.openCDXAuditService);
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                objectMapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -124,7 +132,11 @@ class OpenCDXTestCaseServiceImplTest {
                 .thenThrow(JsonProcessingException.class);
 
         OpenCDXTestCaseServiceImpl openCDXTestCaseService1 = new OpenCDXTestCaseServiceImpl(
-                this.openCDXTestCaseRepository, openCDXCurrentUser, mapper, this.openCDXAuditService);
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXTestCaseService1.addTestCase(testCase));
     }
 
@@ -147,7 +159,11 @@ class OpenCDXTestCaseServiceImplTest {
                 .thenThrow(JsonProcessingException.class);
 
         OpenCDXTestCaseServiceImpl openCDXTestCaseService1 = new OpenCDXTestCaseServiceImpl(
-                this.openCDXTestCaseRepository, openCDXCurrentUser, mapper, this.openCDXAuditService);
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXTestCaseService1.updateTestCase(testCase));
     }
 }
