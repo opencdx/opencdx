@@ -265,19 +265,8 @@ start_docker() {
 # Function to stop Docker services
 # Parameters: $1 (optional) - Docker Compose filename
 stop_docker() {
-    if [ -z "$1" ]; then
-        # If no filename is provided, use the last stored filename
-        if [ -e last_docker_compose_filename.txt ]; then
-            docker_compose_filename=$(cat last_docker_compose_filename.txt)
-        else
-            handle_error "Error: Docker Compose filename is missing."
-        fi
-    else
-        docker_compose_filename="$1"
-    fi
-
-    handle_info "Stopping Docker services using $docker_compose_filename..."
-    (cd docker && docker compose --project-name opencdx -f "$docker_compose_filename" down) || handle_error "Failed to stop Docker services."
+    handle_info "Stopping Docker services"
+    (cd docker && docker compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
 }
 
 generate_docker_compose() {
