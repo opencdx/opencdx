@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganizationService {
 
     private static final String DOMAIN = "OpenCDXIAMOrganizationServiceImpl";
+    public static final String ORGANIZATION = "ORGANIZATION: ";
 
     private final OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository;
 
@@ -96,7 +97,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
                     currentUser.getAgentType(),
                     "Create Organization",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "Create Organization_" + model.getId().toHexString(),
+                    ORGANIZATION + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -153,7 +154,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
                     currentUser.getAgentType(),
                     "Update Organization",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "Update Organization_" + model.getId().toHexString(),
+                    ORGANIZATION + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

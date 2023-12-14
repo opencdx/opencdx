@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     private static final String DOMAIN = "OpenCDXIAMProfileServiceImpl";
     private static final String USER_RECORD_ACCESSED = "User record Accessed";
-    private static final String IAM_USER = "IAM_USER: ";
+    private static final String IAM_USER = "USERS: ";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private static final String OBJECT = "OBJECT";

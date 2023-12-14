@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     private static final String DOMAIN = "OpenCDXCountryServiceImpl";
+    public static final String COUNTRY = "COUNTRY: ";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
@@ -98,7 +99,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     currentUser.getAgentType(),
                     "Creating Country",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXCountryModel.getId().toHexString(),
+                    COUNTRY + openCDXCountryModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXCountryModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -120,7 +121,7 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     currentUser.getAgentType(),
                     "Updating Country",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXCountryModel.getId().toHexString(),
+                    COUNTRY + openCDXCountryModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXCountryModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

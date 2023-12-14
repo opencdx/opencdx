@@ -49,6 +49,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicationEmailService {
+    public static final String EMAIL_TEMPLATE = "EMAIL-TEMPLATE: ";
     private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
 
     private static final String DOMAIN = "OpenCDXNotificationServiceImpl";
@@ -94,7 +95,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
                     currentUser.getAgentType(),
                     "Creating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    emailTemplate.getTemplateId(),
+                    EMAIL_TEMPLATE + emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -137,7 +138,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
                     currentUser.getAgentType(),
                     "Updating Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    emailTemplate.getTemplateId(),
+                    EMAIL_TEMPLATE + emailTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(emailTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -169,7 +170,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
                     currentUser.getAgentType(),
                     "Deleting Email Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    templateRequest.getTemplateId(),
+                    EMAIL_TEMPLATE + templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

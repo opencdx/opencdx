@@ -49,6 +49,10 @@ import org.springframework.stereotype.Service;
 public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestService {
 
     private static final String DOMAIN = "OpenCDXConnectedTestServiceImpl";
+    private static final String CONNECTED_TEST = "CONNECTED-TEST: ";
+    private static final String CONNECTED_TEST_ACCESSED = "Connected Test Accessed.";
+    private static final String OBJECT = "OBJECT";
+    private static final String FAILED_TO_CONVERT_CONNECTED_TEST = "Failed to convert ConnectedTest";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -88,7 +92,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
                 .findById(patientID)
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find patient"));
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find patient"));
 
         ConnectedTest submittedTest = this.openCDXConnectedTestRepository
                 .save(new OpenCDXConnectedTestModel(connectedTest))
@@ -103,13 +107,13 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     patient.getId().toHexString(),
                     patient.getNationalHealthId(),
-                    "Connected Test Submissions",
+                    CONNECTED_TEST + submittedTest.getBasicInfo().getId(),
                     this.objectMapper.writeValueAsString(submittedTest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 1, "Failed to convert ConnectedTest", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_CONNECTED_TEST, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", submittedTest.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, submittedTest.toString());
             throw openCDXNotAcceptable;
         }
 
@@ -150,17 +154,17 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             this.openCDXAuditService.phiAccessed(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Connected Test Accessed.",
+                    CONNECTED_TEST_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     connectedTest.getBasicInfo().getUserId(),
                     connectedTest.getBasicInfo().getNationalHealthId(),
-                    "Connected Test Accessed",
+                    CONNECTED_TEST + connectedTest.getBasicInfo().getId(),
                     this.objectMapper.writeValueAsString(connectedTest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert ConnectedTest", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_CONNECTED_TEST, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", connectedTest.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, connectedTest.toString());
             throw openCDXNotAcceptable;
         }
         return connectedTest;
@@ -175,6 +179,27 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(
                 objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
         log.info("found database results");
+
+        all.get().forEach(openCDXConnectedTestModel -> {
+            try {
+                OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+                this.openCDXAuditService.phiAccessed(
+                        currentUser.getId().toHexString(),
+                        currentUser.getAgentType(),
+                        CONNECTED_TEST_ACCESSED,
+                        SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                        openCDXConnectedTestModel.getBasicInfo().getUserId(),
+                        openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
+                        CONNECTED_TEST + openCDXConnectedTestModel.getId(),
+                        this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));
+            } catch (JsonProcessingException e) {
+                OpenCDXNotAcceptable openCDXNotAcceptable =
+                        new OpenCDXNotAcceptable(DOMAIN, 5, FAILED_TO_CONVERT_CONNECTED_TEST, e);
+                openCDXNotAcceptable.setMetaData(new HashMap<>());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXConnectedTestModel.toString());
+                throw openCDXNotAcceptable;
+            }
+        });
 
         return ConnectedTestListResponse.newBuilder()
                 .setPageCount(all.getTotalPages())
@@ -202,6 +227,27 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(
                 nationalHealthId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
         log.info("found database results");
+
+        all.get().forEach(openCDXConnectedTestModel -> {
+            try {
+                OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+                this.openCDXAuditService.phiAccessed(
+                        currentUser.getId().toHexString(),
+                        currentUser.getAgentType(),
+                        CONNECTED_TEST_ACCESSED,
+                        SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                        openCDXConnectedTestModel.getBasicInfo().getUserId(),
+                        openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
+                        CONNECTED_TEST + openCDXConnectedTestModel.getId(),
+                        this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));
+            } catch (JsonProcessingException e) {
+                OpenCDXNotAcceptable openCDXNotAcceptable =
+                        new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_CONNECTED_TEST, e);
+                openCDXNotAcceptable.setMetaData(new HashMap<>());
+                openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXConnectedTestModel.toString());
+                throw openCDXNotAcceptable;
+            }
+        });
 
         return ConnectedTestListByNHIDResponse.newBuilder()
                 .setPageCount(all.getTotalPages())

@@ -59,7 +59,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private static final String DOMAIN = "OpenCDXIAMUserServiceImpl";
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
-    private static final String IAM_USER = "IAM_USER: ";
+    private static final String IAM_USER = "USERS: ";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";

@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private static final String COUNTRY = "country";
+    public static final String DEVICE = "DEVICE: ";
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
@@ -102,7 +103,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                     currentUser.getAgentType(),
                     "Creating Device",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXDeviceModel.getId().toHexString(),
+                    DEVICE + openCDXDeviceModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXDeviceModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -134,7 +135,7 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                     currentUser.getAgentType(),
                     "Updating Device",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXDeviceModel.getId().toHexString(),
+                    DEVICE + openCDXDeviceModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXDeviceModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

@@ -49,6 +49,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationSmsService {
+    public static final String SMS_TEMPLATE = "SMS-TEMPLATE: ";
     private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
 
     private static final String DOMAIN = "OpenCDXNotificationServiceImpl";
@@ -94,7 +95,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
                     currentUser.getAgentType(),
                     "Creating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    smsTemplate.getTemplateId(),
+                    SMS_TEMPLATE + smsTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(smsTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -136,7 +137,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
                     currentUser.getAgentType(),
                     "Updating SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    smsTemplate.getTemplateId(),
+                    SMS_TEMPLATE + smsTemplate.getTemplateId(),
                     this.objectMapper.writeValueAsString(smsTemplate));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -166,7 +167,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
                     currentUser.getAgentType(),
                     "Deleting SMS Template",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    templateRequest.getTemplateId(),
+                    SMS_TEMPLATE + templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
