@@ -47,7 +47,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private static final String OBJECT = "OBJECT";
-    public static final String COUNTRY = "country";
+    private static final String COUNTRY = "country";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
