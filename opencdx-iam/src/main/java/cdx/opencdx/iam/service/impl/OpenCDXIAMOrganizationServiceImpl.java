@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
@@ -49,6 +50,7 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Organizatgion Service
@@ -56,16 +58,19 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
      * @param openCDXAuditService Audit Service to record information
      * @param openCDXCurrentUser Current User for accessing the current user.
      * @param objectMapper ObjectMapper for converting to JSON
+     * @param openCDXDocumentValidator Document Validator for validating documents
      */
     public OpenCDXIAMOrganizationServiceImpl(
             OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository,
             OpenCDXAuditService openCDXAuditService,
             OpenCDXCurrentUser openCDXCurrentUser,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXIAMOrganizationRepository = openCDXIAMOrganizationRepository;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     /**
@@ -76,7 +81,11 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
      */
     @Override
     public CreateOrganizationResponse createOrganization(CreateOrganizationRequest request) {
-
+        this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                "workspace",
+                request.getOrganization().getWorkspaceIdsList().stream()
+                        .map(ObjectId::new)
+                        .toList());
         OpenCDXIAMOrganizationModel model = new OpenCDXIAMOrganizationModel(request.getOrganization());
         model = this.openCDXIAMOrganizationRepository.save(model);
 

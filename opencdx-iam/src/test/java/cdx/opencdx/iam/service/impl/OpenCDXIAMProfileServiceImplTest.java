@@ -26,6 +26,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.DeleteUserProfileRequest;
@@ -69,6 +70,9 @@ class OpenCDXIAMProfileServiceImplTest {
 
     @Autowired
     OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     ObjectMapper objectMapper;
@@ -123,7 +127,11 @@ class OpenCDXIAMProfileServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -147,7 +155,11 @@ class OpenCDXIAMProfileServiceImplTest {
                         .build()));
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -160,7 +172,11 @@ class OpenCDXIAMProfileServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -184,7 +200,11 @@ class OpenCDXIAMProfileServiceImplTest {
                         .build()));
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -197,7 +217,11 @@ class OpenCDXIAMProfileServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -221,7 +245,11 @@ class OpenCDXIAMProfileServiceImplTest {
                         .build()));
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
