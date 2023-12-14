@@ -76,6 +76,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Routine record create",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "ROUTINE: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -105,6 +106,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Routine record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "ROUTINE: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -128,6 +130,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Delivery Tracking record create",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "DELIVERY_TRACKING: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -157,6 +160,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Delivery Tracking record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "DELIVERY_TRACKING: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -187,6 +191,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Clinical Protocol Execution record create",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "CLINICAL_PROTOCOL_EXECUTION: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -216,6 +221,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Clinical Protocol Execution record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "CLINICAL_PROTOCOL_EXECUTION: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -245,6 +251,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Lab Order record trigger",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "LAB_ORDER: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -272,6 +279,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Lab Order record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "LAB_ORDER: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -299,6 +307,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Diagnosis record trigger",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "DIAGNOSIS: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -328,6 +337,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Diagnosis record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "DIAGNOSIS: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -357,6 +367,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Suspected Diagnosis record trigger",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "SUSPECTED_DIAGNOSIS: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -386,6 +397,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Suspected Diagnosis record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "SUSPECTED_DIAGNOSIS: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -415,6 +427,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Lab Result record trigger",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "LAB_RESULT: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -444,6 +457,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Lab Result record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "LAB_RESULT: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -473,6 +487,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Medication record trigger",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "MEDICATION: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
@@ -502,6 +517,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                     "Medication record requested",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     "MEDICATION: 145",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {

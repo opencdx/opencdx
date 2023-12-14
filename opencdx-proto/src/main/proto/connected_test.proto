@@ -48,7 +48,7 @@ message BasicInfo {
   string vendor_lab_test_id = 6;      // ID referencing the test within the vendor's system
   string type = 7;               // Class or type of the test
   string user_id = 8;               // ID of the user associated with the test
-  int32 national_health_id = 9;     // National health ID of the user
+  string national_health_id = 9;     // National health ID of the user
   string health_service_id = 10;     // ID of the health service provider
   string tenant_id = 11;            // ID of the tenant (in multi-tenant systems)
   string source = 12;              // Source or origin of the test data

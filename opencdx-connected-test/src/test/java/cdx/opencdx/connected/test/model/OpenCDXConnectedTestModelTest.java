@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.model;
 
 import cdx.opencdx.grpc.connected.*;
 import com.google.protobuf.Timestamp;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +30,7 @@ class OpenCDXConnectedTestModelTest {
     void getProtobufMessage_1() {
         BasicInfo basicInfo = BasicInfo.newBuilder()
                 .setId(new ObjectId().toHexString())
-                .setNationalHealthId(10)
+                .setNationalHealthId(UUID.randomUUID().toString())
                 .setUserId(ObjectId.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
@@ -55,7 +56,7 @@ class OpenCDXConnectedTestModelTest {
     void getProtobufMessage_2() {
         BasicInfo basicInfo = BasicInfo.newBuilder()
                 .setId(new ObjectId().toHexString())
-                .setNationalHealthId(10)
+                .setNationalHealthId(UUID.randomUUID().toString())
                 .setUserId(ObjectId.get().toHexString())
                 .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
@@ -78,7 +79,7 @@ class OpenCDXConnectedTestModelTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId(ObjectId.get().toHexString())
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -93,7 +94,7 @@ class OpenCDXConnectedTestModelTest {
     @Test
     void getProtobufMessage_5() {
         BasicInfo basicInfo = BasicInfo.newBuilder()
-                .setNationalHealthId(10)
+                .setNationalHealthId(UUID.randomUUID().toString())
                 .setUserId(ObjectId.get().toHexString())
                 .build();
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())

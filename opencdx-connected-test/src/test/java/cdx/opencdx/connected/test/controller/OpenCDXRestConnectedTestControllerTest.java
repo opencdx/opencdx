@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -138,7 +139,7 @@ class OpenCDXRestConnectedTestControllerTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId("6511c2ffc289850d8dda157b")
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -159,7 +160,7 @@ class OpenCDXRestConnectedTestControllerTest {
                 new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
-                                .setNationalHealthId(10)
+                                .setNationalHealthId(UUID.randomUUID().toString())
                                 .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());

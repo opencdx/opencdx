@@ -36,7 +36,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,8 +64,8 @@ class ConnectTestTest {
                         .setModifier("modifier")
                         .setVendorLabTestId("vendorLabTestId")
                         .setType("type")
-                        .setUserId("userId")
-                        .setNationalHealthId(1)
+                        .setUserId(ObjectId.get().toHexString())
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setHealthServiceId("hea;thServiceId")
                         .setTenantId("tenantId")
                         .setSource("source")

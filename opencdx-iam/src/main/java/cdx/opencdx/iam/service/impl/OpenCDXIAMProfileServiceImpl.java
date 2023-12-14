@@ -47,7 +47,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private static final String OBJECT = "OBJECT";
-    public static final String COUNTRY = "country";
+    private static final String COUNTRY = "country";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -90,6 +90,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -185,6 +186,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -217,6 +219,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     userModel.getId().toHexString(),
+                    userModel.getNationalHealthId(),
                     IAM_USER + userModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(userModel));
         } catch (JsonProcessingException e) {

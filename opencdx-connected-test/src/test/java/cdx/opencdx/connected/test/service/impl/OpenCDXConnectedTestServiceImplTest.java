@@ -33,6 +33,7 @@ import cdx.opencdx.grpc.profile.PhoneType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -127,7 +128,7 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -145,7 +146,7 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -169,7 +170,7 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -202,7 +203,7 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -243,7 +244,7 @@ class OpenCDXConnectedTestServiceImplTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -285,7 +286,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
-                                .setNationalHealthId(10)
+                                .setNationalHealthId(UUID.randomUUID().toString())
                                 .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());
@@ -307,7 +308,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
-                                .setNationalHealthId(10)
+                                .setNationalHealthId(UUID.randomUUID().toString())
                                 .setUserId(ObjectId.get().toHexString())
                                 .build())
                         .build());

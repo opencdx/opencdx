@@ -310,6 +310,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
                     currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
                     notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {
