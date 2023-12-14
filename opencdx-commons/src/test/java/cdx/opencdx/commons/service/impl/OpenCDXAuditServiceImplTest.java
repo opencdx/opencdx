@@ -18,6 +18,7 @@ package cdx.opencdx.commons.service.impl;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,8 @@ class OpenCDXAuditServiceImplTest {
                 ObjectId.get().toHexString(),
                 AgentType.AGENT_TYPE_HUMAN_USER,
                 "Access Change",
-                ObjectId.get().toHexString()));
+                ObjectId.get().toHexString(),
+                UUID.randomUUID().toString()));
     }
 
     @Test
@@ -56,6 +58,7 @@ class OpenCDXAuditServiceImplTest {
                 "PHI Updated",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                 ObjectId.get().toHexString(),
+                UUID.randomUUID().toString(),
                 "resource",
                 "jsonRecord"));
     }
@@ -68,6 +71,7 @@ class OpenCDXAuditServiceImplTest {
                 "PHI Deleted",
                 SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                 ObjectId.get().toHexString(),
+                UUID.randomUUID().toString(),
                 "resource",
                 "jsonRecord"));
     }

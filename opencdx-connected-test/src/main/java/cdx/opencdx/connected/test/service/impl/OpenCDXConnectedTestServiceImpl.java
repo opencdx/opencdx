@@ -102,6 +102,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     "Connected Test Submitted.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     patient.getId().toHexString(),
+                    patient.getNationalHealthId(),
                     "Connected Test Submissions",
                     this.objectMapper.writeValueAsString(submittedTest));
         } catch (JsonProcessingException e) {
@@ -151,7 +152,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     currentUser.getAgentType(),
                     "Connected Test Accessed.",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    connectedTest.getBasicInfo().getUserId(),
+                    connectedTest.getBasicInfo().getNationalHealthId(),
                     "Connected Test Accessed",
                     this.objectMapper.writeValueAsString(connectedTest));
         } catch (JsonProcessingException e) {

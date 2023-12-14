@@ -71,6 +71,7 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                 currentUser.getId().toHexString(),
+                currentUser.getNationalHealthId(),
                 "COMMUNICATION: 123",
                 "{\"name\":\"John\", \"age\":30, \"car\":null}");
         return String.format("Hello %s!", request.getName().trim());

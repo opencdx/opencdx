@@ -149,6 +149,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -182,6 +183,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                         USER_RECORD_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                         model.getId().toHexString(),
+                        model.getNationalHealthId(),
                         IAM_USER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
@@ -224,6 +226,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -265,6 +268,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -316,7 +320,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "User Password Change",
-                model.getId().toHexString());
+                model.getId().toHexString(),
+                model.getNationalHealthId());
         return ChangePasswordResponse.newBuilder()
                 .setIamUser(model.getIamUserProtobufMessage())
                 .build();
@@ -347,6 +352,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     userModel.getId().toHexString(),
+                    userModel.getNationalHealthId(),
                     IAM_USER + userModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(userModel));
         } catch (JsonProcessingException e) {
@@ -383,6 +389,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -435,11 +442,12 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         try {
             this.openCDXAuditService.piiUpdated(
-                    ObjectId.get().toHexString(),
+                    this.openCDXCurrentUser.getCurrentUser().getId().toHexString(),
                     AgentType.AGENT_TYPE_HUMAN_USER,
                     "User email verification",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    ObjectId.get().toHexString(),
+                    model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -521,6 +529,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
+                    model.getNationalHealthId(),
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
