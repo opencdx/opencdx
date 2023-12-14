@@ -115,16 +115,12 @@ run_jmeter_tests() {
 
     jmeter -p "./jmeter/$properties_file.properties" -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
 
-    if [[ "$OSTYPE" == "msys" ]]; then
-        start build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-    else
-        open build/reports/jmeter/index.html || handle_error "Failed to open JMeter Dashboard."
-    fi
+    open_url "build/reports/jmeter/index.html"
 }
 
 # Usage: open_url <url>
 open_url() {
-    if [[ "$OSTYPE" == "msys" ]]; then
+     if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "mingw" || "$OSTYPE" == "cygwin" ]]; then
         start "$1" || handle_error "Failed to open URL: $1"
     else
         open "$1" || handle_error "Failed to open URL: $1"
