@@ -29,8 +29,8 @@ class OpenCDXMediaModelTest {
                 .setId(ObjectId.get().toHexString())
                 .setCreatedAt(Timestamp.getDefaultInstance())
                 .setUpdatedAt(Timestamp.getDefaultInstance())
-                .setOrganizationSlug("organization")
-                .setWorkspaceSlug("workspace")
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
                 .setName("name")
                 .setShortDescription("This is a short Description")
                 .setDescription("This is a description")
@@ -54,8 +54,8 @@ class OpenCDXMediaModelTest {
     @Test
     void getProtobufMessage_2() {
         OpenCDXMediaModel model = new OpenCDXMediaModel(Media.newBuilder()
-                .setOrganizationSlug("organization")
-                .setWorkspaceSlug("workspace")
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
                 .setName("name")
                 .setShortDescription("This is a short Description")
                 .setDescription("This is a description")
