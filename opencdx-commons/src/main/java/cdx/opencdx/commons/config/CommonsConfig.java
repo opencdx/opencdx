@@ -124,6 +124,7 @@ public class CommonsConfig {
      * @param natsConnection NATS Connection
      * @param objectMapper Object Mapper to use.
      * @param applicationName Name of the service.
+     * @param openCDXCurrentUser Current User Service
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")
@@ -177,6 +178,7 @@ public class CommonsConfig {
 
     @Bean
     @Profile("!test")
+    @ExcludeFromJacocoGeneratedReport
     @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
     OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
         log.info("Creating Mongo Document Validator");

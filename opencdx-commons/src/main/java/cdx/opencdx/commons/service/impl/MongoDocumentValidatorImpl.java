@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.OpenCDXDocumentValidator {
 
-    public static final String DOMAIN = "MongoDocumentValidator";
+    private static final String DOMAIN = "MongoDocumentValidator";
     private final MongoTemplate mongoTemplate;
 
     /**
@@ -118,6 +118,9 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
      */
     @Override
     public boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds) {
+        if (documentIds.isEmpty()) {
+            return true;
+        }
         log.debug(
                 "Checking if documents {} exist in collection {}",
                 documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")),

@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
@@ -46,6 +47,7 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for the TestCase Service
@@ -54,16 +56,19 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
      * @param openCDXCurrentUser        Current User Service to access information.
      * @param objectMapper              ObjectMapper used for converting messages for the audit system.
      * @param openCDXAuditService       Audit service for tracking FDA requirements
+     * @param openCDXDocumentValidator  Document validator for validating the document.
      */
     public OpenCDXTestCaseServiceImpl(
             OpenCDXTestCaseRepository openCDXTestCaseRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
-            OpenCDXAuditService openCDXAuditService) {
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
@@ -77,6 +82,16 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
 
     @Override
     public TestCase addTestCase(TestCase request) {
+        if (request.hasManufacturerId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "manufacturer", new ObjectId(request.getManufacturerId()));
+        }
+        if (request.hasVendorId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow("vendor", new ObjectId(request.getVendorId()));
+        }
+        this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                "devices",
+                request.getDeviceIdsList().stream().map(ObjectId::new).toList());
         OpenCDXTestCaseModel openCDXTestCaseModel =
                 this.openCDXTestCaseRepository.save(new OpenCDXTestCaseModel(request));
         try {

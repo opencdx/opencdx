@@ -20,10 +20,12 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.controller.OpenCDXGrpcVendorController;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
+import cdx.opencdx.grpc.inventory.Address;
 import cdx.opencdx.grpc.inventory.Vendor;
 import cdx.opencdx.grpc.inventory.VendorIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -55,6 +57,9 @@ class OpenCDXVendorServiceImplTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
@@ -91,7 +96,8 @@ class OpenCDXVendorServiceImplTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 objectMapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -128,7 +134,37 @@ class OpenCDXVendorServiceImplTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 mapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVendorService1.addVendor(vendor));
+    }
+
+    @Test
+    void addVendor2() throws JsonProcessingException {
+        OpenCDXVendorModel openCDXVendorModel =
+                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXVendorModel));
+        Vendor vendor = Vendor.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setVendorAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXVendorModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXVendorServiceImpl openCDXVendorService1 = new OpenCDXVendorServiceImpl(
+                this.openCDXVendorRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVendorService1.addVendor(vendor));
     }
 
@@ -151,7 +187,37 @@ class OpenCDXVendorServiceImplTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 mapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVendorService1.updateVendor(vendor));
+    }
+
+    @Test
+    void updateVendor_2() throws JsonProcessingException {
+        OpenCDXVendorModel openCDXVendorModel =
+                OpenCDXVendorModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXVendorRepository.save(Mockito.any(OpenCDXVendorModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXVendorModel));
+        Vendor vendor = Vendor.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setVendorAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXVendorModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXVendorServiceImpl openCDXVendorService1 = new OpenCDXVendorServiceImpl(
+                this.openCDXVendorRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXVendorService1.updateVendor(vendor));
     }
 

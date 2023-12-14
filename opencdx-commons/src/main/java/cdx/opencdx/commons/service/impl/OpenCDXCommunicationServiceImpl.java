@@ -38,6 +38,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     /**
      * Constructor to use the OpenCDXMessageService to send the notificaiton.
      * @param messageService Message service to use to send.
+     * @param openCDXDocumentValidator Document validator to validate the document.
      */
     public OpenCDXCommunicationServiceImpl(
             OpenCDXMessageService messageService, OpenCDXDocumentValidator openCDXDocumentValidator) {

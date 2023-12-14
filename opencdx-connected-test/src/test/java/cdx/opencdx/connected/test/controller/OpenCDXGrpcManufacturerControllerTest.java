@@ -18,6 +18,7 @@ package cdx.opencdx.connected.test.controller;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
@@ -49,6 +50,9 @@ class OpenCDXGrpcManufacturerControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
@@ -82,7 +86,8 @@ class OpenCDXGrpcManufacturerControllerTest {
                 this.openCDXTestCaseRepository,
                 openCDXCurrentUser,
                 objectMapper,
-                this.openCDXAuditService);
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         this.openCDXGrpcManufacturerController = new OpenCDXGrpcManufacturerController(this.openCDXManufacturerService);
     }
 

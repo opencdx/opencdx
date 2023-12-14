@@ -19,7 +19,18 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import java.util.List;
 import org.bson.types.ObjectId;
 
+/**
+ * No-op implementation of OpenCDXDocumentValidator
+ */
 public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
+
+    /**
+     * Default Constructor
+     */
+    public NoOpDocumentValidatorImpl() {
+        // Explicitly do nothing
+    }
+
     @Override
     public boolean isCollectionExists(String collectionName) {
         return true;
