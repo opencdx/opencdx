@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     private static final String DOMAIN = "OpenCDXCountryServiceImpl";
-    public static final String COUNTRY = "COUNTRY: ";
+    private static final String COUNTRY = "COUNTRY: ";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;

@@ -33,6 +33,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -216,6 +217,40 @@ class OpenCDXRestConnectedTestControllerTest {
     }
 
     @Test
+    void listConnectedTests_2() throws Exception {
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+
+        MvcResult result = this.mockMvc
+                .perform(post("/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ConnectedTestListRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .setUserId(new ObjectId().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(ConnectedTestListRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
     void listConnectedTestsByNHID() throws Exception {
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
                         Mockito.any(Integer.class), Mockito.any(Pageable.class)))
@@ -237,6 +272,40 @@ class OpenCDXRestConnectedTestControllerTest {
         log.info(
                 "JSON: \n{}",
                 this.objectMapper.writeValueAsString(ConnectedTestListByNHIDRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void listConnectedTestsByNHID_2() throws Exception {
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+
+        MvcResult result = this.mockMvc
+                .perform(post("/listbynhid")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ConnectedTestListByNHIDRequest.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .setNationalHealthId(99)
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(ConnectedTestListRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 }

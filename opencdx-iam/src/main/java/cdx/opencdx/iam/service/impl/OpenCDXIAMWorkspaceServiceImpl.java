@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceService {
 
     private static final String DOMAIN = "OpenCDXIAMWorkspaceServiceImpl";
-    public static final String WORKSPACE = "WORKSPACE: ";
+    private static final String WORKSPACE = "WORKSPACE: ";
 
     private final OpenCDXIAMWorkspaceRepository openCDXIAMWorkspaceRepository;
 

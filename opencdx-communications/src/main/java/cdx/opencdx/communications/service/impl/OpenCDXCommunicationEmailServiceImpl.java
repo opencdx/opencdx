@@ -49,7 +49,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicationEmailService {
-    public static final String EMAIL_TEMPLATE = "EMAIL-TEMPLATE: ";
+    private static final String EMAIL_TEMPLATE = "EMAIL-TEMPLATE: ";
     private OpenCDXHtmlSanitizer openCDXHtmlSanitizer = new OwaspHtmlSanitizerImpl();
 
     private static final String DOMAIN = "OpenCDXNotificationServiceImpl";

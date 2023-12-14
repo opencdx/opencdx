@@ -46,7 +46,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
-    public static final String VENDOR = "VENDOR: ";
+    private static final String VENDOR = "VENDOR: ";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;

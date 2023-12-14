@@ -330,16 +330,4 @@ class OpenCDXConnectedTestServiceImplTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> testOpenCDXConnectedTestService.getTestDetailsById(testIdRequest));
     }
-
-    @Test
-    void listConnectedTests() throws JsonProcessingException {
-        ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
-                .setUserId(ObjectId.get().toHexString())
-                .build();
-
-        log.info("JSON:\n{}", this.objectMapper.writeValueAsString(request));
-    }
 }

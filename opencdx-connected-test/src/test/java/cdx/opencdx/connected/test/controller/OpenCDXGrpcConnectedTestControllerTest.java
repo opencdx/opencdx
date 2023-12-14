@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.controller;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -30,9 +31,11 @@ import cdx.opencdx.grpc.profile.ContactInfo;
 import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.grpc.profile.PhoneNumber;
 import cdx.opencdx.grpc.profile.PhoneType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.bson.types.ObjectId;
@@ -212,6 +215,47 @@ class OpenCDXGrpcConnectedTestControllerTest {
     }
 
     @Test
+    void testListConnectedTests_2() throws JsonProcessingException {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXConnectedTestRepository,
+                openCDXCurrentUser,
+                mapper,
+                openCDXCommunicationService,
+                openCDXIAMUserRepository);
+        this.openCDXGrpcConnectedTestController =
+                new OpenCDXGrpcConnectedTestController(this.openCDXConnectedTestService);
+
+        StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .setUserId(new ObjectId().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver));
+    }
+
+    @Test
     void testListConnectedByNIHTests() {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
@@ -229,5 +273,46 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void testListConnectedByNIHTests_2() throws JsonProcessingException {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
+                this.openCDXAuditService,
+                this.openCDXConnectedTestRepository,
+                openCDXCurrentUser,
+                mapper,
+                openCDXCommunicationService,
+                openCDXIAMUserRepository);
+        this.openCDXGrpcConnectedTestController =
+                new OpenCDXGrpcConnectedTestController(this.openCDXConnectedTestService);
+
+        StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.newBuilder()
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .setNationalHealthId(22)
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver));
     }
 }
