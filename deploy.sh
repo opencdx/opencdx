@@ -4,6 +4,7 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[1;36m'
 NC='\033[0m' # No Color
 
 # Specify the required JDK version
@@ -30,6 +31,15 @@ handle_info() {
     else
         echo "$1"
     fi
+}
+
+handle_menu() {
+      if [ -t 1 ]; then
+          # Check if stdout is a terminal
+          echo -e "${YELLOW}$1 ${BLUE}$2${NC}"
+      else
+          echo "$1 $2"
+      fi
 }
 
 # Function to copy files from source to target directory
@@ -127,6 +137,28 @@ open_url() {
     fi
 }
 
+check_container_status() {
+    # Run the docker ps command with the specified format
+    docker ps -a -f "name=opencdx" --format "table {{.Names}}\t{{.Ports}}\t{{.Size}}\t{{.Status}}" | \
+    # Process each line
+    while IFS= read -r line; do
+        # Check if the line contains "(unhealthy)" or "(healthy)"
+        if echo "$line" | grep -q "(unhealthy)"; then
+            # Wrap the line in red ANSI color
+            printf "\033[0;31m%s\033[0m\n" "$line"
+        elif echo "$line" | grep -q "(healthy)"; then
+            # Wrap the line in green ANSI color
+            printf "\033[0;32m%s\033[0m\n" "$line"
+        else
+            # Output the line as is
+            echo "$line"
+        fi
+    done
+
+    # Prompt to wait for user input
+        read -n 1 -s -r -p "Press any key to continue..."
+}
+
 # Function to open reports and documentation
 # Parameters: $1 - Type of report or documentation to open
 open_reports() {
@@ -201,6 +233,11 @@ open_reports() {
     micrometer_tracing)
         handle_info "Opening Zipkin Microservice Tracing Dashboard..."
         open_url "http://localhost:9411/zipkin"
+        ;;
+
+    status)
+        handle_info "Checking Docker container status..."
+        check_container_status
         ;;
     esac
 }
@@ -364,7 +401,6 @@ EOL
   done
 }
 
-# Function to manage the combined menu
 menu() {
     while true; do
         clear
@@ -372,25 +408,48 @@ menu() {
 
         # Define menu items
         menu_items=(
-            "1. Build Docker Image" "2. Start Docker (All Services)"
-            "3. Start Docker (Custom)" "4. Stop Docker"
-            "5. Open Admin Dashboard" "6. Open Discovery Dashboard"
-            "7. Open NATS Dashboard" "8. Run JMeter Test Script"
-            "9. Open JMeter Test Script" "10. Open Microservice Tracing Zipkin"
-            "11. Open Test Report" "12. Publish Doc"
-            "13. Open JaCoCo Report" "14. Check code"
-            "15. Open Proto Doc"
+            "Build Docker Image" "Start Docker (All Services)"
+            "Start Docker (Custom)" "Stop Docker"
+            "Open Admin Dashboard" "Open Discovery Dashboard"
+            "Open NATS Dashboard" "Run JMeter Test Script"
+            "Open JMeter Test Script" "Open Microservice Tracing Zipkin"
+            "Open Test Report" "Publish Doc"
+            "Open JaCoCo Report" "Check code"
+            "Open Proto Doc" "Container Status"
         )
 
         # Calculate the number of menu items
         num_items=${#menu_items[@]}
 
         # Calculate the number of items in each column
-        items_per_column=$((num_items / 2 + 1))
+        if [ $((num_items % 2)) -eq 0 ]; then
+            items_per_column=$((num_items / 2))
+        else
+            items_per_column=$(( (num_items + 1) / 2 ))
+        fi
 
         # Display the menu in two columns
         for ((i = 0; i < items_per_column; i++)); do
-            printf "%-40s %s\n" "${menu_items[i]}" "${menu_items[i + items_per_column]}"
+          if [ -t 1 ]; then
+                  # Wrap the number in '\033[1;33m' (bold yellow) and the text in '\033[1;36m' (bold cyan)
+                 printf "\033[1;33m%-2s\033[0m. \033[1;36m%-38s\033[0m" "$((i + 1))" "${menu_items[i]}"
+                 # Check if the index is within bounds
+                     if [ $((i + 1 + items_per_column)) -le $num_items ]; then
+                         printf "  \033[1;33m%-2s\033[0m. \033[1;36m%-s\033[0m\n" "$((i + 1 + items_per_column))" "${menu_items[i + items_per_column]}"
+                     else
+                         printf "\n"  # Move to the next line without printing the second column
+                     fi
+              else
+                  printf "%-2s. %-38s" "$((i + 1))" "${menu_items[i]}"
+                  # Check if the index is within bounds
+                      if [ $((i + 1 + items_per_column)) -le $num_items ]; then
+                           printf "  %-2s. %-s\n" "$((i + 1+ items_per_column))" "${menu_items[i + items_per_column]}"
+                      else
+                          printf "\n"  # Move to the next line without printing the second column
+                      fi
+
+              fi
+
         done
 
         read -r -p "Enter your choice (x to Exit): " menu_choice
@@ -411,6 +470,7 @@ menu() {
             13) open_reports "jacoco" ;;
             14) open_reports "check" ;;
             15) open_reports "proto" ;;
+            16) open_reports "status" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
