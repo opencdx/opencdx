@@ -330,6 +330,4 @@ class OpenCDXConnectedTestServiceImplTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> testOpenCDXConnectedTestService.getTestDetailsById(testIdRequest));
     }
-
-
 }

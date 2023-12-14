@@ -220,7 +220,18 @@ class OpenCDXRestConnectedTestControllerTest {
     void listConnectedTests_2() throws Exception {
         Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(OpenCDXConnectedTestModel.builder().nationalHealthId(UUID.randomUUID().toString()).userId(ObjectId.get()).id(ObjectId.get()).basicInfo(BasicInfo.newBuilder().setUserId(ObjectId.get().toHexString()).setNationalHealthId(UUID.randomUUID().toString()).build()).build()), PageRequest.of(1, 10), 1));
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
         MvcResult result = this.mockMvc
                 .perform(post("/list")
@@ -268,7 +279,18 @@ class OpenCDXRestConnectedTestControllerTest {
     void listConnectedTestsByNHID_2() throws Exception {
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
                         Mockito.any(Integer.class), Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(OpenCDXConnectedTestModel.builder().nationalHealthId(UUID.randomUUID().toString()).userId(ObjectId.get()).id(ObjectId.get()).basicInfo(BasicInfo.newBuilder().setUserId(ObjectId.get().toHexString()).setNationalHealthId(UUID.randomUUID().toString()).build()).build()), PageRequest.of(1, 10), 1));
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
         MvcResult result = this.mockMvc
                 .perform(post("/listbynhid")

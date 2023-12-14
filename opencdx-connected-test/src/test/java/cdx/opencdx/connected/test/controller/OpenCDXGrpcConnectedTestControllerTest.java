@@ -219,7 +219,18 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(OpenCDXConnectedTestModel.builder().nationalHealthId(UUID.randomUUID().toString()).userId(ObjectId.get()).id(ObjectId.get()).basicInfo(BasicInfo.newBuilder().setUserId(ObjectId.get().toHexString()).setNationalHealthId(UUID.randomUUID().toString()).build()).build()), PageRequest.of(1, 10), 1));
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
@@ -239,7 +250,9 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .setSortAscending(true)
                 .setUserId(new ObjectId().toHexString())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver));
     }
 
     @Test
@@ -267,7 +280,18 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
                         Mockito.any(Integer.class), Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(OpenCDXConnectedTestModel.builder().nationalHealthId(UUID.randomUUID().toString()).userId(ObjectId.get()).id(ObjectId.get()).basicInfo(BasicInfo.newBuilder().setUserId(ObjectId.get().toHexString()).setNationalHealthId(UUID.randomUUID().toString()).build()).build()), PageRequest.of(1, 10), 1));
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXConnectedTestModel.builder()
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .id(ObjectId.get())
+                                .basicInfo(BasicInfo.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(UUID.randomUUID().toString())
+                                        .build())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
@@ -287,6 +311,8 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .setSortAscending(true)
                 .setNationalHealthId(22)
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver));
     }
 }

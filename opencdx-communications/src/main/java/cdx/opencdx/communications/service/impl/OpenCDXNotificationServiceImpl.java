@@ -55,7 +55,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private static final String DOMAIN = "OpenCDXNotificationServiceImpl";
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
-    public static final String NOTIFICATION_EVENT = "NOTIFICATION-EVENT: ";
+    private static final String NOTIFICATION_EVENT = "NOTIFICATION-EVENT: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;

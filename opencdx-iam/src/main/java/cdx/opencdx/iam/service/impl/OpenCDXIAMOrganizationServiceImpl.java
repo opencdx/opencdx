@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganizationService {
 
     private static final String DOMAIN = "OpenCDXIAMOrganizationServiceImpl";
-    public static final String ORGANIZATION = "ORGANIZATION: ";
+    private static final String ORGANIZATION = "ORGANIZATION: ";
 
     private final OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository;
 

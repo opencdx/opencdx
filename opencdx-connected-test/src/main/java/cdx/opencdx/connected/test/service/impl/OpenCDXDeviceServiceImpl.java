@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private static final String COUNTRY = "country";
-    public static final String DEVICE = "DEVICE: ";
+    private static final String DEVICE = "DEVICE: ";
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;

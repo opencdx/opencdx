@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
-    public static final String TESTCASE = "TESTCASE: ";
+    private static final String TESTCASE = "TESTCASE: ";
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
