@@ -41,6 +41,7 @@ import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.grpc.profile.PhoneNumber;
 import com.google.protobuf.Timestamp;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -176,7 +177,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         return new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId(testId)
-                        .setNationalHealthId(10)
+                        .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(userId)
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
