@@ -41,5 +41,6 @@ mongock:
 
 cdc:
   message:
+    uri: cdc-uri
     client: cdc-client
     key: cdc-key

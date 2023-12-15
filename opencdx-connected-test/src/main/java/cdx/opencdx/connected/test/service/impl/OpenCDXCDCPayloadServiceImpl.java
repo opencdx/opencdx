@@ -30,6 +30,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.ContactInfo;
+import cdx.opencdx.grpc.profile.FullName;
 import io.micrometer.observation.annotation.Observed;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,7 +121,9 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         deviceName.setName(deviceModel.getName());
         deviceName.setType(Device.DeviceNameType.USERFRIENDLYNAME);
 
-        device.setExpirationDate(Date.from(deviceModel.getExpiryDate()));
+        if (deviceModel.getExpiryDate() != null) {
+            device.setExpirationDate(Date.from(deviceModel.getExpiryDate()));
+        }
         device.setLotNumber(deviceModel.getBatchNumber());
         device.setSerialNumber(deviceModel.getSerialNumber());
         device.setModelNumber(deviceModel.getModel());
@@ -191,8 +194,12 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         typeCoding.setDisplay(String.valueOf(connectedTestModel.getId()));
 
         // Set the value
-        observation.setValue(new StringType(
-                connectedTestModel.getTestDetails().getOrderableTestResults(0).getTestResult()));
+        if (!connectedTestModel.getTestDetails().getOrderableTestResultsList().isEmpty()) {
+            observation.setValue(new StringType(connectedTestModel
+                    .getTestDetails()
+                    .getOrderableTestResults(0)
+                    .getTestResult()));
+        }
 
         // Set the reference range
         Observation.ObservationReferenceRangeComponent comp1 = observation.addReferenceRange();
@@ -278,45 +285,46 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         patient.setId(user.getId().toHexString());
         patient.setActive(user.getStatus() == IamUserStatus.IAM_USER_STATUS_ACTIVE);
 
-        HumanName name = new HumanName();
-        name.setFamily(user.getFullName().getLastName());
-        List<StringType> givenList = Arrays.asList(
-                new StringType(user.getFullName().getFirstName()),
-                new StringType(" "),
-                new StringType(user.getFullName().getMiddleName()));
-        name.setGiven(givenList);
-        name.setSuffix(List.of(new StringType(user.getFullName().getSuffix())));
-        patient.setName(List.of(name));
+        FullName fullName = user.getFullName();
+        if (fullName != null) {
+            HumanName name = new HumanName();
+            name.setFamily(user.getFullName().getLastName());
+            List<StringType> givenList = Arrays.asList(
+                    new StringType(user.getFullName().getFirstName()),
+                    new StringType(" "),
+                    new StringType(user.getFullName().getMiddleName()));
+            name.setGiven(givenList);
+            name.setSuffix(List.of(new StringType(user.getFullName().getSuffix())));
+            patient.setName(List.of(name));
+        }
 
         ContactInfo primaryContact = user.getPrimaryContactInfo();
-        if (primaryContact == null) {
-            return patient;
+        if (primaryContact != null) {
+            List<ContactPoint> telecomList = new ArrayList<>();
+            telecomList.add(new ContactPoint()
+                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                    .setUse(ContactPoint.ContactPointUse.MOBILE)
+                    .setValue(primaryContact.getMobileNumber().getNumber())
+                    .setRank(1));
+            telecomList.add(new ContactPoint()
+                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                    .setUse(ContactPoint.ContactPointUse.HOME)
+                    .setValue(primaryContact.getHomeNumber().getNumber())
+                    .setRank(2));
+            telecomList.add(new ContactPoint()
+                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                    .setUse(ContactPoint.ContactPointUse.WORK)
+                    .setValue(primaryContact.getWorkNumber().getNumber())
+                    .setRank(3));
+            telecomList.add(new ContactPoint()
+                    .setSystem(ContactPoint.ContactPointSystem.FAX)
+                    .setValue(primaryContact.getFaxNumber().getNumber())
+                    .setRank(4));
+            telecomList.add(new ContactPoint()
+                    .setSystem(ContactPoint.ContactPointSystem.EMAIL)
+                    .setValue(primaryContact.getEmail()));
+            patient.setTelecom(telecomList);
         }
-        List<ContactPoint> telecomList = new ArrayList<>();
-        telecomList.add(new ContactPoint()
-                .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                .setUse(ContactPoint.ContactPointUse.MOBILE)
-                .setValue(primaryContact.getMobileNumber().getNumber())
-                .setRank(1));
-        telecomList.add(new ContactPoint()
-                .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                .setUse(ContactPoint.ContactPointUse.HOME)
-                .setValue(primaryContact.getHomeNumber().getNumber())
-                .setRank(2));
-        telecomList.add(new ContactPoint()
-                .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                .setUse(ContactPoint.ContactPointUse.WORK)
-                .setValue(primaryContact.getWorkNumber().getNumber())
-                .setRank(3));
-        telecomList.add(new ContactPoint()
-                .setSystem(ContactPoint.ContactPointSystem.FAX)
-                .setValue(primaryContact.getFaxNumber().getNumber())
-                .setRank(4));
-        telecomList.add(new ContactPoint()
-                .setSystem(ContactPoint.ContactPointSystem.EMAIL)
-                .setValue(primaryContact.getEmail()));
-        patient.setTelecom(telecomList);
-
         return patient;
     }
 

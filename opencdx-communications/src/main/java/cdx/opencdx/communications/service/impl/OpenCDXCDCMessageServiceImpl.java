@@ -32,6 +32,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -46,20 +47,26 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
 
     private static final String DOMAIN = "OpenCDXCDCMessageServiceImpl";
 
-    @Value("${cdc.message.client}")
-    private String cdcClient;
+    private final String cdcUri;
+    private final String cdcClient;
+    private final String cdcKey;
 
-    @Value("${cdc.message.key}")
-    private String cdcKey;
+    @Autowired
+    public OpenCDXCDCMessageServiceImpl(
+            @Value("${cdc.message.uri}") String uri,
+            @Value("${cdc.message.client}") String client,
+            @Value("${cdc.message.key}") String key) {
+        this.cdcUri = uri;
+        this.cdcClient = client;
+        this.cdcKey = key;
+    }
 
     @Override
     public boolean sendCDCMessage(String message) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             if (!StringUtils.hasLength(message)) return false;
 
-            String uri = "https://staging.prime.cdc.gov/api/reports";
-
-            URIBuilder uriBuilder = new URIBuilder(uri);
+            URIBuilder uriBuilder = new URIBuilder(cdcUri);
 
             String requestString = message.replace("\\n", "")
                     .replace("\\", "")
