@@ -22,6 +22,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
@@ -58,8 +59,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXCommunicationService openCDXCommunicationService;
-
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructore with OpenCDXAuditService
@@ -70,6 +71,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      * @param openCDXCommunicationService    Communication Service for informing user test received.
      * @param openCDXIAMUserRepository       Repository to look up patient.
+     * @param openCDXDocumentValidator       Validator for documents
      */
     public OpenCDXConnectedTestServiceImpl(
             OpenCDXAuditService openCDXAuditService,
@@ -77,18 +79,26 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
             OpenCDXCommunicationService openCDXCommunicationService,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXCommunicationService = openCDXCommunicationService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
         ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getUserId());
+
+        if (connectedTest.hasBasicInfo()) {
+            this.openCDXDocumentValidator.validateOrganizationWorkspaceOrThrow(
+                    new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
+                    new ObjectId(connectedTest.getBasicInfo().getWorkspaceId()));
+        }
 
         OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
                 .findById(patientID)

@@ -74,4 +74,12 @@ public interface OpenCDXDocumentValidator {
      * @param documentIds    Ids of the documents to check
      */
     void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds);
+
+    /**
+     * Check if a document exists in an organization workspace if it doesn it throws an exception
+     *
+     * @param organization Organization ID
+     * @param workspace    Workspace ID
+     */
+    void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace);
 }
