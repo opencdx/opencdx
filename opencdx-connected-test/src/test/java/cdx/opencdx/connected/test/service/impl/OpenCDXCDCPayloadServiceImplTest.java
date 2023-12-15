@@ -34,6 +34,7 @@ import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.OrderableTestResult;
 import cdx.opencdx.grpc.connected.TestDetails;
 import cdx.opencdx.grpc.iam.IamUser;
+import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import cdx.opencdx.grpc.profile.ContactInfo;
@@ -97,6 +98,7 @@ class OpenCDXCDCPayloadServiceImplTest {
 
         OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
         OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
+        openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
         OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
         OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(
                 Manufacturer.newBuilder().setId(manufacturerId).build());
