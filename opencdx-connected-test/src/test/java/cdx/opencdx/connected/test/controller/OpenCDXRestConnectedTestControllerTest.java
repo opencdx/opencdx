@@ -140,6 +140,8 @@ class OpenCDXRestConnectedTestControllerTest {
         ConnectedTest connectedTest = ConnectedTest.newBuilder()
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId("6511c2ffc289850d8dda157b")
+                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())

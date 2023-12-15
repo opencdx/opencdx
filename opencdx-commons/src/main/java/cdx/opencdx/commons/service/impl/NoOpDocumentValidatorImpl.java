@@ -38,7 +38,7 @@ public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
 
     @Override
     public boolean validateDocumentOrLog(String collectionName, ObjectId documentId) {
-        return true;
+        return this.documentExists(collectionName, documentId);
     }
 
     @Override
@@ -53,11 +53,16 @@ public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
 
     @Override
     public boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds) {
-        return true;
+        return this.allDocumentsExist(collectionName, documentIds);
     }
 
     @Override
     public void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds) {
+        // Explicitly do nothing
+    }
+
+    @Override
+    public void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace) {
         // Explicitly do nothing
     }
 }

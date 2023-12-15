@@ -27,26 +27,26 @@ public interface OpenCDXConnectedTestService {
      * @param connectedTest Connected Test results to store
      * @return ID of the connected Test Results.
      */
-    public TestSubmissionResponse submitTest(ConnectedTest connectedTest);
+    TestSubmissionResponse submitTest(ConnectedTest connectedTest);
 
     /**
      * Get the connected test results for a specific test.
      * @param testIdRequest ID of the test to retrieve.
      * @return The connected test results.
      */
-    public ConnectedTest getTestDetailsById(TestIdRequest testIdRequest);
+    ConnectedTest getTestDetailsById(TestIdRequest testIdRequest);
 
     /**
      * Retrieve a list of connected tests for a user.
      * @param request Request message containing the pageable information and user to request records on.
      * @return Response containing the indicated page of recards.
      */
-    public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request);
+    ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request);
 
     /**
      * Retrieve a list of connected tests by national health id
      * @param request Request message containing the pageable information and user to request records on.
      * @return Response containing the indicated page of recards.
      */
-    public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(ConnectedTestListByNHIDRequest request);
+    ConnectedTestListByNHIDResponse listConnectedTestsByNHID(ConnectedTestListByNHIDRequest request);
 }

@@ -41,8 +41,6 @@ public class OpenCDXCommunicationNotificationMessageHandler implements OpenCDXMe
 
     private final OpenCDXNotificationService openCDXNotificationService;
 
-    private final OpenCDXMessageService openCDXMessageService;
-
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
@@ -60,10 +58,9 @@ public class OpenCDXCommunicationNotificationMessageHandler implements OpenCDXMe
             OpenCDXCurrentUser openCDXCurrentUser) {
         this.objectMapper = objectMapper;
         this.openCDXNotificationService = openCDXNotificationService;
-        this.openCDXMessageService = openCDXMessageService;
         this.openCDXCurrentUser = openCDXCurrentUser;
 
-        this.openCDXMessageService.subscribe(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, this);
+        openCDXMessageService.subscribe(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, this);
     }
 
     @Override

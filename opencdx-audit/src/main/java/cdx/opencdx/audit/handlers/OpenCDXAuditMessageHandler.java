@@ -34,11 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private OpenCDXMessageService openCDXMessageService;
-
-    private OpenCDXAuditEventRepository openCDXAuditEventRepository;
+    private final OpenCDXAuditEventRepository openCDXAuditEventRepository;
 
     /**
      * Constructor for the Audit microservice
@@ -51,10 +49,9 @@ public class OpenCDXAuditMessageHandler implements OpenCDXMessageHandler {
             OpenCDXMessageService openCDXMessageService,
             OpenCDXAuditEventRepository openCDXAuditEventRepository) {
         this.objectMapper = objectMapper;
-        this.openCDXMessageService = openCDXMessageService;
         this.openCDXAuditEventRepository = openCDXAuditEventRepository;
 
-        this.openCDXMessageService.subscribe(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, this);
+        openCDXMessageService.subscribe(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, this);
     }
 
     @Override

@@ -409,7 +409,7 @@ services:
     container_name: mysql
     # Uncomment to expose the storage port for testing
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - ../data:/opt/mysql/data
     restart: unless-stopped

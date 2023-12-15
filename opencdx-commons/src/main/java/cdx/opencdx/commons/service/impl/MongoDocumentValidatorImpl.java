@@ -20,6 +20,7 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -168,5 +169,28 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
                             + documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", "))
                             + " does not exist in collection " + collectionName);
         }
+    }
+
+    public void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace) {
+        if (!documentExists("organization", organization)) {
+            throw new OpenCDXNotFound(DOMAIN, 4, "Organization " + organization + " does not exist");
+        }
+        if (!documentExists("workspace", workspace)) {
+            throw new OpenCDXNotFound(DOMAIN, 4, "Workspace " + workspace + " does not exist");
+        }
+
+        Document document = this.findOrganization(organization);
+
+        if (document != null && (document.toJson().contains(workspace.toHexString()))) {
+            return;
+        }
+
+        throw new OpenCDXNotFound(
+                DOMAIN, 4, "Workspace " + workspace + " does not exist in organization " + organization);
+    }
+
+    @Cacheable(value = "findOrganization", key = "{#organization}")
+    public Document findOrganization(ObjectId organization) {
+        return mongoTemplate.findById(organization, Document.class, "organization");
     }
 }

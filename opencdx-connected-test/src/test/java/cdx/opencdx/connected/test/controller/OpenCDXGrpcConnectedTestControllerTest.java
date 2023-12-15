@@ -22,6 +22,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
@@ -67,6 +68,9 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
@@ -122,7 +126,8 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 objectMapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository);
+                openCDXIAMUserRepository,
+                openCDXDocumentValidator);
         this.openCDXGrpcConnectedTestController =
                 new OpenCDXGrpcConnectedTestController(this.openCDXConnectedTestService);
     }
@@ -137,6 +142,8 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
+                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(ObjectId.get().toHexString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
@@ -239,7 +246,8 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository);
+                openCDXIAMUserRepository,
+                openCDXDocumentValidator);
         this.openCDXGrpcConnectedTestController =
                 new OpenCDXGrpcConnectedTestController(this.openCDXConnectedTestService);
 
@@ -300,7 +308,8 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository);
+                openCDXIAMUserRepository,
+                openCDXDocumentValidator);
         this.openCDXGrpcConnectedTestController =
                 new OpenCDXGrpcConnectedTestController(this.openCDXConnectedTestService);
 

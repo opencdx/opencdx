@@ -67,7 +67,8 @@ class ConnectTestTest {
                         .setUserId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setHealthServiceId("hea;thServiceId")
-                        .setTenantId("tenantId")
+                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setOrganizationId(ObjectId.get().toHexString())
                         .setSource("source")
                         .build())
                 .setOrderInfo(OrderInfo.newBuilder()
@@ -158,7 +159,9 @@ class ConnectTestTest {
                         .build())
                 .build();
 
-        log.info("ConnectedTest: {}", this.mapper.writeValueAsString(connectedTest));
+        log.info(
+                "ConnectedTest: {}",
+                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(connectedTest));
     }
 
     @Test

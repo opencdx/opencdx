@@ -20,7 +20,7 @@ import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 
 /**
  * Interface for the Predictor Service.
- *
+ * <p>
  * This service provides methods for various security and protection functionalities.
  * Implementations of this interface handle anomaly detection, authorization control,
  * privacy protection, real-time monitoring, and user behavior analysis.

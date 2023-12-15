@@ -26,33 +26,33 @@ public interface OpenCDXMediaService {
      * @param request CreateMediaRequest with the media information for creating the request.
      * @return CreateMediaResponse providing where to upload the file.
      */
-    public CreateMediaResponse createMedia(CreateMediaRequest request);
+    CreateMediaResponse createMedia(CreateMediaRequest request);
 
     /**
      * Method to list media, with pagination.
      * @param request ListMediaRequest to list media.
      * @return ListMediaResponse with pagination.
      */
-    public ListMediaResponse listMedia(ListMediaRequest request);
+    ListMediaResponse listMedia(ListMediaRequest request);
 
     /**
      * Method to retrieve information on a specific media.
      * @param request GetMediaRequest to retrieve.
      * @return GetMediaResponse for the requested media
      */
-    public GetMediaResponse getMedia(GetMediaRequest request);
+    GetMediaResponse getMedia(GetMediaRequest request);
 
     /**
      * Method to Update Media
      * @param request Updated Information for the Media
      * @return UpdateMediaResponse with the updated media information.
      */
-    public UpdateMediaResponse updateMedia(UpdateMediaRequest request);
+    UpdateMediaResponse updateMedia(UpdateMediaRequest request);
 
     /**
      * Request to delete Media
      * @param request DeleteMediaRequest with ID of media to delete.
      * @return DeleteMediaResponse indicating if deleted.
      */
-    public DeleteMediaResponse deleteMedia(DeleteMediaRequest request);
+    DeleteMediaResponse deleteMedia(DeleteMediaRequest request);
 }

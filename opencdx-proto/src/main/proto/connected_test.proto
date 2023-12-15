@@ -50,8 +50,9 @@ message BasicInfo {
   string user_id = 8;               // ID of the user associated with the test
   string national_health_id = 9;     // National health ID of the user
   string health_service_id = 10;     // ID of the health service provider
-  string tenant_id = 11;            // ID of the tenant (in multi-tenant systems)
-  string source = 12;              // Source or origin of the test data
+  string organization_id = 11;   // ID of the organization
+  string workspace_id = 12;   // ID of the workspace
+  string source = 13;              // Source or origin of the test data
 }
 
 // Information related to ordering

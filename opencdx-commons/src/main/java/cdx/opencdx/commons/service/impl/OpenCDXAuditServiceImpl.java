@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
  * This class is an implementation of the OpenCDXAuditService interface.
  * It provides methods for auditing user actions in the OpenCDX system.
  * The class uses an OpenCDXMessageService to send audit events.
- *
+ * <p>
  * The class is annotated with the @Service annotation to indicate that it is a service component.
  * It is also annotated with the @Observed(name = "opencdx") annotation to specify the name of the observer for the audit events.
  */
@@ -43,7 +43,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    private OpenCDXMessageService messageService;
+    private final OpenCDXMessageService messageService;
 
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
@@ -365,14 +365,14 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
 
     private AuditStatus sendMessage(AuditEvent event) {
         log.info("Sending Audit Event: {}", event.getEventType());
-        if (event.hasActor()) {
-            openCDXDocumentValidator.validateDocumentOrLog(
-                    "users", new ObjectId(event.getActor().getIdentity()));
-        }
+        openCDXDocumentValidator.validateDocumentOrLog(
+                "users", new ObjectId(event.getActor().getIdentity()));
         if (event.hasAuditEntity()) {
             log.debug("Validating Audit Entity: {}", event.getAuditEntity().getUserIdentifier());
-            openCDXDocumentValidator.validateDocumentOrLog(
-                    "users", new ObjectId(event.getAuditEntity().getUserIdentifier()));
+            if (!event.getAuditEntity().getUserIdentifier().isEmpty()) {
+                openCDXDocumentValidator.validateDocumentOrLog(
+                        "users", new ObjectId(event.getAuditEntity().getUserIdentifier()));
+            }
         }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
         return AuditStatus.newBuilder().setSuccess(true).build();

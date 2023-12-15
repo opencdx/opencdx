@@ -27,56 +27,56 @@ public interface OpenCDXIAMUserService {
      * @param request SignUpRequest for new user.
      * @return SignUpResponse with the new user created.
      */
-    public SignUpResponse signUp(SignUpRequest request);
+    SignUpResponse signUp(SignUpRequest request);
 
     /**
      * Method to list users
      * @param request ListIamUserRequest for the users to list.
      * @return ListIamUsersResponse for the users being listed
      */
-    public ListIamUsersResponse listIamUsers(ListIamUsersRequest request);
+    ListIamUsersResponse listIamUsers(ListIamUsersRequest request);
 
     /**
      * Method to get a particular User
      * @param request Request for the user to get.
      * @return Response with the requested user.
      */
-    public GetIamUserResponse getIamUser(GetIamUserRequest request);
+    GetIamUserResponse getIamUser(GetIamUserRequest request);
 
     /**
      * Update the User informaiton
      * @param request Request with information to update.
      * @return Response the updated user.
      */
-    public UpdateIamUserResponse updateIamUser(UpdateIamUserRequest request);
+    UpdateIamUserResponse updateIamUser(UpdateIamUserRequest request);
 
     /**
      * Method to change a user password
      * @param request Request to change a user password
      * @return Response for changing a users password.
      */
-    public ChangePasswordResponse changePassword(ChangePasswordRequest request);
+    ChangePasswordResponse changePassword(ChangePasswordRequest request);
 
     /**
      * Method to delete a user. User's status is udpated to DELETED. User it not actually removed.
      * @param request Request to delete the specified user.
      * @return Response for deleting a user.
      */
-    public DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request);
+    DeleteIamUserResponse deleteIamUser(DeleteIamUserRequest request);
 
     /**
      * Method to check if a user exists.
      * @param request Request to check if a user exists
      * @return Response if the user exists.
      */
-    public UserExistsResponse userExists(UserExistsRequest request);
+    UserExistsResponse userExists(UserExistsRequest request);
 
     /**
      * Method to authenticate user login.
      * @param request Request to authenticate user
      * @return Response if the user login is successful.
      */
-    public LoginResponse login(LoginRequest request);
+    LoginResponse login(LoginRequest request);
 
     /**
      * Method to fetch current user.
@@ -84,11 +84,11 @@ public interface OpenCDXIAMUserService {
      * @param request Request to fetch current user
      * @return Response is the current user.
      */
-    public CurrentUserResponse currentUser(CurrentUserRequest request);
+    CurrentUserResponse currentUser(CurrentUserRequest request);
 
     /**
      * Method to verify user email.
      * @param id Request for the user to get.
      */
-    public void verifyEmailIamUser(String id);
+    void verifyEmailIamUser(String id);
 }
