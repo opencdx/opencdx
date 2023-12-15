@@ -16,9 +16,11 @@
 package cdx.opencdx.tinkar.service.impl;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.entity.Entity;
+import io.micrometer.observation.annotation.Observed;
 import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
  * Tinkar Service implementation
  */
 @Service
+@Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
@@ -47,35 +50,29 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
     @Override
     public PrimitiveDataSearchResult[] search(String query, int maxResultSize) {
+        if (!PrimitiveData.running()) {
+            CachingService.clearAll();
+            ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
+            PrimitiveData.selectControllerByName(SASTOREOPENNAME);
+            PrimitiveData.start();
+        }
         try {
-            if (!PrimitiveData.running()) {
-                CachingService.clearAll();
-                ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
-                PrimitiveData.selectControllerByName(SASTOREOPENNAME);
-                PrimitiveData.start();
-            }
             return PrimitiveData.get().search(query, maxResultSize);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Search Failed", e);
         }
-
-        return new PrimitiveDataSearchResult[0];
     }
 
     @Override
     public String getEntity(int nid) {
-        try {
-            if (!PrimitiveData.running()) {
-                CachingService.clearAll();
-                ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
-                PrimitiveData.selectControllerByName(SASTOREOPENNAME);
-                PrimitiveData.start();
-            }
 
-            return Entity.get(nid).toString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!PrimitiveData.running()) {
+            CachingService.clearAll();
+            ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
+            PrimitiveData.selectControllerByName(SASTOREOPENNAME);
+            PrimitiveData.start();
         }
-        return null;
+
+        return Entity.get(nid).toString();
     }
 }

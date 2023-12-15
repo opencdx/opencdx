@@ -157,7 +157,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      */
     @Slf4j
     protected static class NatsMessageHandler implements MessageHandler {
-        OpenCDXMessageHandler handler;
+        final OpenCDXMessageHandler handler;
 
         private final OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -165,7 +165,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
          * Constructor for wrapping a OpenCDXMessageHandler
          *
          * @param handler            OpenCDXMessageHandler to wrap.
-         * @param openCDXCurrentUser
+         * @param openCDXCurrentUser System for setting the current user
          */
         protected NatsMessageHandler(OpenCDXMessageHandler handler, OpenCDXCurrentUser openCDXCurrentUser) {
             this.handler = handler;

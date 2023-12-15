@@ -18,6 +18,7 @@ package cdx.opencdx.communications.tasks;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
@@ -67,6 +68,9 @@ class OpenCDXNotificationProcessorTasksTest {
 
     @Autowired
     OpenCDXEmailService openCDXEmailService;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
@@ -137,7 +141,8 @@ class OpenCDXNotificationProcessorTasksTest {
                 openCDXCurrentUser,
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
-                objectMapper);
+                objectMapper,
+                openCDXDocumentValidator);
 
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 

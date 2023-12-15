@@ -16,6 +16,7 @@
 package cdx.opencdx.iam.repository;
 
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
+import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,5 @@ import org.springframework.stereotype.Repository;
  * Interface for the Database workspace model.
  */
 @Repository
+@Observed(name = "opencdx")
 public interface OpenCDXIAMWorkspaceRepository extends MongoRepository<OpenCDXIAMWorkspaceModel, ObjectId> {}

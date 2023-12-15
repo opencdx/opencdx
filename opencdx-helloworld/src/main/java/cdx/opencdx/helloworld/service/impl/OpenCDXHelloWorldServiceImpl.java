@@ -24,7 +24,6 @@ import cdx.opencdx.helloworld.model.Person;
 import cdx.opencdx.helloworld.repository.PersonRepository;
 import cdx.opencdx.helloworld.service.OpenCDXHelloWorldService;
 import io.micrometer.observation.annotation.Observed;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,15 +63,16 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
     @Override
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
-        this.personRepository.save(person);
+        person = this.personRepository.save(person);
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         this.openCDXAuditService.piiCreated(
                 currentUser.getId().toHexString(),
                 currentUser.getAgentType(),
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
-                UUID.randomUUID().toString(),
-                "COMMUNICATION: 123",
+                currentUser.getId().toHexString(),
+                currentUser.getNationalHealthId(),
+                "Persons:" + person.getId().toHexString(),
                 "{\"name\":\"John\", \"age\":30, \"car\":null}");
         return String.format("Hello %s!", request.getName().trim());
     }

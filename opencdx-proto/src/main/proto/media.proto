@@ -157,11 +157,11 @@ message Media {
   // Timestamp indicating when this media was last updated.
   optional google.protobuf.Timestamp updated_at = 3;
 
-  // Organization slug
-  string organization_slug = 4;
+  // Organization id
+  string organization_id = 4;
 
-  // Workspace slug
-  string workspace_slug = 5;
+  // Workspace id
+  string workspace_id = 5;
 
   // File name
   string name = 6;

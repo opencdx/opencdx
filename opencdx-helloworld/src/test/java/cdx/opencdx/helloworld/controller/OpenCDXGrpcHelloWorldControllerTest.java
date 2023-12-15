@@ -28,9 +28,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -62,7 +63,16 @@ class OpenCDXGrpcHelloWorldControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(new Answer<Person>() {
+            @Override
+            public Person answer(InvocationOnMock invocation) throws Throwable {
+                Person argument = invocation.getArgument(0);
+                if (argument.getId() == null) {
+                    argument.setId(ObjectId.get());
+                }
+                return argument;
+            }
+        });
         this.helloWorldService =
                 new OpenCDXHelloWorldServiceImpl(this.personRepository, this.openCDXAuditService, openCDXCurrentUser);
         this.openCDXGrpcHelloWorldController = new OpenCDXGrpcHelloWorldController(this.helloWorldService);
@@ -75,9 +85,10 @@ class OpenCDXGrpcHelloWorldControllerTest {
 
     @Test
     void sayHello() {
-        StreamObserver<HelloReply> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<HelloResponse> responseObserver = Mockito.mock(StreamObserver.class);
         HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
-        HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
+        HelloResponse helloReply =
+                HelloResponse.newBuilder().setMessage("Hello Bob!").build();
 
         this.openCDXGrpcHelloWorldController.sayHello(helloRequest, responseObserver);
 

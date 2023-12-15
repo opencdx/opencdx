@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller for the /protector API's.
- *
+ * <p>
  * This controller handles REST API endpoints related to the Protector service,
  * providing functionalities for anomaly detection, authorization control, privacy protection,
  * real-time monitoring, and user behavior analysis.
@@ -60,7 +60,7 @@ public class OpenCDXRestProtectorController {
 
     /**
      * POST /protector/detectAnomalies API.
-     *
+     * <p>
      * Endpoint for processing anomaly detection data.
      *
      * @param request AnomalyDetectionData indicating data to be analyzed.
@@ -77,7 +77,7 @@ public class OpenCDXRestProtectorController {
 
     /**
      * POST /protector/authorize API.
-     *
+     * <p>
      * Endpoint for processing authorization control data.
      *
      * @param request AuthorizationControlDataRequest indicating data to be analyzed.
@@ -96,7 +96,7 @@ public class OpenCDXRestProtectorController {
 
     /**
      * POST /protector/protectPrivacy API.
-     *
+     * <p>
      * Endpoint for processing privacy protection data.
      *
      * @param request PrivacyProtectionDataRequest indicating data to be analyzed.
@@ -113,7 +113,7 @@ public class OpenCDXRestProtectorController {
 
     /**
      * POST /protector/monitorRealTime API.
-     *
+     * <p>
      * Endpoint for processing real-time monitoring data.
      *
      * @param request RealTimeMonitoringDataRequest indicating data to be analyzed.
@@ -132,7 +132,7 @@ public class OpenCDXRestProtectorController {
 
     /**
      * POST /protector/analyzeUserBehavior API.
-     *
+     * <p>
      * Endpoint for processing user behavior analysis data.
      *
      * @param request UserBehaviorAnalysisDataRequest indicating data to be analyzed.

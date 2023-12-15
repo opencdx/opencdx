@@ -16,6 +16,7 @@
 package cdx.opencdx.media.repository;
 
 import cdx.opencdx.media.model.OpenCDXMediaModel;
+import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,5 @@ import org.springframework.stereotype.Repository;
  * Repository for the Media Collection
  */
 @Repository
+@Observed(name = "opencdx")
 public interface OpenCDXMediaRepository extends MongoRepository<OpenCDXMediaModel, ObjectId> {}

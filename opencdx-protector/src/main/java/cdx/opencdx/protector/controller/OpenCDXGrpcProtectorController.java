@@ -32,7 +32,7 @@ import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Protector World.
- *
+ * <p>
  * This controller provides gRPC service implementations for the Neural Protector service,
  * offering functionalities such as anomaly detection, authorization control,
  * privacy protection, real-time monitoring, and user behavior analysis.
