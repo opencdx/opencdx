@@ -158,7 +158,7 @@ class OpenCDXConnectedTestServiceImplTest {
     }
 
     @Test
-    void submitTest_fail() {
+    void submitTest_fail2() {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         ConnectedTest connectedTest =
