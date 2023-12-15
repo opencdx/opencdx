@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -143,6 +144,16 @@ class OpenCDXConnectedTestServiceImplTest {
                 TestSubmissionResponse.newBuilder()
                         .setSubmissionId(connectedTest.getBasicInfo().getId())
                         .build(),
+                this.openCDXConnectedTestService.submitTest(connectedTest));
+    }
+    @Test
+    void submitTest_fail() {
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXFailedPrecondition.class, () ->
                 this.openCDXConnectedTestService.submitTest(connectedTest));
     }
 

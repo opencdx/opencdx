@@ -75,4 +75,17 @@ class OpenCDXAuditServiceImplTest {
                 "resource",
                 "jsonRecord"));
     }
+
+    @Test
+    void phiDeleted_2() {
+        Assertions.assertDoesNotThrow(() -> openCDXAuditService.phiDeleted(
+                ObjectId.get().toHexString(),
+                AgentType.AGENT_TYPE_HUMAN_USER,
+                "PHI Deleted",
+                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                null,
+                UUID.randomUUID().toString(),
+                "resource",
+                "jsonRecord"));
+    }
 }

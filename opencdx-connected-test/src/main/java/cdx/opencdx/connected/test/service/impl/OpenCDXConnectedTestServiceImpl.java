@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -36,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,13 +94,16 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
     @Override
     public TestSubmissionResponse submitTest(ConnectedTest connectedTest) {
+
+        if(!connectedTest.hasBasicInfo()) {
+            throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Connected Test does not have basic info");
+        }
+
         ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getUserId());
 
-        if (connectedTest.hasBasicInfo()) {
-            this.openCDXDocumentValidator.validateOrganizationWorkspaceOrThrow(
-                    new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
-                    new ObjectId(connectedTest.getBasicInfo().getWorkspaceId()));
-        }
+        this.openCDXDocumentValidator.validateOrganizationWorkspaceOrThrow(
+                new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
+                new ObjectId(connectedTest.getBasicInfo().getWorkspaceId()));
 
         OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
                 .findById(patientID)

@@ -100,7 +100,7 @@ class NatsOpenCDXMessageServiceImplTest {
                         Mockito.any(String.class),
                         Mockito.any(Dispatcher.class),
                         Mockito.any(MessageHandler.class),
-                        Mockito.any(Boolean.class),
+                        Mockito.eq(true),
                         Mockito.any(PushSubscribeOptions.class)))
                 .thenReturn(this.jetStreamSubscription);
         Mockito.when(this.streamInfo.getConfiguration()).thenReturn(this.streamConfiguration);
@@ -143,6 +143,35 @@ class NatsOpenCDXMessageServiceImplTest {
                 new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
 
         Assertions.assertDoesNotThrow(() -> service.subscribe("Test-Message", handler));
+    }
+
+    @Test
+    void unsubscribe_fail() throws JetStreamApiException, IOException {
+
+        Mockito.when(this.jetStream.subscribe(
+                        Mockito.any(String.class),
+                        Mockito.any(String.class),
+                        Mockito.any(Dispatcher.class),
+                        Mockito.any(MessageHandler.class),
+                        Mockito.any(Boolean.class),
+                        Mockito.any(PushSubscribeOptions.class)))
+                .thenReturn(null);
+
+        OpenCDXMessageService service = this.commonsConfig.natsOpenCDXMessageService(
+                this.connection, this.objectMapper, openCDXCurrentUser, "test");
+
+        OpenCDXMessageHandler handler = new OpenCDXMessageHandler() {
+            @Override
+            public void receivedMessage(byte[] message) {
+                Assertions.assertEquals("Test", new String(message));
+            }
+        };
+
+        final NatsOpenCDXMessageServiceImpl.NatsMessageHandler[] natsHandler =
+                new NatsOpenCDXMessageServiceImpl.NatsMessageHandler[1];
+
+        Assertions.assertDoesNotThrow(() -> service.subscribe("Test-Message", handler));
+        Assertions.assertDoesNotThrow(() -> service.unSubscribe("Test-Message"));
     }
 
     private Message getMessage() {
@@ -244,7 +273,6 @@ class NatsOpenCDXMessageServiceImplTest {
 
         service.subscribe("TEST-MESSAGE", handler);
 
-        Mockito.when(this.dispatcher.unsubscribe("TEST-MESSAGE")).thenReturn(this.dispatcher);
         Mockito.when(this.jetStreamSubscription.isActive()).thenReturn(returnValue);
         Assertions.assertDoesNotThrow(() -> {
             service.unSubscribe(message);
@@ -254,6 +282,7 @@ class NatsOpenCDXMessageServiceImplTest {
     private static Stream<Arguments> createUnSubscribeParameters() {
         return Stream.of(
                 Arguments.of(true, "TEST-MESSAGE-FAIL"),
+                Arguments.of(false, "TEST-MESSAGE-FAIL"),
                 Arguments.of(true, "TEST-MESSAGE"),
                 Arguments.of(false, "TEST-MESSAGE"));
     }
