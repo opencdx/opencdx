@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@Observed(name = "opencdx")
 public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.OpenCDXDocumentValidator {
 
     private static final String DOMAIN = "MongoDocumentValidator";

@@ -58,8 +58,8 @@ class TinkarTest {
 
     @Test
     void testTinkarReply() throws JsonProcessingException {
-        TinkarReply tinkarReply =
-                TinkarReply.newBuilder().setMessage("messageT").build();
+        TinkarResponse tinkarReply =
+                TinkarResponse.newBuilder().setMessage("messageT").build();
         log.info("TinkarReply: {}", this.mapper.writeValueAsString(tinkarReply));
     }
 }

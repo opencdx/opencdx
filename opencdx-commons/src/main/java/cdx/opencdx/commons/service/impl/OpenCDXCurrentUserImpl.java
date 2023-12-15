@@ -22,6 +22,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.iam.IamUserType;
+import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @ExcludeFromJacocoGeneratedReport
 @Service
+@Observed(name = "opencdx")
 public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     private static final String CURRENT_USER_NOT_FOUND = "Current User not found: ";

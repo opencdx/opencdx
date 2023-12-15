@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
+import io.micrometer.observation.annotation.Observed;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
  * THis class is intended to supply OWASP HTML sanitizer methods
  */
 @Component
+@Observed(name = "opencdx")
 public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
 
     // Define supported policy factories

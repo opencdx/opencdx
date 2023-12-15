@@ -24,6 +24,7 @@ import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
 import cdx.opencdx.media.service.OpenCDXFileStorageService;
+import io.micrometer.observation.annotation.Observed;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,6 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @Service
 @ExcludeFromJacocoGeneratedReport
+@Observed(name = "opencdx")
 public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorageService {
     private static final String DOMAIN = "OpenCDXFileStorageLocalFileSystemImpl";
     private final Path fileStorageLocation;

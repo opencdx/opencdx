@@ -58,7 +58,8 @@ class SampleTest {
 
     @Test
     void testHelloReply() throws JsonProcessingException {
-        HelloReply helloRequest = HelloReply.newBuilder().setMessage("messageT").build();
+        HelloResponse helloRequest =
+                HelloResponse.newBuilder().setMessage("messageT").build();
         log.info("HelloReply: {}", this.mapper.writeValueAsString(helloRequest));
     }
 }

@@ -17,6 +17,7 @@ package cdx.opencdx.communications.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
+import io.micrometer.observation.annotation.Observed;
 import java.util.Map;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -26,6 +27,7 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 /**
  * Service for processing HTML templates.
  */
+@Observed(name = "opencdx")
 public class OpenCDXHTMLProcessorImpl implements OpenCDXHTMLProcessor {
 
     private TemplateEngine templateEngine;

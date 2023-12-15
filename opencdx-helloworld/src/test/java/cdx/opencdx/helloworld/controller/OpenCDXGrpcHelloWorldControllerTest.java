@@ -85,9 +85,10 @@ class OpenCDXGrpcHelloWorldControllerTest {
 
     @Test
     void sayHello() {
-        StreamObserver<HelloReply> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<HelloResponse> responseObserver = Mockito.mock(StreamObserver.class);
         HelloRequest helloRequest = HelloRequest.newBuilder().setName("Bob").build();
-        HelloReply helloReply = HelloReply.newBuilder().setMessage("Hello Bob!").build();
+        HelloResponse helloReply =
+                HelloResponse.newBuilder().setMessage("Hello Bob!").build();
 
         this.openCDXGrpcHelloWorldController.sayHello(helloRequest, responseObserver);
 

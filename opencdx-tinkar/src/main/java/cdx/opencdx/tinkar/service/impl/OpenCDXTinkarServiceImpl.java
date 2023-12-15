@@ -19,6 +19,7 @@ import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import dev.ikm.tinkar.common.service.*;
 import dev.ikm.tinkar.entity.Entity;
+import io.micrometer.observation.annotation.Observed;
 import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
  * Tinkar Service implementation
  */
 @Service
+@Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
