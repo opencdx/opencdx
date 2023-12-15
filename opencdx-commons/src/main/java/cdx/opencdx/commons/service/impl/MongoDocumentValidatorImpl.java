@@ -50,7 +50,6 @@ public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
         this.mongoTemplate = mongoTemplate;
     }
 
-
     @Override
     @Cacheable(value = "documentExists", key = "{#collectionName, #documentId}")
     public boolean documentExists(String collectionName, ObjectId documentId) {
