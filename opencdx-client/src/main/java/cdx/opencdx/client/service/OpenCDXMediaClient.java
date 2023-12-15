@@ -28,7 +28,7 @@ public interface OpenCDXMediaClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return CreateMediaResponse providing where to upload the file.
      */
-    public CreateMediaResponse createMedia(CreateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials);
+    CreateMediaResponse createMedia(CreateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials);
     /**
      * Request to delete Media
      * @param request DeleteMediaRequest with ID of media to delete.

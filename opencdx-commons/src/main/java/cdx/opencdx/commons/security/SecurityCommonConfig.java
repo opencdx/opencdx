@@ -18,10 +18,9 @@ package cdx.opencdx.commons.security;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.impl.OpenCDXUserDetailsServiceImpl;
-import java.util.Arrays;
+import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,19 +35,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @ExcludeFromJacocoGeneratedReport
 public class SecurityCommonConfig {
 
-    private final AuthenticationConfiguration configuration;
-    private JwtTokenFilter jwtTokenFilter;
-    private UserDetailsService userDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenFilter jwtTokenFilter;
+    private final UserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     /**
      * Security Common Configuration
-     * @param configuration Authentication Configuration
      * @param openCDXIAMUserRepository Repository for accessing users.
      */
-    public SecurityCommonConfig(
-            AuthenticationConfiguration configuration, OpenCDXIAMUserRepository openCDXIAMUserRepository) {
-        this.configuration = configuration;
+    public SecurityCommonConfig(OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.userDetailsService = new OpenCDXUserDetailsServiceImpl(openCDXIAMUserRepository);
         this.jwtTokenUtil = new JwtTokenUtil();
         this.jwtTokenFilter = new JwtTokenFilter(jwtTokenUtil, userDetailsService);
@@ -102,9 +97,9 @@ public class SecurityCommonConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+        corsConfiguration.setAllowedOrigins(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;

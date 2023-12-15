@@ -58,11 +58,11 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Getter
     @Setter
-    private long timeToIdle = 60000L;
+    private long timeToIdle;
 
     @Getter
     @Setter
-    private int maxEntries = MAX_ENTRIES;
+    private int maxEntries;
 
     private final ConcurrentMap<Object, CacheValue> store;
 
@@ -346,8 +346,21 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     /**
      * Wrapper object for the value stored in the map.
      */
+    @Getter
     public static class CacheValue {
+        /**
+         * -- GETTER --
+         *  Get the value.
+         *
+         * @return the value
+         */
         private final Object value;
+        /**
+         * -- GETTER --
+         *  Get the last accessed timestamp.
+         *
+         * @return the timestamp
+         */
         private volatile long lastAccessed;
         /**
          * Create a new CacheValue instance for the given value.
@@ -356,22 +369,6 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         public CacheValue(Object value) {
             this.value = value;
             updateLastAccessed();
-        }
-
-        /**
-         * Get the value.
-         * @return the value
-         */
-        public Object getValue() {
-            return value;
-        }
-
-        /**
-         * Get the last accessed timestamp.
-         * @return the timestamp
-         */
-        public long getLastAccessed() {
-            return lastAccessed;
         }
 
         /**

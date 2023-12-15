@@ -28,7 +28,7 @@ import org.springframework.security.access.annotation.Secured;
 
 /**
  * gRPC Controller for Predictor World.
- *
+ * <p>
  * This controller provides gRPC service implementations for the Neural Predictor service,
  * offering functionalities such as making predictions.
  */

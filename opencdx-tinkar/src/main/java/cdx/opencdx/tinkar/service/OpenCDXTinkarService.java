@@ -28,12 +28,12 @@ public interface OpenCDXTinkarService {
      * @param maxResultSize Integer with the maximum number of results.
      * @return Array of the found data.
      */
-    public PrimitiveDataSearchResult[] search(String query, int maxResultSize);
+    PrimitiveDataSearchResult[] search(String query, int maxResultSize);
 
     /**
      * Method to search for an NID
      * @param nid The NID to search for on the entity.
      * @return String representing the entity.
      */
-    public String getEntity(int nid);
+    String getEntity(int nid);
 }

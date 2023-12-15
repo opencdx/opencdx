@@ -32,7 +32,7 @@ public class OpenCDXMediaUpDownClientImpl implements OpenCDXMediaUpDownClient {
 
     private static final String DOMAIN = "OpenCDXMediaUpDownClient";
 
-    private WebClient webClient;
+    private final WebClient webClient;
 
     /**
      * Constructor using WebClient

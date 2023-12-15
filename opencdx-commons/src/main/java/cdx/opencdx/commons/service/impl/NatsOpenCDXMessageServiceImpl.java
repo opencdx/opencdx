@@ -149,7 +149,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      */
     @Slf4j
     protected static class NatsMessageHandler implements MessageHandler {
-        OpenCDXMessageHandler handler;
+        final OpenCDXMessageHandler handler;
 
         private final OpenCDXCurrentUser openCDXCurrentUser;
 

@@ -29,7 +29,7 @@ public interface OpenCDXFileStorageService {
      * @param fileId String identifier for file.
      * @return String indicating the filename.
      */
-    public boolean storeFile(MultipartFile file, String fileId);
+    boolean storeFile(MultipartFile file, String fileId);
 
     /**
      * Generates response with the file to return.

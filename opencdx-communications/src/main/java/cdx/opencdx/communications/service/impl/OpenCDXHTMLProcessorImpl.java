@@ -30,8 +30,7 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 @Observed(name = "opencdx")
 public class OpenCDXHTMLProcessorImpl implements OpenCDXHTMLProcessor {
 
-    private TemplateEngine templateEngine;
-    private StringTemplateResolver templateResolver;
+    private final TemplateEngine templateEngine;
 
     /**
      * Constructor to initialize HTML Processor with Thymeleaf template engine.
@@ -39,8 +38,7 @@ public class OpenCDXHTMLProcessorImpl implements OpenCDXHTMLProcessor {
      */
     public OpenCDXHTMLProcessorImpl() {
         this.templateEngine = new SpringTemplateEngine();
-        this.templateResolver = new StringTemplateResolver();
-        templateEngine.setTemplateResolver(templateResolver);
+        templateEngine.setTemplateResolver(new StringTemplateResolver());
     }
 
     /**

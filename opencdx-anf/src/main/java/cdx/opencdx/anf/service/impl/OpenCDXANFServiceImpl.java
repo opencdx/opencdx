@@ -56,7 +56,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
      * @param openCDXAuditService           Audit service for tracking FDA requirements
      * @param openCDXCurrentUser            Current User Service.
      * @param openCDXANFStatementRepository Repository for ANF Statements
-     * @param objectMapper
+     * @param objectMapper                Object Mapper for converting objects to JSON
      */
     @Autowired
     public OpenCDXANFServiceImpl(
@@ -108,7 +108,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Accessed ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    ANF_STATEMENT + UUID.randomUUID().toString(),
+                    ANF_STATEMENT + UUID.randomUUID(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {

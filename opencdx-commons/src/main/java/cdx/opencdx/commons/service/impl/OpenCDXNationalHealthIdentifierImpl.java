@@ -43,8 +43,6 @@ public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealt
         }
 
         throw new OpenCDXNotAcceptable(
-                "OpenCDXNationalHealthIdentifierImpl",
-                1,
-                "AgentTypes of: " + userModel.getType().toString());
+                "OpenCDXNationalHealthIdentifierImpl", 1, "AgentTypes of: " + userModel.getType());
     }
 }

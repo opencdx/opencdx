@@ -20,6 +20,7 @@ import com.google.rpc.Code;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,7 +39,13 @@ public class OpenCDXClientException extends RuntimeException {
 
     /**
      * Google Code for gRPC assigned to this excepiton.
+     * -- GETTER --
+     *  The Google Code for this exception.
+     *
+     * @return The Google Code for this exception.
+     *
      */
+    @Getter
     private final Code code;
     /**
      * Domain this exception was created in.
@@ -76,13 +83,5 @@ public class OpenCDXClientException extends RuntimeException {
     @Override
     public String toString() {
         return String.format("OPENCDX-%s-%d - %s", this.domain, this.number, super.toString());
-    }
-
-    /**
-     * The Google Code for this exception.
-     * @return The Google Code for this exception.
-     */
-    public Code getCode() {
-        return code;
     }
 }

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
 
     // Define supported policy factories
-    private PolicyFactory defaultPolicy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+    private final PolicyFactory defaultPolicy;
 
     /**
      * Constructor for the OWasp HTML Sanitizer

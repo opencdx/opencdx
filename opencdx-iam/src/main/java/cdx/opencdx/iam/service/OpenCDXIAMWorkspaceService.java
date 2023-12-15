@@ -27,25 +27,25 @@ public interface OpenCDXIAMWorkspaceService {
      * @param request CreateWorkspaceRequest for new workspace.
      * @return CreateWorkspaceResponse with the new workspace created.
      */
-    public CreateWorkspaceResponse createWorkspace(CreateWorkspaceRequest request);
+    CreateWorkspaceResponse createWorkspace(CreateWorkspaceRequest request);
 
     /**
      * Method to get a specific workspace.
      * @param request GetWorkspaceDetailsByIdRequest for workspace to get.
      * @return GetWorkspaceDetailsByIdResponse with the workspace.
      */
-    public GetWorkspaceDetailsByIdResponse getWorkspaceDetailsById(GetWorkspaceDetailsByIdRequest request);
+    GetWorkspaceDetailsByIdResponse getWorkspaceDetailsById(GetWorkspaceDetailsByIdRequest request);
 
     /**
      * Method to update a workspace.
      * @param request UpdateWorkspaceRequest for a workspace to be updated.
      * @return UpdateOrganizationResponse with the updated workspace.
      */
-    public UpdateWorkspaceResponse updateWorkspace(UpdateWorkspaceRequest request);
+    UpdateWorkspaceResponse updateWorkspace(UpdateWorkspaceRequest request);
 
     /**
      * Method to get the list of workspace.
      * @return ListWorkspacesResponse with all the workspace.
      */
-    public ListWorkspacesResponse listWorkspaces();
+    ListWorkspacesResponse listWorkspaces();
 }
