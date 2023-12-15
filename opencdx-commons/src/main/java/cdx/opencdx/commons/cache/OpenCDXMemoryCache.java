@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.cache;
 
+import io.micrometer.observation.annotation.Observed;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
@@ -49,6 +50,7 @@ import org.springframework.util.Assert;
  * @see org.springframework.cache.support.SimpleCacheManager
  * @see org.springframework.cache.concurrent.ConcurrentMapCacheManager
  */
+@Observed(name = "opencdx")
 public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     private static final int MAX_ENTRIES = 1000;

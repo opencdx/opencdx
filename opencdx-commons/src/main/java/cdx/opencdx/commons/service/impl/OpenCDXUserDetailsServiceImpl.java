@@ -20,6 +20,7 @@ import cdx.opencdx.commons.dto.OpenCDXUserDetails;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.grpc.iam.IamUserStatus;
+import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,6 +32,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * OpenCDX User Details Service for IAM
  */
 @Slf4j
+@Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXUserDetailsServiceImpl implements UserDetailsService {
 

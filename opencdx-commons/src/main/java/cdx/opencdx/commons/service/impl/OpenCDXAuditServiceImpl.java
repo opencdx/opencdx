@@ -28,7 +28,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * OpenCDX-Audit based implementation of OpenCDXOpenCDXAuditService
+ * This class is an implementation of the OpenCDXAuditService interface.
+ * It provides methods for auditing user actions in the OpenCDX system.
+ * The class uses an OpenCDXMessageService to send audit events.
+ *
+ * The class is annotated with the @Service annotation to indicate that it is a service component.
+ * It is also annotated with the @Observed(name = "opencdx") annotation to specify the name of the observer for the audit events.
  */
 @Slf4j
 @Service

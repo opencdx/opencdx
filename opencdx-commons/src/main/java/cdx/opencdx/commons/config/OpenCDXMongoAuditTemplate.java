@@ -18,6 +18,7 @@ package cdx.opencdx.commons.config;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
+import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ import org.springframework.data.mongodb.core.query.Update;
  * record sent to Mongo.
  */
 @Slf4j
+@Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
