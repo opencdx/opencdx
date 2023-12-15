@@ -50,9 +50,9 @@ public class OpenCDXGrpcHelloWorldController extends GreeterGrpc.GreeterImplBase
      */
     @Secured({})
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+    public void sayHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 
-        HelloReply reply = HelloReply.newBuilder()
+        HelloResponse reply = HelloResponse.newBuilder()
                 .setMessage(this.openCDXHelloWorldService.sayHello(request))
                 .build();
 

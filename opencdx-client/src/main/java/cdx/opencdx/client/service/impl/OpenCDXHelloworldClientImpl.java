@@ -19,8 +19,8 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXHelloworldClient;
 import cdx.opencdx.grpc.helloworld.GreeterGrpc;
-import cdx.opencdx.grpc.helloworld.HelloReply;
 import cdx.opencdx.grpc.helloworld.HelloRequest;
+import cdx.opencdx.grpc.helloworld.HelloResponse;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
@@ -81,7 +81,7 @@ public class OpenCDXHelloworldClientImpl implements OpenCDXHelloworldClient {
     public String sayHello(String name, OpenCDXCallCredentials openCDXCallCredentials) throws OpenCDXClientException {
 
         try {
-            HelloReply helloReply = greeterBlockingStub
+            HelloResponse helloReply = greeterBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .sayHello(HelloRequest.newBuilder().setName(name).build());
 
