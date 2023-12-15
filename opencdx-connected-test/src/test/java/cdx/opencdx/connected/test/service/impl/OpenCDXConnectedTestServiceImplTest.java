@@ -158,6 +158,16 @@ class OpenCDXConnectedTestServiceImplTest {
     }
 
     @Test
+    void submitTest_fail2() {
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest =
+                ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance()).build();
+        Assertions.assertThrows(
+                OpenCDXFailedPrecondition.class, () -> this.openCDXConnectedTestService.submitTest(connectedTest));
+    }
+
+    @Test
     void submitTestFail() throws JsonProcessingException {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
