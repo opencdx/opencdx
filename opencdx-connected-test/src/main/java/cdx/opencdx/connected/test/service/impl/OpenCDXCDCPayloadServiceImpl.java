@@ -41,6 +41,9 @@ import org.bson.types.ObjectId;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for creating CDC payloads
+ */
 @Service
 @Slf4j
 @Observed(name = "opencdx")
@@ -60,6 +63,15 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
     private final OpenCDXMessageService openCDXMessageService;
 
+    /**
+     * Constructor with OpenCDXCDCPayloadServiceImpl
+     *
+     * @param openCDXConnectedTestRepository Mongo Repository for OpenCDXConnectedTest
+     * @param openCDXIAMUserRepository       Mongo repository to look up patient info
+     * @param openCDXDeviceRepository        Mongo repository to look up device info
+     * @param openCDXManufacturerRepository  Mongo repository to look up manufacturer info
+     * @param openCDXMessageService          Message Service for sending CDC message
+     */
     public OpenCDXCDCPayloadServiceImpl(
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,

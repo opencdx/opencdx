@@ -23,6 +23,9 @@ import cdx.opencdx.communications.service.OpenCDXCDCMessageService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Message Handler for processing and sending CDC messages.
+ */
 @Slf4j
 @Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport

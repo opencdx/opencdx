@@ -51,6 +51,13 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
     private final String cdcClient;
     private final String cdcKey;
 
+    /**
+     * Constructor taking some repositories
+     *
+     * @param uri        CDC Message URI
+     * @param client     CDC Message Client header
+     * @param key        CDC Message key
+     */
     @Autowired
     public OpenCDXCDCMessageServiceImpl(
             @Value("${cdc.message.uri}") String uri,
