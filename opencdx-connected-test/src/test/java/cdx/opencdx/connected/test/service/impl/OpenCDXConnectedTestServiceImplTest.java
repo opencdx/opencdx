@@ -146,15 +146,15 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build(),
                 this.openCDXConnectedTestService.submitTest(connectedTest));
     }
+
     @Test
     void submitTest_fail() {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
-        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
-                .build();
+        ConnectedTest connectedTest =
+                ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance()).build();
         Assertions.assertThrows(
-                OpenCDXFailedPrecondition.class, () ->
-                this.openCDXConnectedTestService.submitTest(connectedTest));
+                OpenCDXFailedPrecondition.class, () -> this.openCDXConnectedTestService.submitTest(connectedTest));
     }
 
     @Test
