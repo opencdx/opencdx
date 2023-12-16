@@ -15,11 +15,13 @@
  */
 package cdx.opencdx.questionnaire.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -42,7 +44,7 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    OpenCDXQuestionnaireService openCDXQuestionnaireService;
+    OpenCDXQuestionnaireService questionnaireService;
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
@@ -57,7 +59,7 @@ class OpenCDXQuestionnaireServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.openCDXQuestionnaireService =
+        this.questionnaireService =
                 new OpenCDXQuestionnaireServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
     }
 
@@ -67,8 +69,22 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testSubmitQuestionnaire() {
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder().build();
-        SubmissionResponse response = this.openCDXQuestionnaireService.submitQuestionnaire(request);
+        SubmissionResponse response = this.questionnaireService.submitQuestionnaire(request);
 
         Assertions.assertEquals(true, response.getSuccess());
+    }
+
+    @Test
+    void testSubmitQuestionnaireFail() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService =
+                new OpenCDXQuestionnaireServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+
+        QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.submitQuestionnaire(request));
     }
 }
