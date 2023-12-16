@@ -128,6 +128,9 @@ service QuestionnaireService {
 
   rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at client level.
   rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at client level.
+
+  rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at User level.
+  rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at User level.
 }
 
 /*
@@ -142,7 +145,7 @@ message SubmissionResponse {
  * Represents a request to submit a FHIR questionnaire.
  */
 message QuestionnaireRequest {
-  optional Questionnaire questionnaire = 1; // The questionnaire to be submitted.
+  Questionnaire questionnaire = 1; // The questionnaire to be submitted.
 }
 
 message QuestionnaireDataRequest {
