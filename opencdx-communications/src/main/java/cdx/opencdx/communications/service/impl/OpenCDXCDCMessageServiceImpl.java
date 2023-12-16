@@ -62,9 +62,11 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
     }
 
     @Override
-    public boolean sendCDCMessage(String message) {
+    public void sendCDCMessage(String message) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            if (!StringUtils.hasLength(message)) return false;
+            if (!StringUtils.hasLength(message)) {
+                throw new OpenCDXBadRequest(DOMAIN, 1, "Cannot send Empty message");
+            }
 
             URIBuilder uriBuilder = new URIBuilder(cdcUri);
 
@@ -94,17 +96,15 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_CREATED) {
                 throw new OpenCDXInternalServerError(
                         DOMAIN,
-                        1,
+                        2,
                         "Exception sending CDC message "
                                 + response.getStatusLine().toString() + " " + EntityUtils.toString(responseEntity));
             }
             log.info("FHIR resource bundle sent.");
-
-            return true;
         } catch (URISyntaxException e) {
-            throw new OpenCDXBadRequest(DOMAIN, 1, "Invalid URL Syntax");
+            throw new OpenCDXBadRequest(DOMAIN, 3, "Invalid URL Syntax");
         } catch (IOException e) {
-            throw new OpenCDXBadRequest(DOMAIN, 2, "IOException in sending CDC message");
+            throw new OpenCDXBadRequest(DOMAIN, 4, "IOException in sending CDC message");
         }
     }
 }

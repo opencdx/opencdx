@@ -22,7 +22,6 @@ public interface OpenCDXCDCMessageService {
     /**
      * Method to send CDC Notification
      * @param message Content of the CDC notification
-     * @return boolean indicating if successful.
      */
-    boolean sendCDCMessage(String message);
+    void sendCDCMessage(String message);
 }

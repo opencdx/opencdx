@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.communications.service.impl;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
@@ -67,7 +67,10 @@ class OpenCDXCDCMessageServiceImplTest {
 
     @Test
     void testSendCDCMessageNull() throws JsonProcessingException {
-        Assertions.assertFalse(openCDXCDCMessageService.sendCDCMessage(null));
+        Assertions.assertThrows(
+                OpenCDXBadRequest.class,
+                () -> openCDXCDCMessageService.sendCDCMessage(null),
+                "Cannot send Empty message");
     }
 
     @Test
@@ -78,7 +81,13 @@ class OpenCDXCDCMessageServiceImplTest {
             when(response.getEntity()).thenReturn(responseEntity);
             when(response.getStatusLine()).thenReturn(statusLine);
             when(statusLine.getStatusCode()).thenReturn(HttpStatus.SC_CREATED);
-            Assertions.assertTrue(openCDXCDCMessageService.sendCDCMessage("CDC Message"));
+
+            openCDXCDCMessageService.sendCDCMessage("CDC Message");
+
+            verify(httpClient).execute(Mockito.any(HttpUriRequest.class));
+            verify(response).getEntity();
+            verify(response).getStatusLine();
+            verify(statusLine).getStatusCode();
         }
     }
 
@@ -90,8 +99,14 @@ class OpenCDXCDCMessageServiceImplTest {
             when(response.getEntity()).thenReturn(responseEntity);
             when(response.getStatusLine()).thenReturn(statusLine);
             when(statusLine.getStatusCode()).thenReturn(HttpStatus.SC_BAD_REQUEST);
+
             Assertions.assertThrows(
                     OpenCDXInternalServerError.class, () -> openCDXCDCMessageService.sendCDCMessage("CDC Message"));
+
+            verify(httpClient).execute(Mockito.any(HttpUriRequest.class));
+            verify(response).getEntity();
+            verify(response, times(2)).getStatusLine();
+            verify(statusLine).getStatusCode();
         }
     }
 
@@ -101,7 +116,9 @@ class OpenCDXCDCMessageServiceImplTest {
         try (MockedStatic<HttpClients> httpClients = Mockito.mockStatic(HttpClients.class)) {
             httpClients.when(HttpClients::createDefault).thenReturn(httpClient);
             Assertions.assertThrows(
-                    OpenCDXBadRequest.class, () -> openCDXCDCMessageService.sendCDCMessage("CDC Message"));
+                    OpenCDXBadRequest.class,
+                    () -> openCDXCDCMessageService.sendCDCMessage("CDC Message"),
+                    "Invalid URL Syntax");
         }
     }
 
@@ -110,8 +127,13 @@ class OpenCDXCDCMessageServiceImplTest {
         try (MockedStatic<HttpClients> httpClients = Mockito.mockStatic(HttpClients.class)) {
             httpClients.when(HttpClients::createDefault).thenReturn(httpClient);
             when(httpClient.execute(Mockito.any(HttpUriRequest.class))).thenThrow(IOException.class);
+
             Assertions.assertThrows(
-                    OpenCDXBadRequest.class, () -> openCDXCDCMessageService.sendCDCMessage("CDC Message"));
+                    OpenCDXBadRequest.class,
+                    () -> openCDXCDCMessageService.sendCDCMessage("CDC Message"),
+                    "IOException in sending CDC message");
+
+            verify(httpClient).execute(Mockito.any(HttpUriRequest.class));
         }
     }
 }

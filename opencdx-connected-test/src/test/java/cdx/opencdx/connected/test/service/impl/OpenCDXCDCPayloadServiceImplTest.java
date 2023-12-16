@@ -113,6 +113,43 @@ class OpenCDXCDCPayloadServiceImplTest {
         openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
 
         verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXIAMUserRepository).findById(new ObjectId(patientId));
+        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
+        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
+    }
+
+    @Test
+    void testSendCDCPayloadMessage2() {
+        String testId = ObjectId.get().toHexString();
+        String patientId = ObjectId.get().toHexString();
+        String deviceId = ObjectId.get().toHexString();
+        String manufacturerId = ObjectId.get().toHexString();
+        String vendorId = ObjectId.get().toHexString();
+        String countryId = ObjectId.get().toHexString();
+
+        OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
+        openCDXConnectedTestModel.setTestDetails(
+                TestDetails.newBuilder().setDeviceIdentifier(deviceId).build());
+        OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
+        openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
+        OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        openCDXDeviceModel.setExpiryDate(null);
+        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(
+                Manufacturer.newBuilder().setId(manufacturerId).build());
+
+        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
+                .thenReturn(Optional.of(openCDXConnectedTestModel));
+        when(openCDXIAMUserRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(openCDXIAMUserModel));
+        when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.of(openCDXDeviceModel));
+        when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
+                .thenReturn(Optional.of(openCDXManufacturerModel));
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
+
+        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXIAMUserRepository).findById(new ObjectId(patientId));
+        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
+        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
     }
 
     @Test
@@ -123,10 +160,14 @@ class OpenCDXCDCPayloadServiceImplTest {
         when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
                 .thenReturn(Optional.of(createTest(testId, patientId, deviceId)));
         when(openCDXIAMUserRepository.findById(new ObjectId(patientId))).thenReturn(Optional.empty());
+
         Assertions.assertThrows(
                 OpenCDXNotFound.class,
                 () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
                 "Failed to find patient: " + patientId);
+
+        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXIAMUserRepository).findById(new ObjectId(patientId));
     }
 
     @Test
@@ -144,14 +185,24 @@ class OpenCDXCDCPayloadServiceImplTest {
         String testId = ObjectId.get().toHexString();
         String patientId = ObjectId.get().toHexString();
         String deviceId = ObjectId.get().toHexString();
+
+        OpenCDXIAMUserModel patient = createUser(patientId);
+        patient.setFullName(null);
+        patient.setPrimaryContactInfo(null);
+
         when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
                 .thenReturn(Optional.of(createTest(testId, patientId, deviceId)));
-        when(openCDXIAMUserRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(createUser(patientId)));
+        when(openCDXIAMUserRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(patient));
         when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.empty());
+
         Assertions.assertThrows(
                 OpenCDXNotFound.class,
                 () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
                 "Failed to find device: " + deviceId);
+
+        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXIAMUserRepository).findById(new ObjectId(patientId));
+        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
     }
 
     @Test
@@ -169,10 +220,16 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(Optional.of(createDevice(deviceId, manufacturerId, vendorId, countryId)));
         when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
                 .thenReturn(Optional.empty());
+
         Assertions.assertThrows(
                 OpenCDXNotFound.class,
                 () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
                 "Failed to find manufacturer: " + manufacturerId);
+
+        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXIAMUserRepository).findById(new ObjectId(patientId));
+        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
+        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
     }
 
     private OpenCDXConnectedTestModel createTest(String testId, String userId, String deviceId) {
