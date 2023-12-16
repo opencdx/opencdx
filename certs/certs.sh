@@ -71,6 +71,7 @@ generate_certificate "Discovery"
 generate_certificate "Routine"
 generate_certificate "Predictor"
 generate_certificate "Protector"
+generate_certificate "Classification"
 generate_certificate "ANF"
 
 # Generate certificates for MongoDB

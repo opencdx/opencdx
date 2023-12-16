@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+enum SpecimenType {
+    BLOOD = 0;
+    SWAB = 1;
+    URINE = 2;
+}
+
+enum SeverityLevel {
+    LOW = 0;
+    MEDIUM = 1;
+    HIGH = 2;
+}
+
+message Location {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message Interpretation {
+    map<string, string> positive = 1;
+    map<string, string> negative = 2;
+}
+
+message TestKit {
+    string name = 1;
+    string target_disease = 2;
+    SpecimenType specimen_type = 3;
+    string procedure = 4;
+    Interpretation interpretation_guide = 5;
+    string brand = 6;
+    string approval_status = 7;
+    float accuracy = 8;
+    int32 test_duration = 9;
+}
+
+message Symptom {
+    string name = 1;
+    SeverityLevel severity = 2;
+    string onset_date = 3 [(google.protobuf.field_option).((validate.rules).string).pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"];
+    int32 duration = 4;
+    string additional_details = 5;
+}
+
+message UserAnswer {
+    int32 test_kit_id = 1;
+    repeated Symptom symptoms = 2;
+    oneof result {
+        bytes image_data = 3;
+        string text_result = 9;
+    }
+    int32 age = 4;
+    string gender = 5;
+    string medical_conditions = 6;
+    string pregnancy_status = 7;
+    string language_preference = 8;
+    Location user_location = 10;
+}
+
+message ClassificationResult {
+    string test_kit_name = 1;
+    float confidence = 2;
+    float positive_probability = 3;
+    string message = 4;
+    string availability = 5;
+    float cost = 6;
+    string further_actions = 7;
+    repeated TestKit alternative_options = 8;
+    string feedback_url = 9;
+    google.protobuf.Timestamp timestamp = 10;
+    string user_id = 11;
+}
