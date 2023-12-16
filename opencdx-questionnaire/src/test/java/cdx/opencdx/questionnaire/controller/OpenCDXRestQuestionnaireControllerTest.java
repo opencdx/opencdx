@@ -80,7 +80,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testSubmitQuestionnaire() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/hello2")
+                .perform(post("/submitquestionnaire")
                         .content(
                                 "{\"questionnaire\": { \"title\": \"Your Questionnaire Title\", \"status\": \"draft\"}}")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

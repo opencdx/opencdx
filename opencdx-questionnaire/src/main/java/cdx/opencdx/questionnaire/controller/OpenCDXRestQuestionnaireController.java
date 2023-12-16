@@ -53,7 +53,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/hello2")
+    @PostMapping(value = "/submitquestionnaire")
     public ResponseEntity<SubmissionResponse> submitQuestionnaire(@RequestBody QuestionnaireRequest request) {
 
         return new ResponseEntity<>(
