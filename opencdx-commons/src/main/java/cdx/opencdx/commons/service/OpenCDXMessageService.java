@@ -34,6 +34,11 @@ public interface OpenCDXMessageService {
     String NOTIFICATION_MESSAGE_SUBJECT = "opencdx.communication.notification.message";
 
     /**
+     * OpenCDXMessage Subject for CDC Payload messages
+     */
+    public static final String CDC_MESSAGE_SUBJECT = "opencdx.communication.cdc.notification.message";
+
+    /**
      * Subscribe to a message subject and the handlers for received those messages
      * for processing.
      * @param subject String indicating the subject to subscribe to.
