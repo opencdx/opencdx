@@ -13,7 +13,7 @@ enum TemplateType {
   TEMPLATE_TYPE_NEWSLETTER = 3; //Template is a newsletter.
   TEMPLATE_TYPE_ALERT = 4; // Template is an alert.
   TEMPLATE_TYPE_REMINDER = 5; // Template is a reminder.
-  TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmaiton.
+  TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmation.
 }
 
 // Indicates the status of the Notification

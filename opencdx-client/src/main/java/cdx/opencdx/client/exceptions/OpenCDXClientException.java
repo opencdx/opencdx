@@ -39,11 +39,6 @@ public class OpenCDXClientException extends RuntimeException {
 
     /**
      * Google Code for gRPC assigned to this excepiton.
-     * -- GETTER --
-     *  The Google Code for this exception.
-     *
-     * @return The Google Code for this exception.
-     *
      */
     @Getter
     private final Code code;

@@ -42,24 +42,15 @@ public abstract class OpenCDXException extends RuntimeException {
      * Signature for OpenCDx exceptions
      */
     private static final String OPENCDX_SIGNATURE = "OPENCDX-{}-{} - {}";
+
     /**
-     * HttpStatus assigned to this exception
-     * -- GETTER --
-     *  The Httpstatus for this exception.
-     *
-     * @return The Httpstatus for this exception.
-     *
+     * Status for the exception
      */
     @Getter
     private final HttpStatus status;
 
     /**
-     * Google Code for gRPC assigned to this excepiton.
-     * -- GETTER --
-     *  The Google Code for this exception.
-     *
-     * @return The Google Code for this exception.
-     *
+     * Code for the exception
      */
     @Getter
     private final Code code;
@@ -74,16 +65,6 @@ public abstract class OpenCDXException extends RuntimeException {
 
     /**
      * MetaData that can be passed in this exception for any relevant data.
-     * -- SETTER --
-     *  Sets the Metadata for this exception
-     *
-     *
-     * -- GETTER --
-     *  Get the MetaData
-     *
-     * @param metaData Map consisting of the MetaData
-     * @return currently specified MetaData
-     *
      */
     @Getter
     @Setter
