@@ -71,11 +71,11 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             this.openCDXAuditService.phiCreated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Authorization Control record",
+                    "User Form Data Submission",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
                     currentUser.getNationalHealthId(),
-                    "AUTHORIZATION_CONTROL: 145",
+                    "AUTHORIZATION_CONTROL: 131",
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -84,6 +84,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
+        
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("submitQuestionnaire Executed")
