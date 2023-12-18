@@ -3,7 +3,7 @@ import { createContext, useEffect, useReducer } from 'react';
 
 // third-party
 import { Chance } from 'chance';
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 
 // reducer - state management
 import { LOGIN, LOGOUT } from 'store/actions';
@@ -22,16 +22,16 @@ const initialState = {
     user: null
 };
 
-const verifyToken = (serviceToken) => {
-    if (!serviceToken) {
-        return false;
-    }
-    const decoded = jwtDecode(serviceToken);
-    /**
-     * Property 'exp' does not exist on type '<T = unknown>(token, options?: JwtDecodeOptions | undefined) => T'.
-     */
-    return decoded.exp > Date.now() / 1000;
-};
+// const verifyToken = (serviceToken) => {
+//     if (!serviceToken) {
+//         return false;
+//     }
+//     const decoded = jwtDecode(serviceToken);
+//     /**
+//      * Property 'exp' does not exist on type '<T = unknown>(token, options?: JwtDecodeOptions | undefined) => T'.
+//      */
+//     return decoded.exp > Date.now() / 1000;
+// };
 
 const setSession = (serviceToken) => {
     if (serviceToken) {
@@ -51,30 +51,33 @@ export const JWTProvider = ({ children }) => {
 
     useEffect(() => {
         const init = async () => {
-            try {
-                const serviceToken = window.localStorage.getItem('serviceToken');
-                if (serviceToken && verifyToken(serviceToken)) {
-                    setSession(serviceToken);
-                    const response = await axios.get('/api/account/me');
-                    const { user } = response.data;
-                    dispatch({
-                        type: LOGIN,
-                        payload: {
-                            isLoggedIn: true,
-                            user
-                        }
-                    });
-                } else {
-                    dispatch({
-                        type: LOGOUT
-                    });
-                }
-            } catch (err) {
-                console.error(err);
-                dispatch({
-                    type: LOGOUT
-                });
-            }
+            // try {
+            //     const serviceToken = window.localStorage.getItem('serviceToken');
+            //     if (serviceToken && verifyToken(serviceToken)) {
+            //         setSession(serviceToken);
+            //         const response = await axios.get('/api/account/me');
+            //         const { user } = response.data;
+            //         dispatch({
+            //             type: LOGIN,
+            //             payload: {
+            //                 isLoggedIn: true,
+            //                 user
+            //             }
+            //         });
+            //     } else {
+            //         dispatch({
+            //             type: LOGOUT
+            //         });
+            //     }
+            // } catch (err) {
+            //     console.error(err);
+            //     dispatch({
+            //         type: LOGOUT
+            //     });
+            // }
+            dispatch({
+                type: LOGOUT
+            });
         };
 
         init();
@@ -82,6 +85,7 @@ export const JWTProvider = ({ children }) => {
 
     const login = async (email, password) => {
         const response = await axios.post('/api/account/login', { email, password });
+        // const response = await axios.post('/iam/user/login', { email, password });
         const { serviceToken, user } = response.data;
         setSession(serviceToken);
         dispatch({
@@ -96,12 +100,13 @@ export const JWTProvider = ({ children }) => {
     const register = async (email, password, firstName, lastName) => {
         // todo: this flow need to be recode as it not verified
         const id = chance.bb_pin();
-        const response = await axios.post('/api/account/register', {
-            id,
-            email,
-            password,
-            firstName,
-            lastName
+        const response = await axios.post('/iam/user/signup ', {
+            "type": "IAM_USER_TYPE_REGULAR",
+            "firstName": "Karthick",
+            "lastName": "Raja",
+            "systemName": "System Name",
+            "username": "karthick@safehealth.me",
+            "password": "password"
         });
         let users = response.data;
 

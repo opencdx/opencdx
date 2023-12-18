@@ -163,5 +163,7 @@
     "discovery": "Discovery",
     "template": "Template",
     "email": "Email Template",
-    "sms": "SMS Template"
+    "sms": "SMS Template",
+    "view-profile": "View Profile",
+    "edit-profile": "Edit Profile"
 }

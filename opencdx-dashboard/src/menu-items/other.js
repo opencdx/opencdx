@@ -54,7 +54,7 @@ const other = {
             title: <FormattedMessage id="login" />,
             type: 'item',
             target: true,
-            url: '/',
+            url: '/login',
 
         },
         {
