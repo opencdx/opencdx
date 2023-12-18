@@ -1,5 +1,6 @@
 syntax = "proto3";
-
+option java_multiple_files = true;
+package cdx.opencdx.grpc.provider;
 // Importing the timestamp proto package
 import "google/protobuf/timestamp.proto";
 
