@@ -18,6 +18,7 @@ package cdx.opencdx.connected.test.controller;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
@@ -50,6 +51,9 @@ class OpenCDXGrpcDeviceControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
 
@@ -77,7 +81,11 @@ class OpenCDXGrpcDeviceControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXDeviceService = new OpenCDXDeviceServiceImpl(
-                this.openCDXDeviceRepository, openCDXCurrentUser, objectMapper, this.openCDXAuditService);
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                objectMapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         this.openCDXGrpcDeviceController = new OpenCDXGrpcDeviceController(this.openCDXDeviceService);
     }
 

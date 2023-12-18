@@ -16,6 +16,7 @@
 package cdx.opencdx.connected.test.repository;
 
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
+import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Repository;
  * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
  */
 @Repository
+@Observed(name = "opencdx")
 @SuppressWarnings("java:S100")
 public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTestModel, ObjectId> {
     /**

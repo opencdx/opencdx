@@ -43,7 +43,7 @@ public class OpenCDXConnectedTestModel {
     private ObjectId id;
 
     private ObjectId userId;
-    private Integer nationalHealthId;
+    private String nationalHealthId;
 
     private BasicInfo basicInfo;
     private OrderInfo orderInfo;

@@ -18,18 +18,68 @@ package cdx.opencdx.commons.service;
 import java.util.List;
 import org.bson.types.ObjectId;
 
+/**
+ * Service for validating documents
+ */
 public interface OpenCDXDocumentValidator {
-    boolean isCollectionExists(String collectionName);
 
+    /**
+     * Check if a document exists
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentId     Id of the document to check
+     * @return True if the document exists, false otherwise
+     */
     boolean documentExists(String collectionName, ObjectId documentId);
 
+    /**
+     * Check if a document exists, if it does not log a warning
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentId     Id of the document to check
+     * @return True if the document exists, false otherwise
+     */
     boolean validateDocumentOrLog(String collectionName, ObjectId documentId);
 
+    /**
+     * Check if a document exists, if it does not throw an exception
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentId     Id of the document to check
+     */
     void validateDocumentOrThrow(String collectionName, ObjectId documentId);
 
+    /**
+     * Check if a list of documents exists
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentIds    Ids of the documents to check
+     * @return True if all documents exist, false otherwise
+     */
     boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds);
 
+    /**
+     * Check if a list of documents exists, if it does not log a warning
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentIds    Ids of the documents to check
+     * @return True if all documents exist, false otherwise
+     */
     boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds);
 
+    /**
+     * Check if a list of documents exists, if it does not throw an exception
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentIds    Ids of the documents to check
+     */
     void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds);
+
+    /**
+     * Check if a document exists in an organization workspace if it doesn it throws an exception
+     *
+     * @param organization Organization ID
+     * @param workspace    Workspace ID
+     */
+    void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace);
 }

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.aspects;
 
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,6 +29,7 @@ import org.springframework.core.annotation.Order;
  */
 @Slf4j
 @Aspect
+@Observed(name = "opencdx")
 @EnableAspectJAutoProxy
 public class RetryAspect {
 

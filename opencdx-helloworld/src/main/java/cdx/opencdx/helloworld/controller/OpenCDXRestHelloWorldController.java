@@ -54,10 +54,10 @@ public class OpenCDXRestHelloWorldController {
      * @return HelloReply with the hello message.
      */
     @PostMapping(value = "/hello")
-    public ResponseEntity<HelloReply> sayHello(@RequestBody HelloRequest request) {
+    public ResponseEntity<HelloResponse> sayHello(@RequestBody HelloRequest request) {
 
         return new ResponseEntity<>(
-                HelloReply.newBuilder()
+                HelloResponse.newBuilder()
                         .setMessage(openCDXHelloWorldService.sayHello(request))
                         .build(),
                 HttpStatus.OK);

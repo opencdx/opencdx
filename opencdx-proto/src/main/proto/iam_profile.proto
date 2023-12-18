@@ -100,7 +100,7 @@ message Address {
   string city = 2; // City
   string state = 3; // State or region
   string postal_code = 4; // Postal code
-  string country = 5; // Country code
+  string country = 5; // Country ID
 }
 
 // User's communication preferences.

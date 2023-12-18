@@ -34,10 +34,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -124,6 +120,7 @@ public class CommonsConfig {
      * @param natsConnection NATS Connection
      * @param objectMapper Object Mapper to use.
      * @param applicationName Name of the service.
+     * @param openCDXCurrentUser Current User Service
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")
@@ -177,6 +174,7 @@ public class CommonsConfig {
 
     @Bean
     @Profile("!test")
+    @ExcludeFromJacocoGeneratedReport
     @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
     OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
         log.info("Creating Mongo Document Validator");

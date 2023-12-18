@@ -41,8 +41,8 @@ public class OpenCDXMediaModel {
     private ObjectId id;
 
     Instant updated;
-    String organization;
-    String workspace;
+    ObjectId organization;
+    ObjectId workspace;
     String name;
     String shortDescription;
     String description;
@@ -76,8 +76,8 @@ public class OpenCDXMediaModel {
             this.updated = Instant.now();
         }
 
-        this.organization = media.getOrganizationSlug();
-        this.workspace = media.getWorkspaceSlug();
+        this.organization = new ObjectId(media.getOrganizationId());
+        this.workspace = new ObjectId(media.getWorkspaceId());
         this.name = media.getName();
         this.shortDescription = media.getShortDescription();
         this.description = media.getDescription();
@@ -123,10 +123,10 @@ public class OpenCDXMediaModel {
                     .build());
         }
         if (this.organization != null) {
-            builder.setOrganizationSlug(this.organization);
+            builder.setOrganizationId(this.organization.toHexString());
         }
         if (this.workspace != null) {
-            builder.setWorkspaceSlug(this.workspace);
+            builder.setWorkspaceId(this.workspace.toHexString());
         }
         if (this.name != null) {
             builder.setName(this.name);

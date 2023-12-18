@@ -27,25 +27,25 @@ public interface OpenCDXIAMOrganizationService {
      * @param request CreateOrganizationRequest for new organization.
      * @return CreateOrganizationResponse with the new organization created.
      */
-    public CreateOrganizationResponse createOrganization(CreateOrganizationRequest request);
+    CreateOrganizationResponse createOrganization(CreateOrganizationRequest request);
 
     /**
      * Method to get a specific organization.
      * @param request GetOrganizationDetailsByIdRequest for organization to get.
      * @return GetOrganizationDetailsByIdResponse with the organization.
      */
-    public GetOrganizationDetailsByIdResponse getOrganizationDetailsById(GetOrganizationDetailsByIdRequest request);
+    GetOrganizationDetailsByIdResponse getOrganizationDetailsById(GetOrganizationDetailsByIdRequest request);
 
     /**
      * Method to update an organization.
      * @param request UpdateOrganizationRequest for an organization to be updated.
      * @return UpdateOrganizationResponse with the updated organization.
      */
-    public UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request);
+    UpdateOrganizationResponse updateOrganization(UpdateOrganizationRequest request);
 
     /**
      * Method to get the list of organization.
      * @return ListOrganizationsResponse with all the organization.
      */
-    public ListOrganizationsResponse listOrganizations();
+    ListOrganizationsResponse listOrganizations();
 }

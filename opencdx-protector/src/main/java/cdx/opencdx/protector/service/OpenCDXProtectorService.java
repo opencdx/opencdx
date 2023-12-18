@@ -24,7 +24,7 @@ import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
 
 /**
  * Interface for the Protector Service.
- *
+ * <p>
  * This service provides methods for various security and protection functionalities.
  * Implementations of this interface handle anomaly detection, authorization control,
  * privacy protection, real-time monitoring, and user behavior analysis.

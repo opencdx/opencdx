@@ -29,6 +29,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     public static final String FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL =
             "Failed to convert OpenCDXANFStatementModel";
     public static final String OBJECT = "OBJECT";
+    public static final String ANF_STATEMENT = "ANF-STATEMENT: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXANFStatementRepository openCDXANFStatementRepository;
@@ -54,7 +56,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
      * @param openCDXAuditService           Audit service for tracking FDA requirements
      * @param openCDXCurrentUser            Current User Service.
      * @param openCDXANFStatementRepository Repository for ANF Statements
-     * @param objectMapper
+     * @param objectMapper                Object Mapper for converting objects to JSON
      */
     @Autowired
     public OpenCDXANFServiceImpl(
@@ -80,7 +82,8 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Creating ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    openCDXANFStatementModel.getId().toHexString(),
+                    UUID.randomUUID().toString(),
+                    ANF_STATEMENT + openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -105,6 +108,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Accessed ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
+                    ANF_STATEMENT + UUID.randomUUID(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -129,7 +133,8 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Updating ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    openCDXANFStatementModel.getId().toHexString(),
+                    UUID.randomUUID().toString(),
+                    ANF_STATEMENT + openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -154,7 +159,8 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Deleting ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    openCDXANFStatementModel.getId().toHexString(),
+                    UUID.randomUUID().toString(),
+                    ANF_STATEMENT + openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

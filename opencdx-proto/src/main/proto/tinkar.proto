@@ -7,7 +7,7 @@ import "google/protobuf/wrappers.proto";
 // The greeting service definition.
 service Tinkar {
   // Sends a greeting
-  rpc sayTinkar (TinkarRequest) returns (TinkarReply) {}
+  rpc sayTinkar (TinkarRequest) returns (TinkarResponse) {}
 }
 
 // The request message containing the user's name.
@@ -16,6 +16,6 @@ message TinkarRequest {
 }
 
 // The response message containing the greetings
-message TinkarReply {
+message TinkarResponse {
   string message = 1;
 }

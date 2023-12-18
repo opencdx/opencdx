@@ -30,6 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -71,7 +73,16 @@ class OpenCDXHelloWorldServiceImplTest {
     @Test
     void testSayHello() {
         Person person = new Person();
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(new Answer<Person>() {
+            @Override
+            public Person answer(InvocationOnMock invocation) throws Throwable {
+                Person argument = invocation.getArgument(0);
+                if (argument.getId() == null) {
+                    argument.setId(ObjectId.get());
+                }
+                return argument;
+            }
+        });
         Assertions.assertEquals(
                 "Hello Bob!",
                 this.openCDXHelloWorldService.sayHello(

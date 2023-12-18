@@ -23,6 +23,7 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -65,6 +66,9 @@ class OpenCDXIAMProfileGrpcControllerTest {
 
     @Autowired
     OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXIAMUserRepository openCDXIAMUserRepository;
@@ -142,7 +146,11 @@ class OpenCDXIAMProfileGrpcControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         this.openCDXIAMProfileGrpcController = new OpenCDXIAMProfileGrpcController(this.openCDXIAMProfileService);
     }
 

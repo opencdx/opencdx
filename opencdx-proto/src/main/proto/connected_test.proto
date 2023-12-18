@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.connected;
 
 import "google/protobuf/timestamp.proto";
+import "codeable.proto";
 
 // Define test format types 
 enum TestFormat {
@@ -48,10 +49,11 @@ message BasicInfo {
   string vendor_lab_test_id = 6;      // ID referencing the test within the vendor's system
   string type = 7;               // Class or type of the test
   string user_id = 8;               // ID of the user associated with the test
-  int32 national_health_id = 9;     // National health ID of the user
+  string national_health_id = 9;     // National health ID of the user
   string health_service_id = 10;     // ID of the health service provider
-  string tenant_id = 11;            // ID of the tenant (in multi-tenant systems)
-  string source = 12;              // Source or origin of the test data
+  string organization_id = 11;   // ID of the organization
+  string workspace_id = 12;   // ID of the workspace
+  string source = 13;              // Source or origin of the test data
 }
 
 // Information related to ordering
@@ -104,7 +106,7 @@ message TestDetails {
   bool is_onsite_test = 11;               // Indicator if the test is conducted on-site
   string specimen_id = 12;               // ID of the specimen collected
   string lab_vendor_confirmation_id = 13;  // Confirmation ID from the lab vendor
-  int32 device_identifier = 14;          // Identifier of the device used for the test
+  string device_identifier = 14;          // Identifier of the device used for the test
   string device_serial_number = 15;       // Serial number of the device
   bool is_auto_generated = 16;            // Indicator if the test record was auto-generated
   string reporting_flag = 17;            // Flag indicating reporting status
@@ -112,10 +114,11 @@ message TestDetails {
   string order_status_flag = 19;          // Flag indicating order status
   string order_receipt_path = 20;         // Path to the order receipt
   string lab_test_type = 21;       // Type of the lab test
-  string speciman_type = 22;      // Type of specimen used for the test
+  string specimen_type = 22;      // Type of specimen used for the test
   string medical_code = 23;       // Medical code associated with the test
   string test_name=24;       // Human readable test name
   TestFormat test_format = 25;       // Format or type of the test (e.g., "PCR", "Antigen", "Serology", etc.)
+  cdx.opencdx.grpc.codeable.Coding loinc_code = 26;    //LOINC Code
 }
 
 // Metadata related to a specific test.
@@ -128,14 +131,14 @@ message Metadata {
   string image_type = 6;                       // Type or format of any associated image (e.g., "jpg", "png")
   string type = 7;                            // Type or category of the test
   string manufacturer = 8;                    // Manufacturer or producer of the test kit
-  string cassete_lot_number = 9;                // Lot number associated with the cassette of the test kit
+  string cassette_lot_number = 9;                // Lot number associated with the cassette of the test kit
   bool outcome_igm = 10;                       // Boolean outcome for IgM antibody
   bool outcome_igg = 11;                       // Boolean outcome for IgG antibody
   string outcome = 12;                        // Overall outcome or result of the test
   bool self_assessment_outcome_igm = 13;         // Self-assessed outcome for IgM antibody
   bool self_assessment_outcome_igg = 14;         // Self-assessed outcome for IgG antibody
   string self_assessment_outcome = 15;          // Overall self-assessed outcome or result
-  string cassete_expiration_date = 16;          // Expiration date of the test cassette
+  string cassette_expiration_date = 16;          // Expiration date of the test cassette
   string lab_test_orderable_id = 17;             // ID associated with the orderable lab test
   string sku_id = 18;                          // Stock Keeping Unit (SKU) ID for the test kit
   string cassette_verification = 19;           // Verification status or details of the cassette

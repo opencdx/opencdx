@@ -16,6 +16,7 @@
 package cdx.opencdx.connected.test.repository;
 
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
+import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -23,6 +24,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * Repository for Mongo Vendor documents
  */
 @SuppressWarnings("java:S100")
+@Observed(name = "opencdx")
 public interface OpenCDXVendorRepository extends MongoRepository<OpenCDXVendorModel, ObjectId> {
     /**
      * Determine if a country is used in the address of a vendor

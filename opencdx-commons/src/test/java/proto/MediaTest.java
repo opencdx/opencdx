@@ -37,6 +37,7 @@ import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,8 +71,8 @@ class MediaTest {
                         .setId("id")
                         .setCreatedAt(Timestamp.newBuilder().setSeconds(1696732104))
                         .setUpdatedAt(Timestamp.newBuilder().setSeconds(1696932104))
-                        .setOrganizationSlug("organizationSlug")
-                        .setWorkspaceSlug("workspaceSlug")
+                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(ObjectId.get().toHexString())
                         .setName("name")
                         .setShortDescription("shortDescription")
                         .setDescription("description")
@@ -101,8 +102,8 @@ class MediaTest {
                         .setId("id")
                         .setCreatedAt(Timestamp.newBuilder().setSeconds(1696732104))
                         .setUpdatedAt(Timestamp.newBuilder().setSeconds(1696932104))
-                        .setOrganizationSlug("organizationSlug")
-                        .setWorkspaceSlug("workspaceSlug")
+                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(ObjectId.get().toHexString())
                         .setName("name")
                         .setShortDescription("shortDescription")
                         .setDescription("description")
@@ -139,8 +140,8 @@ class MediaTest {
                         .setId("id")
                         .setCreatedAt(Timestamp.newBuilder().setSeconds(1696732104))
                         .setUpdatedAt(Timestamp.newBuilder().setSeconds(1696932104))
-                        .setOrganizationSlug("organizationSlug")
-                        .setWorkspaceSlug("workspaceSlug")
+                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(ObjectId.get().toHexString())
                         .setName("name")
                         .setShortDescription("shortDescription")
                         .setDescription("description")

@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.cache;
 
+import io.micrometer.observation.annotation.Observed;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,6 +40,7 @@ import org.springframework.cache.CacheManager;
  * @since 4.1
  * @see OpenCDXMemoryCache
  */
+@Observed(name = "opencdx")
 public class OpenCDXMemoryCacheManager implements CacheManager {
 
     private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);

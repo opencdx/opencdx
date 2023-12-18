@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
@@ -46,12 +47,14 @@ import org.springframework.stereotype.Service;
 public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerService {
 
     private static final String DOMAIN = "OpenCDXManufacturerServiceImpl";
+    private static final String MANUFACTURER = "MANUFACTURER: ";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for the Manufacturer Service
@@ -62,6 +65,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
      * @param openCDXCurrentUser            Current User Service to access information.
      * @param objectMapper                  ObjectMapper used for converting messages for the audit system.
      * @param openCDXAuditService           Audit service for tracking FDA requirements
+     * @param openCDXDocumentValidator      Document Validator for validating Protobuf messages
      */
     public OpenCDXManufacturerServiceImpl(
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
@@ -69,13 +73,15 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
             OpenCDXTestCaseRepository openCDXTestCaseRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
-            OpenCDXAuditService openCDXAuditService) {
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXTestCaseRepository = openCDXTestCaseRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
@@ -89,6 +95,11 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
 
     @Override
     public Manufacturer addManufacturer(Manufacturer request) {
+        if (request.hasManufacturerAddress()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "country", new ObjectId(request.getManufacturerAddress().getCountry()));
+        }
+
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
         try {
@@ -98,7 +109,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
                     currentUser.getAgentType(),
                     "Creating Manufacturer",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXManufacturerModel.getId().toHexString(),
+                    MANUFACTURER + openCDXManufacturerModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXManufacturerModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -112,6 +123,10 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
 
     @Override
     public Manufacturer updateManufacturer(Manufacturer request) {
+        if (request.hasManufacturerAddress()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "country", new ObjectId(request.getManufacturerAddress().getCountry()));
+        }
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
         try {
@@ -121,7 +136,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
                     currentUser.getAgentType(),
                     "Updating Manufacturer",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    openCDXManufacturerModel.getId().toHexString(),
+                    MANUFACTURER + openCDXManufacturerModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXManufacturerModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

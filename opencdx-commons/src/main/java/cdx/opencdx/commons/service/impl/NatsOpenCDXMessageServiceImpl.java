@@ -45,7 +45,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     private final ObjectMapper objectMapper;
     private final String applicationName;
-    private final Map<String, JetStreamSubscription> subscriptionMap;
+    private final Map<String, Dispatcher> subscriptionMap;
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -73,7 +73,8 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                     .name(OPENCDX)
                     .subjects(
                             OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT,
-                            OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT)
+                            OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT,
+                            OpenCDXMessageService.CDC_MESSAGE_SUBJECT)
                     .maxAge(Duration.ofDays(7))
                     .maxConsumers(10)
                     .storageType(StorageType.File)
@@ -102,17 +103,17 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                 .build();
 
         try {
-
-            JetStreamSubscription subscription = natsConnection
+            Dispatcher dispatcher = this.natsConnection.createDispatcher();
+            natsConnection
                     .jetStream()
                     .subscribe(
                             subject,
-                            this.natsConnection.createDispatcher(),
+                            dispatcher,
                             new NatsMessageHandler(handler, this.openCDXCurrentUser),
                             true,
                             subscribeOptions);
 
-            this.subscriptionMap.put(subject, subscription);
+            this.subscriptionMap.put(subject, dispatcher);
         } catch (IOException | JetStreamApiException e) {
             throw new OpenCDXInternal(DOMAIN, 2, "Failed JetStream Subscribe", e);
         }
@@ -121,9 +122,9 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     @Override
     @RetryAnnotation
     public void unSubscribe(String subject) {
-        JetStreamSubscription jetStreamSubscription = this.subscriptionMap.get(subject);
-        if (jetStreamSubscription != null && jetStreamSubscription.isActive()) {
-            jetStreamSubscription.unsubscribe();
+        Dispatcher dispatcher = this.subscriptionMap.get(subject);
+        if (dispatcher != null) {
+            dispatcher.unsubscribe(subject);
         }
         this.subscriptionMap.remove(subject);
     }
@@ -149,7 +150,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      */
     @Slf4j
     protected static class NatsMessageHandler implements MessageHandler {
-        OpenCDXMessageHandler handler;
+        final OpenCDXMessageHandler handler;
 
         private final OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -157,7 +158,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
          * Constructor for wrapping a OpenCDXMessageHandler
          *
          * @param handler            OpenCDXMessageHandler to wrap.
-         * @param openCDXCurrentUser
+         * @param openCDXCurrentUser System for setting the current user
          */
         protected NatsMessageHandler(OpenCDXMessageHandler handler, OpenCDXCurrentUser openCDXCurrentUser) {
             this.handler = handler;

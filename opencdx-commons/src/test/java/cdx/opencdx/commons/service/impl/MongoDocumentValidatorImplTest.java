@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.commons.utils;
+package cdx.opencdx.commons.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,11 +21,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.service.impl.MongoDocumentValidatorImpl;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-class OpenCDXDocumentValidatorTest {
+@SuppressWarnings("java:S6068")
+class MongoDocumentValidatorImplTest {
 
     @Mock
     private MongoTemplate mongoTemplate;
@@ -69,16 +70,12 @@ class OpenCDXDocumentValidatorTest {
         String collectionName = "testCollection";
         ObjectId documentId = ObjectId.get();
 
-        // Mocking isCollectionExists to return true
-        when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
-
         // Mocking mongoTemplate.exists to return true
         when(mongoTemplate.exists(any(Query.class), eq(collectionName))).thenReturn(true);
 
         assertTrue(documentValidator.validateDocumentOrLog(collectionName, documentId));
 
         // Verify that isCollectionExists and mongoTemplate.exists were called with the correct parameters
-        verify(mongoTemplate).collectionExists(collectionName);
         verify(mongoTemplate).exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
     }
 
@@ -96,22 +93,7 @@ class OpenCDXDocumentValidatorTest {
         assertDoesNotThrow(() -> documentValidator.validateDocumentOrThrow(collectionName, documentId));
 
         // Verify that isCollectionExists and mongoTemplate.exists were called with the correct parameters
-        verify(mongoTemplate).collectionExists(collectionName);
         verify(mongoTemplate).exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
-    }
-
-    @Test
-    void testValidateDocumentOrThrowWithCollectionNotFound() {
-        String collectionName = "nonExistentCollection";
-        ObjectId documentId = ObjectId.get();
-
-        // Mocking isCollectionExists to return false
-        when(mongoTemplate.collectionExists(collectionName)).thenReturn(false);
-
-        OpenCDXNotFound exception = assertThrows(
-                OpenCDXNotFound.class, () -> documentValidator.validateDocumentOrThrow(collectionName, documentId));
-
-        assertEquals("Collection nonExistentCollection does not exist", exception.getMessage());
     }
 
     @Test
@@ -153,7 +135,6 @@ class OpenCDXDocumentValidatorTest {
 
         assertTrue(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
 
-        verify(mongoTemplate).collectionExists(collectionName);
         verify(mongoTemplate).exists(any(Query.class), eq(collectionName));
     }
 
@@ -167,24 +148,7 @@ class OpenCDXDocumentValidatorTest {
 
         assertDoesNotThrow(() -> documentValidator.validateDocumentsOrThrow(collectionName, documentIds));
 
-        verify(mongoTemplate).collectionExists(collectionName);
         verify(mongoTemplate).exists(any(Query.class), eq(collectionName));
-    }
-
-    @Test
-    void testValidateDocumentsOrThrowWhenCollectionDoesNotExist() {
-        String collectionName = "nonexistentCollection";
-        List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get(), ObjectId.get());
-
-        when(mongoTemplate.collectionExists(collectionName)).thenReturn(false);
-
-        OpenCDXNotFound exception = assertThrows(
-                OpenCDXNotFound.class, () -> documentValidator.validateDocumentsOrThrow(collectionName, documentIds));
-
-        assertEquals("Collection " + collectionName + " does not exist", exception.getMessage());
-
-        verify(mongoTemplate).collectionExists(collectionName);
-        verify(mongoTemplate, never()).exists(any(Query.class), anyString());
     }
 
     @Test
@@ -203,18 +167,7 @@ class OpenCDXDocumentValidatorTest {
                         + " does not exist in collection " + collectionName,
                 exception.getMessage());
 
-        verify(mongoTemplate).collectionExists(collectionName);
         verify(mongoTemplate).exists(any(Query.class), eq(collectionName));
-    }
-
-    @Test
-    void testValidateDocumentOrLog_CollectionNotExists() {
-        String collectionName = "nonexistentCollection";
-        ObjectId documentId = ObjectId.get();
-
-        Mockito.when(mongoTemplate.collectionExists(collectionName)).thenReturn(false);
-
-        assertFalse(documentValidator.validateDocumentOrLog(collectionName, documentId));
     }
 
     @Test
@@ -222,7 +175,6 @@ class OpenCDXDocumentValidatorTest {
         String collectionName = "existingCollection";
         ObjectId documentId = ObjectId.get();
 
-        Mockito.when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
         Mockito.when(mongoTemplate.exists(any(), eq(collectionName))).thenReturn(false);
 
         assertFalse(documentValidator.validateDocumentOrLog(collectionName, documentId));
@@ -233,31 +185,9 @@ class OpenCDXDocumentValidatorTest {
         String collectionName = "existingCollection";
         ObjectId documentId = ObjectId.get();
 
-        Mockito.when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
         Mockito.when(mongoTemplate.exists(any(), eq(collectionName))).thenReturn(true);
 
         assertTrue(documentValidator.validateDocumentOrLog(collectionName, documentId));
-    }
-
-    @Test
-    void testValidateDocumentsOrLog_CollectionNotExists() {
-        String collectionName = "nonexistentCollection";
-        List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get());
-
-        Mockito.when(mongoTemplate.collectionExists(collectionName)).thenReturn(false);
-
-        assertFalse(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
-    }
-
-    @Test
-    void testValidateDocumentsOrLog_DocumentNotExists() {
-        String collectionName = "existingCollection";
-        List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get());
-
-        Mockito.when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
-        Mockito.when(mongoTemplate.exists(any(), eq(collectionName))).thenReturn(false);
-
-        assertFalse(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
     }
 
     @Test
@@ -265,10 +195,19 @@ class OpenCDXDocumentValidatorTest {
         String collectionName = "existingCollection";
         List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get());
 
-        Mockito.when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
         Mockito.when(mongoTemplate.exists(any(), eq(collectionName))).thenReturn(true);
 
         assertTrue(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
+    }
+
+    @Test
+    void testValidateDocumentsOrLog_Fail() {
+        String collectionName = "existingCollection";
+        List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get());
+
+        Mockito.when(mongoTemplate.exists(any(), eq(collectionName))).thenReturn(false);
+
+        assertFalse(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
     }
 
     @Test
@@ -276,6 +215,123 @@ class OpenCDXDocumentValidatorTest {
         String collectionName = "existingCollection";
         List<ObjectId> documentIds = Collections.emptyList();
 
-        assertFalse(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
+        assertTrue(documentValidator.validateDocumentsOrLog(collectionName, documentIds));
+    }
+
+    @Test
+    void testAllDocumentsExist_EmptyDocumentIds() {
+        String collectionName = "existingCollection";
+        List<ObjectId> documentIds = Collections.emptyList();
+
+        assertTrue(documentValidator.allDocumentsExist(collectionName, documentIds));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId worksapce = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(any(Query.class), anyString())).thenReturn(true);
+        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
+                .thenReturn(Document.parse("{\"_id\": \"" + worksapce.toHexString() + "\"}"));
+
+        assertDoesNotThrow(() -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow_2() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId worksapce = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(organization))), eq("organization")))
+                .thenReturn(false);
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(worksapce))), eq("workspace")))
+                .thenReturn(true);
+
+        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
+                .thenReturn(Document.parse("{\"_id\": \"" + worksapce.toHexString() + "\"}"));
+
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow_3() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId worksapce = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(organization))), eq("organization")))
+                .thenReturn(true);
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(worksapce))), eq("workspace")))
+                .thenReturn(false);
+
+        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
+                .thenReturn(Document.parse("{\"_id\": \"" + worksapce.toHexString() + "\"}"));
+
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow_4() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId worksapce = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(organization))), eq("organization")))
+                .thenReturn(true);
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(worksapce))), eq("workspace")))
+                .thenReturn(true);
+
+        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
+                .thenReturn(Document.parse("{\"_id\": \"bob\"}"));
+
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow_5() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId worksapce = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(organization))), eq("organization")))
+                .thenReturn(true);
+        when(mongoTemplate.exists(eq(Query.query(Criteria.where("_id").is(worksapce))), eq("workspace")))
+                .thenReturn(true);
+
+        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
+                .thenReturn(null);
+
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
     }
 }

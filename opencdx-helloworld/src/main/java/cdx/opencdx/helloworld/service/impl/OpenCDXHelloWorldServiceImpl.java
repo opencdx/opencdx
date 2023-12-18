@@ -63,7 +63,7 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
     @Override
     public String sayHello(HelloRequest request) {
         Person person = Person.builder().name(request.getName()).build();
-        this.personRepository.save(person);
+        person = this.personRepository.save(person);
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         this.openCDXAuditService.piiCreated(
                 currentUser.getId().toHexString(),
@@ -71,7 +71,8 @@ public class OpenCDXHelloWorldServiceImpl implements OpenCDXHelloWorldService {
                 "purpose",
                 SensitivityLevel.SENSITIVITY_LEVEL_MEDIUM,
                 currentUser.getId().toHexString(),
-                "COMMUNICATION: 123",
+                currentUser.getNationalHealthId(),
+                "Persons:" + person.getId().toHexString(),
                 "{\"name\":\"John\", \"age\":30, \"car\":null}");
         return String.format("Hello %s!", request.getName().trim());
     }

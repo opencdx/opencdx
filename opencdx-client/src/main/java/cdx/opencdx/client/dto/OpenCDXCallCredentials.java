@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Generated
 public class OpenCDXCallCredentials extends CallCredentials {
 
-    private String token;
+    private final String token;
 
     /**
      * Contrustor taking the token to use.

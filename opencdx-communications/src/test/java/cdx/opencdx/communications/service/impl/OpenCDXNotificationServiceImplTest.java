@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
@@ -65,6 +66,9 @@ class OpenCDXNotificationServiceImplTest {
 
     @Autowired
     OpenCDXEmailService openCDXEmailService;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository;
@@ -134,7 +138,8 @@ class OpenCDXNotificationServiceImplTest {
                 openCDXCurrentUser,
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
-                objectMapper);
+                objectMapper,
+                openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -720,7 +725,8 @@ class OpenCDXNotificationServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXCommunicationSmsService,
                 this.openCDXCommunicationEmailService,
-                this.objectMapper);
+                this.objectMapper,
+                this.openCDXDocumentValidator);
 
         Assertions.assertDoesNotThrow(() -> {
             openCDXNotificationService.processOpenCDXNotification(notification);

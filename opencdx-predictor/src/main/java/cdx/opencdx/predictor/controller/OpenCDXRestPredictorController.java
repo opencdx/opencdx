@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller for the /predictor API's.
- *
+ * <p>
  * This controller handles REST API endpoints related to the Predictor service,
  * providing functionalities for making predictions.
  */
@@ -55,7 +55,7 @@ public class OpenCDXRestPredictorController {
 
     /**
      * POST /predictor/predict API.
-     *
+     * <p>
      * Endpoint for processing prediction requests.
      *
      * @param request PredictorRequest indicating data to be predicted.
