@@ -1,22 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
     Box,
     Button,
-
     FormControl,
-
     FormHelperText,
-
     IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
-
+    
 } from '@mui/material';
 
 // third party
@@ -25,6 +21,8 @@ import { Formik } from 'formik';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import useAuth from 'hooks/useAuth';
+import useScriptRef from 'hooks/useScriptRef';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
@@ -34,6 +32,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const JWTLogin = ({ ...others }) => {
     const theme = useTheme();
+
+    const { login } = useAuth();
+    const scriptedRef = useScriptRef();
 
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -48,7 +49,7 @@ const JWTLogin = ({ ...others }) => {
     return (
         <Formik
             initialValues={{
-                email: 'UserName',
+                email: 'admin@opencdx.com',
                 password: '123456',
                 submit: null
             }}
@@ -56,14 +57,25 @@ const JWTLogin = ({ ...others }) => {
                 email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                 password: Yup.string().max(255).required('Password is required')
             })}
-            onSubmit={() => {
+            onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                try {
+                    await login('info@codedthemes.com', values.password);
 
-                setStatus({ success: true });
-                setSubmitting(false);// try {
-
+                    if (scriptedRef.current) {
+                        setStatus({ success: true });
+                        setSubmitting(false);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    if (scriptedRef.current) {
+                        setStatus({ success: false });
+                        setErrors({ submit: err.message });
+                        setSubmitting(false);
+                    }
+                }
             }}
         >
-            {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
+            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                 <form noValidate onSubmit={handleSubmit} {...others}>
                     <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
                         <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
@@ -116,7 +128,6 @@ const JWTLogin = ({ ...others }) => {
                     </FormControl>
 
 
-
                     {errors.submit && (
                         <Box sx={{ mt: 3 }}>
                             <FormHelperText error>{errors.submit}</FormHelperText>
@@ -124,11 +135,9 @@ const JWTLogin = ({ ...others }) => {
                     )}
                     <Box sx={{ mt: 2 }}>
                         <AnimateButton>
-                            <Link to="/pages/general" aria-label="theme-logo">
-                                <Button color="secondary" fullWidth size="large" type="button" variant="contained">
-                                    Sign In                            </Button>
-
-                            </Link>
+                            <Button color="secondary" disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained">
+                                Sign In
+                            </Button>
                         </AnimateButton>
                     </Box>
                 </form>

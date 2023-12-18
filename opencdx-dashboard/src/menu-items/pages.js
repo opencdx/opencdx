@@ -117,9 +117,25 @@ const pages = {
         {
             id: 'profile',
             title: <FormattedMessage id="profile" />,
-            type: 'item',
-            url: '/pages/profile',
-        },
+            type: 'collapse',
+            children: [
+                {
+                    id: 'view',
+                    title: <FormattedMessage id="view-profile" />,
+                    type: 'item',
+                    url: '/user/view-profile',
+                },
+                
+                {
+                    id: 'edit',
+                    title: <FormattedMessage id="edit-profile" />,
+                    type: 'item',
+                    url: '/user/edit-profile',
+                },
+                
+                
+            ]
+        }
        
 
     ]
