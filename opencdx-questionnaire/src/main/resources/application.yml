@@ -27,4 +27,8 @@ management:
   zipkin:
     tracing:
       endpoint: http://zipkin:9411/api/v2/spans
-logging.pattern.level: "${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+logging:
+  pattern:
+    level: "${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+  level:
+    cdx.opencdx: debug

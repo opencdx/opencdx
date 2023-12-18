@@ -15,17 +15,153 @@
  */
 package cdx.opencdx.questionnaire.service;
 
+import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest;
+import cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest;
+import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
+import cdx.opencdx.grpc.questionnaire.Questionnaire;
+import cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
+import cdx.opencdx.grpc.questionnaire.Questionnaires;
 import cdx.opencdx.grpc.questionnaire.SubmissionResponse;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 
 /**
  * Interface for the QuestionnaireService
  */
 public interface OpenCDXQuestionnaireService {
     /**
-     * Process the QuestionnaireRequest
+     * Process the QuestionnaireRequest Data
      * @param request request the process
-     * @return Message generated for this request.
+     * @return Message generated for the data submision request.
      */
     SubmissionResponse submitQuestionnaire(QuestionnaireRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the data submision request.
+     */
+    Questionnaire getSubmittedQuestionnaire(GetQuestionnaireRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the data submision request.
+     */
+    Questionnaires getSubmittedQuestionnaireList(GetQuestionnaireRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the delete questionnaire request.
+     */
+    SubmissionResponse deleteSubmittedQuestionnaire(DeleteQuestionnaireRequest request);
+
+    // System Level Questionnaire
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the create questionnaire request.
+     */
+    SubmissionResponse createQuestionnaireData(QuestionnaireDataRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the update questionnaire request.
+     */
+    SubmissionResponse updateQuestionnaireData(QuestionnaireDataRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the data submision request.
+     */
+    Questionnaire getQuestionnaireData(GetQuestionnaireRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the data submision requests.
+     */
+    Questionnaires getQuestionnaireDataList(GetQuestionnaireRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the delete questionnaire request.
+     */
+    SubmissionResponse deleteQuestionnaireData(DeleteQuestionnaireRequest request);
+
+    // Client Level Questionnaire
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the create client questionnaire request.
+     */
+    SubmissionResponse createClientQuestionnaireData(ClientQuestionnaireDataRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the update client questionnaire request.
+     */
+    SubmissionResponse updateClientQuestionnaireData(ClientQuestionnaireDataRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the client questionnaire request.
+     */
+    Questionnaire getClientQuestionnaireData(GetQuestionnaireRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the client questionnaire requests.
+     */
+    Questionnaires getClientQuestionnaireDataList(GetQuestionnaireRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the delete client questionnaire request.
+     */
+    SubmissionResponse deleteClientQuestionnaireData(DeleteQuestionnaireRequest request);
+
+    // User Level Questionnaire
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the create user questionnaire request.
+     */
+    SubmissionResponse createUserQuestionnaireData(UserQuestionnaireDataRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the update user questionnaire request.
+     */
+    SubmissionResponse updateUserQuestionnaireData(UserQuestionnaireDataRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the user questionnaire request.
+     */
+    Questionnaire getUserQuestionnaireData(GetQuestionnaireRequest request);
+
+    /**
+     * Get the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the user questionnaire requests.
+     */
+    Questionnaires getUserQuestionnaireDataList(GetQuestionnaireRequest request);
+
+    /**
+     * Process the QuestionnaireRequest Data
+     * @param request request the process
+     * @return Message generated for the delete user questionnaire request.
+     */
+    SubmissionResponse deleteUserQuestionnaireData(DeleteQuestionnaireRequest request);
 }

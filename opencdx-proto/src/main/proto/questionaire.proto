@@ -5,13 +5,23 @@ package cdx.opencdx.grpc.questionnaire;
 import "google/protobuf/any.proto";
 
 /**
+ * Represents a FHIR questionnaire collection.
+ */
+message Questionnaires {
+  repeated Questionnaire questionnaires = 1;  // Questionnaire Resouce List 
+}
+
+
+/**
  * Represents a FHIR questionnaire.
  */
 message Questionnaire {
-  optional string resource_type = 1; // Resource type identifier.
-  optional string title = 2; // Title of the questionnaire.
-  optional string status = 3; // Status of the questionnaire (e.g., draft).
-  repeated QuestionnaireItem item = 4; // List of questionnaire items.
+  optional string id = 1;  // Resouce Id 
+  optional string resource_type = 2; // Resource type identifier.
+  optional string title = 3; // Title of the questionnaire.
+  optional string status = 4; // Status of the questionnaire (e.g., draft).
+  optional string description = 5; // Description of the questionnaire.
+  repeated QuestionnaireItem item = 6; // List of questionnaire items.
 }
 
 /**
@@ -122,16 +132,49 @@ message UserQuestionnaireData {
  */
 service QuestionnaireService {
   rpc SubmitQuestionnaire(QuestionnaireRequest) returns (SubmissionResponse); // Submits a questionnaire and returns the submission status.
+  rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire); // Get submitted questionnaire data by id.
+  rpc GetSubmittedQuestionnaireList(GetQuestionnaireRequest) returns (Questionnaires); // Get all submitted questionnaire data.
+  rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at system level.
   rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at system level.
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get system questionnaire data by Id.
+  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all system questionnaire data.
+  rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at client level.
   rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at client level.
+  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get client questionnaire data by Id.
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all client questionnaire data.
+  rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Get client questionnaire data by Id.
 
   rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at User level.
   rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at User level.
+  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get user questionnaire by Id.
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all user questionnaire.
+  rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete user questionnaire data by id.
 }
+
+/*
+ * Represents the request to retrieve data 
+ */
+ message DeleteQuestionnaireRequest {
+  optional string id=1; // Questionnaire resource Id
+  optional string orgnization_id=2; // Organization associated with the questionnaire
+  optional string workspace_id=3; // Workspace associated with the questionnaire
+  optional string user_id=4; // User associated with the questionnaire
+} 
+
+/*
+ * Represents the request to retrieve data 
+ */
+message GetQuestionnaireRequest {
+  optional string id=1; // Questionnaire resource Id
+  optional string orgnization_id=2; // Organization associated with the questionnaire
+  optional string workspace_id=3; // Workspace associated with the questionnaire
+  optional string user_id=4; // User associated with the questionnaire
+} 
+
 
 /*
  * Represents the status of a questionnaire operation.
