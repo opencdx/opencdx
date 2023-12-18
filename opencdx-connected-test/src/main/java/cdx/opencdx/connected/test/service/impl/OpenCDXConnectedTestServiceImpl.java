@@ -134,7 +134,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         if (patient.getPrimaryContactInfo() != null) {
 
             Notification.Builder builder = Notification.newBuilder()
-                    .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                    .setEventId(OpenCDXCommunicationService.NOTIFICATION)
                     .addAllToEmail(List.of(patient.getPrimaryContactInfo().getEmail()))
                     .putAllVariables(Map.of(
                             "firstName",
