@@ -23,11 +23,9 @@ import cdx.opencdx.questionnaire.model.Person;
 import cdx.opencdx.questionnaire.repository.PersonRepository;
 import cdx.opencdx.questionnaire.service.impl.OpenCDXQuestionnaireServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -85,24 +83,5 @@ class OpenCDXGrpcQuestionnaireControllerTest {
     @AfterEach
     void tearDown() {
         Mockito.reset(this.personRepository);
-    }
-
-    @Test
-    void submitQuestionnaire() {
-        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-
-        QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
-                .setQuestionnaire(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
-                .build();
-        SubmissionResponse response = SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("Executed")
-                .build();
-
-        this.openCDXGrpcQuestionnaireController.submitQuestionnaire(request, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

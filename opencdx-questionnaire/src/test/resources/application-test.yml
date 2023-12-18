@@ -16,7 +16,7 @@ logging:
       safe: DEBUG
 spring:
   application:
-    name: Questionnaire
+    name: questionnaire
   cloud:
     config:
       enabled: false
