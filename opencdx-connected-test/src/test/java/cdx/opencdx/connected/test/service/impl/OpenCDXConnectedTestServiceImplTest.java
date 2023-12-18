@@ -139,6 +139,9 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .build())
                 .build();
         Assertions.assertEquals(
                 TestSubmissionResponse.newBuilder()
@@ -179,6 +182,9 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
@@ -205,6 +211,9 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -241,6 +250,9 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -285,6 +297,9 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setUserId(ObjectId.get().toHexString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
+                        .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);

@@ -145,6 +145,9 @@ class OpenCDXRestConnectedTestControllerTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setUserId(ObjectId.get().toHexString())
                         .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc

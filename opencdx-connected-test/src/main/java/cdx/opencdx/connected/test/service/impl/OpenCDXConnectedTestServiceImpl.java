@@ -104,6 +104,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
                 new ObjectId(connectedTest.getBasicInfo().getWorkspaceId()));
 
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "devices", new ObjectId(connectedTest.getTestDetails().getDeviceIdentifier()));
+
         OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
                 .findById(patientID)
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find patient"));
