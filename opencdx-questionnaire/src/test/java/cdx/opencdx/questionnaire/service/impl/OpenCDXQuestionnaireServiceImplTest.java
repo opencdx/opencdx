@@ -141,6 +141,29 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertEquals(true, response.getSuccess());
     }
 
+    @Test
+    void testDeleteSubmittedQuestionnaireWithJsonProcessingException() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        // Mocking the necessary dependencies
+        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
+
+        OpenCDXIAMUserModel currentUser =
+                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+        Mockito.when(openCDXCurrentUser.getCurrentUser()).thenReturn(currentUser);
+
+        // Creating the service instance
+        OpenCDXQuestionnaireService questionnaireService =
+                new OpenCDXQuestionnaireServiceImpl(openCDXAuditService, mapper, openCDXCurrentUser);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().build();
+
+        // Verify that the OpenCDXNotAcceptable exception is thrown
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> questionnaireService.deleteSubmittedQuestionnaire(request));
+    }
+
     // Unit tests for - System Questionnaire
     @Test
     void testCreateQuestionnaireData() {
@@ -236,6 +259,29 @@ class OpenCDXQuestionnaireServiceImplTest {
         SubmissionResponse response = this.questionnaireService.deleteQuestionnaireData(request);
 
         Assertions.assertEquals(true, response.getSuccess());
+    }
+
+    @Test
+    void testDeleteQuestionnaireDataWithJsonProcessingException() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        // Mocking the necessary dependencies
+        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
+
+        OpenCDXIAMUserModel currentUser =
+                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+        Mockito.when(openCDXCurrentUser.getCurrentUser()).thenReturn(currentUser);
+
+        // Creating the service instance
+        OpenCDXQuestionnaireService questionnaireService =
+                new OpenCDXQuestionnaireServiceImpl(openCDXAuditService, mapper, openCDXCurrentUser);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().build();
+
+        // Verify that the OpenCDXNotAcceptable exception is thrown
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> questionnaireService.deleteQuestionnaireData(request));
     }
 
     // Unit tests for - Client Questionnaire
@@ -347,6 +393,26 @@ class OpenCDXQuestionnaireServiceImplTest {
                 new OpenCDXQuestionnaireServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> questionnaireService.deleteClientQuestionnaireData(request));
+    }
+
+    @Test
+    void testDeleteClientQuestionnaireDataWithJsonProcessingException() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
+
+        OpenCDXIAMUserModel currentUser =
+                OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
+        Mockito.when(openCDXCurrentUser.getCurrentUser()).thenReturn(currentUser);
+
+        OpenCDXQuestionnaireService questionnaireService =
+                new OpenCDXQuestionnaireServiceImpl(openCDXAuditService, mapper, openCDXCurrentUser);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().build();
+
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> questionnaireService.deleteClientQuestionnaireData(request));
     }
