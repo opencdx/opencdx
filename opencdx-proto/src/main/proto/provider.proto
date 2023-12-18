@@ -92,11 +92,13 @@ message Provider {
 }
 
 // Request and Response messages for creating a provider.
-message CreateProviderRequest {
-  Provider provider = 1;           // Provider information for creation.
+message GetProviderRequest {
+  string provider_number = 1;           // Provider Number to lookup.
 }
 
-message CreateProviderResponse {}
+message GetProviderResponse {
+  Provider provider = 1;               // Provider information for lookup.
+}
 
 // Request and Response messages for editing a provider.
 message EditProviderRequest {
@@ -126,6 +128,7 @@ message ListProvidersRequest {}
 
 // Service definition for ProviderService.
 service ProviderService {
+  rpc GetProviderByNumber(GetProviderRequest) returns (GetProviderResponse);
   rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse);
   rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
   rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
