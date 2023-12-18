@@ -105,4 +105,530 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
+    @Test
+    void submitQuestionnaireWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
+                .setQuestionnaire(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.submitQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getSubmittedQuestionnaire() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaire response = Questionnaire.newBuilder()
+                .setDescription("response getSubmittedQuestionnaire")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getSubmittedQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getSubmittedQuestionnaireWithInvalidRequest() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaire response = Questionnaire.newBuilder().setId("123").build();
+
+        this.openCDXGrpcQuestionnaireController.getSubmittedQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getSubmittedQuestionnaireList() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getSubmittedQuestionnaireList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getSubmittedQuestionnaireListWithInvalidRequest() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getSubmittedQuestionnaireList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteSubmittedQuestionnaire() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.deleteSubmittedQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteSubmittedQuestionnaireWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.deleteSubmittedQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    // System Level Questionnaire
+    @Test
+    void createQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder()
+                .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123"))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.createQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder()
+                .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123"))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.createQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder()
+                .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123"))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.updateQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getQuestionnaireData() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaire response = Questionnaire.newBuilder().setId("123").build();
+
+        this.openCDXGrpcQuestionnaireController.getQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaire response = Questionnaire.newBuilder().setId("123").build();
+
+        this.openCDXGrpcQuestionnaireController.getQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getQuestionnaireDataList() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getQuestionnaireDataList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getQuestionnaireDataListWithInvalidRequest() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request =
+                GetQuestionnaireRequest.newBuilder().setId("123").build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getQuestionnaireDataList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.deleteQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.deleteQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    // Client Level Questionnaire
+    @Test
+    void updateClientQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        ClientQuestionnaireDataRequest request = ClientQuestionnaireDataRequest.newBuilder()
+                .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
+                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.createClientQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateClientQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        ClientQuestionnaireDataRequest request = ClientQuestionnaireDataRequest.newBuilder()
+                .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
+                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.createClientQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getClientQuestionnaireData() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaire response = Questionnaire.newBuilder().build();
+
+        this.openCDXGrpcQuestionnaireController.getClientQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getClientQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaire response = Questionnaire.newBuilder().build();
+
+        this.openCDXGrpcQuestionnaireController.getClientQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getClientQuestionnaireDataList() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getClientQuestionnaireDataList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getClientQuestionnaireDataListWithInvalidRequest() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getClientQuestionnaireDataList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteClientQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.deleteClientQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteClientQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+        this.openCDXGrpcQuestionnaireController.deleteClientQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    // User Level Questionnaire
+    @Test
+    void updateUserQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.createUserQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateUserQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.createUserQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getUserQuestionnaireData() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaire response = Questionnaire.newBuilder().build();
+
+        this.openCDXGrpcQuestionnaireController.getUserQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getUserQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaire response = Questionnaire.newBuilder().build();
+
+        this.openCDXGrpcQuestionnaireController.getUserQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getUserQuestionnaireDataList() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getUserQuestionnaireDataListWithInvalidRequest() {
+        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        Questionnaires response = Questionnaires.newBuilder()
+                .addQuestionnaires(
+                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteUserQuestionnaireData() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.deleteUserQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteUserQuestionnaireDataWithInvalidRequest() {
+        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        DeleteQuestionnaireRequest request =
+                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+        this.openCDXGrpcQuestionnaireController.deleteUserQuestionnaireData(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
 }

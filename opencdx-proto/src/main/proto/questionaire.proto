@@ -123,7 +123,7 @@ message ClientQuestionnaireData {
  * Represents the message with specified fields, with associated Organization, Workspace, and User
  */
 message UserQuestionnaireData {
-  ClientQuestionnaireData questionnaire_data_client = 1; // Questionnaire data.
+  QuestionnaireData questionnaire_data = 1; // Questionnaire data.
   optional string user_id = 2; // User identifier.
 }
 

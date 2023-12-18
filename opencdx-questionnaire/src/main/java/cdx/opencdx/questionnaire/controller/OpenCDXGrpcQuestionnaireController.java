@@ -149,7 +149,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     }
 
     /*
-     * getQuestionnaireList gRPC Service Call
+     * getQuestionnaireDataList gRPC Service Call
      * @param request Request to process
      * @param responseObserver Observer to process the response
      */
