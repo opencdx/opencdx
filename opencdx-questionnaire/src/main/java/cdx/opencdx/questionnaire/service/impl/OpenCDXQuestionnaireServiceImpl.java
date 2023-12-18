@@ -218,6 +218,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
+
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("createQuestionnaireData Executed")
