@@ -38,6 +38,16 @@ class AnfTest {
     }
 
     @Test
+    void testIdentifier() throws JsonProcessingException {
+        AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+
+        log.info(
+                "Identifier: \n{}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(identifier));
+    }
+
+    @Test
     void testAnfStatement() throws JsonProcessingException {
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
