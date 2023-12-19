@@ -12,30 +12,24 @@ const icons = {
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
-const other = {
+const documentation = {
     id: 'sample-docs-roadmap',
     icon: icons.IconHelp,
     type: 'group',
     children: [
         {
-            id: 'login',
-            title: <FormattedMessage id="login" />,
+            id: 'java',
+            title: <FormattedMessage id="java" />,
             type: 'item',
-            target: true,
-            url: '/login',
-
+            url: '/pages/java'
         },
         {
-            id: 'register',
-            title: <FormattedMessage id="register" />,
+            id: 'proto',
+            title: <FormattedMessage id="proto" />,
             type: 'item',
-            target: true,
-            url: '/register',
-
+            url: '/pages/proto'
         },
-       
-      
     ]
 };
 
-export default other;
+export default documentation;
