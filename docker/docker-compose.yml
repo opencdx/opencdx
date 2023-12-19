@@ -166,6 +166,27 @@ services:
     volumes:
       - ../certs:/certs
 
+  dashboard:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/dashboard:latest
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+    volumes:
+      - ../certs:/certs
+    ports:
+      - "3005:3005"
   iam:
     deploy:
       restart_policy:
