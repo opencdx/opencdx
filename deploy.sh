@@ -57,12 +57,12 @@ check_and_generate_certs() {
     else
         actual_checksum=$(md5sum "$file_path" | awk '{print $1}')
 
-        echo "File: $file_path"
-        echo "Expected Checksum: $expected_checksum"
-        echo "Actual Checksum  : $actual_checksum"
+        handle_info "File: $file_path"
+        handle_info "Expected Checksum: $expected_checksum"
+        handle_info "Actual Checksum  : $actual_checksum"
 
         if [ "$actual_checksum" == "$expected_checksum" ]; then
-            echo "Checksum matched. The certificate file is up to date."
+            handle_info "Checksum matched. The certificate file is up to date."
         else
             handle_info "Checksum mismatch. Regenerating Certificates."
             cd ./certs
