@@ -101,7 +101,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request DeleteQuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/deletequestionnaire")
+    @DeleteMapping(value = "/deletequestionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteQuestionnaire(@RequestBody DeleteQuestionnaireRequest request) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
@@ -119,7 +119,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/system/createquestionnairedata")
+    @PostMapping(value = "/system/createquestionnaire")
     public ResponseEntity<SubmissionResponse> createQuestionnaireData(@RequestBody QuestionnaireDataRequest request) {
 
         return new ResponseEntity<>(
@@ -137,7 +137,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/system/updatequestionnairedata")
+    @PostMapping(value = "/system/updatequestionnaire")
     public ResponseEntity<SubmissionResponse> updateQuestionnaireData(@RequestBody QuestionnaireDataRequest request) {
 
         return new ResponseEntity<>(
@@ -175,7 +175,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request DeleteQuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/system/deletequestionnaire")
+    @DeleteMapping(value = "/system/deletequestionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteSystemQuestionnaire(
             @RequestBody DeleteQuestionnaireRequest request) {
         return new ResponseEntity<>(
@@ -194,7 +194,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/client/createquestionnairedata")
+    @PostMapping(value = "/client/createquestionnaire")
     public ResponseEntity<SubmissionResponse> createClientQuestionnaireData(
             @RequestBody ClientQuestionnaireDataRequest request) {
 
@@ -213,7 +213,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/client/updatequestionnairedata")
+    @PostMapping(value = "/client/updatequestionnaire")
     public ResponseEntity<SubmissionResponse> updateClientQuestionnaireData(
             @RequestBody ClientQuestionnaireDataRequest request) {
 
@@ -252,7 +252,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request DeleteClientQuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/client/deletequestionnaire")
+    @DeleteMapping(value = "/client/deletequestionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteClientQuestionnaire(
             @RequestBody DeleteQuestionnaireRequest request) {
         return new ResponseEntity<>(
@@ -271,7 +271,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/user/createquestionnairedata")
+    @PostMapping(value = "/user/createquestionnaire")
     public ResponseEntity<SubmissionResponse> createUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
@@ -290,7 +290,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/user/updatequestionnairedata")
+    @PostMapping(value = "/user/updatequestionnaire")
     public ResponseEntity<SubmissionResponse> updateUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
@@ -329,7 +329,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request DeleteUserQuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/user/deletequestionnaire")
+    @DeleteMapping(value = "/user/deletequestionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteUserQuestionnaire(@RequestBody DeleteQuestionnaireRequest request) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
