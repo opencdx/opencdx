@@ -6174,6 +6174,161 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="ANF / CreateANFStatement" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/CreateANFStatement</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;time&quot; : {
+    &quot;upperBound&quot; : 100.0,
+    &quot;lowerBound&quot; : 0.0,
+    &quot;includeUpperBound&quot; : true,
+    &quot;includeLowerBound&quot; : true,
+    &quot;semantic&quot; : {
+      &quot;expression&quot; : &quot;expression&quot;
+    },
+    &quot;resolution&quot; : 1.0
+  },
+  &quot;subjectOfRecord&quot; : {
+    &quot;id&quot; : &quot;${user_id_g}&quot;
+  },
+  &quot;author&quot; : [ {
+    &quot;id&quot; : &quot;${user_id_g}&quot;,
+    &quot;practitioner&quot; : &quot;practitioner&quot;,
+    &quot;code&quot; : {
+      &quot;expression&quot; : &quot;expression&quot;
+    }
+  } ],
+  &quot;subjectOfInformation&quot; : {
+    &quot;expression&quot; : &quot;expression&quot;
+  },
+  &quot;associatedStatement&quot; : [ {
+    &quot;description&quot; : &quot;Associated description&quot;
+  } ],
+  &quot;topic&quot; : {
+    &quot;expression&quot; : &quot;Topic&quot;
+  },
+  &quot;type&quot; : {
+    &quot;expression&quot; : &quot;Type&quot;
+  },
+  &quot;narrativeCircumstance&quot; : {
+    &quot;text&quot; : &quot;Narrative Circumstance&quot;
+  },
+  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ANF ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">anf_id</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="ANF / GetANFStatement" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/GetANFStatement</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${anf_id}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="ANF / UpdateANFStatement" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/UpdateANFStatement</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;id&quot; : {
+    &quot;id&quot; : &quot;${anf_id}&quot;
+  },
+  &quot;time&quot; : {
+    &quot;upperBound&quot; : 100.0,
+    &quot;lowerBound&quot; : 0.0,
+    &quot;includeUpperBound&quot; : true,
+    &quot;includeLowerBound&quot; : true,
+    &quot;semantic&quot; : {
+      &quot;expression&quot; : &quot;expression&quot;
+    },
+    &quot;resolution&quot; : 1.0
+  },
+  &quot;subjectOfRecord&quot; : {
+    &quot;id&quot; : &quot;${user_id_r}&quot;
+  },
+  &quot;author&quot; : [ {
+    &quot;id&quot; : &quot;${user_id_g}&quot;,
+    &quot;practitioner&quot; : &quot;practitioner&quot;,
+    &quot;code&quot; : {
+      &quot;expression&quot; : &quot;expression&quot;
+    }
+  } ],
+  &quot;subjectOfInformation&quot; : {
+    &quot;expression&quot; : &quot;expression&quot;
+  },
+  &quot;associatedStatement&quot; : [ {
+    &quot;description&quot; : &quot;Associated description&quot;
+  } ],
+  &quot;topic&quot; : {
+    &quot;expression&quot; : &quot;Topic&quot;
+  },
+  &quot;type&quot; : {
+    &quot;expression&quot; : &quot;Type&quot;
+  },
+  &quot;narrativeCircumstance&quot; : {
+    &quot;text&quot; : &quot;Narrative Circumstance&quot;
+  },
+  &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="ANF / DeleteANFStatement" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.anf.ANFService/DeleteANFStatement</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${anf_id}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/anf [POST]]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
