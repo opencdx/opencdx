@@ -52,6 +52,12 @@ spring:
             - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value  
+        - id: grpc-questionnaire
+          uri: https://questionnaire:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.questionnaire.QuestionnaireService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value  
         - id: grpc-communications
           uri: https://communications:9090
           predicates:
