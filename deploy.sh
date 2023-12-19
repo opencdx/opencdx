@@ -282,6 +282,7 @@ build_docker() {
     build_docker_image opencdx/predictor ./opencdx-predictor
     build_docker_image opencdx/gateway ./opencdx-gateway
     build_docker_image opencdx/discovery ./opencdx-discovery
+    build_docker_image opencdx/dashboard ./opencdx-dashboard
     build_docker_image opencdx/anf ./opencdx-anf
 }
 
