@@ -26,12 +26,10 @@ import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.iam.IamUserType;
-import cdx.opencdx.grpc.profile.DeleteUserProfileRequest;
-import cdx.opencdx.grpc.profile.FullName;
-import cdx.opencdx.grpc.profile.UpdateUserProfileRequest;
-import cdx.opencdx.grpc.profile.UserProfileRequest;
+import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -69,6 +67,9 @@ class OpenCDXIAMProfileServiceImplTest {
 
     @Autowired
     OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     ObjectMapper objectMapper;
@@ -123,7 +124,11 @@ class OpenCDXIAMProfileServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -147,7 +152,11 @@ class OpenCDXIAMProfileServiceImplTest {
                         .build()));
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -160,7 +169,11 @@ class OpenCDXIAMProfileServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -184,7 +197,11 @@ class OpenCDXIAMProfileServiceImplTest {
                         .build()));
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -197,7 +214,11 @@ class OpenCDXIAMProfileServiceImplTest {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
@@ -221,11 +242,124 @@ class OpenCDXIAMProfileServiceImplTest {
                         .build()));
 
         this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper, this.openCDXAuditService, this.openCDXIAMUserRepository, this.openCDXCurrentUser);
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.deleteUserProfile(request));
+    }
+
+    @Test
+    void updateUserProfile_3() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .username("ab@safehealth.me")
+                        .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("bob")
+                                .setLastName("bob")
+                                .build())
+                        .build()));
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.setPrimaryAddress(
+                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+        builder.setShippingAddress(
+                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+        builder.setBillingAddress(
+                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+        builder.setEmergencyContact(EmergencyContact.newBuilder()
+                .setResidenceAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .setWorkAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .build());
+        builder.setPharmacyDetails(Pharmacy.newBuilder()
+                .setPharmacyAddress(Address.newBuilder()
+                        .setCountry(ObjectId.get().toHexString())
+                        .build())
+                .build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(ObjectId.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build());
+
+        UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
+                .setUserId(ObjectId.get().toHexString())
+                .setUpdatedProfile(builder.build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.updateUserProfile(request));
+    }
+
+    @Test
+    void updateUserProfile_4() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .username("ab@safehealth.me")
+                        .type(IamUserType.IAM_USER_TYPE_REGULAR)
+                        .fullName(FullName.newBuilder()
+                                .setFirstName("bob")
+                                .setLastName("bob")
+                                .build())
+                        .build()));
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXIAMUserRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.setPrimaryAddress(
+                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+        builder.setShippingAddress(
+                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+        builder.setBillingAddress(
+                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+        builder.setEmergencyContact(EmergencyContact.newBuilder().build());
+        builder.setPharmacyDetails(Pharmacy.newBuilder().build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(ObjectId.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build());
+
+        UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
+                .setUserId(ObjectId.get().toHexString())
+                .setUpdatedProfile(builder.build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.updateUserProfile(request));
     }
 }

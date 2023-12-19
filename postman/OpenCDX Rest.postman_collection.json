@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "8611d3e5-b579-49bd-81fc-70f3b8e5bce4",
+		"name": "OpenCDX Rest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19971249"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/iam/user/signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"console.log(response.id);",
+							"pm.environment.set(\"userId\", response.iamUser.id);",
+							"pm.variables.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"IAM_USER_TYPE_REGULAR\",\n    \"firstName\": \"Admin 2\",\n    \"lastName\": \"OpenCDX\",\n    \"systemName\": \"System Name\",\n    \"username\": \"admin_2@opencdx.org\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/iam/user/signup",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iam",
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/iam/user/verify/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/iam/user/verify/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iam",
+						"user",
+						"verify",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/iam/user/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"console.log(response.access_token);",
+							"pm.environment.set(\"token\", response.token);",
+							"pm.variables.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userName\":\"admin@opencdx.org\",\"password\":\"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/iam/user/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iam",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/helloworld/hello",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"OpenCDx\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/helloworld/hello",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"helloworld",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/iam/user/exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : \"65400ccafb05e95f742f1aa3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/iam/user/exists",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iam",
+						"user",
+						"exists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/tinkar/search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"jeff\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/tinkar/search?query=chronic disease of respiratory&maxResults=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tinkar",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "chronic disease of respiratory"
+						},
+						{
+							"key": "maxResults",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8280/audit/event",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"actor\": {\n        \"agent_type\": 2,\n        \"identity\": \"65400ccafb05e95f742f1aa3\",\n        \"network_address\": \"consectetur dolore occaecat\",\n        \"role\": \"eu cillum sit\"\n    },\n    \"audit_entity\": {\n        \"patient_identifier\": \"65400ccafb05e95f742f1aa3\",\n        \"user_identifier\": \"Ut in ut\"\n    },\n    \"audit_source\": {\n        \"configuration\": \"dolore\",\n        \"system_info\": \"fugiat in proident\"\n    },\n    \"created\": {\n        \"nanos\": 35024480,\n        \"seconds\": \"99356\"\n    },\n    \"data_object\": {\n        \"data\": \"ipsum elit\",\n        \"resource\": \"aliqua incididunt Excepteur deserunt ea\",\n        \"sensitivity\": \"SENSITIVITY_LEVEL_UNSPECIFIED\"\n    },\n    \"event_type\": \"AUDIT_EVENT_TYPE_SYSTEM_LOGIN_SUCCEEDED\",\n    \"purpose_of_use\": \"Excepteur sint\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/audit/event",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"audit",
+						"event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8080/connected-test/list",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pageSize\":10,\"pageNumber\":0,\"sortAscending\":true,\"userId\":\"653fd01fe0509b399ba2d632\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/connected-test/list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"connected-test",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8480/media/upload/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/jeffmiller/Downloads/opencdx hex long dark.svg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8480/media/upload/651ef41d8bfb330c729ae38c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8480",
+					"path": [
+						"media",
+						"upload",
+						"651ef41d8bfb330c729ae38c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8480/media/download/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8480/media/download/651ee56640d8fa29de701954.svg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8480",
+					"path": [
+						"media",
+						"download",
+						"651ee56640d8fa29de701954.svg"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -16,6 +16,7 @@
 package cdx.opencdx.connected.test.repository;
 
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
+import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Repository;
  * Repository for protobuf Manufacturer
  */
 @Repository
+@Observed(name = "opencdx")
 @SuppressWarnings("java:S100")
 public interface OpenCDXManufacturerRepository extends MongoRepository<OpenCDXManufacturerModel, ObjectId> {
     /**

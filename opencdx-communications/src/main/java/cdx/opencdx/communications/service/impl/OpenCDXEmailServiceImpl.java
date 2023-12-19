@@ -64,9 +64,9 @@ public class OpenCDXEmailServiceImpl implements OpenCDXEmailService {
                    Body:
                 {}
                 """,
-                ListUtils.safe(toEmails).stream().collect(Collectors.joining(", ")),
-                ListUtils.safe(ccEmails).stream().collect(Collectors.joining(", ")),
-                ListUtils.safe(bccEmails).stream().collect(Collectors.joining(", ")),
+                String.join(", ", ListUtils.safe(toEmails)),
+                String.join(", ", ListUtils.safe(ccEmails)),
+                String.join(", ", ListUtils.safe(bccEmails)),
                 subject,
                 ListUtils.safe(attachments).stream()
                         .map(Attachment::getFilename)

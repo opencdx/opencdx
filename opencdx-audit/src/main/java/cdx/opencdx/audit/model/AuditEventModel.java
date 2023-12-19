@@ -45,6 +45,9 @@ public class AuditEventModel {
     private String purposeOfUse;
     private AuditSource auditSource;
     private AuditEntity auditEntity;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
 
     /**
      * Create AuditEventModel entity from this protobuf message
@@ -55,6 +58,17 @@ public class AuditEventModel {
             this.created = Instant.ofEpochSecond(
                     auditEvent.getCreated().getSeconds(),
                     auditEvent.getCreated().getNanos());
+        }
+        if (auditEvent.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    auditEvent.getModified().getSeconds(),
+                    auditEvent.getModified().getNanos());
+        }
+        if (auditEvent.hasCreator()) {
+            this.creator = new ObjectId(auditEvent.getCreator());
+        }
+        if (auditEvent.hasModifier()) {
+            this.modifier = new ObjectId(auditEvent.getModifier());
         }
 
         this.eventType = auditEvent.getEventType();

@@ -52,7 +52,8 @@ spring:
             location: file:/certs/opencdx-keystore.p12
             password: ${keystore.password}
             keystore.type: PKCS12
-
+  cache:
+    type: generic
 # Enable SSL for REST
 server:
   port: 8080
@@ -71,5 +72,7 @@ grpc:
     auth:
       enabled: true
 
-keystore.password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='
-truststore.password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='
+keystore:
+  password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='
+truststore:
+  password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='

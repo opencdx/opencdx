@@ -20,7 +20,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.controller.GrpcDeviceController;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.connected.test.controller.OpenCDXGrpcDeviceController;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.OpenCDXCountryRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
@@ -59,6 +60,9 @@ class OpenCDXDeviceServiceImplTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
 
@@ -73,7 +77,7 @@ class OpenCDXDeviceServiceImplTest {
 
     OpenCDXDeviceService openCDXDeviceService;
 
-    GrpcDeviceController grpcDeviceController;
+    OpenCDXGrpcDeviceController openCDXGrpcDeviceController;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
@@ -86,7 +90,11 @@ class OpenCDXDeviceServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXDeviceService = new OpenCDXDeviceServiceImpl(
-                this.openCDXDeviceRepository, openCDXCurrentUser, objectMapper, this.openCDXAuditService);
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                objectMapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -124,7 +132,11 @@ class OpenCDXDeviceServiceImplTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXDeviceModel.class)))
                 .thenThrow(JsonProcessingException.class);
         OpenCDXDeviceServiceImpl openCDXDeviceService1 = new OpenCDXDeviceServiceImpl(
-                this.openCDXDeviceRepository, openCDXCurrentUser, mapper, this.openCDXAuditService);
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXDeviceService1.addDevice(device));
     }
 
@@ -148,7 +160,11 @@ class OpenCDXDeviceServiceImplTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXDeviceModel.class)))
                 .thenThrow(JsonProcessingException.class);
         OpenCDXDeviceServiceImpl openCDXDeviceService1 = new OpenCDXDeviceServiceImpl(
-                this.openCDXDeviceRepository, openCDXCurrentUser, mapper, this.openCDXAuditService);
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXDeviceService1.updateDevice(device));
     }
 }

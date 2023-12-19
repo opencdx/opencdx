@@ -38,3 +38,9 @@ queue:
 
 mongock:
   change-logs-scan-package: cdx.opencdx.communications.changelog
+
+cdc:
+  message:
+    uri: cdc-uri
+    client: cdc-client
+    key: cdc-key

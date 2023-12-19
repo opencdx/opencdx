@@ -33,7 +33,12 @@ check_keytool() {
 generate_certificate() {
     local SERVICE_NAME=$1
 
-    openssl req -x509 -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 3650 -nodes -passout pass:opencdx -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}"
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "mingw" || "$OSTYPE" == "cygwin" ]]; then
+        openssl req -x509 -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 3650 -nodes -passout pass:opencdx -subj "//C=US\ST=CA\L=SanDiego\O=SafeHealth\OU=OpenCDx\CN=${SERVICE_NAME}"
+    else
+        openssl req -x509 -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 3650 -nodes -passout pass:opencdx -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}"
+    fi
+
 
     openssl pkcs12 -export -in "${SERVICE_NAME}-cert.pem" -inkey "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-keystore.p12" -name "${SERVICE_NAME}" -passin pass:opencdx -passout pass:opencdx
 
@@ -64,6 +69,9 @@ generate_certificate "Admin"
 generate_certificate "Gateway"
 generate_certificate "Discovery"
 generate_certificate "Routine"
+generate_certificate "Predictor"
+generate_certificate "Protector"
+generate_certificate "ANF"
 
 # Generate certificates for MongoDB
 generate_certificate "mongodb"

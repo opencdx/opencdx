@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    config:
+      tls:
+        key-store: file:/certs/opencdx-keystore.p12
+        trust-store-type: PKCS12
+        key-store-type: PKCS12
+        key-password: opencdx
+        trust-store: file:/certs/opencdx-keystore.p12
+        trust-store-password: opencdx
+        enabled: 'true'
+        key-store-password: opencdx
+      uri: https://Config:8888
+  config:
+    import: configserver:https://Config:8888
+  application:
+    name: protector
+  profiles:
+    active: managed,mongo,nats,protector
+
+management:
+  tracing:
+    enabled: true
+    sampling.probability: 1.0
+    propagation:
+      type: b3
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+logging:
+  pattern:
+    level: "${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+  level:
+    cdx.opencdx: debug

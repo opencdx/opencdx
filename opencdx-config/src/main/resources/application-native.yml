@@ -61,6 +61,6 @@ eureka:
     homePageUrl: https://${spring.application.name}:${server.port}/
 encrypt:
   keyStore:
-    location: classpath:/config-server.jks
+    location: file:/certs/config-server.jks
     alias: config-server-key
     password: opencdx

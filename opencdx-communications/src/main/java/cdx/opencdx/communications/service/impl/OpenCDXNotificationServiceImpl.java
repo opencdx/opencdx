@@ -21,6 +21,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
@@ -34,7 +35,6 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +55,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private static final String DOMAIN = "OpenCDXNotificationServiceImpl";
     private static final String OBJECT = "Object";
     private static final String FAILED_TO_CONVERT_TEMPLATE_REQUEST = "Failed to convert TemplateRequest";
+    private static final String NOTIFICATION_EVENT = "NOTIFICATION-EVENT: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXNotificationEventRepository openCDXNotificationEventRepository;
     private final OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
@@ -67,6 +68,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
     /**
      * Constructor taking some repositoroes
      *
@@ -80,6 +82,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXCommunicationSmsService     SMS Service to use for handling SMS
      * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
+     * @param openCDXDocumentValidator           Document Validator for validating documents.
      */
     @Autowired
     public OpenCDXNotificationServiceImpl(
@@ -92,7 +95,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
@@ -103,10 +107,19 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
     public NotificationEvent createNotificationEvent(NotificationEvent notificationEvent) throws OpenCDXNotAcceptable {
+        if (notificationEvent.hasEmailTemplateId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "email-template", new ObjectId(notificationEvent.getEmailTemplateId()));
+        }
+        if (notificationEvent.hasSmsTemplateId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "sms-template", new ObjectId(notificationEvent.getSmsTemplateId()));
+        }
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.config(
@@ -114,7 +127,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     "Creating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    notificationEvent.getEventId(),
+                    NOTIFICATION_EVENT + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -155,7 +168,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     "Updating Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    notificationEvent.getEventId(),
+                    NOTIFICATION_EVENT + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(notificationEvent));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -184,7 +197,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     "Deleting Notification Event",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    templateRequest.getTemplateId(),
+                    NOTIFICATION_EVENT + templateRequest.getTemplateId(),
                     this.objectMapper.writeValueAsString(templateRequest));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -297,8 +310,9 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    UUID.randomUUID().toString(),
-                    notificationEvent.getEventName() + ": " + notificationEvent.getEventId(),
+                    currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
+                    NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =

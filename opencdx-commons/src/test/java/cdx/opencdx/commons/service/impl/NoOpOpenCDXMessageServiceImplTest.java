@@ -27,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("noop")
+@ActiveProfiles({"noop", "test"})
 @SpringBootTest(classes = {CommonsConfig.class, ObservationAutoConfiguration.class})
 @ExtendWith(SpringExtension.class)
 class NoOpOpenCDXMessageServiceImplTest {

@@ -16,6 +16,7 @@
 package cdx.opencdx.connected.test.repository;
 
 import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
+import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,5 @@ import org.springframework.stereotype.Repository;
  * Repository for protobuf Country
  */
 @Repository
+@Observed(name = "opencdx")
 public interface OpenCDXCountryRepository extends MongoRepository<OpenCDXCountryModel, ObjectId> {}

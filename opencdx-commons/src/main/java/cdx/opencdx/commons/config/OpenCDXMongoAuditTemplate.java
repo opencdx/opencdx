@@ -16,14 +16,14 @@
 package cdx.opencdx.commons.config;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import cdx.opencdx.commons.aspects.AuditAspect;
-import cdx.opencdx.commons.dto.RequestActorAttributes;
-import com.mongodb.client.MongoClient;
+import cdx.opencdx.commons.utils.CurrentUserHelper;
 import com.mongodb.client.result.DeleteResult;
-import java.util.Date;
+import io.micrometer.observation.annotation.Observed;
+import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -35,30 +35,15 @@ import org.springframework.data.mongodb.core.query.Update;
  * record sent to Mongo.
  */
 @Slf4j
+@Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     /**
-     * Constructor  for MongoTemplate
-     * @param mongoClient MongoClient to use.
-     * @param databaseName Database name to used
-     */
-    public OpenCDXMongoAuditTemplate(MongoClient mongoClient, String databaseName) {
-        super(mongoClient, databaseName);
-    }
-
-    /**
      * Constructor for MongoTemplate
-     * @param mongoDbFactory MongoDbFactory to use to generate this MongoTemplate.
-     */
-    public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory) {
-        super(mongoDbFactory);
-    }
-
-    /**
-     * Constructor for MongoTemplate
-     * @param mongoDbFactory  MongoDbFactory to use to generate this MongoTemplate.
-     * @param mongoConverter MongoConverter to use for this MongoTemplate.
+     *
+     * @param mongoDbFactory     MongoDbFactory to use to generate this MongoTemplate.
+     * @param mongoConverter     MongoConverter to use for this MongoTemplate.
      */
     public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         super(mongoDbFactory, mongoConverter);
@@ -66,13 +51,9 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     @Override
     protected <T> T maybeCallBeforeSave(T object, Document document, String collection) {
-        RequestActorAttributes requestActorAttributes = AuditAspect.getCurrentThreadInfo();
-        String identityID = "system";
-        Date date = new Date();
-
-        if (requestActorAttributes != null) {
-            identityID = requestActorAttributes.getActor();
-        }
+        ObjectId identityID =
+                CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
+        Instant date = Instant.now();
 
         Object id = document.get("_id");
         Object creator = document.get("creator");
@@ -107,13 +88,9 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     }
 
     private void updateRemovalQuery(String collectionName, Query query) {
-        RequestActorAttributes requestActorAttributes = AuditAspect.getCurrentThreadInfo();
-        String identityID = "system";
-        Date date = new Date();
-
-        if (requestActorAttributes != null) {
-            identityID = requestActorAttributes.getActor();
-        }
+        ObjectId identityID =
+                CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
+        Instant date = Instant.now();
 
         log.debug("Setting Modifier: {} modified: {}", identityID, date);
 

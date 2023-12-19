@@ -15,14 +15,11 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
+import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
-import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl;
-import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
-import cdx.opencdx.commons.service.impl.OpenCDXAuditServiceImpl;
-import cdx.opencdx.commons.service.impl.OwaspHtmlSanitizerImpl;
+import cdx.opencdx.commons.service.*;
+import cdx.opencdx.commons.service.impl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -34,11 +31,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -49,6 +44,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Autoconfiguraiton class for opencdx-commons.
  */
 @Slf4j
+@EnableCaching
 @AutoConfiguration
 @Configuration
 public class CommonsConfig {
@@ -57,6 +53,16 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Default Cache Manager
+     * @return OpenCDXMemoryCacheManager
+     */
+    @Bean
+    @Primary
+    public CacheManager cacheManager() {
+        return new OpenCDXMemoryCacheManager();
     }
 
     /**
@@ -114,6 +120,7 @@ public class CommonsConfig {
      * @param natsConnection NATS Connection
      * @param objectMapper Object Mapper to use.
      * @param applicationName Name of the service.
+     * @param openCDXCurrentUser Current User Service
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")
@@ -123,9 +130,10 @@ public class CommonsConfig {
     public OpenCDXMessageService natsOpenCDXMessageService(
             Connection natsConnection,
             ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
             @Value("${spring.application.name}") String applicationName) {
         log.info("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName);
+        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName, openCDXCurrentUser);
     }
 
     @Bean("noop")
@@ -139,18 +147,37 @@ public class CommonsConfig {
     @Bean
     @Description("OpenCDXOpenCDXAuditService for submitting audit messages through the message system.")
     OpenCDXAuditService openCDXAuditService(
-            OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+            OpenCDXMessageService messageService,
+            @Value("${spring.application.name}") String applicationName,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         log.info("Creaging Audit Service for {}", applicationName);
-        return new OpenCDXAuditServiceImpl(messageService, applicationName);
+        return new OpenCDXAuditServiceImpl(messageService, applicationName, openCDXDocumentValidator);
     }
 
     @Bean
     @Primary
     @Profile("mongo")
     @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
+    @ExcludeFromJacocoGeneratedReport
     MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         log.info("Creating Mongo Template");
-        // TODO: switch in OpenCDXMongoAuditTemplate
-        return new MongoTemplate(mongoDbFactory, mongoConverter);
+        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
+    }
+
+    @Bean
+    @Primary
+    @Profile("test")
+    OpenCDXDocumentValidator noOpDocumentValidator() {
+        log.info("Creating NoOp Document Validator");
+        return new NoOpDocumentValidatorImpl();
+    }
+
+    @Bean
+    @Profile("!test")
+    @ExcludeFromJacocoGeneratedReport
+    @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
+    OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
+        log.info("Creating Mongo Document Validator");
+        return new MongoDocumentValidatorImpl(mongoTemplate);
     }
 }

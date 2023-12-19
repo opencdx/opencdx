@@ -13,7 +13,7 @@ enum TemplateType {
   TEMPLATE_TYPE_NEWSLETTER = 3; //Template is a newsletter.
   TEMPLATE_TYPE_ALERT = 4; // Template is an alert.
   TEMPLATE_TYPE_REMINDER = 5; // Template is a reminder.
-  TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmaiton.
+  TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmation.
 }
 
 // Indicates the status of the Notification
@@ -41,6 +41,10 @@ message EmailTemplate {
   string content = 3;                // Content of the email template.
   repeated string variables = 4;     // Placeholder variables within the template.
   TemplateType template_type = 5; // Type of the email template.
+  optional google.protobuf.Timestamp created = 6; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 7; // Timestamp when this event was modified.
+  optional string creator = 8; // ID of the creator of this event.
+  optional string modifier = 9; // ID of the modifier of this event.
 }
 
 /**
@@ -52,6 +56,10 @@ message SMSTemplate {
   string message = 2;                // Content of the SMS template.
   repeated string variables = 3;     // Placeholder variables within the SMS template.
   TemplateType template_type = 4; // Type of the SMS template.
+  optional google.protobuf.Timestamp created = 5; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 6; // Timestamp when this event was modified.
+  optional string creator = 7; // ID of the creator of this event.
+  optional string modifier = 8; // ID of the modifier of this event.
 }
 
 /**
@@ -69,6 +77,10 @@ message NotificationEvent {
   cdx.opencdx.grpc.audit.SensitivityLevel sensitivity = 8; // Indicates the Sensitivity level of the notification when sent.
   int32 email_retry = 9; // Number of attempts to try and send email. Defaults to 0 for infinite.
   int32 sms_retry = 10; // Number of attempts to try and send SMS. Defaults to 0 for infinite.
+  optional google.protobuf.Timestamp created = 11; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 12; // Timestamp when this event was modified.
+  optional string creator = 13; // ID of the creator of this event.
+  optional string modifier = 14; // ID of the modifier of this event.
 }
 
 /**
@@ -106,6 +118,10 @@ message Notification {
   map<string,string> variables = 12;   // Variables or placeholders.
 
   repeated string recipients_id = 13; // List of the UUID's for each email recipient and for recipients phone numbers.
+  optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
+  optional string creator = 16; // ID of the creator of this event.
+  optional string modifier = 17; // ID of the modifier of this event.
 
 }
 

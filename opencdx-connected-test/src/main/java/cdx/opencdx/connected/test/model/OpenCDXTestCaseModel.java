@@ -51,6 +51,10 @@ public class OpenCDXTestCaseModel {
     private String safety;
     private String userInstructions;
     private String limitations;
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
 
     /**
      * Create this entity from a TestCase Protobuf message
@@ -60,8 +64,12 @@ public class OpenCDXTestCaseModel {
         if (testCase.hasId()) {
             this.id = new ObjectId(testCase.getId());
         }
-        this.manufacturerId = new ObjectId(testCase.getManufacturerId());
-        this.vendorId = new ObjectId(testCase.getVendorId());
+        if (testCase.hasManufacturerId()) {
+            this.manufacturerId = new ObjectId(testCase.getManufacturerId());
+        }
+        if (testCase.hasVendorId()) {
+            this.vendorId = new ObjectId(testCase.getVendorId());
+        }
         if (testCase.hasPackagingDate()) {
             this.packagingDate = Instant.ofEpochSecond(
                     testCase.getPackagingDate().getSeconds(),
@@ -80,12 +88,28 @@ public class OpenCDXTestCaseModel {
         this.safety = testCase.getSafety();
         this.userInstructions = testCase.getUserInstructions();
         this.limitations = testCase.getLimitations();
+
+        if (testCase.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    testCase.getCreated().getSeconds(), testCase.getCreated().getNanos());
+        }
+        if (testCase.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    testCase.getModified().getSeconds(), testCase.getModified().getNanos());
+        }
+        if (testCase.hasCreator()) {
+            this.creator = new ObjectId(testCase.getCreator());
+        }
+        if (testCase.hasModifier()) {
+            this.modifier = new ObjectId(testCase.getModifier());
+        }
     }
 
     /**
      * Method to get Protobuf Message
      * @return TestCase protobuf message from this entity.
      */
+    @SuppressWarnings("java:S3776")
     public TestCase getProtobufMessage() {
         TestCase.Builder builder = TestCase.newBuilder();
 
@@ -135,6 +159,24 @@ public class OpenCDXTestCaseModel {
         if (this.deviceIds != null && !this.deviceIds.isEmpty()) {
             builder.addAllDeviceIds(
                     this.deviceIds.stream().map(ObjectId::toHexString).toList());
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
 
         return builder.build();

@@ -25,6 +25,8 @@ import com.google.rpc.Status;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.WebRequest;
@@ -40,14 +42,17 @@ public abstract class OpenCDXException extends RuntimeException {
      * Signature for OpenCDx exceptions
      */
     private static final String OPENCDX_SIGNATURE = "OPENCDX-{}-{} - {}";
+
     /**
-     * HttpStatus assigned to this exception
+     * Status for the exception
      */
+    @Getter
     private final HttpStatus status;
 
     /**
-     * Google Code for gRPC assigned to this excepiton.
+     * Code for the exception
      */
+    @Getter
     private final Code code;
     /**
      * Domain this exception was created in.
@@ -61,6 +66,8 @@ public abstract class OpenCDXException extends RuntimeException {
     /**
      * MetaData that can be passed in this exception for any relevant data.
      */
+    @Getter
+    @Setter
     @SuppressWarnings("java:S1165")
     private Map<String, String> metaData;
 
@@ -129,22 +136,6 @@ public abstract class OpenCDXException extends RuntimeException {
         log.error(OPENCDX_SIGNATURE, this.domain, this.number, message, this);
     }
 
-    /**
-     * Get the MetaData
-     * @return currently specified MetaData
-     */
-    public Map<String, String> getMetaData() {
-        return metaData;
-    }
-
-    /**
-     * Sets the Metadata for this exception
-     * @param metaData Map consisting of the MetaData
-     */
-    public void setMetaData(Map<String, String> metaData) {
-        this.metaData = metaData;
-    }
-
     @Override
     public String toString() {
         return String.format("OPENCDX-%s-%d - %s", this.domain, this.number, super.toString());
@@ -202,22 +193,6 @@ public abstract class OpenCDXException extends RuntimeException {
             statusBuilder.setMessage("No Message Given");
         }
         return statusBuilder.build();
-    }
-
-    /**
-     * The Httpstatus for this exception.
-     * @return The Httpstatus for this exception.
-     */
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * The Google Code for this exception.
-     * @return The Google Code for this exception.
-     */
-    public Code getCode() {
-        return code;
     }
 
     /**

@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.repository;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,20 +29,21 @@ import org.springframework.stereotype.Repository;
  * Repository for IAM User collection
  */
 @Repository
+@Observed(name = "opencdx")
 public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUserModel, ObjectId> {
     /**
      * Method to find a user by their email address
      * @param username String containing the email address to look up for the user.
      * @return Optional OpenCDXIAMUserModel of the user.
      */
-    @Cacheable("username")
+    @Cacheable(value = "findByUsername", key = "#username")
     Optional<OpenCDXIAMUserModel> findByUsername(String username);
 
     @Override
     @Caching(
             evict = {
-                @CacheEvict(value = "user-details", key = "#entity.username"),
-                @CacheEvict(value = "username", key = "#entity.username")
+                @CacheEvict(value = "findByUsername", key = "#entity.username"),
+                @CacheEvict(value = "user-details", key = "#entity.username")
             })
     <S extends OpenCDXIAMUserModel> S save(S entity);
 }

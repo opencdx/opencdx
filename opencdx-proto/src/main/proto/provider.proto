@@ -1,0 +1,136 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.provider;
+// Importing the timestamp proto package
+import "google/protobuf/timestamp.proto";
+
+// Enum to represent the purpose of an address.
+enum AddressPurpose {
+  LOCATION = 0;   // Address used for location purposes.
+  MAILING = 1;    // Address used for mailing purposes.
+  PRIMARY = 2;    // Primary address.
+  SECONDARY = 3;  // Secondary address.
+}
+
+// Enum to represent the status of a provider.
+enum ProviderStatus {
+  VALIDATED = 0;  // The provider has been validated.
+  DELETED = 1;    // The provider has been deleted.
+}
+
+// Message to represent an address.
+message Address {
+  string country_code = 1;        // Country code.
+  string country_name = 2;        // Country name.
+  AddressPurpose address_purpose = 3; // Purpose of the address (e.g., LOCATION, MAILING).
+  string address_type = 4;        // Type of address (e.g., DOM).
+  string address_1 = 5;           // First line of the address.
+  string city = 6;                // City.
+  string state = 7;               // State.
+  string postal_code = 8;         // Postal code.
+  string telephone_number = 9;    // Telephone number.
+  string fax_number = 10;         // Fax number.
+}
+
+// Message to represent basic information about a healthcare provider.
+message BasicInfo {
+  string first_name = 1;          // First name.
+  string last_name = 2;           // Last name.
+  string credential = 3;          // Credential (e.g., M.D.).
+  string sole_proprietor = 4;     // Sole proprietor indicator (e.g., YES).
+  string gender = 5;              // Gender.
+  string enumeration_date = 6;    // Date of enumeration.
+  ProviderStatus status = 7;      // Status of the provider (e.g., NEW, VALIDATED, DELETED).
+  string name_prefix = 8;         // Name prefix (e.g., Dr.).
+  string name_suffix = 9;         // Name suffix (e.g., --).
+}
+
+// Message to represent a taxonomy code associated with a provider.
+message Taxonomy {
+  string code = 1;                // Taxonomy code.
+  string taxonomy_group = 2;      // Taxonomy group.
+  string desc = 3;                // Description of the taxonomy.
+  string state = 4;               // State.
+  string license = 5;             // License number.
+  bool primary = 6;               // Primary taxonomy indicator.
+}
+
+// Message to represent an identifier associated with a provider.
+message Identifier {
+  string code = 1;                // Identifier code.
+  string desc = 2;                // Description of the identifier (e.g., MEDICAID).
+  string issuer = 3;              // Issuer information.
+  string identifier = 4;          // Identifier value.
+  string state = 5;               // State.
+}
+
+// Message to represent the result of a query, containing a list of providers.
+message ListProvidersResponse {
+  int32 result_count = 1;         // Number of results in the response.
+  repeated Provider results = 2;  // List of providers.
+}
+
+// Message to represent a healthcare provider, including new fields "id" and "user_id".
+message Provider {
+  string id = 1;                   // Provider ID.
+  string user_id = 2;              // User ID.
+  string created_epoch = 3;        // Epoch timestamp of creation.
+  string enumeration_type = 4;     // Enumeration type.
+  string last_updated_epoch = 5;   // Epoch timestamp of last update.
+  string number = 6;               // Provider number.
+  repeated Address addresses = 7;  // List of addresses associated with the provider.
+  repeated string practiceLocations = 8; // List of practice locations.
+  BasicInfo basic = 9;             // Basic information about the provider.
+  repeated Taxonomy taxonomies = 10; // List of taxonomies associated with the provider.
+  repeated Identifier identifiers = 11; // List of identifiers associated with the provider.
+  repeated string endpoints = 12;  // List of endpoints.
+  repeated string other_names = 13; // List of other names.
+
+  google.protobuf.Timestamp created = 14;  // Timestamp when this event was created.
+  google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
+  string creator = 16;                    // ID of the creator of this event.
+  string modifier = 17;                   // ID of the modifier of this event.
+}
+
+// Request and Response messages for creating a provider.
+message GetProviderRequest {
+  string provider_number = 1;           // Provider Number to lookup.
+}
+
+message GetProviderResponse {
+  Provider provider = 1;               // Provider information for lookup.
+}
+
+// Request and Response messages for editing a provider.
+message EditProviderRequest {
+  Provider provider = 1;           // Provider information for editing.
+}
+
+message EditProviderResponse {}
+
+// Request and Response messages for deleting a provider.
+message DeleteProviderRequest {
+  string provider_id = 1;          // Provider ID for deletion.
+}
+
+message LoadProviderRequest{
+  string user_id = 1;              // User ID for loading.
+  string provider_number = 2;      // Provider number for loading.
+}
+
+message LoadProviderResponse{
+  Provider provider = 1;           // Provider information for loading.
+}
+
+message DeleteProviderResponse {}
+
+// Request and Response messages for listing providers.
+message ListProvidersRequest {}
+
+// Service definition for ProviderService.
+service ProviderService {
+  rpc GetProviderByNumber(GetProviderRequest) returns (GetProviderResponse);
+  rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse);
+  rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
+  rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
+}

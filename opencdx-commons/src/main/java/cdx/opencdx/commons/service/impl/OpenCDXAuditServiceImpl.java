@@ -15,20 +15,25 @@
  */
 package cdx.opencdx.commons.service.impl;
 
-import cdx.opencdx.commons.aspects.AuditAspect;
-import cdx.opencdx.commons.dto.RequestActorAttributes;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.audit.*;
 import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * OpenCDX-Audit based implementation of OpenCDXOpenCDXAuditService
+ * This class is an implementation of the OpenCDXAuditService interface.
+ * It provides methods for auditing user actions in the OpenCDX system.
+ * The class uses an OpenCDXMessageService to send audit events.
+ * <p>
+ * The class is annotated with the @Service annotation to indicate that it is a service component.
+ * It is also annotated with the @Observed(name = "opencdx") annotation to specify the name of the observer for the audit events.
  */
 @Slf4j
 @Service
@@ -38,17 +43,23 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    private OpenCDXMessageService messageService;
+    private final OpenCDXMessageService messageService;
+
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor based on the OpenCDXMessageService
      * @param messageService Messaging Service to use,
      * @param applicationName Applicaiton name to set.
+     * @param openCDXDocumentValidator Document validator to validate the document.
      */
     public OpenCDXAuditServiceImpl(
-            OpenCDXMessageService messageService, @Value("${spring.application.name}") String applicationName) {
+            OpenCDXMessageService messageService,
+            @Value("${spring.application.name}") String applicationName,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.applicationName = applicationName;
         this.messageService = messageService;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
@@ -85,25 +96,27 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     }
 
     @Override
-    public void userAccessChange(String actor, AgentType agentType, String purpose, String auditEntity) {
+    public void userAccessChange(
+            String actor, AgentType agentType, String purpose, String patientId, String patientNhiId) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_ACCESS_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
 
     @Override
-    public void passwordChange(String actor, AgentType agentType, String purpose, String auditEntity) {
+    public void passwordChange(
+            String actor, AgentType agentType, String purpose, String patientId, String patientNhiId) {
         this.sendMessage(AuditEvent.newBuilder()
                 .setEventType(AuditEventType.AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE)
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -114,7 +127,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -123,7 +137,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -134,7 +148,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -143,7 +158,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -154,7 +169,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -163,7 +179,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -174,7 +190,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -183,7 +200,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -194,7 +211,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -202,7 +220,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setPurposeOfUse(purpose)
                 .build());
@@ -214,7 +232,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -222,7 +241,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setPurposeOfUse(purpose)
                 .build());
@@ -234,7 +253,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -243,7 +263,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -254,7 +274,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -263,7 +284,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .build());
     }
@@ -274,7 +295,8 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             AgentType agentType,
             String purpose,
             SensitivityLevel sensitivityLevel,
-            String auditEntity,
+            String patientId,
+            String patientNhiId,
             String resource,
             String jsonRecord) {
         this.sendMessage(AuditEvent.newBuilder()
@@ -282,7 +304,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .setCreated(this.getTimeStamp(Instant.now()))
                 .setAuditSource(this.getAuditSource(this.applicationName))
                 .setActor(this.getActor(actor, agentType))
-                .setAuditEntity(this.getAuditEntity(auditEntity))
+                .setAuditEntity(this.getAuditEntity(patientId, patientNhiId))
                 .setPurposeOfUse(purpose)
                 .setDataObject(this.getDataObject(jsonRecord, resource, sensitivityLevel))
                 .build());
@@ -321,8 +343,16 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
         return Actor.newBuilder().setIdentity(actor).setAgentType(agentType).build();
     }
 
-    private AuditEntity getAuditEntity(String auditEntity) {
-        return AuditEntity.newBuilder().setPatientIdentifier(auditEntity).build();
+    private AuditEntity getAuditEntity(String patientId, String patientNhiId) {
+        AuditEntity.Builder builder = AuditEntity.newBuilder();
+        if (patientId != null) {
+            builder.setUserIdentifier(patientId);
+        }
+        if (patientNhiId != null) {
+            builder.setPatientIdentifier(patientNhiId);
+        }
+
+        return builder.build();
     }
 
     private DataObject getDataObject(String jsonRecord, String resource, SensitivityLevel sensitivityLevel) {
@@ -335,150 +365,16 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
 
     private AuditStatus sendMessage(AuditEvent event) {
         log.info("Sending Audit Event: {}", event.getEventType());
+        openCDXDocumentValidator.validateDocumentOrLog(
+                "users", new ObjectId(event.getActor().getIdentity()));
+        if (event.hasAuditEntity()) {
+            log.debug("Validating Audit Entity: {}", event.getAuditEntity().getUserIdentifier());
+            if (!event.getAuditEntity().getUserIdentifier().isEmpty()) {
+                openCDXDocumentValidator.validateDocumentOrLog(
+                        "users", new ObjectId(event.getAuditEntity().getUserIdentifier()));
+            }
+        }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
         return AuditStatus.newBuilder().setSuccess(true).build();
-    }
-
-    @Override
-    public void userLoginSucceed(AgentType agentType, String purpose) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.userLoginSucceed(info.getActor(), agentType, purpose);
-    }
-
-    @Override
-    public void userLoginFailure(AgentType agentType, String purpose) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.userLoginFailure(info.getActor(), agentType, purpose);
-    }
-
-    @Override
-    public void userLogout(AgentType agentType, String purpose) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.userLogout(info.getActor(), agentType, purpose);
-    }
-
-    @Override
-    public void userAccessChange(AgentType agentType, String purpose) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.userAccessChange(info.getActor(), agentType, purpose, info.getPatient());
-    }
-
-    @Override
-    public void passwordChange(AgentType agentType, String purpose) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.passwordChange(info.getActor(), agentType, purpose, info.getPatient());
-    }
-
-    @Override
-    public void piiAccessed(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiAccessed(
-                info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void piiCreated(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiCreated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void piiUpdated(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiUpdated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void piiDeleted(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.piiDeleted(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void phiAccessed(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiAccessed(
-                info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void phiCreated(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiCreated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void phiUpdated(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiUpdated(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void phiDeleted(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.phiDeleted(info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void communication(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.communication(
-                info.getActor(), agentType, purpose, sensitivityLevel, info.getPatient(), resource, jsonRecord);
-    }
-
-    @Override
-    public void config(
-            AgentType agentType,
-            String purpose,
-            SensitivityLevel sensitivityLevel,
-            String resource,
-            String jsonRecord) {
-        RequestActorAttributes info = AuditAspect.getCurrentThreadInfo();
-        this.config(info.getActor(), agentType, purpose, sensitivityLevel, resource, jsonRecord);
     }
 }

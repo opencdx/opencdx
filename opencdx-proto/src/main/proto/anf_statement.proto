@@ -1,6 +1,8 @@
 syntax = "proto3";
 package cdx.opencdx.grpc.anf;
 
+import "google/protobuf/timestamp.proto";
+
 // Enum to represent different levels of health risk.
 enum HealthRisk {
   HEALTH_RISK_UNSPECIFIED = 0;  // Default, unspecified value
@@ -28,6 +30,13 @@ enum NormalRange {
   NORMAL_RANGE_CRITICAL = 4;  // The result is critically high or low
 }
 
+// Media Status
+enum Status {
+  STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
+  STATUS_ACTIVE = 1; // Media is active.
+  STATUS_DELETED = 2; // Media is being deleted.
+}
+
 // Service definition for ANF operations.
 // Provides CRUD operations for ANFStatement and circumstances.
 service ANFService {
@@ -35,29 +44,8 @@ service ANFService {
   rpc GetANFStatement (Identifier) returns (ANFStatement);  // Retrieve an existing ANFStatement by its Identifier
   rpc UpdateANFStatement (ANFStatement) returns (Identifier);  // Update an existing ANFStatement
   rpc DeleteANFStatement (Identifier) returns (Identifier);  // Delete an ANFStatement by its Identifier
-  rpc CreatePerformanceCircumstance (CreatePerformanceCircumstanceRequest) returns (CreatePerformanceCircumstanceResponse);  // Create a new PerformanceCircumstance
-  rpc CreateRequestCircumstance (CreateRequestCircumstanceRequest) returns (CreateRequestCircumstanceResponse);  // Create a new RequestCircumstance
 }
 
-// Request message for creating a new PerformanceCircumstance.
-message CreatePerformanceCircumstanceRequest {
-  PerformanceCircumstance performance_circumstance = 1;  // The PerformanceCircumstance to be created
-}
-
-// Response message for creating a new PerformanceCircumstance.
-message CreatePerformanceCircumstanceResponse {
-  string status = 1;  // Status of the PerformanceCircumstance creation
-}
-
-// Request message for creating a new RequestCircumstance.
-message CreateRequestCircumstanceRequest {
-  RequestCircumstance request_circumstance = 1;  // The RequestCircumstance to be created
-}
-
-// Response message for creating a new RequestCircumstance.
-message CreateRequestCircumstanceResponse {
-  string status = 1;  // Status of the RequestCircumstance creation
-}
 
 // Unique identifier for an ANFStatement.
 message Identifier {
@@ -127,6 +115,12 @@ message Repetition {
   Measure event_frequency = 5;  // Frequency of the events
 }
 
+// Representation of the circumstances associated with a clinical statement
+message Circumstance {
+  Measure timing = 1;  // Timing information, represents a past or current time
+  repeated LogicalExpression purpose = 2;  // Purposes information
+}
+
 // Representation of a RequestCircumstance.
 message RequestCircumstance {
   repeated AssociatedStatement conditional_trigger = 1;  // Conditions that trigger the request
@@ -134,7 +128,7 @@ message RequestCircumstance {
   LogicalExpression priority = 3;  // Priority level of the request
   Measure requested_result = 4;  // Expected result of the request
   Repetition repetition = 5;  // Details about the repetition, optional
-  Timing timing = 6;  // Timing information, always represents a future time
+  Circumstance circumstance = 6; // Circumstances associated with a clinical statement
 }
 
 // Representation of a PerformanceCircumstance.
@@ -144,12 +138,13 @@ message PerformanceCircumstance {
   LogicalExpression health_risk = 3;  // Health risk level, optional
   Measure normal_range = 4;  // Normal range for the result, optional
   repeated Participant participant = 5;  // Participants in the performance
-  Timing timing = 6;  // Timing information, represents a past or current time
+  Circumstance circumstance = 6; // Circumstances associated with a clinical statement
 }
 
 // Representation of a NarrativeCircumstance.
 message NarrativeCircumstance {
   string text = 1;  // Textual description or narrative
+  Circumstance circumstance = 2; // Circumstances associated with a clinical statement 
 }
 
 // Representation of a reference to other entities like patient records or health practitioners.
@@ -189,4 +184,10 @@ message ANFStatement {
     PerformanceCircumstance performance_circumstance = 10;
     NarrativeCircumstance narrative_circumstance = 11;
   }
+  optional google.protobuf.Timestamp created = 12; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 13; // Timestamp when this event was modified.
+  optional string creator = 14; // ID of the creator of this event.
+  optional string modifier = 15; // ID of the modifier of this event.
+
+  Status status = 16; // Status of the ANFStatement
 }

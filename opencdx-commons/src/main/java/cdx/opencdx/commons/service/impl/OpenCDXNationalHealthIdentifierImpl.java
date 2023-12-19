@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.iam.IamUserType;
+import io.micrometer.observation.annotation.Observed;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
  * Implementation of OpenCDXNationalHealthIdentifier ID generated from user email.
  */
 @Service
+@Observed(name = "opencdx")
 public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealthIdentifier {
     /**
      * Default Constructor
@@ -41,8 +43,6 @@ public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealt
         }
 
         throw new OpenCDXNotAcceptable(
-                "OpenCDXNationalHealthIdentifierImpl",
-                1,
-                "AgentTypes of: " + userModel.getType().toString());
+                "OpenCDXNationalHealthIdentifierImpl", 1, "AgentTypes of: " + userModel.getType());
     }
 }

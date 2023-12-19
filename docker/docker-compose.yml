@@ -23,18 +23,109 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
     ports:
       - "8080:8080"
-  frontend:
+  anf:
     deploy:
       restart_policy:
         condition: on-failure
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/frontend:latest
+    image: opencdx/anf:latest
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+      iam:
+        condition: service_healthy
+    volumes:
+      - ../certs:/certs
+  routine:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/routine:latest
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      config:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+      iam:
+        condition: service_healthy
+    volumes:
+      - ../certs:/certs    
+
+  protector:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/protector:latest
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+      iam:
+        condition: service_healthy
+    volumes:
+      - ../certs:/certs
+      
+  predictor:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/predictor:latest
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -46,8 +137,7 @@ services:
         condition: service_started
     volumes:
       - ../certs:/certs
-    ports:
-      - "3000:3000"
+
   helloworld:
     deploy:
       restart_policy:
@@ -71,6 +161,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -123,6 +215,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -149,6 +243,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -175,6 +271,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -201,6 +299,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -227,6 +327,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      iam:
+        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -290,7 +392,7 @@ services:
       start_period: 5s
 
   nats:
-    image: nats
+    image: nats:alpine3.18
     volumes:
       - ../certs:/certs
       - ../data/nats:/opt/nats/data
@@ -304,17 +406,17 @@ services:
       NATS_STREAM_MAX_AGE: 86400s
 
   trace_storage:
-    image: openzipkin/zipkin-mysql
+    image: openzipkin/zipkin-mysql:2
     container_name: mysql
     # Uncomment to expose the storage port for testing
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - ../data/mysql:/opt/mysql/data
     restart: unless-stopped
 
   zipkin:
-    image: openzipkin/zipkin
+    image: openzipkin/zipkin:2
     volumes:
       - ../certs:/certs
       #- ../opencdx-zipkin/zipkin.conf:/zipkin.conf
@@ -329,17 +431,17 @@ services:
       # Uncomment to enable self-tracing
       #- SELF_TRACING_ENABLED=true
       # Uncomment to enable debug logging
-      - JAVA_OPTS=  -Djavax.net.ssl.trustStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.trustStorePassword=opencdx -Djavax.net.ssl.trustStoreType=PKCS12 -Djavax.net.ssl.keyStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.keyStorePassword=opencdx -Djavax.net.ssl.keyStoreType=PKCS12
-      - ARMERIA_SSL_KEY-STORE=file:/certs/opencdx-keystore.p12
-      - ARMERIA_SSL_KEY_ALIAS=zipkin
-      - ARMERIA_SSL_KEY_STORE_PASSWORD=opencdx
-      - ARMERIA_SSL_KEY_STORE_TYPE=PKCS12
-      - ARMERIA_SSL_TRUST_STORE=file:/certs/opencdx-keystore.p12
-      - ARMERIA_SSL_TRUST_STORE_PASSWORD=opencdx
-      - ARMERIA_SSL_TRUST_STORE_TYPE=PKCS12
-      - ARMERIA_SSL_ENABLED=TRUE
-      - ARMERIA_PORTS_0_PORT=9411
-      - ARMERIA_PORTS_0_PROTOCOLS_0=https
+#      - JAVA_OPTS=  -Djavax.net.ssl.trustStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.trustStorePassword=opencdx -Djavax.net.ssl.trustStoreType=PKCS12 -Djavax.net.ssl.keyStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.keyStorePassword=opencdx -Djavax.net.ssl.keyStoreType=PKCS12
+#      - ARMERIA_SSL_KEY_STORE=file:/certs/opencdx-keystore.p12
+#      - ARMERIA_SSL_KEY_ALIAS=zipkin
+#      - ARMERIA_SSL_KEY_STORE_PASSWORD=opencdx
+#      - ARMERIA_SSL_KEY_STORE_TYPE=PKCS12
+#      - ARMERIA_SSL_TRUST_STORE=file:/certs/opencdx-keystore.p12
+#      - ARMERIA_SSL_TRUST_STORE_PASSWORD=opencdx
+#      - ARMERIA_SSL_TRUST_STORE_TYPE=PKCS12
+#      - ARMERIA_SSL_ENABLED=TRUE
+#      - ARMERIA_PORTS_0_PORT=9411
+#      - ARMERIA_PORTS_0_PROTOCOLS_0=https
 
      #- JAVA_OPTS=-Xms512m -Xmx1g
     healthcheck:
@@ -352,7 +454,7 @@ services:
       - "9411:9411"
     restart: unless-stopped
   zipkin_dependencies:
-    image: openzipkin/zipkin-dependencies
+    image: openzipkin/zipkin-dependencies:2
     container_name: dependencies
     entrypoint: crond -f
     environment:

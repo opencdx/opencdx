@@ -4,14 +4,16 @@ package cdx.opencdx.grpc.organization;
 
 option java_multiple_files = true;
 
+import "google/protobuf/timestamp.proto";
+
 import "google/protobuf/empty.proto"; // Import for the Empty message
 
 // Definition for an organization
 message Organization {
-  optional string organization_id = 1; // Unique identifier for the organization
+  optional string id = 1; // Unique identifier for the organization
   optional string name = 2; // Name of the organization
   optional string description = 3; // Description of the organization
-  optional string founding_date = 4; // Date when the organization was founded
+  optional google.protobuf.Timestamp founding_date = 4; // Date when the organization was founded
   optional string address = 5; // Physical address of the organization
   optional string website = 6; // Organization's website URL
   optional string industry = 7; // Industry or sector of the organization
@@ -21,7 +23,11 @@ message Organization {
   optional string mission_statement = 11; // Mission statement of the organization
   optional string vision_statement = 12; // Vision statement of the organization
   repeated ContactInfo contacts = 13; // Contact information for the organization
-  repeated Workspace workspace = 14; // Departments (Workspaces) within the organization
+  repeated string workspace_ids = 14; // Departments (Workspaces) within the organization
+  optional google.protobuf.Timestamp created = 15; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 16; // Timestamp when this event was modified.
+  optional string creator = 17; // ID of the creator of this event.
+  optional string modifier = 18; // ID of the modifier of this event.
 }
 
 // Definition for a workspace
@@ -29,7 +35,7 @@ message Workspace {
   optional string id = 1; // Unique identifier for the workspace
   optional string name = 2; // Name of the workspace
   optional string description = 3; // Description of the workspace
-  optional string created_date = 4; // Date when the workspace was created
+  optional google.protobuf.Timestamp created_date = 4; // Date when the workspace was created
   optional string location = 5; // Physical location of the workspace
   optional string manager = 6; // Name of the workspace manager
   optional int32 capacity = 7; // Maximum capacity of the workspace
@@ -39,6 +45,10 @@ message Workspace {
   optional string usage_policy = 11; // Policies and rules for using the workspace
   optional string availability_schedule = 12; // Schedule of when the workspace is available
   repeated Department departments = 13; // Departments within the workspace
+  optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
+  optional string creator = 16; // ID of the creator of this event.
+  optional string modifier = 17; // ID of the modifier of this event.
 }
 
 // Contact information for an organization or workspace

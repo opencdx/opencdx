@@ -68,6 +68,14 @@ public class OpenCDXDeviceModel {
     private String deviceStatus;
     private String associatedSoftwareVersion;
     private List<ObjectId> testCaseIds;
+    private String name;
+    private String shortDescription;
+    private String description;
+
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
 
     /**
      * Create Device entity from this protobuf message
@@ -116,6 +124,24 @@ public class OpenCDXDeviceModel {
         this.associatedSoftwareVersion = device.getAssociatedSoftwareVersion();
         this.testCaseIds =
                 device.getTestCaseIdsList().stream().map(ObjectId::new).toList();
+        this.name = device.getName();
+        this.shortDescription = device.getShortDescription();
+        this.description = device.getDescription();
+
+        if (device.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    device.getCreated().getSeconds(), device.getCreated().getNanos());
+        }
+        if (device.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    device.getModified().getSeconds(), device.getModified().getNanos());
+        }
+        if (device.hasCreator()) {
+            this.creator = new ObjectId(device.getCreator());
+        }
+        if (device.hasModifier()) {
+            this.modifier = new ObjectId(device.getModifier());
+        }
     }
 
     /**
@@ -221,6 +247,33 @@ public class OpenCDXDeviceModel {
         if (this.testCaseIds != null && !this.testCaseIds.isEmpty()) {
             builder.addAllTestCaseIds(
                     this.testCaseIds.stream().map(ObjectId::toHexString).toList());
+        }
+        if (this.name != null) {
+            builder.setName(this.name);
+        }
+        if (this.shortDescription != null) {
+            builder.setShortDescription(this.shortDescription);
+        }
+        if (this.description != null) {
+            builder.setDescription(this.description);
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
 
         return builder.build();

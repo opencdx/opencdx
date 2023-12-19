@@ -40,10 +40,9 @@ public class OpenCDXMediaModel {
     @Id
     private ObjectId id;
 
-    Instant created;
     Instant updated;
-    String organization;
-    String workspace;
+    ObjectId organization;
+    ObjectId workspace;
     String name;
     String shortDescription;
     String description;
@@ -56,6 +55,11 @@ public class OpenCDXMediaModel {
     String endpoint;
     MediaStatus status;
 
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
+
     /**
      * Constructor taking a Media and generating the Model
      * @param media Media to generate model for.
@@ -65,13 +69,6 @@ public class OpenCDXMediaModel {
             this.id = new ObjectId(media.getId());
         }
 
-        if (media.hasCreatedAt()) {
-            this.created = Instant.ofEpochSecond(
-                    media.getCreatedAt().getSeconds(), media.getCreatedAt().getNanos());
-        } else {
-            this.created = Instant.now();
-        }
-
         if (media.hasUpdatedAt()) {
             this.updated = Instant.ofEpochSecond(
                     media.getUpdatedAt().getSeconds(), media.getUpdatedAt().getNanos());
@@ -79,8 +76,8 @@ public class OpenCDXMediaModel {
             this.updated = Instant.now();
         }
 
-        this.organization = media.getOrganizationSlug();
-        this.workspace = media.getWorkspaceSlug();
+        this.organization = new ObjectId(media.getOrganizationId());
+        this.workspace = new ObjectId(media.getWorkspaceId());
         this.name = media.getName();
         this.shortDescription = media.getShortDescription();
         this.description = media.getDescription();
@@ -90,6 +87,21 @@ public class OpenCDXMediaModel {
         this.size = media.getSize();
         this.location = media.getLocation();
         this.endpoint = media.getEndpoint();
+
+        if (media.hasCreated()) {
+            this.created = Instant.ofEpochSecond(
+                    media.getCreated().getSeconds(), media.getCreated().getNanos());
+        }
+        if (media.hasModified()) {
+            this.modified = Instant.ofEpochSecond(
+                    media.getModified().getSeconds(), media.getModified().getNanos());
+        }
+        if (media.hasCreator()) {
+            this.creator = new ObjectId(media.getCreator());
+        }
+        if (media.hasModifier()) {
+            this.modifier = new ObjectId(media.getModifier());
+        }
     }
 
     /**
@@ -104,13 +116,6 @@ public class OpenCDXMediaModel {
             builder.setId(this.id.toHexString());
         }
 
-        if (this.created != null) {
-            builder.setCreatedAt(Timestamp.newBuilder()
-                    .setSeconds(this.created.getEpochSecond())
-                    .setNanos(this.created.getNano())
-                    .build());
-        }
-
         if (this.updated != null) {
             builder.setCreatedAt(Timestamp.newBuilder()
                     .setSeconds(this.updated.getEpochSecond())
@@ -118,10 +123,10 @@ public class OpenCDXMediaModel {
                     .build());
         }
         if (this.organization != null) {
-            builder.setOrganizationSlug(this.organization);
+            builder.setOrganizationId(this.organization.toHexString());
         }
         if (this.workspace != null) {
-            builder.setWorkspaceSlug(this.workspace);
+            builder.setWorkspaceId(this.workspace.toHexString());
         }
         if (this.name != null) {
             builder.setName(this.name);
@@ -152,6 +157,24 @@ public class OpenCDXMediaModel {
         }
         if (this.status != null) {
             builder.setStatus(this.status);
+        }
+        if (this.created != null) {
+            builder.setCreated(Timestamp.newBuilder()
+                    .setSeconds(this.created.getEpochSecond())
+                    .setNanos(this.created.getNano())
+                    .build());
+        }
+        if (this.modified != null) {
+            builder.setModified(Timestamp.newBuilder()
+                    .setSeconds(this.modified.getEpochSecond())
+                    .setNanos(this.modified.getNano())
+                    .build());
+        }
+        if (this.creator != null) {
+            builder.setCreator(this.creator.toHexString());
+        }
+        if (this.modified != null) {
+            builder.setModifier(this.modifier.toHexString());
         }
         return builder.build();
     }
