@@ -42,6 +42,36 @@ handle_menu() {
       fi
 }
 
+# Function to check and generate certificates if needed
+check_and_generate_certs() {
+    # File information
+    file_path="./certs/opencdx-keystore.p12"
+    expected_checksum="99b3ddd9ed48f7317d5e655dd2597b85"
+
+    # Check if the file exists
+    if [ ! -e "$file_path" ]; then
+        handle_info "Certificate file does not exist. Generating Certificates."
+        cd ./certs
+        ./certs.sh
+        cd ..
+    else
+        actual_checksum=$(md5sum "$file_path" | awk '{print $1}')
+
+        echo "File: $file_path"
+        echo "Expected Checksum: $expected_checksum"
+        echo "Actual Checksum  : $actual_checksum"
+
+        if [ "$actual_checksum" == "$expected_checksum" ]; then
+            echo "Checksum matched. The certificate file is up to date."
+        else
+            handle_info "Checksum mismatch. Regenerating Certificates."
+            cd ./certs
+            ./certs.sh
+            cd ..
+        fi
+    fi
+}
+
 # Function to copy files from source to target directory
 # Parameters: $1 - Source directory, $2 - Target directory
 # Returns: 0 on success, 1 on failure
@@ -277,7 +307,7 @@ build_docker() {
     build_docker_image opencdx/media ./opencdx-media
     build_docker_image opencdx/connected-test ./opencdx-connected-test
     build_docker_image opencdx/iam ./opencdx-iam
-	  build_docker_image opencdx/routine ./opencdx-routine
+	build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
     build_docker_image opencdx/gateway ./opencdx-gateway
@@ -580,18 +610,8 @@ if [ "$cert" = true ]; then
     rm -rf ./certs/*.p12
 fi
 
-if [ ! -e ./certs/opencdx-keystore.p12 ]; then
-    handle_info "Generating Certificates"
-
-    # Change into the desired directory
-    cd ./certs
-
-    # Run the script in the current directory
-    ./certs.sh
-
-    # Move back to the original directory
-    cd ..
-fi
+# Perform Check and Generate on certs (.p12)
+check_and_generate_certs
 
 ./gradlew -stop all
 # Clean the project if --clean is specified
