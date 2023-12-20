@@ -57,8 +57,8 @@ message RealTimeMonitoringData {
   optional string encounter_id = 1; // Encounter ID associated with the data
   optional string monitored_entity = 2; // Entity being monitored
   optional string monitoring_details = 3; // Details of monitoring
-  optional string monitoring_start_time = 4; // Start time of monitoring
-  optional string monitoring_end_time = 5; // End time of monitoring
+  optional google.protobuf.Timestamp monitoring_start_time = 4; // Start time of monitoring
+  optional google.protobuf.Timestamp monitoring_end_time = 5; // End time of monitoring
   repeated string triggered_alerts = 6; // Alerts triggered during monitoring
   optional string monitoring_frequency = 7; // Frequency of monitoring activity
   optional bool is_continuous_monitoring = 8; // Indicates if monitoring is continuous
