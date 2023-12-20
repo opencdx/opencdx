@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Define global variables
+GIT_BRANCH=""
+LAST_COMMIT=""
+
 # ANSI color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -41,6 +45,26 @@ handle_menu() {
           echo "$1 $2"
       fi
 }
+
+
+git_info() {
+    # Check if the current directory is a Git repository
+    if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
+      # Get the current branch name
+      GIT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git branch -l | sed -n '/\* /s///p')
+
+      # Get the last commit number
+      LAST_COMMIT=$(git rev-parse --short HEAD)
+    fi
+}
+# Check if the current directory is a Git repository
+if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
+  # Get the current branch name
+  GIT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git branch -l | sed -n '/\* /s///p')
+
+  # Get the last commit number
+  LAST_COMMIT=$(git rev-parse --short HEAD)
+fi
 
 # Function to copy files from source to target directory
 # Parameters: $1 - Source directory, $2 - Target directory
@@ -406,6 +430,14 @@ EOL
 menu() {
     while true; do
         clear
+
+        if [ -t 1 ]; then
+                # Check if stdout is a terminal
+                echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC}"
+            else
+                cho "Current branch: $GIT_BRANCH Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert"
+            fi
+
         echo "OpenCDX Deployment Menu:"
 
         # Define menu items
@@ -597,6 +629,7 @@ fi
 ./gradlew -stop all
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
+    git_info
     if ./gradlew build publish -x test -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Fast Build & Clean completed successfully"
@@ -607,6 +640,7 @@ if [ "$fast_build" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
+    git_info
     if ./gradlew clean spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
@@ -615,6 +649,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
         handle_error "Build failed. Please review output to determine the issue."
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
+    git_info
     if ./gradlew spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
