@@ -310,6 +310,7 @@ build_docker() {
 	build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
+    build_docker_image opencdx/questionnaire ./opencdx-questionnaire
     build_docker_image opencdx/gateway ./opencdx-gateway
     build_docker_image opencdx/discovery ./opencdx-discovery
     build_docker_image opencdx/dashboard ./opencdx-dashboard
