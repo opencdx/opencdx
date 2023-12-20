@@ -39,7 +39,6 @@ generate_certificate() {
         openssl req -x509 -newkey rsa:4096 -keyout "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-cert.pem" -days 3650 -nodes -passout pass:opencdx -subj "/C=US/ST=CA/L=SanDiego/O=SafeHealth/OU=OpenCDx/CN=${SERVICE_NAME}"
     fi
 
-
     openssl pkcs12 -export -in "${SERVICE_NAME}-cert.pem" -inkey "${SERVICE_NAME}-key.pem" -out "${SERVICE_NAME}-keystore.p12" -name "${SERVICE_NAME}" -passin pass:opencdx -passout pass:opencdx
 
     keytool -importkeystore -noprompt -srckeystore "${SERVICE_NAME}-keystore.p12" -destkeystore opencdx-keystore.p12 -srcstorepass opencdx -deststorepass opencdx
@@ -53,38 +52,44 @@ check_openssl_version
 # Check if keytool is installed
 check_keytool
 
-rm -rf ./*.pem
-rm -rf ./*.p12
+# Array of service names
+services=(  "Audit"
+            "HelloWorld"
+            "Communications"
+            "Connected-Test"
+            "IAM"
+            "Media"
+            "Tinkar"
+            "Config"
+            "Admin"
+            "Gateway"
+            "Discovery"
+            "Routine"
+            "Predictor"
+            "Protector"
+            "Questionnaire"
+            "ANF"
+            "mongodb"
+            "nats"
+        )
 
-# Generate certificates for individual services
-generate_certificate "Audit"
-generate_certificate "HelloWorld"
-generate_certificate "Communications"
-generate_certificate "Connected-Test"
-generate_certificate "IAM"
-generate_certificate "Media"
-generate_certificate "Tinkar"
-generate_certificate "Config"
-generate_certificate "Admin"
-generate_certificate "Gateway"
-generate_certificate "Discovery"
-generate_certificate "Routine"
-generate_certificate "Predictor"
-generate_certificate "Protector"
-generate_certificate "Questionnaire"
-generate_certificate "ANF"
-
-# Generate certificates for MongoDB
-generate_certificate "mongodb"
-
-# Generate certificates for NATS
-generate_certificate "nats"
+# Generate certificates for services
+for service in "${services[@]}"; do
+    pem_file="${service}-cert.pem"
+    if [ ! -e "$pem_file" ]; then
+        echo "Generating certificate for $service..."
+        generate_certificate "$service"
+    else
+        echo "Certificate for $service already exists."
+    fi
+done
 
 # Setup keys and certificate for Mongodb
 cat mongodb-key.pem mongodb-cert.pem > mongodb.pem
 
 # Concatenate client certs into a client truststore
 cat Audit-cert.pem Communications-cert.pem HelloWorld-cert.pem Media-cert.pem Admin-cert.pem > opencdx-clients.pem
+
 
 #Regenerating the JKS Keystore will require re-generating the encrypted password/passcodes in the configuration.
 #keytool -genkeypair -alias config-server-key -keyalg RSA -keysize 2048 -dname 'C=US,ST=CA,L=SanDiego,O=SafeHealth,OU=OpenCDx,CN=Config' -keypass opencdx -keystore config-server.jks -storepass opencdx

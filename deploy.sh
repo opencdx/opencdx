@@ -450,7 +450,7 @@ menu() {
             "Open NATS Dashboard" "Run JMeter Test Script"
             "Open JMeter Test Script" "Open Microservice Tracing Zipkin"
             "Open Test Report" "Publish Doc"
-            "Open JaCoCo Report" "Check code"
+            "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
         )
 
@@ -604,6 +604,8 @@ fi
 
 handle_info "All dependencies are installed."
 
+sleep 2
+
 if [ "$skip" = false ]; then
     stop_docker
 fi
@@ -617,18 +619,18 @@ if [ "$cert" = true ]; then
     rm -rf ./certs/*.p12
 fi
 
-if [ ! -e ./certs/opencdx-keystore.p12 ]; then
-    handle_info "Generating Certificates"
+handle_info "Checking Certificates"
 
-    # Change into the desired directory
-    cd ./certs
+# Change into the desired directory
+cd ./certs
 
-    # Run the script in the current directory
-    ./certs.sh
+# Run the script in the current directory
+./certs.sh
 
-    # Move back to the original directory
-    cd ..
-fi
+# Move back to the original directory
+cd ..
+
+sleep 2
 
 ./gradlew -stop all
 # Clean the project if --clean is specified
