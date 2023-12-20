@@ -6520,7 +6520,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;routine&quot; : {&#xd;
     &quot;name&quot; : &quot;Test Routine&quot;,&#xd;
     &quot;description&quot; : &quot;Test Routine Description&quot;,&#xd;
-    &quot;status&quot; : &quot;Routine.Status.ACTIVE&quot;,&#xd;
+    &quot;status&quot; : &quot;COMPLETED&quot;,&#xd;
     &quot;creationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;lastUpdatedDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;assignedUser&quot; : &quot;6581e5157e001111d3736b48&quot;,&#xd;
@@ -6556,7 +6556,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;executionId&quot; : &quot;6581e5157e001111d3736b4a&quot;,&#xd;
     &quot;routineId&quot; : &quot;6581e5157e001111d3736b4b&quot;,&#xd;
     &quot;protocolId&quot; : &quot;6581e5157e001111d3736b4c&quot;,&#xd;
-    &quot;status&quot; : &quot;ClinicalProtocolExecution.Status.ACTIVE&quot;,&#xd;
+    &quot;status&quot; : &quot;COMPLETED&quot;,&#xd;
     &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;results&quot; : &quot;ClinicalProtocolExecution Results&quot;,&#xd;
@@ -6591,7 +6591,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;deliveryTracking&quot; : {&#xd;
     &quot;orderId&quot; : &quot;6581e5157e001111d3736b4f&quot;,&#xd;
-    &quot;status&quot; : &quot;DeliveryTracking.Status.ACTIVE&quot;,&#xd;
+    &quot;status&quot; : &quot;DELAYED&quot;,&#xd;
     &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;currentLocation&quot; : &quot;Current Location&quot;,&#xd;
