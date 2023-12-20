@@ -8,6 +8,7 @@ import { gridSpacing } from 'store/constant';
 
 const PharmacyDetails = () => (
     <Grid container spacing={gridSpacing}>
+
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Pharmacy Name" defaultValue="Pharmacy Name" />
         </Grid>
