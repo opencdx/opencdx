@@ -6897,7 +6897,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{
   &quot;anomalyDetectionData&quot; : {
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d81b&quot;,
-    &quot;userId&quot; : &quot;6582f9d06f3402218745d81c&quot;,
+    &quot;userId&quot; : &quot;${user_id_g}&quot;,
     &quot;dataAccessPattern&quot; : &quot;dataAccessPattern&quot;,
     &quot;timeStamp&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;anomaliesDetected&quot; : [ &quot;anomaly1&quot;, &quot;anomaly2&quot; ],
@@ -6925,7 +6925,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{
   &quot;authorizationControlData&quot; : {
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d815&quot;,
-    &quot;userId&quot; : &quot;6582f9d06f3402218745d816&quot;,
+    &quot;userId&quot; : &quot;${user_id_g}&quot;,
     &quot;dataAccessLevel&quot; : &quot;dataAccessLevel&quot;,
     &quot;accessGrantedBy&quot; : &quot;6582f9d06f3402218745d817&quot;,
     &quot;accessScopes&quot; : [ &quot;accessScope1&quot;, &quot;accessScope2&quot; ],
@@ -6979,7 +6979,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{
   &quot;realTimeMonitoringData&quot; : {
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d813&quot;,
-    &quot;monitoredEntity&quot; : &quot;6582f9d06f3402218745d814&quot;,
+    &quot;monitoredEntity&quot; : &quot;${user_id_g}&quot;,
     &quot;monitoringDetails&quot; : &quot;monitoringDetails&quot;,
     &quot;monitoringStartTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;monitoringEndTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
@@ -7007,7 +7007,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{
   &quot;userBehaviorAnalysisData&quot; : {
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d819&quot;,
-    &quot;userId&quot; : &quot;6582f9d06f3402218745d81a&quot;,
+    &quot;userId&quot; : &quot;${user_id_g}&quot;,
     &quot;behaviorPattern&quot; : &quot;behaviorPattern&quot;,
     &quot;associatedActivities&quot; : [ &quot;associatedActivity1&quot;, &quot;associatedActivity2&quot; ],
     &quot;analysisTimeFrame&quot; : &quot;analysisTimeFrame&quot;,
@@ -7028,7 +7028,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;anomalyDetectionData&quot; : {&#xd;
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d81b&quot;,&#xd;
-    &quot;userId&quot; : &quot;6582f9d06f3402218745d81c&quot;,&#xd;
+    &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
     &quot;dataAccessPattern&quot; : &quot;dataAccessPattern&quot;,&#xd;
     &quot;timeStamp&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;anomaliesDetected&quot; : [ &quot;anomaly1&quot;, &quot;anomaly2&quot; ],&#xd;
@@ -7065,7 +7065,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;authorizationControlData&quot; : {&#xd;
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d815&quot;,&#xd;
-    &quot;userId&quot; : &quot;6582f9d06f3402218745d816&quot;,&#xd;
+    &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
     &quot;dataAccessLevel&quot; : &quot;dataAccessLevel&quot;,&#xd;
     &quot;accessGrantedBy&quot; : &quot;6582f9d06f3402218745d817&quot;,&#xd;
     &quot;accessScopes&quot; : [ &quot;accessScope1&quot;, &quot;accessScope2&quot; ],&#xd;
@@ -7137,7 +7137,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;realTimeMonitoringData&quot; : {&#xd;
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d813&quot;,&#xd;
-    &quot;monitoredEntity&quot; : &quot;6582f9d06f3402218745d814&quot;,&#xd;
+    &quot;monitoredEntity&quot; : &quot;${user_id_r}&quot;,&#xd;
     &quot;monitoringDetails&quot; : &quot;monitoringDetails&quot;,&#xd;
     &quot;monitoringStartTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;monitoringEndTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
@@ -7175,7 +7175,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;userBehaviorAnalysisData&quot; : {&#xd;
     &quot;encounterId&quot; : &quot;6582f9d06f3402218745d819&quot;,&#xd;
-    &quot;userId&quot; : &quot;6582f9d06f3402218745d81a&quot;,&#xd;
+    &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
     &quot;behaviorPattern&quot; : &quot;behaviorPattern&quot;,&#xd;
     &quot;associatedActivities&quot; : [ &quot;associatedActivity1&quot;, &quot;associatedActivity2&quot; ],&#xd;
     &quot;analysisTimeFrame&quot; : &quot;analysisTimeFrame&quot;,&#xd;

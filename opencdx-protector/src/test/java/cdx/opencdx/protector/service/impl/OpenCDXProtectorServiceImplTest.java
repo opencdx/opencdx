@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.protector.AnomalyDetectionData;
 import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlData;
@@ -57,6 +58,9 @@ class OpenCDXProtectorServiceImplTest {
     OpenCDXProtectorService protectorService;
 
     @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
+    @Autowired
     OpenCDXAuditService openCDXAuditService;
 
     @Mock
@@ -69,8 +73,8 @@ class OpenCDXProtectorServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -79,8 +83,11 @@ class OpenCDXProtectorServiceImplTest {
     // Test case: ProtectorServiceImplTest that calls the detectAnomalies
     @Test
     void detectAnomalies() {
-        AnomalyDetectionDataRequest request =
-                AnomalyDetectionDataRequest.newBuilder().build();
+        AnomalyDetectionDataRequest request = AnomalyDetectionDataRequest.newBuilder()
+                .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         SecurityResponse response = this.protectorService.detectAnomalies(request);
 
         Assertions.assertEquals("SecurityResponse [detectAnomalies]", response.getResponse());
@@ -90,8 +97,11 @@ class OpenCDXProtectorServiceImplTest {
     // Test case: ProtectorServiceImplTest that calls the enforceAuthorizationControl
     @Test
     void enforceAuthorizationControl() {
-        AuthorizationControlDataRequest request =
-                AuthorizationControlDataRequest.newBuilder().build();
+        AuthorizationControlDataRequest request = AuthorizationControlDataRequest.newBuilder()
+                .setAuthorizationControlData(AuthorizationControlData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         SecurityResponse response = this.protectorService.enforceAuthorizationControl(request);
 
         Assertions.assertEquals("SecurityResponse [enforceAuthorizationControl]", response.getResponse());
@@ -112,8 +122,11 @@ class OpenCDXProtectorServiceImplTest {
     // Test case: ProtectorServiceImplTest that calls the monitorRealTimeActivity
     @Test
     void monitorRealTimeActivity() {
-        RealTimeMonitoringDataRequest request =
-                RealTimeMonitoringDataRequest.newBuilder().build();
+        RealTimeMonitoringDataRequest request = RealTimeMonitoringDataRequest.newBuilder()
+                .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
+                        .setMonitoredEntity(ObjectId.get().toHexString())
+                        .build())
+                .build();
         SecurityResponse response = this.protectorService.monitorRealTimeActivity(request);
 
         Assertions.assertEquals("SecurityResponse [monitorRealTimeActivity]", response.getResponse());
@@ -123,8 +136,11 @@ class OpenCDXProtectorServiceImplTest {
     // Test case: ProtectorServiceImplTest that calls the analyzeUserBehavior
     @Test
     void analyzeUserBehavior() {
-        UserBehaviorAnalysisDataRequest request =
-                UserBehaviorAnalysisDataRequest.newBuilder().build();
+        UserBehaviorAnalysisDataRequest request = UserBehaviorAnalysisDataRequest.newBuilder()
+                .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         SecurityResponse response = this.protectorService.analyzeUserBehavior(request);
 
         Assertions.assertEquals("SecurityResponse [analyzeUserBehavior]", response.getResponse());
@@ -141,12 +157,14 @@ class OpenCDXProtectorServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
 
         AnomalyDetectionDataRequest request = AnomalyDetectionDataRequest.newBuilder()
-                .setAnomalyDetectionData(
-                        AnomalyDetectionData.newBuilder().setEncounterId("789").build())
+                .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setEncounterId("789")
+                        .build())
                 .build();
 
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> protectorService.detectAnomalies(request));
@@ -160,12 +178,13 @@ class OpenCDXProtectorServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
 
         AuthorizationControlDataRequest request = AuthorizationControlDataRequest.newBuilder()
                 .setAuthorizationControlData(AuthorizationControlData.newBuilder()
                         .setEncounterId("789")
+                        .setUserId(ObjectId.get().toHexString())
                         .build())
                 .build();
 
@@ -181,8 +200,8 @@ class OpenCDXProtectorServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
 
         PrivacyProtectionDataRequest request = PrivacyProtectionDataRequest.newBuilder()
                 .setPrivacyProtectionData(
@@ -200,12 +219,13 @@ class OpenCDXProtectorServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
 
         RealTimeMonitoringDataRequest request = RealTimeMonitoringDataRequest.newBuilder()
                 .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
                         .setEncounterId("789")
+                        .setMonitoredEntity(ObjectId.get().toHexString())
                         .build())
                 .build();
 
@@ -220,11 +240,12 @@ class OpenCDXProtectorServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
 
         UserBehaviorAnalysisDataRequest request = UserBehaviorAnalysisDataRequest.newBuilder()
                 .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
                         .setEncounterId("789")
                         .build())
                 .build();
