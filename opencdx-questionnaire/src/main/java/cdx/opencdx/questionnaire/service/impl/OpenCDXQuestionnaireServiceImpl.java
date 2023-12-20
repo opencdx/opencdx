@@ -46,10 +46,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
 
     /**
      * Constructor taking the a PersonRepository
-     *
-     * @param objectMapper2    repository for interacting with the database.
-     * @param objectMapper2 Audit service for tracking FDA requirements
      * @param openCDXCurrentUser Current User Service.
+     * @param openCDXAuditService Audit Service.
+     * @param objectMapper Object Mapper.
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(

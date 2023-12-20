@@ -37,8 +37,10 @@ eureka:
     homePageUrl: https://${spring.application.name}:${server.port}/
 
 springdoc:
-  api-docs:
-    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs.path: /api-docs
 
 # Spring SSL bundle for securing a webserver
 spring:
@@ -63,6 +65,7 @@ server:
     client-auth: none
   http2:
     enabled: true
+  forward-headers-strategy: framework
 # Enable SSL for gRPC
 grpc:
   port: 9090
