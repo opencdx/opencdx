@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.routine.service.OpenCDXRoutineService;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+    private OpenCDXDocumentValidator opencdxDocumentValidator;
 
     /**
      * Constructor for OpenCDXRoutineServiceImpl.
@@ -54,10 +57,14 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Autowired
     public OpenCDXRoutineServiceImpl(
-            OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXAuditService openCDXAuditService,
+            ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXDocumentValidator opencdxDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.opencdxDocumentValidator = opencdxDocumentValidator;
     }
 
     /**
@@ -243,6 +250,9 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public LabOrderResponse triggerLabOrder(LabOrderRequest request) {
+        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getLabOrder().getRelatedEntitiesList().stream()
+                .map(ObjectId::new)
+                .toList());
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -299,6 +309,9 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public DiagnosisResponse triggerDiagnosis(DiagnosisRequest request) {
+        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getDiagnosis().getRelatedEntitiesList().stream()
+                .map(ObjectId::new)
+                .toList());
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -359,6 +372,10 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public SuspectedDiagnosisResponse triggerSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
+        this.opencdxDocumentValidator.validateDocumentsOrThrow(
+                request.getSuspectedDiagnosis().getRelatedEntitiesList().stream()
+                        .map(ObjectId::new)
+                        .toList());
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -419,6 +436,9 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public LabResultResponse triggerLabResult(LabResultRequest request) {
+        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getLabResult().getRelatedEntitiesList().stream()
+                .map(ObjectId::new)
+                .toList());
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -479,6 +499,9 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public MedicationResponse triggerMedication(MedicationRequest request) {
+        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getMedication().getRelatedEntitiesList().stream()
+                .map(ObjectId::new)
+                .toList());
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(

@@ -65,4 +65,9 @@ public class NoOpDocumentValidatorImpl implements OpenCDXDocumentValidator {
     public void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace) {
         // Explicitly do nothing
     }
+
+    @Override
+    public void validateDocumentsOrThrow(List<ObjectId> documentIds) {
+        // Explicitly do nothing
+    }
 }

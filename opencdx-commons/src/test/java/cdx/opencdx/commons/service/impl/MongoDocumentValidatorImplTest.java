@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.utils.MongoDocumentExists;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,10 +30,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -43,12 +42,12 @@ class MongoDocumentValidatorImplTest {
     @Mock
     private MongoTemplate mongoTemplate;
 
-    @InjectMocks
     private MongoDocumentValidatorImpl documentValidator;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        this.mongoTemplate = Mockito.mock(MongoTemplate.class);
+        this.documentValidator = new MongoDocumentValidatorImpl(mongoTemplate, new MongoDocumentExists(mongoTemplate));
     }
 
     @Test
