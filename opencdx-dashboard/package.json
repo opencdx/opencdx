@@ -1,6 +1,7 @@
 {
     "name": "admin-ui",
     "version": "1.0.0",
+    "proxy": "https://localhost:8080",
     "private": true,
     "dependencies": {
         "@emotion/cache": "^11.11.0",
