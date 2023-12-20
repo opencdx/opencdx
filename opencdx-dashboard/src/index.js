@@ -36,7 +36,7 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 root.render(
     <Provider store={store}>
         <ConfigProvider>
-        <App />
+            <App />
         </ConfigProvider>
     </Provider>
 );

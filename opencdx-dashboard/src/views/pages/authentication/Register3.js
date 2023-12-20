@@ -31,7 +31,7 @@ const Register = () => {
                                             <Logo />
                                         </Link>
                                     </Grid>
-                                
+
                                     <Grid item xs={12}>
                                         <AuthRegister />
                                     </Grid>

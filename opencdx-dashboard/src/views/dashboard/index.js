@@ -8,9 +8,7 @@ import MainCard from 'ui-component/cards/MainCard';
 
 const Dashboard = () => (
     <MainCard title="Dashboard">
-        <Typography variant="body2">
-           Dashboard
-        </Typography>
+        <Typography variant="body2">Dashboard</Typography>
     </MainCard>
 );
 

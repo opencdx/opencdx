@@ -10,7 +10,6 @@ import { gridSpacing } from 'store/constant';
 
 const KnownAllegeries = () => (
     <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Allergen" defaultValue="Evergreen Trees" />
         </Grid>
@@ -29,7 +28,6 @@ const KnownAllegeries = () => (
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Notes" defaultValue="Chrirstmas Trees" />
         </Grid>
-       
     </Grid>
 );
 

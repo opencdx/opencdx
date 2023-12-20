@@ -1,5 +1,5 @@
 // material-ui
-import { Grid,  TextField } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 
 // project imports
 import { gridSpacing } from 'store/constant';
@@ -8,7 +8,6 @@ import { gridSpacing } from 'store/constant';
 
 const CurrentMedications = () => (
     <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Name" defaultValue="Singular" />
         </Grid>
@@ -27,7 +26,7 @@ const CurrentMedications = () => (
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Start Date" defaultValue="1976/12/26" />
         </Grid>
-         <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Prescribing Doctor" defaultValue="Dr. OpenCDX" />
         </Grid>
         <Grid item xs={12} sm={6}>

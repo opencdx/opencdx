@@ -8,7 +8,6 @@ import { gridSpacing } from 'store/constant';
 
 const Education = () => (
     <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Degree" defaultValue="BA" />
         </Grid>
@@ -21,7 +20,6 @@ const Education = () => (
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Completion Date" defaultValue="1996/05/30" />
         </Grid>
-        
     </Grid>
 );
 

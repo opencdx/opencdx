@@ -27,7 +27,7 @@ import {
 import Logo from 'ui-component/Logo';
 
 // assets
-import { IconBook, IconCreditCard, IconDashboard, IconHome2 } from '@tabler/icons-react';
+import { IconDashboard, IconHome2 } from '@tabler/icons-react';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // elevation scroll
@@ -80,7 +80,6 @@ const AppBar = ({ ...others }) => {
                             <Button color="inherit" component={RouterLink} to="/login" target="_blank">
                                 Dashboard
                             </Button>
-                           
                         </Stack>
                         <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                             <IconButton color="inherit" onClick={drawerToggler(true)} size="large">
@@ -111,7 +110,6 @@ const AppBar = ({ ...others }) => {
                                                     <ListItemText primary="Dashboard" />
                                                 </ListItemButton>
                                             </Link>
-                                          
                                         </List>
                                     </Box>
                                 )}
