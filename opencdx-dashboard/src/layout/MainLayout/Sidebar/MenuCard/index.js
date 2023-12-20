@@ -98,7 +98,6 @@ const MenuCard = () => {
                                 <TableChartOutlinedIcon fontSize="inherit" />
                             </Avatar>
                         </ListItemAvatar>
-                       
                     </ListItem>
                 </List>
             </CardContent>

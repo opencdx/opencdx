@@ -1,17 +1,11 @@
 // material-ui
 
- import logo from 'assets/images/Open.png';
+import logo from 'assets/images/Open.png';
 
 // ==============================|| LOGO SVG ||============================== //
 
 const Logo = () => {
-
-    return (
-       
-         <img src={logo} alt="OpenCDX" width="150"  />
-
-      
-    );
+    return <img src={logo} alt="OpenCDX" width="150" />;
 };
 
 export default Logo;

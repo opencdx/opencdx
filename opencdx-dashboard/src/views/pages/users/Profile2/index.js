@@ -46,41 +46,31 @@ function a11yProps(index) {
 // tabs option
 const tabsOption = [
     {
-        label: 'Personal Details',
-       
+        label: 'Personal Details'
     },
     {
-        label: 'Communication',
-        
+        label: 'Communication'
     },
     {
-        label: 'Current Medications',
-       
+        label: 'Current Medications'
     },
     {
-        label: 'Demographics',
-       
+        label: 'Demographics'
     },
     {
-        label: 'Education',
-       
+        label: 'Education'
     },
     {
-        label: 'Employee Identity',
-        
+        label: 'Employee Identity'
     },
     {
-        label: 'Known Allegeries',
-       
+        label: 'Known Allegeries'
     },
     {
-        label: 'Pharmacy Details',
-       
+        label: 'Pharmacy Details'
     },
     {
-        label: 'Vaccination Administed',
-       
-
+        label: 'Vaccination Administed'
     }
 ];
 

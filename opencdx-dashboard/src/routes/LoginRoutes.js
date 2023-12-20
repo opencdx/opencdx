@@ -34,7 +34,6 @@ const LoginRoutes = {
             path: '/register',
             element: <AuthRegister />
         }
-
     ]
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'store';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -63,8 +63,6 @@ const JWTRegister = ({ ...others }) => {
 
     return (
         <>
-           
-
             <Formik
                 initialValues={{
                     email: '',
@@ -196,7 +194,6 @@ const JWTRegister = ({ ...others }) => {
                             )}
                         </FormControl>
 
-                      
                         {errors.submit && (
                             <Box sx={{ mt: 3 }}>
                                 <FormHelperText error>{errors.submit}</FormHelperText>
