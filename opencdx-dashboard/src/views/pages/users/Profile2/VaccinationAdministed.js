@@ -104,9 +104,7 @@ const VaccinationAdministed = () => (
     <Grid item xs={12} sm={6}>
       <TextField fullWidth label="Fips" defaultValue="12345" />
     </Grid>
-    <Grid item xs={12} sm={6}>
-
-    </Grid>
+    
     <Grid item xs={12} sm={6}>
       <TextField
         select
@@ -134,7 +132,10 @@ const VaccinationAdministed = () => (
           </MenuItem>
         ))}
       </TextField>
-    </Grid><TextField
+    </Grid>
+    <Grid item xs={12} sm={6}>
+
+    <TextField
       select
       label="Select a localitiy..."
       variant="outlined"
@@ -146,6 +147,8 @@ const VaccinationAdministed = () => (
         </MenuItem>
       ))}
     </TextField>
+    </Grid>
+
     <Grid item xs={12} sm={6}>
       <TextField fullWidth label="Manufacturer" defaultValue="655787ff36bf9e6b6453412a" />
     </Grid>
