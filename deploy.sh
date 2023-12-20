@@ -199,17 +199,9 @@ open_reports() {
         copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         jmeter -t ./jmeter/OpenCDX.jmx
         ;;
-    nats)
-        handle_info "Opening NATS Dashboard..."
-        open_url "http://localhost:8222/"
-        ;;
     admin)
         handle_info "Opening Admin Dashboard..."
         open_url "https://localhost:8861/admin/wallboard"
-        ;;
-    discovery)
-        handle_info "Opening Discovery Dashboard..."
-        open_url "https://localhost:8761"
         ;;
     test)
         handle_info "Opening Test Report..."
@@ -447,8 +439,7 @@ menu() {
         menu_items=(
             "Build Docker Image" "Start Docker (All Services)"
             "Start Docker (Custom)" "Stop Docker"
-            "Open Admin Dashboard" "Open Discovery Dashboard"
-            "Open NATS Dashboard" "Run JMeter Test Script"
+            "Open Admin Dashboard" "Run JMeter Test Script"
             "Open JMeter Test Script" "Open Microservice Tracing Zipkin"
             "Open Test Report" "Publish Doc"
             "Open JaCoCo Report" "Check JavaDoc"
@@ -497,17 +488,15 @@ menu() {
             3) build_docker; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
-            6) open_reports "discovery" ;;
-            7) open_reports "nats" ;;
-            8) run_jmeter_tests ;;
-            9) open_reports "jmeter_edit" ;;
-            10) open_reports "micrometer_tracing" ;;
-            11) open_reports "test" ;;
-            12) open_reports "publish" ;;
-            13) open_reports "jacoco" ;;
-            14) open_reports "check" ;;
-            15) open_reports "proto" ;;
-            16) open_reports "status" ;;
+            6) run_jmeter_tests ;;
+            7) open_reports "jmeter_edit" ;;
+            8) open_reports "micrometer_tracing" ;;
+            9) open_reports "test" ;;
+            10) open_reports "publish" ;;
+            11) open_reports "jacoco" ;;
+            12) open_reports "check" ;;
+            13) open_reports "proto" ;;
+            14) open_reports "status" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
