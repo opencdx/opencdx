@@ -4,6 +4,40 @@ spring:
   boot:
     admin:
       context-path: /admin
+      ui:
+        title: OpenCDX Admin
+        brand: <span>OpenCDX Admin</span>
+        external-views:
+          - label: "NATS"
+            url: "http://localhost:8222/"
+          - label: "Discovery"
+            url: "https://localhost:8761/"
+          - label: "Swagger"
+            children:
+              - label: "Anf"
+                url: "https://localhost:8080/anf/swagger-ui/index.html"
+              - label: "Audit"
+                url: "https://localhost:8080/audit/swagger-ui/index.html"
+              - label: "Communications"
+                url: "https://localhost:8080/communications/swagger-ui/index.html"
+              - label: "Connected Test"
+                url: "https://localhost:8080/connected-test/swagger-ui/index.html"
+              - label: "IAM"
+                url: "https://localhost:8080/iam/swagger-ui/index.html"
+              - label: "Media"
+                url: "https://localhost:8080/media/swagger-ui/index.html"
+              - label: "Predictor"
+                url: "https://localhost:8080/predictor/swagger-ui/index.html"
+              - label: "Protector"
+                url: "https://localhost:8080/protector/swagger-ui/index.html"
+              - label: "questionnaire"
+                url: "https://localhost:8080/questionnaire/swagger-ui/index.html"
+              - label: "Routine"
+                url: "https://localhost:8080/routine/swagger-ui/index.html"
+              - label: "Tinkar"
+                url: "https://localhost:8080/tinkar/swagger-ui/index.html"
+
+
 
 server:
   port: 8861
