@@ -53,6 +53,13 @@ public class ProtobufPropertiesModule extends Module {
 
     private Map<Class<?>, Map<String, FieldDescriptor>> cache = new ConcurrentHashMap<>();
 
+    /**
+     * Default Constructor
+     */
+    public ProtobufPropertiesModule() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     @Override
     public String getModuleName() {
         return "ProtobufPropertyModule";

@@ -74,7 +74,7 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get Questionnaire Rest API
-     * @param request GetSubmittedQuestionnaire indicating questionnaire realted data
+     * @param questionnaireId GetQuestionnaireRequest indicating questionnaire realted data
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/submittedquestionnaire/{Id}")
