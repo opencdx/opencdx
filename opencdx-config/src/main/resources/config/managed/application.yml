@@ -15,6 +15,10 @@ logging:
   level:
     health:
       safe: debug
+  pattern:
+    level: "${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+  file:
+    name: "/var/log/sample-boot-application.log"
 
 eureka:
   client:
@@ -44,6 +48,9 @@ springdoc:
 
 # Spring SSL bundle for securing a webserver
 spring:
+  output:
+    ansi:
+      enabled: always
   ssl:
     bundle:
       jks:
