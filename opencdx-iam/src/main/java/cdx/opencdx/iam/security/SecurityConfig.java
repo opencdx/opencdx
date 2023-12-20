@@ -77,6 +77,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/user/verify/**")
                         .permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/api-docs/**", "/swagger-ui/**")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->

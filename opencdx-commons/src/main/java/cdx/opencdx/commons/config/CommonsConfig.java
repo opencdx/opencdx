@@ -26,6 +26,11 @@ import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
+import io.swagger.v3.core.jackson.ModelResolver;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -111,6 +116,7 @@ public class CommonsConfig {
         log.info("Creating ObjectMapper for use by system");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
+        mapper.registerModule(new ProtobufPropertiesModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
@@ -179,5 +185,25 @@ public class CommonsConfig {
     OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
         log.info("Creating Mongo Document Validator");
         return new MongoDocumentValidatorImpl(mongoTemplate);
+    }
+
+    @Bean
+    public ModelResolver modelResolver(final ObjectMapper objectMapper) {
+        return new ModelResolver(objectMapper);
+    }
+
+    @Bean
+    public OpenAPI customizeOpenAPI() {
+        final String securitySchemeName = "bearerAuth";
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new Components()
+                        .addSecuritySchemes(
+                                securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")));
     }
 }
