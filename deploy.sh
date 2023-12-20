@@ -275,7 +275,7 @@ print_usage() {
     echo "  --all           Skip the interactive menu and open all available reports/documentation."
     echo "  --check         Perform build and check all requirements"
     echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
-    echo "  --jmeter        Will Start JMeter Smoke test 60 seconds after deployment, 60 second duration."
+    echo "  --smoke        Will Start JMeter Smoke test 60 seconds after deployment, 60 second duration."
     echo "  --performance   Will Start JMeter Performance test 60 seconds after deployment. 1 hour duration"
     echo "  --soak          Will Start JMeter Soak test 60 seconds after deployment. 8 hour duration"
     echo "  --fast          Will perform a fast build skipping tests."
@@ -525,11 +525,10 @@ open_all=false
 check=false
 deploy=false
 jmeter=false
-performance=false
 fast_build=false
 wipe=false
 cert=false
-soak=false;
+jmeter_test=""
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -553,14 +552,17 @@ for arg in "$@"; do
     --deploy)
         deploy=true
         ;;
-    --jmeter)
+    --smoke)
         jmeter=true
+        jmeter_test="smoke"
         ;;
     --performance)
-        performance=true;
+        jmeter=true;
+        jmeter_test="performance"
         ;;
     --soak)
-        soak=true;
+        jmeter=true;
+        jmeter_test="soak"
         ;;
     --fast)
         fast_build=true
@@ -675,19 +677,9 @@ if [ "$no_menu" = false ]; then
         start_docker "docker-compose.yml";
         open_reports "admin";
         if [ "$jmeter" = true ]; then
-            handle_info "Waiting to run JMeter tests"
+            handle_info "Waiting to run $jmeter_test tests"
             sleep 90
-            run_jmeter_tests "smoke"
-        fi
-        if [ "$performance" = true ]; then
-            handle_info "Waiting to run JMeter tests"
-            sleep 90
-            run_jmeter_tests "performance"
-        fi
-        if [ "$soak" = true ]; then
-            handle_info "Waiting to run JMeter tests"
-            sleep 90
-            run_jmeter_tests "soak"
+            run_jmeter_tests $jmeter_test
         fi
     fi
 
