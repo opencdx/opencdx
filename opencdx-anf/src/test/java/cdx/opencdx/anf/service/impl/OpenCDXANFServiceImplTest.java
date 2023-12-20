@@ -25,6 +25,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,6 +53,9 @@ class OpenCDXANFServiceImplTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     OpenCDXANFService openCDXANFService;
 
     @Autowired
@@ -71,7 +75,11 @@ class OpenCDXANFServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, objectMapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                objectMapper,
+                openCDXDocumentValidator);
     }
 
     @Test
@@ -82,7 +90,11 @@ class OpenCDXANFServiceImplTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
                 .thenThrow(JsonProcessingException.class);
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
@@ -105,7 +117,11 @@ class OpenCDXANFServiceImplTest {
                 .setId(ObjectId.get().toHexString())
                 .build();
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXANFService.getANFStatement(identifier));
     }
 
@@ -124,7 +140,11 @@ class OpenCDXANFServiceImplTest {
                 .setId(ObjectId.get().toHexString())
                 .build();
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXANFService.getANFStatement(identifier));
     }
 
@@ -136,7 +156,11 @@ class OpenCDXANFServiceImplTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
                 .thenThrow(JsonProcessingException.class);
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
@@ -158,7 +182,11 @@ class OpenCDXANFServiceImplTest {
                 .setId(ObjectId.get().toHexString())
                 .build();
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXANFService.deleteANFStatement(identifier));
     }
 
@@ -176,7 +204,11 @@ class OpenCDXANFServiceImplTest {
                 .setId(ObjectId.get().toHexString())
                 .build();
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, mapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXANFService.deleteANFStatement(identifier));
     }

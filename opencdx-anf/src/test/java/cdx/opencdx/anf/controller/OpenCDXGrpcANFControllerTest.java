@@ -24,6 +24,7 @@ import cdx.opencdx.anf.service.impl.OpenCDXANFServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -52,6 +53,9 @@ class OpenCDXGrpcANFControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXANFStatementRepository openCDXANFStatementRepository;
 
@@ -70,7 +74,11 @@ class OpenCDXGrpcANFControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXANFService = new OpenCDXANFServiceImpl(
-                this.openCDXAuditService, openCDXCurrentUser, this.openCDXANFStatementRepository, objectMapper);
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                objectMapper,
+                openCDXDocumentValidator);
         this.openCDXGrpcANFController = new OpenCDXGrpcANFController(this.openCDXANFService);
     }
 

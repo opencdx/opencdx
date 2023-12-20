@@ -135,7 +135,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testCreateRoutine() throws Exception {
         this.mockMvc
-                .perform(post("/routine")
+                .perform(post("/")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(RoutineRequest.newBuilder()
                                 .setRoutine(
@@ -149,7 +149,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetRoutine() throws Exception {
         this.mockMvc
-                .perform(get("/routine/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.routine.routineId").value("789"));
@@ -158,7 +158,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testCreateDeliveryTracking() throws Exception {
         this.mockMvc
-                .perform(post("/routine/deliveryTracking")
+                .perform(post("/deliveryTracking")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeliveryTrackingRequest.newBuilder()
                                 .setDeliveryTracking(DeliveryTracking.newBuilder()
@@ -174,7 +174,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetDeliveryTrackingValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/deliveryTracking/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/deliveryTracking/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.deliveryTracking.deliveryId").value("789"));
@@ -184,7 +184,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testCreateClinicalProtocolExecutionValid() throws Exception {
         this.mockMvc
-                .perform(post("/routine/clinicalProtocolExecution")
+                .perform(post("/clinicalProtocolExecution")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(ClinicalProtocolExecutionRequest.newBuilder()
                                 .setClinicalProtocolExecution(ClinicalProtocolExecution.newBuilder()
@@ -200,7 +200,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetClinicalProtocolExecutionValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/clinicalProtocolExecution/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/clinicalProtocolExecution/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.clinicalProtocolExecution.executionId").value("789"));
@@ -210,7 +210,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testTriggerLabOrderValid() throws Exception {
         this.mockMvc
-                .perform(post("/routine/labOrder")
+                .perform(post("/labOrder")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(LabOrderRequest.newBuilder()
                                 .setLabOrder(LabOrder.newBuilder()
@@ -226,7 +226,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetLabOrderValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/labOrder/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/labOrder/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.labOrder.labOrderId").value("789"));
@@ -236,7 +236,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testTriggerDiagnosisValid() throws Exception {
         this.mockMvc
-                .perform(post("/routine/diagnosis")
+                .perform(post("/diagnosis")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DiagnosisRequest.newBuilder()
                                 .setDiagnosis(Diagnosis.newBuilder()
@@ -252,7 +252,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetDiagnosisValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/diagnosis/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/diagnosis/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.diagnosis.diagnosisId").value("789"));
@@ -262,7 +262,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testTriggerSuspectedDiagnosisValid() throws Exception {
         this.mockMvc
-                .perform(post("/routine/suspectedDiagnosis")
+                .perform(post("/suspectedDiagnosis")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(SuspectedDiagnosisRequest.newBuilder()
                                 .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
@@ -278,7 +278,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetSuspectedDiagnosisValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/suspectedDiagnosis/" + "789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/suspectedDiagnosis/" + "789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.suspectedDiagnosis.suspectedDiagnosisId").value("789"));
@@ -288,7 +288,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testTriggerLabResultValid() throws Exception {
         this.mockMvc
-                .perform(post("/routine/labResult")
+                .perform(post("/labResult")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(LabResultRequest.newBuilder()
                                 .setLabResult(LabResult.newBuilder()
@@ -304,7 +304,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetLabResultValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/labResult/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/labResult/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.labResult.resultId").value("789"));
@@ -314,7 +314,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testTriggerMedicationValid() throws Exception {
         this.mockMvc
-                .perform(post("/routine/medication")
+                .perform(post("/medication")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(MedicationRequest.newBuilder()
                                 .setMedication(Medication.newBuilder()
@@ -330,7 +330,7 @@ class OpenCDXRestRoutineControllerTest {
     @Test
     void testGetMedicationValid() throws Exception {
         this.mockMvc
-                .perform(get("/routine/medication/789").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/medication/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.medication.medicationId").value("789"));

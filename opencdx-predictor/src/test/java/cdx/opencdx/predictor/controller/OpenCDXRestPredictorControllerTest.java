@@ -80,7 +80,7 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void testPostPredict() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/predict").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         // Assertions.assertEquals(
