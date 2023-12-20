@@ -81,6 +81,14 @@ cdx.opencdx.protector.controller
 cdx.opencdx.protector.security
 cdx.opencdx.protector.service
 cdx.opencdx.protector.service.impl
+cdx.opencdx.questionnaire
+cdx.opencdx.questionnaire.config
+cdx.opencdx.questionnaire.controller
+cdx.opencdx.questionnaire.model
+cdx.opencdx.questionnaire.repository
+cdx.opencdx.questionnaire.security
+cdx.opencdx.questionnaire.service
+cdx.opencdx.questionnaire.service.impl
 cdx.opencdx.routine
 cdx.opencdx.routine.config
 cdx.opencdx.routine.controller

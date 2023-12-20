@@ -18,35 +18,6 @@ const other = {
     type: 'group',
     children: [
         {
-            id: 'discovery',
-            title: <FormattedMessage id="discovery" />,
-            type: 'item',
-            target: true,
-            external: true,
-            url: 'https://localhost:8761/'
-        },
-        {
-            id: 'admin',
-            title: <FormattedMessage id="admin" />,
-            type: 'item',
-            target: true,
-            external: true,
-            url: 'https://localhost:8861/admin/wallboard'
-        },
-
-        {
-            id: 'java',
-            title: <FormattedMessage id="java" />,
-            type: 'item',
-            url: '/pages/java'
-        },
-        {
-            id: 'proto',
-            title: <FormattedMessage id="proto" />,
-            type: 'item',
-            url: '/pages/proto'
-        },
-        {
             id: 'login',
             title: <FormattedMessage id="login" />,
             type: 'item',
