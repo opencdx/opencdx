@@ -282,6 +282,7 @@ print_usage() {
     echo "  --fast          Will perform a fast build skipping tests."
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
+    echo "  --proto         Will force the rebuild of the proto files only and exit."
     echo "  --help          Show this help message."
     exit 0
 }
@@ -530,6 +531,7 @@ jmeter=false
 fast_build=false
 wipe=false
 cert=false
+proto=false
 jmeter_test=""
 
 # Parse command-line arguments
@@ -574,6 +576,9 @@ for arg in "$@"; do
         ;;
     --cert)
         cert=true
+        ;;
+    --proto)
+        proto=true
         ;;
     --help)
         print_usage
@@ -633,6 +638,19 @@ cd ..
 sleep 2
 
 ./gradlew -stop all
+
+if [ "$proto" = true ]; then
+    handle_info "Wiping Proto generated files"
+    rm -rf ./opencdx-proto/build
+    if ./gradlew opencdx-proto:build opencdx-proto:publish; then
+        # Build Completed Successfully
+        handle_info "Proto files generated successfully"
+    else
+        # Build Failed
+        handle_error "Proto files failed to generate. Please review output to determine the issue."
+    fi
+    exit 0
+fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     git_info
