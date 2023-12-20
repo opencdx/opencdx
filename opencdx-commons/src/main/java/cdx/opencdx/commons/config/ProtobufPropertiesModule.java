@@ -57,8 +57,9 @@ public class ProtobufPropertiesModule extends Module {
      * Default Constructor
      */
     public ProtobufPropertiesModule() {
-        //Explicit declaration to prevent this class from inadvertently being made instantiable
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
+
     @Override
     public String getModuleName() {
         return "ProtobufPropertyModule";
