@@ -107,6 +107,7 @@ class ProtectorTest {
                 .build();
         log.info("Item: \n{}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(item));
     }
+
     @Test
     void testUserBehaviorAnalysisDataRequest() throws JsonProcessingException {
         UserBehaviorAnalysisDataRequest item = UserBehaviorAnalysisDataRequest.newBuilder()

@@ -187,11 +187,20 @@ public class CommonsConfig {
         return new MongoDocumentValidatorImpl(mongoTemplate);
     }
 
+    /**
+     * Model Resolver for Swagger
+     * @param objectMapper Object Mapper to use.
+     * @return Model Resolver for Swagger
+     */
     @Bean
     public ModelResolver modelResolver(final ObjectMapper objectMapper) {
         return new ModelResolver(objectMapper);
     }
 
+    /**
+     * OpenAPI Configuration
+     * @return OpenAPI Configuration
+     */
     @Bean
     public OpenAPI customizeOpenAPI() {
         final String securitySchemeName = "bearerAuth";
