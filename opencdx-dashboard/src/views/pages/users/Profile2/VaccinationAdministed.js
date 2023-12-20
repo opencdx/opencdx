@@ -8,7 +8,6 @@ import { gridSpacing } from 'store/constant';
 
 const VaccinationAdministed = () => (
     <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Administration Date" defaultValue="2021/06/01" />
         </Grid>
@@ -27,7 +26,7 @@ const VaccinationAdministed = () => (
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Manufacturer" defaultValue="655787ff36bf9e6b6453412a" />
         </Grid>
-         <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Dose Number" defaultValue="20" />
         </Grid>
         <Grid item xs={12} sm={6}>

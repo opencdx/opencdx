@@ -1,5 +1,21 @@
-# OpenCDX HelloWorld
-> Template Module for an OpenCDX Service. Used to quickly setup new services.
+# NeuralPredictorService Overview
+
+The **NeuralPredictorService** is a predictive modeling system designed to make accurate predictions based on input data. It offers the following key components:
+
+## 1. PredictorInput
+Provides input data for making predictions, including encounter ID, test ID, and features extracted from the test data.
+
+## 2. PredictorOutput
+Represents the output of the prediction model, including the encounter ID and the predicted outcome or parameter.
+
+## 3. PredictorRequest
+A request message format for the Neural Predictor, encapsulating PredictorInput for prediction.
+
+## 4. PredictorResponse
+A response message format for the Neural Predictor, encapsulating PredictorOutput as the result of the prediction.
+
+## 5. NeuralPredictorService
+The service itself, providing the "Predict" operation to predict a value based on the input data.
 
 ## Docker Image
 opencdx/helloworld

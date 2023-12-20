@@ -3,17 +3,7 @@ import React from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import {
-    Box,
-    Button,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    
-} from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 
 // third party
 import * as Yup from 'yup';
@@ -35,7 +25,6 @@ const JWTLogin = ({ ...others }) => {
 
     const { login } = useAuth();
     const scriptedRef = useScriptRef();
-
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => {
@@ -126,7 +115,6 @@ const JWTLogin = ({ ...others }) => {
                             </FormHelperText>
                         )}
                     </FormControl>
-
 
                     {errors.submit && (
                         <Box sx={{ mt: 3 }}>

@@ -1,8 +1,23 @@
-# OpenCDX HelloWorld
-> Template Module for an OpenCDX Service. Used to quickly setup new services.
+# NeuralProtectorService Overview
 
+The **NeuralProtectorService** is a security system designed to safeguard data and user activities, offering a range of user-friendly features:
+
+## 1. Anomaly Detection
+Quickly identifies unusual patterns or activities in user data, helping to spot potential threats or irregularities.
+
+## 2. Authorization Control
+Manages and monitors data access levels, ensuring that only authorized entities can access specific information.
+
+## 3. Privacy Protection
+Safeguards sensitive information by anonymizing data, encrypting it when necessary, and adhering to specified data retention policies.
+
+## 4. Real-time Monitoring
+Constantly watches over user activities in real-time, providing insights into ongoing processes and triggering alerts for any suspicious behavior.
+
+## 5. User Behavior Analysis
+Analyzes user behavior patterns, assesses potential risks, and identifies outliers, helping to understand and manage any associated consequences.
 ## Docker Image
-opencdx/helloworld
+opencdx/protector
 
 ## Docker Port
 - RestAPI > Host 8080 : Container 8080

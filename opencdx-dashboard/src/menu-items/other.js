@@ -17,15 +17,13 @@ const other = {
     icon: icons.IconHelp,
     type: 'group',
     children: [
-
         {
             id: 'discovery',
             title: <FormattedMessage id="discovery" />,
             type: 'item',
             target: true,
             external: true,
-            url: 'https://localhost:8761/',
-
+            url: 'https://localhost:8761/'
         },
         {
             id: 'admin',
@@ -33,10 +31,9 @@ const other = {
             type: 'item',
             target: true,
             external: true,
-            url: 'https://localhost:8861/admin/wallboard',
-
+            url: 'https://localhost:8861/admin/wallboard'
         },
-        
+
         {
             id: 'java',
             title: <FormattedMessage id="java" />,
@@ -54,19 +51,15 @@ const other = {
             title: <FormattedMessage id="login" />,
             type: 'item',
             target: true,
-            url: '/login',
-
+            url: '/login'
         },
         {
             id: 'register',
             title: <FormattedMessage id="register" />,
             type: 'item',
             target: true,
-            url: '/register',
-
-        },
-       
-      
+            url: '/register'
+        }
     ]
 };
 

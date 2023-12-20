@@ -7,7 +7,6 @@ import { gridSpacing } from 'store/constant';
 
 const Demographics = () => (
     <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Ethnicity" defaultValue="Ethnicity" />
         </Grid>
@@ -20,7 +19,7 @@ const Demographics = () => (
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Gender" defaultValue="Male" />
         </Grid>
-           </Grid>
+    </Grid>
 );
 
 export default Demographics;

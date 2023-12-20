@@ -24,72 +24,71 @@ const pages = {
                     id: 'general',
                     title: <FormattedMessage id="general" />,
                     type: 'item',
-                    url: '/pages/general',
+                    url: '/pages/general'
                 },
-                
+
                 {
                     id: 'jet',
                     title: <FormattedMessage id="jet" />,
                     type: 'item',
-                    url: '/pages/jet',
+                    url: '/pages/jet'
                 },
-                
+
                 {
                     id: 'connections',
                     title: <FormattedMessage id="connections" />,
                     type: 'item',
-                    url: '/pages/connections',
+                    url: '/pages/connections'
                 },
-                
+
                 {
                     id: 'accounts',
                     title: <FormattedMessage id="accounts" />,
                     type: 'item',
-                    url: '/pages/accounts',
+                    url: '/pages/accounts'
                 },
-                
+
                 {
                     id: 'accounts-stats',
                     title: <FormattedMessage id="accounts-stats" />,
                     type: 'item',
-                    url: '/pages/accounts-stats',
+                    url: '/pages/accounts-stats'
                 },
-                
+
                 {
                     id: 'subscriptions',
                     title: <FormattedMessage id="subscriptions" />,
                     type: 'item',
-                    url: '/pages/subscriptions',
+                    url: '/pages/subscriptions'
                 },
-                
+
                 {
                     id: 'routes',
                     title: <FormattedMessage id="routes" />,
                     type: 'item',
-                    url: '/pages/routes',
+                    url: '/pages/routes'
                 },
-                
+
                 {
                     id: 'leaf-nodes',
                     title: <FormattedMessage id="leaf-nodes" />,
                     type: 'item',
-                    url: '/pages/leaf-nodes',
+                    url: '/pages/leaf-nodes'
                 },
-                
+
                 {
                     id: 'gateways',
                     title: <FormattedMessage id="gateways" />,
                     type: 'item',
-                    url: '/pages/gateways',
+                    url: '/pages/gateways'
                 },
-                
+
                 {
                     id: 'health-probe',
                     title: <FormattedMessage id="health-probe" />,
                     type: 'item',
-                    url: '/pages/health-probe',
+                    url: '/pages/health-probe'
                 }
-                
             ]
         },
         {
@@ -101,17 +100,15 @@ const pages = {
                     id: 'email',
                     title: <FormattedMessage id="email" />,
                     type: 'item',
-                    url: '/pages/email',
+                    url: '/pages/email'
                 },
-                
+
                 {
                     id: 'sms',
                     title: <FormattedMessage id="sms" />,
                     type: 'item',
-                    url: '/pages/sms',
-                },
-                
-                
+                    url: '/pages/sms'
+                }
             ]
         },
         {
@@ -123,21 +120,17 @@ const pages = {
                     id: 'view',
                     title: <FormattedMessage id="view-profile" />,
                     type: 'item',
-                    url: '/user/view-profile',
+                    url: '/user/view-profile'
                 },
-                
+
                 {
                     id: 'edit',
                     title: <FormattedMessage id="edit-profile" />,
                     type: 'item',
-                    url: '/user/edit-profile',
-                },
-                
-                
+                    url: '/user/edit-profile'
+                }
             ]
         }
-       
-
     ]
 };
 

@@ -6,7 +6,6 @@ import router from 'routes';
 // project imports
 import Locales from 'ui-component/Locales';
 import NavigationScroll from 'layout/NavigationScroll';
-// import RTLLayout from 'ui-component/RTLLayout';
 import Snackbar from 'ui-component/extended/Snackbar';
 import Notistack from 'ui-component/third-party/Notistack';
 
@@ -22,7 +21,6 @@ import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
 
 const App = () => (
     <ThemeCustomization>
-        {/* <RTLLayout> */}
         <Locales>
             <NavigationScroll>
                 <AuthProvider>
@@ -35,7 +33,6 @@ const App = () => (
                 </AuthProvider>
             </NavigationScroll>
         </Locales>
-        {/* </RTLLayout> */}
     </ThemeCustomization>
 );
 

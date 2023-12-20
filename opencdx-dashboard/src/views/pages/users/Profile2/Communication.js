@@ -8,7 +8,6 @@ import { gridSpacing } from 'store/constant';
 
 const Communication = () => (
     <Grid container spacing={gridSpacing}>
-        
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Languagee" defaultValue="En" />
         </Grid>
@@ -18,7 +17,7 @@ const Communication = () => (
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Time Zone" defaultValue="EST" />
         </Grid>
-            </Grid>
+    </Grid>
 );
 
 export default Communication;
