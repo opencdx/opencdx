@@ -8,10 +8,12 @@ spring:
         title: OpenCDX Admin
         brand: <span>OpenCDX Admin</span>
         external-views:
-          - label: "NATS"
-            url: "http://localhost:8222/"
           - label: "Discovery"
             url: "https://localhost:8761/"
+          - label: "NATS"
+            url: "http://localhost:8222/"
+          - label: "Zipkin"
+            url: "http://localhost:9411/zipkin"
           - label: "Swagger"
             children:
               - label: "Anf"

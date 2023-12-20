@@ -10,11 +10,15 @@ management:
     web:
       exposure:
         include: "*"
-
 logging:
   level:
     health:
       safe: debug
+  pattern:
+    level: "${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+    file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+  file:
+    name: "/var/log/sample-boot-application.log"
 
 eureka:
   client:
@@ -44,6 +48,9 @@ springdoc:
 
 # Spring SSL bundle for securing a webserver
 spring:
+  output:
+    ansi:
+      enabled: always
   ssl:
     bundle:
       jks:
