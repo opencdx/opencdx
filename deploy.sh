@@ -3,6 +3,7 @@
 # Define global variables
 GIT_BRANCH=""
 LAST_COMMIT=""
+DEPLOYED="NONE"
 
 # ANSI color codes
 RED='\033[0;31m'
@@ -330,6 +331,7 @@ start_docker() {
 stop_docker() {
     handle_info "Stopping Docker services"
     (cd docker && docker compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
+    DEPLOYED="NONE"
 }
 
 generate_docker_compose() {
@@ -433,9 +435,9 @@ menu() {
 
         if [ -t 1 ]; then
                 # Check if stdout is a terminal
-                echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC}"
+                echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC} Deployed: ${GREEN}$DEPLOYED${NC}"
             else
-                cho "Current branch: $GIT_BRANCH Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert"
+                cho "Current branch: $GIT_BRANCH Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert Deployed: $DEPLOYED"
             fi
 
         echo "OpenCDX Deployment Menu:"
@@ -490,8 +492,8 @@ menu() {
 
         case $menu_choice in
             1) build_docker ;;
-            2) build_docker; start_docker "docker-compose.yml" ;;
-            3) build_docker; generate_docker_compose; start_docker "generated-docker-compose.yaml" ;;
+            2) build_docker; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
+            3) build_docker; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
             6) open_reports "discovery" ;;
@@ -675,6 +677,7 @@ if [ "$no_menu" = false ]; then
     if [ "$deploy" = true ]; then
         build_docker;
         start_docker "docker-compose.yml";
+        DEPLOYED="ALL"
         open_reports "admin";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
