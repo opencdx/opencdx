@@ -22,19 +22,15 @@ const other = {
             title: <FormattedMessage id="login" />,
             type: 'item',
             target: true,
-            url: '/login',
-
+            url: '/login'
         },
         {
             id: 'register',
             title: <FormattedMessage id="register" />,
             type: 'item',
             target: true,
-            url: '/register',
-
-        },
-       
-      
+            url: '/register'
+        }
     ]
 };
 

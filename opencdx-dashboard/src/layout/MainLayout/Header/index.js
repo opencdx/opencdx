@@ -68,16 +68,10 @@ const Header = () => {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ flexGrow: 1 }} />
 
-         
-           
-           
-
             {/* full sceen toggler */}
             <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
                 <FullScreenSection />
             </Box>
-
-           
         </>
     );
 };

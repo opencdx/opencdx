@@ -1,14 +1,14 @@
 // material-ui
-import { Grid,  TextField } from '@mui/material';
+import { Grid, TextField, MenuItem } from '@mui/material';
 
 // project imports
 import { gridSpacing } from 'store/constant';
 
 // ==============================|| PROFILE 2 - USER PROFILE ||============================== //
-
+const frequency = ['daily', 'weekly', 'monthly', 'yearly']
 const CurrentMedications = () => (
     <Grid container spacing={gridSpacing}>
-        
+
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Name" defaultValue="Singular" />
         </Grid>
@@ -22,12 +22,23 @@ const CurrentMedications = () => (
             <TextField fullWidth label="Route Of Administration " defaultValue="Oral" />
         </Grid>
         <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Frequency" defaultValue="Daily" />
+            <TextField
+                select
+                label="Select a Frequency..."
+                variant="outlined"
+                fullWidth
+            >
+                {frequency?.map((template, index) => (
+                    <MenuItem key={index} value={template}>
+                        {template}
+                    </MenuItem>
+                ))}
+            </TextField>
         </Grid>
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Start Date" defaultValue="1976/12/26" />
         </Grid>
-         <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Prescribing Doctor" defaultValue="Dr. OpenCDX" />
         </Grid>
         <Grid item xs={12} sm={6}>

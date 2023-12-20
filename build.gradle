@@ -117,6 +117,7 @@ def exportedProjects = [
         ":opencdx-routine",
         ":opencdx-protector",
         ":opencdx-predictor",
+        ":opencdx-questionnaire",
         ":opencdx-media",
         ":opencdx-tinkar"
 ]

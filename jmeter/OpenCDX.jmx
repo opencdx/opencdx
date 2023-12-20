@@ -6783,6 +6783,612 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateRoutine" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateRoutine</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;routine&quot; : {
+    &quot;name&quot; : &quot;Test Routine&quot;,
+    &quot;description&quot; : &quot;Test Routine Description&quot;,
+    &quot;status&quot; : &quot;Routine.Status.ACTIVE&quot;,
+    &quot;creationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;lastUpdatedDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;assignedUser&quot; : &quot;6581e5157e001111d3736b48&quot;,
+    &quot;associatedProtocols&quot; : [ &quot;6581e5157e001111d3736b49&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateClinicalProtocolExecution" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateClinicalProtocolExecution</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;clinicalProtocolExecution&quot; : {
+    &quot;executionId&quot; : &quot;6581e5157e001111d3736b4a&quot;,
+    &quot;routineId&quot; : &quot;6581e5157e001111d3736b4b&quot;,
+    &quot;protocolId&quot; : &quot;6581e5157e001111d3736b4c&quot;,
+    &quot;status&quot; : &quot;ClinicalProtocolExecution.Status.ACTIVE&quot;,
+    &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;results&quot; : &quot;ClinicalProtocolExecution Results&quot;,
+    &quot;assignedMedicalStaff&quot; : &quot;6581e5157e001111d3736b4d&quot;,
+    &quot;steps&quot; : [ &quot;Step 1&quot;, &quot;Step 2&quot;, &quot;Step 3&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateDeliveryTracking" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateDeliveryTracking</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;deliveryTracking&quot; : {
+    &quot;orderId&quot; : &quot;6581e5157e001111d3736b4f&quot;,
+    &quot;status&quot; : &quot;DeliveryTracking.Status.ACTIVE&quot;,
+    &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;currentLocation&quot; : &quot;Current Location&quot;,
+    &quot;recipient&quot; : &quot;6581e5157e001111d3736b50&quot;,
+    &quot;deliveryItems&quot; : [ &quot;6581e5157e001111d3736b51&quot; ],
+    &quot;assignedCourier&quot; : &quot;6581e5157e001111d3736b52&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateLabOrder" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateLabOrder</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;labOrder&quot; : {
+    &quot;labOrderId&quot; : &quot;6581e5157e001111d3736b53&quot;,
+    &quot;testName&quot; : &quot;Test Name&quot;,
+    &quot;orderDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
+    &quot;relatedEntities&quot; : [ &quot;6581e5157e001111d3736b54&quot;, &quot;6581e5157e001111d3736b55&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateDiagnosis" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateDiagnosis</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;diagnosis&quot; : {
+    &quot;diagnosisId&quot; : &quot;6581e5157e001111d3736b44&quot;,
+    &quot;diagnosisCode&quot; : &quot;Diagnosis Code&quot;,
+    &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
+    &quot;relatedEntities&quot; : [ &quot;6581e5157e001111d3736b45&quot;, &quot;6581e5157e001111d3736b46&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateSuspectedDiagnosis" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateSuspectedDiagnosis</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;suspectedDiagnosis&quot; : {
+    &quot;suspectedDiagnosisId&quot; : &quot;6581e5157e001111d3736b56&quot;,
+    &quot;diagnosisCode&quot; : &quot;Diagnosis Code&quot;,
+    &quot;diagnosisDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
+    &quot;relatedEntities&quot; : [ &quot;6581e5157e001111d3736b57&quot;, &quot;6581e5157e001111d3736b58&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateLabResult" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateLabResult</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;labResult&quot; : {
+    &quot;resultId&quot; : &quot;6581e5147e001111d3736b3e&quot;,
+    &quot;resultValue&quot; : &quot;Result Value&quot;,
+    &quot;resultDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
+    &quot;relatedEntities&quot; : [ &quot;6581e5147e001111d3736b3f&quot;, &quot;6581e5147e001111d3736b40&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateMedication" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateMedication</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;medication&quot; : {
+    &quot;medicationId&quot; : &quot;6581e5147e001111d3736b41&quot;,
+    &quot;medicationName&quot; : &quot;Medication name&quot;,
+    &quot;administrationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
+    &quot;relatedEntities&quot; : [ &quot;6581e5147e001111d3736b42&quot;, &quot;6581e5147e001111d3736b43&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Predictor" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Predictor / Predict" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.predictor.NeuralPredictorService/Predict</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;predictorInput&quot; : {
+    &quot;encounterId&quot; : &quot;6581edfb798629124c427e75&quot;,
+    &quot;testId&quot; : &quot;6581edfb798629124c427e76&quot;,
+    &quot;testFeatures&quot; : [ &quot;Feature 1&quot;, &quot;Feature 2&quot;, &quot;Feature 3&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ANF ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">anf_id</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/predictor [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;predictorInput&quot; : {&#xd;
+    &quot;encounterId&quot; : &quot;6581edfb798629124c427e75&quot;,&#xd;
+    &quot;testId&quot; : &quot;6581edfb798629124c427e76&quot;,&#xd;
+    &quot;testFeatures&quot; : [ &quot;Feature 1&quot;, &quot;Feature 2&quot;, &quot;Feature 3&quot; ]&#xd;
+  }&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/predictor</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ANF ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">anf_id</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Protector" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Protector / DetectAnomalies" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/DetectAnomalies</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;anomalyDetectionData&quot; : {
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d81b&quot;,
+    &quot;userId&quot; : &quot;6582f9d06f3402218745d81c&quot;,
+    &quot;dataAccessPattern&quot; : &quot;dataAccessPattern&quot;,
+    &quot;timeStamp&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;anomaliesDetected&quot; : [ &quot;anomaly1&quot;, &quot;anomaly2&quot; ],
+    &quot;sourceIp&quot; : &quot;sourceIp&quot;,
+    &quot;location&quot; : &quot;location&quot;,
+    &quot;affectedSystems&quot; : [ &quot;affectedSystem1&quot;, &quot;affectedSystem2&quot; ],
+    &quot;severityLevel&quot; : &quot;severityLevel&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Protector / EnforceAuthorizationControl" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/EnforceAuthorizationControl</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;authorizationControlData&quot; : {
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d815&quot;,
+    &quot;userId&quot; : &quot;6582f9d06f3402218745d816&quot;,
+    &quot;dataAccessLevel&quot; : &quot;dataAccessLevel&quot;,
+    &quot;accessGrantedBy&quot; : &quot;6582f9d06f3402218745d817&quot;,
+    &quot;accessScopes&quot; : [ &quot;accessScope1&quot;, &quot;accessScope2&quot; ],
+    &quot;accessValidityPeriod&quot; : &quot;accessValidityPeriod&quot;,
+    &quot;isTemporaryAccess&quot; : true,
+    &quot;conditionalAccessParams&quot; : [ &quot;conditionalAccessParam1&quot;, &quot;conditionalAccessParam2&quot; ]
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Protector / ProtectPrivacy" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/ProtectPrivacy</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;privacyProtectionData&quot; : {
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d818&quot;,
+    &quot;dataType&quot; : &quot;dataType&quot;,
+    &quot;anonymizedData&quot; : &quot;anonymizedData&quot;,
+    &quot;isDataEncrypted&quot; : true,
+    &quot;encryptionMethod&quot; : &quot;encryptionMethod&quot;,
+    &quot;dataRetentionPolicy&quot; : &quot;dataRetentionPolicy&quot;,
+    &quot;hasDataSharingAgreement&quot; : true,
+    &quot;dataPurpose&quot; : &quot;dataPurpose&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Protector / MonitorRealTimeActivity" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/MonitorRealTimeActivity</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;realTimeMonitoringData&quot; : {
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d813&quot;,
+    &quot;monitoredEntity&quot; : &quot;6582f9d06f3402218745d814&quot;,
+    &quot;monitoringDetails&quot; : &quot;monitoringDetails&quot;,
+    &quot;monitoringStartTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;monitoringEndTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;triggeredAlerts&quot; : [ &quot;triggeredAlert1&quot;, &quot;triggeredAlert2&quot; ],
+    &quot;monitoringFrequency&quot; : &quot;monitoringFrequency&quot;,
+    &quot;isContinuousMonitoring&quot; : true,
+    &quot;responsibleMonitoringTeam&quot; : &quot;responsibleMonitoringTeam&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Protector / AnalyzeUserBehavior" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.protector.NeuralProtectorService/AnalyzeUserBehavior</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;userBehaviorAnalysisData&quot; : {
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d819&quot;,
+    &quot;userId&quot; : &quot;6582f9d06f3402218745d81a&quot;,
+    &quot;behaviorPattern&quot; : &quot;behaviorPattern&quot;,
+    &quot;associatedActivities&quot; : [ &quot;associatedActivity1&quot;, &quot;associatedActivity2&quot; ],
+    &quot;analysisTimeFrame&quot; : &quot;analysisTimeFrame&quot;,
+    &quot;historicalBehaviorData&quot; : [ &quot;historicalBehaviorData1&quot;, &quot;historicalBehaviorData2&quot; ],
+    &quot;riskAssessment&quot; : &quot;riskAssessment&quot;,
+    &quot;isBehaviorOutlier&quot; : true,
+    &quot;behaviorConsequence&quot; : &quot;behaviorConsequence&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/protector/detectAnomalies [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;anomalyDetectionData&quot; : {&#xd;
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d81b&quot;,&#xd;
+    &quot;userId&quot; : &quot;6582f9d06f3402218745d81c&quot;,&#xd;
+    &quot;dataAccessPattern&quot; : &quot;dataAccessPattern&quot;,&#xd;
+    &quot;timeStamp&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;anomaliesDetected&quot; : [ &quot;anomaly1&quot;, &quot;anomaly2&quot; ],&#xd;
+    &quot;sourceIp&quot; : &quot;sourceIp&quot;,&#xd;
+    &quot;location&quot; : &quot;location&quot;,&#xd;
+    &quot;affectedSystems&quot; : [ &quot;affectedSystem1&quot;, &quot;affectedSystem2&quot; ],&#xd;
+    &quot;severityLevel&quot; : &quot;severityLevel&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/protector/detectAnomalies</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/protector/authorize [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;authorizationControlData&quot; : {&#xd;
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d815&quot;,&#xd;
+    &quot;userId&quot; : &quot;6582f9d06f3402218745d816&quot;,&#xd;
+    &quot;dataAccessLevel&quot; : &quot;dataAccessLevel&quot;,&#xd;
+    &quot;accessGrantedBy&quot; : &quot;6582f9d06f3402218745d817&quot;,&#xd;
+    &quot;accessScopes&quot; : [ &quot;accessScope1&quot;, &quot;accessScope2&quot; ],&#xd;
+    &quot;accessValidityPeriod&quot; : &quot;accessValidityPeriod&quot;,&#xd;
+    &quot;isTemporaryAccess&quot; : true,&#xd;
+    &quot;conditionalAccessParams&quot; : [ &quot;conditionalAccessParam1&quot;, &quot;conditionalAccessParam2&quot; ]&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/protector/authorize</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/protector/protectPrivacy [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;privacyProtectionData&quot; : {&#xd;
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d818&quot;,&#xd;
+    &quot;dataType&quot; : &quot;dataType&quot;,&#xd;
+    &quot;anonymizedData&quot; : &quot;anonymizedData&quot;,&#xd;
+    &quot;isDataEncrypted&quot; : true,&#xd;
+    &quot;encryptionMethod&quot; : &quot;encryptionMethod&quot;,&#xd;
+    &quot;dataRetentionPolicy&quot; : &quot;dataRetentionPolicy&quot;,&#xd;
+    &quot;hasDataSharingAgreement&quot; : true,&#xd;
+    &quot;dataPurpose&quot; : &quot;dataPurpose&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/protector/protectPrivacy</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/protector/monitorRealTime [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;realTimeMonitoringData&quot; : {&#xd;
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d813&quot;,&#xd;
+    &quot;monitoredEntity&quot; : &quot;6582f9d06f3402218745d814&quot;,&#xd;
+    &quot;monitoringDetails&quot; : &quot;monitoringDetails&quot;,&#xd;
+    &quot;monitoringStartTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;monitoringEndTime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;triggeredAlerts&quot; : [ &quot;triggeredAlert1&quot;, &quot;triggeredAlert2&quot; ],&#xd;
+    &quot;monitoringFrequency&quot; : &quot;monitoringFrequency&quot;,&#xd;
+    &quot;isContinuousMonitoring&quot; : true,&#xd;
+    &quot;responsibleMonitoringTeam&quot; : &quot;responsibleMonitoringTeam&quot;&#xd;
+  }&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/protector/monitorRealTime</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/protector/analyzeUserBehavior [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;userBehaviorAnalysisData&quot; : {&#xd;
+    &quot;encounterId&quot; : &quot;6582f9d06f3402218745d819&quot;,&#xd;
+    &quot;userId&quot; : &quot;6582f9d06f3402218745d81a&quot;,&#xd;
+    &quot;behaviorPattern&quot; : &quot;behaviorPattern&quot;,&#xd;
+    &quot;associatedActivities&quot; : [ &quot;associatedActivity1&quot;, &quot;associatedActivity2&quot; ],&#xd;
+    &quot;analysisTimeFrame&quot; : &quot;analysisTimeFrame&quot;,&#xd;
+    &quot;historicalBehaviorData&quot; : [ &quot;historicalBehaviorData1&quot;, &quot;historicalBehaviorData2&quot; ],&#xd;
+    &quot;riskAssessment&quot; : &quot;riskAssessment&quot;,&#xd;
+    &quot;isBehaviorOutlier&quot; : true,&#xd;
+    &quot;behaviorConsequence&quot; : &quot;behaviorConsequence&quot;&#xd;
+  }&#xd;
+}&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/protector/analyzeUserBehavior</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
         </hashTree>
       </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">

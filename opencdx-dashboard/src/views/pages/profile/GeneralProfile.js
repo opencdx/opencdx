@@ -23,11 +23,11 @@ const GeneralProfile = () => {
                         <Grid item xs={12}>
                             <Avatar alt="User 1" src={Avatar1} sx={{ width: 100, height: 100, margin: '0 auto' }} />
                         </Grid>
-                       
+
                         <Grid item xs={12}>
                             <AnimateButton>
                                 <Button variant="contained" size="small">
-                                Upload/Change Your Profile Image
+                                    Upload/Change Your Profile Image
                                 </Button>
                             </AnimateButton>
                         </Grid>

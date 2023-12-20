@@ -113,7 +113,7 @@ const MainRoutes = {
         {
             path: '/user/edit-profile',
             element: <AppUserAccountProfile2 />
-        },
+        }
     ]
 };
 

@@ -4,9 +4,13 @@
 ## Technology Used
 
 - Gradle > version 8.3
-- Docker
+- Docker > ?version and yq dependency
 - Spring 3.1.2
-- MongoDb for Docker Deployment
+- MongoDb for Docker Deployment ?version
+- JDK > openjdk 20.0.2
+
+## External Dependencies   
+- link to analysis report
 
 ## Repository Name: [opencdx/opencdx](https://github.com/opencdx/opencdx)
 
@@ -27,6 +31,12 @@ Template for creating Java Based REST/gRPC Microservices.
 - [OpenCdx Media](opencdx-media/README.md)
 - [OpenCdx Proto](opencdx-proto/README.md)
 - [OpenCdx Tinkar](opencdx-tinkar/README.md)
+- [OpenCdx Protector](opencdx-protector/README.md)
+- [OpenCdx Predictor](opencdx-predictor/README.md)
+- [OpenCdx Questionnaire](opencdx-questionnaire/README.md)
+- [OpenCdx Routine](opencdx-routine/README.md)
+- [OpenCdx Classification](opencdx-classification/README.md)
+
 
 
 
