@@ -28,7 +28,7 @@ const documentation = {
             title: <FormattedMessage id="proto" />,
             type: 'item',
             url: '/pages/proto'
-        },
+        }
     ]
 };
 
