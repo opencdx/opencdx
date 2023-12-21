@@ -33,6 +33,7 @@ import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 
 import Avatar3 from 'assets/images/users/avatar-1.png';
+import { useNavigate } from 'react-router-dom';
 
 // progress
 function LinearProgressWithLabel({ value, ...others }) {
@@ -72,6 +73,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 const Profile1 = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const rows = [
         createData('Full Name', ':', user?.name),
@@ -496,7 +498,9 @@ const Profile1 = () => {
                             title="Personal Details"
                             secondary={
                                 <Button aria-label="Edit Details">
-                                    <IconEdit stroke={1.5} size="20px" />
+                                    <IconEdit stroke={1.5} size="20px" onClick={() => {
+                                        navigate('/user/edit-profile'); // Replace '/edit-profile' with the desired URL of the edit-profile page
+                                    }} />
                                 </Button>
                             }
                         >
