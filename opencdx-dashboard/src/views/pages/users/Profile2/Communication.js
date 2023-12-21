@@ -25,7 +25,6 @@ const Communication = () => (
     <Grid container spacing={gridSpacing}>
 
         <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Languagee" defaultValue="En" />
             <TextField
                 select
                 label="Select a Language..."

@@ -63,6 +63,7 @@ const Demographics = () => (
         select
         label="Select a ethinicity..."
         variant="outlined"
+        fullWidth
       >
         {ethinicity?.map((template, index) => (
           <MenuItem key={index} value={template}>
