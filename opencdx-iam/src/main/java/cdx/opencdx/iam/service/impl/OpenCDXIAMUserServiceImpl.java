@@ -27,9 +27,11 @@ import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.*;
+import cdx.opencdx.grpc.common.ContactInfo;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.EmailType;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.iam.*;
-import cdx.opencdx.grpc.profile.ContactInfo;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -419,11 +421,18 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model.setEmailVerified(true);
         model.setNationalHealthId(this.openCDXNationalHealthIdentifier.generateNationalHealthId(model));
         if (model.getPrimaryContactInfo() == null) {
-            model.setPrimaryContactInfo(
-                    ContactInfo.newBuilder().setEmail(model.getUsername()).build());
+            model.setPrimaryContactInfo(ContactInfo.newBuilder()
+                    .addAllEmail(List.of(EmailAddress.newBuilder()
+                            .setEmail(model.getUsername())
+                            .setType(EmailType.EMAIL_TYPE_WORK)
+                            .build()))
+                    .build());
         } else {
             model.setPrimaryContactInfo(ContactInfo.newBuilder(model.getPrimaryContactInfo())
-                    .setEmail(model.getUsername())
+                    .addAllEmail(List.of(EmailAddress.newBuilder()
+                            .setEmail(model.getUsername())
+                            .setType(EmailType.EMAIL_TYPE_WORK)
+                            .build()))
                     .build());
         }
         model = this.openCDXIAMUserRepository.save(model);

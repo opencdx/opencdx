@@ -27,13 +27,11 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.connected.*;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
-import cdx.opencdx.grpc.profile.PhoneNumber;
-import cdx.opencdx.grpc.profile.PhoneType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -103,11 +101,14 @@ class OpenCDXConnectedTestServiceImplTest {
                                         .build())
                                 .username("ab@safehealth.me")
                                 .primaryContactInfo(ContactInfo.newBuilder()
-                                        .setEmail("ab@safehealth.me")
-                                        .setMobileNumber(PhoneNumber.newBuilder()
+                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .setEmail("ab@safehealth.me")
+                                                .build()))
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
                                                 .setType(PhoneType.PHONE_TYPE_MOBILE)
                                                 .setNumber("1234567890")
-                                                .build())
+                                                .build()))
                                         .build())
                                 .emailVerified(true)
                                 .build());
@@ -316,7 +317,10 @@ class OpenCDXConnectedTestServiceImplTest {
                                         .setLastName("bob")
                                         .build())
                                 .primaryContactInfo(ContactInfo.newBuilder()
-                                        .setEmail("test@opencdx.org")
+                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .setEmail("test@opencdx.org")
+                                                .build()))
                                         .build())
                                 .username("ab@safehealth.me")
                                 .emailVerified(true)

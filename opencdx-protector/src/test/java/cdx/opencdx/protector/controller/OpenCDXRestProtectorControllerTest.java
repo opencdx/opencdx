@@ -21,13 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.neural.protector.*;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
-import cdx.opencdx.grpc.profile.PhoneNumber;
-import cdx.opencdx.grpc.profile.PhoneType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -88,11 +86,14 @@ class OpenCDXRestProtectorControllerTest {
                                         .build())
                                 .username("ab@safehealth.me")
                                 .primaryContactInfo(ContactInfo.newBuilder()
-                                        .setEmail("ab@safehealth.me")
-                                        .setMobileNumber(PhoneNumber.newBuilder()
+                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .setEmail("ab@safehealth.me")
+                                                .build()))
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
                                                 .setType(PhoneType.PHONE_TYPE_MOBILE)
                                                 .setNumber("1234567890")
-                                                .build())
+                                                .build()))
                                         .build())
                                 .emailVerified(true)
                                 .build());

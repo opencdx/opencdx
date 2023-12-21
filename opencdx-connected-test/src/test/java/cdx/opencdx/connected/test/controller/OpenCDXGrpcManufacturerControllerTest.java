@@ -23,6 +23,9 @@ import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXManufacturerServiceImpl;
+import cdx.opencdx.grpc.common.ContactInfo;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.PhoneNumber;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -123,8 +126,12 @@ class OpenCDXGrpcManufacturerControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(openCDXManufacturerModel));
-        Manufacturer manufacturer =
-                Manufacturer.newBuilder().setId(ObjectId.get().toHexString()).build();
+        Manufacturer manufacturer = Manufacturer.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setManufacturerContact(ContactInfo.newBuilder().build())
+                .setManufacturerEmail(EmailAddress.newBuilder().build())
+                .setManufacturerPhone(PhoneNumber.newBuilder().build())
+                .build();
         this.openCDXGrpcManufacturerController.addManufacturer(manufacturer, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(manufacturer);
@@ -141,8 +148,12 @@ class OpenCDXGrpcManufacturerControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(openCDXManufacturerModel));
-        Manufacturer manufacturer =
-                Manufacturer.newBuilder().setId(ObjectId.get().toHexString()).build();
+        Manufacturer manufacturer = Manufacturer.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setManufacturerContact(ContactInfo.newBuilder().build())
+                .setManufacturerEmail(EmailAddress.newBuilder().build())
+                .setManufacturerPhone(PhoneNumber.newBuilder().build())
+                .build();
         this.openCDXGrpcManufacturerController.updateManufacturer(manufacturer, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(manufacturer);
