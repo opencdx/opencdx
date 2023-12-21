@@ -117,7 +117,7 @@ public class CommonsConfig {
         log.info("Creating ObjectMapper for use by system");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
-        mapper.registerModule(new ProtobufPropertiesModule());
+        mapper.registerModule(new ProtobufClassAttributesModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
