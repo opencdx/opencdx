@@ -422,6 +422,25 @@ EOL
   done
 }
 
+countdown() {
+  local number=$1
+
+  while [ $number -gt 0 ]; do
+
+    if [ -t 1 ]; then
+        # Check if stdout is a terminal
+        echo -ne "\r${GREEN}Waiting: ${RED}$number${GREEN} seconds.${NC}"
+    else
+        echo -ne "\rWaiting: $number seconds"
+    fi
+
+    sleep 1
+    ((number--))
+  done
+
+  echo -e "\r                              "  # Clear the line after countdown completes
+}
+
 menu() {
     while true; do
         clear
@@ -690,7 +709,7 @@ if [ "$no_menu" = false ]; then
         open_reports "admin";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            sleep 90
+            countdown 90
             run_jmeter_tests $jmeter_test
         fi
     fi
