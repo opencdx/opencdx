@@ -303,6 +303,67 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Country" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/add_country</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{&quot;name&quot;:&quot;US-INDIA&quot;}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Country Template ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">countryId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Country" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/get_country_by_id</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;country_id&quot;:&quot;${countryId}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Country" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/update_country</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${countryId}&quot;,
+	&quot;name&quot;:&quot;Canada&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/user/login {POST]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -464,6 +525,83 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             </elementProp>
             <stringProp name="HTTPSampler.path">/iam/user/password</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&quot;name&quot;:&quot;US-INDIA&quot;}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-test/country</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Country Template ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">countryId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-test/country/${countryId}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&quot;id&quot;:&quot;${countryId}&quot;,&quot;name&quot;:&quot;INDIA&quot;}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-test/country</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -785,7 +923,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;name&quot; : &quot;OrganizationName&quot;,
     &quot;description&quot; : &quot;OrganizationDescription&quot;,
     &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,
+    &quot;address&quot; : {
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
     &quot;website&quot; : &quot;http://&quot;,
     &quot;industry&quot; : &quot;Medical&quot;,
     &quot;revenue&quot; : 100.0,
@@ -830,7 +977,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;name&quot; : &quot;OrganizationName&quot;,
     &quot;description&quot; : &quot;OrganizationDescription&quot;,
     &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,
+    &quot;address&quot; : {
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
     &quot;website&quot; : &quot;http://&quot;,
     &quot;industry&quot; : &quot;Medical&quot;,
     &quot;revenue&quot; : 100.0,
@@ -879,9 +1035,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-	
-}</stringProp>
+            <stringProp name="GRPCSampler.requestJson"> { }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [POST]" enabled="true">
@@ -895,7 +1049,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
     &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
     &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,&#xd;
+    &quot;address&quot; : {&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    },&#xd;
     &quot;website&quot; : &quot;http://&quot;,&#xd;
     &quot;industry&quot; : &quot;Medical&quot;,&#xd;
     &quot;revenue&quot; : 100.0,&#xd;
@@ -950,7 +1113,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
     &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
     &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;address&quot; : &quot;123 Main St., CA, 12345 USA&quot;,&#xd;
+    &quot;address&quot; : {&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    },&#xd;
     &quot;website&quot; : &quot;http://&quot;,&#xd;
     &quot;industry&quot; : &quot;Medical&quot;,&#xd;
     &quot;revenue&quot; : 100.0,&#xd;
@@ -1010,10 +1182,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-	&#xd;
-}&#xd;
-</stringProp>
+                  <stringProp name="Argument.value"> { }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -4081,67 +4250,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Country" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/add_country</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;name&quot;:&quot;US-INDIA&quot;}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Country Template ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">countryId</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Country" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/get_country_by_id</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-	&quot;country_id&quot;:&quot;${countryId}&quot;
-}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Country" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.inventory.CountryService/update_country</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-	&quot;id&quot;:&quot;${countryId}&quot;,
-	&quot;name&quot;:&quot;Canada&quot;
-}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Manufacturer" enabled="true">
             <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
             <stringProp name="GRPCSampler.libFolder"></stringProp>
@@ -4157,12 +4265,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{&quot;name&quot;:&quot;PFIZER&quot;,
   &quot;manufacturerAddress&quot; : {
-    &quot;street&quot; : &quot;1234 Main Street&quot;,
-    &quot;city&quot; : &quot;Hometown&quot;,
-    &quot;postalCode&quot; : &quot;12345&quot;,
-    &quot;region&quot; : &quot;Texas&quot;,
-    &quot;country&quot; : &quot;${countryId}&quot;
-  }
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    }
  }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree>
@@ -4206,12 +4317,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${manufacturerId}&quot;,&quot;name&quot;:&quot;RANBAXY&quot;,&quot;manufacturerAddress&quot; : {
-    &quot;street&quot; : &quot;1234 Main Street&quot;,
-    &quot;city&quot; : &quot;Hometown&quot;,
-    &quot;postalCode&quot; : &quot;12345&quot;,
-    &quot;region&quot; : &quot;Texas&quot;,
-    &quot;country&quot; : &quot;${countryId}&quot;
-  }}</stringProp>
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    }
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add Vendor" enabled="true">
@@ -4228,12 +4343,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${manufacturerId}&quot;,&quot;name&quot;:&quot;RANBAXY&quot;,&quot;manufacturerAddress&quot; : {
-    &quot;street&quot; : &quot;1234 Main Street&quot;,
-    &quot;city&quot; : &quot;Hometown&quot;,
-    &quot;postalCode&quot; : &quot;12345&quot;,
-    &quot;region&quot; : &quot;Texas&quot;,
-    &quot;country&quot; : &quot;${countryId}&quot;
-  }}</stringProp>
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    }
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Vendor Template ID" enabled="true">
@@ -4276,12 +4395,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${vendorId}&quot;,&quot;vendorName&quot;:&quot;VENDOR-UPDATED&quot;,&quot;vendorAddress&quot;:{
-    &quot;street&quot; : &quot;4567 Main Street&quot;,
-    &quot;city&quot; : &quot;Hometown Update&quot;,
-    &quot;postalCode&quot; : &quot;4567&quot;,
-    &quot;region&quot; : &quot;Texas&quot;,
-    &quot;country&quot; : &quot;${countryId}&quot;
-  }}</stringProp>
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    }
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Add TestCase" enabled="true">
@@ -4400,83 +4523,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [POST]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;name&quot;:&quot;US-INDIA&quot;}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-test/country</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Country Template ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">countryId</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [GET]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-test/country/${countryId}</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/country [PUT]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;id&quot;:&quot;${countryId}&quot;,&quot;name&quot;:&quot;INDIA&quot;}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-test/country</stringProp>
-            <stringProp name="HTTPSampler.method">PUT</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/manufacturer [POST]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -4485,12 +4531,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&quot;name&quot;:&quot;PFIZER&quot;,&#xd;
   &quot;manufacturerAddress&quot; : {&#xd;
-    &quot;street&quot; : &quot;1234 Main Street&quot;,&#xd;
-    &quot;city&quot; : &quot;Hometown&quot;,&#xd;
-    &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-    &quot;region&quot; : &quot;Texas&quot;,&#xd;
-    &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-  }&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    }&#xd;
  }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -4544,12 +4593,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&quot;id&quot;:&quot;${manufacturerId}&quot;,&quot;name&quot;:&quot;RANBAXY&quot;,&quot;manufacturerAddress&quot; : {&#xd;
-    &quot;street&quot; : &quot;1234 Main Street&quot;,&#xd;
-    &quot;city&quot; : &quot;Hometown&quot;,&#xd;
-    &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-    &quot;region&quot; : &quot;Texas&quot;,&#xd;
-    &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-  }}</stringProp>
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    }&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -4575,12 +4628,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&quot;vendorName&quot;:&quot;VENDOR-FIRST&quot;,&quot;vendorAddress&quot; : {&#xd;
-    &quot;street&quot; : &quot;1234 Main Street&quot;,&#xd;
-    &quot;city&quot; : &quot;Hometown&quot;,&#xd;
-    &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-    &quot;region&quot; : &quot;Texas&quot;,&#xd;
-    &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-  }}</stringProp>
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    }&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -4633,12 +4690,16 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&quot;id&quot;:&quot;${vendorId}&quot;,&quot;vendorName&quot;:&quot;VENDOR-UPDATED&quot;,&quot;vendorAddress&quot;:{&#xd;
-    &quot;street&quot; : &quot;4567 Main Street&quot;,&#xd;
-    &quot;city&quot; : &quot;Hometown Update&quot;,&#xd;
-    &quot;postalCode&quot; : &quot;4567&quot;,&#xd;
-    &quot;region&quot; : &quot;Texas&quot;,&#xd;
-    &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-  }}</stringProp>
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    }&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -5489,12 +5550,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{
     &quot;updated_profile&quot;: {
         &quot;billing_address&quot;: {
-            &quot;city&quot;: &quot;ad veniam Lorem&quot;,
-            &quot;country&quot;: &quot;${countryId}&quot;,
-            &quot;postal_code&quot;: &quot;sunt&quot;,
-            &quot;state&quot;: &quot;nisi ad&quot;,
-            &quot;street&quot;: &quot;dolor esse cillum Duis laborum&quot;
-        },
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
         &quot;communication&quot;: {
             &quot;language&quot;: &quot;nulla aute amet&quot;,
             &quot;preferred&quot;: false,
@@ -5670,12 +5734,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             &quot;state&quot;: &quot;enim officia ea commodo do&quot;
         },
         &quot;primary_address&quot;: {
-            &quot;city&quot;: &quot;Duis cupidatat&quot;,
-            &quot;country&quot;: &quot;${countryId}&quot;,
-            &quot;postal_code&quot;: &quot;do&quot;,
-            &quot;state&quot;: &quot;velit do laborum ut&quot;,
-            &quot;street&quot;: &quot;consequat deserunt ea do id&quot;
-        },
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
         &quot;primary_contact_info&quot;: {
             &quot;email&quot;: &quot;test@opencdx.org&quot;,
             &quot;fax_number&quot;: {
@@ -5696,12 +5763,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             }
         },
         &quot;shipping_address&quot;: {
-            &quot;city&quot;: &quot;ipsum&quot;,
-            &quot;country&quot;: &quot;${countryId}&quot;,
-            &quot;postal_code&quot;: &quot;commodo eiusmod dolor&quot;,
-            &quot;state&quot;: &quot;aliquip dolor dolore&quot;,
-            &quot;street&quot;: &quot;ullamco dolore minim commodo&quot;
-        },
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
         &quot;user_id&quot;: &quot;${user_id_g}&quot;,
         &quot;vaccine_administered&quot;: [
             {
@@ -5791,11 +5861,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;city&quot; : &quot;City&quot;&#xd;
     },&#xd;
     &quot;primaryAddress&quot; : {&#xd;
-      &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
       &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;CA&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-      &quot;country&quot; : &quot;${countryId}&quot;&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
     },&#xd;
     &quot;photo&quot; : &quot;&quot;,&#xd;
     &quot;communication&quot; : {&#xd;
@@ -5840,18 +5913,24 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
     },&#xd;
     &quot;billingAddress&quot; : {&#xd;
-      &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
       &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;CA&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-      &quot;country&quot; : &quot;${countryId}&quot;&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
     },&#xd;
     &quot;shippingAddress&quot; : {&#xd;
-      &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
       &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;CA&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-      &quot;country&quot; : &quot;${countryId}&quot;&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
     },&#xd;
     &quot;emergencyContact&quot; : {&#xd;
       &quot;relationship&quot; : &quot;Emergency Contact&quot;,&#xd;
@@ -5872,29 +5951,38 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
       },&#xd;
       &quot;residenceAddress&quot; : {&#xd;
-        &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
-        &quot;city&quot; : &quot;City&quot;,&#xd;
-        &quot;state&quot; : &quot;CA&quot;,&#xd;
-        &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-        &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-      },&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    },&#xd;
       &quot;workAddress&quot; : {&#xd;
-        &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
-        &quot;city&quot; : &quot;City&quot;,&#xd;
-        &quot;state&quot; : &quot;CA&quot;,&#xd;
-        &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-        &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-      }&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    }&#xd;
     },&#xd;
     &quot;pharmacyDetails&quot; : {&#xd;
       &quot;pharmacyName&quot; : &quot;Pharmacy Name&quot;,&#xd;
       &quot;pharmacyAddress&quot; : {&#xd;
-        &quot;street&quot; : &quot;101 Main Street&quot;,&#xd;
-        &quot;city&quot; : &quot;City&quot;,&#xd;
-        &quot;state&quot; : &quot;CA&quot;,&#xd;
-        &quot;postalCode&quot; : &quot;12345&quot;,&#xd;
-        &quot;country&quot; : &quot;${countryId}&quot;&#xd;
-      },&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    },&#xd;
       &quot;pharmacyContact&quot; : {&#xd;
         &quot;mobileNumber&quot; : {&#xd;
           &quot;number&quot; : &quot;1234567890&quot;,&#xd;

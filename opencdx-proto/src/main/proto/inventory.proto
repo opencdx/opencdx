@@ -5,21 +5,11 @@ package cdx.opencdx.grpc.inventory;
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-// Address message defines the address details.
-message Address {
-    string street = 1;        // Street address
-    string city = 2;          // City or locality
-    string postal_code = 3;   // Postal code
-    string region = 4;        // Region or state
-    string country = 5;       // Country
-}
-
-
 // Manufacturer message represents a manufacturer.
 message Manufacturer {
     optional string id = 1;                       // Manufacturer ID
     string name = 2;                     // Manufacturer name
-    Address manufacturer_address = 3;    // Manufacturer's address
+    cdx.opencdx.grpc.common.Address manufacturer_address = 3;    // Manufacturer's address
     string manufacturer_contact = 4;     // Manufacturer's contact information
     string manufacturer_email = 5;       // Manufacturer's email
     string manufacturer_phone = 6;       // Manufacturer's phone number
@@ -36,7 +26,7 @@ message Manufacturer {
 message Vendor {
     optional string id = 1;               // Vendor ID
     string vendor_name = 2;      // Vendor name
-    Address vendor_address = 3;  // Vendor's address
+    cdx.opencdx.grpc.common.Address vendor_address = 3;  // Vendor's address
     string vendor_contact = 4;   // Vendor's contact information
     string vendor_email = 5;     // Vendor's email
     string vendor_phone = 6;     // Vendor's phone number

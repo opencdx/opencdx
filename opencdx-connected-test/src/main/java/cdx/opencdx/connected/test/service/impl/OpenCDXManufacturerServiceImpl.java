@@ -97,7 +97,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     public Manufacturer addManufacturer(Manufacturer request) {
         if (request.hasManufacturerAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getManufacturerAddress().getCountry()));
+                    "country", new ObjectId(request.getManufacturerAddress().getCountryId()));
         }
 
         OpenCDXManufacturerModel openCDXManufacturerModel =
@@ -125,7 +125,7 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
     public Manufacturer updateManufacturer(Manufacturer request) {
         if (request.hasManufacturerAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getManufacturerAddress().getCountry()));
+                    "country", new ObjectId(request.getManufacturerAddress().getCountryId()));
         }
         OpenCDXManufacturerModel openCDXManufacturerModel =
                 this.openCDXManufacturerRepository.save(new OpenCDXManufacturerModel(request));
