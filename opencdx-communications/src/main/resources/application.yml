@@ -26,6 +26,19 @@ management:
   zipkin:
     tracing:
       endpoint: http://zipkin:9411/api/v2/spans
-logging.pattern.level: "${spring.application.name:} trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+
+encrypt:
+  keyStore:
+    location: file:/certs/config-server.jks
+    alias: config-server-key
+    password: opencdx
+
+cdc:
+  message:
+    uri: https://staging.prime.cdc.gov/api/reports
+    client: '{cipher}AQAe15bXXIAWtUDoDq6J/cqK0xFJuwIFiNCFB2y9tERn6cgKB0o9DBtHq+vBfbyy17F149GpeQA6h2nU0fUxwnK6ZI5sLKL7zT//3p0GU3zKnxNCN267b19EJOJNoXA6y978H4tq/PMJQ0HafTUcPZidPqfkaj0ejrIipHadtqO5rMJ1TS1tgA61qyWfSKTDwIxdsMDHnr8z7Y/4Z+EvSgc8FmD320Cag3oJPK4FKx4EUbAXT1m4GR/Zjr33oPBbl0jm8isYVWjS2zujwEql4a8fdEF/rOPXWJtfuqZIIJlgs2Ato2noJdsS2lmCNG9J8CKLSJkVl+SJaRiEHdvxdIpOGRu4TyYY/DZj9w9vOEZ45liXioC2jm8w2IV+Q8SiEHbro4cnPWkObaMOe6tsEsGxD8XfTmgxEFcjSEV6E8e19A=='
+    key: '{cipher}AQCW2dcWrFVUfCt8aGqA3DLYFYAaEBoLTxMXkyAWBpwqJ74Q7YBkwTJ0oPkFfTSm5PVUabT9taEj17d1rjLMIzSDsO+N1SPyAXDvuEXzg3EXn5YoH/UXzxLGnAVJPMi/R2mRaHTKi9IMhAKR5ILCifhm1/1mi9y7bRiAMxU42C/99FsuwBp52MLYeaHnPYf2Hk0v2DoNaj8cFzpno0V941uK/bkqKNiW4VLf0Mjme32mNyS68gl7VsKmXLvENJSDry0+WNU/m44N8rpkHt+HwQP0R8Wqu9v5pie02pAh3OP7So1pK5D9hscWid96KS8q5WmCpUyj8rdHXhOzmNSLIFySX4JpPK/pCK7aB1pTa+2p6KlhufTKUWY2juKFgsCXanCMFC3mHUXpPbJIHRojaYqZTy9Gkpw0lRizidHWffkMNpCMzb7w62DQbGTjqfQ7pbk='
+
+
 
 

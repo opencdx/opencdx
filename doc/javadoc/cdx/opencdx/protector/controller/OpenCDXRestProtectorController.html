@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OpenCDXRestProtectorController</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Controller for the /protector API's.
-
+ <p>
  This controller handles REST API endpoints related to the Protector service,
  providing functionalities for anomaly detection, authorization control, privacy protection,
  real-time monitoring, and user behavior analysis.</div>
@@ -197,7 +197,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a>&lt;cdx.opencdx.grpc.neural.protector.SecurityResponse&gt;</span>&nbsp;<span class="element-name">postDetectAnomalies</span><wbr><span class="parameters">(<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@RequestBody</a>
  cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest&nbsp;request)</span></div>
 <div class="block">POST /protector/detectAnomalies API.
-
+ <p>
  Endpoint for processing anomaly detection data.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -214,7 +214,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a>&lt;cdx.opencdx.grpc.neural.protector.SecurityResponse&gt;</span>&nbsp;<span class="element-name">postAuthorize</span><wbr><span class="parameters">(<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@RequestBody</a>
  cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest&nbsp;request)</span></div>
 <div class="block">POST /protector/authorize API.
-
+ <p>
  Endpoint for processing authorization control data.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -231,7 +231,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a>&lt;cdx.opencdx.grpc.neural.protector.SecurityResponse&gt;</span>&nbsp;<span class="element-name">postProtectPrivacy</span><wbr><span class="parameters">(<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@RequestBody</a>
  cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest&nbsp;request)</span></div>
 <div class="block">POST /protector/protectPrivacy API.
-
+ <p>
  Endpoint for processing privacy protection data.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -248,7 +248,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a>&lt;cdx.opencdx.grpc.neural.protector.SecurityResponse&gt;</span>&nbsp;<span class="element-name">postMonitorRealTime</span><wbr><span class="parameters">(<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@RequestBody</a>
  cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest&nbsp;request)</span></div>
 <div class="block">POST /protector/monitorRealTime API.
-
+ <p>
  Endpoint for processing real-time monitoring data.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -265,7 +265,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a>&lt;cdx.opencdx.grpc.neural.protector.SecurityResponse&gt;</span>&nbsp;<span class="element-name">postAnalyzeUserBehavior</span><wbr><span class="parameters">(<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@RequestBody</a>
  cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest&nbsp;request)</span></div>
 <div class="block">POST /protector/analyzeUserBehavior API.
-
+ <p>
  Endpoint for processing user behavior analysis data.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

@@ -97,7 +97,12 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OpenCDXAuditServiceImpl</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a></span></div>
-<div class="block">OpenCDX-Audit based implementation of OpenCDXOpenCDXAuditService</div>
+<div class="block">This class is an implementation of the OpenCDXAuditService interface.
+ It provides methods for auditing user actions in the OpenCDX system.
+ The class uses an OpenCDXMessageService to send audit events.
+ <p>
+ The class is annotated with the @Service annotation to indicate that it is a service component.
+ It is also annotated with the @Observed(name = "opencdx") annotation to specify the name of the observer for the audit events.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">

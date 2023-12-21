@@ -116,18 +116,18 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         if (request.getUpdatedProfile().hasPrimaryAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
-                    new ObjectId(request.getUpdatedProfile().getPrimaryAddress().getCountry()));
+                    new ObjectId(request.getUpdatedProfile().getPrimaryAddress().getCountryId()));
         }
         if (request.getUpdatedProfile().hasShippingAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
                     new ObjectId(
-                            request.getUpdatedProfile().getShippingAddress().getCountry()));
+                            request.getUpdatedProfile().getShippingAddress().getCountryId()));
         }
         if (request.getUpdatedProfile().hasBillingAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     COUNTRY,
-                    new ObjectId(request.getUpdatedProfile().getBillingAddress().getCountry()));
+                    new ObjectId(request.getUpdatedProfile().getBillingAddress().getCountryId()));
         }
         if (request.getUpdatedProfile().hasEmergencyContact()) {
             if (request.getUpdatedProfile().getEmergencyContact().hasWorkAddress()) {
@@ -136,7 +136,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                         new ObjectId(request.getUpdatedProfile()
                                 .getEmergencyContact()
                                 .getWorkAddress()
-                                .getCountry()));
+                                .getCountryId()));
             }
             if (request.getUpdatedProfile().getEmergencyContact().hasResidenceAddress()) {
                 this.openCDXDocumentValidator.validateDocumentOrThrow(
@@ -144,7 +144,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                         new ObjectId(request.getUpdatedProfile()
                                 .getEmergencyContact()
                                 .getResidenceAddress()
-                                .getCountry()));
+                                .getCountryId()));
             }
         }
         if (request.getUpdatedProfile().hasPharmacyDetails()
@@ -154,7 +154,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     new ObjectId(request.getUpdatedProfile()
                             .getPharmacyDetails()
                             .getPharmacyAddress()
-                            .getCountry()));
+                            .getCountryId()));
         }
         if (request.getUpdatedProfile().hasPlaceOfBirth()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(

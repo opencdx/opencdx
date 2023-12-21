@@ -16,8 +16,11 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.utils.MongoDocumentExists;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
@@ -34,49 +37,30 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Observed(name = "opencdx")
-public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.OpenCDXDocumentValidator {
+public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
 
     private static final String DOMAIN = "MongoDocumentValidator";
     private final MongoTemplate mongoTemplate;
+
+    private final MongoDocumentExists mongoDocumentExists;
 
     /**
      * Constructor
      *
      * @param mongoTemplate MongoTemplate to use for validation
+     * @param mongoDocumentExists MongoDocumentExists to use for validation with caching
      */
     @SuppressWarnings("java:S3010")
-    public MongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
+    public MongoDocumentValidatorImpl(MongoTemplate mongoTemplate, MongoDocumentExists mongoDocumentExists) {
         this.mongoTemplate = mongoTemplate;
+        this.mongoDocumentExists = mongoDocumentExists;
     }
 
-    /**
-     * Check if a document exists in a collection
-     *
-     * @param collectionName Name of the collection
-     * @param documentId     Id of the document
-     * @return true if the document exists, false otherwise
-     */
     @Override
-    @Cacheable(value = "documentExists", key = "{#collectionName, #documentId}")
     public boolean documentExists(String collectionName, ObjectId documentId) {
-        log.debug("Checking if document {} exists in collection {}", documentId.toHexString(), collectionName);
-        boolean exists = mongoTemplate.exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
-        if (exists) {
-            log.debug("Document {} exists in collection {}", documentId.toHexString(), collectionName);
-            return true;
-        } else {
-            log.debug("Document {} does not exist in collection {}", documentId.toHexString(), collectionName);
-            return false;
-        }
+        return this.mongoDocumentExists.documentExists(collectionName, documentId);
     }
 
-    /**
-     * Check if a document exists in a collection and log an error if it does not
-     *
-     * @param collectionName Name of the collection
-     * @param documentId     Id of the document
-     * @return true if the document exists, false otherwise
-     */
     @Override
     public boolean validateDocumentOrLog(String collectionName, ObjectId documentId) {
         if (!documentExists(collectionName, documentId)) {
@@ -86,12 +70,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         return true;
     }
 
-    /**
-     * Check if a document exists in a collection and throw an exception if it does not
-     *
-     * @param collectionName Name of the collection
-     * @param documentId     Id of the document
-     */
     @Override
     public void validateDocumentOrThrow(String collectionName, ObjectId documentId) {
         if (!documentExists(collectionName, documentId)) {
@@ -100,13 +78,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         }
     }
 
-    /**
-     * Check if all documents in the given list exist in the specified collection
-     *
-     * @param collectionName Name of the collection
-     * @param documentIds    List of document IDs
-     * @return true if all documents exist, false otherwise
-     */
     @Override
     public boolean allDocumentsExist(String collectionName, List<ObjectId> documentIds) {
         if (documentIds.isEmpty()) {
@@ -134,13 +105,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         }
     }
 
-    /**
-     * Check if a document exists in a collection and log an error if it does not
-     *
-     * @param collectionName Name of the collection
-     * @param documentIds    List of document IDs
-     * @return true if the document exists, false otherwise
-     */
     @Override
     public boolean validateDocumentsOrLog(String collectionName, List<ObjectId> documentIds) {
         if (!allDocumentsExist(collectionName, documentIds)) {
@@ -153,12 +117,6 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         return true;
     }
 
-    /**
-     * Check if a document exists in a collection and throw an exception if it does not
-     *
-     * @param collectionName Name of the collection
-     * @param documentIds    List of document IDs
-     */
     @Override
     public void validateDocumentsOrThrow(String collectionName, List<ObjectId> documentIds) {
         if (!allDocumentsExist(collectionName, documentIds)) {
@@ -171,12 +129,13 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         }
     }
 
+    @Override
     public void validateOrganizationWorkspaceOrThrow(ObjectId organization, ObjectId workspace) {
         if (!documentExists("organization", organization)) {
             throw new OpenCDXNotFound(DOMAIN, 4, "Organization " + organization + " does not exist");
         }
         if (!documentExists("workspace", workspace)) {
-            throw new OpenCDXNotFound(DOMAIN, 4, "Workspace " + workspace + " does not exist");
+            throw new OpenCDXNotFound(DOMAIN, 5, "Workspace " + workspace + " does not exist");
         }
 
         Document document = this.findOrganization(organization);
@@ -186,9 +145,41 @@ public class MongoDocumentValidatorImpl implements cdx.opencdx.commons.service.O
         }
 
         throw new OpenCDXNotFound(
-                DOMAIN, 4, "Workspace " + workspace + " does not exist in organization " + organization);
+                DOMAIN, 7, "Workspace " + workspace + " does not exist in organization " + organization);
     }
 
+    @Override
+    public void validateDocumentsOrThrow(List<ObjectId> documentIds) {
+        if (documentIds.isEmpty()) {
+            return;
+        }
+        log.debug(
+                "Checking if documents {} exist",
+                documentIds.stream().map(ObjectId::toHexString).collect(Collectors.joining(", ")));
+
+        Set<String> collectionNames = mongoTemplate.getCollectionNames();
+
+        for (ObjectId id : documentIds) {
+            boolean found = false;
+            for (String collectionName : collectionNames) {
+                if (documentExists(collectionName, id)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new OpenCDXNotFound(
+                        DOMAIN, 6, "Document " + id.toHexString() + " does not exist in any collection");
+            }
+        }
+    }
+
+    /**
+     * Find an organization by id
+     *
+     * @param organization Organization id
+     * @return Organization document
+     */
     @Cacheable(value = "findOrganization", key = "{#organization}")
     public Document findOrganization(ObjectId organization) {
         return mongoTemplate.findById(organization, Document.class, "organization");

@@ -22,6 +22,12 @@ spring:
           lower-case-service-id: true
       enabled: true
       routes:
+        - id: dashboard
+          uri: http://dashboard:3005
+          predicates:
+            - Path=/dashboard/**
+          filters:
+            - RewritePath=/dashboard/(?<segment>.*), /$\{segment}
         - id: grpc-helloworld
           uri: https://helloworld:9090
           predicates:
@@ -44,6 +50,12 @@ spring:
           uri: https://predictor:9090
           predicates:
             - Path=/cdx.opencdx.grpc.predictor.NeuralPredictorService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value  
+        - id: grpc-questionnaire
+          uri: https://questionnaire:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.questionnaire.QuestionnaireService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value  
         - id: grpc-communications

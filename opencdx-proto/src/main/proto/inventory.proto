@@ -2,32 +2,14 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.inventory;
 
+import "common.proto";
 import "google/protobuf/timestamp.proto";
-
-// Address message defines the address details.
-message Address {
-    string street = 1;        // Street address
-    string city = 2;          // City or locality
-    string postal_code = 3;   // Postal code
-    string region = 4;        // Region or state
-    string country = 5;       // Country
-}
-
-// Country message represents a country.
-message Country {
-    optional string id = 1;    // Country ID
-    string name = 2;  // Country name
-    optional google.protobuf.Timestamp created = 3; // Timestamp when this event was created.
-    optional google.protobuf.Timestamp modified = 4; // Timestamp when this event was modified.
-    optional string creator = 5; // ID of the creator of this event.
-    optional string modifier = 6; // ID of the modifier of this event.
-}
 
 // Manufacturer message represents a manufacturer.
 message Manufacturer {
     optional string id = 1;                       // Manufacturer ID
     string name = 2;                     // Manufacturer name
-    Address manufacturer_address = 3;    // Manufacturer's address
+    cdx.opencdx.grpc.common.Address manufacturer_address = 3;    // Manufacturer's address
     string manufacturer_contact = 4;     // Manufacturer's contact information
     string manufacturer_email = 5;       // Manufacturer's email
     string manufacturer_phone = 6;       // Manufacturer's phone number
@@ -44,7 +26,7 @@ message Manufacturer {
 message Vendor {
     optional string id = 1;               // Vendor ID
     string vendor_name = 2;      // Vendor name
-    Address vendor_address = 3;  // Vendor's address
+    cdx.opencdx.grpc.common.Address vendor_address = 3;  // Vendor's address
     string vendor_contact = 4;   // Vendor's contact information
     string vendor_email = 5;     // Vendor's email
     string vendor_phone = 6;     // Vendor's phone number
@@ -88,10 +70,12 @@ message Device {
     string associated_software_version = 27; // Associated software version
     repeated string test_case_ids = 28;     // IDs of the test cases this device is part of
     string name = 29;                       // Name of the device
-    optional google.protobuf.Timestamp created = 30; // Timestamp when this event was created.
-    optional google.protobuf.Timestamp modified = 31; // Timestamp when this event was modified.
-    optional string creator = 32; // ID of the creator of this event.
-    optional string modifier = 33; // ID of the modifier of this event.
+    string short_description = 30;          // Short description of the connected device
+    string description = 31;                // Detailed description of the connected device.
+    optional google.protobuf.Timestamp created = 32; // Timestamp when this event was created.
+    optional google.protobuf.Timestamp modified = 33; // Timestamp when this event was modified.
+    optional string creator = 34; // ID of the creator of this event.
+    optional string modifier = 35; // ID of the modifier of this event.
 }
 
 // TestCase message represents a case or package of tests.
@@ -117,9 +101,9 @@ message TestCase {
 
 // gRPC service for managing countries.
 service CountryService {
-    rpc get_country_by_id(CountryIdRequest) returns (Country);
-    rpc add_country(Country) returns (Country);
-    rpc update_country(Country) returns (Country);
+    rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country);
+    rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
+    rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
     rpc delete_country(CountryIdRequest) returns (DeleteResponse);
 }
 

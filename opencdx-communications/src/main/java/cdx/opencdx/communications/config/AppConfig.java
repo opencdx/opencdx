@@ -17,11 +17,9 @@ package cdx.opencdx.communications.config;
 
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.communications.handlers.OpenCDXCDCMessageHandler;
 import cdx.opencdx.communications.handlers.OpenCDXCommunicationNotificationMessageHandler;
-import cdx.opencdx.communications.service.OpenCDXEmailService;
-import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
-import cdx.opencdx.communications.service.OpenCDXNotificationService;
-import cdx.opencdx.communications.service.OpenCDXSMSService;
+import cdx.opencdx.communications.service.*;
 import cdx.opencdx.communications.service.impl.OpenCDXEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXHTMLProcessorImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXSMSServiceImpl;
@@ -92,7 +90,7 @@ public class AppConfig {
     /**
      * Bean for Notification Message Handling
      * @param objectMapper ObjectMapper for converting bytes
-     * @param openCDXNotificationService Notification Service for handling the Notificaiton
+     * @param openCDXNotificationService Notification Service for handling the Notification
      * @param openCDXMessageService Message Service for Subscribing.
      * @return the OpenCDXCommunicationNotificationMessageHandler bean
      */
@@ -106,5 +104,20 @@ public class AppConfig {
             OpenCDXCurrentUser openCDXCurrentUser) {
         return new OpenCDXCommunicationNotificationMessageHandler(
                 objectMapper, openCDXNotificationService, openCDXMessageService, openCDXCurrentUser);
+    }
+
+    /**
+     * Bean for CDC Message Handling
+     * @param openCDXCDCMessageService Notification Service for handling the Notification
+     * @param openCDXMessageService Message Service for Subscribing.
+     * @return the OpenCDXCommunicationNotificationMessageHandler bean
+     */
+    @Bean
+    @Description("OpenCDXCDCMessageHandler that is specific for handling CDC messages.")
+    OpenCDXCDCMessageHandler openCDXCDCMessageHandler(
+            OpenCDXCDCMessageService openCDXCDCMessageService,
+            OpenCDXMessageService openCDXMessageService,
+            OpenCDXCurrentUser openCDXCurrentUser) {
+        return new OpenCDXCDCMessageHandler(openCDXCDCMessageService, openCDXMessageService, openCDXCurrentUser);
     }
 }

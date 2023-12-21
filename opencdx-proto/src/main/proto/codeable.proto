@@ -1,0 +1,18 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.codeable;
+
+message Coding {
+  string id = 1;        // Unique id for inter-element referencing
+  string system = 2;    // Identity of the terminology system
+  string version = 3;   // Version of the system - if relevant
+  string code = 4;      // Symbol in syntax defined by the system
+  string display = 5;   // Representation defined by the system
+}
+
+// Concept - reference to a terminology or just  text.
+message CodeableConcept {
+  string id = 1;                // Unique id for inter-element referencing
+  repeated Coding coding = 2;   // Code defined by a terminology system
+  string text = 3;              // Plain text representation of the concept
+}

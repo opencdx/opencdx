@@ -61,7 +61,7 @@ public class OpenCDXRestPredictorController {
      * @param request PredictorRequest indicating data to be predicted.
      * @return ResponseEntity with a PredictorResponse containing the prediction.
      */
-    @PostMapping("/predict")
+    @PostMapping
     public ResponseEntity<PredictorResponse> postPredict(@RequestBody PredictorRequest request) {
         return new ResponseEntity<>(
                 PredictorResponse.newBuilder()

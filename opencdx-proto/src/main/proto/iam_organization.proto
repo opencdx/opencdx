@@ -3,7 +3,7 @@ syntax = "proto3";
 package cdx.opencdx.grpc.organization;
 
 option java_multiple_files = true;
-
+import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 import "google/protobuf/empty.proto"; // Import for the Empty message
@@ -14,7 +14,7 @@ message Organization {
   optional string name = 2; // Name of the organization
   optional string description = 3; // Description of the organization
   optional google.protobuf.Timestamp founding_date = 4; // Date when the organization was founded
-  optional string address = 5; // Physical address of the organization
+  optional cdx.opencdx.grpc.common.Address address = 5; // Physical address of the organization
   optional string website = 6; // Organization's website URL
   optional string industry = 7; // Industry or sector of the organization
   optional double revenue = 8; // Annual revenue of the organization

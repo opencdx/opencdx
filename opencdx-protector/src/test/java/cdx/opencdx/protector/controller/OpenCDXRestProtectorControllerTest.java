@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.neural.protector.*;
 import cdx.opencdx.grpc.profile.ContactInfo;
 import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.grpc.profile.PhoneNumber;
@@ -119,7 +120,13 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void postDetectAnomalies() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/detectAnomalies").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/detectAnomalies")
+                        .content(objectMapper.writeValueAsString(AnomalyDetectionDataRequest.newBuilder()
+                                .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(
@@ -130,7 +137,13 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void postEnforceAuthorizationControl() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/authorize").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/authorize")
+                        .content(this.objectMapper.writeValueAsString(AuthorizationControlDataRequest.newBuilder()
+                                .setAuthorizationControlData(AuthorizationControlData.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(
@@ -152,7 +165,13 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void postMonitorRealTimeActivity() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/monitorRealTime").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/monitorRealTime")
+                        .content(this.objectMapper.writeValueAsString(RealTimeMonitoringDataRequest.newBuilder()
+                                .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
+                                        .setMonitoredEntity(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(
@@ -163,7 +182,13 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void postAnalyzeUserBehavior() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/analyzeUserBehavior").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/analyzeUserBehavior")
+                        .content(objectMapper.writeValueAsString(UserBehaviorAnalysisDataRequest.newBuilder()
+                                .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(

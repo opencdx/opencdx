@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.connected.test.service;
 
-import cdx.opencdx.grpc.inventory.Country;
+import cdx.opencdx.grpc.common.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 

@@ -104,6 +104,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                 new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
                 new ObjectId(connectedTest.getBasicInfo().getWorkspaceId()));
 
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "devices", new ObjectId(connectedTest.getTestDetails().getDeviceIdentifier()));
+
         OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
                 .findById(patientID)
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find patient"));
@@ -134,7 +137,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         if (patient.getPrimaryContactInfo() != null) {
 
             Notification.Builder builder = Notification.newBuilder()
-                    .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                    .setEventId(OpenCDXCommunicationService.NOTIFICATION)
                     .addAllToEmail(List.of(patient.getPrimaryContactInfo().getEmail()))
                     .putAllVariables(Map.of(
                             "firstName",

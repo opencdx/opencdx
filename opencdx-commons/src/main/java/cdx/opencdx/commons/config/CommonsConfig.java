@@ -20,12 +20,18 @@ import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.*;
+import cdx.opencdx.commons.utils.MongoDocumentExists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
+import io.swagger.v3.core.jackson.ModelResolver;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -111,6 +117,7 @@ public class CommonsConfig {
         log.info("Creating ObjectMapper for use by system");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
+        mapper.registerModule(new ProtobufPropertiesModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
@@ -175,9 +182,48 @@ public class CommonsConfig {
     @Bean
     @Profile("!test")
     @ExcludeFromJacocoGeneratedReport
+    @ConditionalOnMissingBean(MongoDocumentExists.class)
+    MongoDocumentExists mongoDocumentExists(MongoTemplate mongoTemplate) {
+        log.info("Creating Mongo Document Exists");
+        return new MongoDocumentExists(mongoTemplate);
+    }
+
+    @Bean
+    @Profile("!test")
+    @ExcludeFromJacocoGeneratedReport
     @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
-    OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
+    OpenCDXDocumentValidator mongoDocumentValidatorImpl(
+            MongoTemplate mongoTemplate, MongoDocumentExists mongoDocumentExists) {
         log.info("Creating Mongo Document Validator");
-        return new MongoDocumentValidatorImpl(mongoTemplate);
+        return new MongoDocumentValidatorImpl(mongoTemplate, mongoDocumentExists);
+    }
+
+    /**
+     * Model Resolver for Swagger
+     * @param objectMapper Object Mapper to use.
+     * @return Model Resolver for Swagger
+     */
+    @Bean
+    public ModelResolver modelResolver(final ObjectMapper objectMapper) {
+        return new ModelResolver(objectMapper);
+    }
+
+    /**
+     * OpenAPI Configuration
+     * @return OpenAPI Configuration
+     */
+    @Bean
+    public OpenAPI customizeOpenAPI() {
+        final String securitySchemeName = "bearerAuth";
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new Components()
+                        .addSecuritySchemes(
+                                securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")));
     }
 }

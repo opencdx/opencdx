@@ -23,6 +23,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,10 +46,12 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             "Failed to convert OpenCDXANFStatementModel";
     public static final String OBJECT = "OBJECT";
     public static final String ANF_STATEMENT = "ANF-STATEMENT: ";
+    public static final String USERS = "users";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXANFStatementRepository openCDXANFStatementRepository;
     private final ObjectMapper objectMapper;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor taking the a PersonRepository
@@ -57,21 +60,37 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
      * @param openCDXCurrentUser            Current User Service.
      * @param openCDXANFStatementRepository Repository for ANF Statements
      * @param objectMapper                Object Mapper for converting objects to JSON
+     * @param openCDXDocumentValidator      Document Validator for validating documents
      */
     @Autowired
     public OpenCDXANFServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXANFStatementRepository openCDXANFStatementRepository,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXANFStatementRepository = openCDXANFStatementRepository;
         this.objectMapper = objectMapper;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
     public AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request) {
+
+        if (!request.getAuthorList().isEmpty()) {
+            this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                    USERS,
+                    request.getAuthorList().stream()
+                            .map(AnfStatement.Practitioner::getId)
+                            .map(ObjectId::new)
+                            .toList());
+        }
+        if (request.hasSubjectOfRecord()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    USERS, new ObjectId(request.getSubjectOfRecord().getId()));
+        }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
         try {
@@ -123,6 +142,18 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request) {
+        if (!request.getAuthorList().isEmpty()) {
+            this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                    USERS,
+                    request.getAuthorList().stream()
+                            .map(AnfStatement.Practitioner::getId)
+                            .map(ObjectId::new)
+                            .toList());
+        }
+        if (request.hasSubjectOfRecord()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    USERS, new ObjectId(request.getSubjectOfRecord().getId()));
+        }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
         try {

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Define global variables
+GIT_BRANCH=""
+LAST_COMMIT=""
+DEPLOYED="NONE"
+
 # ANSI color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -41,6 +46,26 @@ handle_menu() {
           echo "$1 $2"
       fi
 }
+
+
+git_info() {
+    # Check if the current directory is a Git repository
+    if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
+      # Get the current branch name
+      GIT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git branch -l | sed -n '/\* /s///p')
+
+      # Get the last commit number
+      LAST_COMMIT=$(git rev-parse --short HEAD)
+    fi
+}
+# Check if the current directory is a Git repository
+if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
+  # Get the current branch name
+  GIT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || git branch -l | sed -n '/\* /s///p')
+
+  # Get the last commit number
+  LAST_COMMIT=$(git rev-parse --short HEAD)
+fi
 
 # Function to copy files from source to target directory
 # Parameters: $1 - Source directory, $2 - Target directory
@@ -174,17 +199,9 @@ open_reports() {
         copy_files "./opencdx-proto/src/main/proto" "/tmp/opencdx/proto"
         jmeter -t ./jmeter/OpenCDX.jmx
         ;;
-    nats)
-        handle_info "Opening NATS Dashboard..."
-        open_url "http://localhost:8222/"
-        ;;
     admin)
         handle_info "Opening Admin Dashboard..."
         open_url "https://localhost:8861/admin/wallboard"
-        ;;
-    discovery)
-        handle_info "Opening Discovery Dashboard..."
-        open_url "https://localhost:8761"
         ;;
     test)
         handle_info "Opening Test Report..."
@@ -251,12 +268,13 @@ print_usage() {
     echo "  --all           Skip the interactive menu and open all available reports/documentation."
     echo "  --check         Perform build and check all requirements"
     echo "  --deploy        Will Start Docker and launch the user on the Docker Menu."
-    echo "  --jmeter        Will Start JMeter Smoke test 60 seconds after deployment, 60 second duration."
+    echo "  --smoke        Will Start JMeter Smoke test 60 seconds after deployment, 60 second duration."
     echo "  --performance   Will Start JMeter Performance test 60 seconds after deployment. 1 hour duration"
     echo "  --soak          Will Start JMeter Soak test 60 seconds after deployment. 8 hour duration"
     echo "  --fast          Will perform a fast build skipping tests."
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
+    echo "  --proto         Will force the rebuild of the proto files only and exit."
     echo "  --help          Show this help message."
     exit 0
 }
@@ -280,9 +298,11 @@ build_docker() {
 	build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
+    build_docker_image opencdx/questionnaire ./opencdx-questionnaire
     build_docker_image opencdx/classification ./opencdx-classification
     build_docker_image opencdx/gateway ./opencdx-gateway
     build_docker_image opencdx/discovery ./opencdx-discovery
+    build_docker_image opencdx/dashboard ./opencdx-dashboard
     build_docker_image opencdx/anf ./opencdx-anf
 }
 
@@ -305,6 +325,7 @@ start_docker() {
 stop_docker() {
     handle_info "Stopping Docker services"
     (cd docker && docker compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
+    DEPLOYED="NONE"
 }
 
 generate_docker_compose() {
@@ -402,20 +423,46 @@ EOL
   done
 }
 
+countdown() {
+  local number=$1
+
+  while [ $number -gt 0 ]; do
+
+    if [ -t 1 ]; then
+        # Check if stdout is a terminal
+        echo -ne "\r${GREEN}Waiting: ${RED}$number${GREEN} seconds.${NC}"
+    else
+        echo -ne "\rWaiting: $number seconds"
+    fi
+
+    sleep 1
+    ((number--))
+  done
+
+  echo -e "\r                              "  # Clear the line after countdown completes
+}
+
 menu() {
     while true; do
         clear
+
+        if [ -t 1 ]; then
+                # Check if stdout is a terminal
+                echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC} Deployed: ${GREEN}$DEPLOYED${NC}"
+            else
+                cho "Current branch: $GIT_BRANCH Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert Deployed: $DEPLOYED"
+            fi
+
         echo "OpenCDX Deployment Menu:"
 
         # Define menu items
         menu_items=(
             "Build Docker Image" "Start Docker (All Services)"
             "Start Docker (Custom)" "Stop Docker"
-            "Open Admin Dashboard" "Open Discovery Dashboard"
-            "Open NATS Dashboard" "Run JMeter Test Script"
+            "Open Admin Dashboard" "Run JMeter Test Script"
             "Open JMeter Test Script" "Open Microservice Tracing Zipkin"
             "Open Test Report" "Publish Doc"
-            "Open JaCoCo Report" "Check code"
+            "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
         )
 
@@ -457,21 +504,19 @@ menu() {
 
         case $menu_choice in
             1) build_docker ;;
-            2) build_docker; start_docker "docker-compose.yml" ;;
-            3) build_docker; generate_docker_compose; start_docker "generated-docker-compose.yaml" ;;
+            2) build_docker; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
+            3) build_docker; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
-            6) open_reports "discovery" ;;
-            7) open_reports "nats" ;;
-            8) run_jmeter_tests ;;
-            9) open_reports "jmeter_edit" ;;
-            10) open_reports "micrometer_tracing" ;;
-            11) open_reports "test" ;;
-            12) open_reports "publish" ;;
-            13) open_reports "jacoco" ;;
-            14) open_reports "check" ;;
-            15) open_reports "proto" ;;
-            16) open_reports "status" ;;
+            6) run_jmeter_tests ;;
+            7) open_reports "jmeter_edit" ;;
+            8) open_reports "micrometer_tracing" ;;
+            9) open_reports "test" ;;
+            10) open_reports "publish" ;;
+            11) open_reports "jacoco" ;;
+            12) open_reports "check" ;;
+            13) open_reports "proto" ;;
+            14) open_reports "status" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
@@ -492,11 +537,11 @@ open_all=false
 check=false
 deploy=false
 jmeter=false
-performance=false
 fast_build=false
 wipe=false
 cert=false
-soak=false;
+proto=false
+jmeter_test=""
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -520,14 +565,17 @@ for arg in "$@"; do
     --deploy)
         deploy=true
         ;;
-    --jmeter)
+    --smoke)
         jmeter=true
+        jmeter_test="smoke"
         ;;
     --performance)
-        performance=true;
+        jmeter=true;
+        jmeter_test="performance"
         ;;
     --soak)
-        soak=true;
+        jmeter=true;
+        jmeter_test="soak"
         ;;
     --fast)
         fast_build=true
@@ -537,6 +585,9 @@ for arg in "$@"; do
         ;;
     --cert)
         cert=true
+        ;;
+    --proto)
+        proto=true
         ;;
     --help)
         print_usage
@@ -567,6 +618,8 @@ fi
 
 handle_info "All dependencies are installed."
 
+sleep 2
+
 if [ "$skip" = false ]; then
     stop_docker
 fi
@@ -580,22 +633,36 @@ if [ "$cert" = true ]; then
     rm -rf ./certs/*.p12
 fi
 
-if [ ! -e ./certs/opencdx-keystore.p12 ]; then
-    handle_info "Generating Certificates"
+handle_info "Checking Certificates"
 
-    # Change into the desired directory
-    cd ./certs
+# Change into the desired directory
+cd ./certs
 
-    # Run the script in the current directory
-    ./certs.sh
+# Run the script in the current directory
+./certs.sh
 
-    # Move back to the original directory
-    cd ..
-fi
+# Move back to the original directory
+cd ..
+
+sleep 2
 
 ./gradlew -stop all
+
+if [ "$proto" = true ]; then
+    handle_info "Wiping Proto generated files"
+    rm -rf ./opencdx-proto/build
+    if ./gradlew opencdx-proto:build opencdx-proto:publish; then
+        # Build Completed Successfully
+        handle_info "Proto files generated successfully"
+    else
+        # Build Failed
+        handle_error "Proto files failed to generate. Please review output to determine the issue."
+    fi
+    exit 0
+fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
+    git_info
     if ./gradlew build publish -x test -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Fast Build & Clean completed successfully"
@@ -606,6 +673,7 @@ if [ "$fast_build" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
+    git_info
     if ./gradlew clean spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
@@ -614,6 +682,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
         handle_error "Build failed. Please review output to determine the issue."
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
+    git_info
     if ./gradlew spotlessApply build publish -x dependencyCheckAggregate; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
@@ -637,21 +706,12 @@ if [ "$no_menu" = false ]; then
     if [ "$deploy" = true ]; then
         build_docker;
         start_docker "docker-compose.yml";
+        DEPLOYED="ALL"
         open_reports "admin";
         if [ "$jmeter" = true ]; then
-            handle_info "Waiting to run JMeter tests"
-            sleep 90
-            run_jmeter_tests "smoke"
-        fi
-        if [ "$performance" = true ]; then
-            handle_info "Waiting to run JMeter tests"
-            sleep 90
-            run_jmeter_tests "performance"
-        fi
-        if [ "$soak" = true ]; then
-            handle_info "Waiting to run JMeter tests"
-            sleep 90
-            run_jmeter_tests "soak"
+            handle_info "Waiting to run $jmeter_test tests"
+            countdown 90
+            run_jmeter_tests $jmeter_test
         fi
     fi
 

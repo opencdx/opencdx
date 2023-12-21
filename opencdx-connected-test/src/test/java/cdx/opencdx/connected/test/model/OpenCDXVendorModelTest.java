@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.opencdx.grpc.inventory.Address;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.inventory.Vendor;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
@@ -28,10 +28,10 @@ class OpenCDXVendorModelTest {
     void getProtobufMessage_1() {
         OpenCDXVendorModel vendorModel = OpenCDXVendorModel.builder()
                 .address(OpenCDXAddressModel.builder()
-                        .street("Street")
+                        .address1("Street")
                         .city("City")
                         .postalCode("Postcode")
-                        .region("Region")
+                        .state("Region")
                         .countryId(new ObjectId())
                         .build())
                 .build();
@@ -49,7 +49,7 @@ class OpenCDXVendorModelTest {
         Vendor vendorModel = Vendor.newBuilder()
                 .setVendorName("vendorName")
                 .setVendorAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
@@ -66,7 +66,7 @@ class OpenCDXVendorModelTest {
         Vendor vendorModel = Vendor.newBuilder()
                 .setVendorName("vendorName")
                 .setVendorAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build();
         OpenCDXVendorModel model = new OpenCDXVendorModel(vendorModel);

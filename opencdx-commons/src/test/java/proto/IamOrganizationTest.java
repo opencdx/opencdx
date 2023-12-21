@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.organization.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +37,15 @@ class IamOrganizationTest {
         this.mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
+    }
+
+    @Test
+    void testEmpty() throws JsonProcessingException {
+        log.info(
+                "Empty: \n {}",
+                this.mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(Empty.newBuilder().build()));
     }
 
     @Test
@@ -110,7 +120,15 @@ class IamOrganizationTest {
                 .setName("OrganizationName")
                 .setDescription("OrganizationDescription")
                 .setFoundingDate(Timestamp.newBuilder().setSeconds(1696435104))
-                .setAddress("123 Main St., CA, 12345 USA")
+                .setAddress(Address.newBuilder()
+                        .setAddress1("Address Line 1")
+                        .setAddress2("Address Line 2")
+                        .setAddress3("Address Line 3")
+                        .setCity("City")
+                        .setPostalCode("Postcode")
+                        .setState("state")
+                        .setCountryId(ObjectId.get().toHexString())
+                        .build())
                 .setWebsite("http://")
                 .setIndustry("Medical")
                 .setRevenue(100.0)

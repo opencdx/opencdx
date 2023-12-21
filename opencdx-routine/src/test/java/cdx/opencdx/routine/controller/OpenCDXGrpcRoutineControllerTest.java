@@ -18,6 +18,7 @@ package cdx.opencdx.routine.controller;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecution;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse;
@@ -68,6 +69,9 @@ class OpenCDXGrpcRoutineControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     OpenCDXRoutineServiceImpl routineService;
 
     OpenCDXGrpcRoutineController openCDXGrpcRoutineController;
@@ -82,8 +86,8 @@ class OpenCDXGrpcRoutineControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService =
-                new OpenCDXRoutineServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXDocumentValidator);
         this.openCDXGrpcRoutineController = new OpenCDXGrpcRoutineController(this.routineService);
     }
 

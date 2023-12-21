@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.opencdx.grpc.inventory.Address;
+import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.AddressPurpose;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,11 +26,14 @@ class OpenCDXAddressModelTest {
     @Test
     void getProtobufMessage_1() {
         Address address = Address.newBuilder()
-                .setStreet("Street")
+                .setAddress1("Address Line 1")
+                .setAddress2("Address Line 2")
+                .setAddress3("Address Line 3")
                 .setCity("City")
                 .setPostalCode("Postcode")
-                .setRegion("Region")
-                .setCountry(new ObjectId().toHexString())
+                .setState("State")
+                .setCountryId(new ObjectId().toHexString())
+                .setAddressPurpose(AddressPurpose.MAILING)
                 .build();
 
         OpenCDXAddressModel model = new OpenCDXAddressModel(address);
