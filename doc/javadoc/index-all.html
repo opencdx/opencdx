@@ -56,17 +56,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The actor ID</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html#addCountry(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">addCountry(Country)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestCountryController</a></dt>
+<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html#addCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">addCountry(Country)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestCountryController</a></dt>
 <dd>
 <div class="block">Method to add a country</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html#addCountry(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">addCountry(Country)</a> - Method in class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXCountryServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html#addCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">addCountry(Country)</a> - Method in class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXCountryServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html#addCountry(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">addCountry(Country)</a> - Method in interface cdx.opencdx.connected.test.service.<a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html#addCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">addCountry(Country)</a> - Method in interface cdx.opencdx.connected.test.service.<a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></dt>
 <dd>
 <div class="block">Method to add a new country to the database</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html#addCountry(cdx.opencdx.grpc.inventory.Country,io.grpc.stub.StreamObserver)" class="member-name-link">addCountry(Country, StreamObserver&lt;Country&gt;)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXGrpcCountryController</a></dt>
+<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html#addCountry(cdx.opencdx.grpc.common.Country,io.grpc.stub.StreamObserver)" class="member-name-link">addCountry(Country, StreamObserver&lt;Country&gt;)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXGrpcCountryController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestDeviceController.html#addDevice(cdx.opencdx.grpc.inventory.Device)" class="member-name-link">addDevice(Device)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestDeviceController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestDeviceController</a></dt>
 <dd>
@@ -1447,6 +1447,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Check if a document exists</div>
 </dd>
+<dt><a href="cdx/opencdx/commons/utils/MongoDocumentExists.html#documentExists(java.lang.String,org.bson.types.ObjectId)" class="member-name-link">documentExists(String, ObjectId)</a> - Method in class cdx.opencdx.commons.utils.<a href="cdx/opencdx/commons/utils/MongoDocumentExists.html" title="class in cdx.opencdx.commons.utils">MongoDocumentExists</a></dt>
+<dd>
+<div class="block">Checks if a document exists in a collection.</div>
+</dd>
 <dt><a href="cdx/opencdx/commons/security/JwtTokenFilter.html#doFilterInternal(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse,jakarta.servlet.FilterChain)" class="member-name-link">doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)</a> - Method in class cdx.opencdx.commons.security.<a href="cdx/opencdx/commons/security/JwtTokenFilter.html" title="class in cdx.opencdx.commons.security">JwtTokenFilter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/commons/config/OpenCDXMongoAuditTemplate.html#doRemove(java.lang.String,org.springframework.data.mongodb.core.query.Query,java.lang.Class,boolean)" class="member-name-link">doRemove(String, Query, Class&lt;T&gt;, boolean)</a> - Method in class cdx.opencdx.commons.config.<a href="cdx/opencdx/commons/config/OpenCDXMongoAuditTemplate.html" title="class in cdx.opencdx.commons.config">OpenCDXMongoAuditTemplate</a></dt>
@@ -2615,11 +2619,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Model Resolver for Swagger</div>
 </dd>
+<dt><a href="cdx/opencdx/commons/utils/MongoDocumentExists.html" class="type-name-link" title="class in cdx.opencdx.commons.utils">MongoDocumentExists</a> - Class in <a href="cdx/opencdx/commons/utils/package-summary.html">cdx.opencdx.commons.utils</a></dt>
+<dd>
+<div class="block">This class is used to validate if a document exists in a collection with caching.</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/utils/MongoDocumentExists.html#%3Cinit%3E(org.springframework.data.mongodb.core.MongoTemplate)" class="member-name-link">MongoDocumentExists(MongoTemplate)</a> - Constructor for class cdx.opencdx.commons.utils.<a href="cdx/opencdx/commons/utils/MongoDocumentExists.html" title="class in cdx.opencdx.commons.utils">MongoDocumentExists</a></dt>
+<dd>
+<div class="block">Constructor</div>
+</dd>
 <dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
 <div class="block">This class is used to validate if a document exists in a collection.</div>
 </dd>
-<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#%3Cinit%3E(org.springframework.data.mongodb.core.MongoTemplate)" class="member-name-link">MongoDocumentValidatorImpl(MongoTemplate)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#%3Cinit%3E(org.springframework.data.mongodb.core.MongoTemplate,cdx.opencdx.commons.utils.MongoDocumentExists)" class="member-name-link">MongoDocumentValidatorImpl(MongoTemplate, MongoDocumentExists)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
 <dd>
 <div class="block">Constructor</div>
 </dd>
@@ -2723,7 +2735,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Model for protobuf address.</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/model/OpenCDXAddressModel.html#%3Cinit%3E(cdx.opencdx.grpc.inventory.Address)" class="member-name-link">OpenCDXAddressModel(Address)</a> - Constructor for class cdx.opencdx.connected.test.model.<a href="cdx/opencdx/connected/test/model/OpenCDXAddressModel.html" title="class in cdx.opencdx.connected.test.model">OpenCDXAddressModel</a></dt>
+<dt><a href="cdx/opencdx/connected/test/model/OpenCDXAddressModel.html#%3Cinit%3E(cdx.opencdx.grpc.common.Address)" class="member-name-link">OpenCDXAddressModel(Address)</a> - Constructor for class cdx.opencdx.connected.test.model.<a href="cdx/opencdx/connected/test/model/OpenCDXAddressModel.html" title="class in cdx.opencdx.connected.test.model">OpenCDXAddressModel</a></dt>
 <dd>
 <div class="block">Constructor from a protobuf address</div>
 </dd>
@@ -2956,7 +2968,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Model for Country in Mongo.</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/model/OpenCDXCountryModel.html#%3Cinit%3E(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">OpenCDXCountryModel(Country)</a> - Constructor for class cdx.opencdx.connected.test.model.<a href="cdx/opencdx/connected/test/model/OpenCDXCountryModel.html" title="class in cdx.opencdx.connected.test.model">OpenCDXCountryModel</a></dt>
+<dt><a href="cdx/opencdx/connected/test/model/OpenCDXCountryModel.html#%3Cinit%3E(cdx.opencdx.grpc.common.Country)" class="member-name-link">OpenCDXCountryModel(Country)</a> - Constructor for class cdx.opencdx.connected.test.model.<a href="cdx/opencdx/connected/test/model/OpenCDXCountryModel.html" title="class in cdx.opencdx.connected.test.model">OpenCDXCountryModel</a></dt>
 <dd>
 <div class="block">Create this model from this protobuf message</div>
 </dd>
@@ -3748,7 +3760,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing predictor requests.</div>
 </dd>
-<dt><a href="cdx/opencdx/predictor/service/impl/OpenCDXPredictorServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXPredictorServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.predictor.service.impl.<a href="cdx/opencdx/predictor/service/impl/OpenCDXPredictorServiceImpl.html" title="class in cdx.opencdx.predictor.service.impl">OpenCDXPredictorServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/predictor/service/impl/OpenCDXPredictorServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXPredictorServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.predictor.service.impl.<a href="cdx/opencdx/predictor/service/impl/OpenCDXPredictorServiceImpl.html" title="class in cdx.opencdx.predictor.service.impl">OpenCDXPredictorServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for OpenCDXPredictorServiceImpl.</div>
 </dd>
@@ -3760,7 +3772,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing protector Requests</div>
 </dd>
-<dt><a href="cdx/opencdx/protector/service/impl/OpenCDXProtectorServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXProtectorServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.protector.service.impl.<a href="cdx/opencdx/protector/service/impl/OpenCDXProtectorServiceImpl.html" title="class in cdx.opencdx.protector.service.impl">OpenCDXProtectorServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/protector/service/impl/OpenCDXProtectorServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXProtectorServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.protector.service.impl.<a href="cdx/opencdx/protector/service/impl/OpenCDXProtectorServiceImpl.html" title="class in cdx.opencdx.protector.service.impl">OpenCDXProtectorServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for OpenCDXProtectorServiceImpl.</div>
 </dd>
@@ -3912,7 +3924,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing Routine Requests</div>
 </dd>
-<dt><a href="cdx/opencdx/routine/service/impl/OpenCDXRoutineServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXRoutineServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser)</a> - Constructor for class cdx.opencdx.routine.service.impl.<a href="cdx/opencdx/routine/service/impl/OpenCDXRoutineServiceImpl.html" title="class in cdx.opencdx.routine.service.impl">OpenCDXRoutineServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/routine/service/impl/OpenCDXRoutineServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXRoutineServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser, OpenCDXDocumentValidator)</a> - Constructor for class cdx.opencdx.routine.service.impl.<a href="cdx/opencdx/routine/service/impl/OpenCDXRoutineServiceImpl.html" title="class in cdx.opencdx.routine.service.impl">OpenCDXRoutineServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor for OpenCDXRoutineServiceImpl.</div>
 </dd>
@@ -4815,17 +4827,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">updateClientQuestionnaireData gRPC Service Call</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html#updateCountry(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">updateCountry(Country)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestCountryController</a></dt>
+<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry(Country)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestCountryController</a></dt>
 <dd>
 <div class="block">Method to update a country</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html#updateCountry(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">updateCountry(Country)</a> - Method in class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXCountryServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry(Country)</a> - Method in class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXCountryServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXCountryServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html#updateCountry(cdx.opencdx.grpc.inventory.Country)" class="member-name-link">updateCountry(Country)</a> - Method in interface cdx.opencdx.connected.test.service.<a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></dt>
+<dt><a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry(Country)</a> - Method in interface cdx.opencdx.connected.test.service.<a href="cdx/opencdx/connected/test/service/OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></dt>
 <dd>
 <div class="block">Update the records of a country.</div>
 </dd>
-<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html#updateCountry(cdx.opencdx.grpc.inventory.Country,io.grpc.stub.StreamObserver)" class="member-name-link">updateCountry(Country, StreamObserver&lt;Country&gt;)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXGrpcCountryController</a></dt>
+<dt><a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html#updateCountry(cdx.opencdx.grpc.common.Country,io.grpc.stub.StreamObserver)" class="member-name-link">updateCountry(Country, StreamObserver&lt;Country&gt;)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcCountryController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXGrpcCountryController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestDeviceController.html#updateDevice(cdx.opencdx.grpc.inventory.Device)" class="member-name-link">updateDevice(Device)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestDeviceController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestDeviceController</a></dt>
 <dd>
@@ -5151,6 +5163,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#validateDocumentsOrThrow(java.lang.String,java.util.List)" class="member-name-link">validateDocumentsOrThrow(String, List&lt;ObjectId&gt;)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
 <dd>
 <div class="block">Check if a list of documents exists, if it does not throw an exception</div>
+</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#validateDocumentsOrThrow(java.util.List)" class="member-name-link">validateDocumentsOrThrow(List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html#validateDocumentsOrThrow(java.util.List)" class="member-name-link">validateDocumentsOrThrow(List&lt;ObjectId&gt;)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/NoOpDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">NoOpDocumentValidatorImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html#validateDocumentsOrThrow(java.util.List)" class="member-name-link">validateDocumentsOrThrow(List&lt;ObjectId&gt;)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></dt>
+<dd>
+<div class="block">Check if a documents exists in the repository if it doesn it throws an exception</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html#validateOrganizationWorkspaceOrThrow(org.bson.types.ObjectId,org.bson.types.ObjectId)" class="member-name-link">validateOrganizationWorkspaceOrThrow(ObjectId, ObjectId)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/MongoDocumentValidatorImpl.html" title="class in cdx.opencdx.commons.service.impl">MongoDocumentValidatorImpl</a></dt>
 <dd>&nbsp;</dd>

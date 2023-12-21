@@ -109,7 +109,8 @@ implements <a href="../OpenCDXDocumentValidator.html" title="interface in cdx.op
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.springframework.data.mongodb.core.MongoTemplate)" class="member-name-link">MongoDocumentValidatorImpl</a><wbr>(org.springframework.data.mongodb.core.MongoTemplate&nbsp;mongoTemplate)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.springframework.data.mongodb.core.MongoTemplate,cdx.opencdx.commons.utils.MongoDocumentExists)" class="member-name-link">MongoDocumentValidatorImpl</a><wbr>(org.springframework.data.mongodb.core.MongoTemplate&nbsp;mongoTemplate,
+ <a href="../../utils/MongoDocumentExists.html" title="class in cdx.opencdx.commons.utils">MongoDocumentExists</a>&nbsp;mongoDocumentExists)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructor</div>
 </div>
@@ -169,9 +170,14 @@ implements <a href="../OpenCDXDocumentValidator.html" title="interface in cdx.op
 <div class="block">Check if a list of documents exists, if it does not throw an exception</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validateOrganizationWorkspaceOrThrow(org.bson.types.ObjectId,org.bson.types.ObjectId)" class="member-name-link">validateOrganizationWorkspaceOrThrow</a><wbr>(org.bson.types.ObjectId&nbsp;organization,
- org.bson.types.ObjectId&nbsp;workspace)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validateDocumentsOrThrow(java.util.List)" class="member-name-link">validateDocumentsOrThrow</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;org.bson.types.ObjectId&gt;&nbsp;documentIds)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check if a documents exists in the repository if it doesn it throws an exception</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validateOrganizationWorkspaceOrThrow(org.bson.types.ObjectId,org.bson.types.ObjectId)" class="member-name-link">validateOrganizationWorkspaceOrThrow</a><wbr>(org.bson.types.ObjectId&nbsp;organization,
+ org.bson.types.ObjectId&nbsp;workspace)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Check if a document exists in an organization workspace if it doesn it throws an exception</div>
 </div>
 </div>
@@ -192,13 +198,15 @@ implements <a href="../OpenCDXDocumentValidator.html" title="interface in cdx.op
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(org.springframework.data.mongodb.core.MongoTemplate)">
+<section class="detail" id="&lt;init&gt;(org.springframework.data.mongodb.core.MongoTemplate,cdx.opencdx.commons.utils.MongoDocumentExists)">
 <h3>MongoDocumentValidatorImpl</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MongoDocumentValidatorImpl</span><wbr><span class="parameters">(org.springframework.data.mongodb.core.MongoTemplate&nbsp;mongoTemplate)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MongoDocumentValidatorImpl</span><wbr><span class="parameters">(org.springframework.data.mongodb.core.MongoTemplate&nbsp;mongoTemplate,
+ <a href="../../utils/MongoDocumentExists.html" title="class in cdx.opencdx.commons.utils">MongoDocumentExists</a>&nbsp;mongoDocumentExists)</span></div>
 <div class="block">Constructor</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>mongoTemplate</code> - MongoTemplate to use for validation</dd>
+<dd><code>mongoDocumentExists</code> - MongoDocumentExists to use for validation with caching</dd>
 </dl>
 </section>
 </li>
@@ -213,9 +221,7 @@ implements <a href="../OpenCDXDocumentValidator.html" title="interface in cdx.op
 <li>
 <section class="detail" id="documentExists(java.lang.String,org.bson.types.ObjectId)">
 <h3>documentExists</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/annotation/Cacheable.html" title="class or interface in org.springframework.cache.annotation" class="external-link">@Cacheable</a>(<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/annotation/Cacheable.html#value()" title="class or interface in org.springframework.cache.annotation" class="external-link">value</a>="documentExists",
-           <a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/annotation/Cacheable.html#key()" title="class or interface in org.springframework.cache.annotation" class="external-link">key</a>="{#collectionName, #documentId}")
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">documentExists</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;collectionName,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">documentExists</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;collectionName,
  org.bson.types.ObjectId&nbsp;documentId)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXDocumentValidator.html#documentExists(java.lang.String,org.bson.types.ObjectId)">OpenCDXDocumentValidator</a></code></span></div>
 <div class="block">Check if a document exists</div>
@@ -329,6 +335,20 @@ implements <a href="../OpenCDXDocumentValidator.html" title="interface in cdx.op
 <dt>Parameters:</dt>
 <dd><code>organization</code> - Organization ID</dd>
 <dd><code>workspace</code> - Workspace ID</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="validateDocumentsOrThrow(java.util.List)">
+<h3>validateDocumentsOrThrow</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">validateDocumentsOrThrow</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;org.bson.types.ObjectId&gt;&nbsp;documentIds)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXDocumentValidator.html#validateDocumentsOrThrow(java.util.List)">OpenCDXDocumentValidator</a></code></span></div>
+<div class="block">Check if a documents exists in the repository if it doesn it throws an exception</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../OpenCDXDocumentValidator.html#validateDocumentsOrThrow(java.util.List)">validateDocumentsOrThrow</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>documentIds</code> - List of document IDs</dd>
 </dl>
 </section>
 </li>

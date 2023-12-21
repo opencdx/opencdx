@@ -332,6 +332,29 @@
         
           
           <li>
+            <a href="#common.proto">common.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.common.Address"><span class="badge">M</span>Address</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.common.Country"><span class="badge">M</span>Country</a>
+                </li>
+              
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.common.AddressPurpose"><span class="badge">E</span>AddressPurpose</a>
+                </li>
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#communications.proto">communications.proto</a>
             <ul>
               
@@ -652,10 +675,6 @@
             <ul>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.profile.Address"><span class="badge">M</span>Address</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.profile.ContactInfo"><span class="badge">M</span>ContactInfo</a>
                 </li>
               
@@ -868,14 +887,6 @@
           <li>
             <a href="#inventory.proto">inventory.proto</a>
             <ul>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.inventory.Address"><span class="badge">M</span>Address</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.inventory.Country"><span class="badge">M</span>Country</a>
-                </li>
               
                 <li>
                   <a href="#cdx.opencdx.grpc.inventory.CountryIdRequest"><span class="badge">M</span>CountryIdRequest</a>
@@ -1149,10 +1160,6 @@
             <ul>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.provider.Address"><span class="badge">M</span>Address</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.provider.BasicInfo"><span class="badge">M</span>BasicInfo</a>
                 </li>
               
@@ -1208,10 +1215,6 @@
                   <a href="#cdx.opencdx.grpc.provider.Taxonomy"><span class="badge">M</span>Taxonomy</a>
                 </li>
               
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.provider.AddressPurpose"><span class="badge">E</span>AddressPurpose</a>
-                </li>
               
                 <li>
                   <a href="#cdx.opencdx.grpc.provider.ProviderStatus"><span class="badge">E</span>ProviderStatus</a>
@@ -2879,6 +2882,187 @@ For a Request of Action, the Timing will always represent a future time. </p></t
         
       
 
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
+        <h2 id="common.proto">common.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="cdx.opencdx.grpc.common.Address">Address</h3>
+        <p>Message to represent an address.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>country_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Country code. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>address_purpose</td>
+                  <td><a href="#cdx.opencdx.grpc.common.AddressPurpose">AddressPurpose</a></td>
+                  <td></td>
+                  <td><p>Purpose of the address (e.g., LOCATION, MAILING). </p></td>
+                </tr>
+              
+                <tr>
+                  <td>address_1</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>First line of the address. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>address_2</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>First line of the address. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>address_3</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>First line of the address. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>city</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>City. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>state</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>State. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>postal_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Postal code. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.common.Country">Country</h3>
+        <p>Country message represents a country.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Country ID </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Country name </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+        <h3 id="cdx.opencdx.grpc.common.AddressPurpose">AddressPurpose</h3>
+        <p>Enum to represent the purpose of an address.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>LOCATION</td>
+                <td>0</td>
+                <td><p>Address used for location purposes.</p></td>
+              </tr>
+            
+              <tr>
+                <td>MAILING</td>
+                <td>1</td>
+                <td><p>Address used for mailing purposes.</p></td>
+              </tr>
+            
+              <tr>
+                <td>PRIMARY</td>
+                <td>2</td>
+                <td><p>Primary address.</p></td>
+              </tr>
+            
+              <tr>
+                <td>SECONDARY</td>
+                <td>3</td>
+                <td><p>Secondary address.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
       
 
       
@@ -5933,7 +6117,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>address</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td>optional</td>
                   <td><p>Physical address of the organization </p></td>
                 </tr>
@@ -6362,58 +6546,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
       <p></p>
 
       
-        <h3 id="cdx.opencdx.grpc.profile.Address">Address</h3>
-        <p>Address details.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>street</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Street address </p></td>
-                </tr>
-              
-                <tr>
-                  <td>city</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>City </p></td>
-                </tr>
-              
-                <tr>
-                  <td>state</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>State or region </p></td>
-                </tr>
-              
-                <tr>
-                  <td>postal_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Postal code </p></td>
-                </tr>
-              
-                <tr>
-                  <td>country</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Country ID </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.profile.ContactInfo">ContactInfo</h3>
         <p>Contact information.</p>
 
@@ -6685,14 +6817,14 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>residence_address</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>Residence address of the emergency contact </p></td>
                 </tr>
               
                 <tr>
                   <td>work_address</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>Work address of the emergency contact </p></td>
                 </tr>
@@ -6973,7 +7105,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>pharmacy_address</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>Address of the pharmacy </p></td>
                 </tr>
@@ -7295,7 +7427,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>primary_address</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>User&#39;s primary address </p></td>
                 </tr>
@@ -7344,14 +7476,14 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>billing_address</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>User&#39;s billing address </p></td>
                 </tr>
               
                 <tr>
                   <td>shipping_address</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>User&#39;s shipping address </p></td>
                 </tr>
@@ -8476,117 +8608,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
       <p></p>
 
       
-        <h3 id="cdx.opencdx.grpc.inventory.Address">Address</h3>
-        <p>Address message defines the address details.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>street</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Street address </p></td>
-                </tr>
-              
-                <tr>
-                  <td>city</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>City or locality </p></td>
-                </tr>
-              
-                <tr>
-                  <td>postal_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Postal code </p></td>
-                </tr>
-              
-                <tr>
-                  <td>region</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Region or state </p></td>
-                </tr>
-              
-                <tr>
-                  <td>country</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Country </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.inventory.Country">Country</h3>
-        <p>Country message represents a country.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>id</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>Country ID </p></td>
-                </tr>
-              
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Country name </p></td>
-                </tr>
-              
-                <tr>
-                  <td>created</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td>optional</td>
-                  <td><p>Timestamp when this event was created. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>modified</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td>optional</td>
-                  <td><p>Timestamp when this event was modified. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>creator</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>ID of the creator of this event. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>modifier</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>ID of the modifier of this event. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.inventory.CountryIdRequest">CountryIdRequest</h3>
         <p>Request message to get a country by ID.</p>
 
@@ -8954,7 +8975,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>manufacturer_address</td>
-                  <td><a href="#cdx.opencdx.grpc.inventory.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>Manufacturer&#39;s address </p></td>
                 </tr>
@@ -9246,7 +9267,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>vendor_address</td>
-                  <td><a href="#cdx.opencdx.grpc.inventory.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
                   <td><p>Vendor&#39;s address </p></td>
                 </tr>
@@ -9369,21 +9390,21 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               <tr>
                 <td>get_country_by_id</td>
                 <td><a href="#cdx.opencdx.grpc.inventory.CountryIdRequest">CountryIdRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.inventory.Country">Country</a></td>
+                <td><a href="#cdx.opencdx.grpc.common.Country">.cdx.opencdx.grpc.common.Country</a></td>
                 <td><p></p></td>
               </tr>
             
               <tr>
                 <td>add_country</td>
-                <td><a href="#cdx.opencdx.grpc.inventory.Country">Country</a></td>
-                <td><a href="#cdx.opencdx.grpc.inventory.Country">Country</a></td>
+                <td><a href="#cdx.opencdx.grpc.common.Country">.cdx.opencdx.grpc.common.Country</a></td>
+                <td><a href="#cdx.opencdx.grpc.common.Country">.cdx.opencdx.grpc.common.Country</a></td>
                 <td><p></p></td>
               </tr>
             
               <tr>
                 <td>update_country</td>
-                <td><a href="#cdx.opencdx.grpc.inventory.Country">Country</a></td>
-                <td><a href="#cdx.opencdx.grpc.inventory.Country">Country</a></td>
+                <td><a href="#cdx.opencdx.grpc.common.Country">.cdx.opencdx.grpc.common.Country</a></td>
+                <td><a href="#cdx.opencdx.grpc.common.Country">.cdx.opencdx.grpc.common.Country</a></td>
                 <td><p></p></td>
               </tr>
             
@@ -11203,93 +11224,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
       <p></p>
 
       
-        <h3 id="cdx.opencdx.grpc.provider.Address">Address</h3>
-        <p>Message to represent an address.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>country_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Country code. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>country_name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Country name. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>address_purpose</td>
-                  <td><a href="#cdx.opencdx.grpc.provider.AddressPurpose">AddressPurpose</a></td>
-                  <td></td>
-                  <td><p>Purpose of the address (e.g., LOCATION, MAILING). </p></td>
-                </tr>
-              
-                <tr>
-                  <td>address_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Type of address (e.g., DOM). </p></td>
-                </tr>
-              
-                <tr>
-                  <td>address_1</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>First line of the address. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>city</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>City. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>state</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>State. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>postal_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Postal code. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>telephone_number</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Telephone number. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>fax_number</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Fax number. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.provider.BasicInfo">BasicInfo</h3>
         <p>Message to represent basic information about a healthcare provider.</p>
 
@@ -11679,7 +11613,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>addresses</td>
-                  <td><a href="#cdx.opencdx.grpc.provider.Address">Address</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td>repeated</td>
                   <td><p>List of addresses associated with the provider. </p></td>
                 </tr>
@@ -11821,41 +11755,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
         
       
 
-      
-        <h3 id="cdx.opencdx.grpc.provider.AddressPurpose">AddressPurpose</h3>
-        <p>Enum to represent the purpose of an address.</p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>LOCATION</td>
-                <td>0</td>
-                <td><p>Address used for location purposes.</p></td>
-              </tr>
-            
-              <tr>
-                <td>MAILING</td>
-                <td>1</td>
-                <td><p>Address used for mailing purposes.</p></td>
-              </tr>
-            
-              <tr>
-                <td>PRIMARY</td>
-                <td>2</td>
-                <td><p>Primary address.</p></td>
-              </tr>
-            
-              <tr>
-                <td>SECONDARY</td>
-                <td>3</td>
-                <td><p>Secondary address.</p></td>
-              </tr>
-            
-          </tbody>
-        </table>
       
         <h3 id="cdx.opencdx.grpc.provider.ProviderStatus">ProviderStatus</h3>
         <p>Enum to represent the status of a provider.</p>
