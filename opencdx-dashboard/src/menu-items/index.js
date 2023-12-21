@@ -7,9 +7,7 @@ import dashboardPage from './dashboard';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    // items: [dashboardPage, pages, administration, documentation, templates, configurations, other]
     items: [dashboardPage, pages, administration, documentation, other]
-    
 };
 
 export default menuItems;

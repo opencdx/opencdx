@@ -5,6 +5,8 @@ import { lazy } from 'react';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import AuditLog from 'views/pages/AuditLog';
+import ExternalInterfaces from 'views/pages/ExternalInterfaces';
 
 // sample page routing
 const DashboardPage = Loadable(lazy(() => import('views/dashboard')));
@@ -113,6 +115,14 @@ const MainRoutes = {
         {
             path: '/user/edit-profile',
             element: <AppUserAccountProfile2 />
+        },
+        {
+            path: '/pages/audit-log',
+            element: <AuditLog />
+        },
+        {
+            path: '/pages/external-interfaces',
+            element: <ExternalInterfaces />
         }
     ]
 };

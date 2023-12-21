@@ -4,17 +4,14 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconBrandChrome } from '@tabler/icons-react';
+import { IconHome2 } from '@tabler/icons-react';
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
-const icons = {
-    IconBrandChrome
-};
 const samplePage = {
     id: 'dashboard',
     title: <FormattedMessage id="dashboard" />,
-    icon: icons.IconBrandChrome,
+    icon: IconHome2,
     type: 'group',
     url: '/dashboard'
 };
