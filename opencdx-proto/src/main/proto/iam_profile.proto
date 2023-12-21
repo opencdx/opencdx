@@ -1,7 +1,7 @@
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.profile;
-
+import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 // Enumeration for phone types.
@@ -32,15 +32,15 @@ message UserProfile {
   Gender gender = 5; // Gender of the user
   DateOfBirth date_of_birth = 6; // User's date of birth
   PlaceOfBirth place_of_birth = 7; // User's place of birth
-  Address primary_address = 8; // User's primary address
+  cdx.opencdx.grpc.common.Address primary_address = 8; // User's primary address
   bytes photo = 9; // Photo represented as bytes (binary data)
   Preferences communication = 10; // User's communication preferences
   Demographics demographics = 11; // User's demographics information
   Education education = 12; // User's education information
   EmployeeIdentity employee_identity = 13; // User's employee identity information
   ContactInfo primary_contact_info = 16; // Additional contact information
-  Address billing_address = 17; // User's billing address
-  Address shipping_address = 18; // User's shipping address
+  cdx.opencdx.grpc.common.Address billing_address = 17; // User's billing address
+  cdx.opencdx.grpc.common.Address shipping_address = 18; // User's shipping address
   EmergencyContact emergency_contact = 19; // User's emergency contact information
   Pharmacy pharmacy_details = 20; // User's pharmacy details
   repeated Vaccine vaccine_administered = 21; // Vaccines administered to the user
@@ -83,25 +83,17 @@ message EmergencyContact {
   string relationship = 1; // Relationship to the user
   string contact_name = 2; // Name of the emergency contact
   ContactInfo contact_info = 3; // Contact information for the emergency contact
-  Address residence_address = 4; // Residence address of the emergency contact
-  Address work_address = 5; // Work address of the emergency contact
+  cdx.opencdx.grpc.common.Address residence_address = 4; // Residence address of the emergency contact
+  cdx.opencdx.grpc.common.Address work_address = 5; // Work address of the emergency contact
 }
 
 // Pharmacy information.
 message Pharmacy {
   string pharmacy_name = 1; // Name of the pharmacy
-  Address pharmacy_address = 2; // Address of the pharmacy
+  cdx.opencdx.grpc.common.Address pharmacy_address = 2; // Address of the pharmacy
   ContactInfo pharmacy_contact = 3; // Contact information for the pharmacy
 }
 
-// Address details.
-message Address {
-  string street = 1; // Street address
-  string city = 2; // City
-  string state = 3; // State or region
-  string postal_code = 4; // Postal code
-  string country = 5; // Country ID
-}
 
 // User's communication preferences.
 message Preferences {

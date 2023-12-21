@@ -5,10 +5,9 @@ import { Grid, TextField, MenuItem } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // ==============================|| PROFILE 2 - USER PROFILE ||============================== //
-const frequency = ['daily', 'weekly', 'monthly', 'yearly']
+const frequency = ['daily', 'weekly', 'monthly', 'yearly'];
 const CurrentMedications = () => (
     <Grid container spacing={gridSpacing}>
-
         <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Name" defaultValue="Singular" />
         </Grid>
@@ -22,12 +21,7 @@ const CurrentMedications = () => (
             <TextField fullWidth label="Route Of Administration " defaultValue="Oral" />
         </Grid>
         <Grid item xs={12} sm={6}>
-            <TextField
-                select
-                label="Select a Frequency..."
-                variant="outlined"
-                fullWidth
-            >
+            <TextField select label="Select a Frequency..." variant="outlined" fullWidth>
                 {frequency?.map((template, index) => (
                     <MenuItem key={index} value={template}>
                         {template}

@@ -28,6 +28,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -281,22 +282,22 @@ class OpenCDXIAMProfileServiceImplTest {
         builder.setFullName(
                 FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
         builder.setPrimaryAddress(
-                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
         builder.setShippingAddress(
-                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
         builder.setBillingAddress(
-                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
         builder.setEmergencyContact(EmergencyContact.newBuilder()
                 .setResidenceAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .setWorkAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build());
         builder.setPharmacyDetails(Pharmacy.newBuilder()
                 .setPharmacyAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build());
         builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
@@ -341,11 +342,11 @@ class OpenCDXIAMProfileServiceImplTest {
         builder.setFullName(
                 FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
         builder.setPrimaryAddress(
-                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
         builder.setShippingAddress(
-                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
         builder.setBillingAddress(
-                Address.newBuilder().setCountry(ObjectId.get().toHexString()).build());
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
         builder.setEmergencyContact(EmergencyContact.newBuilder().build());
         builder.setPharmacyDetails(Pharmacy.newBuilder().build());
         builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()

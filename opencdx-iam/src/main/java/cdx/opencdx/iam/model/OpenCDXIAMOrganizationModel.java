@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.model;
 
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.organization.ContactInfo;
 import cdx.opencdx.grpc.organization.Organization;
 import com.google.protobuf.Timestamp;
@@ -46,7 +47,7 @@ public class OpenCDXIAMOrganizationModel {
     private String name;
     private String description;
     private Instant foundingDate;
-    private String address;
+    private Address address;
     private String website;
     private String industry;
     private double revenue;

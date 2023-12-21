@@ -25,7 +25,7 @@ import cdx.opencdx.connected.test.controller.OpenCDXGrpcVendorController;
 import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
-import cdx.opencdx.grpc.inventory.Address;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.inventory.Vendor;
 import cdx.opencdx.grpc.inventory.VendorIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -150,7 +150,7 @@ class OpenCDXVendorServiceImplTest {
         Vendor vendor = Vendor.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .setVendorAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -203,7 +203,7 @@ class OpenCDXVendorServiceImplTest {
         Vendor vendor = Vendor.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .setVendorAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
