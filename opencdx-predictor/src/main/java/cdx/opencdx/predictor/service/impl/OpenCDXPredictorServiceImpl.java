@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.neural.predictor.PredictorOutput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,7 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for OpenCDXPredictorServiceImpl.
@@ -55,13 +58,18 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
      * @param openCDXAuditService Audit service for tracking FDA requirements
      * @param objectMapper        Object mapper for JSON processing
      * @param openCDXCurrentUser  Current User Service.
+     * @param openCDXDocumentValidator Document Validator Service.
      */
     @Autowired
     public OpenCDXPredictorServiceImpl(
-            OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXAuditService openCDXAuditService,
+            ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     /**
@@ -72,6 +80,8 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
      */
     @Override
     public PredictorResponse predict(PredictorRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "connected-test", new ObjectId(request.getPredictorInput().getTestId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(

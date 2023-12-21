@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.config;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Jackson module that works together with com.hubspot.jackson.datatype.protobuf.ProtobufModule.
@@ -48,8 +50,9 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * Copyright (c) 2018 InnoGames GmbH
  */
+@Slf4j
+@ExcludeFromJacocoGeneratedReport
 public class ProtobufPropertiesModule extends Module {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ProtobufPropertiesModule.class);
 
     private Map<Class<?>, Map<String, FieldDescriptor>> cache = new ConcurrentHashMap<>();
 
@@ -81,6 +84,7 @@ public class ProtobufPropertiesModule extends Module {
     NopAnnotationIntrospector annotationIntrospector = new NopAnnotationIntrospector() {
 
         @Override
+        @ExcludeFromJacocoGeneratedReport
         public VisibilityChecker<?> findAutoDetectVisibility(AnnotatedClass ac, VisibilityChecker<?> checker) {
             if (Message.class.isAssignableFrom(ac.getRawType())) {
                 return checker.withGetterVisibility(Visibility.PUBLIC_ONLY).withFieldVisibility(Visibility.ANY);
@@ -89,6 +93,7 @@ public class ProtobufPropertiesModule extends Module {
         }
 
         @Override
+        @ExcludeFromJacocoGeneratedReport
         public Object findNamingStrategy(AnnotatedClass ac) {
             if (!Message.class.isAssignableFrom(ac.getRawType())) {
                 return super.findNamingStrategy(ac);
@@ -106,6 +111,7 @@ public class ProtobufPropertiesModule extends Module {
         }
     };
 
+    @ExcludeFromJacocoGeneratedReport
     class ProtobufClassIntrospector extends BasicClassIntrospector {
 
         @Override
@@ -159,6 +165,7 @@ public class ProtobufPropertiesModule extends Module {
         }
 
         @JsonFormat(shape = Shape.STRING)
+        @ExcludeFromJacocoGeneratedReport
         class AnnotationHelper {}
 
         private void addStringFormatAnnotation(BeanPropertyDefinition p) {

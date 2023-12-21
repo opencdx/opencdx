@@ -20,6 +20,7 @@ import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.*;
+import cdx.opencdx.commons.utils.MongoDocumentExists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -181,10 +182,20 @@ public class CommonsConfig {
     @Bean
     @Profile("!test")
     @ExcludeFromJacocoGeneratedReport
+    @ConditionalOnMissingBean(MongoDocumentExists.class)
+    MongoDocumentExists mongoDocumentExists(MongoTemplate mongoTemplate) {
+        log.info("Creating Mongo Document Exists");
+        return new MongoDocumentExists(mongoTemplate);
+    }
+
+    @Bean
+    @Profile("!test")
+    @ExcludeFromJacocoGeneratedReport
     @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
-    OpenCDXDocumentValidator mongoDocumentValidatorImpl(MongoTemplate mongoTemplate) {
+    OpenCDXDocumentValidator mongoDocumentValidatorImpl(
+            MongoTemplate mongoTemplate, MongoDocumentExists mongoDocumentExists) {
         log.info("Creating Mongo Document Validator");
-        return new MongoDocumentValidatorImpl(mongoTemplate);
+        return new MongoDocumentValidatorImpl(mongoTemplate, mongoDocumentExists);
     }
 
     /**

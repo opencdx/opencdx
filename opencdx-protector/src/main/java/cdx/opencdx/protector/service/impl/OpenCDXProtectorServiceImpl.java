@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.neural.protector.*;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +43,14 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     // Constants for error handling
     private static final String CONVERSION_ERROR = "Failed to convert Protector Request";
     private static final String OBJECT = "OBJECT";
+    private static final String USERS = "users";
 
     // Dependencies injected via constructor
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for OpenCDXProtectorServiceImpl.
@@ -53,17 +58,24 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
      * @param openCDXAuditService Audit Service for recording
      * @param objectMapper        Object mapper for JSON processing
      * @param openCDXCurrentUser  Current user system
+     * @param openCDXDocumentValidator Document validator
      */
     @Autowired
     public OpenCDXProtectorServiceImpl(
-            OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXAuditService openCDXAuditService,
+            ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
     public SecurityResponse detectAnomalies(AnomalyDetectionDataRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                USERS, new ObjectId(request.getAnomalyDetectionData().getUserId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -93,6 +105,8 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
 
     @Override
     public SecurityResponse enforceAuthorizationControl(AuthorizationControlDataRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                USERS, new ObjectId(request.getAuthorizationControlData().getUserId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -151,6 +165,8 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
 
     @Override
     public SecurityResponse monitorRealTimeActivity(RealTimeMonitoringDataRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                USERS, new ObjectId(request.getRealTimeMonitoringData().getMonitoredEntity()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
@@ -180,6 +196,8 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
 
     @Override
     public SecurityResponse analyzeUserBehavior(UserBehaviorAnalysisDataRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                USERS, new ObjectId(request.getUserBehaviorAnalysisData().getUserId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(

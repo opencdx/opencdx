@@ -18,12 +18,8 @@ package cdx.opencdx.protector.controller;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
-import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;
-import cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest;
-import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
-import cdx.opencdx.grpc.neural.protector.SecurityResponse;
-import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.neural.protector.*;
 import cdx.opencdx.protector.service.impl.OpenCDXProtectorServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -50,6 +46,9 @@ class OpenCDXGrpcProtectorControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     OpenCDXProtectorServiceImpl protectorService;
 
     OpenCDXGrpcProtectorController grpcProtectorController;
@@ -64,8 +63,8 @@ class OpenCDXGrpcProtectorControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.protectorService =
-                new OpenCDXProtectorServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.protectorService = new OpenCDXProtectorServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
         this.grpcProtectorController = new OpenCDXGrpcProtectorController(this.protectorService);
     }
 
@@ -74,8 +73,11 @@ class OpenCDXGrpcProtectorControllerTest {
 
     @Test
     void detectAnomalies() {
-        AnomalyDetectionDataRequest request =
-                AnomalyDetectionDataRequest.newBuilder().build();
+        AnomalyDetectionDataRequest request = AnomalyDetectionDataRequest.newBuilder()
+                .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         StreamObserver<SecurityResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcProtectorController.detectAnomalies(request, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SecurityResponse.class));
@@ -84,8 +86,11 @@ class OpenCDXGrpcProtectorControllerTest {
 
     @Test
     void enforceAuthorizationControl() {
-        AuthorizationControlDataRequest request =
-                AuthorizationControlDataRequest.newBuilder().build();
+        AuthorizationControlDataRequest request = AuthorizationControlDataRequest.newBuilder()
+                .setAuthorizationControlData(AuthorizationControlData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         StreamObserver<SecurityResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcProtectorController.enforceAuthorizationControl(request, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SecurityResponse.class));
@@ -104,8 +109,11 @@ class OpenCDXGrpcProtectorControllerTest {
 
     @Test
     void monitorRealTimeActivity() {
-        RealTimeMonitoringDataRequest request =
-                RealTimeMonitoringDataRequest.newBuilder().build();
+        RealTimeMonitoringDataRequest request = RealTimeMonitoringDataRequest.newBuilder()
+                .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
+                        .setMonitoredEntity(ObjectId.get().toHexString())
+                        .build())
+                .build();
         StreamObserver<SecurityResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcProtectorController.monitorRealTimeActivity(request, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SecurityResponse.class));
@@ -114,8 +122,11 @@ class OpenCDXGrpcProtectorControllerTest {
 
     @Test
     void analyzeUserBehavior() {
-        UserBehaviorAnalysisDataRequest request =
-                UserBehaviorAnalysisDataRequest.newBuilder().build();
+        UserBehaviorAnalysisDataRequest request = UserBehaviorAnalysisDataRequest.newBuilder()
+                .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         StreamObserver<SecurityResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcProtectorController.analyzeUserBehavior(request, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SecurityResponse.class));

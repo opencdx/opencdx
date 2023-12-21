@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +51,9 @@ class OpenCDXRoutineServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -61,8 +65,8 @@ class OpenCDXRoutineServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService =
-                new OpenCDXRoutineServiceImpl(this.openCDXAuditService, this.objectMapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, this.objectMapper, this.openCDXCurrentUser, openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -266,7 +270,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         RoutineRequest routineRequest = RoutineRequest.newBuilder()
                 .setRoutine(Routine.newBuilder().setRoutineId("789").build())
@@ -281,7 +286,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         RoutineRequest routineRequest = RoutineRequest.newBuilder()
                 .setRoutine(Routine.newBuilder().setRoutineId("789").build())
@@ -296,7 +302,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(
@@ -313,7 +320,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(
@@ -330,7 +338,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         ClinicalProtocolExecutionRequest clinicalProtocolExecutionRequest =
                 ClinicalProtocolExecutionRequest.newBuilder()
@@ -350,7 +359,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         ClinicalProtocolExecutionRequest clinicalProtocolExecutionRequest =
                 ClinicalProtocolExecutionRequest.newBuilder()
@@ -370,7 +380,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         LabOrderRequest labOrderRequest = LabOrderRequest.newBuilder()
                 .setLabOrder(LabOrder.newBuilder().setLabOrderId("789").build())
@@ -385,7 +396,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         LabOrderRequest labOrderRequest = LabOrderRequest.newBuilder()
                 .setLabOrder(LabOrder.newBuilder().setLabOrderId("789").build())
@@ -400,7 +412,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         DiagnosisRequest diagnosisRequest = DiagnosisRequest.newBuilder()
                 .setDiagnosis(Diagnosis.newBuilder().setDiagnosisId("789").build())
@@ -415,7 +428,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         DiagnosisRequest diagnosisRequest = DiagnosisRequest.newBuilder()
                 .setDiagnosis(Diagnosis.newBuilder().setDiagnosisId("789").build())
@@ -430,7 +444,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         SuspectedDiagnosisRequest suspectedDiagnosisRequest = SuspectedDiagnosisRequest.newBuilder()
                 .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
@@ -448,7 +463,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         SuspectedDiagnosisRequest suspectedDiagnosisRequest = SuspectedDiagnosisRequest.newBuilder()
                 .setSuspectedDiagnosis(SuspectedDiagnosis.newBuilder()
@@ -466,7 +482,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         LabResultRequest labResultRequest = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder().setResultId("789").build())
@@ -481,7 +498,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         LabResultRequest labResultRequest = LabResultRequest.newBuilder()
                 .setLabResult(LabResult.newBuilder().setResultId("789").build())
@@ -496,7 +514,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         MedicationRequest medicationRequest = MedicationRequest.newBuilder()
                 .setMedication(Medication.newBuilder().setMedicationId("789").build())
@@ -511,7 +530,8 @@ class OpenCDXRoutineServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.routineService = new OpenCDXRoutineServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.routineService = new OpenCDXRoutineServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         MedicationRequest medicationRequest = MedicationRequest.newBuilder()
                 .setMedication(Medication.newBuilder().setMedicationId("789").build())

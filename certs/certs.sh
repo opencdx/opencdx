@@ -79,8 +79,6 @@ for service in "${services[@]}"; do
     if [ ! -e "$pem_file" ]; then
         echo "Generating certificate for $service..."
         generate_certificate "$service"
-    else
-        echo "Certificate for $service already exists."
     fi
 done
 

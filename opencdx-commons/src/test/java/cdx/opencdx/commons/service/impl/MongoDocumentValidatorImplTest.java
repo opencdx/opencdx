@@ -21,18 +21,18 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.utils.MongoDocumentExists;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -43,12 +43,12 @@ class MongoDocumentValidatorImplTest {
     @Mock
     private MongoTemplate mongoTemplate;
 
-    @InjectMocks
     private MongoDocumentValidatorImpl documentValidator;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        this.mongoTemplate = Mockito.mock(MongoTemplate.class);
+        this.documentValidator = new MongoDocumentValidatorImpl(mongoTemplate, new MongoDocumentExists(mongoTemplate));
     }
 
     @Test
@@ -63,6 +63,23 @@ class MongoDocumentValidatorImplTest {
 
         // Verify that mongoTemplate.exists was called with the correct parameters
         verify(mongoTemplate).exists(Query.query(Criteria.where("_id").is(documentId)), collectionName);
+    }
+
+    @Test
+    void testValidateDocumentsOrThrow() {
+        String collectionName = "testCollection";
+        List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get(), ObjectId.get());
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(any(Query.class), eq(collectionName))).thenReturn(true);
+
+        assertDoesNotThrow(() -> documentValidator.validateDocumentsOrThrow(collectionName, documentIds));
+
+        // Verify that isCollectionExists and mongoTemplate.exists were called with the correct parameters
+        verify(mongoTemplate).exists(any(Query.class), eq(collectionName));
     }
 
     @Test
@@ -139,16 +156,32 @@ class MongoDocumentValidatorImplTest {
     }
 
     @Test
-    void testValidateDocumentsOrThrow() {
+    void testValidateDocumentsOrThrow2() {
         String collectionName = "testCollection";
         List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get(), ObjectId.get());
 
-        when(mongoTemplate.collectionExists(collectionName)).thenReturn(true);
+        when(mongoTemplate.getCollectionNames()).thenReturn(new HashSet<>(List.of(collectionName)));
         when(mongoTemplate.exists(any(Query.class), eq(collectionName))).thenReturn(true);
 
-        assertDoesNotThrow(() -> documentValidator.validateDocumentsOrThrow(collectionName, documentIds));
+        assertDoesNotThrow(() -> documentValidator.validateDocumentsOrThrow(documentIds));
+    }
 
-        verify(mongoTemplate).exists(any(Query.class), eq(collectionName));
+    @Test
+    void testValidateDocumentsOrThrow3() {
+        String collectionName = "testCollection";
+
+        assertDoesNotThrow(() -> documentValidator.validateDocumentsOrThrow(Collections.emptyList()));
+    }
+
+    @Test
+    void testValidateDocumentsOrThrow4() {
+        String collectionName = "testCollection";
+        List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get(), ObjectId.get());
+
+        when(mongoTemplate.getCollectionNames()).thenReturn(new HashSet<>(List.of(collectionName)));
+        when(mongoTemplate.exists(any(Query.class), eq(collectionName))).thenReturn(false);
+
+        assertThrows(OpenCDXNotFound.class, () -> documentValidator.validateDocumentsOrThrow(documentIds));
     }
 
     @Test
