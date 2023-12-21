@@ -16,12 +16,18 @@
 package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.SeverityLevel;
+import cdx.opencdx.grpc.neural.classification.Symptom;
+import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -70,6 +76,42 @@ class OpenCDXClassificationServiceImplTest {
         ClassificationRequest request = ClassificationRequest.newBuilder().build();
         ClassificationResponse response = this.classificationService.classify(request);
 
-        Assertions.assertEquals("", response.getUserId());
+        Assertions.assertEquals(
+                "Executed classify operation.", response.getMessage().toString());
+    }
+
+    @Test
+    void testSubmitClassificationFail() throws JsonProcessingException {
+        // Mock the ObjectMapper
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        // Mock the ObjectMapper's behavior to throw JsonProcessingException
+        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
+
+        // Create an instance of the OpenCDXClassificationServiceImpl with the mocked dependencies
+        this.classificationService =
+                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+
+        // Build a ClassificationRequest with invalid data (e.g., null symptom name)
+        ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .addSymptoms(
+                                Symptom.newBuilder()
+                                        .setName("John Smith") // Simulating an invalid case with null symptom name
+                                        .setSeverity(SeverityLevel.LOW) // Set severity level for the symptom
+                                        .setOnsetDate(Timestamp.newBuilder()
+                                                .setSeconds(1641196800)
+                                                .setNanos(0)) // Set onset date to a specific timestamp
+                                        .setDuration(5) // Set duration of the symptom
+                                        .setAdditionalDetails(
+                                                "Additional details about the symptom") // Set additional details
+                                )
+                        .build())
+                .build();
+
+        // Verify that submitting the classification with the ObjectMapper throwing JsonProcessingException results in
+        // OpenCDXNotAcceptable exception
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> classificationService.classify(classificationRequest));
     }
 }

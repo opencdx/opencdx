@@ -86,7 +86,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             throw openCDXNotAcceptable;
         }
         return ClassificationResponse.newBuilder()
-                .setMessage("classify Executed")
+                .setMessage("Executed classify operation.")
                 .build();
     }
 }

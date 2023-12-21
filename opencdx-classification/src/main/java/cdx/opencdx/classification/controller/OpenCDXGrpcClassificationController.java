@@ -50,8 +50,9 @@ public class OpenCDXGrpcClassificationController extends ClassificationServiceGr
     @Override
     public void classify(ClassificationRequest request, StreamObserver<ClassificationResponse> responseObserver) {
 
-        ClassificationResponse response =
-                ClassificationResponse.newBuilder().setMessage("xx-pending-xx").build();
+        ClassificationResponse response = ClassificationResponse.newBuilder()
+                .setMessage("Executed classify operation.")
+                .build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
