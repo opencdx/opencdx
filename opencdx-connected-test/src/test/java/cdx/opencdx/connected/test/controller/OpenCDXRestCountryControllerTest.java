@@ -23,7 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
-import cdx.opencdx.grpc.inventory.Country;
+import cdx.opencdx.grpc.common.Country;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;

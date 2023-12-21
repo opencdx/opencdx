@@ -2,6 +2,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.inventory;
 
+import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 // Address message defines the address details.
@@ -13,15 +14,6 @@ message Address {
     string country = 5;       // Country
 }
 
-// Country message represents a country.
-message Country {
-    optional string id = 1;    // Country ID
-    string name = 2;  // Country name
-    optional google.protobuf.Timestamp created = 3; // Timestamp when this event was created.
-    optional google.protobuf.Timestamp modified = 4; // Timestamp when this event was modified.
-    optional string creator = 5; // ID of the creator of this event.
-    optional string modifier = 6; // ID of the modifier of this event.
-}
 
 // Manufacturer message represents a manufacturer.
 message Manufacturer {
@@ -119,9 +111,9 @@ message TestCase {
 
 // gRPC service for managing countries.
 service CountryService {
-    rpc get_country_by_id(CountryIdRequest) returns (Country);
-    rpc add_country(Country) returns (Country);
-    rpc update_country(Country) returns (Country);
+    rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country);
+    rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
+    rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
     rpc delete_country(CountryIdRequest) returns (DeleteResponse);
 }
 

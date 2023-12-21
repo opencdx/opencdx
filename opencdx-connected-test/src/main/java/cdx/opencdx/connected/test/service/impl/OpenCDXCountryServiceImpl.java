@@ -24,7 +24,7 @@ import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.inventory.Country;
+import cdx.opencdx.grpc.common.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
