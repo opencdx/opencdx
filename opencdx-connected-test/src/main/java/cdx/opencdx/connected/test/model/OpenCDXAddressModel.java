@@ -15,7 +15,8 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.opencdx.grpc.inventory.Address;
+import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.AddressPurpose;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,10 +33,13 @@ import org.bson.types.ObjectId;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class OpenCDXAddressModel {
-    private String street;
+    private AddressPurpose addressPurpose;
+    private String address1;
+    private String address2;
+    private String address3;
     private String city;
     private String postalCode;
-    private String region;
+    private String state;
     private ObjectId countryId;
 
     /**
@@ -43,11 +47,16 @@ public class OpenCDXAddressModel {
      * @param address protobuf address
      */
     public OpenCDXAddressModel(Address address) {
-        this.street = address.getStreet();
+        this.addressPurpose = address.getAddressPurpose();
+
+        this.address1 = address.getAddress1();
+        this.address2 = address.getAddress2();
+        this.address3 = address.getAddress3();
+
         this.city = address.getCity();
         this.postalCode = address.getPostalCode();
-        this.region = address.getRegion();
-        this.countryId = new ObjectId(address.getCountry());
+        this.state = address.getState();
+        this.countryId = new ObjectId(address.getCountryId());
     }
 
     /**
@@ -56,9 +65,17 @@ public class OpenCDXAddressModel {
      */
     public Address getProtobufMessage() {
         Address.Builder builder = Address.newBuilder();
-
-        if (this.street != null) {
-            builder.setStreet(this.street);
+        if (this.addressPurpose != null) {
+            builder.setAddressPurpose(this.addressPurpose);
+        }
+        if (this.address1 != null) {
+            builder.setAddress1(this.address1);
+        }
+        if (this.address2 != null) {
+            builder.setAddress2(this.address2);
+        }
+        if (this.address3 != null) {
+            builder.setAddress3(this.address3);
         }
         if (this.city != null) {
             builder.setCity(this.city);
@@ -66,11 +83,11 @@ public class OpenCDXAddressModel {
         if (this.postalCode != null) {
             builder.setPostalCode(this.postalCode);
         }
-        if (this.region != null) {
-            builder.setRegion(this.region);
+        if (this.state != null) {
+            builder.setState(this.state);
         }
         if (this.countryId != null) {
-            builder.setCountry(this.countryId.toHexString());
+            builder.setCountryId(this.countryId.toHexString());
         }
         return builder.build();
     }

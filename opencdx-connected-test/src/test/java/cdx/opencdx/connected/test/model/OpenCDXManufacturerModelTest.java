@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.connected.test.model;
 
-import cdx.opencdx.grpc.inventory.Address;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
@@ -27,10 +27,12 @@ class OpenCDXManufacturerModelTest {
     void getProtobufMessage_1() {
         OpenCDXManufacturerModel manufacturerModel = OpenCDXManufacturerModel.builder()
                 .address(OpenCDXAddressModel.builder()
-                        .street("Street")
+                        .address1("Address Line 1")
+                        .address2("Address Line 2")
+                        .address3("Address Line 3")
                         .city("City")
                         .postalCode("Postcode")
-                        .region("Region")
+                        .state("state")
                         .countryId(new ObjectId())
                         .build())
                 .build();
@@ -48,7 +50,7 @@ class OpenCDXManufacturerModelTest {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setName("vendorName")
                 .setManufacturerAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setModified(Timestamp.getDefaultInstance())
@@ -65,7 +67,7 @@ class OpenCDXManufacturerModelTest {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setName("vendorName")
                 .setManufacturerAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build();
         OpenCDXManufacturerModel model = new OpenCDXManufacturerModel(manufacturer);

@@ -15,6 +15,8 @@
  */
 package proto;
 
+import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.Country;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,11 +49,11 @@ class InventoryTest {
                 this.mapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(Address.newBuilder()
-                                .setStreet("1234 Main Street")
+                                .setAddress1("1234 Main Street")
                                 .setCity("Hometown")
                                 .setPostalCode("12345")
-                                .setRegion("Texas")
-                                .setCountry(ObjectId.get().toHexString())
+                                .setState("Texas")
+                                .setCountryId(ObjectId.get().toHexString())
                                 .build()));
     }
 
@@ -77,11 +79,11 @@ class InventoryTest {
                                 .setId(ObjectId.get().toHexString())
                                 .setName("Any Manufacturer")
                                 .setManufacturerAddress(Address.newBuilder()
-                                        .setStreet("1234 Main Street")
+                                        .setAddress1("1234 Main Street")
                                         .setCity("Hometown")
                                         .setPostalCode("12345")
-                                        .setRegion("Texas")
-                                        .setCountry(ObjectId.get().toHexString())
+                                        .setState("Texas")
+                                        .setCountryId(ObjectId.get().toHexString())
                                         .build())
                                 .setManufacturerContact("Bob")
                                 .setManufacturerEmail("Bob@anyManufacturer")
@@ -102,11 +104,11 @@ class InventoryTest {
                                 .setId(ObjectId.get().toHexString())
                                 .setVendorName("Any Manufacturer")
                                 .setVendorAddress(Address.newBuilder()
-                                        .setStreet("1234 Main Street")
+                                        .setAddress1("1234 Main Street")
                                         .setCity("Hometown")
                                         .setPostalCode("12345")
-                                        .setRegion("Texas")
-                                        .setCountry(ObjectId.get().toHexString())
+                                        .setState("Texas")
+                                        .setCountryId(ObjectId.get().toHexString())
                                         .build())
                                 .setVendorContact("Bob")
                                 .setVendorEmail("Bob@anyManufacturer")

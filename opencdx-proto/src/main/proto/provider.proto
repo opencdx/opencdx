@@ -3,33 +3,13 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.provider;
 // Importing the timestamp proto package
 import "google/protobuf/timestamp.proto";
+import "common.proto";
 
-// Enum to represent the purpose of an address.
-enum AddressPurpose {
-  LOCATION = 0;   // Address used for location purposes.
-  MAILING = 1;    // Address used for mailing purposes.
-  PRIMARY = 2;    // Primary address.
-  SECONDARY = 3;  // Secondary address.
-}
 
 // Enum to represent the status of a provider.
 enum ProviderStatus {
   VALIDATED = 0;  // The provider has been validated.
   DELETED = 1;    // The provider has been deleted.
-}
-
-// Message to represent an address.
-message Address {
-  string country_code = 1;        // Country code.
-  string country_name = 2;        // Country name.
-  AddressPurpose address_purpose = 3; // Purpose of the address (e.g., LOCATION, MAILING).
-  string address_type = 4;        // Type of address (e.g., DOM).
-  string address_1 = 5;           // First line of the address.
-  string city = 6;                // City.
-  string state = 7;               // State.
-  string postal_code = 8;         // Postal code.
-  string telephone_number = 9;    // Telephone number.
-  string fax_number = 10;         // Fax number.
 }
 
 // Message to represent basic information about a healthcare provider.
@@ -78,7 +58,7 @@ message Provider {
   string enumeration_type = 4;     // Enumeration type.
   string last_updated_epoch = 5;   // Epoch timestamp of last update.
   string number = 6;               // Provider number.
-  repeated Address addresses = 7;  // List of addresses associated with the provider.
+  repeated cdx.opencdx.grpc.common.Address addresses = 7;  // List of addresses associated with the provider.
   repeated string practiceLocations = 8; // List of practice locations.
   BasicInfo basic = 9;             // Basic information about the provider.
   repeated Taxonomy taxonomies = 10; // List of taxonomies associated with the provider.
