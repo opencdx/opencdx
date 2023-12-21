@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconLocationShare, IconDeviceMobileMessage,IconDeviceHeartMonitor } from '@tabler/icons-react';
+import { IconLocationShare, IconDeviceMobileMessage, IconDeviceHeartMonitor } from '@tabler/icons-react';
 
 // constant
 
@@ -35,8 +35,7 @@ const pages = {
                     url: '/pages/sms'
                 }
             ]
-        },
-        
+        }
     ]
 };
 

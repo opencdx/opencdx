@@ -8,7 +8,6 @@ import dashboardPage from './dashboard';
 
 const menuItems = {
     items: [dashboardPage, pages, administration, documentation, other]
-    
 };
 
 export default menuItems;

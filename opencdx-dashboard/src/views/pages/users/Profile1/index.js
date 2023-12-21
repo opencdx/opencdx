@@ -498,9 +498,13 @@ const Profile1 = () => {
                             title="Personal Details"
                             secondary={
                                 <Button aria-label="Edit Details">
-                                    <IconEdit stroke={1.5} size="20px" onClick={() => {
-                                        navigate('/user/edit-profile'); // Replace '/edit-profile' with the desired URL of the edit-profile page
-                                    }} />
+                                    <IconEdit
+                                        stroke={1.5}
+                                        size="20px"
+                                        onClick={() => {
+                                            navigate('/user/edit-profile'); // Replace '/edit-profile' with the desired URL of the edit-profile page
+                                        }}
+                                    />
                                 </Button>
                             }
                         >

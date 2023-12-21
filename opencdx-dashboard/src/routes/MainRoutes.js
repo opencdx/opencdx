@@ -118,11 +118,11 @@ const MainRoutes = {
         },
         {
             path: '/pages/audit-log',
-            element: <AuditLog/>
+            element: <AuditLog />
         },
         {
             path: '/pages/external-interfaces',
-            element: <ExternalInterfaces/>
+            element: <ExternalInterfaces />
         }
     ]
 };

@@ -2,8 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconUser, IconUsersPlus, IconUserEdit, IconUserCog, IconUserCheck} from '@tabler/icons-react';
-
+import { IconUser, IconUsersPlus, IconUserEdit, IconUserCog, IconUserCheck } from '@tabler/icons-react';
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 

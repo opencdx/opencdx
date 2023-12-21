@@ -18,18 +18,16 @@ const documentation = {
             icon: IconTarget,
             target: true,
             external: true,
-            url: 'https://localhost:8761/',
-
+            url: 'https://localhost:8761/'
         },
         {
             id: 'admin',
             title: <FormattedMessage id="admin" />,
             type: 'item',
-            icon: IconUserCircle,            
+            icon: IconUserCircle,
             target: true,
             external: true,
-            url: 'https://localhost:8861/admin/wallboard',
-
+            url: 'https://localhost:8861/admin/wallboard'
         },
         {
             id: 'nats',
@@ -107,7 +105,7 @@ const documentation = {
                     url: '/pages/health-probe'
                 }
             ]
-        },
+        }
     ]
 };
 

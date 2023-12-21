@@ -8,7 +8,7 @@ const AuditLog = () => {
     return (
         // Your JSX code goes here
         <MainCard title="Audit Log">
-        <Typography variant="body2">Audit Log</Typography>
+            <Typography variant="body2">Audit Log</Typography>
         </MainCard>
     );
 };

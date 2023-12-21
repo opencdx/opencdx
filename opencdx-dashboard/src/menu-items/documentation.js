@@ -28,16 +28,14 @@ const documentation = {
         {
             id: 'audit-records',
             title: <FormattedMessage id="audit-records" />,
-           type: 'collapse',
+            type: 'collapse',
             children: [
                 {
                     id: 'audit-log',
                     title: <FormattedMessage id="audit-log" />,
                     type: 'item',
                     url: '/pages/audit-log'
-                },
-
-               
+                }
             ]
         },
         {
@@ -50,8 +48,7 @@ const documentation = {
                     title: <FormattedMessage id="external-interfaces" />,
                     type: 'item',
                     url: '/pages/external-interfaces'
-                },
-             
+                }
             ]
         }
     ]

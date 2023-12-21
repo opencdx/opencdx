@@ -33,7 +33,7 @@ function ConfigProvider({ children }) {
         outlinedFilled: initialState.outlinedFilled,
         navType: initialState.navType,
         presetColor: initialState.presetColor,
-        locale: initialState.locale,
+        locale: initialState.locale
     });
 
     const onChangeLayout = (layout) => {
