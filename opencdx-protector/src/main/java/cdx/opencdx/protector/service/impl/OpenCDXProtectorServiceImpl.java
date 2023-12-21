@@ -43,7 +43,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     // Constants for error handling
     private static final String CONVERSION_ERROR = "Failed to convert Protector Request";
     private static final String OBJECT = "OBJECT";
-    public static final String USERS = "users";
+    private static final String USERS = "users";
 
     // Dependencies injected via constructor
     private final OpenCDXAuditService openCDXAuditService;
@@ -58,6 +58,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
      * @param openCDXAuditService Audit Service for recording
      * @param objectMapper        Object mapper for JSON processing
      * @param openCDXCurrentUser  Current user system
+     * @param openCDXDocumentValidator Document validator
      */
     @Autowired
     public OpenCDXProtectorServiceImpl(

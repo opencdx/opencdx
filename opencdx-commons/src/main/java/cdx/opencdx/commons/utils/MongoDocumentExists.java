@@ -23,6 +23,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+/**
+ *
+ * This class is used to validate if a document exists in a collection with caching.
+ */
 @Slf4j
 @Component
 public class MongoDocumentExists {
@@ -38,6 +42,13 @@ public class MongoDocumentExists {
         this.mongoTemplate = mongoTemplate;
     }
 
+    /**
+     * Checks if a document exists in a collection.
+     *
+     * @param collectionName Name of the collection to check
+     * @param documentId     ObjectId of the document to check
+     * @return true if the document exists, false otherwise
+     */
     @Cacheable(value = "documentExists", key = "{#collectionName, #documentId}")
     public boolean documentExists(String collectionName, ObjectId documentId) {
         log.debug("Checking if document {} exists in collection {}", documentId.toHexString(), collectionName);
