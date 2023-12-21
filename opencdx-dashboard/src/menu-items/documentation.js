@@ -25,32 +25,6 @@ const documentation = {
             icon: IconPropeller,
             url: '/pages/proto'
         },
-        {
-            id: 'audit-records',
-            title: <FormattedMessage id="audit-records" />,
-            type: 'collapse',
-            children: [
-                {
-                    id: 'audit-log',
-                    title: <FormattedMessage id="audit-log" />,
-                    type: 'item',
-                    url: '/pages/audit-log'
-                }
-            ]
-        },
-        {
-            id: 'external',
-            title: <FormattedMessage id="external-interfaces" />,
-            type: 'collapse',
-            children: [
-                {
-                    id: 'external-interfaces',
-                    title: <FormattedMessage id="external-interfaces" />,
-                    type: 'item',
-                    url: '/pages/external-interfaces'
-                }
-            ]
-        }
     ]
 };
 
