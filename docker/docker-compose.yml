@@ -419,31 +419,25 @@ services:
     image: openzipkin/zipkin:2
     volumes:
       - ../certs:/certs
-      #- ../opencdx-zipkin/zipkin.conf:/zipkin.conf
+      - ../certs:/etc/ssl/certs
     environment:
       - STORAGE_TYPE=mysql
-      # Point the zipkin at the storage backend
       - MYSQL_HOST=mysql
       - MYSQL_USER=zipkin
       - MYSQL_PASS=zipkin
-      # Uncomment to enable scribe
-      # - SCRIBE_ENABLED=true
-      # Uncomment to enable self-tracing
-      #- SELF_TRACING_ENABLED=true
-      # Uncomment to enable debug logging
-#      - JAVA_OPTS=  -Djavax.net.ssl.trustStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.trustStorePassword=opencdx -Djavax.net.ssl.trustStoreType=PKCS12 -Djavax.net.ssl.keyStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.keyStorePassword=opencdx -Djavax.net.ssl.keyStoreType=PKCS12
-#      - ARMERIA_SSL_KEY_STORE=file:/certs/opencdx-keystore.p12
-#      - ARMERIA_SSL_KEY_ALIAS=zipkin
-#      - ARMERIA_SSL_KEY_STORE_PASSWORD=opencdx
-#      - ARMERIA_SSL_KEY_STORE_TYPE=PKCS12
-#      - ARMERIA_SSL_TRUST_STORE=file:/certs/opencdx-keystore.p12
-#      - ARMERIA_SSL_TRUST_STORE_PASSWORD=opencdx
-#      - ARMERIA_SSL_TRUST_STORE_TYPE=PKCS12
-#      - ARMERIA_SSL_ENABLED=TRUE
-#      - ARMERIA_PORTS_0_PORT=9411
-#      - ARMERIA_PORTS_0_PROTOCOLS_0=https
-
-     #- JAVA_OPTS=-Xms512m -Xmx1g
+      - ARMERIA_SSL_KEY_STORE=file:/certs/opencdx-keystore.p12
+      - ARMERIA_SSL_KEY_ALIAS=zipkin
+      - ARMERIA_SSL_KEY_STORE-PASSWORD=opencdx
+      - ARMERIA_SSL_KEY_STORE-TYPE=PKCS12
+      - ARMERIA_SSL_TRUST_STORE=file:/certs/opencdx-keystore.p12
+      - ARMERIA_SSL_TRUST_STORE-PASSWORD=opencdx
+      - ARMERIA_SSL_TRUST_STORE-TYPE=PKCS12
+      - ARMERIA_SSL_ENABLED=TRUE
+      - ARMERIA_PORTS_0_PORT=9411
+      - ARMERIA_PORTS_0_PROTOCOL_0=HTTPS
+      - JDK_JAVA_OPTIONS= -Dlogging.level.com.linecorp=DEBUG
+#      - JDK_JAVA_OPTIONS=  -Djavax.net.ssl.trustStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.trustStorePassword=opencdx -Djavax.net.ssl.trustStoreType=PKCS12 -Djavax.net.ssl.keyStore=/certs/opencdx-keystore.p12 -Djavax.net.ssl.keyStorePassword=opencdx -Djavax.net.ssl.keyStoreType=PKCS12
+#      - "JDK_JAVA_OPTIONS: -Dserver.ssl.enabled=true -Darmeria.ssl.enabled=true -Darmeria.ssl.key-alias=zipkin -Darmeria.ssl.key-store=file:/certs/opencdx-keystore.p12 -Darmeria.ssl.key-store-password=opencdx -Darmeria.ssl.trust-store=file:/certs/opencdx-keystore.p12 -Darmeria.ssl.trust-store-password=opencdx -Darmeria.ports[0].port=9411 -Darmeria.ports[0].protocol[0]=HTTPS"
     healthcheck:
       test: "curl --fail --silent localhost:9411/actuator/health | grep UP || exit 1"
       interval: 5s
