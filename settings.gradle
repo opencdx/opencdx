@@ -12,7 +12,6 @@ plugins {
 
 rootProject.name = 'OpenCDX'
 include('opencdx-helloworld',
-        'opencdx-tinkar',
         'opencdx-proto',
         'opencdx-commons',
         'opencdx-client',

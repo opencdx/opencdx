@@ -1,0 +1,181 @@
+package cdx.opencdx.iam.controller;
+
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.security.JwtTokenUtil;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.organization.Empty;
+import cdx.opencdx.grpc.organization.GetOrganizationDetailsByIdRequest;
+import cdx.opencdx.grpc.organization.GetOrganizationDetailsByIdResponse;
+import cdx.opencdx.grpc.organization.ListOrganizationsResponse;
+import cdx.opencdx.grpc.profile.DeleteUserProfileRequest;
+import cdx.opencdx.grpc.profile.DeleteUserProfileResponse;
+import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.iam.config.AppProperties;
+import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
+import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
+import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
+import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
+import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
+import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
+import cdx.opencdx.iam.service.impl.OpenCDXIAMOrganizationServiceImpl;
+import cdx.opencdx.iam.service.impl.OpenCDXIAMProviderServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.grpc.stub.StreamObserver;
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ActiveProfiles({"test", "managed"})
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
+class OpenCDXIAMProviderGrpcControllerTest {
+    @Autowired
+    OpenCDXAuditService openCDXAuditService;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
+    @Mock
+    OpenCDXIAMProviderRepository openCDXIAMProviderRepository;
+
+    OpenCDXIAMProviderService openCDXIAMProviderService;
+
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
+    OpenCDXIAMProviderGrpcController openCDXIAMProviderGrpcController;
+
+    @MockBean
+    AuthenticationManager authenticationManager;
+
+    @MockBean
+    JwtTokenUtil jwtTokenUtil;
+
+//    @Autowired
+//    OpenCDXCommunicationService openCDXCommunicationService;
+
+    @Autowired
+    AppProperties appProperties;
+
+    @BeforeEach
+    void setUp() {
+        this.openCDXIAMProviderRepository = Mockito.mock(OpenCDXIAMProviderRepository.class);
+        Mockito.when(this.openCDXIAMProviderRepository.save(Mockito.any(OpenCDXIAMProviderModel.class)))
+                .thenAnswer(new Answer<OpenCDXIAMProviderModel>() {
+                    @Override
+                    public OpenCDXIAMProviderModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXIAMProviderModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(this.openCDXIAMProviderRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMProviderModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMProviderModel.builder()
+                                .id(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXIAMProviderRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
+
+        this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
+                this.openCDXIAMProviderRepository,
+                this.openCDXAuditService,
+                this.objectMapper);
+        this.openCDXIAMProviderGrpcController =
+                new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(this.openCDXIAMProviderRepository);
+    }
+
+    @Test
+    void getProviderByNumber() {
+        StreamObserver<GetProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMProviderGrpcController.getProviderByNumber(
+                GetProviderRequest.newBuilder(GetProviderRequest.getDefaultInstance())
+                        .setUserId(ObjectId.get().toHexString())
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1))
+                .onNext(Mockito.any(GetProviderResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteProvider() {
+        StreamObserver<DeleteProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMProviderGrpcController.deleteProvider(
+                DeleteProviderRequest.newBuilder().build().newBuilder(DeleteProviderRequest.getDefaultInstance())
+                        .setUserId(ObjectId.get().toHexString())
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeleteProviderResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+
+    }
+
+    @Test
+    void listProviders() {
+        StreamObserver<ListProvidersResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMProviderGrpcController.listProviders(
+                ListProvidersRequest.newBuilder(ListProvidersRequest.getDefaultInstance())
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListProvidersResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+
+    }
+
+    //@Test
+    void loadProvider() {
+        StreamObserver<LoadProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMProviderGrpcController.loadProvider(
+                LoadProviderRequest.newBuilder(
+                        LoadProviderRequest.newBuilder().setUserId("1679736037").build())
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LoadProviderResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+
+    }
+}
