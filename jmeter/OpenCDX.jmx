@@ -6821,7 +6821,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{
   &quot;predictorInput&quot; : {
     &quot;encounterId&quot; : &quot;6581edfb798629124c427e75&quot;,
-    &quot;testId&quot; : &quot;6581edfb798629124c427e76&quot;,
+    &quot;testId&quot; : &quot;${connectedTestId}&quot;,
     &quot;testFeatures&quot; : [ &quot;Feature 1&quot;, &quot;Feature 2&quot;, &quot;Feature 3&quot; ]
   }
 }</stringProp>
@@ -6844,7 +6844,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <stringProp name="Argument.value">{&#xd;
   &quot;predictorInput&quot; : {&#xd;
     &quot;encounterId&quot; : &quot;6581edfb798629124c427e75&quot;,&#xd;
-    &quot;testId&quot; : &quot;6581edfb798629124c427e76&quot;,&#xd;
+    &quot;testId&quot; : &quot;${connectedTestId}&quot;,&#xd;
     &quot;testFeatures&quot; : [ &quot;Feature 1&quot;, &quot;Feature 2&quot;, &quot;Feature 3&quot; ]&#xd;
   }&#xd;
 }&#xd;
