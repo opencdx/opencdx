@@ -10,10 +10,25 @@ import "google/protobuf/timestamp.proto";
  * Entities for the Routine System
  */
 message Routine {
+  enum Status { // Entities for Routine status enumeration
+    SCHEDULED = 0; // The routine has been planned and scheduled
+    IN_PROGRESS = 1; // The routine is currently in progress
+    COMPLETED = 2; // The routine has been successfully completed
+    CANCELED = 3; // The routine was scheduled but got canceled
+    DELAYED = 4; // The routine is behind schedule or delayed
+    PENDING_APPROVAL = 5; // The routine is awaiting approval
+    FAILED = 6; // The routine execution was not successful
+    ON_HOLD = 7; // The routine is temporarily on hold
+    NOT_STARTED = 8; // The routine has not started yet
+    UNDER_REVIEW = 9; // The routine or its results are under review
+    DISCHARGED = 10; // Applicable in healthcare settings, indicating completion
+    RECALLED = 11; // The routine has been recalled or needs to be re-executed
+  }
+
   optional string routine_id = 1; // Unique identifier for each routine process
   optional string name = 2; // Name or title for the routine process
   optional string description = 3; // Additional details describing the nature of the routine
-  optional string status = 4; // Status indicating the state of the routine (e.g., in progress, completed)
+  Status  status = 4; // Status indicating the state of the routine (e.g., in progress, completed)
   google.protobuf.Timestamp creation_datetime = 5; // Timestamp for when the routine was created
   google.protobuf.Timestamp last_updated_datetime = 6; // Timestamp for the last update to the routine
   optional string assigned_user = 7; // User or team responsible for the routine
@@ -24,9 +39,23 @@ message Routine {
  * Entities for the Delivery Tracking System
  */
 message DeliveryTracking {
+  enum Status { // Entities for Delivery status enumeration
+    IN_TRANSIT = 0; // The delivery is currently in transit
+    DELIVERED = 1; // The delivery has been successfully completed
+    CANCELED = 2; // The delivery was scheduled but got canceled
+    PENDING_PICKUP = 3; // The delivery is awaiting pickup
+    OUT_FOR_DELIVERY = 4; // The delivery is out for delivery
+    FAILED_DELIVERY = 5; // The delivery attempt was not successful
+    RETURNED = 6; // The delivery has been returned
+    DELAYED = 7; // The delivery is behind schedule or delayed
+    ON_HOLD = 8; // The delivery is temporarily on hold
+    EXCEPTION = 9; // There is an exception or issue with the delivery
+    LOST = 10; // The delivery is lost or cannot be located
+  }
+
   optional string delivery_id = 1; // Unique identifier for each tracked delivery
   optional string order_id = 2; // Identifier linking the delivery to an order or request
-  optional string status = 3; // Status of the delivery (e.g., in transit, delivered)
+  optional Status status = 3; // Status of the delivery (e.g., in transit, delivered)
   google.protobuf.Timestamp start_datetime = 4; // Timestamp when the delivery process started
   google.protobuf.Timestamp end_datetime = 5; // Timestamp when the delivery was completed
   optional string current_location = 6; // Information about the current location of the delivery
@@ -39,10 +68,20 @@ message DeliveryTracking {
  * Entities for the Clinical Protocol Execution
  */
 message ClinicalProtocolExecution {
+  enum Status { // Entities for protocol Execution status enumeration
+    NOT_STARTED = 0; // The protocol execution has not started yet
+    IN_PROGRESS = 1; // The protocol execution is currently in progress
+    COMPLETED = 2; // The protocol execution has been successfully completed
+    FAILED = 3; // The protocol execution was not successful
+    CANCELED = 4; // The protocol execution was scheduled but got canceled
+    DELAYED = 5; // The protocol execution is behind schedule or delayed
+    UNDER_REVIEW = 6; // The protocol execution or its results are under review
+  }
+
   optional string execution_id = 1; // Unique identifier for each execution of a clinical protocol
   optional string routine_id = 2; // Reference to the routine associated with the clinical protocol execution
   optional string protocol_id = 3; // Reference to the specific clinical protocol being executed
-  optional string status = 4; // Status of the protocol execution (e.g., not started, in progress, completed)
+  optional Status status = 4; // Status of the protocol execution (e.g., not started, in progress, completed)
   google.protobuf.Timestamp start_datetime = 5; // Timestamp when the execution of the protocol began
   google.protobuf.Timestamp end_datetime = 6; // Timestamp when the execution was completed
   optional string results = 7; // Details about the results or outcomes of the protocol execution

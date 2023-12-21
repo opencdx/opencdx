@@ -18,6 +18,8 @@ package cdx.opencdx.predictor.controller;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.impl.OpenCDXPredictorServiceImpl;
@@ -46,6 +48,9 @@ class OpenCDXGrpcPredictorControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     OpenCDXPredictorServiceImpl predictorService;
 
     OpenCDXGrpcPredictorController grpcPredictorController;
@@ -60,8 +65,8 @@ class OpenCDXGrpcPredictorControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.predictorService =
-                new OpenCDXPredictorServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.predictorService = new OpenCDXPredictorServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
         this.grpcPredictorController = new OpenCDXGrpcPredictorController(this.predictorService);
     }
 
@@ -70,7 +75,11 @@ class OpenCDXGrpcPredictorControllerTest {
 
     @Test
     void testPredict() {
-        PredictorRequest request = PredictorRequest.newBuilder().build();
+        PredictorRequest request = PredictorRequest.newBuilder()
+                .setPredictorInput(PredictorInput.newBuilder()
+                        .setTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         StreamObserver<PredictorResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.grpcPredictorController.predict(request, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(PredictorResponse.class));

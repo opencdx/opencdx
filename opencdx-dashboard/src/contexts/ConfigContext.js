@@ -13,7 +13,6 @@ const initialState = {
     onChangeMenuType: () => {},
     onChangePresetColor: () => {},
     onChangeLocale: () => {},
-    onChangeRTL: () => {},
     onChangeContainer: () => {},
     onChangeFontFamily: () => {},
     onChangeBorderRadius: () => {},
@@ -34,8 +33,7 @@ function ConfigProvider({ children }) {
         outlinedFilled: initialState.outlinedFilled,
         navType: initialState.navType,
         presetColor: initialState.presetColor,
-        locale: initialState.locale,
-        rtlLayout: initialState.rtlLayout
+        locale: initialState.locale
     });
 
     const onChangeLayout = (layout) => {
@@ -70,13 +68,6 @@ function ConfigProvider({ children }) {
         setConfig({
             ...config,
             locale
-        });
-    };
-
-    const onChangeRTL = (rtlLayout) => {
-        setConfig({
-            ...config,
-            rtlLayout
         });
     };
 
@@ -121,7 +112,6 @@ function ConfigProvider({ children }) {
                 onChangeMenuType,
                 onChangePresetColor,
                 onChangeLocale,
-                onChangeRTL,
                 onChangeContainer,
                 onChangeFontFamily,
                 onChangeBorderRadius,

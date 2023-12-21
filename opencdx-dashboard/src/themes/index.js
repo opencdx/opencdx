@@ -14,7 +14,7 @@ import componentStyleOverrides from './compStyleOverride';
 import customShadows from './shadows';
 
 export default function ThemeCustomization({ children }) {
-    const { borderRadius, fontFamily, navType, outlinedFilled, presetColor, rtlLayout } = useConfig();
+    const { borderRadius, fontFamily, navType, outlinedFilled, presetColor } = useConfig();
 
     const theme = useMemo(() => Palette(navType, presetColor), [navType, presetColor]);
 
@@ -24,7 +24,6 @@ export default function ThemeCustomization({ children }) {
 
     const themeOptions = useMemo(
         () => ({
-            direction: rtlLayout ? 'rtl' : 'ltr',
             palette: theme.palette,
             mixins: {
                 toolbar: {
@@ -38,7 +37,7 @@ export default function ThemeCustomization({ children }) {
             typography: themeTypography,
             customShadows: themeCustomShadows
         }),
-        [rtlLayout, theme, themeCustomShadows, themeTypography]
+        [theme, themeCustomShadows, themeTypography]
     );
 
     const themes = createTheme(themeOptions);

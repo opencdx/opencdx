@@ -96,7 +96,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public Vendor addVendor(Vendor request) {
         if (request.hasVendorAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getVendorAddress().getCountry()));
+                    "country", new ObjectId(request.getVendorAddress().getCountryId()));
         }
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {
@@ -122,7 +122,7 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
     public Vendor updateVendor(Vendor request) {
         if (request.hasVendorAddress()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    "country", new ObjectId(request.getVendorAddress().getCountry()));
+                    "country", new ObjectId(request.getVendorAddress().getCountryId()));
         }
         OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository.save(new OpenCDXVendorModel(request));
         try {

@@ -1,0 +1,35 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.common;
+
+import "google/protobuf/timestamp.proto";
+
+// Enum to represent the purpose of an address.
+enum AddressPurpose {
+  LOCATION = 0;   // Address used for location purposes.
+  MAILING = 1;    // Address used for mailing purposes.
+  PRIMARY = 2;    // Primary address.
+  SECONDARY = 3;  // Secondary address.
+}
+
+// Country message represents a country.
+message Country {
+  optional string id = 1;    // Country ID
+  string name = 2;  // Country name
+  optional google.protobuf.Timestamp created = 3; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 4; // Timestamp when this event was modified.
+  optional string creator = 5; // ID of the creator of this event.
+  optional string modifier = 6; // ID of the modifier of this event.
+}
+
+// Message to represent an address.
+message Address {
+  string country_id = 1;        // Country code.
+  AddressPurpose address_purpose = 2; // Purpose of the address (e.g., LOCATION, MAILING).
+  string address_1 = 3;           // First line of the address.
+  optional string address_2 = 4;           // First line of the address.
+  optional string address_3 = 5;           // First line of the address.
+  string city = 6;                // City.
+  string state = 7;               // State.
+  string postal_code = 8;         // Postal code.
+}

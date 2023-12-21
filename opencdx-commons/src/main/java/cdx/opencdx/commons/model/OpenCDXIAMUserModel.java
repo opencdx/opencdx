@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;

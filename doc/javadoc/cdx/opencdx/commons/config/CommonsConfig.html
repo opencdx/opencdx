@@ -129,6 +129,16 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Default Cache Manager</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.swagger.v3.oas.models.OpenAPI</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#customizeOpenAPI()" class="member-name-link">customizeOpenAPI</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">OpenAPI Configuration</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.swagger.v3.core.jackson.ModelResolver</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modelResolver(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">modelResolver</a><wbr>(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Model Resolver for Swagger</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
  com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
@@ -280,6 +290,32 @@ loadScripts(document, 'script');</script>
 <dd><code>applicationName</code> - Name of the service.</dd>
 <dt>Returns:</dt>
 <dd>OpenCDXMessageService to use for messaginging.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="modelResolver(com.fasterxml.jackson.databind.ObjectMapper)">
+<h3>modelResolver</h3>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.swagger.v3.core.jackson.ModelResolver</span>&nbsp;<span class="element-name">modelResolver</span><wbr><span class="parameters">(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</span></div>
+<div class="block">Model Resolver for Swagger</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>objectMapper</code> - Object Mapper to use.</dd>
+<dt>Returns:</dt>
+<dd>Model Resolver for Swagger</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="customizeOpenAPI()">
+<h3>customizeOpenAPI</h3>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.swagger.v3.oas.models.OpenAPI</span>&nbsp;<span class="element-name">customizeOpenAPI</span>()</div>
+<div class="block">OpenAPI Configuration</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>OpenAPI Configuration</dd>
 </dl>
 </section>
 </li>

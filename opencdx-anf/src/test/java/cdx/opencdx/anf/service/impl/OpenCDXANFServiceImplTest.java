@@ -29,6 +29,7 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -104,6 +105,33 @@ class OpenCDXANFServiceImplTest {
     }
 
     @Test
+    void createANFStatementJson2() throws JsonProcessingException {
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build()))
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXANFService.createANFStatement(anfStatement));
+    }
+
+    @Test
     void getANFStatement() throws JsonProcessingException {
 
         Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
@@ -162,6 +190,33 @@ class OpenCDXANFServiceImplTest {
                 mapper,
                 openCDXDocumentValidator);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .setId(AnfStatement.Identifier.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXANFService.updateANFStatement(anfStatement));
+    }
+
+    @Test
+    void updateANFStatement2() throws JsonProcessingException {
+        Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXANFStatementModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        this.openCDXANFService = new OpenCDXANFServiceImpl(
+                this.openCDXAuditService,
+                openCDXCurrentUser,
+                this.openCDXANFStatementRepository,
+                mapper,
+                openCDXDocumentValidator);
+        AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
+                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build()))
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .build())

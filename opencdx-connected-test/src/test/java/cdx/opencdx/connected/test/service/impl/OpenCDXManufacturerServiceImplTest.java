@@ -28,7 +28,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
-import cdx.opencdx.grpc.inventory.Address;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -153,7 +153,7 @@ class OpenCDXManufacturerServiceImplTest {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .setManufacturerAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -208,7 +208,7 @@ class OpenCDXManufacturerServiceImplTest {
         Manufacturer manufacturer = Manufacturer.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .setManufacturerAddress(Address.newBuilder()
-                        .setCountry(ObjectId.get().toHexString())
+                        .setCountryId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);

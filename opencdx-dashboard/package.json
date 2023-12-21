@@ -1,6 +1,7 @@
 {
     "name": "admin-ui",
     "version": "1.0.0",
+    "proxy": "https://localhost:8080",
     "private": true,
     "dependencies": {
         "@emotion/cache": "^11.11.0",
@@ -53,7 +54,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "lint": "eslint --ext .js,.jsx ./src",
+        "lint": "eslint --fix --ext .js,.jsx ./src",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

@@ -20,6 +20,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.neural.predictor.PredictorInput;
+import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -44,6 +47,9 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXRestProtectorControllerTest {
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -80,7 +86,13 @@ class OpenCDXRestProtectorControllerTest {
     @Test
     void testPostPredict() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/predict").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/")
+                        .content(this.objectMapper.writeValueAsString(PredictorRequest.newBuilder()
+                                .setPredictorInput(PredictorInput.newBuilder()
+                                        .setTestId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         // Assertions.assertEquals(

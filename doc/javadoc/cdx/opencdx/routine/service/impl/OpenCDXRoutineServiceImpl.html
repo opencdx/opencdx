@@ -109,9 +109,10 @@ implements <a href="../OpenCDXRoutineService.html" title="interface in cdx.openc
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXRoutineServiceImpl</a><wbr>(<a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXDocumentValidator)" class="member-name-link">OpenCDXRoutineServiceImpl</a><wbr>(<a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
  com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
- <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser)</code></div>
+ <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
+ <a href="../../../commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a>&nbsp;opencdxDocumentValidator)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructor for OpenCDXRoutineServiceImpl.</div>
 </div>
@@ -227,18 +228,20 @@ implements <a href="../OpenCDXRoutineService.html" title="interface in cdx.openc
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)">
+<section class="detail" id="&lt;init&gt;(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXDocumentValidator)">
 <h3>OpenCDXRoutineServiceImpl</h3>
 <div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Autowired</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXRoutineServiceImpl</span><wbr><span class="parameters">(<a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
  com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
- <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser)</span></div>
+ <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
+ <a href="../../../commons/service/OpenCDXDocumentValidator.html" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a>&nbsp;opencdxDocumentValidator)</span></div>
 <div class="block">Constructor for OpenCDXRoutineServiceImpl.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>openCDXAuditService</code> - Audit Service for recording</dd>
 <dd><code>objectMapper</code> - Object mapper for JSON processing</dd>
 <dd><code>openCDXCurrentUser</code> - Current user system</dd>
+<dd><code>opencdxDocumentValidator</code> - Document validator</dd>
 </dl>
 </section>
 </li>

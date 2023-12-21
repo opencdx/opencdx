@@ -101,15 +101,15 @@ export const JWTProvider = ({ children }) => {
         // todo: this flow need to be recode as it not verified
         const id = chance.bb_pin();
         const response = await axios.post('/iam/user/signup ', {
-            "type": "IAM_USER_TYPE_REGULAR",
-            "firstName": "Karthick",
-            "lastName": "Raja",
-            "systemName": "System Name",
-            "username": "karthick@safehealth.me",
-            "password": "password"
+            type: 'IAM_USER_TYPE_REGULAR',
+            firstName: 'Karthick',
+            lastName: 'Raja',
+            systemName: 'System Name',
+            username: 'karthick@safehealth.me',
+            password: 'password'
         });
         let users = response.data;
-
+        console.log(users);
         if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
             const localUsers = window.localStorage.getItem('users');
             users = [

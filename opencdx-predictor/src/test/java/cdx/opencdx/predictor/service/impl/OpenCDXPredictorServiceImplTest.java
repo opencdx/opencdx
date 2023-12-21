@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
@@ -46,6 +47,9 @@ class OpenCDXPredictorServiceImplTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     OpenCDXPredictorService predictorService;
 
     @Autowired
@@ -61,8 +65,8 @@ class OpenCDXPredictorServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.predictorService =
-                new OpenCDXPredictorServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.predictorService = new OpenCDXPredictorServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -71,7 +75,11 @@ class OpenCDXPredictorServiceImplTest {
     // Test case: OpenCDXPredictorServiceImplTest that calls the predict
     @Test
     void testPredict() {
-        PredictorRequest request = PredictorRequest.newBuilder().build();
+        PredictorRequest request = PredictorRequest.newBuilder()
+                .setPredictorInput(PredictorInput.newBuilder()
+                        .setTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         PredictorResponse response = this.predictorService.predict(request);
 
         Assertions.assertEquals(
@@ -88,12 +96,14 @@ class OpenCDXPredictorServiceImplTest {
 
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
-        this.predictorService =
-                new OpenCDXPredictorServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.predictorService = new OpenCDXPredictorServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
 
         PredictorRequest request = PredictorRequest.newBuilder()
-                .setPredictorInput(
-                        PredictorInput.newBuilder().setEncounterId("789").build())
+                .setPredictorInput(PredictorInput.newBuilder()
+                        .setTestId(ObjectId.get().toHexString())
+                        .setEncounterId("789")
+                        .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> predictorService.predict(request));
     }
