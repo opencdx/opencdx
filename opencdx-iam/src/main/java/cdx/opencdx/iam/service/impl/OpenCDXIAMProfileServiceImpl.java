@@ -23,6 +23,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
@@ -113,38 +114,16 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                 request.getUpdatedProfile().getDependentIdList().stream()
                         .map(ObjectId::new)
                         .toList());
-        if (request.getUpdatedProfile().hasPrimaryAddress()) {
-            this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    COUNTRY,
-                    new ObjectId(request.getUpdatedProfile().getPrimaryAddress().getCountryId()));
+        for (Address address : request.getUpdatedProfile().getAddressList()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
         }
-        if (request.getUpdatedProfile().hasShippingAddress()) {
-            this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    COUNTRY,
-                    new ObjectId(
-                            request.getUpdatedProfile().getShippingAddress().getCountryId()));
-        }
-        if (request.getUpdatedProfile().hasBillingAddress()) {
-            this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    COUNTRY,
-                    new ObjectId(request.getUpdatedProfile().getBillingAddress().getCountryId()));
-        }
+
         if (request.getUpdatedProfile().hasEmergencyContact()) {
-            if (request.getUpdatedProfile().getEmergencyContact().hasWorkAddress()) {
-                this.openCDXDocumentValidator.validateDocumentOrThrow(
-                        COUNTRY,
-                        new ObjectId(request.getUpdatedProfile()
-                                .getEmergencyContact()
-                                .getWorkAddress()
-                                .getCountryId()));
-            }
-            if (request.getUpdatedProfile().getEmergencyContact().hasResidenceAddress()) {
-                this.openCDXDocumentValidator.validateDocumentOrThrow(
-                        COUNTRY,
-                        new ObjectId(request.getUpdatedProfile()
-                                .getEmergencyContact()
-                                .getResidenceAddress()
-                                .getCountryId()));
+            for (Address address : request.getUpdatedProfile()
+                    .getEmergencyContact()
+                    .getContactInfo()
+                    .getAddressesList()) {
+                this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
             }
         }
         if (request.getUpdatedProfile().hasPharmacyDetails()

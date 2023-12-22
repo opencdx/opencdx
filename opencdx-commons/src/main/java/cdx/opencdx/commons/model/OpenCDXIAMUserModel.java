@@ -17,6 +17,8 @@ package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.ContactInfo;
+import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
@@ -73,15 +75,13 @@ public class OpenCDXIAMUserModel {
     private Gender gender;
     private DateOfBirth dateOfBirth;
     private PlaceOfBirth placeOfBirth;
-    private Address primaryAddress;
+    private List<Address> addresses;
     private byte[] photo;
     private Preferences communication;
     private Demographics demographics;
     private Education education;
     private EmployeeIdentity employeeIdentity;
     private ContactInfo primaryContactInfo;
-    private Address billingAddress;
-    private Address shippingAddress;
     private EmergencyContact emergencyContact;
     private Pharmacy pharmacyDetails;
 
@@ -119,15 +119,13 @@ public class OpenCDXIAMUserModel {
         this.contactInfo = userProfile.getContactsList();
         this.gender = userProfile.getGender();
         this.dateOfBirth = userProfile.getDateOfBirth();
-        this.primaryAddress = userProfile.getPrimaryAddress();
+        this.addresses = userProfile.getAddressList();
         this.photo = userProfile.getPhoto().toByteArray();
         this.communication = userProfile.getCommunication();
         this.demographics = userProfile.getDemographics();
         this.education = userProfile.getEducation();
         this.employeeIdentity = userProfile.getEmployeeIdentity();
         this.primaryContactInfo = userProfile.getPrimaryContactInfo();
-        this.billingAddress = userProfile.getBillingAddress();
-        this.shippingAddress = userProfile.getShippingAddress();
         this.emergencyContact = userProfile.getEmergencyContact();
         this.pharmacyDetails = userProfile.getPharmacyDetails();
         this.vaccines = userProfile.getVaccineAdministeredList();
@@ -283,8 +281,8 @@ public class OpenCDXIAMUserModel {
         if (this.placeOfBirth != null) {
             builder.setPlaceOfBirth(this.placeOfBirth);
         }
-        if (this.primaryAddress != null) {
-            builder.setPrimaryAddress(this.primaryAddress);
+        if (this.addresses != null) {
+            builder.addAllAddress(this.addresses);
         }
         if (this.photo != null && this.photo.length > 0) {
             builder.setPhoto(ByteString.copyFrom(this.photo));
@@ -303,12 +301,6 @@ public class OpenCDXIAMUserModel {
         }
         if (this.primaryContactInfo != null) {
             builder.setPrimaryContactInfo(this.primaryContactInfo);
-        }
-        if (this.billingAddress != null) {
-            builder.setBillingAddress(this.billingAddress);
-        }
-        if (this.shippingAddress != null) {
-            builder.setShippingAddress(this.shippingAddress);
         }
         if (this.emergencyContact != null) {
             builder.setEmergencyContact(this.emergencyContact);

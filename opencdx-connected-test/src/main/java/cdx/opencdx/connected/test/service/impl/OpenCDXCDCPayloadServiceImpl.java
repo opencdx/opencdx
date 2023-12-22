@@ -28,14 +28,17 @@ import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
+import cdx.opencdx.grpc.common.ContactInfo;
+import cdx.opencdx.grpc.common.EmailType;
+import cdx.opencdx.grpc.common.FullName;
+import cdx.opencdx.grpc.common.PhoneType;
 import cdx.opencdx.grpc.iam.IamUserStatus;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
 import io.micrometer.observation.annotation.Observed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.hl7.fhir.r4.model.*;
@@ -313,28 +316,55 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         ContactInfo primaryContact = user.getPrimaryContactInfo();
         if (primaryContact != null) {
             List<ContactPoint> telecomList = new ArrayList<>();
-            telecomList.add(new ContactPoint()
-                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                    .setUse(ContactPoint.ContactPointUse.MOBILE)
-                    .setValue(primaryContact.getMobileNumber().getNumber())
-                    .setRank(1));
-            telecomList.add(new ContactPoint()
-                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                    .setUse(ContactPoint.ContactPointUse.HOME)
-                    .setValue(primaryContact.getHomeNumber().getNumber())
-                    .setRank(2));
-            telecomList.add(new ContactPoint()
-                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                    .setUse(ContactPoint.ContactPointUse.WORK)
-                    .setValue(primaryContact.getWorkNumber().getNumber())
-                    .setRank(3));
-            telecomList.add(new ContactPoint()
-                    .setSystem(ContactPoint.ContactPointSystem.FAX)
-                    .setValue(primaryContact.getFaxNumber().getNumber())
-                    .setRank(4));
-            telecomList.add(new ContactPoint()
-                    .setSystem(ContactPoint.ContactPointSystem.EMAIL)
-                    .setValue(primaryContact.getEmail()));
+            AtomicInteger rank = new AtomicInteger(1);
+            primaryContact.getPhoneNumbersList().stream()
+                    .filter(phone -> phone.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .findFirst()
+                    .ifPresent(phone -> telecomList.add(new ContactPoint()
+                            .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                            .setUse(ContactPoint.ContactPointUse.MOBILE)
+                            .setValue(phone.getNumber())
+                            .setRank(rank.getAndIncrement())));
+            primaryContact.getPhoneNumbersList().stream()
+                    .filter(phone -> phone.getType().equals(PhoneType.PHONE_TYPE_HOME))
+                    .findFirst()
+                    .ifPresent(phone -> telecomList.add(new ContactPoint()
+                            .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                            .setUse(ContactPoint.ContactPointUse.HOME)
+                            .setValue(phone.getNumber())
+                            .setRank(rank.getAndIncrement())));
+
+            primaryContact.getPhoneNumbersList().stream()
+                    .filter(phone -> phone.getType().equals(PhoneType.PHONE_TYPE_WORK))
+                    .findFirst()
+                    .ifPresent(phone -> telecomList.add(new ContactPoint()
+                            .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                            .setUse(ContactPoint.ContactPointUse.WORK)
+                            .setValue(phone.getNumber())
+                            .setRank(rank.getAndIncrement())));
+            primaryContact.getPhoneNumbersList().stream()
+                    .filter(phone -> phone.getType().equals(PhoneType.PHONE_TYPE_FAX))
+                    .findFirst()
+                    .ifPresent(phone -> telecomList.add(new ContactPoint()
+                            .setSystem(ContactPoint.ContactPointSystem.FAX)
+                            .setValue(phone.getNumber())
+                            .setRank(rank.getAndIncrement())));
+            primaryContact.getEmailList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .ifPresent(email -> telecomList.add(new ContactPoint()
+                            .setSystem(ContactPoint.ContactPointSystem.EMAIL)
+                            .setUse(ContactPoint.ContactPointUse.HOME)
+                            .setValue(email.getEmail())
+                            .setRank(rank.getAndIncrement())));
+            primaryContact.getEmailList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                    .findFirst()
+                    .ifPresent(email -> telecomList.add(new ContactPoint()
+                            .setSystem(ContactPoint.ContactPointSystem.EMAIL)
+                            .setUse(ContactPoint.ContactPointUse.WORK)
+                            .setValue(email.getEmail())
+                            .setRank(rank.getAndIncrement())));
             patient.setTelecom(telecomList);
         }
         return patient;

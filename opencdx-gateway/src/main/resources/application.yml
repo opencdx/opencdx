@@ -16,6 +16,8 @@ spring:
       httpclient:
         ssl:
           useInsecureTrustManager: true
+        pool:
+          max-connections: 1000
       discovery:
         locator:
           enabled: true

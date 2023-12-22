@@ -16,7 +16,7 @@
 package cdx.opencdx.iam.model;
 
 import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.organization.ContactInfo;
+import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.organization.Organization;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;

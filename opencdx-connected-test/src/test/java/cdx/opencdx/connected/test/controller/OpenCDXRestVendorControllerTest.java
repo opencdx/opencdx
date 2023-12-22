@@ -26,8 +26,10 @@ import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXVendorRepository;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.inventory.Vendor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -115,7 +117,20 @@ class OpenCDXRestVendorControllerTest {
     void getVendorById() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setVendorContact("vendorAddress")
+                .setVendorContact(ContactInfo.newBuilder()
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCountryId(ObjectId.get().toHexString())
+                                .setAddress1("Test 1")
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("1234567890")
+                                .build()))
+                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .setEmail("ab@safehealth.me")
+                                .build()))
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -129,7 +144,20 @@ class OpenCDXRestVendorControllerTest {
     void addVendor() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setVendorContact("vendorAddress")
+                .setVendorContact(ContactInfo.newBuilder()
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCountryId(ObjectId.get().toHexString())
+                                .setAddress1("Test 1")
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("1234567890")
+                                .build()))
+                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .setEmail("ab@safehealth.me")
+                                .build()))
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -145,7 +173,20 @@ class OpenCDXRestVendorControllerTest {
     void updateVendor() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setVendorContact("vendorAddress")
+                .setVendorContact(ContactInfo.newBuilder()
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCountryId(ObjectId.get().toHexString())
+                                .setAddress1("Test 1")
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("1234567890")
+                                .build()))
+                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .setEmail("ab@safehealth.me")
+                                .build()))
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -161,7 +202,20 @@ class OpenCDXRestVendorControllerTest {
     void deleteVendor() throws Exception {
         Vendor vendor = Vendor.newBuilder(Vendor.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setVendorContact("vendorAddress")
+                .setVendorContact(ContactInfo.newBuilder()
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCountryId(ObjectId.get().toHexString())
+                                .setAddress1("Test 1")
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("1234567890")
+                                .build()))
+                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .setEmail("ab@safehealth.me")
+                                .build()))
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc

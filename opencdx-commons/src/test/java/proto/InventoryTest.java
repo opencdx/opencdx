@@ -15,8 +15,7 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.Country;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,9 +84,20 @@ class InventoryTest {
                                         .setState("Texas")
                                         .setCountryId(ObjectId.get().toHexString())
                                         .build())
-                                .setManufacturerContact("Bob")
-                                .setManufacturerEmail("Bob@anyManufacturer")
-                                .setManufacturerPhone("123-456-7890")
+                                .setManufacturerContact(ContactInfo.newBuilder()
+                                        .setName(FullName.newBuilder()
+                                                .setFirstName("Bob")
+                                                .setLastName("Bob")
+                                                .build())
+                                        .build())
+                                .setManufacturerEmail(EmailAddress.newBuilder()
+                                        .setType(EmailType.EMAIL_TYPE_WORK)
+                                        .setEmail("Bob@anyManufacturer")
+                                        .build())
+                                .setManufacturerPhone(PhoneNumber.newBuilder()
+                                        .setType(PhoneType.PHONE_TYPE_WORK)
+                                        .setNumber("123-456-7890")
+                                        .build())
                                 .setManufacturerWebsite("https://anymanufactuerer.com")
                                 .setManufacturerDescription("Description of any manufacturer")
                                 .addAllManufacturerCertifications(List.of("Cert A", "Cert B", "Cert D"))
@@ -110,9 +120,20 @@ class InventoryTest {
                                         .setState("Texas")
                                         .setCountryId(ObjectId.get().toHexString())
                                         .build())
-                                .setVendorContact("Bob")
-                                .setVendorEmail("Bob@anyManufacturer")
-                                .setVendorPhone("123-456-7890")
+                                .setVendorContact(ContactInfo.newBuilder()
+                                        .setName(FullName.newBuilder()
+                                                .setFirstName("Bob")
+                                                .setLastName("Bob")
+                                                .build())
+                                        .build())
+                                .setVendorEmail(EmailAddress.newBuilder()
+                                        .setType(EmailType.EMAIL_TYPE_WORK)
+                                        .setEmail("Bob@anyManufacturer")
+                                        .build())
+                                .setVendorPhone(PhoneNumber.newBuilder()
+                                        .setType(PhoneType.PHONE_TYPE_WORK)
+                                        .setNumber("123-456-7890")
+                                        .build())
                                 .setVendorWebsite("https://anymanufactuerer.com")
                                 .setVendorDescription("Description of any manufacturer")
                                 .addAllVendorCertifications(List.of("Cert A", "Cert B", "Cert D"))

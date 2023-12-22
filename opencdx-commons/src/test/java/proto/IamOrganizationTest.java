@@ -15,7 +15,7 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.organization.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -136,9 +136,18 @@ class IamOrganizationTest {
                 .addAllSocialMediaLinks(List.of("http://"))
                 .setMissionStatement("Mission Statement")
                 .addAllContacts(List.of(ContactInfo.newBuilder()
-                        .setContactName("Contact Name")
-                        .setEmail("test@opencdx.org")
-                        .setPhone("1234567890")
+                        .setName(FullName.newBuilder()
+                                .setFirstName("Contact")
+                                .setLastName("Name")
+                                .build())
+                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .setEmail("contact@organization")
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setNumber("123-456-7890")
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .build()))
                         .build()))
                 .addAllWorkspaceIds(
                         List.of(ObjectId.get().toHexString(), ObjectId.get().toHexString()))
@@ -165,10 +174,19 @@ class IamOrganizationTest {
                         .setDescription("Department Description")
                         .addAllEmployees(List.of(Employee.newBuilder()
                                 .setEmployeeId(ObjectId.get().toHexString())
-                                .setName("Employee Name")
+                                .setName(FullName.newBuilder()
+                                        .setFirstName("Employee")
+                                        .setLastName("Name")
+                                        .build())
                                 .setTitle("Employee Title")
-                                .setEmail("employee@deparment")
-                                .setPhone("1234567890")
+                                .addAllEmail(List.of(EmailAddress.newBuilder()
+                                        .setEmail("employee@deparment")
+                                        .setType(EmailType.EMAIL_TYPE_WORK)
+                                        .build()))
+                                .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                        .setNumber("123-456-7890")
+                                        .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                        .build()))
                                 .build()))
                         .build()))
                 .build();
