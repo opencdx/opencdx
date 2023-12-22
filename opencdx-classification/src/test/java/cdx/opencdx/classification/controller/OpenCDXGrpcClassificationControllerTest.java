@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.classification.controller;
 
-import cdx.opencdx.classification.model.Person;
-import cdx.opencdx.classification.repository.PersonRepository;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -27,14 +25,11 @@ import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -51,9 +46,6 @@ class OpenCDXGrpcClassificationControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    @Mock
-    PersonRepository personRepository;
-
     OpenCDXClassificationServiceImpl classificationService;
 
     OpenCDXGrpcClassificationController openCDXGrpcClassificationController;
@@ -63,30 +55,14 @@ class OpenCDXGrpcClassificationControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(new Answer<Person>() {
-            @Override
-            public Person answer(InvocationOnMock invocation) throws Throwable {
-                Person argument = invocation.getArgument(0);
-                if (argument.getId() == null) {
-                    argument.setId(ObjectId.get());
-                }
-                return argument;
-            }
-        });
         this.classificationService =
                 new OpenCDXClassificationServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
-    }
-
-    @AfterEach
-    void tearDown() {
-        Mockito.reset(this.personRepository);
     }
 
     @Test

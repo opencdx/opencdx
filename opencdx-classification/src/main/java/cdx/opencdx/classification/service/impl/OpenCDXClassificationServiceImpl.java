@@ -45,11 +45,10 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
-     * Constructor taking the a PersonRepository
-     *
-     * @param objectMapper2    repository for interacting with the database.
-     * @param objectMapper2 Audit service for tracking FDA requirements
-     * @param openCDXCurrentUser Current User Service.
+     * Constructor for OpenCDXClassificationServiceImpl
+     * @param openCDXAuditService service for auditing
+     * @param objectMapper object mapper for converting objects
+     * @param openCDXCurrentUser service for getting current user
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(

@@ -710,7 +710,7 @@ if [ "$no_menu" = false ]; then
         open_reports "admin";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            countdown 90
+            countdown 120
             run_jmeter_tests $jmeter_test
         fi
     fi
