@@ -2,14 +2,16 @@ import { lazy } from 'react';
 
 // project imports
 
-import AuthGuard from 'utils/route-guard/AuthGuard';
+// import AuthGuard from 'utils/route-guard/AuthGuard';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuditLog from 'views/pages/AuditLog';
 import ExternalInterfaces from 'views/pages/ExternalInterfaces';
+import Admin from 'views/pages/Admin';
 
 // sample page routing
 const DashboardPage = Loadable(lazy(() => import('views/dashboard')));
+const Discovery = Loadable(lazy(() => import('views/pages/Discovery')));
 
 //  routing
 const Profile = Loadable(lazy(() => import('views/pages/profile/GeneralProfile')));
@@ -35,9 +37,9 @@ const AppUserAccountProfile2 = Loadable(lazy(() => import('views/pages/users/Pro
 const MainRoutes = {
     path: '/',
     element: (
-        <AuthGuard>
+        <>
             <MainLayout />
-        </AuthGuard>
+        </>
     ),
     children: [
         {
@@ -47,6 +49,14 @@ const MainRoutes = {
         {
             path: '/dashboard',
             element: <DashboardPage />
+        },
+        {
+            path: '/pages/admin',
+            element: <Admin />
+        },
+        {
+            path: '/pages/discovery',
+            element: <Discovery />
         },
         {
             path: '/pages/general',

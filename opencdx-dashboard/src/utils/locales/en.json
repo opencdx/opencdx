@@ -170,5 +170,6 @@
     "audit-log": "Audit Log",
     "audit-records": "Audit Records",
     "audit-logs": "Audit Logs",
-    "external-interfaces": "External Interfaces"
+    "external-interfaces": "External Interfaces",
+    "reports": "Reports"
 }

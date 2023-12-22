@@ -27,7 +27,7 @@ const documentation = {
             icon: IconUserCircle,
             target: true,
             external: true,
-            url: 'https://localhost:8861/admin/wallboard'
+            url:'/pages/admin'
         },
         {
             id: 'nats',

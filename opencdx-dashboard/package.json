@@ -25,6 +25,7 @@
         "framer-motion": "^10.16.1",
         "jwt-decode": "^3.1.2",
         "lodash": "^4.17.21",
+        "lottie-web": "^5.12.2",
         "material-ui-popup-state": "^5.0.9",
         "notistack": "^3.0.1",
         "prop-types": "^15.8.1",

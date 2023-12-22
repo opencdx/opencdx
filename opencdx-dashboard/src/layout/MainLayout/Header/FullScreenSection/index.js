@@ -48,7 +48,6 @@ const FullScreen = () => {
                     }}
                     aria-controls={open ? 'menu-list-grow' : undefined}
                     aria-haspopup="true"
-                    title="user"
                     onClick={handleToggle}
                     color="inherit"
                 >
