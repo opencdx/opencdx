@@ -258,11 +258,28 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .build());
         openCDXIAMUserModel.setPrimaryContactInfo(ContactInfo.newBuilder()
                 .addAllPhoneNumbers(List.of(
-                        PhoneNumber.newBuilder().setNumber("111-111-1111").build(),
-                        PhoneNumber.newBuilder().setNumber("222-222-2222").build(),
-                        PhoneNumber.newBuilder().setNumber("333-333-3333").build()))
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .setNumber("111-111-1111")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_HOME)
+                                .setNumber("222-222-2222")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("333-333-3333")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_FAX)
+                                .setNumber("333-333-3333")
+                                .build()))
                 .addAllEmail(List.of(EmailAddress.newBuilder()
                         .setType(EmailType.EMAIL_TYPE_WORK)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_PERSONAL)
                         .setEmail("contact@opencdx.org")
                         .build()))
                 .build());

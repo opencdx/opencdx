@@ -152,6 +152,53 @@ class OpenCDXConnectedTestServiceImplTest {
     }
 
     @Test
+    void submitTest2() {
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .username("ab@safehealth.me")
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .setNumber("1234567890")
+                                                .build()))
+                                        .build())
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        ConnectedTest connectedTest = ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+                .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
+                        .setId(ObjectId.get().toHexString())
+                        .setNationalHealthId(UUID.randomUUID().toString())
+                        .setOrganizationId(ObjectId.get().toHexString())
+                        .setWorkspaceId(ObjectId.get().toHexString())
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .setTestDetails(TestDetails.newBuilder()
+                        .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertEquals(
+                TestSubmissionResponse.newBuilder()
+                        .setSubmissionId(connectedTest.getBasicInfo().getId())
+                        .build(),
+                this.openCDXConnectedTestService.submitTest(connectedTest));
+    }
+
+    @Test
     void submitTest_fail() {
         Mockito.when(this.openCDXConnectedTestRepository.save(Mockito.any(OpenCDXConnectedTestModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
