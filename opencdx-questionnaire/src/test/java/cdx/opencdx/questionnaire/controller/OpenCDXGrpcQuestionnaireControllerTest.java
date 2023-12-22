@@ -21,22 +21,17 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.questionnaire.*;
-import cdx.opencdx.questionnaire.model.Person;
-import cdx.opencdx.questionnaire.repository.PersonRepository;
 import cdx.opencdx.questionnaire.service.impl.OpenCDXQuestionnaireServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -56,9 +51,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
 
-    @Mock
-    PersonRepository personRepository;
-
     OpenCDXQuestionnaireServiceImpl questionnaireService;
 
     OpenCDXGrpcQuestionnaireController openCDXGrpcQuestionnaireController;
@@ -68,30 +60,14 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.personRepository = Mockito.mock(PersonRepository.class);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.personRepository.save(Mockito.any(Person.class))).thenAnswer(new Answer<Person>() {
-            @Override
-            public Person answer(InvocationOnMock invocation) throws Throwable {
-                Person argument = invocation.getArgument(0);
-                if (argument.getId() == null) {
-                    argument.setId(ObjectId.get());
-                }
-                return argument;
-            }
-        });
         this.questionnaireService =
                 new OpenCDXQuestionnaireServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
-    }
-
-    @AfterEach
-    void tearDown() {
-        Mockito.reset(this.personRepository);
     }
 
     @Test
