@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.questionnaire.repository;
+package cdx.opencdx.classification.service;
 
-import cdx.opencdx.questionnaire.model.Person;
-import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
+import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 
 /**
- * Repository for interacting the "person" records
+ * Interface for the ClassificationService
  */
-@Repository
-@Observed(name = "opencdx")
-public interface PersonRepository extends MongoRepository<Person, ObjectId> {}
+public interface OpenCDXClassificationService {
+    /**
+     * Process the ClassificationRequest
+     * @param request request the process
+     * @return Message generated for this request.
+     */
+    ClassificationResponse classify(ClassificationRequest request);
+}

@@ -21,11 +21,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.util.VersionUtil;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy.PropertyNamingStrategyBase;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClassResolver;
@@ -45,32 +42,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Jackson module that works together with com.hubspot.jackson.datatype.protobuf.ProtobufModule.
- * When added to the springfox ObjectMapper, it allows protobuf messages to show up in swagger ui.
- *
- * Copyright (c) 2018 InnoGames GmbH
+ * Class used to register for Jackson ObjectMapper for reading protobuf generated java classes
  */
 @Slf4j
 @ExcludeFromJacocoGeneratedReport
-public class ProtobufPropertiesModule extends Module {
+public class ProtobufClassAttributesModule extends Module {
 
-    private Map<Class<?>, Map<String, FieldDescriptor>> cache = new ConcurrentHashMap<>();
+    private final Map<Class<?>, Map<String, FieldDescriptor>> cache = new ConcurrentHashMap<>();
 
     /**
      * Default Constructor
      */
-    public ProtobufPropertiesModule() {
+    public ProtobufClassAttributesModule() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
     @Override
     public String getModuleName() {
-        return "ProtobufPropertyModule";
+        return "ProtobufClassAttributesModule";
     }
 
     @Override
     public Version version() {
-        return VersionUtil.packageVersionFor(getClass());
+        return VersionUtil.versionFor(getClass());
     }
 
     @Override
@@ -99,7 +93,7 @@ public class ProtobufPropertiesModule extends Module {
                 return super.findNamingStrategy(ac);
             }
 
-            return new PropertyNamingStrategyBase() {
+            return new PropertyNamingStrategies.NamingBase() {
                 @Override
                 public String translate(String propertyName) {
                     if (propertyName.endsWith("_")) {
@@ -117,73 +111,67 @@ public class ProtobufPropertiesModule extends Module {
         @Override
         public BasicBeanDescription forDeserialization(DeserializationConfig cfg, JavaType type, MixInResolver r) {
             BasicBeanDescription desc = super.forDeserialization(cfg, type, r);
-
             if (Message.class.isAssignableFrom(type.getRawClass())) {
                 return protobufBeanDescription(cfg, type, r, desc);
             }
-
             return desc;
         }
 
         @Override
         public BasicBeanDescription forSerialization(SerializationConfig cfg, JavaType type, MixInResolver r) {
             BasicBeanDescription desc = super.forSerialization(cfg, type, r);
-
             if (Message.class.isAssignableFrom(type.getRawClass())) {
                 return protobufBeanDescription(cfg, type, r, desc);
             }
-
             return desc;
         }
 
         private BasicBeanDescription protobufBeanDescription(
                 MapperConfig<?> cfg, JavaType type, MixInResolver r, BasicBeanDescription baseDesc) {
-            Map<String, FieldDescriptor> types = cache.computeIfAbsent(type.getRawClass(), this::getDescriptorForType);
+            Map<String, FieldDescriptor> types = cache.computeIfAbsent(type.getRawClass(), this::getTypeDescriptor);
 
             AnnotatedClass ac = AnnotatedClassResolver.resolve(cfg, type, r);
 
             List<BeanPropertyDefinition> props = new ArrayList<>();
 
-            for (BeanPropertyDefinition p : baseDesc.findProperties()) {
-                String name = p.getName();
-                if (!types.containsKey(name)) {
-                    continue;
+            baseDesc.findProperties().forEach(property -> {
+                String name = property.getName();
+                if (types.containsKey(name)) {
+                    if (property.hasField()
+                            && property.getField().getType().isJavaLangObject()
+                            && types.get(name)
+                                    .getType()
+                                    .equals(com.google.protobuf.Descriptors.FieldDescriptor.Type.STRING)) {
+                        addStringFormatAnnotation(property);
+                    }
+                    props.add(property.withSimpleName(name));
                 }
-
-                if (p.hasField()
-                        && p.getField().getType().isJavaLangObject()
-                        && types.get(name)
-                                .getType()
-                                .equals(com.google.protobuf.Descriptors.FieldDescriptor.Type.STRING)) {
-                    addStringFormatAnnotation(p);
-                }
-
-                props.add(p.withSimpleName(name));
-            }
+            });
 
             return new BasicBeanDescription(cfg, type, ac, new ArrayList<>(props)) {};
         }
 
         @JsonFormat(shape = Shape.STRING)
         @ExcludeFromJacocoGeneratedReport
-        class AnnotationHelper {}
+        static class AnnotationHelper {}
 
         private void addStringFormatAnnotation(BeanPropertyDefinition p) {
-            JsonFormat annotation = AnnotationHelper.class.getAnnotation(JsonFormat.class);
-            p.getField().getAllAnnotations().addIfNotPresent(annotation);
+            JsonFormat jsonFormatAnnotation = AnnotationHelper.class.getAnnotation(JsonFormat.class);
+            p.getField().getAllAnnotations().addIfNotPresent(jsonFormatAnnotation);
         }
 
-        private Map<String, FieldDescriptor> getDescriptorForType(Class<?> type) {
+        private Map<String, FieldDescriptor> getTypeDescriptor(Class<?> type) {
             try {
-                Descriptor invoke = (Descriptor) type.getMethod("getDescriptor").invoke(null);
-                Map<String, FieldDescriptor> descriptorsForType = new HashMap<>();
-                invoke.getFields().stream().forEach(fieldDescriptor -> {
-                    descriptorsForType.put(fieldDescriptor.getName(), fieldDescriptor);
-                    descriptorsForType.put(fieldDescriptor.getJsonName(), fieldDescriptor);
+                Descriptor descriptor =
+                        (Descriptor) type.getMethod("getDescriptor").invoke(null);
+                Map<String, FieldDescriptor> typeDescriptors = new HashMap<>();
+                descriptor.getFields().forEach(fieldDescriptor -> {
+                    typeDescriptors.put(fieldDescriptor.getName(), fieldDescriptor);
+                    typeDescriptors.put(fieldDescriptor.getJsonName(), fieldDescriptor);
                 });
-                return descriptorsForType;
+                return typeDescriptors;
             } catch (Exception e) {
-                log.error("Error getting protobuf descriptor for swagger.", e);
+                log.error("Error getting proto descriptor for swagger UI.", e);
                 return new HashMap<>();
             }
         }

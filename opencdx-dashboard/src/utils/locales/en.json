@@ -165,5 +165,10 @@
     "email": "Email Template",
     "sms": "SMS Template",
     "view-profile": "View Profile",
-    "edit-profile": "Edit Profile"
+    "edit-profile": "Edit Profile",
+    "administration":  "Administration",
+    "audit-log": "Audit Log",
+    "audit-records": "Audit Records",
+    "audit-logs": "Audit Logs",
+    "external-interfaces": "External Interfaces"
 }

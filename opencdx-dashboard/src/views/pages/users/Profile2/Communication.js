@@ -5,7 +5,8 @@ import { Grid, TextField, MenuItem } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // ==============================|| PROFILE 2 - USER PROFILE ||============================== //
-const languages = ['English',
+const languages = [
+    'English',
     'Spanish',
     'Chinese (Mandarin and Cantonese)',
     'Tagalog',
@@ -20,17 +21,11 @@ const languages = ['English',
     'Japanese',
     'Persian (Farsi)',
     'Hindi and other Indian languages'
-]
+];
 const Communication = () => (
     <Grid container spacing={gridSpacing}>
-
         <Grid item xs={12} sm={6}>
-            <TextField
-                select
-                label="Select a Language..."
-                variant="outlined"
-                fullWidth
-            >
+            <TextField select label="Select a Language..." variant="outlined" fullWidth>
                 {languages?.map((template, index) => (
                     <MenuItem key={index} value={template}>
                         {template}

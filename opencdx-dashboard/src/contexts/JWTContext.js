@@ -109,7 +109,7 @@ export const JWTProvider = ({ children }) => {
             password: 'password'
         });
         let users = response.data;
-        console.log(users)
+        console.log(users);
         if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
             const localUsers = window.localStorage.getItem('users');
             users = [

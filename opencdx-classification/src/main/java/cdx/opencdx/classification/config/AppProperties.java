@@ -13,32 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.questionnaire.model;
+package cdx.opencdx.classification.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Person record from database.
+ * Applicaiton Properties
  */
 @Data
-@AllArgsConstructor
-@Builder
-@Document("persons")
-public class Person {
+@ConfigurationProperties("opencdx.classification")
+public class AppProperties {
     /**
      * Default Constructor
      */
-    public Person() {
+    public AppProperties() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-    @Id
-    private ObjectId id;
-
-    private String name;
+    private String format;
 }
