@@ -15,15 +15,14 @@
  */
 package cdx.opencdx.iam.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.iam.dto.OpenCDXDtoNpiJsonResponse;
 import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import cdx.opencdx.iam.model.ProviderResponse;
 import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,7 +45,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-@SuppressWarnings({"java:S1854","java:S125","java:S1481"})
+@SuppressWarnings({"java:S1854", "java:S125", "java:S1481"})
 public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService {
 
     private static final String DOMAIN = "OpenCDXIAMProviderServiceImpl";
@@ -175,21 +174,10 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                 }
                 in.close();
 
-                //ObjectMapper objectMapperJson = new ObjectMapper();
-                //ProviderResponse providerResponse = objectMapper.readValue(response.toString(), ProviderResponse.class);
-               // if (providerResponse.getResult_count() == 1) {
-                    OpenCDXIAMProviderModel provider = new OpenCDXIAMProviderModel(
-                            Provider.getDefaultInstance().getDefaultInstanceForType());
-              //  } else {
-//                    OpenCDXBadRequest openCDXBadRequest =
-//                            new OpenCDXBadRequest(DOMAIN, 7, "FAILED_TO");
-//                    openCDXBadRequest.setMetaData(new HashMap<>());
-//                    openCDXBadRequest.getMetaData().put("OBJECT", request.toString());
-//                    throw openCDXBadRequest;
+                OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse = this.objectMapper.readValue(response.toString(), OpenCDXDtoNpiJsonResponse.class);
+                log.info("Response: {}", openCDXDtoNpiJsonResponse);
 
-                //}
-                // Parse and handle the JSON response
-                log.info("Response: " + response);
+
             } else {
                 // Handle error response
                 log.error("Error: " + responseCode);

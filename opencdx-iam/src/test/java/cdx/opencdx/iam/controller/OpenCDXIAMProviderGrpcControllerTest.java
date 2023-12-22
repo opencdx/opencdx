@@ -1,29 +1,35 @@
+/*
+ * Copyright 2023 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.iam.controller;
 
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import static org.junit.jupiter.api.Assertions.*;
+
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.organization.Empty;
-import cdx.opencdx.grpc.organization.GetOrganizationDetailsByIdRequest;
-import cdx.opencdx.grpc.organization.GetOrganizationDetailsByIdResponse;
-import cdx.opencdx.grpc.organization.ListOrganizationsResponse;
-import cdx.opencdx.grpc.profile.DeleteUserProfileRequest;
-import cdx.opencdx.grpc.profile.DeleteUserProfileResponse;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.iam.config.AppProperties;
-import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
 import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import cdx.opencdx.iam.repository.OpenCDXIAMOrganizationRepository;
 import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
-import cdx.opencdx.iam.service.OpenCDXIAMOrganizationService;
 import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
-import cdx.opencdx.iam.service.impl.OpenCDXIAMOrganizationServiceImpl;
 import cdx.opencdx.iam.service.impl.OpenCDXIAMProviderServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,11 +46,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -78,8 +79,8 @@ class OpenCDXIAMProviderGrpcControllerTest {
     @MockBean
     JwtTokenUtil jwtTokenUtil;
 
-//    @Autowired
-//    OpenCDXCommunicationService openCDXCommunicationService;
+    //    @Autowired
+    //    OpenCDXCommunicationService openCDXCommunicationService;
 
     @Autowired
     AppProperties appProperties;
@@ -103,20 +104,16 @@ class OpenCDXIAMProviderGrpcControllerTest {
                     @Override
                     public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMProviderModel.builder()
-                                .id(argument)
-                                .build());
+                        return Optional.of(
+                                OpenCDXIAMProviderModel.builder().id(argument).build());
                     }
                 });
         Mockito.when(this.openCDXIAMProviderRepository.existsById(Mockito.any(ObjectId.class)))
                 .thenReturn(true);
 
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
-                this.openCDXIAMProviderRepository,
-                this.openCDXAuditService,
-                this.objectMapper);
-        this.openCDXIAMProviderGrpcController =
-                new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
+                this.openCDXIAMProviderRepository, this.openCDXAuditService, this.objectMapper);
+        this.openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
     }
 
     @AfterEach
@@ -133,8 +130,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
                         .build(),
                 responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1))
-                .onNext(Mockito.any(GetProviderResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetProviderResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -142,14 +138,15 @@ class OpenCDXIAMProviderGrpcControllerTest {
     void deleteProvider() {
         StreamObserver<DeleteProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.deleteProvider(
-                DeleteProviderRequest.newBuilder().build().newBuilder(DeleteProviderRequest.getDefaultInstance())
+                DeleteProviderRequest.newBuilder()
+                        .build()
+                        .newBuilder(DeleteProviderRequest.getDefaultInstance())
                         .setUserId(ObjectId.get().toHexString())
                         .build(),
                 responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeleteProviderResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-
     }
 
     @Test
@@ -162,20 +159,18 @@ class OpenCDXIAMProviderGrpcControllerTest {
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListProvidersResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-
     }
-
-    //@Test
+    @Test
     void loadProvider() {
         StreamObserver<LoadProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.loadProvider(
-                LoadProviderRequest.newBuilder(
-                        LoadProviderRequest.newBuilder().setUserId("1679736037").build())
+                LoadProviderRequest.newBuilder(LoadProviderRequest.newBuilder()
+                                .setUserId("1679736037")
+                                .build())
                         .build(),
                 responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LoadProviderResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-
     }
 }

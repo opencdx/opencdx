@@ -16,6 +16,7 @@
 package cdx.opencdx.iam.model;
 
 import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.iam.dto.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -58,6 +59,27 @@ public class OpenCDXIAMProviderModel {
     private String modifier;
     private ProviderStatus status;
 
+
+    /**
+     * Constructor to convert OpenCDXDtoNpiResult to OpenCDXIAMProviderModel
+     */
+    public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result) {
+        this.id = new ObjectId();
+        this.created_epoch = result.getCreatedEpoch();
+        this.enumeration_type = result.getEnumerationType();
+        this.last_updated_epoch = result.getLastUpdatedEpoch();
+        this.number = result.getNumber();
+
+        //TODO: Convert the following to protobuf messages ans assign above.
+
+        this.addresses = result.getAddresses();
+        this.practiceLocations = result.getPracticeLocations();
+        this.basic = result.getBasic();
+        this.taxonomies = result.getTaxonomies();
+        this.identifiers = result.getIdentifiers();
+        this.endpoints = result.getEndpoints();
+        this.otherNames = result.getOtherNames();
+        this.status = ProviderStatus.VALIDATED;
     /**
      * Constructor from protobuf message Provider
      * @param provider Protobuf message to generate from
