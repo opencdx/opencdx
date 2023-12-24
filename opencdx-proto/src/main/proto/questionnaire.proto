@@ -22,6 +22,10 @@ message Questionnaire {
   optional string status = 4; // Status of the questionnaire (e.g., draft).
   optional string description = 5; // Description of the questionnaire.
   repeated QuestionnaireItem item = 6; // List of questionnaire items.
+
+  // Field for storing user submission information
+  optional string submission_date = 7; // Date the questionnaire was submitted on  
+  optional string submisison_user_id=8; // Data submitted by
 }
 
 /**
@@ -40,7 +44,7 @@ message QuestionnaireItem {
   repeated QuestionnaireItemInitial initial = 10; // Initial values for the item.
 
   // Field for storing user responses
-  optional google.protobuf.Any user_response = 11; // User-provided response to the item
+  optional google.protobuf.Any submission_user_response = 11; // User-provided response to the item
 }
 
 /**
