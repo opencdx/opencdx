@@ -123,7 +123,7 @@ message ClientQuestionnaireData {
  * Represents the message with specified fields, with associated Organization, Workspace, and User
  */
 message UserQuestionnaireData {
-  QuestionnaireData questionnaire_data = 1; // Questionnaire data.
+  repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
   optional string user_id = 2; // User identifier.
 }
 
@@ -138,20 +138,20 @@ service QuestionnaireService {
 
   rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at system level.
   rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at system level.
-  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get system questionnaire data by Id.
-  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all system questionnaire data.
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (QuestionnaireData); // Get system questionnaire data by Id.
+  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (QuestionnaireData); // Get all system questionnaire data.
   rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at client level.
   rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at client level.
-  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get client questionnaire data by Id.
-  rpc GetClientQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all client questionnaire data.
+  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (ClientQuestionnaireData); // Get client questionnaire data by Id.
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireRequest) returns (ClientQuestionnaireData); // Get all client questionnaire data.
   rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Get client questionnaire data by Id.
 
   rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at User level.
   rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at User level.
-  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get user questionnaire by Id.
-  rpc GetUserQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all user questionnaire.
+  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData); // Get user questionnaire by Id.
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireRequest) returns (UserQuestionnaireData); // Get all user questionnaire.
   rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete user questionnaire data by id.
 }
 
