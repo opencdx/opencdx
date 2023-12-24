@@ -111,10 +111,17 @@ message QuestionnaireData {
 }
 
 /* 
+ * Represents the message with specified fields at system level
+ */
+message SystemQuestionnaireData {
+  repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
+}
+
+/* 
  * Represents the message with specified fields, with associated Organization and Workspace
  */
 message ClientQuestionnaireData {
-  QuestionnaireData questionnaire_data = 1; // Questionnaire data.
+  repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
   optional string orgnization_id = 2; // Organization Id associated with the Questionnaire data.
   optional string workspace_id = 3; // Workspace Id associated with the Questionnaire data.
 }
@@ -138,8 +145,8 @@ service QuestionnaireService {
 
   rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at system level.
   rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at system level.
-  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (QuestionnaireData); // Get system questionnaire data by Id.
-  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (QuestionnaireData); // Get all system questionnaire data.
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (SystemQuestionnaireData); // Get system questionnaire data by Id.
+  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (SystemQuestionnaireData); // Get all system questionnaire data.
   rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at client level.
