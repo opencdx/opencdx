@@ -10,7 +10,7 @@ import QuestionsList from './QuestionsList';
 
 const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
     const [showValueField, setShowValueField] = React.useState(false);
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append, remove, getValues } = useFieldArray({
         control,
         name: `test.${index}.items`
     });
@@ -122,7 +122,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
             <Grid container spacing={1} xs={12} lg={12} sx={{ pt: 2 }}>
                 <Grid item xs={12} lg={9}>
                     <AccordianWrapper title="Anf Statement">
-                        <CustomTabs currentIndex={0} {...{ control, register, index, item }} />
+                        <CustomTabs currentIndex={0} {...{ control, register, index, item, getValues }} />
                     </AccordianWrapper>
                 </Grid>
                 <Grid item xs={12} lg={3}>
@@ -184,7 +184,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                     <Grid style={{ display: 'flex', alignItems: 'baseline' }}>
                         <Grid item xs={12} lg={4} sx={{ p: 2 }}>
                             <AccordianWrapper title="Anf Statement">
-                                <CustomTabs currentIndex={i} {...{ control, register, index, item }} />
+                                <CustomTabs currentIndex={i} {...{ control, register, index, item, getValues }} />
                             </AccordianWrapper>
                         </Grid>
                         <Button variant="outlined" type="button" onClick={() => remove(index)}>

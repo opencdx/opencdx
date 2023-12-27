@@ -38,7 +38,7 @@ function a11yProps(index) {
     };
 }
 
-export const CustomTabs = React.forwardRef(({ control, register, index, currentIndex, item }) => {
+export const CustomTabs = React.forwardRef(({ control, register, index, currentIndex, item , getValues }) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -77,7 +77,7 @@ export const CustomTabs = React.forwardRef(({ control, register, index, currentI
                 <SubjectOfInformation {...{ control, register, index, currentIndex, item }} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={4}>
-                <ObservationId {...{ control, register, index, currentIndex, item }} />
+                <ObservationId {...{ control, register, index, currentIndex, item, getValues }} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
                 <Type {...{ control, register, index, currentIndex, item }} />
@@ -93,5 +93,6 @@ CustomTabs.propTypes = {
     register: PropTypes.any,
     index: PropTypes.number,
     currentIndex: PropTypes.number,
-    item: PropTypes.any
+    item: PropTypes.any,
+    getValues: PropTypes.any
 };

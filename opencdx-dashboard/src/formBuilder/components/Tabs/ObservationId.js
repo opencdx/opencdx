@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
+
 import PropTypes from 'prop-types';
 import {
     FormControl,
@@ -167,7 +169,9 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = React.forwardRef(({ register, index, currentIndex, tab }) => {
+export const ObservationId = React.forwardRef(({  index, currentIndex, tab }) => {
+    const { register, getValues } = useForm();
+
     const [selectedCategories, setSelectedCategories] = useState([]);
     const categories = [
         'General',
@@ -178,6 +182,12 @@ export const ObservationId = React.forwardRef(({ register, index, currentIndex, 
         'Reference Range',
         'Relationship'
     ];
+    const handleCheckboxChange = (event) => {
+        const attributeLabel = event.target.value;
+        const selectedOption=document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
+        const textArea = document.getElementById('calculated-topic-textarea');
+        textArea.value += selectedOption + '-' + attributeLabel + '\n';
+    };
 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
@@ -194,7 +204,14 @@ export const ObservationId = React.forwardRef(({ register, index, currentIndex, 
                         <FormControl fullWidth>
                             <InputLabel>{typeof attribute === 'object' ? attribute.label : attribute}</InputLabel>
                             {typeof attribute === 'object' && attribute.options ? (
-                                <Select>
+                                <Select  
+                                id={`calculated-topic-textarea.${attribute.label}`}
+
+                                    {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
+                                    label={attribute.label}
+                                    input={<OutlinedInput label={attribute.label} />}
+                                    MenuProps={MenuProps}                           
+                                >
                                     {Object.entries(attribute.options).map(([key, value]) => (
                                         <MenuItem key={key} value={key}>
                                             {value}
@@ -208,7 +225,17 @@ export const ObservationId = React.forwardRef(({ register, index, currentIndex, 
                     </Grid>
                     <Grid item xs={12} sm={2} lg={2}>
                         <FormControl fullWidth>
-                            <FormControlLabel control={<Checkbox />} label="Add to Topic" />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        onChange={(event) => handleCheckboxChange(event)}
+                                        name={attribute.label}
+                                        color="primary"
+                                        value={attribute.label}
+                                    />
+                                }
+                                label="Add to Topic"
+                            />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={1} lg={1}>
@@ -303,11 +330,13 @@ export const ObservationId = React.forwardRef(({ register, index, currentIndex, 
                             <Grid item xs={12} sm={9} lg={8}>
                                 <TextArea
                                     minRows={3}
+                                    id="calculated-topic-textarea"
                                     maxRows={10}
                                     placeholder="Calculated Topic"
                                     style={{ width: '100%' }}
                                     {...register(`test.${index}.item.${currentIndex}.${tab}.topic`)}
                                     fullWidth
+                                    value={getValues(`test.${index}.item.${currentIndex}.${tab}.topic`) || ''}
                                 />
                             </Grid>
                         </Grid>
