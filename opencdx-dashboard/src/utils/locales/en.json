@@ -173,5 +173,6 @@
     "external-interfaces": "External Interfaces",
     "reports": "Reports",
     "forms-builder": "Forms Builder",
-    "forms-designer": "Forms Designer"
+    "forms-designer": "Forms Designer",
+    "forms-list": "Forms"
 }
