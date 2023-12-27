@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useFieldArray } from 'react-hook-form';
 import StatementTypes from './StatementTypes';
 import OptionWrapper from './OptionWrapper';

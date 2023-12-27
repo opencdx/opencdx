@@ -1,4 +1,5 @@
 import React, { useCallback, forwardRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { FormControl, FormControlLabel, Grid, Radio, RadioGroup, Button, Typography, Checkbox } from '@mui/material';
 import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
@@ -81,7 +82,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
                 );
             case 'main_statement_questions':
                 return (
-                    <Grid item xs={12} lg={12} ref={ref}>
+                    <Grid item xs={12} lg={12}>
                         <Typography variant="subtitle2">Select Main Statement for the Associated Question</Typography>
                         <Grid item xs={12} lg={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                             {item?.markedMainANFStatement &&
@@ -206,8 +207,7 @@ StatementTypes.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
     control: PropTypes.object,
-    item: PropTypes.object,
-    ref: PropTypes.object
+    item: PropTypes.object
 };
 
 export default StatementTypes;

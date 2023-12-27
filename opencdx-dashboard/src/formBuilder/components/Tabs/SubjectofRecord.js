@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ParticipantComponent } from '../TabComponents/ParticipantComponent';
 
 const SubjectofRecord = React.forwardRef(({ register, index, currentIndex }, ref) => (

@@ -1,5 +1,6 @@
 //? Component for ANF Statement
 import React, { useEffect, forwardRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
 import ChildWrapper from './ChildWrapper';

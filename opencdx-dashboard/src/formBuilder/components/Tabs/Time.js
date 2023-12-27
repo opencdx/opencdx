@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { MeasureComponent } from '../TabComponents/MeasureComponent';
 
 const Time = React.forwardRef(({ control, register, index, currentIndex }, ref) => (

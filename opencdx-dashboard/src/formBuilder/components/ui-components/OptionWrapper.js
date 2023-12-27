@@ -1,11 +1,12 @@
 import React from 'react';
-import { TextField, Button, FormControl, Typography, Grid } from '@mui/material';
+import PropTypes from 'prop-types';
+import { TextField, Button, FormControl, Typography, Grid, MenuItem, Select } from '@mui/material';
 import { Controller } from 'react-hook-form';
 import { useFieldArray } from 'react-hook-form';
 import { AccordianWrapper } from './AccordianWrapper';
 import { CustomTabs } from './CustomTabs';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+
+import QuestionsList from './QuestionsList';
 
 const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
     const [showValueField, setShowValueField] = React.useState(false);
@@ -119,9 +120,14 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                 )}
             </Grid>
             <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
-                <AccordianWrapper title="Anf Statement">
-                    <CustomTabs currentIndex={0} {...{ control, register, index, item }} />
-                </AccordianWrapper>
+                <Grid item xs={12} lg={9}>
+                    <AccordianWrapper title="Anf Statement">
+                        <CustomTabs currentIndex={0} {...{ control, register, index, item }} />
+                    </AccordianWrapper>
+                </Grid>
+                <Grid item xs={12} lg={3}>
+                    <QuestionsList />
+                </Grid>
             </Grid>
             {/* * Dynamic Fields * */}
 

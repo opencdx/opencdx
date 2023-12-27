@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ParticipantComponent } from '../TabComponents/ParticipantComponent';
 
 export const Authors = React.forwardRef(({ control, register, index, currentIndex }, ref) => (

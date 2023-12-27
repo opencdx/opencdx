@@ -1,4 +1,5 @@
 import { JsonView, allExpanded, defaultStyles } from 'react-json-view-lite';
+import PropTypes from 'prop-types';
 import 'react-json-view-lite/dist/index.css';
 import * as React from 'react';
 import {
@@ -159,11 +160,11 @@ const FormBuilder = () => {
         link.click();
         URL.revokeObjectURL(url);
     };
-    const handleCopyToClipboard = (value) => {
-        navigator.clipboard.writeText('document.getElementsById("' + value + '").value').catch((error) => {
-            console.error('Unable to copy text to clipboard', error);
-        });
-    };
+    // const handleCopyToClipboard = (value) => {
+    //     navigator.clipboard.writeText('document.getElementsById("' + value + '").value').catch((error) => {
+    //         console.error('Unable to copy text to clipboard', error);
+    //     });
+    // };
     const DialogWrapper = ({ open, handleClose, title, children, handleDownload }) => {
         return (
             <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
@@ -280,33 +281,6 @@ const FormBuilder = () => {
                         <JsonView data={files} shouldExpandNode={allExpanded} style={defaultStyles} />
                     </DialogWrapper>
                     <StatementTypesReport />
-                    <div>
-                        <h2>List</h2>
-                        <p style={{ color: 'red' }}>
-                            This will be displayed in each ANF Staement above the tabs. <br /> This will allow users to copy the document id
-                            values to cliapboard and past into the ANF Statement fields.
-                        </p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Question Text</th>
-                                    <th>Question Link ID</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {files?.item.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.text}</td>
-                                        <td>document.getElementById({item.linkId}).value</td>
-                                        <td>
-                                            <button onClick={() => handleCopyToClipboard(item.linkId)}>Copy to Clipboard</button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
                     {files && files.item && <MainWrapper key={files} uploadedFile={files} />}
                 </Box>
             </Main>
