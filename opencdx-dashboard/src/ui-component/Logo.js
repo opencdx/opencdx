@@ -1,6 +1,6 @@
 // material-ui
 
-import logo from 'assets/images/Open.png';
+import logo from 'utils/assets/images/Open.png';
 
 // ==============================|| LOGO SVG ||============================== //
 

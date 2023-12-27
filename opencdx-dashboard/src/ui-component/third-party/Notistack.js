@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import { SnackbarProvider } from 'notistack';
 
 // project import
-import { useSelector } from 'store';
+import { useSelector } from 'utils/store';
 
 // assets
 import { IconCircleCheck, IconSquareRoundedX, IconInfoCircle, IconAlertCircle } from '@tabler/icons-react';

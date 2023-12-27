@@ -8,7 +8,7 @@ import { Box, Card, Divider, Grid, Typography } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 
 // project imports
-import { gridSpacing } from 'store/constant';
+import { gridSpacing } from 'utils/store/constant';
 
 // assets
 import { IconTallymark1 } from '@tabler/icons-react';
