@@ -160,11 +160,6 @@ const FormBuilder = () => {
         link.click();
         URL.revokeObjectURL(url);
     };
-    // const handleCopyToClipboard = (value) => {
-    //     navigator.clipboard.writeText('document.getElementsById("' + value + '").value').catch((error) => {
-    //         console.error('Unable to copy text to clipboard', error);
-    //     });
-    // };
     const DialogWrapper = ({ open, handleClose, title, children, handleDownload }) => {
         return (
             <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>

@@ -16,6 +16,7 @@ import {
 import { TextArea } from '../ui-components/TextArea';
 import { MainCard } from '../ui-components/MainCard';
 import { IconRestore } from '@tabler/icons-react';
+import Typography from '@mui/material/Typography';
 
 const observationAttributes = [
     // General Attributes
@@ -184,7 +185,9 @@ export const ObservationId = React.forwardRef(({ register, index, currentIndex, 
                 <Grid container spacing={2} alignItems="center" key={index} sx={{ pt: 2 }}>
                     <Grid item xs={12} sm={4} lg={4}>
                         <FormControl fullWidth>
-                            <InputLabel>Observation.{typeof attribute === 'object' ? attribute.label : attribute}</InputLabel>
+                        <Typography key={index} variant="h5">
+                        Observation.{typeof attribute === 'object' ? attribute.label : attribute}
+                    </Typography>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={5}>
