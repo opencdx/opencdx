@@ -32,6 +32,8 @@ import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 
+
+
 import Avatar3 from 'assets/images/users/avatar-1.png';
 import { useNavigate } from 'react-router-dom';
 
@@ -169,71 +171,113 @@ const Profile1 = () => {
                     <Grid item xs={12}>
                         <SubCard title="Pharmacy Details">
                             <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Pharmacy Name</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography name="Pharmacyname" variant="subtitle2">
-                                                Pharmacy Name {/* {pharmacydetails?.pharmacyname} */}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Pharmacy Address</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography name="pharmacyaddress" variant="subtitle2">
-                                                101 main street,CA,12345, USA{/* {pharmacydetails?.pharmacyaddress} */}{' '}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Mobile number</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography name="mobilenumber" variant="subtitle2">
-                                                1234567890 {/* {pharmacydetails?.mobilenumber} */}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Home number</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography name="homenumber" variant="subtitle2">
-                                                1234567890 {/* {pharmacydetails?.homenumber} */}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Fax number</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography name="Faxnumber" variant="subtitle2">
-                                                1234567890{/* {pharmacydetails?.faxnumber} */}{' '}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Email </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography name="Email" variant="subtitle2">
-                                                test@opencdx.org{/* {pharmacydetails?.email} */}{' '}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
+                                <Grid item xs={12} sm={12}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="subtitle1">Pharmacy Name</Typography>} />
+                                    <ListItemSecondaryAction>
+                                    <Typography name="Pharmacyname" variant="subtitle2">
+                                        {/* {pharmacydetails?.pharmacyname} */}
+                                        Pharmacy Name
+                                    </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItemButton>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+
+                            <Grid container>
+                                <Grid item xs={12} sm={12}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="subtitle1">Pharmacy Address</Typography>} />
+                                    <ListItemSecondaryAction>
+                                    <Typography name="pharmacyaddress" variant="subtitle2">
+                                        {/* {pharmacydetails?.pharmacyaddress} */}
+                                        101 main street, CA, 12345, USA
+                                    </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItemButton>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+
+                            <Grid container>
+                                <Grid item xs={12} sm={12}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="subtitle1">Mobile number</Typography>} />
+                                    <ListItemSecondaryAction>
+                                    <Typography name="mobilenumber" variant="subtitle2">
+                                        {/* {pharmacydetails?.mobilenumber} */}
+                                        1234567890
+                                    </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItemButton>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+
+                            <Grid container>
+                                <Grid item xs={12} sm={12}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                      <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="subtitle1">Home number</Typography>} />
+                                    <ListItemSecondaryAction>
+                                    <Typography name="homenumber" variant="subtitle2">
+                                        {/* {pharmacydetails?.homenumber} */}
+                                        1234567890
+                                    </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItemButton>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+
+                            <Grid container>
+                                <Grid item xs={12} sm={12}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="subtitle1">Fax number</Typography>} />
+                                    <ListItemSecondaryAction>
+                                    <Typography name="Faxnumber" variant="subtitle2">
+                                        {/* {pharmacydetails?.faxnumber} */}
+                                        1234567890
+                                    </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItemButton>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+                            <Grid container>
+                                <Grid item xs={12} sm={12}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
+                                    <ListItemSecondaryAction>
+                                    <Typography name="Email" variant="subtitle2">
+                                        {/* {pharmacydetails?.email} */}
+                                        test@opencdx.org
+                                    </Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItemButton>
                                 </Grid>
                             </Grid>
                         </SubCard>
                     </Grid>
+                    
                     <Grid item xs={12}>
                         <SubCard title="Vaccine Administered">
                             <Grid container spacing={2}>
