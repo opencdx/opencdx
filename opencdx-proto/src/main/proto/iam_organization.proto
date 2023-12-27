@@ -22,7 +22,7 @@ message Organization {
   repeated string social_media_links = 10; // Links to social media profiles
   optional string mission_statement = 11; // Mission statement of the organization
   optional string vision_statement = 12; // Vision statement of the organization
-  repeated ContactInfo contacts = 13; // Contact information for the organization
+  repeated cdx.opencdx.grpc.common.ContactInfo contacts = 13; // Contact information for the organization
   repeated string workspace_ids = 14; // Departments (Workspaces) within the organization
   optional google.protobuf.Timestamp created = 15; // Timestamp when this event was created.
   optional google.protobuf.Timestamp modified = 16; // Timestamp when this event was modified.
@@ -51,12 +51,6 @@ message Workspace {
   optional string modifier = 17; // ID of the modifier of this event.
 }
 
-// Contact information for an organization or workspace
-message ContactInfo {
-  optional string contact_name = 1; // Name of the contact person
-  optional string email = 2; // Email address of the contact person
-  optional string phone = 3; // Phone number of the contact person
-}
 
 // Department within an organization or workspace
 message Department {
@@ -69,10 +63,10 @@ message Department {
 // Employee within a department
 message Employee {
   optional string employee_id = 1; // Unique identifier for the employee
-  optional string name = 2; // Name of the employee
+  optional cdx.opencdx.grpc.common.FullName name = 2; // Full name of the employee
   optional string title = 3; // Title or position of the employee
-  optional string email = 4; // Email address of the employee
-  optional string phone = 5; // Phone number of the employee
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone_numbers = 4; // User's phone numbers
+  repeated cdx.opencdx.grpc.common.EmailAddress email = 5; // User's email address
 }
 
 // Empty message used in RPC methods

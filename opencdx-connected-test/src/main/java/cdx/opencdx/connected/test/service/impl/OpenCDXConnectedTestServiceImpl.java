@@ -28,6 +28,10 @@ import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.EmailType;
+import cdx.opencdx.grpc.common.PhoneNumber;
+import cdx.opencdx.grpc.common.PhoneType;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -138,7 +142,6 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
             Notification.Builder builder = Notification.newBuilder()
                     .setEventId(OpenCDXCommunicationService.NOTIFICATION)
-                    .addAllToEmail(List.of(patient.getPrimaryContactInfo().getEmail()))
                     .putAllVariables(Map.of(
                             "firstName",
                             patient.getFullName().getFirstName(),
@@ -147,10 +150,27 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                             "notification",
                             "OpenCDX received a new test for you: "
                                     + submittedTest.getTestDetails().getTestName()));
-            if (patient.getPrimaryContactInfo().hasMobileNumber()) {
-                builder.addAllToPhoneNumber(List.of(
-                        patient.getPrimaryContactInfo().getMobileNumber().getNumber()));
+
+            EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .orElse(patient.getPrimaryContactInfo().getEmailList().stream()
+                            .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                            .findFirst()
+                            .orElse(patient.getPrimaryContactInfo().getEmailList().stream()
+                                    .findFirst()
+                                    .orElse(null)));
+            if (emailAddress != null) {
+                builder.addAllToEmail(List.of(emailAddress.getEmail()));
             }
+            List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                    .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .map(PhoneNumber::getNumber)
+                    .toList();
+            if (!mobileList.isEmpty()) {
+                builder.addAllToPhoneNumber(mobileList);
+            }
+
             this.openCDXCommunicationService.sendNotification(builder.build());
         }
         return TestSubmissionResponse.newBuilder()

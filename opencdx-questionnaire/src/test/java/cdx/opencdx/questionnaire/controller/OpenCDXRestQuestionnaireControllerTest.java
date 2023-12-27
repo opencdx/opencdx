@@ -23,10 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
-import cdx.opencdx.grpc.profile.PhoneNumber;
-import cdx.opencdx.grpc.profile.PhoneType;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest;
 import cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest;
@@ -39,6 +36,7 @@ import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -99,11 +97,22 @@ class OpenCDXRestQuestionnaireControllerTest {
                                         .build())
                                 .username("ab@safehealth.me")
                                 .primaryContactInfo(ContactInfo.newBuilder()
-                                        .setEmail("ab@safehealth.me")
-                                        .setMobileNumber(PhoneNumber.newBuilder()
-                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .addAllAddresses(List.of(Address.newBuilder()
+                                                .setCity("City")
+                                                .setCountryId(ObjectId.get().toHexString())
+                                                .setState("CA")
+                                                .setPostalCode("12345")
+                                                .setAddress1("101 Main Street")
+                                                .build()))
+                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                                .setEmail("email@email.com")
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .build()))
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
                                                 .setNumber("1234567890")
-                                                .build())
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .build()))
                                         .build())
                                 .emailVerified(true)
                                 .build());

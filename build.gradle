@@ -118,6 +118,7 @@ def exportedProjects = [
         ":opencdx-protector",
         ":opencdx-predictor",
         ":opencdx-questionnaire",
+        ":opencdx-classification",
         ":opencdx-media",
         ":opencdx-tinkar"
 ]

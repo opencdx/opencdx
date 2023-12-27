@@ -71,6 +71,7 @@ services=(  "Audit"
             "ANF"
             "mongodb"
             "nats"
+            "classification"
         )
 
 # Generate certificates for services

@@ -4,16 +4,6 @@ package cdx.opencdx.grpc.profile;
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-// Enumeration for phone types.
-enum PhoneType {
-  PHONE_TYPE_NOT_SPECIFIED = 0; // Not specified
-  PHONE_TYPE_MOBILE = 1; // Mobile phone
-  PHONE_TYPE_HOME = 2; // Home phone
-  PHONE_TYPE_WORK = 3; // Work phone
-  PHONE_TYPE_FAX = 4; // Fax
-  PHONE_TYPE_OTHER = 5; // Other
-}
-
 // Enumeration for gender.
 enum Gender {
   GENDER_NOT_SPECIFIED = 0; // Not specified
@@ -27,71 +17,44 @@ enum Gender {
 message UserProfile {
   string user_id = 1; // Unique identifier for the user
   string national_health_id= 2; // National health identifier
-  FullName full_name = 3; // Full name of the user
-  repeated ContactInfo contacts = 4; // User's contact information
+  cdx.opencdx.grpc.common.FullName full_name = 3; // Full name of the user
+  repeated cdx.opencdx.grpc.common.ContactInfo contacts = 4; // User's contact information
   Gender gender = 5; // Gender of the user
   DateOfBirth date_of_birth = 6; // User's date of birth
   PlaceOfBirth place_of_birth = 7; // User's place of birth
-  cdx.opencdx.grpc.common.Address primary_address = 8; // User's primary address
-  bytes photo = 9; // Photo represented as bytes (binary data)
-  Preferences communication = 10; // User's communication preferences
-  Demographics demographics = 11; // User's demographics information
-  Education education = 12; // User's education information
-  EmployeeIdentity employee_identity = 13; // User's employee identity information
-  ContactInfo primary_contact_info = 16; // Additional contact information
-  cdx.opencdx.grpc.common.Address billing_address = 17; // User's billing address
-  cdx.opencdx.grpc.common.Address shipping_address = 18; // User's shipping address
-  EmergencyContact emergency_contact = 19; // User's emergency contact information
-  Pharmacy pharmacy_details = 20; // User's pharmacy details
-  repeated Vaccine vaccine_administered = 21; // Vaccines administered to the user
-  repeated string dependent_id = 22; // Identifiers for user's dependents
-  repeated KnownAllergy known_allergies = 23; // A list of known allergies for the user
-  repeated Medication current_medications = 24;  // A list of medications currently being taken by the user
-  bool is_active = 25; // Indicates whether the user is active
-  optional google.protobuf.Timestamp created = 26; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 27; // Timestamp when this event was modified.
-  optional string creator = 28; // ID of the creator of this event.
-  optional string modifier = 29; // ID of the modifier of this event.
-}
-
-// Full name information.
-message FullName {
-  string title = 1; // Title of the user (e.g., Mr., Mrs., Dr.)
-  string first_name = 2; // First name of the user
-  string middle_name = 3; // Middle name of the user
-  string last_name = 4; // Last name of the user
-  string suffix = 5; // Suffix for the name (e.g., Jr., Sr., III)
-}
-
-// Contact information.
-message ContactInfo {
-  PhoneNumber mobile_number = 1; // User's mobile phone number
-  PhoneNumber home_number = 2; // User's home phone number
-  PhoneNumber work_number = 3; // User's work phone number
-  PhoneNumber fax_number = 4; // User's fax number
-  string email = 5; // User's email address
-}
-
-// Phone number details.
-message PhoneNumber {
-  string number = 1; // Phone number
-  PhoneType type = 2; // Type of phone number (e.g., mobile, home, work)
+  bytes photo = 8; // Photo represented as bytes (binary data)
+  Preferences communication = 9; // User's communication preferences
+  Demographics demographics = 10; // User's demographics information
+  Education education = 11; // User's education information
+  EmployeeIdentity employee_identity = 12; // User's employee identity information
+  cdx.opencdx.grpc.common.ContactInfo primary_contact_info = 13; // Additional contact information
+  EmergencyContact emergency_contact = 14; // User's emergency contact information
+  Pharmacy pharmacy_details = 15; // User's pharmacy details
+  repeated Vaccine vaccine_administered = 16; // Vaccines administered to the user
+  repeated string dependent_id = 17; // Identifiers for user's dependents
+  repeated KnownAllergy known_allergies = 18; // A list of known allergies for the user
+  repeated Medication current_medications = 19;  // A list of medications currently being taken by the user
+  bool is_active = 20; // Indicates whether the user is active
+  repeated cdx.opencdx.grpc.common.EmailAddress email=21; // Email addresses for the user
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone=22; // Phone numbers for the user
+  repeated cdx.opencdx.grpc.common.Address address=23; // Addresses for the user
+  optional google.protobuf.Timestamp created = 24; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 25; // Timestamp when this event was modified.
+  optional string creator = 26; // ID of the creator of this event.
+  optional string modifier = 27; // ID of the modifier of this event.
 }
 
 // Emergency contact information.
 message EmergencyContact {
   string relationship = 1; // Relationship to the user
-  string contact_name = 2; // Name of the emergency contact
-  ContactInfo contact_info = 3; // Contact information for the emergency contact
-  cdx.opencdx.grpc.common.Address residence_address = 4; // Residence address of the emergency contact
-  cdx.opencdx.grpc.common.Address work_address = 5; // Work address of the emergency contact
+  cdx.opencdx.grpc.common.ContactInfo contact_info = 2; // Contact information for the emergency contact
 }
 
 // Pharmacy information.
 message Pharmacy {
   string pharmacy_name = 1; // Name of the pharmacy
   cdx.opencdx.grpc.common.Address pharmacy_address = 2; // Address of the pharmacy
-  ContactInfo pharmacy_contact = 3; // Contact information for the pharmacy
+  cdx.opencdx.grpc.common.ContactInfo pharmacy_contact = 3; // Contact information for the pharmacy
 }
 
 

@@ -10,6 +10,27 @@ enum AddressPurpose {
   MAILING = 1;    // Address used for mailing purposes.
   PRIMARY = 2;    // Primary address.
   SECONDARY = 3;  // Secondary address.
+  BILLING =4;    // Billing address.
+  SHIPPING = 5;   // Shipping address.
+  WORK = 6;       // Work address.
+}
+
+// Enumeration for phone types.
+enum PhoneType {
+  PHONE_TYPE_NOT_SPECIFIED = 0; // Not specified
+  PHONE_TYPE_MOBILE = 1; // Mobile phone
+  PHONE_TYPE_HOME = 2; // Home phone
+  PHONE_TYPE_WORK = 3; // Work phone
+  PHONE_TYPE_FAX = 4; // Fax
+  PHONE_TYPE_OTHER = 5; // Other
+}
+
+//Enumeration for email type.
+enum EmailType {
+  EMAIL_TYPE_NOT_SPECIFIED = 0; // Not specified
+  EMAIL_TYPE_PERSONAL = 1; // Personal email
+  EMAIL_TYPE_WORK = 2; // Work email
+  EMAIL_TYPE_OTHER = 3; // Other
 }
 
 // Country message represents a country.
@@ -32,4 +53,33 @@ message Address {
   string city = 6;                // City.
   string state = 7;               // State.
   string postal_code = 8;         // Postal code.
+}
+
+// Phone number details.
+message PhoneNumber {
+  string number = 1; // Phone number
+  PhoneType type = 2; // Type of phone number (e.g., mobile, home, work)
+}
+// Full name information.
+message FullName {
+  string title = 1; // Title of the user (e.g., Mr., Mrs., Dr.)
+  string first_name = 2; // First name of the user
+  string middle_name = 3; // Middle name of the user
+  string last_name = 4; // Last name of the user
+  string suffix = 5; // Suffix for the name (e.g., Jr., Sr., III)
+}
+
+// Contact information.
+message ContactInfo {
+  FullName name = 1; // Full name of the user
+  optional string user_id = 2; // Unique identifier for the user
+  repeated Address addresses = 3; // User's addresses
+  repeated PhoneNumber phone_numbers = 4; // User's phone numbers
+  repeated EmailAddress email = 5; // User's email address
+}
+
+// Email address details.
+message EmailAddress {
+  string email = 1; // Email address
+  EmailType type = 2; // Type of email address (e.g., personal, work)
 }
