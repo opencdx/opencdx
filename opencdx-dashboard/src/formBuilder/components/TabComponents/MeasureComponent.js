@@ -116,3 +116,10 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
         </Grid>
     );
 });
+MeasureComponent.propTypes = {
+    register: PropTypes.func,
+    index: PropTypes.number,
+    currentIndex: PropTypes.number,
+    tab: PropTypes.string,
+    control: PropTypes.any
+};

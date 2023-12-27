@@ -269,7 +269,7 @@ const FormBuilder = () => {
                     )}
 
                     <DialogWrapper open={openDialog} handleClose={handleClose} title="Preview JSON" handleDownload={handlePreviewDownload}>
-                      <JsonView data={uploadJson} shouldExpandNode={allExpanded} style={defaultStyles} />
+                        <JsonView data={uploadJson} shouldExpandNode={allExpanded} style={defaultStyles} />
                     </DialogWrapper>
                     <DialogWrapper
                         open={openAnfDialog}
@@ -312,6 +312,13 @@ const FormBuilder = () => {
             </Main>
         </Box>
     );
+};
+FormBuilder.propTypes = {
+    children: PropTypes.node,
+    handleClose: PropTypes.func,
+    handleDownload: PropTypes.func,
+    open: PropTypes.bool,
+    title: PropTypes.string
 };
 
 export default FormBuilder;

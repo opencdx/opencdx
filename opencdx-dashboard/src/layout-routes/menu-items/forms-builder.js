@@ -11,7 +11,6 @@ const formsbuilder = {
     title: <FormattedMessage id="forms-builder" />,
     type: 'group',
     children: [
-
         {
             id: 'forms-builder',
             title: <FormattedMessage id="forms-builder" />,
@@ -25,7 +24,7 @@ const formsbuilder = {
                     url: '/form-builder'
                 }
             ]
-        },
+        }
     ]
 };
 

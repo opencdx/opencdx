@@ -3,11 +3,11 @@ import { TextField, Button, FormControl, Typography, Grid } from '@mui/material'
 import { Controller } from 'react-hook-form';
 import { useFieldArray } from 'react-hook-form';
 import { AccordianWrapper } from './AccordianWrapper';
-import CustomTabs from './CustomTabs';
+import { CustomTabs } from './CustomTabs';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-export const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
+const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
     const [showValueField, setShowValueField] = React.useState(false);
     const { fields, append, remove } = useFieldArray({
         control,
@@ -119,9 +119,7 @@ export const OptionWrapper = React.forwardRef(({ control, register, index, item 
                 )}
             </Grid>
             <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
-                <AccordianWrapper
-                    title="Anf Statement"
-                >
+                <AccordianWrapper title="Anf Statement">
                     <CustomTabs currentIndex={0} {...{ control, register, index, item }} />
                 </AccordianWrapper>
             </Grid>
@@ -179,9 +177,7 @@ export const OptionWrapper = React.forwardRef(({ control, register, index, item 
                     </Grid>
                     <Grid style={{ display: 'flex', alignItems: 'baseline' }}>
                         <Grid item xs={12} lg={4} sx={{ p: 2 }}>
-                            <AccordianWrapper
-                                title="Anf Statement"
-                            >
+                            <AccordianWrapper title="Anf Statement">
                                 <CustomTabs currentIndex={i} {...{ control, register, index, item }} />
                             </AccordianWrapper>
                         </Grid>
@@ -201,3 +197,11 @@ export const OptionWrapper = React.forwardRef(({ control, register, index, item 
         </Grid>
     );
 });
+OptionWrapper.propTypes = {
+    control: PropTypes.any,
+    register: PropTypes.any,
+    index: PropTypes.number,
+    item: PropTypes.any
+};
+
+export default OptionWrapper;

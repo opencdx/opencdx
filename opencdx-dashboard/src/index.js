@@ -19,7 +19,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/700.css';
 
-
 // ==============================|| REACT DOM RENDER ||============================== //
 
 const container = document.getElementById('root');

@@ -4,7 +4,7 @@ import { Grid, TextField } from '@mui/material';
 import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
 
-export const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
+const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
@@ -28,3 +28,10 @@ export const SubjectOfInformation = React.forwardRef(({ register, index, current
         </Grid>
     );
 });
+SubjectOfInformation.propTypes = {
+    register: PropTypes.func,
+    index: PropTypes.number,
+    currentIndex: PropTypes.number,
+    tab: PropTypes.string
+};
+export { SubjectOfInformation };

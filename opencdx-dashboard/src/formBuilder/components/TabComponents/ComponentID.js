@@ -33,3 +33,8 @@ export const ComponentID = forwardRef(({ register, index, item }, ref) => {
         </Grid>
     );
 });
+ComponentID.propTypes = {
+    register: PropTypes.func,
+    index: PropTypes.number,
+    item: PropTypes.object
+};

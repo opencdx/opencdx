@@ -87,3 +87,10 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
         </Grid>
     );
 });
+
+CircumstanceChoice.propTypes = {
+    register: PropTypes.func,
+    control: PropTypes.func,
+    index: PropTypes.number,
+    currentIndex: PropTypes.number
+};

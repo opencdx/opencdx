@@ -51,3 +51,9 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
         </Grid>
     );
 });
+ParticipantComponent.propTypes = {
+    register: PropTypes.func,
+    index: PropTypes.number,
+    currentIndex: PropTypes.number,
+    tab: PropTypes.string
+};

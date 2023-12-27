@@ -165,7 +165,7 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = React.forwardRef(({  register, index, currentIndex, tab }) => {
+export const ObservationId = React.forwardRef(({ register, index, currentIndex, tab }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const categories = [
         'General',
@@ -313,5 +313,13 @@ export const ObservationId = React.forwardRef(({  register, index, currentIndex,
         </Grid>
     );
 });
-
+ObservationId.propTypes = {
+    register: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    currentIndex: PropTypes.number.isRequired,
+    tab: PropTypes.string.isRequired,
+    selectedOption: PropTypes.array.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    filteredAttributes: PropTypes.array.isRequired
+};
 export default ObservationId;

@@ -66,4 +66,8 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
     );
 });
 
+MainWrapper.propTypes = {
+    uploadedFile: PropTypes.object
+};
+
 export default MainWrapper;

@@ -28,7 +28,6 @@ const AuthenticationRoutes = {
             path: '/form-builder',
             element: <FormBuilder />
         }
-        
     ]
 };
 

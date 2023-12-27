@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 
-export const AccordianWrapper = React.forwardRef(({ title, children }, ref) => {
+const AccordianWrapper = React.forwardRef(({ title, children }, ref) => {
     return (
         <Accordion ref={ref}>
             <AccordionSummary
@@ -22,3 +22,8 @@ export const AccordianWrapper = React.forwardRef(({ title, children }, ref) => {
         </Accordion>
     );
 });
+AccordianWrapper.propTypes = {
+    title: PropTypes.string,
+    children: PropTypes.node
+};
+export { AccordianWrapper };

@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
 import { IconRestore } from '@tabler/icons-react';
 
-export const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
+const StatementTypes = forwardRef(({ register, index, control, item }) => {
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -16,21 +16,18 @@ export const StatementTypes = forwardRef(({ register, index, control, item }, re
             return newState;
         });
     }, []);
-useEffect(() => {
+    useEffect(() => {
+        if (item?.componentTypeMain) {
+            setSelectedMainOption(item?.componentTypeMain);
+        }
+        if (item?.componentTypeAssociated) {
+            setSelectedAssociatedOption(item?.componentTypeAssociated);
+        }
+        if (item?.componentType) {
+            setSelectedOption(item?.componentType);
+        }
+    }, [item]);
 
-    if (item?.componentTypeMain) {
-        setSelectedMainOption(item?.componentTypeMain);
-
-    }
-    if (item?.componentTypeAssociated) {
-        setSelectedAssociatedOption(item?.componentTypeAssociated);
-    }
-    if (item?.componentType) {
-        setSelectedOption(item?.componentType);
-    }
-}, [item?.componentTypeMain, item?.componentTypeAssociated, item?.componentType]);
-
-    
     const handleChangeMainOption = useCallback(
         (event, index) => {
             handleChangeOption(event, index, setSelectedMainOption);
@@ -205,3 +202,12 @@ useEffect(() => {
         </Grid>
     );
 });
+StatementTypes.propTypes = {
+    register: PropTypes.func,
+    index: PropTypes.number,
+    control: PropTypes.object,
+    item: PropTypes.object,
+    ref: PropTypes.object
+};
+
+export default StatementTypes;

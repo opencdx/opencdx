@@ -33,7 +33,7 @@ const reports = {
                     id: 'external-interfaces',
                     title: <FormattedMessage id="external-interfaces" />,
                     type: 'item',
-                    url: '/pages/external-interfaces',
+                    url: '/pages/external-interfaces'
                 }
             ]
         }
