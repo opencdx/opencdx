@@ -17,6 +17,7 @@
         "@mui/system": "^5.14.5",
         "@mui/utils": "^5.14.5",
         "@mui/x-data-grid": "^6.18.5",
+        "@mui/x-data-grid-generator": "^6.18.6",
         "@reduxjs/toolkit": "^1.9.5",
         "@tabler/icons-react": "^2.32.0",
         "axios": "1.4.0",
