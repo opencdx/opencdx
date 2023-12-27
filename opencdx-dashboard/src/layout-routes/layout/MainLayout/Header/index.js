@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, useMediaQuery } from '@mui/material';
 
 // project imports
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 import useConfig from 'utils/hooks/useConfig';
 import LogoSection from '../LogoSection';
 import FullScreenSection from './FullScreenSection';

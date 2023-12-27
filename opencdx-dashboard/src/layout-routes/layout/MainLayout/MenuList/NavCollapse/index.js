@@ -23,7 +23,7 @@ import NavItem from '../NavItem';
 import Transitions from 'ui-component/extended/Transitions';
 
 import { useSelector } from 'utils/store';
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 import useConfig from 'utils/hooks/useConfig';
 
 // assets

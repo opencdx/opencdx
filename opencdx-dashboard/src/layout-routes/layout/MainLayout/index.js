@@ -12,7 +12,7 @@ import HorizontalBar from './HorizontalBar';
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 
 import navigation from 'layout-routes/menu-items';
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 import useConfig from 'utils/hooks/useConfig';
 import { drawerWidth } from 'utils/store/constant';
 import { openDrawer } from 'utils/store/slices/menu';

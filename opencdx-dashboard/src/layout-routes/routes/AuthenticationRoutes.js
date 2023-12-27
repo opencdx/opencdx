@@ -8,6 +8,7 @@ import MinimalLayout from 'layout-routes/layout/MinimalLayout';
 // login routing
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/Login3')));
 const AuthRegister = Loadable(lazy(() => import('pages/authentication/Register3')));
+const FormBuilder = Loadable(lazy(() => import('../../formBuilder')));
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //
 
@@ -22,7 +23,12 @@ const AuthenticationRoutes = {
         {
             path: '/register',
             element: <AuthRegister />
+        },
+        {
+            path: '/form-builder',
+            element: <FormBuilder />
         }
+        
     ]
 };
 

@@ -13,7 +13,7 @@ import LogoSection from '../LogoSection';
 import MiniDrawerStyled from './MiniDrawerStyled';
 import Chip from 'ui-component/extended/Chip';
 
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 import useConfig from 'utils/hooks/useConfig';
 import { drawerWidth } from 'utils/store/constant';
 

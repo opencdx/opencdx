@@ -11,7 +11,7 @@ import NavGroup from './NavGroup';
 import useConfig from 'utils/hooks/useConfig';
 
 import { useSelector } from 'utils/store';
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 import { HORIZONTAL_MAX_ITEM } from 'config';
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //

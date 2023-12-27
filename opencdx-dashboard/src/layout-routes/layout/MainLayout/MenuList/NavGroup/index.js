@@ -22,7 +22,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 
 // project imports
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 import NavCollapse from '../NavCollapse';
 import NavItem from '../NavItem';
 import useConfig from 'utils/hooks/useConfig';
