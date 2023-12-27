@@ -172,5 +172,6 @@
     "audit-logs": "Audit Logs",
     "external-interfaces": "External Interfaces",
     "reports": "Reports",
-    "form-builder": "Form Builder"
+    "forms-builder": "Forms Builder",
+    "forms-designer": "Forms Designer"
 }

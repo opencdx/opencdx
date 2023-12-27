@@ -19,9 +19,10 @@ const formsbuilder = {
             children: [
                 {
                     id: 'forms-designer',
-                    title: <FormattedMessage id="form-designer" />,
+                    title: <FormattedMessage id="forms-designer" />,
                     type: 'item',
-                    url: ''
+                    target: true,
+                    url: '/form-builder'
                 }
             ]
         },

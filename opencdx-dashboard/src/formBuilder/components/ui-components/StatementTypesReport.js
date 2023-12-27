@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Checkbox } from '@mui/material';
 import { MainCard } from './MainCard';
 
-import { Table, TableBody, TableCell, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableRow, FormControlLabel } from '@mui/material';
 
 import { capitalizeANFTitle } from '../../utils/StringManulpations';
 
@@ -61,9 +61,14 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
             <MainCard>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} sm={3} lg={3}>
-                        <Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" 
-                            label="Show Report"
+                        <FormControlLabel
+                            control={
+                                <Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary"
+                                />
+                            }
+                            label={'Show Report'}
                         />
+
                     </Grid>
                 </Grid>
                 {renderList()}

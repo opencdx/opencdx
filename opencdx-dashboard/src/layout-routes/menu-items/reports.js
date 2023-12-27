@@ -34,13 +34,6 @@ const reports = {
                     title: <FormattedMessage id="external-interfaces" />,
                     type: 'item',
                     url: '/pages/external-interfaces',
-                },
-                {
-                    id: 'form-builder',
-                    title: <FormattedMessage id="form-builder" />,  
-                    type: 'item',
-                    url: '/form-builder',
-                    target: true,
                 }
             ]
         }
