@@ -17,7 +17,7 @@ check_openssl_version() {
 
 # Function to check minimum Keytool version
 check_keytool() {
-    local min_version="20.0.1"
+    local min_version="20"
     if ! command -v keytool &> /dev/null; then
         echo "Error: keytool is not installed. Please install keytool and try again."
         exit 1
