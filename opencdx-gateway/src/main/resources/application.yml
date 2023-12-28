@@ -23,6 +23,12 @@ spring:
           enabled: true
           lower-case-service-id: true
       enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: dashboard
           uri: http://dashboard:3005
