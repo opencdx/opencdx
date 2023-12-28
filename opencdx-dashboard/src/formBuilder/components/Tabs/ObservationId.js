@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 import PropTypes from 'prop-types';
 import {
@@ -169,7 +169,7 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = React.forwardRef(({  index, currentIndex, tab }) => {
+export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => {
     const { register, getValues } = useForm();
 
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -184,7 +184,7 @@ export const ObservationId = React.forwardRef(({  index, currentIndex, tab }) =>
     ];
     const handleCheckboxChange = (event) => {
         const attributeLabel = event.target.value;
-        const selectedOption=document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
+        const selectedOption = document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
         const textArea = document.getElementById('calculated-topic-textarea');
         textArea.value += selectedOption + '-' + attributeLabel + '\n';
     };
@@ -195,22 +195,21 @@ export const ObservationId = React.forwardRef(({  index, currentIndex, tab }) =>
                 <Grid container spacing={2} alignItems="center" key={index} sx={{ pt: 2 }}>
                     <Grid item xs={12} sm={4} lg={4}>
                         <FormControl fullWidth>
-                        <Typography key={index} variant="h5">
-                        Observation.{typeof attribute === 'object' ? attribute.label : attribute}
-                    </Typography>
+                            <Typography key={index} variant="h5">
+                                Observation.{typeof attribute === 'object' ? attribute.label : attribute}
+                            </Typography>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={5}>
                         <FormControl fullWidth>
                             <InputLabel>{typeof attribute === 'object' ? attribute.label : attribute}</InputLabel>
                             {typeof attribute === 'object' && attribute.options ? (
-                                <Select  
-                                id={`calculated-topic-textarea.${attribute.label}`}
-
+                                <Select
+                                    id={`calculated-topic-textarea.${attribute.label}`}
                                     {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
                                     label={attribute.label}
                                     input={<OutlinedInput label={attribute.label} />}
-                                    MenuProps={MenuProps}                           
+                                    MenuProps={MenuProps}
                                 >
                                     {Object.entries(attribute.options).map(([key, value]) => (
                                         <MenuItem key={key} value={key}>
