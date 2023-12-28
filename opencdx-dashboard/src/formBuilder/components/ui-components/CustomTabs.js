@@ -38,7 +38,7 @@ function a11yProps(index) {
     };
 }
 
-export const CustomTabs = React.forwardRef(({ control, register, index, currentIndex, item , getValues }) => {
+export const CustomTabs = React.forwardRef(({ control, register, index, currentIndex, item, getValues }) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
