@@ -38,17 +38,17 @@ const JWTLogin = ({ ...others }) => {
     return (
         <Formik
             initialValues={{
-                email: 'admin@opencdx.com',
-                password: '123456',
+                userName: 'admin@opencdx.com',
+                password: 'password',
                 submit: null
             }}
             validationSchema={Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                userName: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                 password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
-                    await login('info@codedthemes.com', values.password);
+                    await login(values.userName, values.password);
 
                     if (scriptedRef.current) {
                         setStatus({ success: true });
@@ -71,7 +71,7 @@ const JWTLogin = ({ ...others }) => {
                         <OutlinedInput
                             id="outlined-adornment-email-login"
                             type="email"
-                            value={values.email}
+                            value={values.userName}
                             name="email"
                             onBlur={handleBlur}
                             onChange={handleChange}
