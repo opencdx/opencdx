@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 
 // project imports
-import useAuth from 'utils/hooks/useAuth';
+// import useAuth from 'utils/hooks/useAuth';
 import Avatar from 'ui-component/extended/Avatar';
 import SubCard from 'ui-component/cards/SubCard';
 import { gridSpacing } from 'utils/store/constant';
@@ -72,23 +72,226 @@ function createData(name, calories, fat, carbs, protein) {
 // ==============================|| Profile 1 - Profile1 ||============================== //
 
 const Profile1 = () => {
-    const { user } = useAuth();
+    // const { user } = useAuth();
     const navigate = useNavigate();
+    const user = {
+        "userId" : "655787ff36bf9e6b64534128",
+        "updatedProfile" : {
+          "userId" : "655787ff36bf9e6b64534129",
+          "nationalHealthId" : "f4563dd7-9136-4446-835b-a051d5c39b3d",
+          "fullName" : {
+            "title" : "",
+            "firstName" : "First",
+            "middleName" : "Middle",
+            "lastName" : "last",
+            "suffix" : ""
+          },
+          "contacts" : [ {
+            "mobileNumber" : {
+              "number" : "1234567890",
+              "type" : "PHONE_TYPE_MOBILE"
+            },
+            "homeNumber" : {
+              "number" : "1234567890",
+              "type" : "PHONE_TYPE_HOME"
+            },
+            "faxNumber" : {
+              "number" : "1234567890",
+              "type" : "PHONE_TYPE_FAX"
+            },
+            "email" : "test@opencdx.org"
+          } ],
+          "gender" : "GENDER_MALE",
+          "dateOfBirth" : {
+            "date" : "1900/01/01"
+          },
+          "placeOfBirth" : {
+            "country" : "USA",
+            "state" : "CA",
+            "city" : "City"
+          },
+          "primaryAddress" : {
+            "street" : "101 Main Street",
+            "city" : "City",
+            "state" : "CA",
+            "postalCode" : "12345",
+            "country" : "USA"
+          },
+          "photo" : "",
+          "communication" : {
+            "language" : "EN",
+            "preferred" : true,
+            "timeZone" : "EST"
+          },
+          "demographics" : {
+            "ethnicity" : "Ethnicity",
+            "race" : "Race",
+            "nationality" : "USA",
+            "gender" : "GENDER_MALE"
+          },
+          "education" : {
+            "entries" : [ {
+              "degree" : "BA",
+              "institution" : "University",
+              "startDate" : "1992/08/01",
+              "completionDate" : "1996/05/30"
+            } ]
+          },
+          "employeeIdentity" : {
+            "organizationId" : "OrganizationId",
+            "workspaceId" : "WorkspaceID",
+            "employeeId" : "employeeID",
+            "identityVerified" : true,
+            "status" : "Full Time"
+          },
+          "primaryContactInfo" : {
+            "mobileNumber" : {
+              "number" : "1234567890",
+              "type" : "PHONE_TYPE_MOBILE"
+            },
+            "homeNumber" : {
+              "number" : "1234567890",
+              "type" : "PHONE_TYPE_HOME"
+            },
+            "faxNumber" : {
+              "number" : "1234567890",
+              "type" : "PHONE_TYPE_FAX"
+            },
+            "email" : "test@opencdx.org"
+          },
+          "billingAddress" : {
+            "street" : "101 Main Street",
+            "city" : "City",
+            "state" : "CA",
+            "postalCode" : "12345",
+            "country" : "USA"
+          },
+          "shippingAddress" : {
+            "street" : "101 Main Street",
+            "city" : "City",
+            "state" : "CA",
+            "postalCode" : "12345",
+            "country" : "USA"
+          },
+          "emergencyContact" : {
+            "relationship" : "Emergency Contact",
+            "contactName" : "Name",
+            "contactInfo" : {
+              "mobileNumber" : {
+                "number" : "1234567890",
+                "type" : "PHONE_TYPE_MOBILE"
+              },
+              "homeNumber" : {
+                "number" : "1234567890",
+                "type" : "PHONE_TYPE_HOME"
+              },
+              "faxNumber" : {
+                "number" : "1234567890",
+                "type" : "PHONE_TYPE_FAX"
+              },
+              "email" : "test@opencdx.org"
+            },
+            "residenceAddress" : {
+              "street" : "101 Main Street",
+              "city" : "City",
+              "state" : "CA",
+              "postalCode" : "12345",
+              "country" : "USA"
+            },
+            "workAddress" : {
+              "street" : "101 Main Street",
+              "city" : "City",
+              "state" : "CA",
+              "postalCode" : "12345",
+              "country" : "USA"
+            }
+          },
+          "pharmacyDetails" : {
+            "pharmacyName" : "Pharmacy Name",
+            "pharmacyAddress" : {
+              "street" : "101 Main Street",
+              "city" : "City",
+              "state" : "CA",
+              "postalCode" : "12345",
+              "country" : "USA"
+            },
+            "pharmacyContact" : {
+              "mobileNumber" : {
+                "number" : "1234567890",
+                "type" : "PHONE_TYPE_MOBILE"
+              },
+              "homeNumber" : {
+                "number" : "1234567890",
+                "type" : "PHONE_TYPE_HOME"
+              },
+              "faxNumber" : {
+                "number" : "1234567890",
+                "type" : "PHONE_TYPE_FAX"
+              },
+              "email" : "test@opencdx.org"
+            }
+          },
+          "vaccineAdministered" : [ {
+            "administrationDate" : "2021/06/01",
+            "fips" : "12345",
+            "locality" : "CA",
+            "healthDistrict" : "District",
+            "facilityType" : "Clinic",
+            "manufacturer" : "655787ff36bf9e6b6453412a",
+            "doseNumber" : 20,
+            "vaccineType" : "COVID-19"
+          } ],
+          "dependentId" : [ "655787ff36bf9e6b6453412b", "655787ff36bf9e6b6453412c" ],
+          "knownAllergies" : [ {
+            "allergen" : "Evergreen Trees",
+            "reaction" : "Respiratory Distress",
+            "isSevere" : true,
+            "onsetDate" : "1975/12/20",
+            "lastOccurrence" : "1976/12/25",
+            "notes" : "Christmas Trees"
+          } ],
+          "currentMedications" : [ {
+            "name" : "Singular",
+            "dosage" : "5mg",
+            "instructions" : "Take 1 pill at night",
+            "routeOfAdministration" : "Oral",
+            "frequency" : "Daily",
+            "startDate" : "1976/12/26",
+            "endDate" : "EOL",
+            "prescribingDoctor" : "Dr. OpenCDX",
+            "pharmacy" : "Pharmacy",
+            "isPrescription" : true
+          } ],
+          "isActive" : false
+        }
+      };
+    const {
+        userId,
+        nationalHealthId,
+        fullName,
+        pharmacyDetails,
+        pharmacyAddress,
+        vaccineAdministered,
+        knownAllergies,
+        currentMedications,
+        communication,
+        education,
+        employeeIdentity,
+        pharmacyContact,
+        demographics
+        
+    } = user;
 
     const rows = [
         createData('Full Name', ':', user?.name),
-
-        //createData('Full Name', ':', 'First Middle Last'),
-        createData('Gender', ':', 'Male'),
-
-        createData('Mobile Number', ':', '+123456789'),
-        createData('Home Number', ':', '+123456789'),
-        createData('Fax Number', ':', '+123456789'),
-
-        createData('Date Of Birth', ':', '20/10/1970'),
-        createData('Place Of Birth', ':', 'City, CA, USA'),
-        createData('Primary Address', ':', '101 Main Street, City, CA, USA, 12345'),
-        createData('Dependent ID', ':', '655787ff36bf9e6b6453412b, 655787ff36bf9e6b6453412c')
+        createData('Gender', ':', user?.gender),
+        createData('Mobile Number', ':', user?.mobileNumber),
+        createData('Home Number', ':', user?.homeNumber),
+        createData('Fax Number', ':', user?.faxNumber),
+        createData('Date Of Birth', ':', user?.dateOfBirth),
+        createData('Place Of Birth', ':', user?.placeOfBirth),
+        createData('Primary Address', ':', user?.primaryAddress),
+        createData('Dependent ID', ':', user?.primaryAddress)
     ];
 
     return (
@@ -104,11 +307,10 @@ const Profile1 = () => {
                                     </Grid>
                                     <Grid item xs zeroMinWidth>
                                         <Typography align="left" variant="subtitle1">
-                                            {/* {user?.name} */}
-                                            Karthick Raja Murugan
+                                            {fullName?.firstName} {fullName?.middleName} {fullName?.lastName}
                                         </Typography>
                                         <Typography name="userId" align="left" variant="subtitle2">
-                                            User Id: 655787ff36bf9e6b64534129
+                                            User Id: {userId}
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -122,7 +324,7 @@ const Profile1 = () => {
                                     <ListItemText primary={<Typography variant="subtitle1">National Health Id</Typography>} />
                                     <ListItemSecondaryAction>
                                         <Typography name="nationalHealthId" variant="subtitle2" align="right">
-                                            f4563dd7-9136-4446-835b-a051d5c39b3d
+                                            {nationalHealthId}
                                         </Typography>
                                     </ListItemSecondaryAction>
                                 </ListItemButton>
@@ -134,8 +336,7 @@ const Profile1 = () => {
                                     <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
                                     <ListItemSecondaryAction>
                                         <Typography variant="subtitle2" align="right">
-                                            {/* {user?.name} */}
-                                            test@opencdx.org
+                                            {/* {contacts[0]?.email ?? ''} */}
                                         </Typography>
                                     </ListItemSecondaryAction>
                                 </ListItemButton>
@@ -147,7 +348,7 @@ const Profile1 = () => {
                                     <ListItemText primary={<Typography variant="subtitle1">Mobile Number</Typography>} />
                                     <ListItemSecondaryAction>
                                         <Typography variant="subtitle2" align="right">
-                                            (+99) 9999 999 999
+                                            {/* {contacts[0]?.mobileNumber?.number} */}
                                         </Typography>
                                     </ListItemSecondaryAction>
                                 </ListItemButton>
@@ -159,7 +360,7 @@ const Profile1 = () => {
                                     <ListItemText primary={<Typography variant="subtitle1">Home Number</Typography>} />
                                     <ListItemSecondaryAction>
                                         <Typography variant="subtitle2" align="right">
-                                            (+99) 9999 999 999
+                                            {/* {contacts[0]?.homeNumber?.number} */}
                                         </Typography>
                                     </ListItemSecondaryAction>
                                 </ListItemButton>
@@ -177,8 +378,7 @@ const Profile1 = () => {
                                         <ListItemText primary={<Typography variant="subtitle1">Pharmacy Name</Typography>} />
                                         <ListItemSecondaryAction>
                                             <Typography name="Pharmacyname" variant="subtitle2">
-                                                {/* {pharmacydetails?.pharmacyname} */}
-                                                Pharmacy Name
+                                                {pharmacyDetails?.pharmacyName}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -195,8 +395,7 @@ const Profile1 = () => {
                                         <ListItemText primary={<Typography variant="subtitle1">Pharmacy Address</Typography>} />
                                         <ListItemSecondaryAction>
                                             <Typography name="pharmacyaddress" variant="subtitle2">
-                                                {/* {pharmacydetails?.pharmacyaddress} */}
-                                                101 main street, CA, 12345, USA
+                                                {pharmacyAddress?.street} {pharmacyAddress?.city} {pharmacyAddress?.state}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -213,8 +412,8 @@ const Profile1 = () => {
                                         <ListItemText primary={<Typography variant="subtitle1">Mobile number</Typography>} />
                                         <ListItemSecondaryAction>
                                             <Typography name="mobilenumber" variant="subtitle2">
-                                                {/* {pharmacydetails?.mobilenumber} */}
-                                                1234567890
+                                                {pharmacyContact?.mobilenumber.number}
+                                                {/* {pharmacydetails?.mobilenumber} */} 
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -232,7 +431,7 @@ const Profile1 = () => {
                                         <ListItemSecondaryAction>
                                             <Typography name="homenumber" variant="subtitle2">
                                                 {/* {pharmacydetails?.homenumber} */}
-                                                1234567890
+                                                {pharmacyContact?.homenumber.number}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -250,7 +449,7 @@ const Profile1 = () => {
                                         <ListItemSecondaryAction>
                                             <Typography name="Faxnumber" variant="subtitle2">
                                                 {/* {pharmacydetails?.faxnumber} */}
-                                                1234567890
+                                                {pharmacyContact?.faxnumber.number}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -267,7 +466,7 @@ const Profile1 = () => {
                                         <ListItemSecondaryAction>
                                             <Typography name="Email" variant="subtitle2">
                                                 {/* {pharmacydetails?.email} */}
-                                                test@opencdx.org
+                                                {pharmacyContact?.email}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -286,7 +485,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="administrationdate" variant="subtitle2">
-                                                2021/06/01{/* {vaccineadministered?.administrationdate} */}
+                                                {vaccineAdministered?.administrationdate}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -296,7 +495,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Fips" variant="subtitle2">
-                                                12345{/* {vaccineadministered?.fips} */}
+                                                {vaccineAdministered?.fips}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -306,7 +505,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Locality" variant="subtitle2">
-                                                CA {/* {vaccineadministered?.locality} */}
+                                                {vaccineAdministered?.locality}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -316,7 +515,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Healthdistrict" variant="subtitle2">
-                                                District {/* {vaccineadministered?.healthdistrict} */}
+                                                {vaccineAdministered?.healthdistrict}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -326,7 +525,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Faclitytype" variant="subtitle2">
-                                                Clinic{/* {vaccineadministered?.faclitytype} */}
+                                                {vaccineAdministered?.faclitytype}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -336,7 +535,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Manufacturer" variant="subtitle2">
-                                                655787ff36bf9e6b6453412a{/* {vaccineadministered?.manufacturer} */}{' '}
+                                                {vaccineAdministered?.manufacturer}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -346,7 +545,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Dosenumber" variant="subtitle2">
-                                                20{/* {vaccineadministered?.Dosenumber} */}{' '}
+                                                {vaccineAdministered?.Dosenumber}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -356,7 +555,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Vaccinetype" variant="subtitle2">
-                                                COVID-19{/* {vaccineadministered?.Vaccinetype} */}{' '}
+                                                {vaccineAdministered?.vaccinetype}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -374,7 +573,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="allergen" variant="subtitle2">
-                                                Evergreen Trees {/* {knownallergies?.allergen} */}
+                                                {knownAllergies?.allergen}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -384,7 +583,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Reaction" variant="subtitle2">
-                                                Respiratory Distress{/* {knownallergies?.reaction} */}
+                                                {knownAllergies?.reaction}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -394,7 +593,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Isserve" variant="subtitle2">
-                                                True {/* {knownallergies?.Isserve} */}
+                                                {knownAllergies?.issevere}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -404,7 +603,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="onsetdate" variant="subtitle2">
-                                                1975/12/20{/* {knownallergies?.onsetdate} */}
+                                                {knownAllergies?.onsetdate}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -414,7 +613,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="lastoccurrence" variant="subtitle2">
-                                                1976/12/25{/* {knownallergies?.lastoccurrence} */}
+                                                {knownAllergies?.lastoccurrence}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -424,7 +623,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="notes" variant="subtitle2">
-                                                Chrirstmas Trees {/* {knownallergies?.notes} */}
+                                                {knownAllergies?.notes}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -442,8 +641,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="name" variant="subtitle2">
-                                                Singular
-                                                {/* {currentmedications?.name} */}
+                                                {currentMedications?.name}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -453,7 +651,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="dosage" variant="subtitle2">
-                                                5 mg{/* {currentmedications?.dosage} */}
+                                                {currentMedications?.dosage}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -463,7 +661,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Instructions" variant="subtitle2">
-                                                Take 1 pill at Night {/* {currentmedications?.Instructions} */}
+                                                {currentMedications?.Instructions}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -473,7 +671,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Routeofadministration" variant="subtitle2">
-                                                Oral{/* {currentmedications?.Routeofadministration} */}
+                                                {currentMedications?.Routeofadministration}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -483,7 +681,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Frequency" variant="subtitle2">
-                                                Daily{/* {currentmedications?.Frequency} */}
+                                                {currentMedications?.Frequency}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -493,7 +691,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="startdate" variant="subtitle2">
-                                                1976/12/26 {/* {currentmedications?.stratdate} */}
+                                                {currentMedications?.stratdate}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -503,7 +701,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="prescribingdoctor" variant="subtitle2">
-                                                Dr. OpenCDX {/* {currentmedications?.prescribingdoctor} */}
+                                                {currentMedications?.prescribingdoctor}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -513,7 +711,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="pharmacy" variant="subtitle2">
-                                                Pharmacy {/* {currentmedications?.pharmacy} */}
+                                                 {currentMedications?.pharmacy}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -523,7 +721,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Isprescription" variant="subtitle2">
-                                                True {/* {currentmedications?.Isprescription} */}
+                                                {currentMedications?.Isprescription}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -587,7 +785,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="language" variant="subtitle2">
-                                                En{/* {communication?.language} */}
+                                                {communication?.language}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -602,7 +800,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="prefered" variant="subtitle2">
-                                                True{/* {communication?.prefered} */}
+                                                {communication?.prefered}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -614,7 +812,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Timezone" variant="subtitle2">
-                                                EST{/* {communication?.Timezone} */}
+                                                {communication?.Timezone}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -633,7 +831,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="ethnicity" variant="subtitle2">
-                                                Ethnicity{/* {Demographics?.ethnicity} */}
+                                                {demographics?.ethnicity}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -648,7 +846,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="race" variant="subtitle2">
-                                                Race{/* {Demographics?.race} */}
+                                                {demographics?.race}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -660,7 +858,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="nationality" variant="subtitle2">
-                                                USA{/* {Demographics?.nationality} */}
+                                                {demographics?.nationality}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -672,7 +870,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="gender" variant="subtitle2">
-                                                Male{/* {Demographics?.gender} */}
+                                               {demographics?.gender}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -690,7 +888,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="degree" variant="subtitle2">
-                                                BA {/* {education?.degree} */}
+                                                {education?.degree}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -705,7 +903,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="Instituation" variant="subtitle2">
-                                                University{/* {education?.Instituation} */}
+                                                {education?.Instituation}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -717,7 +915,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="startdate" variant="subtitle2">
-                                                1992/08/01{/* {education?.startdate} */}
+                                                {education?.startdate}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -729,7 +927,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="completiondate" variant="subtitle2">
-                                                1996/05/30{/* {education?.completiondate} */}
+                                                {education?.completiondate}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -747,7 +945,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="organizationId" variant="subtitle2">
-                                                OrganizationId {/* {emplaoyeeIdentity?.organizationId} */}
+                                                 {employeeIdentity?.organizationId}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -762,7 +960,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="workspaceId" variant="subtitle2">
-                                                Workspace Id {/* {employeeIdentity?.Id} */}
+                                                {employeeIdentity?.Id}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -774,7 +972,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="employeeId" variant="subtitle2">
-                                                Employee Id {/* {employeeIdentity?.employeeId} */}
+                                                {employeeIdentity?.employeeId}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -786,7 +984,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="identityVerified" variant="subtitle2">
-                                                True{/* {employeeIdentity?.identityVerified} */}
+                                                {employeeIdentity?.identityVerified}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -798,7 +996,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="status" variant="subtitle2">
-                                                Full Time{/* {employeeIdentity?.status} */}
+                                                {employeeIdentity?.status}
                                             </Typography>
                                         </Grid>
                                     </Grid>

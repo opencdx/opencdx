@@ -65,7 +65,7 @@ export const CustomTabs = React.forwardRef(({ control, register, index, currentI
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <Time {...{ control, register, index, currentIndex, item }} />
+                <Time {...{ control, register, index, currentIndex, item, getValues }} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <SubjectofRecord {...{ control, register, index, currentIndex, item }} />

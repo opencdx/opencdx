@@ -10,6 +10,7 @@ import { Grid } from '@mui/material';
 import useLocalStorage from '../../utils/useLocalStorage';
 
 const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
+
     const [anfFormLocal, setAnfFormLocal] = useLocalStorage('anf-form');
     const [showAlert, setShowAlert] = useState(false);
 
@@ -19,6 +20,13 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
     const { register, handleSubmit, control, getValues, errors, setValue, reset } = useForm({ defaultValues });
 
     const onSubmit = (data) => {
+        const formData = JSON.parse(localStorage.getItem('anf-form'));
+        formData?.item?.map((element, index) => {
+            if (element.componentType === '') {
+                data.test[index].componentType = element.componentType;
+            }
+        });
+
         const item = data.test;
         const markedMainANFStatement = item
             .filter((element) => element.componentType === 'main_anf_statement')
@@ -28,11 +36,9 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
             ...element,
             markedMainANFStatement: markedMainANFStatement
         }));
+        localStorage.setItem('anf-form', JSON.stringify({ item: updatedItem }));
 
-        setAnfFormLocal({
-            ...anfFormLocal,
-            item: updatedItem
-        });
+        setAnfFormLocal({ item: updatedItem });
 
         setShowAlert(true);
     };

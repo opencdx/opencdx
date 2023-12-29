@@ -6,6 +6,7 @@ import { SubCard } from './SubCard';
 import { IconRestore } from '@tabler/icons-react';
 
 const StatementTypes = forwardRef(({ register, index, control, item }) => {
+
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -18,15 +19,9 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
         });
     }, []);
     useEffect(() => {
-        if (item?.componentTypeMain) {
-            setSelectedMainOption(item?.componentTypeMain);
-        }
-        if (item?.componentTypeAssociated) {
-            setSelectedAssociatedOption(item?.componentTypeAssociated);
-        }
-        if (item?.componentType) {
-            setSelectedOption(item?.componentType);
-        }
+        setSelectedMainOption(item?.componentTypeMain);
+        setSelectedAssociatedOption(item?.componentTypeAssociated);
+        setSelectedOption(item?.componentType);
     }, [item]);
 
     const handleChangeMainOption = useCallback(
@@ -44,6 +39,15 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
     );
 
     const handleRadioChange = (value) => {
+        const formData = JSON.parse(localStorage.getItem('anf-form'));
+        formData?.item?.map((element, currentIndex) => {
+            if (currentIndex === index) {
+                formData.item[index].componentType = value;
+            }
+        });
+
+        localStorage.setItem('anf-form', JSON.stringify({ item: formData.item }));
+
         setSelectedOption(value);
     };
 
@@ -138,10 +142,15 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
                     <Button
                         aria-label="Reset"
                         label="Reset"
+                        variant="outlined"
+                        size="small"
+
                         onClick={() => {
                             handleRadioChange('');
                             setSelectedMainOption(false);
                             setSelectedAssociatedOption(false);
+                            setSelectedOption('');
+
                         }}
                     >
                         <IconRestore stroke={1.5} size="20px" /> &nbsp; Reset

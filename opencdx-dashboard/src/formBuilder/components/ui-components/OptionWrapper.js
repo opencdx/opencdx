@@ -6,7 +6,6 @@ import { useFieldArray } from 'react-hook-form';
 import { AccordianWrapper } from './AccordianWrapper';
 import { CustomTabs } from './CustomTabs';
 
-import QuestionsList from './QuestionsList';
 
 const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
     const [showValueField, setShowValueField] = React.useState(false);
@@ -120,13 +119,10 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                 )}
             </Grid>
             <Grid container spacing={1} xs={12} lg={12} sx={{ pt: 2 }}>
-                <Grid item xs={12} lg={9}>
+                <Grid item xs={12} lg={12}>
                     <AccordianWrapper title="Anf Statement">
                         <CustomTabs currentIndex={0} {...{ control, register, index, item, getValues }} />
                     </AccordianWrapper>
-                </Grid>
-                <Grid item xs={12} lg={3}>
-                    <QuestionsList />
                 </Grid>
             </Grid>
             {/* * Dynamic Fields * */}
