@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import axios from 'axios';
 // material-ui
 import {
     Box,
@@ -34,6 +34,7 @@ import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 
 import Avatar3 from 'utils/assets/images/users/avatar-1.png';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 // progress
 function LinearProgressWithLabel({ value, ...others }) {
@@ -73,198 +74,26 @@ function createData(name, calories, fat, carbs, protein) {
 
 const Profile1 = () => {
     // const { user } = useAuth();
+    const [user, setUser] = useState({});
     const navigate = useNavigate();
-    const user = {
-        "userId" : "655787ff36bf9e6b64534128",
-        "updatedProfile" : {
-          "userId" : "655787ff36bf9e6b64534129",
-          "nationalHealthId" : "f4563dd7-9136-4446-835b-a051d5c39b3d",
-          "fullName" : {
-            "title" : "",
-            "firstName" : "First",
-            "middleName" : "Middle",
-            "lastName" : "last",
-            "suffix" : ""
-          },
-          "contacts" : [ {
-            "mobileNumber" : {
-              "number" : "1234567890",
-              "type" : "PHONE_TYPE_MOBILE"
-            },
-            "homeNumber" : {
-              "number" : "1234567890",
-              "type" : "PHONE_TYPE_HOME"
-            },
-            "faxNumber" : {
-              "number" : "1234567890",
-              "type" : "PHONE_TYPE_FAX"
-            },
-            "email" : "test@opencdx.org"
-          } ],
-          "gender" : "GENDER_MALE",
-          "dateOfBirth" : {
-            "date" : "1900/01/01"
-          },
-          "placeOfBirth" : {
-            "country" : "USA",
-            "state" : "CA",
-            "city" : "City"
-          },
-          "primaryAddress" : {
-            "street" : "101 Main Street",
-            "city" : "City",
-            "state" : "CA",
-            "postalCode" : "12345",
-            "country" : "USA"
-          },
-          "photo" : "",
-          "communication" : {
-            "language" : "EN",
-            "preferred" : true,
-            "timeZone" : "EST"
-          },
-          "demographics" : {
-            "ethnicity" : "Ethnicity",
-            "race" : "Race",
-            "nationality" : "USA",
-            "gender" : "GENDER_MALE"
-          },
-          "education" : {
-            "entries" : [ {
-              "degree" : "BA",
-              "institution" : "University",
-              "startDate" : "1992/08/01",
-              "completionDate" : "1996/05/30"
-            } ]
-          },
-          "employeeIdentity" : {
-            "organizationId" : "OrganizationId",
-            "workspaceId" : "WorkspaceID",
-            "employeeId" : "employeeID",
-            "identityVerified" : true,
-            "status" : "Full Time"
-          },
-          "primaryContactInfo" : {
-            "mobileNumber" : {
-              "number" : "1234567890",
-              "type" : "PHONE_TYPE_MOBILE"
-            },
-            "homeNumber" : {
-              "number" : "1234567890",
-              "type" : "PHONE_TYPE_HOME"
-            },
-            "faxNumber" : {
-              "number" : "1234567890",
-              "type" : "PHONE_TYPE_FAX"
-            },
-            "email" : "test@opencdx.org"
-          },
-          "billingAddress" : {
-            "street" : "101 Main Street",
-            "city" : "City",
-            "state" : "CA",
-            "postalCode" : "12345",
-            "country" : "USA"
-          },
-          "shippingAddress" : {
-            "street" : "101 Main Street",
-            "city" : "City",
-            "state" : "CA",
-            "postalCode" : "12345",
-            "country" : "USA"
-          },
-          "emergencyContact" : {
-            "relationship" : "Emergency Contact",
-            "contactName" : "Name",
-            "contactInfo" : {
-              "mobileNumber" : {
-                "number" : "1234567890",
-                "type" : "PHONE_TYPE_MOBILE"
-              },
-              "homeNumber" : {
-                "number" : "1234567890",
-                "type" : "PHONE_TYPE_HOME"
-              },
-              "faxNumber" : {
-                "number" : "1234567890",
-                "type" : "PHONE_TYPE_FAX"
-              },
-              "email" : "test@opencdx.org"
-            },
-            "residenceAddress" : {
-              "street" : "101 Main Street",
-              "city" : "City",
-              "state" : "CA",
-              "postalCode" : "12345",
-              "country" : "USA"
-            },
-            "workAddress" : {
-              "street" : "101 Main Street",
-              "city" : "City",
-              "state" : "CA",
-              "postalCode" : "12345",
-              "country" : "USA"
-            }
-          },
-          "pharmacyDetails" : {
-            "pharmacyName" : "Pharmacy Name",
-            "pharmacyAddress" : {
-              "street" : "101 Main Street",
-              "city" : "City",
-              "state" : "CA",
-              "postalCode" : "12345",
-              "country" : "USA"
-            },
-            "pharmacyContact" : {
-              "mobileNumber" : {
-                "number" : "1234567890",
-                "type" : "PHONE_TYPE_MOBILE"
-              },
-              "homeNumber" : {
-                "number" : "1234567890",
-                "type" : "PHONE_TYPE_HOME"
-              },
-              "faxNumber" : {
-                "number" : "1234567890",
-                "type" : "PHONE_TYPE_FAX"
-              },
-              "email" : "test@opencdx.org"
-            }
-          },
-          "vaccineAdministered" : [ {
-            "administrationDate" : "2021/06/01",
-            "fips" : "12345",
-            "locality" : "CA",
-            "healthDistrict" : "District",
-            "facilityType" : "Clinic",
-            "manufacturer" : "655787ff36bf9e6b6453412a",
-            "doseNumber" : 20,
-            "vaccineType" : "COVID-19"
-          } ],
-          "dependentId" : [ "655787ff36bf9e6b6453412b", "655787ff36bf9e6b6453412c" ],
-          "knownAllergies" : [ {
-            "allergen" : "Evergreen Trees",
-            "reaction" : "Respiratory Distress",
-            "isSevere" : true,
-            "onsetDate" : "1975/12/20",
-            "lastOccurrence" : "1976/12/25",
-            "notes" : "Christmas Trees"
-          } ],
-          "currentMedications" : [ {
-            "name" : "Singular",
-            "dosage" : "5mg",
-            "instructions" : "Take 1 pill at night",
-            "routeOfAdministration" : "Oral",
-            "frequency" : "Daily",
-            "startDate" : "1976/12/26",
-            "endDate" : "EOL",
-            "prescribingDoctor" : "Dr. OpenCDX",
-            "pharmacy" : "Pharmacy",
-            "isPrescription" : true
-          } ],
-          "isActive" : false
-        }
-      };
+    useEffect(() => {
+        const fetchEmailList = async () => {
+            const response = await axios.get(
+                'https://localhost:8080/iam/profile/5f63a53ddcc67c7a1c3d93e8',
+                {
+                    headers: {
+                       
+                        Accept: 'application/json', // Specify expected format
+                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`,
+                    },
+                }
+            );
+            setUser(response.data);
+        };
+        fetchEmailList();
+    }, []);
+
+   
     const {
         userId,
         nationalHealthId,
