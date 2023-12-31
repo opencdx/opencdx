@@ -11,6 +11,7 @@ import Admin from 'pages/Admin';
 
 // sample page routing
 const DashboardPage = Loadable(lazy(() => import('pages/dashboard')));
+const Maps = Loadable(lazy(() => import('pages/maps/Maps')));
 const Discovery = Loadable(lazy(() => import('pages/Discovery')));
 
 //  routing
@@ -50,6 +51,13 @@ const MainRoutes = {
             path: '/dashboard',
             element: <DashboardPage />
         },
+       
+        
+        {
+            path: '/dashboard/maps',
+            element: <Maps/>
+        },
+       
         {
             path: '/pages/admin',
             element: <Admin />

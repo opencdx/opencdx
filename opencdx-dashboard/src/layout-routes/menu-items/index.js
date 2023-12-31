@@ -5,11 +5,12 @@ import pages from './pages';
 import dashboardPage from './dashboard';
 import reports from './reports';
 import formsbuilder from './forms-builder';
+import maps from './maps';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    items: [dashboardPage, pages, administration, documentation, reports, other, formsbuilder]
+    items: [dashboardPage, maps, pages, administration, documentation, reports, other, formsbuilder]
 };
 
 export default menuItems;

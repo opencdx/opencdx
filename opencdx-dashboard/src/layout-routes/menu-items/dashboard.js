@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 // assets
 import { IconHome2 } from '@tabler/icons-react';
 
+
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const samplePage = {
@@ -13,7 +14,16 @@ const samplePage = {
     title: <FormattedMessage id="dashboard" />,
     icon: IconHome2,
     type: 'group',
-    url: '/dashboard'
+    url: '/dashboard',
+    children: [
+        {
+            id: 'dashboard-maps',
+            title: <FormattedMessage id="maps" />,
+            type: 'item',
+            url: '/dashboard/maps',
+            breadcrumbs: false
+        }
+    ]
 };
 
 export default samplePage;
