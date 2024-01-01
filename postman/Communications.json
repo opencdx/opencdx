@@ -1,0 +1,1267 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:8080/communications",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/sms": {
+            "put": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "updateSMSTemplate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SMSTemplate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SMSTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "createSMSTemplate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SMSTemplate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SMSTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event": {
+            "put": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "updateNotificationEvent",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotificationEvent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationEvent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "createNotificationEvent",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotificationEvent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationEvent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/email": {
+            "put": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "updateEmailTemplate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmailTemplate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "createEmailTemplate",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmailTemplate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sms/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "listSMSTemplates",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SMSTemplateListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SMSTemplateListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notification": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "sendNotification",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Notification"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "listNotificationEvents",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotificationEventListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationEventListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/email/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "listEmailTemplates",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmailTemplateListRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplateListResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sms/{id}": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "getSMSTemplate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SMSTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "deleteSMSTemplate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event/{id}": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "getNotificationEvent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationEvent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "deleteNotificationEvent",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/email/{id}": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "getEmailTemplate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplate"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "open-cdx-rest-communications-controller"
+                ],
+                "operationId": "deleteEmailTemplate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SMSTemplate": {
+                "type": "object",
+                "properties": {
+                    "templateId": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "variables": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "templateType": {
+                        "type": "string",
+                        "enum": [
+                            "TEMPLATE_TYPE_UNSPECIFIED",
+                            "TEMPLATE_TYPE_NOTIFICATION",
+                            "TEMPLATE_TYPE_WELCOME",
+                            "TEMPLATE_TYPE_NEWSLETTER",
+                            "TEMPLATE_TYPE_ALERT",
+                            "TEMPLATE_TYPE_REMINDER",
+                            "TEMPLATE_TYPE_CONFIRMATION",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Timestamp": {
+                "type": "object",
+                "properties": {
+                    "seconds": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nanos": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "NotificationEvent": {
+                "type": "object",
+                "properties": {
+                    "eventId": {
+                        "type": "string"
+                    },
+                    "eventName": {
+                        "type": "string"
+                    },
+                    "eventDescription": {
+                        "type": "string"
+                    },
+                    "emailTemplateId": {
+                        "type": "string"
+                    },
+                    "smsTemplateId": {
+                        "type": "string"
+                    },
+                    "eventParameters": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "NOTIFICATION_PRIORITY_UNSPECIFIED",
+                            "NOTIFICATION_PRIORITY_LOW",
+                            "NOTIFICATION_PRIORITY_MEDIUM",
+                            "NOTIFICATION_PRIORITY_HIGH",
+                            "NOTIFICATION_PRIORITY_IMMEDIATE",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "sensitivity": {
+                        "type": "string",
+                        "enum": [
+                            "SENSITIVITY_LEVEL_UNSPECIFIED",
+                            "SENSITIVITY_LEVEL_LOW",
+                            "SENSITIVITY_LEVEL_MEDIUM",
+                            "SENSITIVITY_LEVEL_HIGH",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "emailRetry": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "smsRetry": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "EmailTemplate": {
+                "type": "object",
+                "properties": {
+                    "templateId": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "variables": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "templateType": {
+                        "type": "string",
+                        "enum": [
+                            "TEMPLATE_TYPE_UNSPECIFIED",
+                            "TEMPLATE_TYPE_NOTIFICATION",
+                            "TEMPLATE_TYPE_WELCOME",
+                            "TEMPLATE_TYPE_NEWSLETTER",
+                            "TEMPLATE_TYPE_ALERT",
+                            "TEMPLATE_TYPE_REMINDER",
+                            "TEMPLATE_TYPE_CONFIRMATION",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SMSTemplateListRequest": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "SMSTemplateListResponse": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    },
+                    "pageCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "templates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SMSTemplate"
+                        }
+                    }
+                }
+            },
+            "Attachment": {
+                "type": "object",
+                "properties": {
+                    "filename": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ByteString"
+                    },
+                    "mimeType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ByteString": {
+                "type": "object",
+                "properties": {
+                    "empty": {
+                        "type": "boolean"
+                    },
+                    "validUtf8": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Notification": {
+                "type": "object",
+                "properties": {
+                    "queueId": {
+                        "type": "string"
+                    },
+                    "eventId": {
+                        "type": "string"
+                    },
+                    "smsStatus": {
+                        "type": "string",
+                        "enum": [
+                            "NOTIFICATION_STATUS_UNSPECIFIED",
+                            "NOTIFICATION_STATUS_PENDING",
+                            "NOTIFICATION_STATUS_SENT",
+                            "NOTIFICATION_STATUS_FAILED",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "emailStatus": {
+                        "type": "string",
+                        "enum": [
+                            "NOTIFICATION_STATUS_UNSPECIFIED",
+                            "NOTIFICATION_STATUS_PENDING",
+                            "NOTIFICATION_STATUS_SENT",
+                            "NOTIFICATION_STATUS_FAILED",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "timestamp": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "customData": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string",
+                            "deprecated": true
+                        },
+                        "deprecated": true
+                    },
+                    "toEmail": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "ccEmail": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "bccEmail": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "emailAttachments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Attachment"
+                        }
+                    },
+                    "toPhoneNumber": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string",
+                            "deprecated": true
+                        },
+                        "deprecated": true
+                    },
+                    "recipientsId": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SuccessResponse": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "NotificationEventListRequest": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "NotificationEventListResponse": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    },
+                    "pageCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "templates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NotificationEvent"
+                        }
+                    }
+                }
+            },
+            "EmailTemplateListRequest": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "EmailTemplateListResponse": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    },
+                    "pageCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "templates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EmailTemplate"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

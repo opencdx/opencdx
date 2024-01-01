@@ -1,0 +1,638 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:8080/media",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/": {
+            "put": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "updateMedia_1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateMediaRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateMediaResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "createMedia_1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateMediaRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateMediaResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/upload/{fileId}": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "uploadFile",
+                "parameters": [
+                    {
+                        "name": "fileId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FileUploadResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/list": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "listMedia",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ListMediaRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListMediaResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{id}": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "getMedia",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetMediaResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "deleteMedia",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteMediaResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/download/{fileId}.{ext}": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-media-controller"
+                ],
+                "operationId": "download",
+                "parameters": [
+                    {
+                        "name": "fileId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ext",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UpdateMediaRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "shortDescription": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "labels": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "MEDIA_TYPE_UNSPECIFIED",
+                            "MEDIA_TYPE_IMAGE",
+                            "MEDIA_TYPE_VIDEO",
+                            "MEDIA_TYPE_ARCHIVE",
+                            "MEDIA_TYPE_INTEGRATION",
+                            "MEDIA_TYPE_BYTE_ARRAY",
+                            "UNRECOGNIZED"
+                        ]
+                    }
+                }
+            },
+            "Media": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "updatedAt": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "organizationId": {
+                        "type": "string"
+                    },
+                    "workspaceId": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "shortDescription": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "MEDIA_TYPE_UNSPECIFIED",
+                            "MEDIA_TYPE_IMAGE",
+                            "MEDIA_TYPE_VIDEO",
+                            "MEDIA_TYPE_ARCHIVE",
+                            "MEDIA_TYPE_INTEGRATION",
+                            "MEDIA_TYPE_BYTE_ARRAY",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "labels": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "mimeType": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "endpoint": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "MEDIA_STATUS_UNSPECIFIED",
+                            "MEDIA_STATUS_UPLOADING",
+                            "MEDIA_STATUS_ACTIVE",
+                            "MEDIA_STATUS_DELETED",
+                            "MEDIA_STATUS_ERROR",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "created": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "modified": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "creator": {
+                        "type": "string"
+                    },
+                    "modifier": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Timestamp": {
+                "type": "object",
+                "properties": {
+                    "seconds": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nanos": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "UpdateMediaResponse": {
+                "type": "object",
+                "properties": {
+                    "media": {
+                        "$ref": "#/components/schemas/Media"
+                    }
+                }
+            },
+            "FileUploadResponse": {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ListMediaRequest": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ListMediaResponse": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sortAscending": {
+                        "type": "boolean"
+                    },
+                    "pageCount": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "templates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Media"
+                        }
+                    }
+                }
+            },
+            "CreateMediaRequest": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "MEDIA_TYPE_UNSPECIFIED",
+                            "MEDIA_TYPE_IMAGE",
+                            "MEDIA_TYPE_VIDEO",
+                            "MEDIA_TYPE_ARCHIVE",
+                            "MEDIA_TYPE_INTEGRATION",
+                            "MEDIA_TYPE_BYTE_ARRAY",
+                            "UNRECOGNIZED"
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "shortDescription": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "labels": {
+                        "type": "array",
+                        "properties": {
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "CreateMediaResponse": {
+                "type": "object",
+                "properties": {
+                    "media": {
+                        "$ref": "#/components/schemas/Media"
+                    },
+                    "uploadUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetMediaResponse": {
+                "type": "object",
+                "properties": {
+                    "media": {
+                        "$ref": "#/components/schemas/Media"
+                    }
+                }
+            },
+            "DeleteMediaResponse": {
+                "type": "object",
+                "properties": {
+                    "media": {
+                        "$ref": "#/components/schemas/Media"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
