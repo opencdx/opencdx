@@ -204,6 +204,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @see #get(Object)
      */
     @SuppressWarnings({"java:S1452", "java:S3358"})
+    @Override
     @Nullable public CompletableFuture<?> retrieve(Object key) {
         this.cleanUpIdleEntries(Optional.of(key));
         CacheValue cacheValue = this.store.get(key);
@@ -237,6 +238,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @since 4.3
      */
     @SuppressWarnings("unchecked")
+    @Override
     public <T> CompletableFuture<T> retrieve(Object key, Supplier<CompletableFuture<T>> valueLoader) {
         this.cleanUpIdleEntries(Optional.of(key));
         return CompletableFuture.supplyAsync(() -> {

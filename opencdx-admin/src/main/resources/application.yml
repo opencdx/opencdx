@@ -15,6 +15,7 @@ spring:
           - label: "Zipkin"
             url: "http://localhost:9411/zipkin"
           - label: "Swagger"
+            url: "https://localhost:8080/iam/swagger-ui/index.html"
             children:
               - label: "Anf"
                 url: "https://localhost:8080/anf/swagger-ui/index.html"
