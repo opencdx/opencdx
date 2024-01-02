@@ -217,7 +217,10 @@ open_reports() {
         handle_info "Opening JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         open_url "build/docs/javadoc-all/index.html"
-        #open_url "build/reports/dependency-check-report.html"
+        ;;
+    dependency)
+        handle_info "Opening Dependency Check Report..."
+        open_url "build/reports/dependency-check-report.html"
         ;;
     publish)
         read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
@@ -464,6 +467,7 @@ menu() {
             "Open Test Report" "Publish Doc"
             "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
+            "Dependency Check"
         )
 
         # Calculate the number of menu items
@@ -517,6 +521,7 @@ menu() {
             12) open_reports "check" ;;
             13) open_reports "proto" ;;
             14) open_reports "status" ;;
+            15) open_reports "dependency" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
@@ -674,7 +679,7 @@ elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew clean spotlessApply build publish -x dependencyCheckAggregate; then
+    if ./gradlew clean spotlessApply build publish; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
@@ -683,7 +688,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew spotlessApply build publish -x dependencyCheckAggregate; then
+    if ./gradlew spotlessApply build publish; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
