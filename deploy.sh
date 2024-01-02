@@ -13,7 +13,7 @@ BLUE='\033[1;36m'
 NC='\033[0m' # No Color
 
 # Specify the required JDK version
-required_jdk_version="20"
+required_jdk_version="21"
 
 # Function to handle errors
 # Parameters: $1 - Error message
