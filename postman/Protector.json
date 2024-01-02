@@ -1,0 +1,721 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:8080/protector",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/protectPrivacy": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-protector-controller"
+                ],
+                "operationId": "postProtectPrivacy",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PrivacyProtectionDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SecurityResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/monitorRealTime": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-protector-controller"
+                ],
+                "operationId": "postMonitorRealTime",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RealTimeMonitoringDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SecurityResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/detectAnomalies": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-protector-controller"
+                ],
+                "operationId": "postDetectAnomalies",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AnomalyDetectionDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SecurityResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/authorize": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-protector-controller"
+                ],
+                "operationId": "postAuthorize",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthorizationControlDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SecurityResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/analyzeUserBehavior": {
+            "post": {
+                "tags": [
+                    "open-cdx-rest-protector-controller"
+                ],
+                "operationId": "postAnalyzeUserBehavior",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserBehaviorAnalysisDataRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SecurityResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PrivacyProtectionData": {
+                "type": "object",
+                "properties": {
+                    "encounterId": {
+                        "type": "string"
+                    },
+                    "dataType": {
+                        "type": "string"
+                    },
+                    "anonymizedData": {
+                        "type": "string"
+                    },
+                    "isDataEncrypted": {
+                        "type": "boolean"
+                    },
+                    "encryptionMethod": {
+                        "type": "string"
+                    },
+                    "dataRetentionPolicy": {
+                        "type": "string"
+                    },
+                    "hasDataSharingAgreement": {
+                        "type": "boolean"
+                    },
+                    "dataPurpose": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PrivacyProtectionDataRequest": {
+                "type": "object",
+                "properties": {
+                    "privacyProtectionData": {
+                        "$ref": "#/components/schemas/PrivacyProtectionData"
+                    }
+                }
+            },
+            "SecurityResponse": {
+                "type": "object",
+                "properties": {
+                    "encounterId": {
+                        "type": "string"
+                    },
+                    "response": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RealTimeMonitoringData": {
+                "type": "object",
+                "properties": {
+                    "encounterId": {
+                        "type": "string"
+                    },
+                    "monitoredEntity": {
+                        "type": "string"
+                    },
+                    "monitoringDetails": {
+                        "type": "string"
+                    },
+                    "monitoringStartTime": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "monitoringEndTime": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "triggeredAlerts": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "monitoringFrequency": {
+                        "type": "string"
+                    },
+                    "isContinuousMonitoring": {
+                        "type": "boolean"
+                    },
+                    "responsibleMonitoringTeam": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RealTimeMonitoringDataRequest": {
+                "type": "object",
+                "properties": {
+                    "realTimeMonitoringData": {
+                        "$ref": "#/components/schemas/RealTimeMonitoringData"
+                    }
+                }
+            },
+            "Timestamp": {
+                "type": "object",
+                "properties": {
+                    "seconds": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nanos": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "AnomalyDetectionData": {
+                "type": "object",
+                "properties": {
+                    "encounterId": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "dataAccessPattern": {
+                        "type": "string"
+                    },
+                    "timeStamp": {
+                        "$ref": "#/components/schemas/Timestamp"
+                    },
+                    "anomaliesDetected": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "sourceIp": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": "string"
+                    },
+                    "affectedSystems": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "severityLevel": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AnomalyDetectionDataRequest": {
+                "type": "object",
+                "properties": {
+                    "anomalyDetectionData": {
+                        "$ref": "#/components/schemas/AnomalyDetectionData"
+                    }
+                }
+            },
+            "AuthorizationControlData": {
+                "type": "object",
+                "properties": {
+                    "encounterId": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "dataAccessLevel": {
+                        "type": "string"
+                    },
+                    "accessGrantedBy": {
+                        "type": "string"
+                    },
+                    "accessScopes": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "accessValidityPeriod": {
+                        "type": "string"
+                    },
+                    "isTemporaryAccess": {
+                        "type": "boolean"
+                    },
+                    "conditionalAccessParams": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "AuthorizationControlDataRequest": {
+                "type": "object",
+                "properties": {
+                    "authorizationControlData": {
+                        "$ref": "#/components/schemas/AuthorizationControlData"
+                    }
+                }
+            },
+            "UserBehaviorAnalysisData": {
+                "type": "object",
+                "properties": {
+                    "encounterId": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "behaviorPattern": {
+                        "type": "string"
+                    },
+                    "associatedActivities": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "analysisTimeFrame": {
+                        "type": "string"
+                    },
+                    "historicalBehaviorData": {
+                        "type": "array",
+                        "properties": {
+                            "unmodifiableView": {
+                                "type": "array",
+                                "properties": {
+                                    "underlyingElements": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "empty": {
+                                        "type": "boolean"
+                                    },
+                                    "first": {
+                                        "type": "string"
+                                    },
+                                    "last": {
+                                        "type": "string"
+                                    }
+                                },
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "underlyingElements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "empty": {
+                                "type": "boolean"
+                            },
+                            "first": {
+                                "type": "string"
+                            },
+                            "last": {
+                                "type": "string"
+                            },
+                            "modifiable": {
+                                "type": "boolean"
+                            }
+                        },
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "riskAssessment": {
+                        "type": "string"
+                    },
+                    "isBehaviorOutlier": {
+                        "type": "boolean"
+                    },
+                    "behaviorConsequence": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserBehaviorAnalysisDataRequest": {
+                "type": "object",
+                "properties": {
+                    "userBehaviorAnalysisData": {
+                        "$ref": "#/components/schemas/UserBehaviorAnalysisData"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

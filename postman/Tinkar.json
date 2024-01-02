@@ -1,0 +1,132 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:8080/tinkar",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/nid": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-search-controller"
+                ],
+                "operationId": "getEntity",
+                "parameters": [
+                    {
+                        "name": "nid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "tags": [
+                    "open-cdx-rest-search-controller"
+                ],
+                "operationId": "search_1",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PrimitiveDataSearchResult"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PrimitiveDataSearchResult": {
+                "type": "object",
+                "properties": {
+                    "nid": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "rcNid": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "patternNid": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "fieldIndex": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "highlightedString": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
