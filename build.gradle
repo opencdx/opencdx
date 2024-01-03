@@ -234,8 +234,8 @@ allprojects {
         // note that rule parameter names are case sensitive
         ruleParameters = [
                 "java:S1176": [
-//                        "forClasses":"**.api.**",      // need javadoc for public methods in package matching "api"
-"exclusion": "**.private.**"] // do not need javadoc for classes under "private". Default is **.internal.**
+                    "exclusion": "**.grpc.**"
+                ]
         ]
         showIssues = true // default true
     }
@@ -243,6 +243,7 @@ allprojects {
     // Project Level Code Formatting configuration
     spotless {
         java {
+            targetExclude("**/grpc/**")
             importOrder()
             removeUnusedImports()
             cleanthat()          // has its own section below
