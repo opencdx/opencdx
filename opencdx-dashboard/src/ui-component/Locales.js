@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 // third-party
 import { IntlProvider } from 'react-intl';
-import useConfig from 'hooks/useConfig';
+import useConfig from 'utils/hooks/useConfig';
 
 // load locales files
 const loadLocaleData = (locale) => {
