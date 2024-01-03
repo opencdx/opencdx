@@ -342,7 +342,7 @@ generate_docker_compose() {
   compose_file="docker/docker-compose.yml"
 
   # Define services to always include
-  always_include=("discovery" "config" "database" "nats" "trace_storage" "zipkin_dependencies" "gateway" "iam")
+  always_include=("discovery" "config" "database" "nats" "trace_storage" "gateway" "iam" "zipkin")
 
   # Extract service names from the original Docker Compose file using yq
   services=($(yq e '.services | keys | .[]' "$compose_file"))
