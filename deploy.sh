@@ -15,6 +15,9 @@ NC='\033[0m' # No Color
 # Specify the required JDK version
 required_jdk_version="21"
 
+# Specify the desired Node.js version
+node_version="20.0.0"
+
 # Function to handle errors
 # Parameters: $1 - Error message
 handle_error() {
@@ -278,6 +281,7 @@ print_usage() {
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
     echo "  --proto         Will force the rebuild of the proto files only and exit."
+    echo "  --no_ui         Will skip opencdx-dashboard in the build process."
     echo "  --help          Show this help message."
     exit 0
 }
@@ -547,6 +551,7 @@ wipe=false
 cert=false
 proto=false
 jmeter_test=""
+no_ui=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -594,6 +599,9 @@ for arg in "$@"; do
     --proto)
         proto=true
         ;;
+    --no_ui)
+        no_ui=true
+        ;;
     --help)
         print_usage
         ;;
@@ -619,6 +627,25 @@ fi
 # Check for 'open' command (for macOS)
 if [[ "$OSTYPE" != "msys" ]] && ! command -v open &> /dev/null; then
     handle_error "'open' command is not available. Please install it or use an appropriate alternative."
+fi
+
+if [ "$no_ui" = false ]; then
+
+
+  # Check if Node.js is installed
+  if command -v node &> /dev/null; then
+    # Get the installed Node.js version
+    installed_version=$(node -v | cut -c 2-)
+
+    # Compare the installed version with the desired version
+    if [ "$(printf '%s\n' "$installed_version" "$node_version" | sort -V | head -n 1)" == "$node_version" ]; then
+      handle_info "Node.js version $installed_version is installed."
+    else
+      handle_error "Node.js version $node_version is not installed. Installed version: $installed_version"
+    fi
+  else
+    handle_error "Node.js is not installed."
+  fi
 fi
 
 handle_info "All dependencies are installed."
@@ -695,6 +722,20 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
+fi
+
+if [ "$no_ui" = false ]; then
+  # Change directory to opencdx-dashboard
+  cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
+
+  # Install dependencies
+  npm install || handle_error "npm install failed"
+
+  # Run linting
+  npm run lint || handle_error "npm run lint failed"
+
+  # Change back to the previous directory
+  cd - || handle_error "Unable to change back to the previous directory"
 fi
 
 if [ "$check" = true ]; then

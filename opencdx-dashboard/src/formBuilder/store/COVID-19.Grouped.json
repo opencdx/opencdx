@@ -1,0 +1,910 @@
+{
+  "item": [
+    {
+      "item": [
+        {
+          "type": "choice",
+          "linkId": "4674648645327",
+          "text": "Age",
+          "required": true,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Infant (0-12 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "Child (1-10 years)"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "Adult (11-65 years)"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "Adult over 65 years"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "4320936850630",
+          "text": "Sex",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Male"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "Female"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "Other"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "7778752422567",
+          "text": "Pregnant (or have been pregnant in the last 42 days)",
+          "enableWhen": [
+            {
+              "question": "4320936850630",
+              "operator": "=",
+              "answerCoding": {
+                "display": "Female"
+              }
+            }
+          ],
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "3477555850743",
+          "text": "A smoker (currently or formerly)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "3977311203946",
+          "text": "Physical inactivity (mostly sit or lay down with little to no exercise)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "906347027635",
+          "text": "Overweight or obese (BMI higher than 25.0)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "6090469016063",
+      "text": "Information",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "type": "choice",
+          "linkId": "2600800507304",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-458"
+            }
+          ],
+          "text": "Tiredness or fatigue that interferes with daily life",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
+                  "valueDecimal": 1
+                }
+              ],
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
+                  "valueDecimal": 0
+                }
+              ],
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "2897154484678",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-329"
+            }
+          ],
+          "text": "Symptoms that get worse after physical or mental effort (also known as “post-exertional malaise”)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "2053810511003",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-359"
+            }
+          ],
+          "text": "Fever",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "item": [
+            {
+              "type": "decimal",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                  "valueDecimal": 96
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                  "valueDecimal": 106
+                }
+              ],
+              "linkId": "8356752766495",
+              "code": [
+                {
+                  "system": "TINKAR",
+                  "code": "TIN-505"
+                }
+              ],
+              "text": "Temperature",
+              "enableBehavior": "all",
+              "required": false,
+              "repeats": false,
+              "readOnly": false,
+              "initial": [
+                {
+                  "valueDecimal": 98.6
+                }
+              ]
+            },
+            {
+              "type": "dateTime",
+              "linkId": "187741395918",
+              "text": "Date time",
+              "enableBehavior": "all",
+              "required": false,
+              "repeats": false,
+              "readOnly": false
+            },	    
+            {
+              "type": "choice",
+              "linkId": "6282945721654",
+              "text": "Fever is high ",
+              "enableBehavior": "any",
+              "required": false,
+              "repeats": false,
+              "readOnly": false,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "display": "Morning"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "display": "Afternoon"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "display": "Evening"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "display": "Late Evening"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "display": "Night"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "linkId": "3561163075322",
+              "text": "Affect on your daily living, working, attending school etc.",
+              "required": false,
+              "repeats": false,
+              "readOnly": false
+            }
+          ],
+          "type": "group",
+          "linkId": "6817830940223",
+          "text": "Fever Details",
+          "enableWhen": [
+            {
+              "question": "2053810511003",
+              "operator": "=",
+              "answerCoding": {
+                "display": "Yes"
+              }
+            }
+          ],
+          "required": false,
+          "repeats": false,
+          "readOnly": false
+        }
+      ],
+      "type": "group",
+      "linkId": "4371438582569",
+      "text": "COVID19 - General Symptoms",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "type": "choice",
+          "linkId": "183763464019",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-452"
+            }
+          ],
+          "text": "Difficulty breathing or shortness of breath",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "9048556065703",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-555"
+            }
+          ],
+          "text": "Cough",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "7898027780595",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-888"
+            }
+          ],
+          "text": "Chest pain",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "5155988348099",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-999"
+            }
+          ],
+          "text": "Fast-beating or pounding heart (also known as heart palpitations)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "3654235608407",
+      "text": "COVID19 - Respiratory and heart symptoms",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "type": "choice",
+          "linkId": "337165287032",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-266"
+            }
+          ],
+          "text": "Difficulty thinking or concentrating (sometimes referred to as “brain fog”)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "7334093072497",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-284"
+            }
+          ],
+          "text": "Headache",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "2121301192237",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-342"
+            }
+          ],
+          "text": "Sleep problems",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "4595480386786",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-765"
+            }
+          ],
+          "text": "Dizziness when you stand up (lightheadedness)",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "3509958944041",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-619"
+            }
+          ],
+          "text": "Pins-and-needles feelings",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "2650931686202",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-222"
+            }
+          ],
+          "text": "Change in smell or taste",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "7244222742412",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-222"
+            }
+          ],
+          "text": "Depression or anxiety",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "3146521998061",
+      "text": "COVID19 - Neurological symptoms",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "type": "choice",
+          "linkId": "6575495071654",
+          "code": [
+            {
+              "code": "TIN-801"
+            }
+          ],
+          "text": "Diarrhea",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "9007312200969",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-012"
+            }
+          ],
+          "text": "Stomach pain",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "5971235856967",
+      "text": "COVID19 - Digestive symptoms",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "type": "choice",
+          "linkId": "1885668554811",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-813"
+            }
+          ],
+          "text": "Joint or muscle pain",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "3569096565386",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-912"
+            }
+          ],
+          "text": "Rash",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "linkId": "8885616867552",
+          "code": [
+            {
+              "system": "TINKAR",
+              "code": "TIN-723"
+            }
+          ],
+          "text": "Changes in menstrual cycles",
+          "enableWhen": [
+            {
+              "question": "4320936850630",
+              "operator": "=",
+              "answerCoding": {
+                "display": "Female"
+              }
+            },
+            {
+              "question": "7778752422567",
+              "operator": "!=",
+              "answerCoding": {
+                "display": "Yes"
+              }
+            }
+          ],
+          "enableBehavior": "all",
+          "required": false,
+          "repeats": false,
+          "readOnly": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "display": "No"
+              }
+            }
+          ]
+        }
+      ],
+      "type": "group",
+      "linkId": "1712676762867",
+      "text": "COVID19 - Other symptoms",
+      "required": false,
+      "repeats": false,
+      "readOnly": false
+    },
+    {
+      "item": [
+        {
+          "type": "string",
+          "linkId": "2147510178370",
+          "text": "The date your original COVID-19 illness started and/or you got a positive COVID-19 test, if known",
+          "required": false,
+          "repeats": false,
+          "readOnly": false
+        },
+        {
+          "type": "string",
+          "linkId": "7216043401473",
+          "text": "When your Long COVID symptoms started?",
+          "required": false,
+          "repeats": false,
+          "readOnly": false
+        },
+        {
+          "type": "text",
+          "linkId": "5240731850714",
+          "text": "A list of prior treatments and diagnostic tests related to your Long COVID symptoms (blood work, x-rays, etc.)",
+          "required": false,
+          "repeats": true,
+          "readOnly": false
+        },
+        {
+          "type": "text",
+          "linkId": "8457305283764",
+          "text": "What makes your symptoms worse?",
+          "required": false,
+          "repeats": true,
+          "readOnly": false
+        },
+        {
+          "type": "text",
+          "linkId": "1679916750382",
+          "text": "How the symptoms affect your activities, including challenges that affect daily living, working, attending school, etc.",
+          "required": false,
+          "repeats": false,
+          "readOnly": false
+        },
+        {
+          "type": "string",
+          "linkId": "6668662865154",
+          "text": "How often symptoms occur?"
+        },
+        {
+          "type": "string",
+          "linkId": "8187958642589",
+          "text": "How you have been feeling the symptoms?",
+          "required": false,
+          "repeats": false,
+          "readOnly": false
+        },
+        {
+          "type": "text",
+          "linkId": "9475924744159",
+          "text": "A description of some of your best and worst days",
+          "required": false,
+          "repeats": false,
+          "readOnly": false
+        }
+      ],
+      "type": "group",
+      "linkId": "6229633504419",
+      "text": "Additional History"
+    }
+  ],
+  "resourceType": "Questionnaire",
+  "id": "5770429",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2023-10-10T14:52:08.000-04:00",
+    "source": "#4viUlPHK0eWSJ4py"
+  },
+  "title": "COVID 19",
+  "status": "draft",
+  "purpose": "To capture user symptoms "
+}

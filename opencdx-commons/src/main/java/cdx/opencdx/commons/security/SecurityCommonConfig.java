@@ -18,13 +18,9 @@ package cdx.opencdx.commons.security;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.impl.OpenCDXUserDetailsServiceImpl;
-import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * Application Configuration
@@ -88,20 +84,5 @@ public class SecurityCommonConfig {
     @Bean
     public JwtTokenFilter jwtTokenFilter() {
         return this.jwtTokenFilter;
-    }
-
-    /**
-     * CORS Configuration
-     * @return CorsConfigurationSource to used
-     */
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedMethods(List.of("*"));
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowedOrigins(List.of("*"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
     }
 }

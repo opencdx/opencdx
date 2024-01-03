@@ -5,8 +5,8 @@ import MuiSnackbar from '@mui/material/Snackbar';
 // assets
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useDispatch, useSelector } from 'store';
-import { closeSnackbar } from 'store/slices/snackbar';
+import { useDispatch, useSelector } from 'utils/store';
+import { closeSnackbar } from 'utils/store/slices/snackbar';
 
 // animation function
 function TransitionSlideLeft(props) {

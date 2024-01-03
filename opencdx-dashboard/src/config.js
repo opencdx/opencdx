@@ -1,4 +1,4 @@
-import LAYOUT_CONST from 'constant';
+import LAYOUT_CONST from 'utils/constant';
 
 export const DASHBOARD_PATH = '/dashboard';
 export const HORIZONTAL_MAX_ITEM = 7;
