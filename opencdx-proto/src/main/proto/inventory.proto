@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.inventory;
 
 import "common.proto";
+import "types.proto";
 import "google/protobuf/timestamp.proto";
 
 // Manufacturer message represents a manufacturer.
@@ -20,6 +21,7 @@ message Manufacturer {
     optional google.protobuf.Timestamp modified = 11; // Timestamp when this event was modified.
     optional string creator = 12; // ID of the creator of this event.
     optional string modifier = 13; // ID of the modifier of this event.
+    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 14;  // Category type 
 }
 
 // Vendor message represents a vendor.
@@ -37,6 +39,7 @@ message Vendor {
     optional google.protobuf.Timestamp modified = 11; // Timestamp when this event was modified.
     optional string creator = 12; // ID of the creator of this event.
     optional string modifier = 13; // ID of the modifier of this event.
+    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 14;  // Category type     
 }
 
 // Device message represents a device.
@@ -76,6 +79,7 @@ message Device {
     optional google.protobuf.Timestamp modified = 33; // Timestamp when this event was modified.
     optional string creator = 34; // ID of the creator of this event.
     optional string modifier = 35; // ID of the modifier of this event.
+    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 36;  // Category type [custom type]    
 }
 
 // TestCase message represents a case or package of tests.
@@ -97,6 +101,7 @@ message TestCase {
     optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
     optional string creator = 16; // ID of the creator of this event.
     optional string modifier = 17; // ID of the modifier of this event.
+    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 18;  // Category type [custom type]    
 }
 
 // gRPC service for managing countries.

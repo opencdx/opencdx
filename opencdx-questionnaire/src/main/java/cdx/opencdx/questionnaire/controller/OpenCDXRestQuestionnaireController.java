@@ -82,7 +82,7 @@ public class OpenCDXRestQuestionnaireController {
         GetQuestionnaireRequest request =
                 GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build();
 
-        Questionnaire questionnaire = openCDXQuestionnaireService.getQuestionnaireData(request);
+        Questionnaire questionnaire = openCDXQuestionnaireService.getSubmittedQuestionnaire(request);
         return new ResponseEntity<>(questionnaire, HttpStatus.OK);
     }
 
@@ -93,7 +93,7 @@ public class OpenCDXRestQuestionnaireController {
      */
     @GetMapping(value = "/submittedquestionnaires")
     public ResponseEntity<Questionnaires> getQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
-        return new ResponseEntity<>(openCDXQuestionnaireService.getQuestionnaireDataList(request), HttpStatus.OK);
+        return new ResponseEntity<>(openCDXQuestionnaireService.getSubmittedQuestionnaireList(request), HttpStatus.OK);
     }
 
     /**
@@ -156,7 +156,8 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/system/questionnaire/{Id}")
-    public ResponseEntity<Questionnaire> getSystemQuestionnaire(@RequestBody GetQuestionnaireRequest request) {
+    public ResponseEntity<SystemQuestionnaireData> getSystemQuestionnaire(
+            @RequestBody GetQuestionnaireRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getQuestionnaireData(request), HttpStatus.OK);
     }
 
@@ -166,7 +167,8 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaires with the message.
      */
     @GetMapping(value = "/system/questionnaires")
-    public ResponseEntity<Questionnaires> getSystemQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
+    public ResponseEntity<SystemQuestionnaireData> getSystemQuestionnaires(
+            @RequestBody GetQuestionnaireRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getQuestionnaireDataList(request), HttpStatus.OK);
     }
 
@@ -233,7 +235,8 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/client/questionnaire/{Id}")
-    public ResponseEntity<Questionnaire> getClientQuestionnaire(@RequestBody GetQuestionnaireRequest request) {
+    public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaire(
+            @RequestBody GetQuestionnaireRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getClientQuestionnaireData(request), HttpStatus.OK);
     }
 
@@ -243,7 +246,8 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaires with the message.
      */
     @GetMapping(value = "/client/questionnaires")
-    public ResponseEntity<Questionnaires> getClientQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
+    public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaires(
+            @RequestBody GetQuestionnaireRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getClientQuestionnaireDataList(request), HttpStatus.OK);
     }
 
@@ -310,7 +314,7 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/user/questionnaire/{Id}")
-    public ResponseEntity<Questionnaire> getUserQuestionnaire(@RequestBody GetQuestionnaireRequest request) {
+    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaire(@RequestBody GetQuestionnaireRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireData(request), HttpStatus.OK);
     }
 
@@ -320,7 +324,7 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaires with the message.
      */
     @GetMapping(value = "/user/questionnaires")
-    public ResponseEntity<Questionnaires> getUserQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
+    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireDataList(request), HttpStatus.OK);
     }
 

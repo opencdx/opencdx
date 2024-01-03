@@ -70,6 +70,17 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
     }
 
+    QuestionnaireData data =
+            QuestionnaireData.newBuilder().setId("1").setState("Active").build();
+
+    ClientQuestionnaireData cdata = ClientQuestionnaireData.newBuilder()
+            .setOrgnizationId("org-opencdx")
+            .addQuestionnaireData(data)
+            .build();
+
+    SystemQuestionnaireData sdata =
+            SystemQuestionnaireData.newBuilder().addQuestionnaireData(data).build();
+
     @Test
     void submitQuestionnaire() {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -323,15 +334,14 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getQuestionnaireData() {
-        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<SystemQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request =
                 GetQuestionnaireRequest.newBuilder().setId("123").build();
-        Questionnaire response = Questionnaire.newBuilder().setId("123").build();
 
         this.openCDXGrpcQuestionnaireController.getQuestionnaireData(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SystemQuestionnaireData.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -345,11 +355,10 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<SystemQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request =
                 GetQuestionnaireRequest.newBuilder().setId("123").build();
-        Questionnaire response = Questionnaire.newBuilder().setId("123").build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -358,18 +367,14 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getQuestionnaireDataList() {
-        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<SystemQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request =
                 GetQuestionnaireRequest.newBuilder().setId("123").build();
-        Questionnaires response = Questionnaires.newBuilder()
-                .addQuestionnaires(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
-                .build();
 
         this.openCDXGrpcQuestionnaireController.getQuestionnaireDataList(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SystemQuestionnaireData.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -383,14 +388,10 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<SystemQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request =
                 GetQuestionnaireRequest.newBuilder().setId("123").build();
-        Questionnaires response = Questionnaires.newBuilder()
-                .addQuestionnaires(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
-                .build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -444,8 +445,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClientQuestionnaireDataRequest request = ClientQuestionnaireDataRequest.newBuilder()
-                .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setClientQuestionnaireData(cdata)
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -471,8 +471,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClientQuestionnaireDataRequest request = ClientQuestionnaireDataRequest.newBuilder()
-                .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setClientQuestionnaireData(cdata)
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -489,8 +488,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClientQuestionnaireDataRequest request = ClientQuestionnaireDataRequest.newBuilder()
-                .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setClientQuestionnaireData(cdata)
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -516,9 +514,9 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClientQuestionnaireDataRequest request = ClientQuestionnaireDataRequest.newBuilder()
-                .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setClientQuestionnaireData(cdata)
                 .build();
+
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Executed")
@@ -531,14 +529,14 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getClientQuestionnaireData() {
-        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ClientQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = Questionnaire.newBuilder().build();
+        ClientQuestionnaireData response = cdata;
 
         this.openCDXGrpcQuestionnaireController.getClientQuestionnaireData(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ClientQuestionnaireData.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -552,10 +550,11 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
-
+        StreamObserver<ClientQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = Questionnaire.newBuilder().build();
+        ClientQuestionnaireData response = ClientQuestionnaireData.newBuilder()
+                .addQuestionnaireData(0, data)
+                .build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -564,17 +563,16 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getClientQuestionnaireDataList() {
-        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ClientQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = Questionnaires.newBuilder()
-                .addQuestionnaires(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+        ClientQuestionnaireData response = ClientQuestionnaireData.newBuilder()
+                .addQuestionnaireData(0, data)
                 .build();
 
         this.openCDXGrpcQuestionnaireController.getClientQuestionnaireDataList(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ClientQuestionnaireData.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -588,12 +586,11 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ClientQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = Questionnaires.newBuilder()
-                .addQuestionnaires(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
+        ClientQuestionnaireData response = ClientQuestionnaireData.newBuilder()
+                .addQuestionnaireData(0, data)
                 .build();
 
         Assertions.assertThrows(
@@ -648,8 +645,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -675,8 +671,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -693,8 +688,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -720,8 +714,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .setQuestionnaireData(QuestionnaireData.newBuilder().setId("123")))
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -734,14 +727,14 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getUserQuestionnaireData() {
-        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = Questionnaire.newBuilder().build();
+        UserQuestionnaireData response = UserQuestionnaireData.newBuilder().build();
 
         this.openCDXGrpcQuestionnaireController.getUserQuestionnaireData(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserQuestionnaireData.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -755,10 +748,10 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = Questionnaire.newBuilder().build();
+        UserQuestionnaireData response = UserQuestionnaireData.newBuilder().build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -767,17 +760,15 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getUserQuestionnaireDataList() {
-        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = Questionnaires.newBuilder()
-                .addQuestionnaires(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
-                .build();
+        UserQuestionnaireData response =
+                UserQuestionnaireData.newBuilder().addQuestionnaireData(data).build();
 
         this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserQuestionnaireData.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -791,13 +782,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = Questionnaires.newBuilder()
-                .addQuestionnaires(
-                        Questionnaire.newBuilder().setResourceType("form").setTitle("Questionnaire"))
-                .build();
+
+        UserQuestionnaireData response =
+                UserQuestionnaireData.newBuilder().addQuestionnaireData(data).build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,

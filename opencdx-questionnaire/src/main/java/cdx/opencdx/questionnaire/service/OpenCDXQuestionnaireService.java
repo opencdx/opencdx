@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.service;
 
+import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest;
 import cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
@@ -23,6 +24,8 @@ import cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.Questionnaires;
 import cdx.opencdx.grpc.questionnaire.SubmissionResponse;
+import cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 
 /**
@@ -77,14 +80,14 @@ public interface OpenCDXQuestionnaireService {
      * @param request request the process
      * @return Message generated for the data submision request.
      */
-    Questionnaire getQuestionnaireData(GetQuestionnaireRequest request);
+    SystemQuestionnaireData getQuestionnaireData(GetQuestionnaireRequest request);
 
     /**
      * Get the QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the data submision requests.
      */
-    Questionnaires getQuestionnaireDataList(GetQuestionnaireRequest request);
+    SystemQuestionnaireData getQuestionnaireDataList(GetQuestionnaireRequest request);
 
     /**
      * Process the QuestionnaireRequest Data
@@ -113,14 +116,14 @@ public interface OpenCDXQuestionnaireService {
      * @param request request the process
      * @return Message generated for the client questionnaire request.
      */
-    Questionnaire getClientQuestionnaireData(GetQuestionnaireRequest request);
+    ClientQuestionnaireData getClientQuestionnaireData(GetQuestionnaireRequest request);
 
     /**
      * Get the QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the client questionnaire requests.
      */
-    Questionnaires getClientQuestionnaireDataList(GetQuestionnaireRequest request);
+    ClientQuestionnaireData getClientQuestionnaireDataList(GetQuestionnaireRequest request);
 
     /**
      * Process the QuestionnaireRequest Data
@@ -149,14 +152,14 @@ public interface OpenCDXQuestionnaireService {
      * @param request request the process
      * @return Message generated for the user questionnaire request.
      */
-    Questionnaire getUserQuestionnaireData(GetQuestionnaireRequest request);
+    UserQuestionnaireData getUserQuestionnaireData(GetQuestionnaireRequest request);
 
     /**
      * Get the QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the user questionnaire requests.
      */
-    Questionnaires getUserQuestionnaireDataList(GetQuestionnaireRequest request);
+    UserQuestionnaireData getUserQuestionnaireDataList(GetQuestionnaireRequest request);
 
     /**
      * Process the QuestionnaireRequest Data
