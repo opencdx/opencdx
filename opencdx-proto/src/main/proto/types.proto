@@ -1,0 +1,13 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.common.types;
+
+/**
+ * Definition for the custom types 
+ */
+
+// Used to specify the type of category, vendor, manfacturer, test type etc. 
+message CategoryType {
+    string id = 1;  // Unique id 
+    string type = 2;  // Category description or type
+}
