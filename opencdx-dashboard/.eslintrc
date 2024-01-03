@@ -10,7 +10,8 @@
         "plugin:jsx-a11y/recommended",
         "plugin:react-hooks/recommended",
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:sonarjs/recommended"
     ],
     "settings": {
         "react": {
@@ -38,7 +39,7 @@
         },
         "ecmaVersion": 12
     },
-    "plugins": ["prettier", "react", "react-hooks"],
+    "plugins": ["prettier", "react", "react-hooks", "sonarjs"],
     "rules": {
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
