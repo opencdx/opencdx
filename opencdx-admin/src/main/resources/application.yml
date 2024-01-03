@@ -6,7 +6,7 @@ spring:
       context-path: /admin
       ui:
         title: OpenCDX Admin
-        brand: <img src="Open.png" style="object-fit:contain; width:125px; height:50px;">
+        brand: <img src="Open.png" style="object-fit:contain; width:125px; height:50px;"><span> Admin</span>
         external-views:
           - label: "Discovery"
             url: "https://localhost:8761/"
