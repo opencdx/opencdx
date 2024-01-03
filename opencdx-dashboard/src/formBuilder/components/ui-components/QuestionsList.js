@@ -7,10 +7,8 @@ import { Tooltip } from '@mui/material';
 const QuestionsList = forwardRef((props, ref) => {
     const [files] = useLocalStorage('anf-form');
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-    
 
     const handleCopyToClipboard = (value) => {
-       
         // const lowerBound = getValues && getValues(`test.${index}.item.${currentIndex}.${tab}.lowerBound`);
 
         navigator.clipboard.writeText('document.getElementsById("' + value + '").value').catch((error) => {

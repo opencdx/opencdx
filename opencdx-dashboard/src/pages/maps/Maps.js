@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import { Grid } from '@mui/material';
 
 // project-import
-import MainCard from 'ui-component/cards/MainCard'; 
+import MainCard from 'ui-component/cards/MainCard';
 
 import ClustersMap from './clusters-map';
 import Heatmap from './heatmap';
@@ -22,7 +22,6 @@ const mapConfiguration = {
     minZoom: 1
 };
 
-
 // ==============================|| MAP ||============================== //
 
 const Map = () => {
@@ -30,16 +29,9 @@ const Map = () => {
 
     return (
         <Grid container spacing={3}>
-            
-           
-          
-            
             <Grid item xs={12}>
                 <MainCard title="Clusters">
-             
-                    <Grid sx={{ zIndex: 0, height: 576, overflow: 'hidden', position: 'relative', borderRadius: 4 ,
-
-                    }}>
+                    <Grid sx={{ zIndex: 0, height: 576, overflow: 'hidden', position: 'relative', borderRadius: 4 }}>
                         <ClustersMap
                             {...mapConfiguration}
                             mapStyle={theme.palette.mode === 'dark' ? MAPBOX_THEMES.dark : MAPBOX_THEMES.light}
@@ -47,14 +39,10 @@ const Map = () => {
                     </Grid>
                 </MainCard>
             </Grid>
-           
-           
-           
+
             <Grid item xs={12} md={12}>
                 <MainCard title="Heatmap">
-                    <Grid sx={{ zIndex: 0, height: 576, overflow: 'hidden', position: 'relative', borderRadius: 4 ,
-                    
-                    }}>
+                    <Grid sx={{ zIndex: 0, height: 576, overflow: 'hidden', position: 'relative', borderRadius: 4 }}>
                         <Heatmap
                             {...mapConfiguration}
                             mapStyle={theme.palette.mode === 'dark' ? MAPBOX_THEMES.dark : MAPBOX_THEMES.light}
@@ -62,7 +50,6 @@ const Map = () => {
                     </Grid>
                 </MainCard>
             </Grid>
-           
         </Grid>
     );
 };

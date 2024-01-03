@@ -13,7 +13,6 @@ import MainCard from 'ui-component/cards/MainCard';
 // =========================|| CONVERSIONS CHART CARD ||========================= //
 // ==============================|| WIDGET - CONVERSION CHART ||============================== //
 
-
 // ==============================|| WIDGET - Gender CHART ||============================== //
 const GenderChart = ({ gender }) => {
     console.log('GenderChart:', gender);
@@ -41,9 +40,9 @@ const GenderChart = ({ gender }) => {
                 }
             }
         },
-        series: [gender[0],gender[1]]
+        series: [gender[0], gender[1]]
     };
-    
+
     return (
         <MainCard title="Gender ">
             <Chart {...chartData} />

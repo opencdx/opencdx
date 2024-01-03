@@ -51,13 +51,12 @@ const MainRoutes = {
             path: '/dashboard',
             element: <DashboardPage />
         },
-       
-        
+
         {
             path: '/dashboard/maps',
-            element: <Maps/>
+            element: <Maps />
         },
-       
+
         {
             path: '/pages/admin',
             element: <Admin />

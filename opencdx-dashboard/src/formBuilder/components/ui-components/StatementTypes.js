@@ -6,7 +6,6 @@ import { SubCard } from './SubCard';
 import { IconRestore } from '@tabler/icons-react';
 
 const StatementTypes = forwardRef(({ register, index, control, item }) => {
-
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -144,13 +143,11 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
                         label="Reset"
                         variant="outlined"
                         size="small"
-
                         onClick={() => {
                             handleRadioChange('');
                             setSelectedMainOption(false);
                             setSelectedAssociatedOption(false);
                             setSelectedOption('');
-
                         }}
                     >
                         <IconRestore stroke={1.5} size="20px" /> &nbsp; Reset

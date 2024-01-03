@@ -10,7 +10,6 @@ import { Grid } from '@mui/material';
 import useLocalStorage from '../../utils/useLocalStorage';
 
 const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
-
     const [anfFormLocal, setAnfFormLocal] = useLocalStorage('anf-form');
     const [showAlert, setShowAlert] = useState(false);
 

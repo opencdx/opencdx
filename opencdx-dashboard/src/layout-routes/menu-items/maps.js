@@ -6,16 +6,14 @@ import { FormattedMessage } from 'react-intl';
 // assets
 import { IconMap } from '@tabler/icons-react';
 
-
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const maps = {
     id: 'maps',
     title: <FormattedMessage id="maps" />,
     icon: IconMap,
-            type: 'group',
-            url: '/dashboard/maps',
-    
+    type: 'group',
+    url: '/dashboard/maps'
 };
 
 export default maps;

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
-import {styled ,alpha} from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 
 // material-ui
 import { Box, Slider, Switch, Typography } from '@mui/material';
@@ -13,7 +13,6 @@ import { format } from 'date-fns';
 // ==============================|| HEATMAP - CONTROL ||============================== //
 
 const ControlPanel = ({ startTime, endTime, allDays, selectedTime, onChangeTime, onChangeAllDays }) => {
-
     const ControlPanelStyled = styled(Box)(({ theme }) => ({
         backdropFilter: `blur(4px)`,
         WebkitBackdropFilter: `blur(4px)`,

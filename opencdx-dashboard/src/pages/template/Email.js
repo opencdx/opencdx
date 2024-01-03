@@ -10,7 +10,6 @@ import axios from 'axios';
 // ==============================|| Admin PAGE ||============================== //
 
 const Email = () => {
-
     const [text, setText] = useState('');
     const [emailTemplates, setEmailTemplates] = useState([]);
     useEffect(() => {
@@ -19,21 +18,19 @@ const Email = () => {
                 'https://localhost:8080/communications/email/list',
                 {
                     pageSize: 20,
-                    sortAscending: true,
+                    sortAscending: true
                 },
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`,
-                    },
+                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+                    }
                 }
             );
             setEmailTemplates(response.data);
         };
         fetchEmailList();
     }, []);
-   
-
 
     const [template, setTemplate] = useState(1);
 
@@ -44,7 +41,6 @@ const Email = () => {
         setTemplate(evt.target.value);
         const template = emailTemplates.templates.find((template) => template.subject === evt.target.value);
         setText(template.content);
-        
     };
 
     const theme = useTheme();

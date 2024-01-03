@@ -12,7 +12,7 @@ import { gridSpacing } from 'utils/store/constant';
 // ==============================|| Admin PAGE ||============================== //
 
 const Sms = () => {
-    const [text, setText] = useState('')    
+    const [text, setText] = useState('');
     const [SmsTemplates, setSmsTemplates] = useState([]);
     useEffect(() => {
         const fetchSmsList = async () => {
@@ -20,13 +20,13 @@ const Sms = () => {
                 'https://localhost:8080/communications/sms/list',
                 {
                     pageSize: 20,
-                    sortAscending: true,
+                    sortAscending: true
                 },
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`,
-                    },
+                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+                    }
                 }
             );
             setSmsTemplates(response.data);
@@ -89,7 +89,7 @@ const Sms = () => {
                         }}
                     >
                         <Grid item xs={12} md={6}>
-                        <TextField
+                            <TextField
                                 id="template-selection"
                                 select
                                 label="Select a template..."

@@ -78,22 +78,17 @@ const Profile1 = () => {
     const navigate = useNavigate();
     useEffect(() => {
         const fetchEmailList = async () => {
-            const response = await axios.get(
-                'https://localhost:8080/iam/profile/5f63a53ddcc67c7a1c3d93e8',
-                {
-                    headers: {
-                       
-                        Accept: 'application/json', // Specify expected format
-                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`,
-                    },
+            const response = await axios.get('https://localhost:8080/iam/profile/5f63a53ddcc67c7a1c3d93e8', {
+                headers: {
+                    Accept: 'application/json', // Specify expected format
+                    Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
                 }
-            );
+            });
             setUser(response.data);
         };
         fetchEmailList();
     }, []);
 
-   
     const {
         userId,
         nationalHealthId,
@@ -108,7 +103,6 @@ const Profile1 = () => {
         employeeIdentity,
         pharmacyContact,
         demographics
-        
     } = user;
 
     const rows = [
@@ -242,7 +236,7 @@ const Profile1 = () => {
                                         <ListItemSecondaryAction>
                                             <Typography name="mobilenumber" variant="subtitle2">
                                                 {pharmacyContact?.mobilenumber.number}
-                                                {/* {pharmacydetails?.mobilenumber} */} 
+                                                {/* {pharmacydetails?.mobilenumber} */}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItemButton>
@@ -540,7 +534,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="pharmacy" variant="subtitle2">
-                                                 {currentMedications?.pharmacy}
+                                                {currentMedications?.pharmacy}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -699,7 +693,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="gender" variant="subtitle2">
-                                               {demographics?.gender}
+                                                {demographics?.gender}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -774,7 +768,7 @@ const Profile1 = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={8}>
                                             <Typography name="organizationId" variant="subtitle2">
-                                                 {employeeIdentity?.organizationId}
+                                                {employeeIdentity?.organizationId}
                                             </Typography>
                                         </Grid>
                                     </Grid>

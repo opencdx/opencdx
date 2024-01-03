@@ -6,7 +6,6 @@ import { useFieldArray } from 'react-hook-form';
 import { AccordianWrapper } from './AccordianWrapper';
 import { CustomTabs } from './CustomTabs';
 
-
 const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
     const [showValueField, setShowValueField] = React.useState(false);
     const { fields, append, remove, getValues } = useFieldArray({

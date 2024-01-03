@@ -85,7 +85,7 @@ export const JWTProvider = ({ children }) => {
 
     const login = async (email, password) => {
         console.log(email, password);
-        const response = await axios.post('https://localhost:8080/iam/user/login', {"userName":"admin@opencdx.org","password":"password"});
+        const response = await axios.post('https://localhost:8080/iam/user/login', { userName: 'admin@opencdx.org', password: 'password' });
         // const response = await axios.post('/iam/user/login', { email, password });
         // const { serviceToken, user } = response.data;
         // setSession(serviceToken);

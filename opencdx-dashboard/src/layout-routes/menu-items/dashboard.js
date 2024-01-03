@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 // assets
 import { IconHome2 } from '@tabler/icons-react';
 
-
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const samplePage = {
