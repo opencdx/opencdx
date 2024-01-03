@@ -164,7 +164,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"System Level Questionnaire Description\",\"item\":[]}",
+                "{\"description\":\"User Submitted Questionnaire Description\",\"item\":[]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -177,7 +177,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"System Level Questionnaire one Description\",\"item\":[]},{\"description\":\"System Level Questionnaire two Description\",\"item\":[]}]}",
+                "{\"questionnaires\":[{\"description\":\"User Submitted Questionnaire one Description\",\"item\":[]},{\"description\":\"User Submitted Questionnaire two Description\",\"item\":[]}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -238,7 +238,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"System Level Questionnaire Description\",\"item\":[]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -251,7 +251,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"System Level Questionnaire one Description\",\"item\":[]},{\"description\":\"System Level Questionnaire two Description\",\"item\":[]}]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -314,7 +314,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"Client Level Questionnaire Description\",\"item\":[]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -327,7 +327,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"Client Level Questionnaire one\",\"item\":[]},{\"description\":\"Client Level Questionnaire one\",\"item\":[]}]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -388,7 +388,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"User Level Questionnaire Description\",\"item\":[]}",
+                "{\"questionnaireData\":[{\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -401,7 +401,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"User Level Questionnaire one\",\"item\":[]},{\"description\":\"User Level Questionnaire two\",\"item\":[]}]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
