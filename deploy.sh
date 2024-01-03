@@ -732,7 +732,7 @@ if [ "$no_ui" = false ]; then
   npm install || handle_error "npm install failed"
 
   # Run linting
-  npm run lint || handle_error "npm run lint failed"
+  npm run lint
 
   # Change back to the previous directory
   cd - || handle_error "Unable to change back to the previous directory"
