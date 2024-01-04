@@ -93,7 +93,7 @@ class OpenCDXAuditClientImplTest {
                     id, AgentType.AGENT_TYPE_OTHER_ENTITY, "purpose", openCDXCallCredentials);
         } catch (OpenCDXClientException e) {
             Assertions.assertEquals(Code.INTERNAL, e.getCode());
-            System.out.println(e.toString());
+            System.out.println(e);
         }
     }
 
