@@ -633,6 +633,10 @@ fi
 
 if [ "$no_ui" = false ]; then
 
+  if [ "$clean" = true ]; then
+      handle_info "Cleaning opencdx-dashboard"
+      rm -rf ./opencdx-dashboard/node_modules
+  fi
 
   # Check if Node.js is installed
   if command -v node &> /dev/null; then
