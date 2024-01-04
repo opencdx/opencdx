@@ -6,7 +6,7 @@ spring:
       context-path: /admin
       ui:
         title: OpenCDX Admin
-        brand: <span>OpenCDX Admin</span>
+        brand: <img src="Open.png" style="object-fit:contain; width:125px; height:50px;"><span> Admin</span>
         external-views:
           - label: "Discovery"
             url: "https://localhost:8761/"
@@ -15,6 +15,7 @@ spring:
           - label: "Zipkin"
             url: "http://localhost:9411/zipkin"
           - label: "Swagger"
+            url: "https://localhost:8080/iam/swagger-ui/index.html"
             children:
               - label: "Anf"
                 url: "https://localhost:8080/anf/swagger-ui/index.html"
