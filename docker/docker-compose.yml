@@ -243,7 +243,7 @@ services:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
     depends_on:
       config:
         condition: service_healthy

@@ -258,7 +258,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(ConnectedTestListByNHIDRequest request) {
 
-        Integer nationalHealthId = request.getNationalHealthId();
+        String nationalHealthId = request.getNationalHealthId();
 
         log.info("Searching Database");
         Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(

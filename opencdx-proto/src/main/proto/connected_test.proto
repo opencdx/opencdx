@@ -219,7 +219,7 @@ message ConnectedTestListByNHIDRequest{
   int32 page_size = 1; // Size of each page
   int32 page_number = 2; // The page being requested
   bool  sort_ascending = 3; // indicating if the results should ascending
-  int32 national_health_id = 4; // national health id of user
+  string national_health_id = 4; // national health id of user
 }
 
 /**
