@@ -139,13 +139,13 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         device.setLotNumber(deviceModel.getBatchNumber());
         device.setSerialNumber(deviceModel.getSerialNumber());
         device.setModelNumber(deviceModel.getModel());
-        device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
 
         OpenCDXManufacturerModel manufacturerModel = this.openCDXManufacturerRepository
                 .findById(new ObjectId(String.valueOf(deviceModel.getManufacturerId())))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 3, "Failed to find manufacturer: " + deviceModel.getManufacturerId()));
         device.setManufacturerElement(new StringType(manufacturerModel.getName()));
+        device.setManufactureDate(Date.from(manufacturerModel.getCreated()));
 
         // Set the patient
         Reference subject = device.getPatient();
@@ -165,7 +165,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
         Coding typeCoding = identifier.getType().addCoding();
         typeCoding.setCode("FILL");
-        typeCoding.setDisplay(String.valueOf(connectedTestModel.getId()));
+        typeCoding.setDisplay(String.valueOf(deviceModel.getId()));
 
         // Give the report a status
         device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
@@ -337,6 +337,21 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                     .setValue(primaryContact.getEmail()));
             patient.setTelecom(telecomList);
         }
+
+        patient.setGender(Enumerations.AdministrativeGender.fromCode(
+                user.getGender().name().replace("GENDER_", "").toLowerCase()));
+
+        if (user.getPrimaryAddress() != null) {
+            patient.addAddress(new Address()
+                    .setUse(Address.AddressUse.HOME)
+                    .setType(Address.AddressType.POSTAL)
+                    .setLine(List.of(new StringType(user.getPrimaryAddress().getAddress1())))
+                    .setCity(user.getPrimaryAddress().getCity())
+                    .setState(user.getPrimaryAddress().getState())
+                    .setPostalCode(user.getPrimaryAddress().getPostalCode())
+                    .setCountry(user.getPrimaryAddress().getCountryId()));
+        }
+
         return patient;
     }
 
