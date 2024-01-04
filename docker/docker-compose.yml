@@ -13,7 +13,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -42,7 +41,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -69,7 +67,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -97,7 +94,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -125,7 +121,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -151,7 +146,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -177,7 +171,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -203,7 +196,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -252,7 +244,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -278,7 +269,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -306,7 +296,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -334,7 +323,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -362,7 +350,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -390,7 +377,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -412,7 +398,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     ports:
       - "8861:8861"
     depends_on:
@@ -428,7 +413,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     ports:
       - "8761:8761"
     volumes:
@@ -448,7 +432,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
 
   database:
     image: opencdx/mongodb:latest
@@ -462,7 +445,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
 
   nats:
     image: nats:alpine3.18
@@ -506,7 +488,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     ports:
       - "9411:9411"
     restart: unless-stopped
