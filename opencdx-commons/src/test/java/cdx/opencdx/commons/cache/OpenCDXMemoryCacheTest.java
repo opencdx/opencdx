@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -396,7 +395,7 @@ class OpenCDXMemoryCacheTest {
         cache.getNativeCache().put(key2, cacheValue2);
         cache.getNativeCache().put(key3, cacheValue3);
 
-        cache.cleanUpIdleEntries(Optional.empty());
+        cache.cleanUpIdleEntries(null);
 
         assertNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));
@@ -427,7 +426,7 @@ class OpenCDXMemoryCacheTest {
         cache.getNativeCache().put(key2, cacheValue2);
         cache.getNativeCache().put(key3, cacheValue3);
 
-        cache.cleanUpIdleEntries(Optional.of(key2)); // Preserve key2
+        cache.cleanUpIdleEntries(key2); // Preserve key2
 
         assertNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));
@@ -456,7 +455,7 @@ class OpenCDXMemoryCacheTest {
 
         TimeUnit.MILLISECONDS.sleep(200); // Wait for entries to exceed max idle time
 
-        cache.cleanUpIdleEntries(Optional.empty());
+        cache.cleanUpIdleEntries(null);
 
         assertNull(cache.getNativeCache().get(key1));
         assertNull(cache.getNativeCache().get(key2));
@@ -480,7 +479,7 @@ class OpenCDXMemoryCacheTest {
         cache.getNativeCache().put(key1, cacheValue1);
         cache.getNativeCache().put(key2, cacheValue2);
 
-        cache.cleanUpIdleEntries(Optional.empty());
+        cache.cleanUpIdleEntries(null);
 
         assertNotNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));

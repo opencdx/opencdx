@@ -156,13 +156,13 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Override
     public final ConcurrentMap<Object, CacheValue> getNativeCache() {
-        this.cleanUpIdleEntries(Optional.empty());
+        this.cleanUpIdleEntries(null);
         return this.store;
     }
 
     @Override
     @Nullable protected Object lookup(Object key) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
@@ -174,7 +174,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings({"java:S1181", "unchecked"})
     @Override
     @Nullable public <T> T get(Object key, Callable<T> valueLoader) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         CacheValue cacheValue = this.store.compute(key, (k, oldValue) -> {
             try {
                 T value = valueLoader.call();
@@ -206,7 +206,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings({"java:S1452", "java:S3358"})
     @Override
     @Nullable public CompletableFuture<?> retrieve(Object key) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
@@ -240,7 +240,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings("unchecked")
     @Override
     public <T> CompletableFuture<T> retrieve(Object key, Supplier<CompletableFuture<T>> valueLoader) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         return CompletableFuture.supplyAsync(() -> {
             CacheValue cacheValue = this.store.compute(
                     key, (k, oldValue) -> new CacheValue(valueLoader.get().join()));
@@ -317,7 +317,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * Clean up entries that have been idle for longer than the configured time to idle.
      * @param keyToPreserve the key to preserve
      */
-    public void cleanUpIdleEntries(Optional<Object> keyToPreserve) {
+    public void cleanUpIdleEntries(Object keyToPreserve) {
         long currentTime = System.currentTimeMillis();
         long maxIdleTime = currentTime - timeToIdle;
 
@@ -326,7 +326,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         store.entrySet().removeIf(entry -> {
             long lastAccessedTime = entry.getValue().getLastAccessed();
             boolean isIdle = lastAccessedTime <= maxIdleTime;
-            return isIdle && (keyToPreserve.isEmpty() || !entry.getKey().equals(keyToPreserve.get()));
+            return isIdle && (!entry.getKey().equals(keyToPreserve));
         });
     }
 
