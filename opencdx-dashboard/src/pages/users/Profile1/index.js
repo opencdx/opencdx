@@ -82,9 +82,10 @@ const Profile1 = () => {
                 headers: {
                     Accept: 'application/json', // Specify expected format
                     Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
-                }
+                },
+                data: {}
             });
-            setUser(response.data);
+            setUser(response?.data?.userProfile);
         };
         fetchEmailList();
     }, []);
