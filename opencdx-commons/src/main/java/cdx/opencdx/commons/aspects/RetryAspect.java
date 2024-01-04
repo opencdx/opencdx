@@ -21,7 +21,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -46,7 +45,7 @@ public class RetryAspect {
      * @return Object to process the request further.
      * @throws Throwable thrown by ProceedingJoinPoint proceed method.
      */
-    @Order(Ordered.LOWEST_PRECEDENCE)
+    @Order()
     @Around(value = "@annotation(cdx.opencdx.commons.annotations.RetryAnnotation)")
     public Object retryOperation(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("Processing RetryAnnotation Annotation");

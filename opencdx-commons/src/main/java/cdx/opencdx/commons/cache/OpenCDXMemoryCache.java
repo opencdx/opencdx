@@ -351,17 +351,11 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @Getter
     public static class CacheValue {
         /**
-         * -- GETTER --
          *  Get the value.
-         *
-         * @return the value
          */
         private final Object value;
         /**
-         * -- GETTER --
          *  Get the last accessed timestamp.
-         *
-         * @return the timestamp
          */
         private volatile long lastAccessed;
         /**
