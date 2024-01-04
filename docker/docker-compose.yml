@@ -497,7 +497,7 @@ services:
       # Uncomment to enable scribe
       - SCRIBE_ENABLED=true
       # Uncomment to enable self-tracing
-      #- SELF_TRACING_ENABLED=true
+      - SELF_TRACING_ENABLED=true
       # Uncomment to enable debug logging
       #- JAVA_OPTS=-Dlogging.level.zipkin=DEBUG -Xms512m -Xmx1g
       - JAVA_OPTS=-Xms512m -Xmx1g
