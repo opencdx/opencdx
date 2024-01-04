@@ -134,8 +134,8 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void send(String subject, Object object) {
 
         try {
-            natsConnection.jetStream().publish(subject, this.objectMapper.writeValueAsBytes(object));
-        } catch (IOException | JetStreamApiException e) {
+            natsConnection.jetStream().publishAsync(subject, this.objectMapper.writeValueAsBytes(object));
+        } catch (IOException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 1, "Failed NATS Publish on: " + object.toString(), e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());

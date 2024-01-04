@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.utils.MongoDocumentExists;
 import io.micrometer.observation.annotation.Observed;
@@ -44,21 +45,35 @@ public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
 
     private final MongoDocumentExists mongoDocumentExists;
 
+    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
     /**
      * Constructor
      *
      * @param mongoTemplate MongoTemplate to use for validation
      * @param mongoDocumentExists MongoDocumentExists to use for validation with caching
+     * @param openCDXIAMUserRepository OpenCDXIAMUserRepository to use for validation with caching
      */
     @SuppressWarnings("java:S3010")
-    public MongoDocumentValidatorImpl(MongoTemplate mongoTemplate, MongoDocumentExists mongoDocumentExists) {
+    public MongoDocumentValidatorImpl(
+            MongoTemplate mongoTemplate,
+            MongoDocumentExists mongoDocumentExists,
+            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.mongoTemplate = mongoTemplate;
         this.mongoDocumentExists = mongoDocumentExists;
+        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }
 
     @Override
     public boolean documentExists(String collectionName, ObjectId documentId) {
+        if (collectionName.equals("users")) {
+            return this.existsById(documentId);
+        }
         return this.mongoDocumentExists.documentExists(collectionName, documentId);
+    }
+
+    private boolean existsById(ObjectId objectId) {
+        return this.openCDXIAMUserRepository.existsById(objectId);
     }
 
     @Override
