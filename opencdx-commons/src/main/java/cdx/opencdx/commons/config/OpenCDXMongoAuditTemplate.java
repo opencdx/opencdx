@@ -40,9 +40,13 @@ import org.springframework.data.mongodb.core.query.Update;
 @Slf4j
 @Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
+@SuppressWarnings("java:S1181")
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     public static final String MONGO = "mongo.";
+    public static final String MONGODB = "mongodb";
+    public static final String MONGODB_COLLECTION = "mongodb.collection";
+    public static final String MONGODB_COMMAND = "mongodb.command";
     private final Tracing tracing;
     /**
      * Constructor for MongoTemplate
@@ -60,12 +64,17 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public Document executeCommand(String jsonCommand) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
         span.name(MONGO + this.getDb().getName());
+        span.tag(MONGODB_COMMAND, jsonCommand);
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             return super.executeCommand(jsonCommand);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -75,12 +84,17 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public Document executeCommand(Document command) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
         span.name(MONGO + this.getDb().getName());
+        span.tag(MONGODB_COMMAND, command.toJson());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             return super.executeCommand(command);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -90,12 +104,17 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public Document executeCommand(Document command, ReadPreference readPreference) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
         span.name(MONGO + this.getDb().getName());
+        span.tag(MONGODB_COMMAND, command.toJson());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             return super.executeCommand(command, readPreference);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -105,12 +124,18 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public void executeQuery(Query query, String collectionName, DocumentCallbackHandler dch) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
+        span.tag(MONGODB_COLLECTION, collectionName);
         span.name(MONGO + this.getDb().getName());
+        span.tag("mongodb.query", query.toString());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             super.executeQuery(query, collectionName, dch);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -124,12 +149,18 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
             CursorPreparer preparer) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
+        span.tag(MONGODB_COLLECTION, collectionName);
         span.name(MONGO + this.getDb().getName());
+        span.tag("mongodb.query", query.toString());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             super.executeQuery(query, collectionName, documentCallbackHandler, preparer);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -139,12 +170,17 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public <T> T execute(DbCallback<T> action) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
         span.name(MONGO + this.getDb().getName());
+        span.tag("mongodb.action", action.toString());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             return super.execute(action);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -154,12 +190,18 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public <T> T execute(Class<?> entityClass, CollectionCallback<T> callback) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
         span.name(MONGO + this.getDb().getName());
+        span.tag("mongodb.entityClass", entityClass.getName());
+        span.tag("mongodb.callback", callback.toString());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             return super.execute(entityClass, callback);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
@@ -169,12 +211,18 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
     public <T> T execute(String collectionName, CollectionCallback<T> callback) {
         // Start a new trace for each MongoDB operation
         brave.Span span = tracing.tracer().nextSpan();
+        span.remoteServiceName(MONGODB);
+        span.tag(MONGODB_COLLECTION, collectionName);
+        span.tag("mongodb.callback", callback.toString());
         span.name(MONGO + this.getDb().getName());
         span.kind(brave.Span.Kind.CLIENT);
         span.start();
 
         try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
             return super.execute(collectionName, callback);
+        } catch (Throwable e) {
+            span.error(e);
+            throw e;
         } finally {
             span.finish();
         }
