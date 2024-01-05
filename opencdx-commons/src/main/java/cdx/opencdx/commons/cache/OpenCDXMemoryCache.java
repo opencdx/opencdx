@@ -18,7 +18,6 @@ package cdx.opencdx.commons.cache;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,7 +52,7 @@ import org.springframework.util.Assert;
 @Observed(name = "opencdx")
 public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
-    private static final int MAX_ENTRIES = 1000;
+    private static final int MAX_ENTRIES = 2000;
     private final String name;
 
     @Getter
@@ -73,7 +72,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param name the name of the cache
      */
     public OpenCDXMemoryCache(String name) {
-        this(name, new ConcurrentHashMap<>(256), true, 60000L, null, MAX_ENTRIES);
+        this(name, new ConcurrentHashMap<>(512), false, 300000L, null, MAX_ENTRIES);
     }
 
     /**
@@ -83,7 +82,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * values for this cache
      */
     public OpenCDXMemoryCache(String name, boolean allowNullValues) {
-        this(name, new ConcurrentHashMap<>(256), allowNullValues, 60000L, MAX_ENTRIES);
+        this(name, new ConcurrentHashMap<>(512), allowNullValues, 300000L, MAX_ENTRIES);
     }
 
     /**
@@ -321,28 +320,26 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         long currentTime = System.currentTimeMillis();
         long maxIdleTime = currentTime - timeToIdle;
 
-        this.checkMaxEntries();
-
         store.entrySet().removeIf(entry -> {
             long lastAccessedTime = entry.getValue().getLastAccessed();
-            boolean isIdle = lastAccessedTime <= maxIdleTime;
-            return isIdle && (!entry.getKey().equals(keyToPreserve));
+            return lastAccessedTime <= maxIdleTime && !entry.getKey().equals(keyToPreserve);
         });
+
+        this.checkMaxEntries();
     }
 
     private void checkMaxEntries() {
-        while (store.size() > maxEntries) {
-            // Remove the oldest entry if max entries is reached
-            removeOldestEntry();
+
+        if (store.size() > maxEntries) {
+            int remove = store.size() - maxEntries;
+
+            store.entrySet().stream()
+                    .sorted(Comparator.comparingLong(entry -> entry.getValue().getLastAccessed()))
+                    .limit(remove)
+                    .map(Map.Entry::getKey)
+                    .toList()
+                    .forEach(store::remove);
         }
-    }
-
-    private void removeOldestEntry() {
-        Optional<Object> oldestKey = store.entrySet().stream()
-                .min(Comparator.comparingLong(entry -> entry.getValue().getLastAccessed()))
-                .map(Map.Entry::getKey);
-
-        oldestKey.ifPresent(this::evict);
     }
 
     /**
