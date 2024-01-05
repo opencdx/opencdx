@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.utils.MongoDocumentExists;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,10 +46,18 @@ class MongoDocumentValidatorImplTest {
 
     private MongoDocumentValidatorImpl documentValidator;
 
+    @Mock
+    private OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    ;
+
     @BeforeEach
     void setUp() {
         this.mongoTemplate = Mockito.mock(MongoTemplate.class);
-        this.documentValidator = new MongoDocumentValidatorImpl(mongoTemplate, new MongoDocumentExists(mongoTemplate));
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.existsById(any())).thenReturn(true);
+        this.documentValidator = new MongoDocumentValidatorImpl(
+                mongoTemplate, new MongoDocumentExists(mongoTemplate), this.openCDXIAMUserRepository);
     }
 
     @Test

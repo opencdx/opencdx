@@ -46,7 +46,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
-    private OpenCDXDocumentValidator opencdxDocumentValidator;
+    private final OpenCDXDocumentValidator opencdxDocumentValidator;
 
     /**
      * Constructor for OpenCDXRoutineServiceImpl.

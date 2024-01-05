@@ -258,7 +258,7 @@ class OpenCDXRestConnectedTestControllerTest {
     @Test
     void listConnectedTestsByNHID() throws Exception {
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
-                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         MvcResult result = this.mockMvc
@@ -268,7 +268,7 @@ class OpenCDXRestConnectedTestControllerTest {
                                 .setPageNumber(1)
                                 .setPageSize(10)
                                 .setSortAscending(true)
-                                .setNationalHealthId(99)
+                                .setNationalHealthId(UUID.randomUUID().toString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -283,7 +283,7 @@ class OpenCDXRestConnectedTestControllerTest {
     @Test
     void listConnectedTestsByNHID_2() throws Exception {
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
-                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
@@ -304,7 +304,7 @@ class OpenCDXRestConnectedTestControllerTest {
                                 .setPageNumber(1)
                                 .setPageSize(10)
                                 .setSortAscending(true)
-                                .setNationalHealthId(99)
+                                .setNationalHealthId(UUID.randomUUID().toString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

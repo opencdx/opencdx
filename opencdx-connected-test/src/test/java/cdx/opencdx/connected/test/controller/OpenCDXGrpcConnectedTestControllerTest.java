@@ -270,7 +270,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     void testListConnectedByNIHTests() {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
-                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
         StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -278,7 +278,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .setPageNumber(1)
                 .setPageSize(10)
                 .setSortAscending(true)
-                .setNationalHealthId(22)
+                .setNationalHealthId(UUID.randomUUID().toString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver);
 
@@ -290,7 +290,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     void testListConnectedByNIHTests_2() throws JsonProcessingException {
 
         Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
-                        Mockito.any(Integer.class), Mockito.any(Pageable.class)))
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
@@ -321,7 +321,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .setPageNumber(1)
                 .setPageSize(10)
                 .setSortAscending(true)
-                .setNationalHealthId(22)
+                .setNationalHealthId(UUID.randomUUID().toString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,

@@ -75,7 +75,7 @@ public class ProtobufClassAttributesModule extends Module {
         context.insertAnnotationIntrospector(annotationIntrospector);
     }
 
-    NopAnnotationIntrospector annotationIntrospector = new NopAnnotationIntrospector() {
+    final NopAnnotationIntrospector annotationIntrospector = new NopAnnotationIntrospector() {
 
         @Override
         @ExcludeFromJacocoGeneratedReport
