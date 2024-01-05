@@ -43,10 +43,10 @@ import org.springframework.data.mongodb.core.query.Update;
 @SuppressWarnings("java:S1181")
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
-    public static final String MONGO = "mongo.";
-    public static final String MONGODB = "mongodb";
-    public static final String MONGODB_COLLECTION = "mongodb.collection";
-    public static final String MONGODB_COMMAND = "mongodb.command";
+    private static final String MONGO = "mongo.";
+    private static final String MONGODB = "mongodb";
+    private static final String MONGODB_COLLECTION = "mongodb.collection";
+    private static final String MONGODB_COMMAND = "mongodb.command";
     private final Tracing tracing;
     /**
      * Constructor for MongoTemplate
