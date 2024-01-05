@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.model.OpenCDXIAMWorkspaceModel;
@@ -51,22 +52,27 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
 
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
+
     /**
      * Worksapce Service
      * @param openCDXIAMWorkspaceRepository Database repository for Workspace
      * @param openCDXAuditService Audit Service to record information
      * @param openCDXCurrentUser Current User for accessing the current user.
      * @param objectMapper ObjectMapper for converting to JSON
+     * @param openCDXDocumentValidator Document Validator for validating the document.
      */
     public OpenCDXIAMWorkspaceServiceImpl(
             OpenCDXIAMWorkspaceRepository openCDXIAMWorkspaceRepository,
             OpenCDXAuditService openCDXAuditService,
             OpenCDXCurrentUser openCDXCurrentUser,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXIAMWorkspaceRepository = openCDXIAMWorkspaceRepository;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     /**
@@ -77,6 +83,8 @@ public class OpenCDXIAMWorkspaceServiceImpl implements OpenCDXIAMWorkspaceServic
      */
     @Override
     public CreateWorkspaceResponse createWorkspace(CreateWorkspaceRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "organization", new ObjectId(request.getWorkspace().getOrganizationId()));
         OpenCDXIAMWorkspaceModel model = new OpenCDXIAMWorkspaceModel(request.getWorkspace());
         model = this.openCDXIAMWorkspaceRepository.save(model);
 
