@@ -15,8 +15,11 @@
  */
 package cdx.opencdx.commons.config;
 
+import brave.Tracer;
+import brave.Tracing;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.utils.CurrentUserHelper;
+import com.mongodb.ReadPreference;
 import com.mongodb.client.result.DeleteResult;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
@@ -25,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.*;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -39,6 +42,8 @@ import org.springframework.data.mongodb.core.query.Update;
 @ExcludeFromJacocoGeneratedReport
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
+    public static final String MONGO = "mongo.";
+    private final Tracing tracing;
     /**
      * Constructor for MongoTemplate
      *
@@ -47,6 +52,132 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
      */
     public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         super(mongoDbFactory, mongoConverter);
+
+        this.tracing = Tracing.current();
+    }
+
+    @Override
+    public Document executeCommand(String jsonCommand) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return super.executeCommand(jsonCommand);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    public Document executeCommand(Document command) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return super.executeCommand(command);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    public Document executeCommand(Document command, ReadPreference readPreference) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return super.executeCommand(command, readPreference);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    public void executeQuery(Query query, String collectionName, DocumentCallbackHandler dch) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            super.executeQuery(query, collectionName, dch);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    protected void executeQuery(
+            Query query,
+            String collectionName,
+            DocumentCallbackHandler documentCallbackHandler,
+            CursorPreparer preparer) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            super.executeQuery(query, collectionName, documentCallbackHandler, preparer);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    public <T> T execute(DbCallback<T> action) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return super.execute(action);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    public <T> T execute(Class<?> entityClass, CollectionCallback<T> callback) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return super.execute(entityClass, callback);
+        } finally {
+            span.finish();
+        }
+    }
+
+    @Override
+    public <T> T execute(String collectionName, CollectionCallback<T> callback) {
+        // Start a new trace for each MongoDB operation
+        brave.Span span = tracing.tracer().nextSpan();
+        span.name(MONGO + this.getDb().getName());
+        span.kind(brave.Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return super.execute(collectionName, callback);
+        } finally {
+            span.finish();
+        }
     }
 
     @Override
