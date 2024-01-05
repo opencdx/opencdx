@@ -153,14 +153,14 @@ public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
             throw new OpenCDXNotFound(DOMAIN, 5, "Workspace " + workspace + " does not exist");
         }
 
-        Document document = this.findOrganization(organization);
+        Document document = this.findWorkspace(workspace);
 
-        if (document != null && (document.toJson().contains(workspace.toHexString()))) {
+        if (document != null && (document.toJson().contains(organization.toHexString()))) {
             return;
         }
 
         throw new OpenCDXNotFound(
-                DOMAIN, 7, "Workspace " + workspace + " does not exist in organization " + organization);
+                DOMAIN, 7, "Organization  " + organization + " does not have a workspace " + workspace);
     }
 
     @Override
@@ -192,11 +192,11 @@ public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
     /**
      * Find an organization by id
      *
-     * @param organization Organization id
+     * @param workspace Workspace id
      * @return Organization document
      */
-    @Cacheable(value = "findOrganization", key = "{#organization}")
-    public Document findOrganization(ObjectId organization) {
-        return mongoTemplate.findById(organization, Document.class, "organization");
+    @Cacheable(value = "findWorkspace", key = "{#workspace}")
+    public Document findWorkspace(ObjectId workspace) {
+        return mongoTemplate.findById(workspace, Document.class, "workspace");
     }
 }

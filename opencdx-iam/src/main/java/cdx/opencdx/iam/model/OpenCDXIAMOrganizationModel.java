@@ -56,7 +56,6 @@ public class OpenCDXIAMOrganizationModel {
     private String missionStatement;
     private String visionStatement;
     private List<ContactInfo> contactInfo;
-    private List<ObjectId> workspaceIds;
     private Instant created;
     private Instant modified;
     private ObjectId creator;
@@ -86,8 +85,6 @@ public class OpenCDXIAMOrganizationModel {
         this.missionStatement = organization.getMissionStatement();
         this.visionStatement = organization.getVisionStatement();
         this.contactInfo = organization.getContactsList();
-        this.workspaceIds =
-                organization.getWorkspaceIdsList().stream().map(ObjectId::new).toList();
 
         if (organization.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -155,10 +152,6 @@ public class OpenCDXIAMOrganizationModel {
         }
         if (this.contactInfo != null) {
             builder.addAllContacts(this.contactInfo);
-        }
-        if (this.workspaceIds != null) {
-            builder.addAllWorkspaceIds(
-                    this.workspaceIds.stream().map(ObjectId::toHexString).toList());
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

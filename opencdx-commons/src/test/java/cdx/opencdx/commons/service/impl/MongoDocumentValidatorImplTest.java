@@ -272,17 +272,17 @@ class MongoDocumentValidatorImplTest {
     void testValidateOrganizationWorkspaceOrThrow() {
 
         ObjectId organization = ObjectId.get();
-        ObjectId worksapce = ObjectId.get();
+        ObjectId workspace = ObjectId.get();
 
         // Mocking isCollectionExists to return true
         when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
 
         // Mocking mongoTemplate.exists to return true
         when(mongoTemplate.exists(any(Query.class), anyString())).thenReturn(true);
-        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
-                .thenReturn(Document.parse("{\"_id\": \"" + worksapce.toHexString() + "\"}"));
+        when(mongoTemplate.findById(eq(workspace), eq(Document.class), eq("workspace")))
+                .thenReturn(Document.parse("{\"_id\": \"" + organization.toHexString() + "\"}"));
 
-        assertDoesNotThrow(() -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+        assertDoesNotThrow(() -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
     }
 
     @Test
