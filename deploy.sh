@@ -735,10 +735,12 @@ if [ "$no_ui" = false ]; then
   cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
 
   # Install dependencies
-  npm install || handle_error "npm install failed"
+  pnpm install || handle_error "npm install failed"
 
   # Run linting
-  npm run lint
+  pnpm run lint
+
+  rm -rf ./node_modules
 
   # Change back to the previous directory
   cd - || handle_error "Unable to change back to the previous directory"

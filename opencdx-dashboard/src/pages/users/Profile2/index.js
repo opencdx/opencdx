@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -78,6 +79,25 @@ const tabsOption = [
 
 const Profile2 = () => {
     const theme = useTheme();
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchEmailList = async () => {
+            const response = await axios.get('https://localhost:8080/iam/profile/5f63a53ddcc67c7a1c3d93e8', {
+                headers: {
+                    Accept: 'application/json', // Specify expected format
+                    Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+                },
+                data: {}
+            });
+
+            setUser(response.data.userProfile);
+        };
+        fetchEmailList();
+    }, []);
+
+    console.log(user);
+
     const { borderRadius } = useConfig();
     const [value, setValue] = React.useState(0);
 
@@ -204,7 +224,7 @@ const Profile2 = () => {
                                 )}
                             </Grid>
                             <Grid item>
-                                {value < 3 && (
+                                {value < 8 && (
                                     <AnimateButton>
                                         <Button variant="contained" size="large" onClick={(e) => handleChange(e, 1 + value)}>
                                             Continue

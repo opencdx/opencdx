@@ -30,8 +30,9 @@ import Transitions from 'ui-component/extended/Transitions';
 import { dispatch, useSelector } from 'utils/store';
 import { activeID } from 'utils/store/slices/menu';
 
-// assets
-import { IconChevronDown, IconChevronRight, IconMinusVertical } from '@tabler/icons-react';
+import IconChevronDown from '@mui/icons-material/ChevronLeft';
+import IconChevronRight from '@mui/icons-material/ChevronRight';
+import IconMinusVertical from '@mui/icons-material/Remove';
 
 // mini-menu - wrapper
 const PopperStyled = styled(Popper)(({ theme }) => ({

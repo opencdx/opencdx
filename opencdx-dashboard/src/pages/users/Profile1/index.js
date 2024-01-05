@@ -27,7 +27,8 @@ import SubCard from 'ui-component/cards/SubCard';
 import { gridSpacing } from 'utils/store/constant';
 
 // assets
-import { IconEdit } from '@tabler/icons-react';
+import { Edit } from '@mui/icons-material';
+
 import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
@@ -562,7 +563,7 @@ const Profile1 = () => {
                             title="Personal Details"
                             secondary={
                                 <Button aria-label="Edit Details">
-                                    <IconEdit
+                                    <Edit
                                         stroke={1.5}
                                         size="20px"
                                         onClick={() => {

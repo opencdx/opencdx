@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 ENV PORT=3005
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 
 # Install app dependencies
 RUN npm install -g serve

@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { TextArea } from '../ui-components/TextArea';
 import { MainCard } from '../ui-components/MainCard';
-import { IconRestore } from '@tabler/icons-react';
+import RestoreIcon from '@mui/icons-material/Restore';
 import Typography from '@mui/material/Typography';
 
 const observationAttributes = [
@@ -239,7 +239,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                     </Grid>
                     <Grid item xs={12} sm={1} lg={1}>
                         <Button aria-label="Reset" label="Reset" onClick="">
-                            <IconRestore stroke={1.5} size="20px" />
+                            <RestoreIcon stroke={1.5} size="20px" />
                             Reset
                         </Button>
                     </Grid>

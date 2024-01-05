@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography, Button } from '@mui/material';
 import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
 import { gridSpacing } from 'utils/store/constant';
-import lottie from 'lottie-web';
+// import lottie from 'lottie-web';
 import { useNavigate } from 'react-router-dom';
 
 // ==============================|| ERROR PAGE ||============================== //
@@ -10,21 +10,21 @@ import { useNavigate } from 'react-router-dom';
 const ErrorPage = () => {
     const navigate = useNavigate();
 
-    React.useEffect(() => {
-        // Load the Lottie animation
-        const animation = lottie.loadAnimation({
-            container: document.getElementById('error-animation'), // Replace with the ID of the container element
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: '../../../assets/404.json' // Replace with path to animation JSON
-        });
+    // React.useEffect(() => {
+    //     // Load the Lottie animation
+    //     const animation = lottie.loadAnimation({
+    //         container: document.getElementById('error-animation'), // Replace with the ID of the container element
+    //         renderer: 'svg',
+    //         loop: true,
+    //         autoplay: true,
+    //         path: '../../../assets/404.json' // Replace with path to animation JSON
+    //     });
 
-        return () => {
-            // Cleanup the animation on unmount
-            animation.destroy();
-        };
-    }, []);
+    //     return () => {
+    //         // Cleanup the animation on unmount
+    //         animation.destroy();
+    //     };
+    // }, []);
 
     const handleButtonClick = () => {
         navigate('/dashboard'); // Replace '/dashboard' with the actual path to the DashboardPage

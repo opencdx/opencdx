@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, Tooltip } from '@mui/material';
-import { IconArrowsMaximize, IconArrowsMinimize } from '@tabler/icons-react';
+import IconArrowsMaximize from '@mui/icons-material/Maximize';
+import IconArrowsMinimize from '@mui/icons-material/Minimize';
 
 const FullScreen = () => {
     const theme = useTheme();
