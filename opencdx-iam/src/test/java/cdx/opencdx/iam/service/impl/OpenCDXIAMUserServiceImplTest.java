@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,9 +29,8 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.iam.*;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -439,7 +438,18 @@ class OpenCDXIAMUserServiceImplTest {
                                 .setLastName("bob")
                                 .build())
                         .primaryContactInfo(ContactInfo.newBuilder()
-                                .setEmail("abc@opencdx.org")
+                                .addAllAddresses(List.of(Address.newBuilder()
+                                        .setCountryId(ObjectId.get().toHexString())
+                                        .setAddress1("Test 1")
+                                        .build()))
+                                .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                        .setType(PhoneType.PHONE_TYPE_WORK)
+                                        .setNumber("1234567890")
+                                        .build()))
+                                .addAllEmail(List.of(EmailAddress.newBuilder()
+                                        .setType(EmailType.EMAIL_TYPE_WORK)
+                                        .setEmail("ab@safehealth.me")
+                                        .build()))
                                 .build())
                         .build()));
 

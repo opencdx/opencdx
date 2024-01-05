@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,7 +117,7 @@ public class CommonsConfig {
         log.info("Creating ObjectMapper for use by system");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
-        mapper.registerModule(new ProtobufPropertiesModule());
+        mapper.registerModule(new ProtobufClassAttributesModule());
         mapper.registerModule(new JavaTimeModule());
         return mapper;
     }

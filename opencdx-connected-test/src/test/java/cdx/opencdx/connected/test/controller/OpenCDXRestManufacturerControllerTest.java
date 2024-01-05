@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.*;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.EmailType;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -113,7 +115,10 @@ class OpenCDXRestManufacturerControllerTest {
     void getManufacturerById() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setManufacturerEmail("manufacturerEmail@email.com")
+                .setManufacturerEmail(EmailAddress.newBuilder()
+                        .setEmail("manufacturerEmail@email.com")
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -128,7 +133,10 @@ class OpenCDXRestManufacturerControllerTest {
     void addVendor() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setManufacturerEmail("manufacturerEmail@email.com")
+                .setManufacturerEmail(EmailAddress.newBuilder()
+                        .setEmail("manufacturerEmail@email.com")
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -144,7 +152,10 @@ class OpenCDXRestManufacturerControllerTest {
     void updateVendor() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setManufacturerEmail("manufacturerEmail@email.com")
+                .setManufacturerEmail(EmailAddress.newBuilder()
+                        .setEmail("manufacturerEmail@email.com")
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -160,7 +171,10 @@ class OpenCDXRestManufacturerControllerTest {
     void deleteVendor() throws Exception {
         Manufacturer manufacturer = Manufacturer.newBuilder(Manufacturer.getDefaultInstance())
                 .setId(ObjectId.get().toHexString())
-                .setManufacturerEmail("manufacturerEmail@email.com")
+                .setManufacturerEmail(EmailAddress.newBuilder()
+                        .setEmail("manufacturerEmail@email.com")
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc

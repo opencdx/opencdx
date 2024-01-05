@@ -16,11 +16,19 @@ spring:
       httpclient:
         ssl:
           useInsecureTrustManager: true
+        pool:
+          max-connections: 1000
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
       enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: dashboard
           uri: http://dashboard:3005

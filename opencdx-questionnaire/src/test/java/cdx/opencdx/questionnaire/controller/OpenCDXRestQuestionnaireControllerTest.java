@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
-import cdx.opencdx.grpc.profile.PhoneNumber;
-import cdx.opencdx.grpc.profile.PhoneType;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest;
 import cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest;
@@ -39,6 +36,7 @@ import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -99,11 +97,22 @@ class OpenCDXRestQuestionnaireControllerTest {
                                         .build())
                                 .username("ab@safehealth.me")
                                 .primaryContactInfo(ContactInfo.newBuilder()
-                                        .setEmail("ab@safehealth.me")
-                                        .setMobileNumber(PhoneNumber.newBuilder()
-                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .addAllAddresses(List.of(Address.newBuilder()
+                                                .setCity("City")
+                                                .setCountryId(ObjectId.get().toHexString())
+                                                .setState("CA")
+                                                .setPostalCode("12345")
+                                                .setAddress1("101 Main Street")
+                                                .build()))
+                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                                .setEmail("email@email.com")
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .build()))
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
                                                 .setNumber("1234567890")
-                                                .build())
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .build()))
                                         .build())
                                 .emailVerified(true)
                                 .build());
@@ -155,7 +164,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"System Level Questionnaire Description\",\"item\":[]}",
+                "{\"description\":\"User Submitted Questionnaire Description\",\"item\":[]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -168,7 +177,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"System Level Questionnaire one Description\",\"item\":[]},{\"description\":\"System Level Questionnaire two Description\",\"item\":[]}]}",
+                "{\"questionnaires\":[{\"description\":\"User Submitted Questionnaire one Description\",\"item\":[]},{\"description\":\"User Submitted Questionnaire two Description\",\"item\":[]}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -229,7 +238,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"System Level Questionnaire Description\",\"item\":[]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -242,7 +251,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"System Level Questionnaire one Description\",\"item\":[]},{\"description\":\"System Level Questionnaire two Description\",\"item\":[]}]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -305,7 +314,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"Client Level Questionnaire Description\",\"item\":[]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -318,7 +327,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"Client Level Questionnaire one\",\"item\":[]},{\"description\":\"Client Level Questionnaire one\",\"item\":[]}]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -379,7 +388,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"description\":\"User Level Questionnaire Description\",\"item\":[]}",
+                "{\"questionnaireData\":[{\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -392,7 +401,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 GetQuestionnaireRequest.newBuilder().build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"questionnaires\":[{\"description\":\"User Level Questionnaire one\",\"item\":[]},{\"description\":\"User Level Questionnaire two\",\"item\":[]}]}",
+                "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
                 mv.getResponse().getContentAsString());
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String CONVERSION_ERROR = "Failed to convert Protector Request";
     private static final String OBJECT = "OBJECT";
     private static final String AUTHORIZATION_CONTROL = "AUTHORIZATION_CONTROL: 131";
+    private static final String ACTIVE = "Active";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -261,7 +262,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetQuestionnaireData request.
      */
     @Override
-    public Questionnaire getQuestionnaireData(GetQuestionnaireRequest request) {
+    public SystemQuestionnaireData getQuestionnaireData(GetQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -280,8 +281,12 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return Questionnaire.newBuilder()
-                .setDescription("System Level Questionnaire Description")
+
+        return SystemQuestionnaireData.newBuilder()
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("1")
+                        .setState(ACTIVE)
+                        .build())
                 .build();
     }
 
@@ -291,7 +296,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetQuestionnaireData request.
      */
     @Override
-    public Questionnaires getQuestionnaireDataList(GetQuestionnaireRequest request) {
+    public SystemQuestionnaireData getQuestionnaireDataList(GetQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -311,12 +316,14 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             throw openCDXNotAcceptable;
         }
 
-        return Questionnaires.newBuilder()
-                .addQuestionnaires(Questionnaire.newBuilder()
-                        .setDescription("System Level Questionnaire one Description")
+        return SystemQuestionnaireData.newBuilder()
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("1")
+                        .setState(ACTIVE)
                         .build())
-                .addQuestionnaires(Questionnaire.newBuilder()
-                        .setDescription("System Level Questionnaire two Description")
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("2")
+                        .setState(ACTIVE)
                         .build())
                 .build();
     }
@@ -421,7 +428,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetClientQuestionnaireData request.
      */
     @Override
-    public Questionnaire getClientQuestionnaireData(GetQuestionnaireRequest request) {
+    public ClientQuestionnaireData getClientQuestionnaireData(GetQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -440,8 +447,12 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return Questionnaire.newBuilder()
-                .setDescription("Client Level Questionnaire Description")
+
+        return ClientQuestionnaireData.newBuilder()
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("1")
+                        .setState(ACTIVE)
+                        .build())
                 .build();
     }
 
@@ -451,7 +462,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetClientQuestionnaireData request.
      */
     @Override
-    public Questionnaires getClientQuestionnaireDataList(GetQuestionnaireRequest request) {
+    public ClientQuestionnaireData getClientQuestionnaireDataList(GetQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -471,12 +482,14 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             throw openCDXNotAcceptable;
         }
 
-        return Questionnaires.newBuilder()
-                .addQuestionnaires(Questionnaire.newBuilder()
-                        .setDescription("Client Level Questionnaire one")
+        return ClientQuestionnaireData.newBuilder()
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("1")
+                        .setState(ACTIVE)
                         .build())
-                .addQuestionnaires(Questionnaire.newBuilder()
-                        .setDescription("Client Level Questionnaire one")
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("2")
+                        .setState(ACTIVE)
                         .build())
                 .build();
     }
@@ -581,7 +594,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetUserQuestionnaireData request.
      */
     @Override
-    public Questionnaire getUserQuestionnaireData(GetQuestionnaireRequest request) {
+    public UserQuestionnaireData getUserQuestionnaireData(GetQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -600,8 +613,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        return Questionnaire.newBuilder()
-                .setDescription("User Level Questionnaire Description")
+
+        return UserQuestionnaireData.newBuilder()
+                .addQuestionnaireData(
+                        QuestionnaireData.newBuilder().setState(ACTIVE).build())
                 .build();
     }
 
@@ -611,7 +626,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetUserQuestionnaireData request.
      */
     @Override
-    public Questionnaires getUserQuestionnaireDataList(GetQuestionnaireRequest request) {
+    public UserQuestionnaireData getUserQuestionnaireDataList(GetQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -631,12 +646,14 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             throw openCDXNotAcceptable;
         }
 
-        return Questionnaires.newBuilder()
-                .addQuestionnaires(Questionnaire.newBuilder()
-                        .setDescription("User Level Questionnaire one")
+        return UserQuestionnaireData.newBuilder()
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("1")
+                        .setState(ACTIVE)
                         .build())
-                .addQuestionnaires(Questionnaire.newBuilder()
-                        .setDescription("User Level Questionnaire two")
+                .addQuestionnaireData(QuestionnaireData.newBuilder()
+                        .setId("2")
+                        .setState(ACTIVE)
                         .build())
                 .build();
     }

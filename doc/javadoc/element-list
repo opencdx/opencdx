@@ -5,6 +5,12 @@ cdx.opencdx.audit.handlers
 cdx.opencdx.audit.model
 cdx.opencdx.audit.repository
 cdx.opencdx.audit.security
+cdx.opencdx.classification
+cdx.opencdx.classification.config
+cdx.opencdx.classification.controller
+cdx.opencdx.classification.security
+cdx.opencdx.classification.service
+cdx.opencdx.classification.service.impl
 cdx.opencdx.client.config
 cdx.opencdx.client.dto
 cdx.opencdx.client.exceptions
@@ -84,8 +90,6 @@ cdx.opencdx.protector.service.impl
 cdx.opencdx.questionnaire
 cdx.opencdx.questionnaire.config
 cdx.opencdx.questionnaire.controller
-cdx.opencdx.questionnaire.model
-cdx.opencdx.questionnaire.repository
 cdx.opencdx.questionnaire.security
 cdx.opencdx.questionnaire.service
 cdx.opencdx.questionnaire.service.impl

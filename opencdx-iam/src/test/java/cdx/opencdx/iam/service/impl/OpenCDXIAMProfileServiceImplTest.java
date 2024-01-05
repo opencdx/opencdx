@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,14 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -281,18 +282,28 @@ class OpenCDXIAMProfileServiceImplTest {
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setFullName(
                 FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
-        builder.setPrimaryAddress(
-                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
-        builder.setShippingAddress(
-                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
-        builder.setBillingAddress(
-                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
         builder.setEmergencyContact(EmergencyContact.newBuilder()
-                .setResidenceAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
-                        .build())
-                .setWorkAddress(Address.newBuilder()
-                        .setCountryId(ObjectId.get().toHexString())
+                .setContactInfo(ContactInfo.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCity("City")
+                                .setCountryId(ObjectId.get().toHexString())
+                                .setState("CA")
+                                .setPostalCode("12345")
+                                .setAddress1("101 Main Street")
+                                .build()))
+                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .setEmail("email@email.com")
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setNumber("1234567890")
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .build()))
                         .build())
                 .build());
         builder.setPharmacyDetails(Pharmacy.newBuilder()
@@ -341,12 +352,10 @@ class OpenCDXIAMProfileServiceImplTest {
         UserProfile.Builder builder = UserProfile.newBuilder();
         builder.setFullName(
                 FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
-        builder.setPrimaryAddress(
-                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
-        builder.setShippingAddress(
-                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
-        builder.setBillingAddress(
-                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
         builder.setEmergencyContact(EmergencyContact.newBuilder().build());
         builder.setPharmacyDetails(Pharmacy.newBuilder().build());
         builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()

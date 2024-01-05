@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,9 @@ import cdx.opencdx.connected.test.model.OpenCDXVendorModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXVendorServiceImpl;
+import cdx.opencdx.grpc.common.ContactInfo;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.PhoneNumber;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -126,7 +129,12 @@ class OpenCDXGrpcVendorControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
-        Vendor vendor = Vendor.newBuilder().setId(ObjectId.get().toHexString()).build();
+        Vendor vendor = Vendor.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setVendorContact(ContactInfo.newBuilder().build())
+                .setVendorEmail(EmailAddress.newBuilder().build())
+                .setVendorPhone(PhoneNumber.newBuilder().build())
+                .build();
         this.openCDXGrpcVendorController.addVendor(vendor, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(vendor);
@@ -143,7 +151,12 @@ class OpenCDXGrpcVendorControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXVendorRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(openCDXVendorModel));
-        Vendor vendor = Vendor.newBuilder().setId(ObjectId.get().toHexString()).build();
+        Vendor vendor = Vendor.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .setVendorContact(ContactInfo.newBuilder().build())
+                .setVendorEmail(EmailAddress.newBuilder().build())
+                .setVendorPhone(PhoneNumber.newBuilder().build())
+                .build();
         this.openCDXGrpcVendorController.updateVendor(vendor, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(vendor);

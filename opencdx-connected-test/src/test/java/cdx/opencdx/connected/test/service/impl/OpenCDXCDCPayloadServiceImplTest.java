@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
-import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.connected.BasicInfo;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.OrderableTestResult;
@@ -38,11 +38,9 @@ import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.profile.ContactInfo;
-import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.grpc.profile.Gender;
-import cdx.opencdx.grpc.profile.PhoneNumber;
 import com.google.protobuf.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -137,7 +135,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 TestDetails.newBuilder().setDeviceIdentifier(deviceId).build());
         OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
         openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
-        openCDXIAMUserModel.setPrimaryAddress(null);
+        openCDXIAMUserModel.setAddresses(null);
         OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
         openCDXDeviceModel.setExpiryDate(null);
         OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
@@ -267,23 +265,41 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .setSuffix("Sr")
                 .build());
         openCDXIAMUserModel.setPrimaryContactInfo(ContactInfo.newBuilder()
-                .setMobileNumber(
-                        PhoneNumber.newBuilder().setNumber("111-111-1111").build())
-                .setHomeNumber(
-                        PhoneNumber.newBuilder().setNumber("222-222-2222").build())
-                .setWorkNumber(
-                        PhoneNumber.newBuilder().setNumber("333-333-3333").build())
-                .setFaxNumber(PhoneNumber.newBuilder().setNumber("444-444-4444").build())
-                .setEmail("contact@opencdx.org")
+                .addAllPhoneNumbers(List.of(
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .setNumber("111-111-1111")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_HOME)
+                                .setNumber("222-222-2222")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("333-333-3333")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_FAX)
+                                .setNumber("333-333-3333")
+                                .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_PERSONAL)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
                 .build());
         openCDXIAMUserModel.setGender(Gender.GENDER_MALE);
-        openCDXIAMUserModel.setPrimaryAddress(Address.newBuilder()
+        openCDXIAMUserModel.setAddresses(List.of(Address.newBuilder()
                 .setAddress1("123 Main St")
                 .setCity("Vienna")
                 .setState("VA")
                 .setPostalCode("22182")
                 .setCountryId("USA")
-                .build());
+                .setAddressPurpose(AddressPurpose.PRIMARY)
+                .build()));
 
         return openCDXIAMUserModel;
     }

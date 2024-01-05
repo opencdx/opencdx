@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Override
     public void getSubmittedQuestionnaireList(
             GetQuestionnaireRequest request, StreamObserver<Questionnaires> responseObserver) {
-        Questionnaires response = openCDXQuestionnaireService.getQuestionnaireDataList(request);
+        Questionnaires response = openCDXQuestionnaireService.getSubmittedQuestionnaireList(request);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -141,8 +141,10 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
      */
     @Secured({})
     @Override
-    public void getQuestionnaireData(GetQuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
-        Questionnaire reply = openCDXQuestionnaireService.getQuestionnaireData(request);
+    public void getQuestionnaireData(
+            GetQuestionnaireRequest request, StreamObserver<SystemQuestionnaireData> responseObserver) {
+
+        SystemQuestionnaireData reply = openCDXQuestionnaireService.getQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -156,8 +158,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getQuestionnaireDataList(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaires> responseObserver) {
-        Questionnaires reply = openCDXQuestionnaireService.getQuestionnaireDataList(request);
+            GetQuestionnaireRequest request, StreamObserver<SystemQuestionnaireData> responseObserver) {
+        SystemQuestionnaireData reply = openCDXQuestionnaireService.getQuestionnaireData(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -217,9 +219,9 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getClientQuestionnaireData(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
+            GetQuestionnaireRequest request, StreamObserver<ClientQuestionnaireData> responseObserver) {
 
-        Questionnaire reply = openCDXQuestionnaireService.getClientQuestionnaireData(request);
+        ClientQuestionnaireData reply = openCDXQuestionnaireService.getClientQuestionnaireData(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -233,8 +235,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getClientQuestionnaireDataList(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaires> responseObserver) {
-        Questionnaires reply = openCDXQuestionnaireService.getClientQuestionnaireDataList(request);
+            GetQuestionnaireRequest request, StreamObserver<ClientQuestionnaireData> responseObserver) {
+        ClientQuestionnaireData reply = openCDXQuestionnaireService.getClientQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -294,8 +296,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getUserQuestionnaireData(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
-        Questionnaire reply = openCDXQuestionnaireService.getUserQuestionnaireData(request);
+            GetQuestionnaireRequest request, StreamObserver<UserQuestionnaireData> responseObserver) {
+        UserQuestionnaireData reply = openCDXQuestionnaireService.getUserQuestionnaireData(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -309,8 +311,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getUserQuestionnaireDataList(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaires> responseObserver) {
-        Questionnaires reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
+            GetQuestionnaireRequest request, StreamObserver<UserQuestionnaireData> responseObserver) {
+        UserQuestionnaireData reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();

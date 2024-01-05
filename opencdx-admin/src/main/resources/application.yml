@@ -6,7 +6,7 @@ spring:
       context-path: /admin
       ui:
         title: OpenCDX Admin
-        brand: <span>OpenCDX Admin</span>
+        brand: <img src="Open.png" style="object-fit:contain; width:125px; height:50px;"><span> Admin</span>
         external-views:
           - label: "Discovery"
             url: "https://localhost:8761/"
@@ -15,11 +15,14 @@ spring:
           - label: "Zipkin"
             url: "http://localhost:9411/zipkin"
           - label: "Swagger"
+            url: "https://localhost:8080/iam/swagger-ui/index.html"
             children:
               - label: "Anf"
                 url: "https://localhost:8080/anf/swagger-ui/index.html"
               - label: "Audit"
                 url: "https://localhost:8080/audit/swagger-ui/index.html"
+              - label: "Classification"
+                url: "https://localhost:8080/classification/swagger-ui/index.html"
               - label: "Communications"
                 url: "https://localhost:8080/communications/swagger-ui/index.html"
               - label: "Connected Test"
@@ -32,7 +35,7 @@ spring:
                 url: "https://localhost:8080/predictor/swagger-ui/index.html"
               - label: "Protector"
                 url: "https://localhost:8080/protector/swagger-ui/index.html"
-              - label: "questionnaire"
+              - label: "Questionnaire"
                 url: "https://localhost:8080/questionnaire/swagger-ui/index.html"
               - label: "Routine"
                 url: "https://localhost:8080/routine/swagger-ui/index.html"

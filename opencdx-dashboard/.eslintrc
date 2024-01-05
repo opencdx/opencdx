@@ -10,7 +10,8 @@
         "plugin:jsx-a11y/recommended",
         "plugin:react-hooks/recommended",
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:sonarjs/recommended"
     ],
     "settings": {
         "react": {
@@ -38,12 +39,13 @@
         },
         "ecmaVersion": 12
     },
-    "plugins": ["prettier", "react", "react-hooks"],
+    "plugins": ["prettier", "react", "react-hooks", "sonarjs"],
     "rules": {
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
         "react/react-in-jsx-scope": "off",
         "no-undef": "off",
+        "no-debugger": "off",
         "react/display-name": "off",
         "react/jsx-filename-extension": "off",
         "no-param-reassign": "off",

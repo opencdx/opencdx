@@ -13,7 +13,10 @@ BLUE='\033[1;36m'
 NC='\033[0m' # No Color
 
 # Specify the required JDK version
-required_jdk_version="20"
+required_jdk_version="21"
+
+# Specify the desired Node.js version
+node_version="20.0.0"
 
 # Function to handle errors
 # Parameters: $1 - Error message
@@ -217,7 +220,10 @@ open_reports() {
         handle_info "Opening JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         open_url "build/docs/javadoc-all/index.html"
-        #open_url "build/reports/dependency-check-report.html"
+        ;;
+    dependency)
+        handle_info "Opening Dependency Check Report..."
+        open_url "build/reports/dependency-check-report.html"
         ;;
     publish)
         read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
@@ -275,6 +281,7 @@ print_usage() {
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
     echo "  --proto         Will force the rebuild of the proto files only and exit."
+    echo "  --no_ui         Will skip opencdx-dashboard in the build process."
     echo "  --help          Show this help message."
     exit 0
 }
@@ -295,14 +302,17 @@ build_docker() {
     build_docker_image opencdx/media ./opencdx-media
     build_docker_image opencdx/connected-test ./opencdx-connected-test
     build_docker_image opencdx/iam ./opencdx-iam
-	build_docker_image opencdx/routine ./opencdx-routine
+	  build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
     build_docker_image opencdx/questionnaire ./opencdx-questionnaire
+    build_docker_image opencdx/classification ./opencdx-classification
     build_docker_image opencdx/gateway ./opencdx-gateway
     build_docker_image opencdx/discovery ./opencdx-discovery
-    build_docker_image opencdx/dashboard ./opencdx-dashboard
     build_docker_image opencdx/anf ./opencdx-anf
+    if [ "$no_ui" = false ]; then
+      build_docker_image opencdx/dashboard ./opencdx-dashboard
+    fi
 }
 
 # Function to start Docker services
@@ -338,7 +348,7 @@ generate_docker_compose() {
   compose_file="docker/docker-compose.yml"
 
   # Define services to always include
-  always_include=("discovery" "config" "database" "nats" "trace_storage" "zipkin_dependencies" "gateway" "iam")
+  always_include=("discovery" "config" "database" "nats" "trace_storage" "gateway" "iam" "zipkin")
 
   # Extract service names from the original Docker Compose file using yq
   services=($(yq e '.services | keys | .[]' "$compose_file"))
@@ -463,6 +473,7 @@ menu() {
             "Open Test Report" "Publish Doc"
             "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
+            "Dependency Check"
         )
 
         # Calculate the number of menu items
@@ -516,6 +527,7 @@ menu() {
             12) open_reports "check" ;;
             13) open_reports "proto" ;;
             14) open_reports "status" ;;
+            15) open_reports "dependency" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
@@ -541,6 +553,7 @@ wipe=false
 cert=false
 proto=false
 jmeter_test=""
+no_ui=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -588,6 +601,9 @@ for arg in "$@"; do
     --proto)
         proto=true
         ;;
+    --no_ui)
+        no_ui=true
+        ;;
     --help)
         print_usage
         ;;
@@ -613,6 +629,29 @@ fi
 # Check for 'open' command (for macOS)
 if [[ "$OSTYPE" != "msys" ]] && ! command -v open &> /dev/null; then
     handle_error "'open' command is not available. Please install it or use an appropriate alternative."
+fi
+
+if [ "$no_ui" = false ]; then
+
+  if [ "$clean" = true ]; then
+      handle_info "Cleaning opencdx-dashboard"
+      rm -rf ./opencdx-dashboard/node_modules
+  fi
+
+  # Check if Node.js is installed
+  if command -v node &> /dev/null; then
+    # Get the installed Node.js version
+    installed_version=$(node -v | cut -c 2-)
+
+    # Compare the installed version with the desired version
+    if [ "$(printf '%s\n' "$installed_version" "$node_version" | sort -V | head -n 1)" == "$node_version" ]; then
+      handle_info "Node.js version $installed_version is installed."
+    else
+      handle_error "Node.js version $node_version is not installed. Installed version: $installed_version"
+    fi
+  else
+    handle_error "Node.js is not installed."
+  fi
 fi
 
 handle_info "All dependencies are installed."
@@ -673,7 +712,7 @@ elif [ "$clean" = true ] && [ "$skip" = true ]; then
     ./gradlew clean || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew clean spotlessApply build publish -x dependencyCheckAggregate; then
+    if ./gradlew clean spotlessApply build publish; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
@@ -682,13 +721,27 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew spotlessApply build publish -x dependencyCheckAggregate; then
+    if ./gradlew spotlessApply build publish; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
+fi
+
+if [ "$no_ui" = false ]; then
+  # Change directory to opencdx-dashboard
+  cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
+
+  # Install dependencies
+  npm install || handle_error "npm install failed"
+
+  # Run linting
+  npm run lint
+
+  # Change back to the previous directory
+  cd - || handle_error "Unable to change back to the previous directory"
 fi
 
 if [ "$check" = true ]; then
@@ -709,7 +762,7 @@ if [ "$no_menu" = false ]; then
         open_reports "admin";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            countdown 90
+            countdown 120
             run_jmeter_tests $jmeter_test
         fi
     fi

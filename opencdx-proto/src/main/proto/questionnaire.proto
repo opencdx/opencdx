@@ -22,6 +22,10 @@ message Questionnaire {
   optional string status = 4; // Status of the questionnaire (e.g., draft).
   optional string description = 5; // Description of the questionnaire.
   repeated QuestionnaireItem item = 6; // List of questionnaire items.
+
+  // Field for storing user submission information
+  optional string submission_date = 7; // Date the questionnaire was submitted on  
+  optional string submisison_user_id=8; // Data submitted by
 }
 
 /**
@@ -40,7 +44,7 @@ message QuestionnaireItem {
   repeated QuestionnaireItemInitial initial = 10; // Initial values for the item.
 
   // Field for storing user responses
-  optional google.protobuf.Any user_response = 11; // User-provided response to the item
+  optional google.protobuf.Any submission_user_response = 11; // User-provided response to the item
 }
 
 /**
@@ -111,10 +115,17 @@ message QuestionnaireData {
 }
 
 /* 
+ * Represents the message with specified fields at system level
+ */
+message SystemQuestionnaireData {
+  repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
+}
+
+/* 
  * Represents the message with specified fields, with associated Organization and Workspace
  */
 message ClientQuestionnaireData {
-  QuestionnaireData questionnaire_data = 1; // Questionnaire data.
+  repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
   optional string orgnization_id = 2; // Organization Id associated with the Questionnaire data.
   optional string workspace_id = 3; // Workspace Id associated with the Questionnaire data.
 }
@@ -123,7 +134,7 @@ message ClientQuestionnaireData {
  * Represents the message with specified fields, with associated Organization, Workspace, and User
  */
 message UserQuestionnaireData {
-  QuestionnaireData questionnaire_data = 1; // Questionnaire data.
+  repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
   optional string user_id = 2; // User identifier.
 }
 
@@ -138,20 +149,20 @@ service QuestionnaireService {
 
   rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at system level.
   rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at system level.
-  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get system questionnaire data by Id.
-  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all system questionnaire data.
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (SystemQuestionnaireData); // Get system questionnaire data by Id.
+  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (SystemQuestionnaireData); // Get all system questionnaire data.
   rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at client level.
   rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at client level.
-  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get client questionnaire data by Id.
-  rpc GetClientQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all client questionnaire data.
+  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (ClientQuestionnaireData); // Get client questionnaire data by Id.
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireRequest) returns (ClientQuestionnaireData); // Get all client questionnaire data.
   rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Get client questionnaire data by Id.
 
   rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at User level.
   rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at User level.
-  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (Questionnaire); // Get user questionnaire by Id.
-  rpc GetUserQuestionnaireDataList(GetQuestionnaireRequest) returns (Questionnaires); // Get all user questionnaire.
+  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData); // Get user questionnaire by Id.
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireRequest) returns (UserQuestionnaireData); // Get all user questionnaire.
   rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete user questionnaire data by id.
 }
 

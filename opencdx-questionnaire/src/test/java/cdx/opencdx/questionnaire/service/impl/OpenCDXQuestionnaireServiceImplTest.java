@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -212,9 +212,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testGetQuestionnaireData() {
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = this.questionnaireService.getQuestionnaireData(request);
+        SystemQuestionnaireData response = this.questionnaireService.getQuestionnaireDataList(request);
 
-        Assertions.assertEquals("System Level Questionnaire Description", response.getDescription());
+        Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
     @Test
@@ -233,9 +233,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testGetQuestionnaireDataList() {
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = this.questionnaireService.getQuestionnaireDataList(request);
+        SystemQuestionnaireData response = this.questionnaireService.getQuestionnaireDataList(request);
 
-        Assertions.assertEquals(2, response.getQuestionnairesCount());
+        Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
     @Test
@@ -336,9 +336,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testGetClientQuestionnaireData() {
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = this.questionnaireService.getClientQuestionnaireData(request);
+        ClientQuestionnaireData response = this.questionnaireService.getClientQuestionnaireDataList(request);
 
-        Assertions.assertEquals("Client Level Questionnaire Description", response.getDescription());
+        Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
     @Test
@@ -358,9 +358,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testGetClientQuestionnaireDataList() {
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = this.questionnaireService.getClientQuestionnaireDataList(request);
+        ClientQuestionnaireData response = this.questionnaireService.getClientQuestionnaireDataList(request);
 
-        Assertions.assertEquals(2, response.getQuestionnairesCount());
+        Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
     @Test
@@ -469,9 +469,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testGetUserQuestionnaireData() {
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaire response = this.questionnaireService.getUserQuestionnaireData(request);
+        UserQuestionnaireData response = this.questionnaireService.getUserQuestionnaireDataList(request);
 
-        Assertions.assertEquals("User Level Questionnaire Description", response.getDescription());
+        Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
     @Test
@@ -489,9 +489,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Test
     void testGetUserQuestionnaireDataList() {
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
-        Questionnaires response = this.questionnaireService.getUserQuestionnaireDataList(request);
+        UserQuestionnaireData response = this.questionnaireService.getUserQuestionnaireDataList(request);
 
-        Assertions.assertEquals(2, response.getQuestionnairesCount());
+        Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
     @Test

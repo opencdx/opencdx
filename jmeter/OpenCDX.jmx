@@ -645,11 +645,23 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;name&quot; : &quot;Department Name&quot;,
       &quot;description&quot; : &quot;Department Description&quot;,
       &quot;employees&quot; : [ {
-        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,
-        &quot;name&quot; : &quot;Employee Name&quot;,
+        &quot;employeeId&quot; : &quot;65849dd16d2e0708c95e4b02&quot;,
+        &quot;name&quot; : {
+          &quot;title&quot; : &quot;&quot;,
+          &quot;firstName&quot; : &quot;Employee&quot;,
+          &quot;middleName&quot; : &quot;&quot;,
+          &quot;lastName&quot; : &quot;Name&quot;,
+          &quot;suffix&quot; : &quot;&quot;
+        },
         &quot;title&quot; : &quot;Employee Title&quot;,
-        &quot;email&quot; : &quot;employee@deparment&quot;,
-        &quot;phone&quot; : &quot;1234567890&quot;
+        &quot;phoneNumbers&quot; : [ {
+          &quot;number&quot; : &quot;123-456-7890&quot;,
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+        } ],
+        &quot;email&quot; : [ {
+          &quot;email&quot; : &quot;employee@deparment&quot;,
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+        } ]
       } ]
     } ]
   }
@@ -697,11 +709,23 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;name&quot; : &quot;Department Name&quot;,
       &quot;description&quot; : &quot;Department Description&quot;,
       &quot;employees&quot; : [ {
-        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,
-        &quot;name&quot; : &quot;Employee Name&quot;,
+        &quot;employeeId&quot; : &quot;65849dd16d2e0708c95e4b02&quot;,
+        &quot;name&quot; : {
+          &quot;title&quot; : &quot;&quot;,
+          &quot;firstName&quot; : &quot;Employee&quot;,
+          &quot;middleName&quot; : &quot;&quot;,
+          &quot;lastName&quot; : &quot;Name&quot;,
+          &quot;suffix&quot; : &quot;&quot;
+        },
         &quot;title&quot; : &quot;Employee Title&quot;,
-        &quot;email&quot; : &quot;employee@deparment&quot;,
-        &quot;phone&quot; : &quot;1234567890&quot;
+        &quot;phoneNumbers&quot; : [ {
+          &quot;number&quot; : &quot;123-456-7890&quot;,
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+        } ],
+        &quot;email&quot; : [ {
+          &quot;email&quot; : &quot;employee@deparment&quot;,
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+        } ]
       } ]
     } ]
   }
@@ -769,11 +793,23 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;name&quot; : &quot;Department Name&quot;,&#xd;
       &quot;description&quot; : &quot;Department Description&quot;,&#xd;
       &quot;employees&quot; : [ {&#xd;
-        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,&#xd;
-        &quot;name&quot; : &quot;Employee Name&quot;,&#xd;
+        &quot;employeeId&quot; : &quot;65849dd16d2e0708c95e4b02&quot;,&#xd;
+        &quot;name&quot; : {&#xd;
+          &quot;title&quot; : &quot;&quot;,&#xd;
+          &quot;firstName&quot; : &quot;Employee&quot;,&#xd;
+          &quot;middleName&quot; : &quot;&quot;,&#xd;
+          &quot;lastName&quot; : &quot;Name&quot;,&#xd;
+          &quot;suffix&quot; : &quot;&quot;&#xd;
+        },&#xd;
         &quot;title&quot; : &quot;Employee Title&quot;,&#xd;
-        &quot;email&quot; : &quot;employee@deparment&quot;,&#xd;
-        &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+        &quot;phoneNumbers&quot; : [ {&#xd;
+          &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+        } ],&#xd;
+        &quot;email&quot; : [ {&#xd;
+          &quot;email&quot; : &quot;employee@deparment&quot;,&#xd;
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+        } ]&#xd;
       } ]&#xd;
     } ]&#xd;
   }&#xd;
@@ -830,11 +866,23 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;name&quot; : &quot;Department Name&quot;,&#xd;
       &quot;description&quot; : &quot;Department Description&quot;,&#xd;
       &quot;employees&quot; : [ {&#xd;
-        &quot;employeeId&quot; : &quot;656784a0f01b3b4e73b03fb5&quot;,&#xd;
-        &quot;name&quot; : &quot;Employee Name&quot;,&#xd;
+        &quot;employeeId&quot; : &quot;65849dd16d2e0708c95e4b02&quot;,&#xd;
+        &quot;name&quot; : {&#xd;
+          &quot;title&quot; : &quot;&quot;,&#xd;
+          &quot;firstName&quot; : &quot;Employee&quot;,&#xd;
+          &quot;middleName&quot; : &quot;&quot;,&#xd;
+          &quot;lastName&quot; : &quot;Name&quot;,&#xd;
+          &quot;suffix&quot; : &quot;&quot;&#xd;
+        },&#xd;
         &quot;title&quot; : &quot;Employee Title&quot;,&#xd;
-        &quot;email&quot; : &quot;employee@deparment&quot;,&#xd;
-        &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+        &quot;phoneNumbers&quot; : [ {&#xd;
+          &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+        } ],&#xd;
+        &quot;email&quot; : [ {&#xd;
+          &quot;email&quot; : &quot;employee@deparment&quot;,&#xd;
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+        } ]&#xd;
       } ]&#xd;
     } ]&#xd;
   }&#xd;
@@ -940,9 +988,22 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
     &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
     &quot;contacts&quot; : [ {
-      &quot;contactName&quot; : &quot;Contact Name&quot;,
-      &quot;email&quot; : &quot;test@opencdx.org&quot;,
-      &quot;phone&quot; : &quot;1234567890&quot;
+      &quot;name&quot; : {
+        &quot;title&quot; : &quot;&quot;,
+        &quot;firstName&quot; : &quot;Contact&quot;,
+        &quot;middleName&quot; : &quot;&quot;,
+        &quot;lastName&quot; : &quot;Name&quot;,
+        &quot;suffix&quot; : &quot;&quot;
+      },
+      &quot;addresses&quot; : [ ],
+      &quot;phoneNumbers&quot; : [ {
+        &quot;number&quot; : &quot;123-456-7890&quot;,
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+      } ],
+      &quot;email&quot; : [ {
+        &quot;email&quot; : &quot;contact@organization&quot;,
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+      } ]
     } ],
     &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot; ]
   }
@@ -994,9 +1055,22 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
     &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
     &quot;contacts&quot; : [ {
-      &quot;contactName&quot; : &quot;Contact Name&quot;,
-      &quot;email&quot; : &quot;test@opencdx.org&quot;,
-      &quot;phone&quot; : &quot;1234567890&quot;
+      &quot;name&quot; : {
+        &quot;title&quot; : &quot;&quot;,
+        &quot;firstName&quot; : &quot;Contact&quot;,
+        &quot;middleName&quot; : &quot;&quot;,
+        &quot;lastName&quot; : &quot;Name&quot;,
+        &quot;suffix&quot; : &quot;&quot;
+      },
+      &quot;addresses&quot; : [ ],
+      &quot;phoneNumbers&quot; : [ {
+        &quot;number&quot; : &quot;123-456-7890&quot;,
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+      } ],
+      &quot;email&quot; : [ {
+        &quot;email&quot; : &quot;contact@organization&quot;,
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+      } ]
     } ],
     &quot;workspaceIds&quot; : [ &quot;${workspace_g}&quot;]
   }
@@ -1066,9 +1140,22 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
     &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
     &quot;contacts&quot; : [ {&#xd;
-      &quot;contactName&quot; : &quot;Contact Name&quot;,&#xd;
-      &quot;email&quot; : &quot;test@opencdx.org&quot;,&#xd;
-      &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+      &quot;name&quot; : {&#xd;
+        &quot;title&quot; : &quot;&quot;,&#xd;
+        &quot;firstName&quot; : &quot;Contact&quot;,&#xd;
+        &quot;middleName&quot; : &quot;&quot;,&#xd;
+        &quot;lastName&quot; : &quot;Name&quot;,&#xd;
+        &quot;suffix&quot; : &quot;&quot;&#xd;
+      },&#xd;
+      &quot;addresses&quot; : [ ],&#xd;
+      &quot;phoneNumbers&quot; : [ {&#xd;
+        &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+      } ],&#xd;
+      &quot;email&quot; : [ {&#xd;
+        &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+      } ]&#xd;
     } ],&#xd;
     &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot; ]&#xd;
   }&#xd;
@@ -1130,9 +1217,22 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
     &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
     &quot;contacts&quot; : [ {&#xd;
-      &quot;contactName&quot; : &quot;Contact Name&quot;,&#xd;
-      &quot;email&quot; : &quot;test@opencdx.org&quot;,&#xd;
-      &quot;phone&quot; : &quot;1234567890&quot;&#xd;
+      &quot;name&quot; : {&#xd;
+        &quot;title&quot; : &quot;&quot;,&#xd;
+        &quot;firstName&quot; : &quot;Contact&quot;,&#xd;
+        &quot;middleName&quot; : &quot;&quot;,&#xd;
+        &quot;lastName&quot; : &quot;Name&quot;,&#xd;
+        &quot;suffix&quot; : &quot;&quot;&#xd;
+      },&#xd;
+      &quot;addresses&quot; : [ ],&#xd;
+      &quot;phoneNumbers&quot; : [ {&#xd;
+        &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+      } ],&#xd;
+      &quot;email&quot; : [ {&#xd;
+        &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+      } ]&#xd;
     } ],&#xd;
     &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot;]&#xd;
   }&#xd;
@@ -5548,255 +5648,193 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-    &quot;updated_profile&quot;: {
-        &quot;billing_address&quot;: {
+  &quot;userId&quot; : &quot;${user_id_g}&quot;,
+  &quot;updatedProfile&quot; : {
+    &quot;userId&quot; : &quot;${user_id_g}&quot;,
+    &quot;nationalHealthId&quot; : &quot;b1349628-6f28-44ae-b600-7898fd9ff292&quot;,
+    &quot;fullName&quot; : {
+      &quot;title&quot; : &quot;&quot;,
+      &quot;firstName&quot; : &quot;First&quot;,
+      &quot;middleName&quot; : &quot;Middle&quot;,
+      &quot;lastName&quot; : &quot;last&quot;,
+      &quot;suffix&quot; : &quot;&quot;
+    },
+    &quot;contacts&quot; : [ {
+      &quot;userId&quot; : &quot;${user_id_r}&quot;,
+      &quot;addresses&quot; : [ {
+        &quot;countryId&quot; : &quot;${countryId}&quot;,
+        &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+        &quot;address1&quot; : &quot;101 Main Street&quot;,
+        &quot;city&quot; : &quot;City&quot;,
+        &quot;state&quot; : &quot;CA&quot;,
+        &quot;postalCode&quot; : &quot;12345&quot;
+      } ],
+      &quot;phoneNumbers&quot; : [ {
+        &quot;number&quot; : &quot;1234567890&quot;,
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+      } ],
+      &quot;email&quot; : [ {
+        &quot;email&quot; : &quot;email@email.com&quot;,
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+      } ]
+    } ],
+    &quot;gender&quot; : &quot;GENDER_MALE&quot;,
+    &quot;dateOfBirth&quot; : {
+      &quot;date&quot; : &quot;1900/01/01&quot;
+    },
+    &quot;placeOfBirth&quot; : {
+      &quot;country&quot; : &quot;${countryId}&quot;,
+      &quot;state&quot; : &quot;CA&quot;,
+      &quot;city&quot; : &quot;City&quot;
+    },
+    &quot;photo&quot; : &quot;&quot;,
+    &quot;communication&quot; : {
+      &quot;language&quot; : &quot;EN&quot;,
+      &quot;preferred&quot; : true,
+      &quot;timeZone&quot; : &quot;EST&quot;
+    },
+    &quot;demographics&quot; : {
+      &quot;ethnicity&quot; : &quot;Ethnicity&quot;,
+      &quot;race&quot; : &quot;Race&quot;,
+      &quot;nationality&quot; : &quot;USA&quot;,
+      &quot;gender&quot; : &quot;GENDER_MALE&quot;
+    },
+    &quot;education&quot; : {
+      &quot;entries&quot; : [ {
+        &quot;degree&quot; : &quot;BA&quot;,
+        &quot;institution&quot; : &quot;University&quot;,
+        &quot;startDate&quot; : &quot;1992/08/01&quot;,
+        &quot;completionDate&quot; : &quot;1996/05/30&quot;
+      } ]
+    },
+    &quot;employeeIdentity&quot; : {
+      &quot;organizationId&quot; : &quot;${organization_g}&quot;,
+      &quot;workspaceId&quot; : &quot;${workspace_g}&quot;,
+      &quot;employeeId&quot; : &quot;employeeID&quot;,
+      &quot;identityVerified&quot; : true,
+      &quot;status&quot; : &quot;Full Time&quot;
+    },
+    &quot;primaryContactInfo&quot; : {
+      &quot;userId&quot; : &quot;${user_id_r}&quot;,
+      &quot;addresses&quot; : [ {
+        &quot;countryId&quot; : &quot;${countryId}&quot;,
+        &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+        &quot;address1&quot; : &quot;101 Main Street&quot;,
+        &quot;city&quot; : &quot;City&quot;,
+        &quot;state&quot; : &quot;CA&quot;,
+        &quot;postalCode&quot; : &quot;12345&quot;
+      } ],
+      &quot;phoneNumbers&quot; : [ {
+        &quot;number&quot; : &quot;1234567890&quot;,
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+      } ],
+      &quot;email&quot; : [ {
+        &quot;email&quot; : &quot;email@email.com&quot;,
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+      } ]
+    },
+    &quot;emergencyContact&quot; : {
+      &quot;relationship&quot; : &quot;Emergency Contact&quot;,
+      &quot;contactInfo&quot; : {
+        &quot;name&quot; : {
+          &quot;title&quot; : &quot;Mr.&quot;,
+          &quot;firstName&quot; : &quot;First&quot;,
+          &quot;middleName&quot; : &quot;Middle&quot;,
+          &quot;lastName&quot; : &quot;last&quot;,
+          &quot;suffix&quot; : &quot;Jr.&quot;
+        },
+        &quot;userId&quot; : &quot;${user_id_r}&quot;,
+        &quot;addresses&quot; : [ {
+          &quot;countryId&quot; : &quot;${countryId}&quot;,
+          &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+          &quot;address1&quot; : &quot;101 Main Street&quot;,
+          &quot;city&quot; : &quot;City&quot;,
+          &quot;state&quot; : &quot;CA&quot;,
+          &quot;postalCode&quot; : &quot;12345&quot;
+        } ],
+        &quot;phoneNumbers&quot; : [ {
+          &quot;number&quot; : &quot;1234567890&quot;,
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+        } ],
+        &quot;email&quot; : [ {
+          &quot;email&quot; : &quot;email@email.com&quot;,
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+        } ]
+      }
+    },
+    &quot;pharmacyDetails&quot; : {
+      &quot;pharmacyName&quot; : &quot;Pharmacy Name&quot;,
+      &quot;pharmacyAddress&quot; : {
+        &quot;countryId&quot; : &quot;${countryId}&quot;,
+        &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+        &quot;address1&quot; : &quot;101 Main Street&quot;,
+        &quot;city&quot; : &quot;City&quot;,
+        &quot;state&quot; : &quot;CA&quot;,
+        &quot;postalCode&quot; : &quot;12345&quot;
+      },
+      &quot;pharmacyContact&quot; : {
+        &quot;userId&quot; : &quot;${user_id_r}&quot;,
+        &quot;addresses&quot; : [ {
+          &quot;countryId&quot; : &quot;${countryId}&quot;,
+          &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+          &quot;address1&quot; : &quot;101 Main Street&quot;,
+          &quot;city&quot; : &quot;City&quot;,
+          &quot;state&quot; : &quot;CA&quot;,
+          &quot;postalCode&quot; : &quot;12345&quot;
+        } ],
+        &quot;phoneNumbers&quot; : [ {
+          &quot;number&quot; : &quot;1234567890&quot;,
+          &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+        } ],
+        &quot;email&quot; : [ {
+          &quot;email&quot; : &quot;email@email.com&quot;,
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+        } ]
+      }
+    },
+    &quot;vaccineAdministered&quot; : [ {
+      &quot;administrationDate&quot; : &quot;2021/06/01&quot;,
+      &quot;fips&quot; : &quot;12345&quot;,
+      &quot;locality&quot; : &quot;CA&quot;,
+      &quot;healthDistrict&quot; : &quot;District&quot;,
+      &quot;facilityType&quot; : &quot;Clinic&quot;,
+      &quot;manufacturer&quot; : &quot;65849f9ea4a7463cc04ee652&quot;,
+      &quot;doseNumber&quot; : 20,
+      &quot;vaccineType&quot; : &quot;COVID-19&quot;
+    } ],
+    &quot;dependentId&quot; : [ &quot;${user_id_g}&quot;, &quot;${user_id_r}&quot; ],
+    &quot;knownAllergies&quot; : [ {
+      &quot;allergen&quot; : &quot;Evergreen Trees&quot;,
+      &quot;reaction&quot; : &quot;Respiratory Distress&quot;,
+      &quot;isSevere&quot; : true,
+      &quot;onsetDate&quot; : &quot;1975/12/20&quot;,
+      &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
+      &quot;notes&quot; : &quot;Christmas Trees&quot;
+    } ],
+    &quot;currentMedications&quot; : [ {
+      &quot;name&quot; : &quot;Singular&quot;,
+      &quot;dosage&quot; : &quot;5mg&quot;,
+      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,
+      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,
+      &quot;frequency&quot; : &quot;Daily&quot;,
+      &quot;startDate&quot; : &quot;1976/12/26&quot;,
+      &quot;endDate&quot; : &quot;EOL&quot;,
+      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,
+      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,
+      &quot;isPrescription&quot; : true
+    } ],
+    &quot;isActive&quot; : false,
+    &quot;email&quot; : [ ],
+    &quot;phone&quot; : [ ],
+    &quot;address&quot; : [ {
       &quot;countryId&quot; : &quot;${countryId}&quot;,
       &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
-      &quot;address1&quot; : &quot;Address Line 1&quot;,
-      &quot;address2&quot; : &quot;Address Line 2&quot;,
-      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;address1&quot; : &quot;101 Main Street&quot;,
       &quot;city&quot; : &quot;City&quot;,
-      &quot;state&quot; : &quot;state&quot;,
-      &quot;postalCode&quot; : &quot;Postcode&quot;
-    },
-        &quot;communication&quot;: {
-            &quot;language&quot;: &quot;nulla aute amet&quot;,
-            &quot;preferred&quot;: false,
-            &quot;time_zone&quot;: &quot;nisi&quot;
-        },
-        &quot;contacts&quot;: [],
-        &quot;current_medications&quot;: [
-            {
-                &quot;end_date&quot;: &quot;aute do dolore non&quot;,
-                &quot;pharmacy&quot;: &quot;sint in&quot;,
-                &quot;name&quot;: &quot;consectetur quis Lorem cupidatat sint&quot;,
-                &quot;is_prescription&quot;: false,
-                &quot;dosage&quot;: &quot;qui est non irure tempor&quot;,
-                &quot;frequency&quot;: &quot;dolore consequat in anim&quot;,
-                &quot;prescribing_doctor&quot;: &quot;aute culpa fugiat amet&quot;,
-                &quot;instructions&quot;: &quot;id occaecat cupidatat qui est&quot;,
-                &quot;route_of_administration&quot;: &quot;culpa officia&quot;,
-                &quot;start_date&quot;: &quot;commodo mollit labore Lorem&quot;
-            },
-            {
-                &quot;instructions&quot;: &quot;enim&quot;,
-                &quot;name&quot;: &quot;aliquip est nostrud&quot;,
-                &quot;prescribing_doctor&quot;: &quot;laborum minim culpa&quot;,
-                &quot;route_of_administration&quot;: &quot;et dolore nulla&quot;,
-                &quot;frequency&quot;: &quot;et ut reprehenderit laboris&quot;,
-                &quot;pharmacy&quot;: &quot;commodo&quot;,
-                &quot;is_prescription&quot;: true,
-                &quot;end_date&quot;: &quot;consequat fugiat deserunt&quot;,
-                &quot;start_date&quot;: &quot;quis nisi magna&quot;,
-                &quot;dosage&quot;: &quot;Duis cupidatat officia&quot;
-            },
-            {
-                &quot;route_of_administration&quot;: &quot;incididunt eiusmod&quot;,
-                &quot;is_prescription&quot;: false,
-                &quot;frequency&quot;: &quot;sint voluptate eu aute&quot;,
-                &quot;start_date&quot;: &quot;eu enim sunt in dolor&quot;,
-                &quot;prescribing_doctor&quot;: &quot;ex&quot;,
-                &quot;dosage&quot;: &quot;aute incididunt commodo minim do&quot;,
-                &quot;pharmacy&quot;: &quot;aliquip dolore quis dolore laborum&quot;,
-                &quot;end_date&quot;: &quot;cillum dolore amet commodo nulla&quot;,
-                &quot;instructions&quot;: &quot;eu exercitation dolor cillum sint&quot;,
-                &quot;name&quot;: &quot;sint voluptate dolore Lorem&quot;
-            },
-            {
-                &quot;dosage&quot;: &quot;do Ut&quot;,
-                &quot;frequency&quot;: &quot;consequat cillum&quot;,
-                &quot;instructions&quot;: &quot;Lorem&quot;,
-                &quot;prescribing_doctor&quot;: &quot;dolore velit&quot;,
-                &quot;route_of_administration&quot;: &quot;minim pariatur amet et aute&quot;,
-                &quot;end_date&quot;: &quot;voluptate minim fugiat&quot;,
-                &quot;name&quot;: &quot;esse cupidatat adipisicing sunt&quot;,
-                &quot;start_date&quot;: &quot;ipsum adipisicing proident&quot;,
-                &quot;pharmacy&quot;: &quot;nulla eiusmod mollit&quot;,
-                &quot;is_prescription&quot;: false
-            },
-            {
-                &quot;dosage&quot;: &quot;ullamco sit sunt non&quot;,
-                &quot;name&quot;: &quot;proident laborum ea in&quot;,
-                &quot;frequency&quot;: &quot;enim deserunt dolore consequat&quot;,
-                &quot;pharmacy&quot;: &quot;dolore quis laboris aute cillum&quot;,
-                &quot;start_date&quot;: &quot;velit cillum do&quot;,
-                &quot;end_date&quot;: &quot;velit anim aute enim&quot;,
-                &quot;prescribing_doctor&quot;: &quot;ex commodo dolore minim anim&quot;,
-                &quot;instructions&quot;: &quot;Excepteur ut dolor&quot;,
-                &quot;route_of_administration&quot;: &quot;quis reprehenderit dolore elit voluptate&quot;,
-                &quot;is_prescription&quot;: false
-            }
-        ],
-        &quot;date_of_birth&quot;: {
-            &quot;date&quot;: &quot;enim&quot;
-        },
-        &quot;demographics&quot;: {
-            &quot;ethnicity&quot;: &quot;sint fugiat tempor&quot;,
-            &quot;gender&quot;: 1,
-            &quot;nationality&quot;: &quot;Lorem dolor velit voluptate&quot;,
-            &quot;race&quot;: &quot;in reprehenderit adipisicing&quot;
-        },
-        &quot;dependent_id&quot;: [
-            &quot;${user_id_g}&quot;, &quot;${user_id_r}&quot;
-        ],
-        &quot;education&quot;: {
-            &quot;entries&quot;: [
-                {
-                    &quot;completion_date&quot;: &quot;anim in qui fugiat do&quot;,
-                    &quot;start_date&quot;: &quot;in officia ipsum&quot;,
-                    &quot;degree&quot;: &quot;ad anim consectetur cupidatat&quot;,
-                    &quot;institution&quot;: &quot;qui&quot;
-                },
-                {
-                    &quot;institution&quot;: &quot;mollit in Ut qui reprehenderit&quot;,
-                    &quot;completion_date&quot;: &quot;aliqua velit consequat&quot;,
-                    &quot;degree&quot;: &quot;laboris ullamco&quot;,
-                    &quot;start_date&quot;: &quot;laborum sit dolore Duis id&quot;
-                },
-                {
-                    &quot;degree&quot;: &quot;eu&quot;,
-                    &quot;start_date&quot;: &quot;ut ullamco cillum occaecat&quot;,
-                    &quot;institution&quot;: &quot;minim amet voluptate dolor ut&quot;,
-                    &quot;completion_date&quot;: &quot;id aute eiusmod nostrud qui&quot;
-                }
-            ]
-        },
-        &quot;emergency_contact&quot;: {
-            &quot;contact_name&quot;: &quot;magna eu eiusmod consectetur&quot;,
-            &quot;relationship&quot;: &quot;ullamco et ipsum esse laboris&quot;
-        },
-        &quot;employee_identity&quot;: {
-            &quot;employee_id&quot;: &quot;cupidatat ut&quot;,
-            &quot;identity_verified&quot;: true,
-            &quot;organization_id&quot;: &quot;${organization_g}&quot;,
-            &quot;status&quot;: &quot;cupidatat ad laborum ut&quot;,
-            &quot;workspace_id&quot;: &quot;${workspace_g}&quot;
-        },
-        &quot;full_name&quot;: {
-            &quot;first_name&quot;: &quot;commodo in&quot;,
-            &quot;last_name&quot;: &quot;aliquip veniam&quot;,
-            &quot;middle_name&quot;: &quot;dolor minim anim aliqua&quot;,
-            &quot;suffix&quot;: &quot;aliqua&quot;,
-            &quot;title&quot;: &quot;Excepteur&quot;
-        },
-        &quot;gender&quot;: 3,
-        &quot;is_active&quot;: true,
-        &quot;known_allergies&quot;: [
-            {
-                &quot;is_severe&quot;: true,
-                &quot;reaction&quot;: &quot;irure&quot;,
-                &quot;last_occurrence&quot;: &quot;voluptate dolore laborum dolor nostrud&quot;,
-                &quot;allergen&quot;: &quot;officia aliqua ad cillum&quot;,
-                &quot;onset_date&quot;: &quot;consequat&quot;,
-                &quot;notes&quot;: &quot;deserunt in&quot;
-            },
-            {
-                &quot;last_occurrence&quot;: &quot;Duis dolor aute incididunt consectetur&quot;,
-                &quot;reaction&quot;: &quot;in eu exercitation&quot;,
-                &quot;is_severe&quot;: true,
-                &quot;notes&quot;: &quot;fugiat minim id&quot;,
-                &quot;onset_date&quot;: &quot;sunt occaecat adipisicing&quot;,
-                &quot;allergen&quot;: &quot;in labore consectetur incididunt&quot;
-            },
-            {
-                &quot;onset_date&quot;: &quot;sed&quot;,
-                &quot;last_occurrence&quot;: &quot;in fugiat deserunt&quot;,
-                &quot;reaction&quot;: &quot;voluptate tempor sunt aliqua&quot;,
-                &quot;allergen&quot;: &quot;Duis&quot;,
-                &quot;is_severe&quot;: true,
-                &quot;notes&quot;: &quot;laborum tempor commodo voluptate&quot;
-            },
-            {
-                &quot;last_occurrence&quot;: &quot;minim enim aliqua amet&quot;,
-                &quot;is_severe&quot;: false,
-                &quot;reaction&quot;: &quot;reprehenderit est&quot;,
-                &quot;onset_date&quot;: &quot;esse in ullamco proident ut&quot;,
-                &quot;notes&quot;: &quot;irure adipisicing&quot;,
-                &quot;allergen&quot;: &quot;consequat&quot;
-            },
-            {
-                &quot;onset_date&quot;: &quot;ipsum&quot;,
-                &quot;allergen&quot;: &quot;aliqua occaecat anim ullamco minim&quot;,
-                &quot;notes&quot;: &quot;quis do magna voluptate&quot;,
-                &quot;last_occurrence&quot;: &quot;commodo&quot;,
-                &quot;reaction&quot;: &quot;consequat officia Lorem ipsum&quot;,
-                &quot;is_severe&quot;: true
-            }
-        ],
-        &quot;national_health_id&quot;: &quot;elit et in&quot;,
-        &quot;pharmacy_details&quot;: {
-            &quot;pharmacy_name&quot;: &quot;aliqua&quot;
-        },
-        &quot;photo&quot;: &quot;/VYXch44E5jaCd0R+myjviEB&quot;,
-        &quot;place_of_birth&quot;: {
-            &quot;city&quot;: &quot;consequat Excepteur pariatur&quot;,
-            &quot;country&quot;: &quot;${countryId}&quot;,
-            &quot;state&quot;: &quot;enim officia ea commodo do&quot;
-        },
-        &quot;primary_address&quot;: {
-      &quot;countryId&quot; : &quot;${countryId}&quot;,
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
-      &quot;address1&quot; : &quot;Address Line 1&quot;,
-      &quot;address2&quot; : &quot;Address Line 2&quot;,
-      &quot;address3&quot; : &quot;Address Line 3&quot;,
-      &quot;city&quot; : &quot;City&quot;,
-      &quot;state&quot; : &quot;state&quot;,
-      &quot;postalCode&quot; : &quot;Postcode&quot;
-    },
-        &quot;primary_contact_info&quot;: {
-            &quot;email&quot;: &quot;test@opencdx.org&quot;,
-            &quot;fax_number&quot;: {
-                &quot;number&quot;: &quot;amet esse incididunt aute id&quot;,
-                &quot;type&quot;: 5
-            },
-            &quot;home_number&quot;: {
-                &quot;number&quot;: &quot;voluptate Excepteur tempor in quis&quot;,
-                &quot;type&quot;: &quot;PHONE_TYPE_MOBILE&quot;
-            },
-            &quot;mobile_number&quot;: {
-                &quot;number&quot;: &quot;1234567890&quot;,
-                &quot;type&quot;: 3
-            },
-            &quot;work_number&quot;: {
-                &quot;number&quot;: &quot;adipisicing&quot;,
-                &quot;type&quot;: 5
-            }
-        },
-        &quot;shipping_address&quot;: {
-      &quot;countryId&quot; : &quot;${countryId}&quot;,
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
-      &quot;address1&quot; : &quot;Address Line 1&quot;,
-      &quot;address2&quot; : &quot;Address Line 2&quot;,
-      &quot;address3&quot; : &quot;Address Line 3&quot;,
-      &quot;city&quot; : &quot;City&quot;,
-      &quot;state&quot; : &quot;state&quot;,
-      &quot;postalCode&quot; : &quot;Postcode&quot;
-    },
-        &quot;user_id&quot;: &quot;${user_id_g}&quot;,
-        &quot;vaccine_administered&quot;: [
-            {
-                &quot;manufacturer&quot;: &quot;${manufacturerId}&quot;,
-                &quot;vaccine_type&quot;: &quot;nulla&quot;,
-                &quot;administration_date&quot;: &quot;magna Excepteur sed&quot;,
-                &quot;dose_number&quot;: 1564345021,
-                &quot;locality&quot;: &quot;eu in deserunt tempor&quot;,
-                &quot;fips&quot;: &quot;voluptate aliqua eiusmod do dolore&quot;,
-                &quot;facility_type&quot;: &quot;sunt&quot;,
-                &quot;health_district&quot;: &quot;dolore minim sint esse&quot;
-            },
-            {
-                &quot;vaccine_type&quot;: &quot;officia&quot;,
-                &quot;fips&quot;: &quot;cupidatat&quot;,
-                &quot;manufacturer&quot;: &quot;${manufacturerId}&quot;,
-                &quot;administration_date&quot;: &quot;officia ad Ut&quot;,
-                &quot;facility_type&quot;: &quot;nulla officia Lorem est amet&quot;,
-                &quot;health_district&quot;: &quot;est&quot;,
-                &quot;dose_number&quot;: 1029768126,
-                &quot;locality&quot;: &quot;in enim&quot;
-            }
-        ]
-    },
-    &quot;user_id&quot;: &quot;${user_id_g}&quot;
+      &quot;state&quot; : &quot;CA&quot;,
+      &quot;postalCode&quot; : &quot;12345&quot;
+    } ]
+  }
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -5828,7 +5866,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
   &quot;updatedProfile&quot; : {&#xd;
     &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
-    &quot;nationalHealthId&quot; : &quot;e1ad7eb6-3fd6-44e3-85fb-940ed70da28d&quot;,&#xd;
+    &quot;nationalHealthId&quot; : &quot;b1349628-6f28-44ae-b600-7898fd9ff292&quot;,&#xd;
     &quot;fullName&quot; : {&#xd;
       &quot;title&quot; : &quot;&quot;,&#xd;
       &quot;firstName&quot; : &quot;First&quot;,&#xd;
@@ -5837,19 +5875,23 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;suffix&quot; : &quot;&quot;&#xd;
     },&#xd;
     &quot;contacts&quot; : [ {&#xd;
-      &quot;mobileNumber&quot; : {&#xd;
+      &quot;userId&quot; : &quot;${user_id_g}&quot;,&#xd;
+      &quot;addresses&quot; : [ {&#xd;
+        &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+        &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+        &quot;address1&quot; : &quot;101 Main Street&quot;,&#xd;
+        &quot;city&quot; : &quot;City&quot;,&#xd;
+        &quot;state&quot; : &quot;CA&quot;,&#xd;
+        &quot;postalCode&quot; : &quot;12345&quot;&#xd;
+      } ],&#xd;
+      &quot;phoneNumbers&quot; : [ {&#xd;
         &quot;number&quot; : &quot;1234567890&quot;,&#xd;
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
-      },&#xd;
-      &quot;homeNumber&quot; : {&#xd;
-        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-        &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
-      },&#xd;
-      &quot;faxNumber&quot; : {&#xd;
-        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-        &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
-      },&#xd;
-      &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
+      } ],&#xd;
+      &quot;email&quot; : [ {&#xd;
+        &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+      } ]&#xd;
     } ],&#xd;
     &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
     &quot;dateOfBirth&quot; : {&#xd;
@@ -5859,16 +5901,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;country&quot; : &quot;${countryId}&quot;,&#xd;
       &quot;state&quot; : &quot;CA&quot;,&#xd;
       &quot;city&quot; : &quot;City&quot;&#xd;
-    },&#xd;
-    &quot;primaryAddress&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
     },&#xd;
     &quot;photo&quot; : &quot;&quot;,&#xd;
     &quot;communication&quot; : {&#xd;
@@ -5898,105 +5930,81 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;status&quot; : &quot;Full Time&quot;&#xd;
     },&#xd;
     &quot;primaryContactInfo&quot; : {&#xd;
-      &quot;mobileNumber&quot; : {&#xd;
+      &quot;userId&quot; : &quot;${user_id_g}&quot;,&#xd;
+      &quot;addresses&quot; : [ {&#xd;
+        &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+        &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+        &quot;address1&quot; : &quot;101 Main Street&quot;,&#xd;
+        &quot;city&quot; : &quot;City&quot;,&#xd;
+        &quot;state&quot; : &quot;CA&quot;,&#xd;
+        &quot;postalCode&quot; : &quot;12345&quot;&#xd;
+      } ],&#xd;
+      &quot;phoneNumbers&quot; : [ {&#xd;
         &quot;number&quot; : &quot;1234567890&quot;,&#xd;
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
-      },&#xd;
-      &quot;homeNumber&quot; : {&#xd;
-        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-        &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
-      },&#xd;
-      &quot;faxNumber&quot; : {&#xd;
-        &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-        &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
-      },&#xd;
-      &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
-    },&#xd;
-    &quot;billingAddress&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
-    },&#xd;
-    &quot;shippingAddress&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+      } ],&#xd;
+      &quot;email&quot; : [ {&#xd;
+        &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+      } ]&#xd;
     },&#xd;
     &quot;emergencyContact&quot; : {&#xd;
       &quot;relationship&quot; : &quot;Emergency Contact&quot;,&#xd;
-      &quot;contactName&quot; : &quot;Name&quot;,&#xd;
       &quot;contactInfo&quot; : {&#xd;
-        &quot;mobileNumber&quot; : {&#xd;
+        &quot;name&quot; : {&#xd;
+          &quot;title&quot; : &quot;Mr.&quot;,&#xd;
+          &quot;firstName&quot; : &quot;First&quot;,&#xd;
+          &quot;middleName&quot; : &quot;Middle&quot;,&#xd;
+          &quot;lastName&quot; : &quot;last&quot;,&#xd;
+          &quot;suffix&quot; : &quot;Jr.&quot;&#xd;
+        },&#xd;
+        &quot;userId&quot; : &quot;${user_id_g}&quot;,&#xd;
+        &quot;addresses&quot; : [ {&#xd;
+          &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+          &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+          &quot;address1&quot; : &quot;101 Main Street&quot;,&#xd;
+          &quot;city&quot; : &quot;City&quot;,&#xd;
+          &quot;state&quot; : &quot;CA&quot;,&#xd;
+          &quot;postalCode&quot; : &quot;12345&quot;&#xd;
+        } ],&#xd;
+        &quot;phoneNumbers&quot; : [ {&#xd;
           &quot;number&quot; : &quot;1234567890&quot;,&#xd;
           &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
-        },&#xd;
-        &quot;homeNumber&quot; : {&#xd;
-          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-          &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
-        },&#xd;
-        &quot;faxNumber&quot; : {&#xd;
-          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-          &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
-        },&#xd;
-        &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
-      },&#xd;
-      &quot;residenceAddress&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
-    },&#xd;
-      &quot;workAddress&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
-    }&#xd;
+        } ],&#xd;
+        &quot;email&quot; : [ {&#xd;
+          &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+        } ]&#xd;
+      }&#xd;
     },&#xd;
     &quot;pharmacyDetails&quot; : {&#xd;
       &quot;pharmacyName&quot; : &quot;Pharmacy Name&quot;,&#xd;
       &quot;pharmacyAddress&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
-    },&#xd;
+        &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+        &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+        &quot;address1&quot; : &quot;101 Main Street&quot;,&#xd;
+        &quot;city&quot; : &quot;City&quot;,&#xd;
+        &quot;state&quot; : &quot;CA&quot;,&#xd;
+        &quot;postalCode&quot; : &quot;12345&quot;&#xd;
+      },&#xd;
       &quot;pharmacyContact&quot; : {&#xd;
-        &quot;mobileNumber&quot; : {&#xd;
+        &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
+        &quot;addresses&quot; : [ {&#xd;
+          &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+          &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+          &quot;address1&quot; : &quot;101 Main Street&quot;,&#xd;
+          &quot;city&quot; : &quot;City&quot;,&#xd;
+          &quot;state&quot; : &quot;CA&quot;,&#xd;
+          &quot;postalCode&quot; : &quot;12345&quot;&#xd;
+        } ],&#xd;
+        &quot;phoneNumbers&quot; : [ {&#xd;
           &quot;number&quot; : &quot;1234567890&quot;,&#xd;
           &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
-        },&#xd;
-        &quot;homeNumber&quot; : {&#xd;
-          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-          &quot;type&quot; : &quot;PHONE_TYPE_HOME&quot;&#xd;
-        },&#xd;
-        &quot;faxNumber&quot; : {&#xd;
-          &quot;number&quot; : &quot;1234567890&quot;,&#xd;
-          &quot;type&quot; : &quot;PHONE_TYPE_FAX&quot;&#xd;
-        },&#xd;
-        &quot;email&quot; : &quot;test@opencdx.org&quot;&#xd;
+        } ],&#xd;
+        &quot;email&quot; : [ {&#xd;
+          &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
+          &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+        } ]&#xd;
       }&#xd;
     },&#xd;
     &quot;vaccineAdministered&quot; : [ {&#xd;
@@ -6005,7 +6013,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;locality&quot; : &quot;CA&quot;,&#xd;
       &quot;healthDistrict&quot; : &quot;District&quot;,&#xd;
       &quot;facilityType&quot; : &quot;Clinic&quot;,&#xd;
-      &quot;manufacturer&quot; : &quot;${manufacturerId}&quot;,&#xd;
+      &quot;manufacturer&quot; : &quot;65849f9ea4a7463cc04ee652&quot;,&#xd;
       &quot;doseNumber&quot; : 20,&#xd;
       &quot;vaccineType&quot; : &quot;COVID-19&quot;&#xd;
     } ],&#xd;
@@ -6030,10 +6038,19 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;pharmacy&quot; : &quot;Pharmacy&quot;,&#xd;
       &quot;isPrescription&quot; : true&#xd;
     } ],&#xd;
-    &quot;isActive&quot; : false&#xd;
+    &quot;isActive&quot; : false,&#xd;
+    &quot;email&quot; : [ ],&#xd;
+    &quot;phone&quot; : [ ],&#xd;
+    &quot;address&quot; : [ {&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;101 Main Street&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;CA&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;12345&quot;&#xd;
+    } ]&#xd;
   }&#xd;
-}&#xd;
-</stringProp>
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>

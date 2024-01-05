@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.connected.test.model;
 
+import cdx.opencdx.grpc.common.ContactInfo;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.PhoneNumber;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -44,9 +47,9 @@ public class OpenCDXManufacturerModel {
 
     private String name;
     private OpenCDXAddressModel address;
-    private String contact;
-    private String email;
-    private String phone;
+    private ContactInfo contact;
+    private EmailAddress email;
+    private PhoneNumber phone;
     private String website;
     private String description;
     private List<String> certifications;

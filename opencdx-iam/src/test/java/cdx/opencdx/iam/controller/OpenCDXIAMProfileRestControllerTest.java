@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.iam.IamUserType;
-import cdx.opencdx.grpc.profile.FullName;
 import cdx.opencdx.grpc.profile.Gender;
 import cdx.opencdx.grpc.profile.UpdateUserProfileRequest;
 import cdx.opencdx.grpc.profile.UserProfile;

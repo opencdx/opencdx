@@ -23,7 +23,7 @@ plugins {
     id "maven-publish"
     id "jacoco"
     id "org.springframework.boot" version "${springBootVersion}"
-    id "io.freefair.lombok" version "6.5.0"
+    id "io.freefair.lombok" version "${lombokVersion}"
     id "eclipse"
     id "idea"
     id "se.solrike.sonarlint" version "${solrikeSonarlintVersion}"
@@ -118,6 +118,7 @@ def exportedProjects = [
         ":opencdx-protector",
         ":opencdx-predictor",
         ":opencdx-questionnaire",
+        ":opencdx-classification",
         ":opencdx-media",
         ":opencdx-tinkar"
 ]
@@ -138,8 +139,8 @@ allprojects {
 
     group "cdx.opencdx"
     version "${SEMANTIC_RELEASE_VERSION}"
-    sourceCompatibility = JavaVersion.VERSION_20
-    targetCompatibility = JavaVersion.VERSION_20
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 
     repositories {
         mavenCentral()
@@ -233,8 +234,8 @@ allprojects {
         // note that rule parameter names are case sensitive
         ruleParameters = [
                 "java:S1176": [
-//                        "forClasses":"**.api.**",      // need javadoc for public methods in package matching "api"
-"exclusion": "**.private.**"] // do not need javadoc for classes under "private". Default is **.internal.**
+                    "exclusion": "**.grpc.**"
+                ]
         ]
         showIssues = true // default true
     }
@@ -242,6 +243,7 @@ allprojects {
     // Project Level Code Formatting configuration
     spotless {
         java {
+            targetExclude("**/grpc/**")
             importOrder()
             removeUnusedImports()
             cleanthat()          // has its own section below
