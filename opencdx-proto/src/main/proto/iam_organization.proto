@@ -23,11 +23,10 @@ message Organization {
   optional string mission_statement = 11; // Mission statement of the organization
   optional string vision_statement = 12; // Vision statement of the organization
   repeated cdx.opencdx.grpc.common.ContactInfo contacts = 13; // Contact information for the organization
-  repeated string workspace_ids = 14; // Departments (Workspaces) within the organization
-  optional google.protobuf.Timestamp created = 15; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 16; // Timestamp when this event was modified.
-  optional string creator = 17; // ID of the creator of this event.
-  optional string modifier = 18; // ID of the modifier of this event.
+  optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
+  optional string creator = 16; // ID of the creator of this event.
+  optional string modifier = 17; // ID of the modifier of this event.
 }
 
 // Definition for a workspace
@@ -35,20 +34,21 @@ message Workspace {
   optional string id = 1; // Unique identifier for the workspace
   optional string name = 2; // Name of the workspace
   optional string description = 3; // Description of the workspace
-  optional google.protobuf.Timestamp created_date = 4; // Date when the workspace was created
-  optional string location = 5; // Physical location of the workspace
-  optional string manager = 6; // Name of the workspace manager
-  optional int32 capacity = 7; // Maximum capacity of the workspace
-  repeated string facilities = 8; // Facilities available within the workspace
-  optional string workspace_type = 9; // Type of workspace (e.g., office, co-working space)
-  repeated string workspace_image_urls = 10; // URLs to images of the workspace
-  optional string usage_policy = 11; // Policies and rules for using the workspace
-  optional string availability_schedule = 12; // Schedule of when the workspace is available
-  repeated Department departments = 13; // Departments within the workspace
-  optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
-  optional string creator = 16; // ID of the creator of this event.
-  optional string modifier = 17; // ID of the modifier of this event.
+  string organization_id = 4; // ID of the organization that owns the workspace
+  optional google.protobuf.Timestamp created_date = 5; // Date when the workspace was created
+  optional string location = 6; // Physical location of the workspace
+  optional string manager = 7; // Name of the workspace manager
+  optional int32 capacity = 8; // Maximum capacity of the workspace
+  repeated string facilities = 9; // Facilities available within the workspace
+  optional string workspace_type = 10; // Type of workspace (e.g., office, co-working space)
+  repeated string workspace_image_urls = 11; // URLs to images of the workspace
+  optional string usage_policy = 12; // Policies and rules for using the workspace
+  optional string availability_schedule = 13; // Schedule of when the workspace is available
+  repeated Department departments = 14; // Departments within the workspace
+  optional google.protobuf.Timestamp created = 15; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 16; // Timestamp when this event was modified.
+  optional string creator = 17; // ID of the creator of this event.
+  optional string modifier = 18; // ID of the modifier of this event.
 }
 
 

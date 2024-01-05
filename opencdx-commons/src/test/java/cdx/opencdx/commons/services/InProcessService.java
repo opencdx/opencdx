@@ -29,7 +29,7 @@ public class InProcessService<T extends io.grpc.BindableService> {
 
     private Server server;
 
-    private Class<T> clazz;
+    private final Class<T> clazz;
 
     public InProcessService(Class<T> clazz) {
         this.clazz = clazz;

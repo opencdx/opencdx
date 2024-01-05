@@ -82,10 +82,10 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
      * @param event Event to send to Audit Service
      * @return indicates if successfully sent.
      */
-    private AuditStatus sendMessage(AuditEvent event, OpenCDXCallCredentials openCDXCallCredentials) {
+    private void sendMessage(AuditEvent event, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
             log.info("Sending Audit Event: {}", event.getEventType());
-            return this.auditServiceBlockingStub
+            this.auditServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .event(event);
         } catch (StatusRuntimeException e) {

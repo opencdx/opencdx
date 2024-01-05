@@ -86,6 +86,17 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
         throw new OpenCDXUnauthorized(DOMAIN, 1, "No user Authenticated. No Current User.");
     }
 
+    public OpenCDXIAMUserModel checkCurrentUser(OpenCDXIAMUserModel defaultUser) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null
+                && !(authentication instanceof AnonymousAuthenticationToken)
+                && defaultUser.getUsername().equals(authentication.getName())) {
+            return defaultUser;
+        } else {
+            return getCurrentUser();
+        }
+    }
+
     @Override
     public OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

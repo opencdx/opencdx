@@ -46,4 +46,11 @@ public interface OpenCDXCurrentUser {
      * @param allowBypassAuthentication Flag to bypass authentication.
      */
     void allowBypassAuthentication(boolean allowBypassAuthentication);
+
+    /**
+     * Method to check the current user against the default user.
+     * @param defaultUser Default user to return if no current user.
+     * @return Model for the current user.
+     */
+    OpenCDXIAMUserModel checkCurrentUser(OpenCDXIAMUserModel defaultUser);
 }

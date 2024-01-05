@@ -363,7 +363,7 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
                 .build();
     }
 
-    private AuditStatus sendMessage(AuditEvent event) {
+    private void sendMessage(AuditEvent event) {
         log.info("Sending Audit Event: {}", event.getEventType());
         openCDXDocumentValidator.validateDocumentOrLog(
                 "users", new ObjectId(event.getActor().getIdentity()));
@@ -375,6 +375,5 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
             }
         }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
-        return AuditStatus.newBuilder().setSuccess(true).build();
     }
 }

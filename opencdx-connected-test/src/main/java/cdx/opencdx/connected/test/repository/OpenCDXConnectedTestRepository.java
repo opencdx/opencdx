@@ -44,5 +44,5 @@ public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXC
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTestModel> findAllByNationalHealthId(Integer nationalHealthId, Pageable pageable);
+    Page<OpenCDXConnectedTestModel> findAllByNationalHealthId(String nationalHealthId, Pageable pageable);
 }

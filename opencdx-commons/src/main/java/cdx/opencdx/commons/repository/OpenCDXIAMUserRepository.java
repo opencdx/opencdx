@@ -39,11 +39,31 @@ public interface OpenCDXIAMUserRepository extends MongoRepository<OpenCDXIAMUser
     @Cacheable(value = "findByUsername", key = "#username")
     Optional<OpenCDXIAMUserModel> findByUsername(String username);
 
+    /**
+     * Method to find a user by their email address
+     * @param objectId ObjectId of the user to look up.
+     * @return Optional OpenCDXIAMUserModel of the user.
+     */
+    @Override
+    @Cacheable(value = "findById", key = "#objectId")
+    Optional<OpenCDXIAMUserModel> findById(ObjectId objectId);
+
+    /**
+     * Method to find a user by their email address
+     * @param objectId ObjectId of the user to look up.
+     * @return Optional OpenCDXIAMUserModel of the user.
+     */
+    @Override
+    @Cacheable(value = "existsById", key = "#objectId")
+    boolean existsById(ObjectId objectId);
+
     @Override
     @Caching(
             evict = {
                 @CacheEvict(value = "findByUsername", key = "#entity.username"),
-                @CacheEvict(value = "user-details", key = "#entity.username")
+                @CacheEvict(value = "user-details", key = "#entity.username"),
+                @CacheEvict(value = "existsById", key = "#entity.id"),
+                @CacheEvict(value = "findById", key = "#entity.id")
             })
     <S extends OpenCDXIAMUserModel> S save(S entity);
 }

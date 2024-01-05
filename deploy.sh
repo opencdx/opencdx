@@ -293,7 +293,7 @@ build_docker_image() {
 build_docker() {
     handle_info "Building Docker images..."
     build_docker_image opencdx/mongodb ./opencdx-mongodb
-    build_docker_image opencdx/helloworld ./opencdx-helloworld
+    # build_docker_image opencdx/helloworld ./opencdx-helloworld
     build_docker_image opencdx/admin ./opencdx-admin
     build_docker_image opencdx/config ./opencdx-config
     build_docker_image opencdx/tinkar ./opencdx-tinkar
@@ -302,7 +302,7 @@ build_docker() {
     build_docker_image opencdx/media ./opencdx-media
     build_docker_image opencdx/connected-test ./opencdx-connected-test
     build_docker_image opencdx/iam ./opencdx-iam
-	  build_docker_image opencdx/routine ./opencdx-routine
+	build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
     build_docker_image opencdx/questionnaire ./opencdx-questionnaire

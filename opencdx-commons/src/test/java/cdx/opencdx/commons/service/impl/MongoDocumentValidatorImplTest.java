@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.utils.MongoDocumentExists;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,10 +46,18 @@ class MongoDocumentValidatorImplTest {
 
     private MongoDocumentValidatorImpl documentValidator;
 
+    @Mock
+    private OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    ;
+
     @BeforeEach
     void setUp() {
         this.mongoTemplate = Mockito.mock(MongoTemplate.class);
-        this.documentValidator = new MongoDocumentValidatorImpl(mongoTemplate, new MongoDocumentExists(mongoTemplate));
+        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
+        Mockito.when(this.openCDXIAMUserRepository.existsById(any())).thenReturn(true);
+        this.documentValidator = new MongoDocumentValidatorImpl(
+                mongoTemplate, new MongoDocumentExists(mongoTemplate), this.openCDXIAMUserRepository);
     }
 
     @Test
@@ -263,17 +272,17 @@ class MongoDocumentValidatorImplTest {
     void testValidateOrganizationWorkspaceOrThrow() {
 
         ObjectId organization = ObjectId.get();
-        ObjectId worksapce = ObjectId.get();
+        ObjectId workspace = ObjectId.get();
 
         // Mocking isCollectionExists to return true
         when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
 
         // Mocking mongoTemplate.exists to return true
         when(mongoTemplate.exists(any(Query.class), anyString())).thenReturn(true);
-        when(mongoTemplate.findById(eq(organization), eq(Document.class), eq("organization")))
-                .thenReturn(Document.parse("{\"_id\": \"" + worksapce.toHexString() + "\"}"));
+        when(mongoTemplate.findById(eq(workspace), eq(Document.class), eq("workspace")))
+                .thenReturn(Document.parse("{\"_id\": \"" + organization.toHexString() + "\"}"));
 
-        assertDoesNotThrow(() -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+        assertDoesNotThrow(() -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
     }
 
     @Test
