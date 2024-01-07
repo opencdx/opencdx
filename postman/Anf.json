@@ -1,1 +1,408 @@
-{"openapi":"3.0.1","info":{"title":"OpenAPI definition","version":"v0"},"servers":[{"url":"https://localhost:8080/anf","description":"Generated server url"}],"security":[{"bearerAuth":[]}],"paths":{"/":{"put":{"tags":["open-cdx-rest-anf-controller"],"operationId":"updateANFStatement_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ANFStatement"}}},"required":true},"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Identifier"}}}}}},"post":{"tags":["open-cdx-rest-anf-controller"],"operationId":"createANFStatement_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ANFStatement"}}},"required":true},"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Identifier"}}}}}}},"/{id}":{"get":{"tags":["open-cdx-rest-anf-controller"],"operationId":"getANFStatement","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ANFStatement"}}}}}},"delete":{"tags":["open-cdx-rest-anf-controller"],"operationId":"deleteANFStatement","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Identifier"}}}}}}}},"components":{"schemas":{"ANFStatement":{"type":"object","properties":{"id":{"$ref":"#/components/schemas/Identifier"},"time":{"$ref":"#/components/schemas/Measure"},"subjectOfRecord":{"$ref":"#/components/schemas/Participant"},"author":{"type":"array","items":{"$ref":"#/components/schemas/Practitioner"}},"subjectOfInformation":{"$ref":"#/components/schemas/LogicalExpression"},"associatedStatement":{"type":"array","items":{"$ref":"#/components/schemas/AssociatedStatement"}},"topic":{"$ref":"#/components/schemas/LogicalExpression"},"type":{"$ref":"#/components/schemas/LogicalExpression"},"created":{"$ref":"#/components/schemas/Timestamp"},"modified":{"$ref":"#/components/schemas/Timestamp"},"creator":{"type":"string"},"modifier":{"type":"string"},"status":{"type":"string","enum":["STATUS_UNSPECIFIED","STATUS_ACTIVE","STATUS_DELETED","UNRECOGNIZED"]},"requestCircumstance":{"$ref":"#/components/schemas/RequestCircumstance"},"performanceCircumstance":{"$ref":"#/components/schemas/PerformanceCircumstance"},"narrativeCircumstance":{"$ref":"#/components/schemas/NarrativeCircumstance"}}},"AssociatedStatement":{"type":"object","properties":{"description":{"type":"string"}}},"Circumstance":{"type":"object","properties":{"timing":{"$ref":"#/components/schemas/Measure"},"purpose":{"type":"array","items":{"$ref":"#/components/schemas/LogicalExpression"}}}},"Identifier":{"type":"object","properties":{"id":{"type":"string"}}},"LogicalExpression":{"type":"object","properties":{"expression":{"type":"string"}}},"Measure":{"type":"object","properties":{"upperBound":{"type":"number","format":"float"},"lowerBound":{"type":"number","format":"float"},"includeUpperBound":{"type":"boolean"},"includeLowerBound":{"type":"boolean"},"semantic":{"$ref":"#/components/schemas/LogicalExpression"},"resolution":{"type":"number","format":"float"}}},"NarrativeCircumstance":{"type":"object","properties":{"text":{"type":"string"},"circumstance":{"$ref":"#/components/schemas/Circumstance"}}},"Participant":{"type":"object","properties":{"id":{"type":"string"}}},"PerformanceCircumstance":{"type":"object","properties":{"status":{"$ref":"#/components/schemas/LogicalExpression"},"result":{"$ref":"#/components/schemas/Measure"},"healthRisk":{"$ref":"#/components/schemas/LogicalExpression"},"normalRange":{"$ref":"#/components/schemas/Measure"},"participant":{"type":"array","items":{"$ref":"#/components/schemas/Participant"}},"circumstance":{"$ref":"#/components/schemas/Circumstance"}}},"Practitioner":{"type":"object","properties":{"id":{"type":"string"},"practitioner":{"type":"string"},"code":{"$ref":"#/components/schemas/LogicalExpression"}}},"Reference":{"type":"object","properties":{"id":{"type":"string"},"type":{"type":"string"}}},"Repetition":{"type":"object","properties":{"periodStart":{"$ref":"#/components/schemas/Measure"},"periodDuration":{"$ref":"#/components/schemas/Measure"},"eventSeparation":{"$ref":"#/components/schemas/Measure"},"eventDuration":{"$ref":"#/components/schemas/Measure"},"eventFrequency":{"$ref":"#/components/schemas/Measure"}}},"RequestCircumstance":{"type":"object","properties":{"conditionalTrigger":{"type":"array","items":{"$ref":"#/components/schemas/AssociatedStatement"}},"requestedParticipant":{"type":"array","items":{"$ref":"#/components/schemas/Reference"}},"priority":{"$ref":"#/components/schemas/LogicalExpression"},"requestedResult":{"$ref":"#/components/schemas/Measure"},"repetition":{"$ref":"#/components/schemas/Repetition"},"circumstance":{"$ref":"#/components/schemas/Circumstance"}}},"Timestamp":{"type":"object","properties":{"seconds":{"type":"integer","format":"int64"},"nanos":{"type":"integer","format":"int32"}}}},"securitySchemes":{"bearerAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}}}
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI ANF",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:8080/anf",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/": {
+      "put": {
+        "tags": [
+          "open-cdx-rest-anf-controller"
+        ],
+        "operationId": "updateANFStatement_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ANFStatement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Identifier"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "open-cdx-rest-anf-controller"
+        ],
+        "operationId": "createANFStatement_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ANFStatement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Identifier"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "tags": [
+          "open-cdx-rest-anf-controller"
+        ],
+        "operationId": "getANFStatement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ANFStatement"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "open-cdx-rest-anf-controller"
+        ],
+        "operationId": "deleteANFStatement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Identifier"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ANFStatement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Identifier"
+          },
+          "time": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "subjectOfRecord": {
+            "$ref": "#/components/schemas/Participant"
+          },
+          "author": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Practitioner"
+            }
+          },
+          "subjectOfInformation": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "associatedStatement": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociatedStatement"
+            }
+          },
+          "topic": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "type": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "created": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "modified": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "creator": {
+            "type": "string"
+          },
+          "modifier": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "STATUS_UNSPECIFIED",
+              "STATUS_ACTIVE",
+              "STATUS_DELETED",
+              "UNRECOGNIZED"
+            ]
+          },
+          "requestCircumstance": {
+            "$ref": "#/components/schemas/RequestCircumstance"
+          },
+          "performanceCircumstance": {
+            "$ref": "#/components/schemas/PerformanceCircumstance"
+          },
+          "narrativeCircumstance": {
+            "$ref": "#/components/schemas/NarrativeCircumstance"
+          }
+        }
+      },
+      "AssociatedStatement": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Circumstance": {
+        "type": "object",
+        "properties": {
+          "timing": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "purpose": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogicalExpression"
+            }
+          }
+        }
+      },
+      "Identifier": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "LogicalExpression": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string"
+          }
+        }
+      },
+      "Measure": {
+        "type": "object",
+        "properties": {
+          "upperBound": {
+            "type": "number",
+            "format": "float"
+          },
+          "lowerBound": {
+            "type": "number",
+            "format": "float"
+          },
+          "includeUpperBound": {
+            "type": "boolean"
+          },
+          "includeLowerBound": {
+            "type": "boolean"
+          },
+          "semantic": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "resolution": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "NarrativeCircumstance": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "circumstance": {
+            "$ref": "#/components/schemas/Circumstance"
+          }
+        }
+      },
+      "Participant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "PerformanceCircumstance": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "healthRisk": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "normalRange": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "participant": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
+          },
+          "circumstance": {
+            "$ref": "#/components/schemas/Circumstance"
+          }
+        }
+      },
+      "Practitioner": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "practitioner": {
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          }
+        }
+      },
+      "Reference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Repetition": {
+        "type": "object",
+        "properties": {
+          "periodStart": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "periodDuration": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "eventSeparation": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "eventDuration": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "eventFrequency": {
+            "$ref": "#/components/schemas/Measure"
+          }
+        }
+      },
+      "RequestCircumstance": {
+        "type": "object",
+        "properties": {
+          "conditionalTrigger": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociatedStatement"
+            }
+          },
+          "requestedParticipant": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reference"
+            }
+          },
+          "priority": {
+            "$ref": "#/components/schemas/LogicalExpression"
+          },
+          "requestedResult": {
+            "$ref": "#/components/schemas/Measure"
+          },
+          "repetition": {
+            "$ref": "#/components/schemas/Repetition"
+          },
+          "circumstance": {
+            "$ref": "#/components/schemas/Circumstance"
+          }
+        }
+      },
+      "Timestamp": {
+        "type": "object",
+        "properties": {
+          "seconds": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nanos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

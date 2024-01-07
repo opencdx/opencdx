@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "254233b0-742c-4afa-b97c-2fc6ab59ae98",
-		"name": "OpenAPI definition",
+		"name": "OpenAPI IAM",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
