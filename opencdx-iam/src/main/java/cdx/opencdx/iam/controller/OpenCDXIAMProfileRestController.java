@@ -60,7 +60,7 @@ public class OpenCDXIAMProfileRestController {
      * @param request The updated information for a user.
      * @return The updated user.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateUserProfileResponse> updateUserProfile(@RequestBody UpdateUserProfileRequest request) {
         return new ResponseEntity<>(this.openCDXIAMProfileService.updateUserProfile(request), HttpStatus.OK);
     }

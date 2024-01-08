@@ -53,7 +53,7 @@ public class OpenCDXRestHelloWorldController {
      * @param request HelloRequest indicating who to say hello to.
      * @return HelloReply with the hello message.
      */
-    @PostMapping(value = "/hello")
+    @PostMapping(value = "/hello", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HelloResponse> sayHello(@RequestBody HelloRequest request) {
 
         return new ResponseEntity<>(

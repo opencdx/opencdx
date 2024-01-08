@@ -67,7 +67,7 @@ public class OpenCDXRestCountryController {
      * @param country Country to retrieve.
      * @return The added Country.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Country> addCountry(@RequestBody Country country) {
         return new ResponseEntity<>(this.openCDXCountryService.addCountry(country), HttpStatus.OK);
     }
@@ -78,7 +78,7 @@ public class OpenCDXRestCountryController {
      * @param country Country to update.
      * @return The updated Country.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Country> updateCountry(@RequestBody Country country) {
         return new ResponseEntity<>(this.openCDXCountryService.updateCountry(country), HttpStatus.OK);
     }

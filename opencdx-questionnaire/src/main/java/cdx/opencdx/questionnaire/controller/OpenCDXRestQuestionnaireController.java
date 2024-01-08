@@ -56,7 +56,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/submitquestionnaire")
+    @PostMapping(value = "/submitquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> submitQuestionnaire(@RequestBody QuestionnaireRequest request) {
 
         return new ResponseEntity<>(
@@ -116,7 +116,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/system/createquestionnaire")
+    @PostMapping(value = "/system/createquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> createQuestionnaireData(@RequestBody QuestionnaireDataRequest request) {
 
         return new ResponseEntity<>(
@@ -134,7 +134,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/system/updatequestionnaire")
+    @PostMapping(value = "/system/updatequestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> updateQuestionnaireData(@RequestBody QuestionnaireDataRequest request) {
 
         return new ResponseEntity<>(
@@ -193,7 +193,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/client/createquestionnaire")
+    @PostMapping(value = "/client/createquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> createClientQuestionnaireData(
             @RequestBody ClientQuestionnaireDataRequest request) {
 
@@ -212,7 +212,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/client/updatequestionnaire")
+    @PostMapping(value = "/client/updatequestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> updateClientQuestionnaireData(
             @RequestBody ClientQuestionnaireDataRequest request) {
 
@@ -272,7 +272,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/user/createquestionnaire")
+    @PostMapping(value = "/user/createquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> createUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
@@ -291,7 +291,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/user/updatequestionnaire")
+    @PostMapping(value = "/user/updatequestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> updateUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 

@@ -59,7 +59,7 @@ public class OpenCDXRestMediaController {
      * @param request the CreateMediaRequest
      * @return the created CreateMediaResponse
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateMediaResponse> createMedia(@RequestBody CreateMediaRequest request) {
         return new ResponseEntity<>(this.openCDXMediaService.createMedia(request), HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class OpenCDXRestMediaController {
      * @param request the UpdateMediaRequest for updating the Media
      * @return the UpdateMediaResponse
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateMediaResponse> updateMedia(@RequestBody UpdateMediaRequest request) {
         return new ResponseEntity<>(this.openCDXMediaService.updateMedia(request), HttpStatus.OK);
     }
@@ -109,7 +109,7 @@ public class OpenCDXRestMediaController {
      * @param request Request for Media
      * @return the requested Media.
      */
-    @PostMapping("/list")
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListMediaResponse> listMedia(@RequestBody ListMediaRequest request) {
         return new ResponseEntity<>(this.openCDXMediaService.listMedia(request), HttpStatus.OK);
     }

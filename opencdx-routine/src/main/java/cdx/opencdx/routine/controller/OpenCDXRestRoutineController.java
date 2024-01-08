@@ -50,7 +50,7 @@ public class OpenCDXRestRoutineController {
      * @param request RoutineRequest indicating input.
      * @return RoutineResponse with the data.
      */
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RoutineResponse> createRoutine(@RequestBody RoutineRequest request) {
         RoutineResponse response = openCDXRoutineService.createRoutine(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -77,7 +77,7 @@ public class OpenCDXRestRoutineController {
      * @param request DeliveryTrackingRequest indicating input.
      * @return DeliveryTrackingResponse with the data.
      */
-    @PostMapping("/deliveryTracking")
+    @PostMapping(value = "/deliveryTracking", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DeliveryTrackingResponse> createDeliveryTracking(
             @RequestBody DeliveryTrackingRequest request) {
         DeliveryTrackingResponse response = openCDXRoutineService.createDeliveryTracking(request);
@@ -106,7 +106,7 @@ public class OpenCDXRestRoutineController {
      * @param request ClinicalProtocolExecutionRequest indicating input.
      * @return ClinicalProtocolExecutionResponse with the data.
      */
-    @PostMapping("/clinicalProtocolExecution")
+    @PostMapping(value = "/clinicalProtocolExecution", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClinicalProtocolExecutionResponse> createClinicalProtocolExecution(
             @RequestBody ClinicalProtocolExecutionRequest request) {
         ClinicalProtocolExecutionResponse response = openCDXRoutineService.createClinicalProtocolExecution(request);
@@ -136,7 +136,7 @@ public class OpenCDXRestRoutineController {
      * @param request LabOrderRequest indicating input.
      * @return LabOrderResponse with the data.
      */
-    @PostMapping("/labOrder")
+    @PostMapping(value = "/labOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LabOrderResponse> triggerLabOrder(@RequestBody LabOrderRequest request) {
         LabOrderResponse response = openCDXRoutineService.triggerLabOrder(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -162,7 +162,7 @@ public class OpenCDXRestRoutineController {
      * @param request DiagnosisRequest indicating input.
      * @return DiagnosisResponse with the data.
      */
-    @PostMapping("/diagnosis")
+    @PostMapping(value = "/diagnosis", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DiagnosisResponse> triggerDiagnosis(@RequestBody DiagnosisRequest request) {
         DiagnosisResponse response = openCDXRoutineService.triggerDiagnosis(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -188,7 +188,7 @@ public class OpenCDXRestRoutineController {
      * @param request SuspectedDiagnosisRequest indicating input.
      * @return SuspectedDiagnosisResponse with the data.
      */
-    @PostMapping("/suspectedDiagnosis")
+    @PostMapping(value = "/suspectedDiagnosis", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuspectedDiagnosisResponse> triggerSuspectedDiagnosis(
             @RequestBody SuspectedDiagnosisRequest request) {
         SuspectedDiagnosisResponse response = openCDXRoutineService.triggerSuspectedDiagnosis(request);
@@ -218,7 +218,7 @@ public class OpenCDXRestRoutineController {
      * @param request LabResultRequest indicating input.
      * @return LabResultResponse with the data.
      */
-    @PostMapping("/labResult")
+    @PostMapping(value = "/labResult", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LabResultResponse> triggerLabResult(@RequestBody LabResultRequest request) {
         LabResultResponse response = openCDXRoutineService.triggerLabResult(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -244,7 +244,7 @@ public class OpenCDXRestRoutineController {
      * @param request MedicationRequest indicating input.
      * @return MedicationResponse with the data.
      */
-    @PostMapping("/medication")
+    @PostMapping(value = "/medication", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MedicationResponse> triggerMedication(@RequestBody MedicationRequest request) {
         MedicationResponse response = openCDXRoutineService.triggerMedication(request);
         return new ResponseEntity<>(response, HttpStatus.OK);

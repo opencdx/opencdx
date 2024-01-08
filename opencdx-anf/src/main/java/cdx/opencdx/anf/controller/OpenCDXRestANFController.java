@@ -58,7 +58,7 @@ public class OpenCDXRestANFController {
      * @param anfStatement ANF Statement to create.
      * @return The created ANF Statement.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AnfStatement.Identifier> createANFStatement(
             @RequestBody AnfStatement.ANFStatement anfStatement) {
         return new ResponseEntity<>(this.openCDXANFService.createANFStatement(anfStatement), HttpStatus.OK);
@@ -68,7 +68,7 @@ public class OpenCDXRestANFController {
      * @param anfStatement ANF Statement to update.
      * @return The updated ANF Statement.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AnfStatement.Identifier> updateANFStatement(
             @RequestBody AnfStatement.ANFStatement anfStatement) {
         return new ResponseEntity<>(this.openCDXANFService.updateANFStatement(anfStatement), HttpStatus.OK);

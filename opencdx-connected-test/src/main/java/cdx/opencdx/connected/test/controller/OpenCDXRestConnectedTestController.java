@@ -52,7 +52,7 @@ public class OpenCDXRestConnectedTestController {
      * @param connectedTest ConnectedTest submitted
      * @return ID for the connectedTest
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestSubmissionResponse> submitTest(@RequestBody ConnectedTest connectedTest) {
         return new ResponseEntity<>(this.openCDXConnectedTestService.submitTest(connectedTest), HttpStatus.OK);
     }
@@ -77,7 +77,7 @@ public class OpenCDXRestConnectedTestController {
      * @param connectedTestListRequest request for Connected Tests.
      * @return the requested connected tests.
      */
-    @PostMapping("/list")
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ConnectedTestListResponse> listConnectedTests(
             @RequestBody ConnectedTestListRequest connectedTestListRequest) {
         return new ResponseEntity<>(
@@ -90,7 +90,7 @@ public class OpenCDXRestConnectedTestController {
      * @param connectedTestListByNHIDRequest request for Connected Tests.
      * @return the requested connected tests
      */
-    @PostMapping("/listbynhid")
+    @PostMapping(value = "/listbynhid", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ConnectedTestListByNHIDResponse> listConnectedTestsByNHID(
             @RequestBody ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest) {
         return new ResponseEntity<>(

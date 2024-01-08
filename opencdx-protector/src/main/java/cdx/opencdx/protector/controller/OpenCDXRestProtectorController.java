@@ -66,7 +66,7 @@ public class OpenCDXRestProtectorController {
      * @param request AnomalyDetectionData indicating data to be analyzed.
      * @return ResponseEntity with a SecurityResponse containing the analysis.
      */
-    @PostMapping("/detectAnomalies")
+    @PostMapping(value = "/detectAnomalies", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SecurityResponse> postDetectAnomalies(@RequestBody AnomalyDetectionDataRequest request) {
         return new ResponseEntity<>(
                 SecurityResponse.newBuilder()
@@ -83,7 +83,7 @@ public class OpenCDXRestProtectorController {
      * @param request AuthorizationControlDataRequest indicating data to be analyzed.
      * @return ResponseEntity with a SecurityResponse containing the analysis.
      */
-    @PostMapping("/authorize")
+    @PostMapping(value = "/authorize", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SecurityResponse> postAuthorize(@RequestBody AuthorizationControlDataRequest request) {
         return new ResponseEntity<>(
                 SecurityResponse.newBuilder()
@@ -102,7 +102,7 @@ public class OpenCDXRestProtectorController {
      * @param request PrivacyProtectionDataRequest indicating data to be analyzed.
      * @return ResponseEntity with a SecurityResponse containing the analysis.
      */
-    @PostMapping("/protectPrivacy")
+    @PostMapping(value = "/protectPrivacy", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SecurityResponse> postProtectPrivacy(@RequestBody PrivacyProtectionDataRequest request) {
         return new ResponseEntity<>(
                 SecurityResponse.newBuilder()
@@ -119,7 +119,7 @@ public class OpenCDXRestProtectorController {
      * @param request RealTimeMonitoringDataRequest indicating data to be analyzed.
      * @return ResponseEntity with a SecurityResponse containing the analysis.
      */
-    @PostMapping("/monitorRealTime")
+    @PostMapping(value = "/monitorRealTime", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SecurityResponse> postMonitorRealTime(@RequestBody RealTimeMonitoringDataRequest request) {
         return new ResponseEntity<>(
                 SecurityResponse.newBuilder()
@@ -138,7 +138,7 @@ public class OpenCDXRestProtectorController {
      * @param request UserBehaviorAnalysisDataRequest indicating data to be analyzed.
      * @return ResponseEntity with a SecurityResponse containing the analysis.
      */
-    @PostMapping("/analyzeUserBehavior")
+    @PostMapping(value = "/analyzeUserBehavior", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SecurityResponse> postAnalyzeUserBehavior(
             @RequestBody UserBehaviorAnalysisDataRequest request) {
         return new ResponseEntity<>(

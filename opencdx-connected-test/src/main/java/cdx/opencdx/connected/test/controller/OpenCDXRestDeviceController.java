@@ -65,7 +65,7 @@ public class OpenCDXRestDeviceController {
      * @param device Device to add
      * @return The added Device.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Device> addDevice(@RequestBody Device device) {
         return new ResponseEntity<>(this.openCDXDeviceService.addDevice(device), HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class OpenCDXRestDeviceController {
      * @param device Device to update.
      * @return The updated Device.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Device> updateDevice(@RequestBody Device device) {
         return new ResponseEntity<>(this.openCDXDeviceService.updateDevice(device), HttpStatus.OK);
     }

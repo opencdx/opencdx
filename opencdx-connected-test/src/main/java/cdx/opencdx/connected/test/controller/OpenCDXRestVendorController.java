@@ -65,7 +65,7 @@ public class OpenCDXRestVendorController {
      * @param vendor Vendor to be added
      * @return The added Vendor.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vendor) {
         return new ResponseEntity<>(this.openCDXVendorService.addVendor(vendor), HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class OpenCDXRestVendorController {
      * @param vendor Vendor to update.
      * @return The updated Vendor.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vendor> updateVendor(@RequestBody Vendor vendor) {
         return new ResponseEntity<>(this.openCDXVendorService.updateVendor(vendor), HttpStatus.OK);
     }

@@ -65,7 +65,7 @@ public class OpenCDXRestTestCaseController {
      * @param testCase test case to be added
      * @return The added Testcase.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestCase> addTestCase(@RequestBody TestCase testCase) {
         return new ResponseEntity<>(this.openCDXTestCaseService.addTestCase(testCase), HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class OpenCDXRestTestCaseController {
      * @param testCase TestCase to update.
      * @return The updated TestCase.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestCase> updateTestCase(@RequestBody TestCase testCase) {
         return new ResponseEntity<>(this.openCDXTestCaseService.updateTestCase(testCase), HttpStatus.OK);
     }
