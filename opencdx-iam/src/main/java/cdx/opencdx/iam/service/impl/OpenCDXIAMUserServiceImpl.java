@@ -46,6 +46,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -175,8 +177,19 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public ListIamUsersResponse listIamUsers(ListIamUsersRequest request) {
-        Page<OpenCDXIAMUserModel> all = this.openCDXIAMUserRepository.findAll(PageRequest.of(
-                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXIAMUserModel> all = this.openCDXIAMUserRepository.findAll(pageable);
         all.forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

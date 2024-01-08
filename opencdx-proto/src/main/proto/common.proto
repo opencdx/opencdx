@@ -89,7 +89,7 @@ message Pagination {
   int32 page_number = 1; // Page number
   int32 page_size = 2; // Page size
   bool sort_ascending = 3; // indicating if the results should ascending.
-  string sort = 4; // Sort field
+  optional string sort = 4; // Sort field
 
   optional int64 total_pages = 5; // Total number of pages set on the response.
   optional int64 total_records = 6; // Total number of records set on the response.

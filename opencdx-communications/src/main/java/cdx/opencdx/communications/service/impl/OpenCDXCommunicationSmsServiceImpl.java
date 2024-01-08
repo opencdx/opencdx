@@ -41,6 +41,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -184,9 +186,20 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
 
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
 
-        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(PageRequest.of(
-                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
+        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(pageable);
 
         return SMSTemplateListResponse.newBuilder()
                 .setPagination(Pagination.newBuilder(request.getPagination())

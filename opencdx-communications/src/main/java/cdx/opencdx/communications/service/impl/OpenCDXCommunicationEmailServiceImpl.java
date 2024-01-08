@@ -41,6 +41,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -188,8 +190,19 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
 
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
-        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(PageRequest.of(
-                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(pageable);
         return EmailTemplateListResponse.newBuilder()
                 .setPagination(Pagination.newBuilder(request.getPagination())
                         .setTotalPages(all.getTotalPages())
