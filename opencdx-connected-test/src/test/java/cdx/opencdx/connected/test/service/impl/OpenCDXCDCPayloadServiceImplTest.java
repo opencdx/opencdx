@@ -134,6 +134,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         openCDXConnectedTestModel.setTestDetails(
                 TestDetails.newBuilder().setDeviceIdentifier(deviceId).build());
         OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
+        openCDXIAMUserModel.setGender(null);
         openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
         openCDXIAMUserModel.setAddresses(null);
         OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
