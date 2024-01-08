@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.connected.test.repository;
+package cdx.opencdx.iam.repository;
 
-import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
+import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for protobuf Country
+ * Interface for the Database workspace model.
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXCountryRepository extends MongoRepository<OpenCDXCountryModel, ObjectId> {}
+public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {}
