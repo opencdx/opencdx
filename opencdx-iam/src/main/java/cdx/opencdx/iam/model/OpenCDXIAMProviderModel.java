@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,15 @@
  */
 package cdx.opencdx.iam.model;
 
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
+import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.provider.*;
-import cdx.opencdx.iam.dto.OpenCDXDtoNpiResult;
+import cdx.opencdx.iam.dto.*;
 import com.google.protobuf.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +42,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Document("provider")
+@SuppressWarnings({"java:S3776", "java:S1117", "java:S116"})
 public class OpenCDXIAMProviderModel {
     @Id
     private ObjectId id;
@@ -59,59 +65,75 @@ public class OpenCDXIAMProviderModel {
     private String modifier;
     private ProviderStatus status;
 
-
     /**
      * Constructor to convert OpenCDXDtoNpiResult to OpenCDXIAMProviderModel
      */
-    public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result) {
+    public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result, OpenCDXCountryRepository openCDXCountryRepository) {
         this.id = new ObjectId();
         this.created_epoch = result.getCreatedEpoch();
         this.enumeration_type = result.getEnumerationType();
         this.last_updated_epoch = result.getLastUpdatedEpoch();
         this.number = result.getNumber();
 
-        //TODO: Convert the following to protobuf messages ans assign above.
+        this.addresses = result.getAddresses().stream()
+                .map(address -> {
+                    Address.Builder builder = Address.newBuilder();
+                    Optional<OpenCDXCountryModel> byName =
+                            openCDXCountryRepository.findByName(address.getCountryName());
+                    if (byName.isPresent()) {
+                        builder.setCountryId(byName.get().getId().toHexString());
+                    }
+                    builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
+                    builder.setAddress1(address.getAddress1());
+                    builder.setCity(address.getCity());
+                    builder.setState(address.getState());
+                    builder.setPostalCode(address.getPostalCode());
+                    return builder.build();
+                })
+                .toList();
 
-        this.addresses = result.getAddresses();
         this.practiceLocations = result.getPracticeLocations();
-        this.basic = result.getBasic();
-        this.taxonomies = result.getTaxonomies();
-        this.identifiers = result.getIdentifiers();
-        this.endpoints = result.getEndpoints();
-        this.otherNames = result.getOtherNames();
-        this.status = ProviderStatus.VALIDATED;
-    /**
-     * Constructor from protobuf message Provider
-     * @param provider Protobuf message to generate from
-     */
-    public OpenCDXIAMProviderModel(Provider provider) {
-        this.id = new ObjectId(provider.getId());
-        this.userId = provider.getUserId();
-        this.created_epoch = provider.getCreatedEpoch();
-        this.enumeration_type= provider.getEnumerationType();
-        this.last_updated_epoch = provider.getLastUpdatedEpoch();
-        this.number = provider.getNumber();
-        this.addresses = provider.getAddressesList();
-        this.practiceLocations = provider.getPracticeLocationsList();
-        this.basic = provider.getBasic();
-        this.taxonomies = provider.getTaxonomiesList();
-        this.identifiers = provider.getIdentifiersList();
-        this.endpoints = provider.getEndpointsList();
-        this.otherNames = provider.getOtherNamesList();
-        if (provider.hasCreated()) {
-            this.created = Timestamp.newBuilder()
-                    .setSeconds(provider.getCreated().getSeconds())
-                    .setNanos(provider.getCreated().getNanos())
-                    .build();
-        }
-        if (provider.hasModified()) {
-            this.modified = Timestamp.newBuilder()
-                    .setSeconds(provider.getCreated().getSeconds())
-                    .setNanos(provider.getCreated().getNanos())
-                    .build();
-        }
-        this.creator = provider.getCreator();
-        this.modifier = provider.getModifier();
+
+        BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
+        this.basic = basicBuilder
+                .setFirstName(result.getBasic().getFirstName())
+                .setLastName(result.getBasic().getLastName())
+                .setCredential(result.getBasic().getCredential())
+                .setSoleProprietor(result.getBasic().getSoleProprietor())
+                .setGender(result.getBasic().getGender())
+                .setEnumerationDate(result.getBasic().getEnumerationDate())
+                .setStatus(ProviderStatus.VALIDATED)
+                .setNamePrefix(result.getBasic().getNamePrefix())
+                .setNameSuffix(result.getBasic().getNameSuffix())
+                .build();
+        this.taxonomies = result.getTaxonomies().stream()
+                .map(taxonomy -> {
+                    Taxonomy.Builder builder = Taxonomy.newBuilder();
+                    builder.setCode(builder.getCode());
+                    builder.setTaxonomyGroup(builder.getTaxonomyGroup());
+                    builder.setDesc(builder.getDesc());
+                    builder.setState(builder.getState());
+                    builder.setLicense(builder.getLicense());
+                    builder.setPrimary(builder.getPrimary());
+                    return builder.build();
+                })
+                .toList();
+        this.identifiers = result.getIdentifiers().stream()
+                .map(identifiers -> {
+                    Identifier.Builder builder = Identifier.newBuilder();
+                    builder.setCode(identifiers.getCode());
+                    builder.setDesc(identifiers.getDesc());
+                    if (null != identifiers.getIssuer()) {
+                        builder.setIssuer(identifiers.getIssuer());
+                    }
+                    builder.setIdentifier(identifiers.getIdentifier());
+                    builder.setState(identifiers.getState());
+                    return builder.build();
+                })
+                .toList();
+
+        this.endpoints = result.getEndpoints().stream().map(Object::toString).toList();
+        this.otherNames = result.getOtherNames().stream().map(Object::toString).toList();
         this.status = ProviderStatus.VALIDATED;
     }
 
@@ -119,7 +141,6 @@ public class OpenCDXIAMProviderModel {
      * Method to get the protobuf provider object
      * @return protobuf provider object
      */
-    @SuppressWarnings("java:S3776")
     public Provider getProtobufMessage() {
         Provider.Builder builder = Provider.newBuilder();
         builder.setId(this.id.toHexString());

@@ -296,7 +296,7 @@ build_docker() {
     # build_docker_image opencdx/helloworld ./opencdx-helloworld
     build_docker_image opencdx/admin ./opencdx-admin
     build_docker_image opencdx/config ./opencdx-config
-#    build_docker_image opencdx/tinkar ./opencdx-tinkar
+    build_docker_image opencdx/tinkar ./opencdx-tinkar
     build_docker_image opencdx/audit ./opencdx-audit
     build_docker_image opencdx/communications ./opencdx-communications
     build_docker_image opencdx/media ./opencdx-media

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,16 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
+import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
+import cdx.opencdx.iam.service.impl.OpenCDXIAMProviderServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -33,6 +37,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
@@ -60,6 +65,12 @@ class OpenCDXIAMProviderRestControllerTest {
 
     private MockMvc mockMvc;
 
+    @MockBean
+    OpenCDXIAMProviderService openCDXIAMProviderService;
+
+    @Autowired
+    OpenCDXAuditService openCDXAuditService;
+
     @Autowired
     ObjectMapper objectMapper;
 
@@ -71,6 +82,9 @@ class OpenCDXIAMProviderRestControllerTest {
 
     @MockBean
     AuthenticationManager authenticationManager;
+
+    @Mock
+    OpenCDXCountryRepository openCDXCountryRepository;
 
     @BeforeEach
     public void setup() {
@@ -90,23 +104,22 @@ class OpenCDXIAMProviderRestControllerTest {
                     @Override
                     public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        Address address = Address.newBuilder()
-                                .setAddress1("address1")
-                                .setAddressPurpose(AddressPurpose.PRIMARY)
-                                .setCountryName("USA")
-                                .build();
                         return Optional.of(OpenCDXIAMProviderModel.builder()
                                 .id(argument)
-                                .userId(argument.toHexString())
-                                .addresses(List.of(address))
-                                .basic(BasicInfo.newBuilder()
-                                        .setStatus(ProviderStatus.VALIDATED)
-                                        .build())
-                                .status(ProviderStatus.VALIDATED)
-                                .creator("creator")
+                                .userId("userId")
                                 .build());
                     }
                 });
+
+        when(this.openCDXCountryRepository.findByName(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXCountryModel>>() {
+                    @Override
+                    public Optional<OpenCDXCountryModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.of(
+                                OpenCDXCountryModel.builder().id(ObjectId.get()).build());
+                    }
+                });
+
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
@@ -159,13 +172,40 @@ class OpenCDXIAMProviderRestControllerTest {
 
     @Test
     void loadProvider() throws Exception {
-        MvcResult result = this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/provider/load")
-                        .content("{}")
+        this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
+                this.openCDXIAMProviderRepository,
+                this.openCDXAuditService,
+                this.objectMapper,
+                this.openCDXCountryRepository);
+        MvcResult mvcResult = this.mockMvc
+                .perform(get("/provider/load")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(LoadProviderRequest.newBuilder()
+                                .setUserId("1679736037")
+                                .setProviderNumber("1679736037")
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
-        String content = result.getResponse().getContentAsString();
+
+        String content = mvcResult.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void loadProviderExcp() throws Exception {
+        MvcResult mvcResult = this.mockMvc
+                .perform(get("/provider/load")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(LoadProviderRequest.newBuilder()
+                                .setUserId("1679736037")
+                                .setProviderNumber("1679736037")
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
         Assertions.assertNotNull(content);
     }
 }

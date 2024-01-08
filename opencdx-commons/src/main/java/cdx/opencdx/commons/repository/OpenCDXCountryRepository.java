@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.connected.test.repository;
+package cdx.opencdx.commons.repository;
 
-import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXCountryRepository extends MongoRepository<OpenCDXCountryModel, ObjectId> {}
+public interface OpenCDXCountryRepository extends MongoRepository<OpenCDXCountryModel, ObjectId> {
+    Optional<OpenCDXCountryModel> findByName(String name);
+
+    @Override
+    <S extends OpenCDXCountryModel> S save(S entity);
+}

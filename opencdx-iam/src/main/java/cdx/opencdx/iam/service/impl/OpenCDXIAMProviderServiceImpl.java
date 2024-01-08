@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
@@ -54,6 +55,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
 
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
+    private final OpenCDXCountryRepository openCDXCountryRepository;
 
     /**
      * Provider Service
@@ -64,10 +66,12 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     public OpenCDXIAMProviderServiceImpl(
             OpenCDXIAMProviderRepository openCDXIAMProviderRepository,
             OpenCDXAuditService openCDXAuditService,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            OpenCDXCountryRepository openCDXCountryRepository) {
         this.openCDXIAMProviderRepository = openCDXIAMProviderRepository;
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
+        this.openCDXCountryRepository = openCDXCountryRepository;
     }
 
     /**
@@ -142,24 +146,22 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     /**
      * Method to load all providers.
      *
-     * @param request
+     * @param request LoadProvider request
      * @return LoadProviderResponse with all the providers.
      */
     @Override
+    @SuppressWarnings("java:S4449")
     public LoadProviderResponse loadProvider(LoadProviderRequest request) {
+        OpenCDXIAMProviderModel openCDXIAMProviderModel = null;
         try {
             String npiNumber = request.getUserId();
             String apiUrl = "https://npiregistry.cms.hhs.gov/api/";
-
             // Construct the URL
             URL url = URI.create(apiUrl + "?version=2.1&number=" + npiNumber).toURL();
-
             // Open connection
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
             // Set the request method
             connection.setRequestMethod("GET");
-
             // Get the response code
             int responseCode = connection.getResponseCode();
 
@@ -174,18 +176,24 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                 }
                 in.close();
 
-                OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse = this.objectMapper.readValue(response.toString(), OpenCDXDtoNpiJsonResponse.class);
+                OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse =
+                        this.objectMapper.readValue(response.toString(), OpenCDXDtoNpiJsonResponse.class);
+                openCDXIAMProviderModel = new OpenCDXIAMProviderModel(
+                        openCDXDtoNpiJsonResponse.getResults().get(0), openCDXCountryRepository);
                 log.info("Response: {}", openCDXDtoNpiJsonResponse);
-
-
             } else {
                 // Handle error response
                 log.error("Error: " + responseCode);
             }
-
         } catch (Exception e) {
+
             e.printStackTrace();
         }
-        return null;
+        //        assert openCDXIAMProviderModel != null;
+        return LoadProviderResponse.newBuilder()
+                .setProvider(this.openCDXIAMProviderRepository
+                        .save(openCDXIAMProviderModel)
+                        .getProtobufMessage())
+                .build();
     }
 }

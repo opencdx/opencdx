@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Safe Health Systems, Inc.
+ * Copyright 2024 Safe Health Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,11 @@
 package cdx.opencdx.iam.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -37,6 +41,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,15 +84,15 @@ class OpenCDXIAMProviderGrpcControllerTest {
     @MockBean
     JwtTokenUtil jwtTokenUtil;
 
-    //    @Autowired
-    //    OpenCDXCommunicationService openCDXCommunicationService;
-
     @Autowired
     AppProperties appProperties;
 
+    @Mock
+    OpenCDXCountryRepository openCDXCountryRepository;
+
     @BeforeEach
     void setUp() {
-        this.openCDXIAMProviderRepository = Mockito.mock(OpenCDXIAMProviderRepository.class);
+        this.openCDXIAMProviderRepository = mock(OpenCDXIAMProviderRepository.class);
         Mockito.when(this.openCDXIAMProviderRepository.save(Mockito.any(OpenCDXIAMProviderModel.class)))
                 .thenAnswer(new Answer<OpenCDXIAMProviderModel>() {
                     @Override
@@ -111,9 +116,23 @@ class OpenCDXIAMProviderGrpcControllerTest {
         Mockito.when(this.openCDXIAMProviderRepository.existsById(Mockito.any(ObjectId.class)))
                 .thenReturn(true);
 
+        when(this.openCDXCountryRepository.findByName(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXCountryModel>>() {
+                    @Override
+                    public Optional<OpenCDXCountryModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.of(
+                                OpenCDXCountryModel.builder().id(ObjectId.get()).build());
+                    }
+                });
+
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
-                this.openCDXIAMProviderRepository, this.openCDXAuditService, this.objectMapper);
+                this.openCDXIAMProviderRepository,
+                this.openCDXAuditService,
+                this.objectMapper,
+                this.openCDXCountryRepository);
+
         this.openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
+        MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
@@ -123,7 +142,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
 
     @Test
     void getProviderByNumber() {
-        StreamObserver<GetProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<GetProviderResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.getProviderByNumber(
                 GetProviderRequest.newBuilder(GetProviderRequest.getDefaultInstance())
                         .setUserId(ObjectId.get().toHexString())
@@ -136,7 +155,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
 
     @Test
     void deleteProvider() {
-        StreamObserver<DeleteProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<DeleteProviderResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.deleteProvider(
                 DeleteProviderRequest.newBuilder()
                         .build()
@@ -151,7 +170,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
 
     @Test
     void listProviders() {
-        StreamObserver<ListProvidersResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<ListProvidersResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.listProviders(
                 ListProvidersRequest.newBuilder(ListProvidersRequest.getDefaultInstance())
                         .build(),
@@ -160,9 +179,10 @@ class OpenCDXIAMProviderGrpcControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListProvidersResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void loadProvider() {
-        StreamObserver<LoadProviderResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<LoadProviderResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.loadProvider(
                 LoadProviderRequest.newBuilder(LoadProviderRequest.newBuilder()
                                 .setUserId("1679736037")
