@@ -211,6 +211,10 @@ open_reports() {
         ./gradlew testReport || handle_error "Failed to generate the test report."
         open_url "build/reports/allTests/index.html"
         ;;
+    dashboard)
+        handle_info "Opening OpenCDX Dashboard..."
+        open_url "http://localhost:3005"
+        ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
         ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
@@ -473,7 +477,7 @@ menu() {
             "Open Test Report" "Publish Doc"
             "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
-            "Dependency Check"
+            "Dependency Check" "OpenCDX Dashboard"
         )
 
         # Calculate the number of menu items
@@ -528,6 +532,7 @@ menu() {
             13) open_reports "proto" ;;
             14) open_reports "status" ;;
             15) open_reports "dependency" ;;
+            16) open_reports "dashboard" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
@@ -760,6 +765,7 @@ if [ "$no_menu" = false ]; then
         start_docker "docker-compose.yml";
         DEPLOYED="ALL"
         open_reports "admin";
+        open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
             countdown 120
