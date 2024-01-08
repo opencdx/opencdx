@@ -514,7 +514,6 @@ class OpenCDXGrpcCommunicationsControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
-
     @Test
     void listSMSTemplates_3() {
         StreamObserver<SMSTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
