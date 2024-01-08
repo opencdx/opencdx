@@ -111,10 +111,10 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
             // Execute the request and process the results.
             HttpResponse response = httpClient.execute(request);
             HttpEntity responseEntity = response.getEntity();
-            String responseMessage = EntityUtils.toString(responseEntity).replace("\n", "");
-            log.debug(responseMessage);
+            String responseMessage = EntityUtils.toString(responseEntity);
+            log.debug(responseMessage.replace("\n", ""));
 
-            log.info("CDC Message sent.");
+            log.info("CDC Message sent Successfully.");
 
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_CREATED) {
                 throw new OpenCDXInternalServerError(
