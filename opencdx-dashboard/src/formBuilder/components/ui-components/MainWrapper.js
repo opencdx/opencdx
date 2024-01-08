@@ -1,4 +1,3 @@
-//? Component for ANF Statement
 import React, { useEffect, forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -13,14 +12,26 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
     const [anfFormLocal, setAnfFormLocal] = useLocalStorage('anf-form');
     const [showAlert, setShowAlert] = useState(false);
 
+   
+
     const defaultValues = {
         test: uploadedFile.item
     };
     const { register, handleSubmit, control, getValues, errors, setValue, reset } = useForm({ defaultValues });
 
+    const handleAlertClose = () => {
+        setShowAlert(false);
+    };
+
+    useEffect(() => {
+        reset({
+            test: anfFormLocal.item
+        });
+    }, [anfFormLocal, reset]);
+
     const onSubmit = (data) => {
         const formData = JSON.parse(localStorage.getItem('anf-form'));
-        formData?.item?.map((element, index) => {
+        formData?.item?.forEach((element, index) => {
             if (element.componentType === '') {
                 data.test[index].componentType = element.componentType;
             }
@@ -35,22 +46,28 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
             ...element,
             markedMainANFStatement: markedMainANFStatement
         }));
+
         localStorage.setItem('anf-form', JSON.stringify({ item: updatedItem }));
+        console.log('anf-form', localStorage.getItem('anf-form'));
+
+        const values = Object.keys(localStorage)
+            .filter(key => key.includes('form-v'))
+            .map(key => localStorage.getItem(key));
+        if (values.length === 0) {
+            localStorage.setItem('form-v1', JSON.stringify({
+                'anf-form': JSON.parse(localStorage.getItem('anf-form')),
+                'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
+            }));
+        }
+        localStorage.setItem('form-v' + (values.length + 1), JSON.stringify({
+            'anf-form': JSON.parse(localStorage.getItem('anf-form')),
+            'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
+        }));
 
         setAnfFormLocal({ item: updatedItem });
 
         setShowAlert(true);
     };
-
-    const handleAlertClose = () => {
-        setShowAlert(false);
-    };
-
-    useEffect(() => {
-        reset({
-            test: anfFormLocal.item
-        });
-    }, [anfFormLocal, reset]);
 
     return (
         <div ref={ref}>

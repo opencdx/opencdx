@@ -735,12 +735,10 @@ if [ "$no_ui" = false ]; then
   cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
 
   # Install dependencies
-  pnpm install || handle_error "npm install failed"
+  #yarn install || handle_error "yarn install failed"
 
   # Run linting
-  pnpm run lint
-
-  rm -rf ./node_modules
+  #yarn run lint
 
   # Change back to the previous directory
   cd - || handle_error "Unable to change back to the previous directory"

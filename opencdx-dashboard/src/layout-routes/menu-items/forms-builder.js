@@ -21,6 +21,12 @@ const formsbuilder = {
                     type: 'item',
                     target: true,
                     url: '/form-builder'
+                },
+                {
+                    id: 'forms-viewer',
+                    title: <FormattedMessage id="forms-viewer" />,
+                    type: 'item',
+                    url: '/pages/form-viewer'
                 }
             ]
         }

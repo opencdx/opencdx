@@ -8900,10 +8900,22 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-json-view-compare@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-json-view-compare/-/react-json-view-compare-2.0.2.tgz#7a947caae1a0e133b22e0e327e1ad44cf3929dec"
+  integrity sha512-we+OMLFR2FGqHeoqfubQnMhY5V4jLK15/cOnh7cj+v6v7XpizdJu4oSfbEwRWxvTzywSTqpBw/xL0kPZ2YkLIg==
+  dependencies:
+    react-json-viewer-cool "^2.0.0"
+
 react-json-view-lite@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-json-view-lite/-/react-json-view-lite-1.2.1.tgz#c59a0bea4ede394db331d482ee02e293d38f8218"
   integrity sha512-Itc0g86fytOmKZoIoJyGgvNqohWSbh3NXIKNgH6W6FT9PC1ck4xas1tT3Rr/b3UlFXyA9Jjaw9QSXdZy2JwGMQ==
+
+react-json-viewer-cool@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-json-viewer-cool/-/react-json-viewer-cool-2.0.0.tgz#dbce44305899b083f76120eaa14e9f9c96a140b8"
+  integrity sha512-2bCC9szMbh9PEK5WmAv2253MwjWdK/58RCleqIqvtVjoFFCtWRPXKbe+uK6cxxGRrtCPFLJE+4H1+T+pUQltLQ==
 
 react-lifecycles-compat@^3.0.0:
   version "3.0.4"
