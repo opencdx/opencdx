@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.iam.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -91,9 +92,11 @@ class IamTest {
         log.info(
                 "ListIamUsersRequest: {}",
                 this.mapper.writeValueAsString(ListIamUsersRequest.newBuilder()
-                        .setPageSize(10)
-                        .setPageNumber(1)
-                        .setSortAscending(true)
+                        .setPagination(Pagination.newBuilder()
+                                .setPageSize(1)
+                                .setPageNumber(2)
+                                .setSortAscending(true)
+                                .build())
                         .build()));
     }
 
@@ -102,10 +105,11 @@ class IamTest {
         log.info(
                 "ListIamUsersResponse: {}",
                 this.mapper.writeValueAsString(ListIamUsersResponse.newBuilder()
-                        .setPageSize(10)
-                        .setPageNumber(1)
-                        .setSortAscending(true)
-                        .setPageCount(20)
+                        .setPagination(Pagination.newBuilder()
+                                .setPageSize(1)
+                                .setPageNumber(2)
+                                .setSortAscending(true)
+                                .build())
                         .addAllIamUsers(List.of(IamUser.newBuilder()
                                 .setUsername("email")
                                 .setSystemName("system")

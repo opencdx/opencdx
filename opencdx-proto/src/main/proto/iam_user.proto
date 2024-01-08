@@ -3,6 +3,7 @@ syntax = "proto3";
 package cdx.opencdx.grpc.iam;
 
 import "google/protobuf/timestamp.proto";
+import "common.proto";
 
 option java_multiple_files = true;
 
@@ -118,32 +119,15 @@ message SignUpResponse {
 
 // Request message for listing IAM users with pagination and sorting.
 message ListIamUsersRequest {
-  // Size of each page in the result.
-  int32 page_size = 1;
-
-  // Page number being requested.
-  int32 page_number = 2;
-
-  // Indicates whether the results should be sorted in ascending order.
-  bool sort_ascending = 3;
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
 }
 
 // Response message for listing IAM users with pagination and sorting.
 message ListIamUsersResponse {
-  // Size of each page in the result.
-  int32 page_size = 1;
-
-  // Page number being requested.
-  int32 page_number = 2;
-
-  // Indicates whether the results should be sorted in ascending order.
-  bool sort_ascending = 3;
-
-  // Total number of available pages.
-  int32 page_count = 4;
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
 
   // List of IAM users.
-  repeated IamUser iam_users = 5;
+  repeated IamUser iam_users = 2;
 }
 
 // Request message for getting an IAM user by ID.

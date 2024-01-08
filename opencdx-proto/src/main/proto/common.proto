@@ -88,8 +88,9 @@ message EmailAddress {
 message Pagination {
   int32 page_number = 1; // Page number
   int32 page_size = 2; // Page size
-  int32 total_pages = 3; // Total number of pages
-  int32 total_records = 4; // Total number of records
-  bool sort_ascending = 5; // indicating if the results should ascending.
-  string sort = 6; // Sort field
+  bool sort_ascending = 3; // indicating if the results should ascending.
+  string sort = 4; // Sort field
+
+  optional int64 total_pages = 5; // Total number of pages set on the response.
+  optional int64 total_records = 6; // Total number of records set on the response.
 }

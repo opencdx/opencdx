@@ -29,6 +29,7 @@ package proto; /*
                 * limitations under the License.
                 */
 
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,9 +123,11 @@ class MediaTest {
     @Test
     void testListMediaRequest() throws JsonProcessingException {
         ListMediaRequest listMediaRequest = ListMediaRequest.newBuilder()
-                .setPageSize(1)
-                .setPageNumber(2)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         log.info("ListMediaRequest: {}", this.mapper.writeValueAsString(listMediaRequest));
     }
@@ -132,10 +135,11 @@ class MediaTest {
     @Test
     void testListMediaResponse() throws JsonProcessingException {
         ListMediaResponse listMediaResponse = ListMediaResponse.newBuilder()
-                .setPageSize(1)
-                .setPageNumber(2)
-                .setSortAscending(true)
-                .setPageCount(2)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .addAllTemplates(List.of(Media.newBuilder()
                         .setId("id")
                         .setCreatedAt(Timestamp.newBuilder().setSeconds(1696732104))

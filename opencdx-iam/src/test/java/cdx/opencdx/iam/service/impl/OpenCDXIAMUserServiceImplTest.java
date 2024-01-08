@@ -224,9 +224,11 @@ class OpenCDXIAMUserServiceImplTest {
         when(this.openCDXIAMUserRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model3), PageRequest.of(1, 10), 1));
         ListIamUsersRequest request = ListIamUsersRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.listIamUsers(request));
     }

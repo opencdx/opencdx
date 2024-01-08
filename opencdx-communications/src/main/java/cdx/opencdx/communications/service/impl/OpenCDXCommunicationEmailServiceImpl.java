@@ -28,6 +28,7 @@ import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -187,13 +188,13 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
 
     @Override
     public EmailTemplateListResponse listEmailTemplates(EmailTemplateListRequest request) {
-        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Page<OpenCDXEmailTemplateModel> all = this.openCDXEmailTemplateRepository.findAll(PageRequest.of(
+                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
         return EmailTemplateListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllTemplates(all.get()
                         .map(OpenCDXEmailTemplateModel::getProtobufMessage)
                         .toList())

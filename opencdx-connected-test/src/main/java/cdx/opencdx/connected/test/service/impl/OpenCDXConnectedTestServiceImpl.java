@@ -28,10 +28,7 @@ import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.EmailType;
-import cdx.opencdx.grpc.common.PhoneNumber;
-import cdx.opencdx.grpc.common.PhoneType;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -214,7 +211,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         log.info("Searching Database");
         Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(
-                objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+                objectId,
+                PageRequest.of(
+                        request.getPagination().getPageNumber(),
+                        request.getPagination().getPageSize()));
         log.info("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
@@ -239,10 +239,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         });
 
         return ConnectedTestListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllConnectedTests(all.get()
                         .map(OpenCDXConnectedTestModel::getProtobufMessage)
                         .toList())
@@ -262,7 +262,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         log.info("Searching Database");
         Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(
-                nationalHealthId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+                nationalHealthId,
+                PageRequest.of(
+                        request.getPagination().getPageNumber(),
+                        request.getPagination().getPageSize()));
         log.info("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
@@ -287,10 +290,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         });
 
         return ConnectedTestListByNHIDResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllConnectedTests(all.get()
                         .map(OpenCDXConnectedTestModel::getProtobufMessage)
                         .toList())

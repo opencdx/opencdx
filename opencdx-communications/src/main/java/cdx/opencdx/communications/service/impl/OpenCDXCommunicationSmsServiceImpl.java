@@ -28,6 +28,7 @@ import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -184,14 +185,14 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
     @Override
     public SMSTemplateListResponse listSMSTemplates(SMSTemplateListRequest request) {
 
-        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Page<OpenCDXSMSTemplateModel> all = this.openCDXSMSTemplateRespository.findAll(PageRequest.of(
+                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
 
         return SMSTemplateListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllTemplates(all.get()
                         .map(OpenCDXSMSTemplateModel::getProtobufMessage)
                         .toList())

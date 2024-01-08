@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.communication;
 
 import "audit.proto";
+import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 // Enum for template types
@@ -142,60 +143,45 @@ message SuccessResponse{
 Request Message to list SMSTemplates
  */
 message SMSTemplateListRequest{
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
 }
 
 /**
 Request Message to list EmailTemplates
  */
 message EmailTemplateListRequest{
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
 }
 
 /**
 Request Message to list NotificationEvents
  */
 message NotificationEventListRequest{
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
 }
 
 /**
 Response containing the requested list of SMSTemplates
  */
 message SMSTemplateListResponse {
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  int32 page_count = 4; // Total number of available pages.
-  repeated SMSTemplate templates = 5; // List of SMSTemplates
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  repeated SMSTemplate templates = 2; // List of SMSTemplates
 }
 
 /**
 Response containing the requested list of EmailTemplates
  */
 message EmailTemplateListResponse {
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  int32 page_count = 4; // Total number of available pages.
-  repeated EmailTemplate templates = 5; // List of EmailTemplates
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  repeated EmailTemplate templates = 2; // List of EmailTemplates
 }
 
 /**
 Response containing the requested list of NotificationEvents
  */
 message NotificationEventListResponse {
-  int32 page_size = 1; // Size of each page.
-  int32 page_number = 2; // The page being requested.
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  int32 page_count = 4; // Total number of available pages.
-  repeated NotificationEvent templates = 5; //List of NotificationEvents
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  repeated NotificationEvent templates = 2; //List of NotificationEvents
 }
 
 /**

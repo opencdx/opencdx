@@ -30,6 +30,7 @@ import cdx.opencdx.grpc.audit.*;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.EmailAddress;
 import cdx.opencdx.grpc.common.EmailType;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -174,8 +175,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public ListIamUsersResponse listIamUsers(ListIamUsersRequest request) {
-        Page<OpenCDXIAMUserModel> all =
-                this.openCDXIAMUserRepository.findAll(PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Page<OpenCDXIAMUserModel> all = this.openCDXIAMUserRepository.findAll(PageRequest.of(
+                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
         all.forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -198,10 +199,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         });
 
         return ListIamUsersResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllIamUsers(all.get()
                         .map(OpenCDXIAMUserModel::getIamUserProtobufMessage)
                         .toList())

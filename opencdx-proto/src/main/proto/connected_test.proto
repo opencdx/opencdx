@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.connected;
 
 import "google/protobuf/timestamp.proto";
+import "common.proto";
 import "codeable.proto";
 
 // Define test format types 
@@ -206,42 +207,32 @@ message ConnectedTest {
 Request Message to list NotificationConnectedTests
  */
 message ConnectedTestListRequest{
-  int32 page_size = 1; // Size of each page
-  int32 page_number = 2; // The page being requested
-  bool sort_ascending = 3; // indicating if the results should ascending
-  string user_id = 4; // UUID of user
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  string user_id = 2; // UUID of user
 }
 
 /**
 Request Message to list NotificationConnectedTests by National health id
  */
 message ConnectedTestListByNHIDRequest{
-  int32 page_size = 1; // Size of each page
-  int32 page_number = 2; // The page being requested
-  bool  sort_ascending = 3; // indicating if the results should ascending
-  string national_health_id = 4; // national health id of user
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  string national_health_id = 2; // national health id of user
 }
 
 /**
 Response containing the requested list of connected tests for a specific national health id
  */
 message ConnectedTestListByNHIDResponse {
-  int32 page_size = 1; // Size of each page
-  int32 page_number = 2; // The page being requested
-  bool sort_ascending = 3; // indicating if the results should ascending
-  int32 page_count = 4; // Total number of available pages
-  repeated ConnectedTest connected_tests = 5;
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  repeated ConnectedTest connected_tests = 2;
 }
 
 /**
 Response containing the requested list of connected tests for a specific user
  */
 message ConnectedTestListResponse {
-  int32 page_size = 1; // Size of each page
-  int32 page_number = 2; // The page being requested
-  bool sort_ascending = 3; // indicating if the results should ascending
-  int32 page_count = 4; // Total number of available pages
-  repeated ConnectedTest connected_tests = 5;
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  repeated ConnectedTest connected_tests = 2;
 }
 
 service HealthcareService {

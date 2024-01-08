@@ -26,6 +26,7 @@ import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.common.FullName;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMUserService;
@@ -178,9 +179,11 @@ class OpenCDXIAMUserGrpcControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
         this.openCDXIAMUserGrpcController.listIamUsers(
                 ListIamUsersRequest.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .setSortAscending(true)
+                        .setPagination(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build())
                         .build(),
                 responseObserver);
 

@@ -17,6 +17,7 @@ package cdx.opencdx.media.service.impl;
 
 import cdx.opencdx.commons.collections.ListUtils;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
@@ -70,14 +71,14 @@ public class OpenCDXMediaServiceImpl implements OpenCDXMediaService {
 
     @Override
     public ListMediaResponse listMedia(ListMediaRequest request) {
-        Page<OpenCDXMediaModel> all =
-                this.openCDXMediaRepository.findAll(PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Page<OpenCDXMediaModel> all = this.openCDXMediaRepository.findAll(PageRequest.of(
+                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
 
         return ListMediaResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllTemplates(
                         all.get().map(OpenCDXMediaModel::getProtobufMessage).toList())
                 .build();

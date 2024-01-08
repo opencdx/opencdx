@@ -28,6 +28,7 @@ import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -359,12 +360,13 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
-        Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(PageRequest.of(
+                request.getPagination().getPageNumber(), request.getPagination().getPageSize()));
         return NotificationEventListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllTemplates(all.get()
                         .map(OpenCDXNotificationEventModel::getProtobufMessage)
                         .toList())
