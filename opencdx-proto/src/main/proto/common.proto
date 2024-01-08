@@ -83,3 +83,13 @@ message EmailAddress {
   string email = 1; // Email address
   EmailType type = 2; // Type of email address (e.g., personal, work)
 }
+
+// Pagination structure for lists.
+message Pagination {
+  int32 page_number = 1; // Page number
+  int32 page_size = 2; // Page size
+  int32 total_pages = 3; // Total number of pages
+  int32 total_records = 4; // Total number of records
+  bool sort_ascending = 5; // indicating if the results should ascending.
+  string sort = 6; // Sort field
+}
