@@ -192,6 +192,46 @@ class OpenCDXIAMUserGrpcControllerTest {
     }
 
     @Test
+    void listIamUsers_2() {
+        StreamObserver<ListIamUsersResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        this.openCDXIAMUserGrpcController.listIamUsers(
+                ListIamUsersRequest.newBuilder()
+                        .setPagination(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .setSort("username")
+                                .build())
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListIamUsersResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listIamUsers_3() {
+        StreamObserver<ListIamUsersResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXIAMUserRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        this.openCDXIAMUserGrpcController.listIamUsers(
+                ListIamUsersRequest.newBuilder()
+                        .setPagination(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(false)
+                                .setSort("username")
+                                .build())
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ListIamUsersResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
     void getIamUser() {
         StreamObserver<GetIamUserResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMUserGrpcController.getIamUser(
