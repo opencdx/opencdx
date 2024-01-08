@@ -90,7 +90,7 @@ message EditProviderResponse {}
 
 // Request and Response messages for deleting a provider.
 message DeleteProviderRequest {
-  string user_id = 1;          // Provider ID for deletion.
+  string provider_id = 1;          // Provider ID for deletion.
 }
 
 message LoadProviderRequest{
