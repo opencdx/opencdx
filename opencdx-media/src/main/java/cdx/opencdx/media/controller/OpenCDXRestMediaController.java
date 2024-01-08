@@ -34,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Slf4j
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestMediaController {
 
@@ -120,7 +120,7 @@ public class OpenCDXRestMediaController {
      * @param fileId File ID for the Media file.
      * @return FileUploadResponse indicating if successful.
      */
-    @PostMapping(value = "/upload/{fileId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload/{fileId}")
     public ResponseEntity<FileUploadResponse> uploadFile(
             @RequestParam(name = "file", required = false) MultipartFile file, @PathVariable String fileId) {
         return ResponseEntity.ok()

@@ -29,10 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/organization",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/organization", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXIAMOrganizationRestController {
     private final OpenCDXIAMOrganizationService openCDXIAMOrganizationService;

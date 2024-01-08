@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/manufacturer",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/manufacturer", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestManufacturerController {
 
