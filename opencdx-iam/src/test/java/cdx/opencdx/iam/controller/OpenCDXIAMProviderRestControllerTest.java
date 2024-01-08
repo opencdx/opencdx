@@ -149,7 +149,7 @@ class OpenCDXIAMProviderRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(delete("/provider/" + ObjectId.get().toHexString())
                         .content(this.objectMapper.writeValueAsString(DeleteProviderRequest.newBuilder()
-                                .setUserId(ObjectId.get().toHexString())
+                                .setProviderId(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

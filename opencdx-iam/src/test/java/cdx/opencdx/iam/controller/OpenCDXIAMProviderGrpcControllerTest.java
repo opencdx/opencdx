@@ -160,7 +160,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
                 DeleteProviderRequest.newBuilder()
                         .build()
                         .newBuilder(DeleteProviderRequest.getDefaultInstance())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setProviderId(ObjectId.get().toHexString())
                         .build(),
                 responseObserver);
 

@@ -119,7 +119,7 @@ class OpenCDXIAMProviderServiceImplTest {
                         .userId(ObjectId.get().toHexString())
                         .build()));
         DeleteProviderRequest request = DeleteProviderRequest.newBuilder()
-                .setUserId(ObjectId.get().toHexString())
+                .setProviderId(ObjectId.get().toHexString())
                 .build();
         this.objectMapper1 = mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -135,7 +135,7 @@ class OpenCDXIAMProviderServiceImplTest {
     @Test
     void deleteProviderElse2() {
         DeleteProviderRequest request = DeleteProviderRequest.newBuilder()
-                .setUserId(ObjectId.get().toHexString())
+                .setProviderId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
     }

@@ -99,17 +99,17 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     @Override
     public DeleteProviderResponse deleteProvider(DeleteProviderRequest request) {
         OpenCDXIAMProviderModel providerModel = this.openCDXIAMProviderRepository
-                .findById(new ObjectId(request.getUserId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, "FAILED_TO_FIND_USER" + request.getUserId()));
+                .findById(new ObjectId(request.getProviderId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, "FAILED_TO_FIND_USER" + request.getProviderId()));
 
         providerModel.setStatus(ProviderStatus.DELETED);
 
         providerModel = this.openCDXIAMProviderRepository.save(providerModel);
-        log.info("Deleted User: {}", request.getUserId());
+        log.info("Deleted User: {}", request.getProviderId());
 
         try {
             this.openCDXAuditService.piiDeleted(
-                    request.getUserId(),
+                    request.getProviderId(),
                     AgentType.AGENT_TYPE_OTHER_ENTITY,
                     "Provider deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
