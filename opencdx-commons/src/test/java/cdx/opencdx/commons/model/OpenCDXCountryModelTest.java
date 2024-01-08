@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.connected.test.model;
+package cdx.opencdx.commons.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.grpc.common.Country;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;
