@@ -213,7 +213,7 @@ open_reports() {
         ;;
     dashboard)
         handle_info "Opening OpenCDX Dashboard..."
-        open_url "http://localhost:3005"
+        open_url "https://localhost:3005"
         ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
