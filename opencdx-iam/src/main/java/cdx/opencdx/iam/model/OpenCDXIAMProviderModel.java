@@ -65,7 +65,6 @@ public class OpenCDXIAMProviderModel {
     private String modifier;
     private ProviderStatus status;
 
-
     /**
      * Constructor for Provider Model
      * @param result NPI Result
