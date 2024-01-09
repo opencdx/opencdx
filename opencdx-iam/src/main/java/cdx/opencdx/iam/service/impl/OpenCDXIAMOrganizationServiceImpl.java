@@ -57,7 +57,6 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
      * @param openCDXAuditService Audit Service to record information
      * @param openCDXCurrentUser Current User for accessing the current user.
      * @param objectMapper ObjectMapper for converting to JSON
-     * @param openCDXDocumentValidator Document Validator for validating documents
      */
     public OpenCDXIAMOrganizationServiceImpl(
             OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository,

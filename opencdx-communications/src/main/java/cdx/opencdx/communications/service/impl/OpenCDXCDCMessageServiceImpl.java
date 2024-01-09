@@ -17,7 +17,11 @@ package cdx.opencdx.communications.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.service.OpenCDXCDCMessageService;
+import cdx.opencdx.grpc.audit.SensitivityLevel;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -46,26 +50,34 @@ import org.springframework.util.StringUtils;
 public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
 
     private static final String DOMAIN = "OpenCDXCDCMessageServiceImpl";
+    private static final String NOTIFICATION_EVENT = "NOTIFICATION-EVENT: ";
 
     private final String cdcUri;
     private final String cdcClient;
     private final String cdcKey;
+    private final OpenCDXAuditService openCDXAuditService;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
-     * Constructor taking some repositories
-     *
-     * @param uri        CDC Message URI
-     * @param client     CDC Message Client header
-     * @param key        CDC Message key
+     * Constructor for the OpenCDXCDCMessageServiceImpl
+     * @param uri URI of the CDC Notification endpoint
+     * @param client Client ID for the CDC Notification endpoint
+     * @param key Key for the CDC Notification endpoint
+     * @param openCDXAuditService Audit service for recording CDC Notification events
+     * @param openCDXCurrentUser Current user service for retrieving the current user
      */
     @Autowired
     public OpenCDXCDCMessageServiceImpl(
             @Value("${cdc.message.uri}") String uri,
             @Value("${cdc.message.client}") String client,
-            @Value("${cdc.message.key}") String key) {
+            @Value("${cdc.message.key}") String key,
+            OpenCDXAuditService openCDXAuditService,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.cdcUri = uri;
         this.cdcClient = client;
         this.cdcKey = key;
+        this.openCDXAuditService = openCDXAuditService;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     @Override
@@ -98,16 +110,38 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
             // Execute the request and process the results.
             HttpResponse response = httpClient.execute(request);
             HttpEntity responseEntity = response.getEntity();
-            log.debug(EntityUtils.toString(responseEntity));
+            String responseMessage = EntityUtils.toString(responseEntity);
+            log.debug(responseMessage.replace("\n", ""));
+
+            log.info("CDC Message sent Successfully.");
 
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_CREATED) {
                 throw new OpenCDXInternalServerError(
                         DOMAIN,
                         2,
                         "Exception sending CDC message "
-                                + response.getStatusLine().toString() + " " + EntityUtils.toString(responseEntity));
+                                + response.getStatusLine().toString() + " " + responseMessage);
             }
-            log.info("FHIR resource bundle sent.");
+
+            record CDCMessage(String request, String response) {
+                public String toString() {
+                    return "{\"request\": " + request + ", \"response\": " + response + "}";
+                }
+            }
+
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.communication(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "CDC Notification",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
+                    NOTIFICATION_EVENT + ": CDC MESSAGE",
+                    (new CDCMessage(requestString, responseMessage)).toString());
+
+            log.debug("CDC Send message audit record created.");
+
         } catch (URISyntaxException e) {
             throw new OpenCDXBadRequest(DOMAIN, 3, "Invalid URL Syntax");
         } catch (IOException e) {

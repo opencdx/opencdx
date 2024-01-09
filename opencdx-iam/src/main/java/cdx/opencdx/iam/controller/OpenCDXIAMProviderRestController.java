@@ -29,10 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/provider",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/provider", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXIAMProviderRestController {
     private final OpenCDXIAMProviderService openCDXIAMProviderService;
@@ -67,15 +64,17 @@ public class OpenCDXIAMProviderRestController {
 
     /**
      * List of providers
+     * @param request List of providers.
      * @return All the providers.
      */
-    @PostMapping("/list")
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListProvidersResponse> listProviders(@RequestBody ListProvidersRequest request) {
         return new ResponseEntity<>(this.openCDXIAMProviderService.listProviders(request), HttpStatus.OK);
     }
 
     /**
      * List of providers
+     * @param request List of providers.
      * @return All the providers.
      */
     @GetMapping("/load")

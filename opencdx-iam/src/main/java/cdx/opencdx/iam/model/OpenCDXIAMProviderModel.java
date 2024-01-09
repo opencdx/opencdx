@@ -66,7 +66,9 @@ public class OpenCDXIAMProviderModel {
     private ProviderStatus status;
 
     /**
-     * Constructor to convert OpenCDXDtoNpiResult to OpenCDXIAMProviderModel
+     * Constructor for Provider Model
+     * @param result NPI Result
+     * @param openCDXCountryRepository Country Repository
      */
     public OpenCDXIAMProviderModel(OpenCDXDtoNpiResult result, OpenCDXCountryRepository openCDXCountryRepository) {
         this.id = new ObjectId();

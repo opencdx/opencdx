@@ -18,6 +18,9 @@ package cdx.opencdx.iam.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+/**
+ * DTO for NPI Address
+ */
 @Data
 public class OpenCDXDtoNpiAddress {
     @JsonProperty("country_code")
@@ -46,4 +49,11 @@ public class OpenCDXDtoNpiAddress {
 
     @JsonProperty("fax_number")
     private String faxNumber;
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXDtoNpiAddress() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

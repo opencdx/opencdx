@@ -26,4 +26,4 @@ EXPOSE 3005
 # ENV REACT_APP_API_URL=http://localhost:3000
 
 # Command to run the application
-CMD serve -s build -l 3005
+CMD serve -s --ssl-cert /certs/Dashboard-cert.pem --ssl-key /certs/Dashboard-key.pem build -l 3005
