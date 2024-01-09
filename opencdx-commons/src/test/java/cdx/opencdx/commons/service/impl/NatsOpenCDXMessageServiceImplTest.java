@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import io.micrometer.tracing.*;
 import io.nats.client.*;
 import io.nats.client.api.StreamConfiguration;
 import io.nats.client.api.StreamInfo;
@@ -45,6 +46,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class NatsOpenCDXMessageServiceImplTest {
 
@@ -76,6 +78,9 @@ class NatsOpenCDXMessageServiceImplTest {
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @Mock
+    Tracer tracer;
+
     @BeforeEach
     void setUp() throws IOException, JetStreamApiException {
         this.openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
@@ -86,11 +91,10 @@ class NatsOpenCDXMessageServiceImplTest {
         this.jetStream = Mockito.mock(JetStream.class);
         this.jetStreamSubscription = Mockito.mock(JetStreamSubscription.class);
         this.streamConfiguration = Mockito.mock(StreamConfiguration.class);
-
+        this.tracer = Mockito.mock(Tracer.class);
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new ProtobufModule());
         this.objectMapper.registerModule(new JavaTimeModule());
-
         Mockito.when(this.connection.createDispatcher()).thenReturn(this.dispatcher);
         Mockito.when(this.connection.jetStreamManagement()).thenReturn(this.jetStreamManagement);
         Mockito.when(this.jetStreamManagement.addStream(Mockito.any())).thenReturn(this.streamInfo);
@@ -291,6 +295,14 @@ class NatsOpenCDXMessageServiceImplTest {
     void send() {
         NatsOpenCDXMessageServiceImpl service =
                 new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper, "test", openCDXCurrentUser);
+        ReflectionTestUtils.setField(service, "tracer", tracer);
+        Span span = Mockito.mock(Span.class);
+        TraceContext traceContext = Mockito.mock(TraceContext.class);
+
+        Mockito.when(tracer.currentSpan()).thenReturn(span);
+        Mockito.when(span.context()).thenReturn(traceContext);
+        Mockito.when(traceContext.spanId()).thenReturn("spanid");
+
         Assertions.assertDoesNotThrow(() -> {
             service.send("TEST-MESSAGE", new StatusMessage());
         });
@@ -301,6 +313,7 @@ class NatsOpenCDXMessageServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         NatsOpenCDXMessageServiceImpl service =
                 new NatsOpenCDXMessageServiceImpl(this.connection, mapper, "test", openCDXCurrentUser);
+        ReflectionTestUtils.setField(service, "tracer", tracer);
         Mockito.when(mapper.writeValueAsBytes(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         StatusMessage message = new StatusMessage();

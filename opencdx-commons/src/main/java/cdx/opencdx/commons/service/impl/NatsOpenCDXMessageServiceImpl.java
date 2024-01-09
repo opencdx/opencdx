@@ -23,6 +23,8 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import io.nats.client.*;
 import io.nats.client.api.*;
 import java.io.IOException;
@@ -30,6 +32,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -48,6 +51,12 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     private final Map<String, Dispatcher> subscriptionMap;
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Autowired
+    Tracer tracer;
+
+    record NatsMessage(String spanId, Object object) {}
+    ;
 
     /**
      * Constructor for setting up NATS based OpenCDXMessageService
@@ -134,7 +143,15 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void send(String subject, Object object) {
 
         try {
-            natsConnection.jetStream().publishAsync(subject, this.objectMapper.writeValueAsBytes(object));
+            Span span = tracer.currentSpan();
+            String spanId = null;
+            if (span != null) {
+                spanId = span.context().spanId();
+            }
+            log.info("spanID:::", spanId);
+            natsConnection
+                    .jetStream()
+                    .publishAsync(subject, this.objectMapper.writeValueAsBytes(new NatsMessage(spanId, object)));
         } catch (IOException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 1, "Failed NATS Publish on: " + object.toString(), e);
