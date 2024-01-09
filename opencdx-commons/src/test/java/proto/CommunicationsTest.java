@@ -30,6 +30,7 @@ package proto; /*
                 */
 
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -142,9 +143,11 @@ class CommunicationsTest {
     @Test
     void testSMSTemplateListRequest() throws JsonProcessingException {
         SMSTemplateListRequest smsTemplateListRequest = SMSTemplateListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(2)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         log.info("SMSTemplateListRequest: {}", this.mapper.writeValueAsString(smsTemplateListRequest));
     }
@@ -152,9 +155,11 @@ class CommunicationsTest {
     @Test
     void testEmailTemplateListRequest() throws JsonProcessingException {
         EmailTemplateListRequest emailTemplateListRequest = EmailTemplateListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(2)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         log.info("EmailTemplateListRequest: {}", this.mapper.writeValueAsString(emailTemplateListRequest));
     }
@@ -162,9 +167,11 @@ class CommunicationsTest {
     @Test
     void testNotificationEventListRequest() throws JsonProcessingException {
         NotificationEventListRequest notificationEventListRequest = NotificationEventListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(2)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         log.info("NotificationEventListRequest: {}", this.mapper.writeValueAsString(notificationEventListRequest));
     }
@@ -172,10 +179,11 @@ class CommunicationsTest {
     @Test
     void testSMSTemplateListResponse() throws JsonProcessingException {
         SMSTemplateListResponse smsTemplateListResponse = SMSTemplateListResponse.newBuilder()
-                .setPageSize(2)
-                .setPageNumber(1)
-                .setSortAscending(true)
-                .setPageCount(2)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .addAllTemplates(List.of(SMSTemplate.newBuilder()
                         .setTemplateId("templateIdT")
                         .setMessage("contentT")
@@ -189,10 +197,11 @@ class CommunicationsTest {
     @Test
     void testEmailTemplateListResponse() throws JsonProcessingException {
         EmailTemplateListResponse emailTemplateListResponse = EmailTemplateListResponse.newBuilder()
-                .setPageSize(2)
-                .setPageNumber(1)
-                .setSortAscending(true)
-                .setPageCount(2)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .addAllTemplates(List.of(EmailTemplate.newBuilder()
                         .setTemplateId("templateIdT")
                         .setSubject("subjectT")
@@ -207,10 +216,11 @@ class CommunicationsTest {
     @Test
     void testNotificationEventListResponse() throws JsonProcessingException {
         NotificationEventListResponse notificationEventListResponse = NotificationEventListResponse.newBuilder()
-                .setPageSize(2)
-                .setPageNumber(1)
-                .setSortAscending(true)
-                .setPageCount(2)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .addAllTemplates(List.of(NotificationEvent.newBuilder()
                         .setEventId("eventIdT")
                         .setEventName("eventNameT")

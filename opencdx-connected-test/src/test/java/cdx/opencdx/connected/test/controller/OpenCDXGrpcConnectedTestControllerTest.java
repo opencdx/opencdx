@@ -213,9 +213,11 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .setUserId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
@@ -256,14 +258,61 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .setUserId(new ObjectId().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
                 () -> this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver));
+    }
+
+    @Test
+    void testListConnectedTests_3() {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("nationalHealthId")
+                        .build())
+                .setUserId(new ObjectId().toHexString())
+                .build();
+        this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+    @Test
+    void testListConnectedTests_4() {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        StreamObserver<ConnectedTestListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListRequest request = ConnectedTestListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("nationalHealthId")
+                        .build())
+                .setUserId(new ObjectId().toHexString())
+                .build();
+        this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
@@ -275,9 +324,11 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .setNationalHealthId(UUID.randomUUID().toString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver);
@@ -318,13 +369,61 @@ class OpenCDXGrpcConnectedTestControllerTest {
 
         StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
         ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .setNationalHealthId(UUID.randomUUID().toString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
                 () -> this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver));
+    }
+
+    @Test
+    void testListConnectedByNIHTests_3() {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("nationalHealthId")
+                        .build())
+                .setNationalHealthId(UUID.randomUUID().toString())
+                .build();
+        this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void testListConnectedByNIHTests_4() {
+
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByNationalHealthId(
+                        Mockito.any(String.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        StreamObserver<ConnectedTestListByNHIDResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        ConnectedTestListByNHIDRequest request = ConnectedTestListByNHIDRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("nationalHealthId")
+                        .build())
+                .setNationalHealthId(UUID.randomUUID().toString())
+                .build();
+        this.openCDXGrpcConnectedTestController.listConnectedTestsByNHID(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

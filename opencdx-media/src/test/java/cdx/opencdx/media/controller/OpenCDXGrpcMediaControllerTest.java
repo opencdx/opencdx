@@ -16,6 +16,7 @@
 package cdx.opencdx.media.controller;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
 import cdx.opencdx.media.repository.OpenCDXMediaRepository;
@@ -101,9 +102,11 @@ class OpenCDXGrpcMediaControllerTest {
 
         this.openCDXGrpcMediaController.listMedia(
                 ListMediaRequest.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .setSortAscending(true)
+                        .setPagination(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build())
                         .build(),
                 responseObserver);
 

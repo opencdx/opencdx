@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/manufacturer",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/manufacturer", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestManufacturerController {
 
@@ -68,7 +65,7 @@ public class OpenCDXRestManufacturerController {
      * @param manufacturer Manufacturer to add.
      * @return The added Manufacturer.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Manufacturer> addManufacturer(@RequestBody Manufacturer manufacturer) {
         return new ResponseEntity<>(this.openCDXManufacturerService.addManufacturer(manufacturer), HttpStatus.OK);
     }
@@ -79,7 +76,7 @@ public class OpenCDXRestManufacturerController {
      * @param manufacturer Manufacturer to update.
      * @return The updated Manufacturer.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Manufacturer> updateManufacturer(@RequestBody Manufacturer manufacturer) {
         return new ResponseEntity<>(this.openCDXManufacturerService.updateManufacturer(manufacturer), HttpStatus.OK);
     }

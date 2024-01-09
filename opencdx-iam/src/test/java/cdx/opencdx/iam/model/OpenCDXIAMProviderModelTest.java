@@ -109,4 +109,56 @@ class OpenCDXIAMProviderModelTest {
         ReflectionTestUtils.setField(providerModel, "modifier", "modifier");
         Assertions.assertNotNull(providerModel.getProtobufMessage());
     }
+
+    @Test
+    void modelTest_2() {
+        when(this.openCDXCountryRepository.findByName(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXCountryModel>>() {
+                    @Override
+                    public Optional<OpenCDXCountryModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.empty();
+                    }
+                });
+        when(address.getCountryName()).thenReturn("Bob");
+        when(address.getAddressPurpose()).thenReturn(String.valueOf(AddressPurpose.LOCATION));
+        when(address.getAddress1()).thenReturn("address1");
+        when(address.getCity()).thenReturn("city");
+        when(address.getState()).thenReturn("state");
+        when(address.getPostalCode()).thenReturn("post");
+        OpenCDXDtoNpiBasicInfo basicInfo = mock(OpenCDXDtoNpiBasicInfo.class);
+        when(basicInfo.getFirstName()).thenReturn("fname");
+        when(basicInfo.getLastName()).thenReturn("lname");
+        when(basicInfo.getCredential()).thenReturn("cre");
+        when(basicInfo.getSoleProprietor()).thenReturn("sole");
+        when(basicInfo.getGender()).thenReturn("male");
+        when(basicInfo.getEnumerationDate()).thenReturn("enum");
+        when(basicInfo.getNamePrefix()).thenReturn("pre");
+        when(basicInfo.getNameSuffix()).thenReturn("suff");
+        when(result.getBasic()).thenReturn(basicInfo);
+        when(result.getAddresses()).thenReturn(Arrays.asList(address));
+        OpenCDXDtoNpiIdentifier openCDXDtoNpiIdentifier = mock(OpenCDXDtoNpiIdentifier.class);
+        List<OpenCDXDtoNpiIdentifier> list = new ArrayList<>();
+        when(openCDXDtoNpiIdentifier.getCode()).thenReturn("code");
+        when(openCDXDtoNpiIdentifier.getDesc()).thenReturn("desc");
+        when(openCDXDtoNpiIdentifier.getIssuer()).thenReturn("issuer");
+        when(openCDXDtoNpiIdentifier.getIdentifier()).thenReturn("iden");
+        when(openCDXDtoNpiIdentifier.getState()).thenReturn("state");
+        list.add(openCDXDtoNpiIdentifier);
+        when(result.getIdentifiers()).thenReturn(list);
+        OpenCDXIAMProviderModel providerModel = new OpenCDXIAMProviderModel(result, openCDXCountryRepository);
+
+        ReflectionTestUtils.setField(providerModel, "userId", "USERID");
+
+        ReflectionTestUtils.setField(
+                providerModel,
+                "created",
+                Timestamp.newBuilder().setSeconds(1696732104).build());
+        ReflectionTestUtils.setField(
+                providerModel,
+                "modified",
+                Timestamp.newBuilder().setSeconds(1696732104).build());
+        ReflectionTestUtils.setField(providerModel, "creator", "creator");
+        ReflectionTestUtils.setField(providerModel, "modifier", "modifier");
+        Assertions.assertNotNull(providerModel.getProtobufMessage());
+    }
 }

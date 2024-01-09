@@ -30,6 +30,7 @@ import cdx.opencdx.grpc.audit.*;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.EmailAddress;
 import cdx.opencdx.grpc.common.EmailType;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.iam.*;
 import cdx.opencdx.iam.config.AppProperties;
@@ -45,6 +46,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -174,8 +177,19 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      */
     @Override
     public ListIamUsersResponse listIamUsers(ListIamUsersRequest request) {
-        Page<OpenCDXIAMUserModel> all =
-                this.openCDXIAMUserRepository.findAll(PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXIAMUserModel> all = this.openCDXIAMUserRepository.findAll(pageable);
         all.forEach(model -> {
             try {
                 OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -198,10 +212,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         });
 
         return ListIamUsersResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllIamUsers(all.get()
                         .map(OpenCDXIAMUserModel::getIamUserProtobufMessage)
                         .toList())

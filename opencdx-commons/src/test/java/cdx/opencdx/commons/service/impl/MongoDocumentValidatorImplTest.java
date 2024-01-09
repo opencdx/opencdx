@@ -75,6 +75,17 @@ class MongoDocumentValidatorImplTest {
     }
 
     @Test
+    void testDocumentExists_1() {
+        String collectionName = "users";
+        ObjectId documentId = ObjectId.get();
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(any(Query.class), eq(collectionName))).thenReturn(true);
+
+        assertTrue(documentValidator.documentExists(collectionName, documentId));
+    }
+
+    @Test
     void testValidateDocumentsOrThrow() {
         String collectionName = "testCollection";
         List<ObjectId> documentIds = Arrays.asList(ObjectId.get(), ObjectId.get(), ObjectId.get());
@@ -375,5 +386,43 @@ class MongoDocumentValidatorImplTest {
         assertThrows(
                 OpenCDXNotFound.class,
                 () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, worksapce));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow_6() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId workspace = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(any(Query.class), anyString())).thenReturn(true);
+        when(mongoTemplate.findById(eq(workspace), eq(Document.class), eq("workspace")))
+                .thenReturn(Document.parse("{\"_id\": \"" + ObjectId.get().toHexString() + "\"}"));
+
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
+    }
+
+    @Test
+    void testValidateOrganizationWorkspaceOrThrow_7() {
+
+        ObjectId organization = ObjectId.get();
+        ObjectId workspace = ObjectId.get();
+
+        // Mocking isCollectionExists to return true
+        when(mongoTemplate.collectionExists(anyString())).thenReturn(true);
+
+        // Mocking mongoTemplate.exists to return true
+        when(mongoTemplate.exists(any(Query.class), anyString())).thenReturn(true);
+        when(mongoTemplate.findById(eq(workspace), eq(Document.class), eq("workspace")))
+                .thenReturn(null);
+
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
     }
 }

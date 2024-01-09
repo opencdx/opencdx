@@ -23,6 +23,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.FullName;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.iam.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
@@ -187,9 +188,11 @@ class OpenCDXIAMUserRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/user/list")
                         .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
-                                .setPageNumber(1)
-                                .setPageSize(10)
-                                .setSortAscending(true)
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(true)
+                                        .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -209,9 +212,11 @@ class OpenCDXIAMUserRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/user/list")
                         .content(this.objectMapper.writeValueAsString(ListIamUsersRequest.newBuilder()
-                                .setPageNumber(1)
-                                .setPageSize(10)
-                                .setSortAscending(true)
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(true)
+                                        .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

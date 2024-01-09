@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.cache.Cache;
+import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.core.serializer.support.SerializationDelegate;
 
 @SuppressWarnings("java:S2925")
@@ -479,5 +480,36 @@ class OpenCDXMemoryCacheTest {
 
         assertNotNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));
+    }
+
+    @Test
+    void testRetrieveWithAllowNullValues() {
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache", true);
+        // Key and value to be used in the test
+        Object key = "testKey";
+        Object value = "testValue";
+
+        // Put the value into the cache
+        cache.put(key, value);
+
+        // Retrieve the value using the retrieve method
+        CompletableFuture<Object> result = (CompletableFuture<Object>) cache.retrieve(key);
+
+        // Assert that the result is not null and matches the expected value
+        assertNotNull(result);
+        assertEquals(new SimpleValueWrapper(value), result.join());
+    }
+
+    @Test
+    void testRetrieveNonExistentKeyWithAllowNullValues() {
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache", true);
+        // Key that does not exist in the cache
+        Object key = "nonExistentKey";
+
+        // Retrieve the value using the retrieve method
+        CompletableFuture<Object> result = (CompletableFuture<Object>) cache.retrieve(key);
+
+        // Assert that the result is null for a non-existent key
+        assertNull(result);
     }
 }
