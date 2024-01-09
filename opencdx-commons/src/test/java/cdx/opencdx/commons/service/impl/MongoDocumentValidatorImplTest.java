@@ -402,7 +402,9 @@ class MongoDocumentValidatorImplTest {
         when(mongoTemplate.findById(eq(workspace), eq(Document.class), eq("workspace")))
                 .thenReturn(Document.parse("{\"_id\": \"" + ObjectId.get().toHexString() + "\"}"));
 
-        assertThrows(OpenCDXNotFound.class, () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
     }
 
     @Test
@@ -419,6 +421,8 @@ class MongoDocumentValidatorImplTest {
         when(mongoTemplate.findById(eq(workspace), eq(Document.class), eq("workspace")))
                 .thenReturn(null);
 
-        assertThrows(OpenCDXNotFound.class,() -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
+        assertThrows(
+                OpenCDXNotFound.class,
+                () -> documentValidator.validateOrganizationWorkspaceOrThrow(organization, workspace));
     }
 }
