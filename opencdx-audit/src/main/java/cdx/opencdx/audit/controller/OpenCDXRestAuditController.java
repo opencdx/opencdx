@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestAuditController {
     private final OpenCDXAuditMessageHandler openCDXAuditMessageHandler;
@@ -50,7 +50,7 @@ public class OpenCDXRestAuditController {
      * @param request HelloRequest indicating who to say hello to.
      * @return HelloReply with the hello message.
      */
-    @PostMapping(value = "/event")
+    @PostMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuditStatus> event(@RequestBody AuditEvent request) {
         log.info("Received Audit Event from: {}", request.getAuditSource().getSystemInfo());
         this.openCDXAuditMessageHandler.processAuditEvent(request);

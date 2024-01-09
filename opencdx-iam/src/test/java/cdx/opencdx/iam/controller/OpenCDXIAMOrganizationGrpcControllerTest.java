@@ -22,7 +22,6 @@ import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.organization.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.model.OpenCDXIAMOrganizationModel;
@@ -64,9 +63,6 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @Autowired
-    OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
     OpenCDXIAMOrganizationRepository openCDXIAMOrganizationRepository;
@@ -126,8 +122,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
                 this.openCDXIAMOrganizationRepository,
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,
-                this.objectMapper,
-                this.openCDXDocumentValidator);
+                this.objectMapper);
         this.openCDXIAMOrganizationGrpcController =
                 new OpenCDXIAMOrganizationGrpcController(this.openCDXIAMOrganizationService);
     }
@@ -162,11 +157,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.openCDXIAMOrganizationService = new OpenCDXIAMOrganizationServiceImpl(
-                this.openCDXIAMOrganizationRepository,
-                this.openCDXAuditService,
-                this.openCDXCurrentUser,
-                mapper,
-                this.openCDXDocumentValidator);
+                this.openCDXIAMOrganizationRepository, this.openCDXAuditService, this.openCDXCurrentUser, mapper);
 
         this.openCDXIAMOrganizationGrpcController =
                 new OpenCDXIAMOrganizationGrpcController(this.openCDXIAMOrganizationService);
@@ -202,8 +193,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
                 this.openCDXIAMOrganizationRepository,
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,
-                this.objectMapper,
-                this.openCDXDocumentValidator);
+                this.objectMapper);
 
         this.openCDXIAMOrganizationGrpcController =
                 new OpenCDXIAMOrganizationGrpcController(this.openCDXIAMOrganizationService);
@@ -239,11 +229,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.openCDXIAMOrganizationService = new OpenCDXIAMOrganizationServiceImpl(
-                this.openCDXIAMOrganizationRepository,
-                this.openCDXAuditService,
-                this.openCDXCurrentUser,
-                mapper,
-                this.openCDXDocumentValidator);
+                this.openCDXIAMOrganizationRepository, this.openCDXAuditService, this.openCDXCurrentUser, mapper);
 
         this.openCDXIAMOrganizationGrpcController =
                 new OpenCDXIAMOrganizationGrpcController(this.openCDXIAMOrganizationService);
@@ -270,8 +256,7 @@ class OpenCDXIAMOrganizationGrpcControllerTest {
                 this.openCDXIAMOrganizationRepository,
                 this.openCDXAuditService,
                 this.openCDXCurrentUser,
-                this.objectMapper,
-                this.openCDXDocumentValidator);
+                this.objectMapper);
 
         this.openCDXIAMOrganizationGrpcController =
                 new OpenCDXIAMOrganizationGrpcController(this.openCDXIAMOrganizationService);

@@ -54,7 +54,7 @@ public class OpenCDXGrpcExceptionHandler {
     @GRpcExceptionHandler
     public Status handleAuthenticationCredentialsNotFoundException(
             AuthenticationCredentialsNotFoundException cause, GRpcExceptionScope scope) {
-        log.error("Response Exception in handleOpenCDXException: {} {}", cause.getMessage());
+        log.error("Response Exception in handleOpenCDXException: {}", cause.getMessage());
         return StatusProto.toStatusException(
                         new OpenCDXUnauthorized(GRPC_EXCEPTION_HANDLER, 3, cause.getMessage(), cause)
                                 .getGrpcStatus(null))
@@ -68,7 +68,7 @@ public class OpenCDXGrpcExceptionHandler {
      */
     @GRpcExceptionHandler
     public Status handleOpenCDXException(OpenCDXException cause, GRpcExceptionScope scope) {
-        log.error("Response Exception in handleOpenCDXException: {} {}", cause.getMessage());
+        log.error("Response Exception in handleOpenCDXException: {}", cause.getMessage());
         return StatusProto.toStatusException(cause.getGrpcStatus(null)).getStatus();
     }
     /**
@@ -79,7 +79,7 @@ public class OpenCDXGrpcExceptionHandler {
      */
     @GRpcExceptionHandler
     public Status handleOpenCDXClientException(OpenCDXClientException cause, GRpcExceptionScope scope) {
-        log.error("Response Exception in handleOpenCDXClientException: {} {}", cause.getMessage());
+        log.error("Response Exception in handleOpenCDXClientException: {}", cause.getMessage());
         return StatusProto.toStatusException(new OpenCDXInternal(GRPC_EXCEPTION_HANDLER, 1, cause.getMessage(), cause)
                         .getGrpcStatus(cause.getDetailsList()))
                 .getStatus();
@@ -92,7 +92,7 @@ public class OpenCDXGrpcExceptionHandler {
      */
     @GRpcExceptionHandler
     public Status handleException(Exception cause, GRpcExceptionScope scope) {
-        log.error("Response Exception in handleException: {} {}", cause.getMessage());
+        log.error("Response Exception in handleException: {}", cause.getMessage());
         return StatusProto.toStatusException(
                         new OpenCDXInternal(GRPC_EXCEPTION_HANDLER, 2, "UnCaught Exception", cause).getGrpcStatus(null))
                 .getStatus();

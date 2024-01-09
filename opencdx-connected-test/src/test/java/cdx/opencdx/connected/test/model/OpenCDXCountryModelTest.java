@@ -17,6 +17,7 @@ package cdx.opencdx.connected.test.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.grpc.common.Country;
 import com.google.protobuf.Timestamp;
 import org.bson.types.ObjectId;

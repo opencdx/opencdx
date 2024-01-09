@@ -67,7 +67,7 @@ class OpenCDXMemoryCacheManagerTest {
         Cache cache = cacheManager.createConcurrentMapCache(cacheName);
 
         assertNotNull(cache);
-        assertTrue(cache instanceof OpenCDXMemoryCache);
+        assertInstanceOf(OpenCDXMemoryCache.class, cache);
         assertEquals(cacheName, cache.getName());
     }
 }

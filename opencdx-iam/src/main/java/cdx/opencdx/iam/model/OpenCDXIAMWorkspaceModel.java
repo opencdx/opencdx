@@ -54,6 +54,7 @@ public class OpenCDXIAMWorkspaceModel {
     private String usagePolicy;
     private String availabilitySchedule;
     private List<Department> departments;
+    private ObjectId organization;
     private Instant created;
     private Instant modified;
     private ObjectId creator;
@@ -83,6 +84,7 @@ public class OpenCDXIAMWorkspaceModel {
         this.usagePolicy = workspace.getUsagePolicy();
         this.availabilitySchedule = workspace.getAvailabilitySchedule();
         this.departments = workspace.getDepartmentsList();
+        this.organization = new ObjectId(workspace.getOrganizationId());
 
         if (workspace.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -133,7 +135,9 @@ public class OpenCDXIAMWorkspaceModel {
         if (this.capacity != null) {
             builder.setCapacity(this.capacity);
         }
-
+        if (this.organization != null) {
+            builder.setOrganizationId(this.organization.toHexString());
+        }
         if (this.facilities != null) {
             builder.addAllFacilities(this.facilities);
         }

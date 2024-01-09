@@ -29,6 +29,7 @@ package proto; /*
                 * limitations under the License.
                 */
 
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -167,9 +168,11 @@ class ConnectTestTest {
     @Test
     void testConnectedTestListRequest() throws JsonProcessingException {
         ConnectedTestListRequest connectedTestListRequest = ConnectedTestListRequest.newBuilder()
-                .setPageSize(1)
-                .setPageNumber(2)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageSize(1)
+                        .setPageNumber(2)
+                        .setSortAscending(true)
+                        .build())
                 .setUserId("userId")
                 .build();
         log.info("ConnectedTestListRequest: {}", this.mapper.writeValueAsString(connectedTestListRequest));

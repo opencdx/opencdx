@@ -29,10 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/workspace",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/workspace", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXIAMWorkspaceRestController {
 
@@ -51,7 +48,7 @@ public class OpenCDXIAMWorkspaceRestController {
      * @param request Request to create a workspace.
      * @return Response with the workspace.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateWorkspaceResponse> createWorkspace(@RequestBody CreateWorkspaceRequest request) {
         return new ResponseEntity<>(this.openCDXIAMWorkspaceService.createWorkspace(request), HttpStatus.OK);
     }
@@ -75,7 +72,7 @@ public class OpenCDXIAMWorkspaceRestController {
      * @param request for the workspace to be updated.
      * @return Response with the updated workspace.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateWorkspaceResponse> updateWorkspace(@RequestBody UpdateWorkspaceRequest request) {
         return new ResponseEntity<>(this.openCDXIAMWorkspaceService.updateWorkspace(request), HttpStatus.OK);
     }
@@ -84,7 +81,7 @@ public class OpenCDXIAMWorkspaceRestController {
      * List of workspaces
      * @return All the workspaces.
      */
-    @PostMapping("/list")
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListWorkspacesResponse> listWorkspaces() {
         return new ResponseEntity<>(this.openCDXIAMWorkspaceService.listWorkspaces(), HttpStatus.OK);
     }

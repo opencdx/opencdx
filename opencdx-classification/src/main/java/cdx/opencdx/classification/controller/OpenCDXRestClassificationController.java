@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestClassificationController {
 
@@ -50,7 +50,7 @@ public class OpenCDXRestClassificationController {
      * @param request ClassificationRequest indicating classification realted data
      * @return ClassificationResponse with the message.
      */
-    @PostMapping(value = "/classify")
+    @PostMapping(value = "/classify", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClassificationResponse> submitClassification(@RequestBody ClassificationRequest request) {
 
         return new ResponseEntity<>(

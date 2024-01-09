@@ -61,6 +61,7 @@ cdx.opencdx.iam
 cdx.opencdx.iam.changelog
 cdx.opencdx.iam.config
 cdx.opencdx.iam.controller
+cdx.opencdx.iam.dto
 cdx.opencdx.iam.model
 cdx.opencdx.iam.repository
 cdx.opencdx.iam.security

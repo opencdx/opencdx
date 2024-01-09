@@ -29,10 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/organization",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/organization", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXIAMOrganizationRestController {
     private final OpenCDXIAMOrganizationService openCDXIAMOrganizationService;
@@ -50,7 +47,7 @@ public class OpenCDXIAMOrganizationRestController {
      * @param request Request to create an organization.
      * @return Response with the organization.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateOrganizationResponse> createOrganization(
             @RequestBody CreateOrganizationRequest request) {
         return new ResponseEntity<>(this.openCDXIAMOrganizationService.createOrganization(request), HttpStatus.OK);
@@ -76,7 +73,7 @@ public class OpenCDXIAMOrganizationRestController {
      * @param request for the organization to be updated.
      * @return Response with the updated organization.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateOrganizationResponse> updateOrganization(
             @RequestBody UpdateOrganizationRequest request) {
         return new ResponseEntity<>(this.openCDXIAMOrganizationService.updateOrganization(request), HttpStatus.OK);
@@ -86,7 +83,7 @@ public class OpenCDXIAMOrganizationRestController {
      * List of organizations
      * @return All the organizations.
      */
-    @PostMapping("/list")
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListOrganizationsResponse> listOrganizations() {
         return new ResponseEntity<>(this.openCDXIAMOrganizationService.listOrganizations(), HttpStatus.OK);
     }

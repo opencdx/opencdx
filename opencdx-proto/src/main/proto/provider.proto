@@ -74,7 +74,7 @@ message Provider {
 
 // Request and Response messages for creating a provider.
 message GetProviderRequest {
-  string provider_number = 1;           // Provider Number to lookup.
+  string user_id = 1;           // Provider Number to lookup.
 }
 
 message GetProviderResponse {

@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/testcase",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/testcase", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestTestCaseController {
 
@@ -68,7 +65,7 @@ public class OpenCDXRestTestCaseController {
      * @param testCase test case to be added
      * @return The added Testcase.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestCase> addTestCase(@RequestBody TestCase testCase) {
         return new ResponseEntity<>(this.openCDXTestCaseService.addTestCase(testCase), HttpStatus.OK);
     }
@@ -79,7 +76,7 @@ public class OpenCDXRestTestCaseController {
      * @param testCase TestCase to update.
      * @return The updated TestCase.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestCase> updateTestCase(@RequestBody TestCase testCase) {
         return new ResponseEntity<>(this.openCDXTestCaseService.updateTestCase(testCase), HttpStatus.OK);
     }

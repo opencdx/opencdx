@@ -18,6 +18,7 @@ package cdx.opencdx.commons.config;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.*;
 import cdx.opencdx.commons.utils.MongoDocumentExists;
@@ -193,9 +194,11 @@ public class CommonsConfig {
     @ExcludeFromJacocoGeneratedReport
     @ConditionalOnMissingBean(OpenCDXDocumentValidator.class)
     OpenCDXDocumentValidator mongoDocumentValidatorImpl(
-            MongoTemplate mongoTemplate, MongoDocumentExists mongoDocumentExists) {
+            MongoTemplate mongoTemplate,
+            MongoDocumentExists mongoDocumentExists,
+            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         log.info("Creating Mongo Document Validator");
-        return new MongoDocumentValidatorImpl(mongoTemplate, mongoDocumentExists);
+        return new MongoDocumentValidatorImpl(mongoTemplate, mongoDocumentExists, openCDXIAMUserRepository);
     }
 
     /**

@@ -149,8 +149,6 @@ class IamOrganizationTest {
                                 .setType(PhoneType.PHONE_TYPE_MOBILE)
                                 .build()))
                         .build()))
-                .addAllWorkspaceIds(
-                        List.of(ObjectId.get().toHexString(), ObjectId.get().toHexString()))
                 .build();
     }
 
@@ -159,6 +157,7 @@ class IamOrganizationTest {
                 .setId(ObjectId.get().toHexString())
                 .setName("Workspace Name")
                 .setDescription("Workspace Description")
+                .setOrganizationId(ObjectId.get().toHexString())
                 .setCreatedDate(Timestamp.newBuilder().setSeconds(1696435104))
                 .setLocation("San Diego, California, United States")
                 .setManager("Bob")
