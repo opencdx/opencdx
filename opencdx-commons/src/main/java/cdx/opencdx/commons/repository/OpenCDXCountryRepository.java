@@ -28,6 +28,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXCountryRepository extends MongoRepository<OpenCDXCountryModel, ObjectId> {
+    /**
+     * Find a country by its name.
+     * @param name Name of the country to find.
+     * @return The country if found.
+     */
     Optional<OpenCDXCountryModel> findByName(String name);
 
     @Override

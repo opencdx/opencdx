@@ -19,10 +19,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
 
+/**
+ * DTO for NPI Result
+ */
 @Data
 public class OpenCDXDtoNpiJsonResponse {
     @JsonProperty("result_count")
     private int resultCount;
 
     private List<OpenCDXDtoNpiResult> results;
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXDtoNpiJsonResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }
