@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, ButtonText, Input, InputField, Radio, RadioGroup, RadioIndicator, RadioIcon, CircleIcon, HStack, RadioLabel, Select, SelectTrigger, SelectItem, SelectIcon, SelectContent, SelectPortal, SelectDragIndicatorWrapper, SelectBackdrop, SelectInput, Icon, ChevronDownIcon, SelectDragIndicator, FormControl, FormControlLabel, FormControlLabelText, Heading } from '@gluestack-ui/themed';
-import formData from './COVID-19.Simple.json';
+import formData from './alpha.json';
 
 const FormRender = React.forwardRef((props, ref) => {
     const [cuff, setCuff] = useState();
@@ -28,7 +28,7 @@ const FormRender = React.forwardRef((props, ref) => {
                             isInvalid={false}
                             isReadOnly={false}
                         >
-                            <InputField placeholder="Enter Text here" />
+                            <InputField placeholder="Enter Text here" keyboardType="numeric"/>
                         </Input>
                     }
 
