@@ -26,8 +26,11 @@ import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.grpc.common.EmailAddress;
 import cdx.opencdx.grpc.common.EmailType;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.inventory.Manufacturer;
+import cdx.opencdx.grpc.inventory.ManufacturerListRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -42,6 +45,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -183,5 +189,51 @@ class OpenCDXRestManufacturerControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void listManufacturer() throws Exception {
+        Mockito.when(this.openCDXManufacturerRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXManufacturerModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        MvcResult result = this.mockMvc
+                .perform(post("/manufacturer/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ManufacturerListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(false)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void listManufacturerElseCase() throws Exception {
+        Mockito.when(this.openCDXManufacturerRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXManufacturerModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        MvcResult result2 = this.mockMvc
+                .perform(post("/manufacturer/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ManufacturerListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(true)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content2 = result2.getResponse().getContentAsString();
+        log.info("Received\n {}", content2);
     }
 }

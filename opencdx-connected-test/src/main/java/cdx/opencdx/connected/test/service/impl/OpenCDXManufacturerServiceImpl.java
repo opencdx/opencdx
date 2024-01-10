@@ -27,15 +27,18 @@ import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
+import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -161,6 +164,35 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Manufacturer: " + request.getManufacturerId() + " is deleted.")
+                .build();
+    }
+
+    @Override
+    public ManufacturersListResponse listManufacturers(ManufacturerListRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        log.info("Searching Database");
+        Page<OpenCDXManufacturerModel> all = this.openCDXManufacturerRepository.findAll(pageable);
+        log.info("found database results");
+
+        return ManufacturersListResponse.newBuilder()
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
+                .addAllManufacturers(all.get()
+                        .map(OpenCDXManufacturerModel::getProtobufMessage)
+                        .toList())
                 .build();
     }
 }
