@@ -140,13 +140,16 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     @RetryAnnotation
     public void send(String subject, Object object) {
 
-        try {
-            TraceContext context = Tracing.current().tracer().currentSpan().context();
-            log.info(
-                    "BRAVE-ZIPKIN SpanId: {} TraceId: {} ParentId: {}",
-                    context.spanId(),
-                    context.traceId(),
-                    context.parentId());
+        TraceContext currentContext = Tracing.currentTracer().currentSpan().context();
+
+        Span span = Tracing.currentTracer().newChild(currentContext);
+        span.name(this.getClass().getCanonicalName());
+        span.remoteServiceName("NATS");
+        span.kind(Span.Kind.CLIENT);
+        span.start();
+
+        try (Tracer.SpanInScope ws = Tracing.current().tracer().withSpanInScope(span)) {
+            TraceContext context = span.context();
 
             String json = this.objectMapper
                     .writerWithDefaultPrettyPrinter()
@@ -155,15 +158,17 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             context.traceId(),
                             context.parentId(),
                             this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)));
-            log.info("json: {} \n bytes: {}", json, json.getBytes());
             natsConnection.jetStream().publishAsync(subject, json.getBytes());
         } catch (IOException e) {
+            span.error(e);
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 1, "Failed NATS Publish on: " + object.toString(), e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("Subject", subject);
             openCDXNotAcceptable.getMetaData().put("Object", object.toString());
             throw openCDXNotAcceptable;
+        } finally {
+            span.finish();
         }
     }
 
@@ -201,34 +206,43 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
             try {
                 String json = new String(msg.getData());
-                log.info("json: {}", json);
                 NatsMessage natsMessage = objectMapper.readValue(json, NatsMessage.class);
 
-                Span span = Tracing.currentTracer()
-                        .toSpan(TraceContext.newBuilder()
-                                .spanId(natsMessage.spanId())
-                                .traceId(natsMessage.traceId())
-                                .parentId(natsMessage.parentId())
-                                .build());
+                TraceContext context = TraceContext.newBuilder()
+                        .spanId(natsMessage.spanId())
+                        .traceId(natsMessage.traceId())
+                        .parentId(natsMessage.parentId())
+                        .build();
+
+                Span span = Tracing.currentTracer().newChild(context);
 
                 span.kind(Span.Kind.SERVER);
-                span.remoteServiceName(this.appName);
+                span.remoteServiceName("NATS");
                 span.name(this.getClass().getCanonicalName());
                 span.start();
 
-                try (Tracer.SpanInScope ws = Tracing.current().tracer().withSpanInScope(span)) {
-                    handler.receivedMessage(natsMessage.json().getBytes());
-                } catch (Throwable e) {
-                    span.error(e);
-                    throw e;
-                } finally {
-                    span.finish();
-                }
+                processMessage(natsMessage);
             } catch (IOException e) {
                 throw new OpenCDXInternal(DOMAIN, 4, "Failed to read NATS Message", e);
             }
 
             log.debug("Received Message: {}", msg);
+        }
+
+        private void processMessage(NatsMessage natsMessage) {
+            Span span = Tracing.currentTracer().nextSpan();
+            span.remoteServiceName(this.appName);
+            span.kind(Span.Kind.SERVER);
+            span.name(this.getClass().getCanonicalName());
+            span.start();
+            try (Tracer.SpanInScope ws = Tracing.current().tracer().withSpanInScope(span)) {
+                handler.receivedMessage(natsMessage.json().getBytes());
+            } catch (Throwable e) {
+                span.error(e);
+                throw e;
+            } finally {
+                span.finish();
+            }
         }
     }
 }
