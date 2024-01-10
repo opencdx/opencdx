@@ -24,10 +24,14 @@ import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXCountryServiceImpl;
 import cdx.opencdx.grpc.common.Country;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
+import cdx.opencdx.grpc.inventory.CountryListRequest;
+import cdx.opencdx.grpc.inventory.CountryListResponse;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -39,6 +43,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -163,6 +170,25 @@ class OpenCDXGrpcCountryControllerTest {
         DeleteResponse deleteResponse =
                 DeleteResponse.newBuilder().setSuccess(true).setMessage(message).build();
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(deleteResponse);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listCountries() {
+        StreamObserver<CountryListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXCountryRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXCountryModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+
+        CountryListRequest countryListRequest = CountryListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .build();
+        this.openCDXGrpcCountryController.listCountries(countryListRequest, responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

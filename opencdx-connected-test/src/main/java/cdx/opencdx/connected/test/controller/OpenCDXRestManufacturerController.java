@@ -93,4 +93,17 @@ public class OpenCDXRestManufacturerController {
                         ManufacturerIdRequest.newBuilder().setManufacturerId(id).build()),
                 HttpStatus.OK);
     }
+
+    /**
+     * List Countries
+     *
+     * @param manufacturerListRequest request for Connected Tests.
+     * @return the requested connected tests.
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ManufacturersListResponse> listCountries(
+            @RequestBody ManufacturerListRequest manufacturerListRequest) {
+        return new ResponseEntity<>(
+                this.openCDXManufacturerService.listManufacturers(manufacturerListRequest), HttpStatus.OK);
+    }
 }
