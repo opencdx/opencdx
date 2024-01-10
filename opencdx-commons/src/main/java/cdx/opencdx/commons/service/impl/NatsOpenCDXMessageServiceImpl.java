@@ -15,6 +15,10 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import brave.Span;
+import brave.Tracer;
+import brave.Tracing;
+import brave.propagation.TraceContext;
 import cdx.opencdx.commons.annotations.RetryAnnotation;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -23,8 +27,6 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import io.micrometer.tracing.Span;
-import io.micrometer.tracing.Tracer;
 import io.nats.client.*;
 import io.nats.client.api.*;
 import java.io.IOException;
@@ -32,7 +34,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -52,10 +53,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
-    @Autowired
-    Tracer tracer;
-
-    record NatsMessage(String spanId, Object object) {}
+    record NatsMessage(Long spanId, Long traceId, Long parentId, String json) {}
     ;
 
     /**
@@ -118,7 +116,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                     .subscribe(
                             subject,
                             dispatcher,
-                            new NatsMessageHandler(handler, this.openCDXCurrentUser),
+                            new NatsMessageHandler(handler, this.openCDXCurrentUser, this.objectMapper),
                             true,
                             subscribeOptions);
 
@@ -143,15 +141,22 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void send(String subject, Object object) {
 
         try {
-            Span span = tracer.currentSpan();
-            String spanId = null;
-            if (span != null) {
-                spanId = span.context().spanId();
-            }
-            log.info("spanID:::", spanId);
-            natsConnection
-                    .jetStream()
-                    .publishAsync(subject, this.objectMapper.writeValueAsBytes(new NatsMessage(spanId, object)));
+            TraceContext context = Tracing.current().tracer().currentSpan().context();
+            log.info(
+                    "BRAVE-ZIPKIN SpanId: {} TraceId: {} ParentId: {}",
+                    context.spanId(),
+                    context.traceId(),
+                    context.parentId());
+
+            String json = this.objectMapper
+                    .writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(new NatsMessage(
+                            context.spanId(),
+                            context.traceId(),
+                            context.parentId(),
+                            this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)));
+            log.info("json: {} \n bytes: {}", json, json.getBytes());
+            natsConnection.jetStream().publishAsync(subject, json.getBytes());
         } catch (IOException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(DOMAIN, 1, "Failed NATS Publish on: " + object.toString(), e);
@@ -171,22 +176,59 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
         private final OpenCDXCurrentUser openCDXCurrentUser;
 
+        private final ObjectMapper objectMapper;
+
+        @Value("${spring.application.name}")
+        private String appName;
+
         /**
          * Constructor for wrapping a OpenCDXMessageHandler
          *
          * @param handler            OpenCDXMessageHandler to wrap.
          * @param openCDXCurrentUser System for setting the current user
          */
-        protected NatsMessageHandler(OpenCDXMessageHandler handler, OpenCDXCurrentUser openCDXCurrentUser) {
+        protected NatsMessageHandler(
+                OpenCDXMessageHandler handler, OpenCDXCurrentUser openCDXCurrentUser, ObjectMapper objectMapper) {
             this.handler = handler;
             this.openCDXCurrentUser = openCDXCurrentUser;
+            this.objectMapper = objectMapper;
         }
 
         @Override
+        @SuppressWarnings("java:S1141")
         public void onMessage(Message msg) {
             this.openCDXCurrentUser.configureAuthentication("SYSTEM");
+
+            try {
+                String json = new String(msg.getData());
+                log.info("json: {}", json);
+                NatsMessage natsMessage = objectMapper.readValue(json, NatsMessage.class);
+
+                Span span = Tracing.currentTracer()
+                        .toSpan(TraceContext.newBuilder()
+                                .spanId(natsMessage.spanId())
+                                .traceId(natsMessage.traceId())
+                                .parentId(natsMessage.parentId())
+                                .build());
+
+                span.kind(Span.Kind.SERVER);
+                span.remoteServiceName(this.appName);
+                span.name(this.getClass().getCanonicalName());
+                span.start();
+
+                try (Tracer.SpanInScope ws = Tracing.current().tracer().withSpanInScope(span)) {
+                    handler.receivedMessage(natsMessage.json().getBytes());
+                } catch (Throwable e) {
+                    span.error(e);
+                    throw e;
+                } finally {
+                    span.finish();
+                }
+            } catch (IOException e) {
+                throw new OpenCDXInternal(DOMAIN, 4, "Failed to read NATS Message", e);
+            }
+
             log.debug("Received Message: {}", msg);
-            handler.receivedMessage(msg.getData());
         }
     }
 }

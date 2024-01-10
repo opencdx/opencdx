@@ -292,6 +292,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void testListConnectedTests_4() {
 
