@@ -1,7 +1,7 @@
 import { StyleSheet, View, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import FormRender from './components/FormRender';
-import { GluestackUIProvider, ScrollView } from '@gluestack-ui/themed';
+import { Center, GluestackUIProvider, ScrollView } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
 
 export default function App() {
@@ -10,7 +10,9 @@ export default function App() {
     <View style={styles.container}>
         <GluestackUIProvider config={config}>
             { Platform.OS === "web" ? (
-              <FormRender/>
+              <Center>
+                <FormRender/>
+              </Center>
             ) : (
               <ScrollView h="$80" w="$100">
                 <FormRender/>
@@ -27,6 +29,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     padding: 8,
-    maxWidth: 500,
+    ...Platform.select({
+      web: {
+
+      },
+      default: {
+        maxWidth: 500,
+      }
+    })
   },
 });
