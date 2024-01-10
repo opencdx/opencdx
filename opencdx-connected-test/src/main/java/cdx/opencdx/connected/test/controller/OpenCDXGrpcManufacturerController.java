@@ -16,10 +16,7 @@
 package cdx.opencdx.connected.test.controller;
 
 import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
-import cdx.opencdx.grpc.inventory.ManufacturerServiceGrpc;
+import cdx.opencdx.grpc.inventory.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +66,14 @@ public class OpenCDXGrpcManufacturerController extends ManufacturerServiceGrpc.M
     @Override
     public void deleteManufacturer(ManufacturerIdRequest request, StreamObserver<DeleteResponse> responseObserver) {
         responseObserver.onNext(this.openCDXManufacturerService.deleteManufacturer(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void listManufacturers(
+            ManufacturerListRequest request, StreamObserver<ManufacturersListResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXManufacturerService.listManufacturers(request));
         responseObserver.onCompleted();
     }
 }

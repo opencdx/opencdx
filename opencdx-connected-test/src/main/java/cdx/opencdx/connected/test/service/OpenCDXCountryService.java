@@ -16,8 +16,7 @@
 package cdx.opencdx.connected.test.service;
 
 import cdx.opencdx.grpc.common.Country;
-import cdx.opencdx.grpc.inventory.CountryIdRequest;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
+import cdx.opencdx.grpc.inventory.*;
 
 /**
  * Country service for country identification.
@@ -50,4 +49,11 @@ public interface OpenCDXCountryService {
      * @return Response indicating success.
      */
     DeleteResponse deleteCountry(CountryIdRequest request);
+
+    /**
+     * Method to get list of countries
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested Countries with page, sorting, and page size
+     */
+    CountryListResponse listCountries(CountryListRequest request);
 }

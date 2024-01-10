@@ -110,6 +110,7 @@ service CountryService {
     rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
     rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
     rpc delete_country(CountryIdRequest) returns (DeleteResponse);
+    rpc listCountries(CountryListRequest) returns (CountryListResponse); // Retrieve a list of Countries.
 }
 
 // gRPC service for managing manufacturers.
@@ -118,6 +119,7 @@ service ManufacturerService {
     rpc add_manufacturer(Manufacturer) returns (Manufacturer);
     rpc update_manufacturer(Manufacturer) returns (Manufacturer);
     rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse);
+    rpc listManufacturers(ManufacturerListRequest) returns (ManufacturersListResponse); // Retrieve a list of Manufacturers.
 }
 
 // gRPC service for managing vendors.
@@ -126,6 +128,7 @@ service VendorService {
     rpc add_vendor(Vendor) returns (Vendor);
     rpc update_vendor(Vendor) returns (Vendor);
     rpc delete_vendor(VendorIdRequest) returns (DeleteResponse);
+    rpc listVendors(VendorsListRequest) returns (VendorsListResponse); // Retrieve a list of Vendors.
 }
 
 // gRPC service for managing devices.
@@ -175,3 +178,47 @@ message DeleteResponse {
     string message = 2; // Message providing additional information about the delete operation
 }
 
+/**
+Request Message to list Countries
+ */
+message CountryListRequest{
+    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+}
+
+/**
+Request Message to list Manufacturers
+ */
+message ManufacturerListRequest{
+    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+}
+
+/**
+Request Message to list Vendors
+ */
+message VendorsListRequest{
+    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+}
+
+/**
+Response containing the requested list of Countries
+ */
+message CountryListResponse {
+    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+    repeated common.Country countries = 5; // List of Countries
+}
+
+/**
+Response containing the requested list of Manufacturers
+ */
+message ManufacturersListResponse {
+    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+    repeated Manufacturer manufacturers = 5; // List of Manufacturers
+}
+
+/**
+Response containing the requested list of Vendors
+ */
+message VendorsListResponse {
+    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+    repeated Vendor vendors = 5; // List of Vendors
+}

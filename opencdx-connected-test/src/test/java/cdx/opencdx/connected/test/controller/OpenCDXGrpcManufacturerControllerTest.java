@@ -26,10 +26,12 @@ import cdx.opencdx.connected.test.service.OpenCDXManufacturerService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXManufacturerServiceImpl;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.common.PhoneNumber;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -41,6 +43,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -180,6 +185,24 @@ class OpenCDXGrpcManufacturerControllerTest {
         DeleteResponse deleteResponse =
                 DeleteResponse.newBuilder().setSuccess(true).setMessage(message).build();
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(deleteResponse);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listManufacturers() {
+        StreamObserver<ManufacturersListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXManufacturerRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXManufacturerModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        ManufacturerListRequest countryListRequest = ManufacturerListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .build();
+        this.openCDXGrpcManufacturerController.listManufacturers(countryListRequest, responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

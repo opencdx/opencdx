@@ -17,9 +17,7 @@ package cdx.opencdx.connected.test.controller;
 
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.grpc.common.Country;
-import cdx.opencdx.grpc.inventory.CountryIdRequest;
-import cdx.opencdx.grpc.inventory.CountryServiceGrpc;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
+import cdx.opencdx.grpc.inventory.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +67,14 @@ public class OpenCDXGrpcCountryController extends CountryServiceGrpc.CountryServ
     @Override
     public void deleteCountry(CountryIdRequest request, StreamObserver<DeleteResponse> responseObserver) {
         responseObserver.onNext(this.openCDXCountryService.deleteCountry(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void listCountries(CountryListRequest request, StreamObserver<CountryListResponse> responseObserver) {
+        log.info("Received: {}", request.toString());
+        responseObserver.onNext(this.openCDXCountryService.listCountries(request));
         responseObserver.onCompleted();
     }
 }
