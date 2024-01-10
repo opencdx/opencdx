@@ -93,4 +93,15 @@ public class OpenCDXRestVendorController {
                         VendorIdRequest.newBuilder().setVendorId(id).build()),
                 HttpStatus.OK);
     }
+
+    /**
+     * List Countries
+     *
+     * @param vendorsListRequest request for Connected Tests.
+     * @return the requested connected tests.
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VendorsListResponse> listVendors(@RequestBody VendorsListRequest vendorsListRequest) {
+        return new ResponseEntity<>(this.openCDXVendorService.listVendors(vendorsListRequest), HttpStatus.OK);
+    }
 }

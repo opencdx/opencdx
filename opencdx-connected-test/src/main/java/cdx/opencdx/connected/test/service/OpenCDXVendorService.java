@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.connected.test.service;
 
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Vendor;
-import cdx.opencdx.grpc.inventory.VendorIdRequest;
+import cdx.opencdx.grpc.inventory.*;
 
 /**
  * Vendor service for vendor identification
@@ -51,4 +49,11 @@ public interface OpenCDXVendorService {
      * @return Response indicating if successful.
      */
     DeleteResponse deleteVendor(VendorIdRequest request);
+
+    /**
+     * Method to get list of vandors
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested Vendor with page, sorting, and page size
+     */
+    VendorsListResponse listVendors(VendorsListRequest request);
 }

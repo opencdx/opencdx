@@ -18,6 +18,8 @@ package cdx.opencdx.connected.test.controller;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.grpc.common.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
+import cdx.opencdx.grpc.inventory.CountryListRequest;
+import cdx.opencdx.grpc.inventory.CountryListResponse;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -94,5 +96,16 @@ public class OpenCDXRestCountryController {
                 this.openCDXCountryService.deleteCountry(
                         CountryIdRequest.newBuilder().setCountryId(id).build()),
                 HttpStatus.OK);
+    }
+
+    /**
+     * List Countries
+     *
+     * @param countryListRequest request for Connected Tests.
+     * @return the requested connected tests.
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CountryListResponse> listCountries(@RequestBody CountryListRequest countryListRequest) {
+        return new ResponseEntity<>(this.openCDXCountryService.listCountries(countryListRequest), HttpStatus.OK);
     }
 }
