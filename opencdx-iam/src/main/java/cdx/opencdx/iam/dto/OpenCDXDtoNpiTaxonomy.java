@@ -18,6 +18,9 @@ package cdx.opencdx.iam.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+/**
+ * DTO for NPI Address
+ */
 @Data
 public class OpenCDXDtoNpiTaxonomy {
     private String code;
@@ -31,4 +34,11 @@ public class OpenCDXDtoNpiTaxonomy {
 
     @JsonProperty("primary")
     private boolean primary;
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXDtoNpiTaxonomy() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

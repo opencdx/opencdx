@@ -62,6 +62,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      * @param  openCDXIAMProviderRepository, Database repository for Provider
      * @param openCDXAuditService Audit Service to record information
      * @param objectMapper ObjectMapper for converting to JSON
+     * @param openCDXCountryRepository Country Repository for looking up countries
      */
     public OpenCDXIAMProviderServiceImpl(
             OpenCDXIAMProviderRepository openCDXIAMProviderRepository,
@@ -129,8 +130,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
 
     /**
      * Method to get the list of providers.
-     *
-     * @param request
+     * @param request ListProvidersRequest for the list of providers.
      * @return ListProvidersResponse with all the providers.
      */
     @Override

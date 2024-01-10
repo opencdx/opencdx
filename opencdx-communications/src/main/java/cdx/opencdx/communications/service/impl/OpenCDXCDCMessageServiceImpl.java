@@ -59,13 +59,12 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
-     * Constructor taking some repositories
-     *
-     * @param cdcUri                CDC Message URI
-     * @param cdcClient             CDC Message Client header
-     * @param cdcKey                CDC Message key
-     * @param openCDXAuditService   Audit service for tracking CDC message send
-     * @param openCDXCurrentUser    Current User Service to access information
+     * Constructor for the OpenCDXCDCMessageServiceImpl
+     * @param uri URI of the CDC Notification endpoint
+     * @param client Client ID for the CDC Notification endpoint
+     * @param key Key for the CDC Notification endpoint
+     * @param openCDXAuditService Audit service for recording CDC Notification events
+     * @param openCDXCurrentUser Current user service for retrieving the current user
      */
     @Autowired
     public OpenCDXCDCMessageServiceImpl(

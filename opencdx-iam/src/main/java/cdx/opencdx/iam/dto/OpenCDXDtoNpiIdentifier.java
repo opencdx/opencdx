@@ -17,6 +17,9 @@ package cdx.opencdx.iam.dto;
 
 import lombok.Data;
 
+/**
+ * DTO for NPI Identifier
+ */
 @Data
 public class OpenCDXDtoNpiIdentifier {
     private String code;
@@ -24,4 +27,11 @@ public class OpenCDXDtoNpiIdentifier {
     private String issuer;
     private String identifier;
     private String state;
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXDtoNpiIdentifier() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

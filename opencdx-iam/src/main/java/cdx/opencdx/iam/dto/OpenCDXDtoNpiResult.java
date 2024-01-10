@@ -19,6 +19,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
 
+/**
+ * DTO for NPI Result
+ */
 @Data
 public class OpenCDXDtoNpiResult {
     @JsonProperty("created_epoch")
@@ -43,4 +46,11 @@ public class OpenCDXDtoNpiResult {
 
     @JsonProperty("other_names")
     private List<Object> otherNames;
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXDtoNpiResult() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

@@ -37,12 +37,14 @@ public interface OpenCDXIAMProviderService {
 
     /**
      * Method to get the list of providers.
+     * @param request ListProvidersRequest for the list of providers.
      * @return ListProvidersResponse with all the providers.
      */
     ListProvidersResponse listProviders(ListProvidersRequest request);
 
     /**
      * Method to load all providers.
+     * @param request LoadProviderRequest for the list of providers.
      * @return LoadProviderResponse with all the providers.
      */
     LoadProviderResponse loadProvider(LoadProviderRequest request);

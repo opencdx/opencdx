@@ -213,7 +213,7 @@ open_reports() {
         ;;
     dashboard)
         handle_info "Opening OpenCDX Dashboard..."
-        open_url "http://localhost:3005"
+        open_url "https://localhost:3005"
         ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
@@ -238,8 +238,12 @@ open_reports() {
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         mv build/docs/javadoc-all ./doc/javadoc
 
+        handle_info "Creating ProtoDoc..."
         mkdir -p doc/protodoc
         protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+        handle_info "Creating Dependency Check Report..."
+        mkdir -p doc/dependency
+        cp build/reports/dependency-check-report.html ./doc/dependency
         ;;
     proto)
         handle_info "Opening Proto Doc..."
