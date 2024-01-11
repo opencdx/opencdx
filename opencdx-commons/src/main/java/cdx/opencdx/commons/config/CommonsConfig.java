@@ -94,6 +94,7 @@ public class CommonsConfig {
     }
 
     @Bean
+    @Profile("mongo")
     MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
             ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
         return clientSettingsBuilder -> clientSettingsBuilder
