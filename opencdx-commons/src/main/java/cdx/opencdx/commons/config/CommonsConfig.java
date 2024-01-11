@@ -29,6 +29,7 @@ import com.mongodb.ConnectionString;
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
+import io.micrometer.tracing.Tracer;
 import io.nats.client.Connection;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.models.Components;
@@ -178,9 +179,11 @@ public class CommonsConfig {
             Connection natsConnection,
             ObjectMapper objectMapper,
             OpenCDXCurrentUser openCDXCurrentUser,
-            @Value("${spring.application.name}") String applicationName) {
+            @Value("${spring.application.name}") String applicationName,
+            Tracer tracer) {
         log.info("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName, openCDXCurrentUser);
+        return new NatsOpenCDXMessageServiceImpl(
+                natsConnection, objectMapper, applicationName, openCDXCurrentUser, tracer);
     }
 
     @Bean("noop")
