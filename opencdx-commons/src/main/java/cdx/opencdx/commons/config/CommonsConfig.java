@@ -25,6 +25,7 @@ import cdx.opencdx.commons.utils.MongoDocumentExists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import com.mongodb.ConnectionString;
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
@@ -41,12 +42,16 @@ import org.springframework.boot.actuate.autoconfigure.observation.ObservationReg
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
+import org.springframework.data.mongodb.observability.ContextProviderFactory;
+import org.springframework.data.mongodb.observability.MongoObservationCommandListener;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -85,6 +90,15 @@ public class CommonsConfig {
     @GRpcGlobalInterceptor
     public ObservationGrpcServerInterceptor interceptor(ObservationRegistry observationRegistry) {
         return new ObservationGrpcServerInterceptor(observationRegistry);
+    }
+
+    @Bean
+    MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
+            ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
+        return clientSettingsBuilder -> clientSettingsBuilder
+                .contextProvider(ContextProviderFactory.create(observationRegistry))
+                .addCommandListener(new MongoObservationCommandListener(
+                        observationRegistry, new ConnectionString(mongoProperties.determineUri())));
     }
 
     /**

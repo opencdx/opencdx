@@ -158,6 +158,7 @@ allprojects {
         imports {
             mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "io.micrometer:micrometer-bom:${micrometerVersion}"
         }
     }
 
