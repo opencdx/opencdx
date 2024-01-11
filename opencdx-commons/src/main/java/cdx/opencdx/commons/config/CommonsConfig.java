@@ -17,6 +17,7 @@ package cdx.opencdx.commons.config;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
+import cdx.opencdx.commons.handlers.OpenCDXGrpcTracingInterceptor;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.*;
@@ -25,6 +26,7 @@ import cdx.opencdx.commons.utils.MongoDocumentExists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import io.grpc.ServerInterceptor;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
@@ -34,7 +36,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
+import org.lognet.springboot.grpc.GRpcGlobalInterceptor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationRegistryCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -44,8 +48,11 @@ import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
+import org.springframework.http.server.observation.ServerRequestObservationContext;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -60,6 +67,19 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
+        PathMatcher pathMatcher = new AntPathMatcher("/");
+        return registry -> registry.observationConfig().observationPredicate((name, context) -> {
+            if (context instanceof ServerRequestObservationContext observationContext) {
+                return !pathMatcher.match(
+                        "/actuator/**", observationContext.getCarrier().getRequestURI());
+            } else {
+                return true;
+            }
+        });
     }
 
     /**
