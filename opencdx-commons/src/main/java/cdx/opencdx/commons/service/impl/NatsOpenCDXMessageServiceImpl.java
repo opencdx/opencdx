@@ -54,7 +54,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     private final Tracer tracer;
 
-    record NatsMessage(String spanId, String traceId, String parentId, Boolean sampled, String json) {}
+    record NatsMessage(String spanId, String traceId, String parentId, String json) {}
     ;
 
     /**
@@ -63,7 +63,6 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      * @param objectMapper Jackson Object Mapper
      * @param applicationName Name of the application
      * @param openCDXCurrentUser System for setting the current user
-     * @param tracer Tracer for micrometer tracing.
      */
     public NatsOpenCDXMessageServiceImpl(
             Connection natsConnection,
@@ -143,11 +142,13 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     @Override
     @RetryAnnotation
     public void send(String subject, Object object) {
+
         Span span = this.tracer.nextSpan();
         span.name(this.getClass().getCanonicalName());
         span.remoteServiceName("NATS");
+        span.start();
 
-        try (Tracer.SpanInScope ws = this.tracer.withSpan(span.start())) {
+        try (Tracer.SpanInScope ws = tracer.withSpan(span)) {
             TraceContext context = span.context();
 
             String json = this.objectMapper
@@ -156,7 +157,6 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             context.spanId(),
                             context.traceId(),
                             context.parentId(),
-                            context.sampled(),
                             this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)));
             natsConnection.jetStream().publishAsync(subject, json.getBytes());
         } catch (IOException e) {
@@ -183,10 +183,10 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
         private final ObjectMapper objectMapper;
 
+        private final Tracer tracer;
+
         @Value("${spring.application.name}")
         private String appName;
-
-        private final Tracer tracer;
 
         /**
          * Constructor for wrapping a OpenCDXMessageHandler
@@ -216,31 +216,40 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
                 TraceContext context = this.tracer
                         .traceContextBuilder()
-                        .traceId(natsMessage.traceId())
                         .spanId(natsMessage.spanId())
+                        .traceId(natsMessage.traceId())
                         .parentId(natsMessage.parentId())
-                        .sampled(natsMessage.sampled())
                         .build();
 
-                Span span = this.tracer
+                this.tracer
                         .spanBuilder()
                         .setParent(context)
-                        .remoteServiceName(this.appName)
+                        .kind(Span.Kind.SERVER)
+                        .remoteServiceName("NATS")
                         .name(this.getClass().getCanonicalName())
                         .start();
-                try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
-                    handler.receivedMessage(natsMessage.json().getBytes());
-                } catch (Throwable e) {
-                    span.error(e);
-                    throw e;
-                } finally {
-                    span.end();
-                }
+
+                processMessage(natsMessage);
             } catch (IOException e) {
                 throw new OpenCDXInternal(DOMAIN, 4, "Failed to read NATS Message", e);
             }
 
             log.debug("Received Message: {}", msg);
+        }
+
+        private void processMessage(NatsMessage natsMessage) {
+            Span span = this.tracer.nextSpan();
+            span.remoteServiceName(this.appName);
+            span.name(this.getClass().getCanonicalName());
+            span.start();
+            try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
+                handler.receivedMessage(natsMessage.json().getBytes());
+            } catch (Throwable e) {
+                span.error(e);
+                throw e;
+            } finally {
+                span.end();
+            }
         }
     }
 }
