@@ -8,7 +8,24 @@ const FormRender = React.forwardRef((props, ref) => {
     const [cuff, setCuff] = useState();
     const [urinated, setUrinated] = useState();
     const [sitting, setSitting] = useState();
-
+const answerOption = [
+    {
+        id: 1,
+        label: 'Yes',
+        value: 'yes',
+    },
+    {
+        id: 2,
+        label: 'No',
+        value: 'no',
+    },
+    {
+        id: 3,
+        label: 'Not Answered',
+        value: 'not answered',
+    }
+];
+    
     return(
         <FormControl minWidth="$80">
             <Heading>{formData?.title}</Heading>
@@ -59,28 +76,28 @@ const FormRender = React.forwardRef((props, ref) => {
                     }
 
                     { question.type === "boolean" &&
-                        <RadioGroup value={cuff} onChange={setCuff} style={styles.margin}>
-                            <HStack space="2xl">
-                                <Radio value="yes">
-                                <RadioIndicator mr="$2">
-                                    <RadioIcon as={CircleIcon} />
-                                </RadioIndicator>
-                                <RadioLabel>Yes</RadioLabel>
-                                </Radio>
-                                <Radio value="no">
-                                <RadioIndicator mr="$2">
-                                    <RadioIcon as={CircleIcon} />
-                                </RadioIndicator>
-                                <RadioLabel>No</RadioLabel>
-                                </Radio>
-                                <Radio value="notAnswered">
-                                <RadioIndicator mr="$2">
-                                    <RadioIcon as={CircleIcon} />
-                                </RadioIndicator>
-                                <RadioLabel>Not Answered</RadioLabel>
-                                </Radio>
-                            </HStack>
-                        </RadioGroup>
+                        <HStack style={styles.margin}>
+                            <RadioGroup
+                            sx={{
+                                flexDirection: 'row',
+                            }}
+                                value={question.value}
+                                onValueChange={(value) => {
+                                    // Handle radio group value change here
+                                    // You can use the 'value' to update the state or perform any other logic
+                                    console.log(value);
+                                }}
+                            >
+                                {answerOption?.map((option) => (
+                                    <Radio key={option.id} value={option.value}>
+                                        <RadioIndicator _checked={{ bg: 'primary.500' }}  margin={2}>
+                                            <RadioIcon as={CircleIcon} />
+                                        </RadioIndicator>
+                                        <RadioLabel>{option.label}</RadioLabel>
+                                    </Radio>
+                                ))}
+                            </RadioGroup>
+                        </HStack>
                     }
 
                     { question.type === "choice" &&
