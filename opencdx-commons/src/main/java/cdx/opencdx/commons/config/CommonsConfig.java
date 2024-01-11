@@ -17,7 +17,6 @@ package cdx.opencdx.commons.config;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.cache.OpenCDXMemoryCacheManager;
-import cdx.opencdx.commons.handlers.OpenCDXGrpcTracingInterceptor;
 import cdx.opencdx.commons.handlers.OpenCDXPerformanceHandler;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.*;
@@ -26,7 +25,7 @@ import cdx.opencdx.commons.utils.MongoDocumentExists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
-import io.grpc.ServerInterceptor;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.nats.client.Connection;
@@ -80,6 +79,12 @@ public class CommonsConfig {
                 return true;
             }
         });
+    }
+
+    @Bean
+    @GRpcGlobalInterceptor
+    public ObservationGrpcServerInterceptor interceptor(ObservationRegistry observationRegistry) {
+        return new ObservationGrpcServerInterceptor(observationRegistry);
     }
 
     /**
