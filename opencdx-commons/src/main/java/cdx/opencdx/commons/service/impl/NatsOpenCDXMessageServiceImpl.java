@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -144,11 +145,14 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     @RetryAnnotation
     public void send(String subject, Object object) {
 
-        Span span = this.tracer.nextSpan();
-        span.name("NATS: Producer");
-        span.remoteServiceName("NATS");
-        span.tag("nats.subject", subject);
-        span.start();
+        Span span = this.tracer
+                .spanBuilder()
+                .setParent(Objects.requireNonNull(this.tracer.currentSpan()).context())
+                .name("NATS: Producer")
+                .remoteServiceName("NATS")
+                .kind(Span.Kind.PRODUCER)
+                .tag("nats.subject", subject)
+                .start();
 
         try (Tracer.SpanInScope ws = tracer.withSpan(span)) {
             TraceContext context = span.context();
