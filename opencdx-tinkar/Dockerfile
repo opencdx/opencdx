@@ -6,5 +6,7 @@ curl
 
 #ADD ./solar-ids-512.sa.tgz /data
 
+RUN apt-get clean
+
 COPY build/libs/opencdx-tinkar-*.jar app.jar
 ENTRYPOINT ["sh", "-c", "java -jar /app.jar "]
