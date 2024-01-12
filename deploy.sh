@@ -310,7 +310,7 @@ build_docker() {
     build_docker_image opencdx/media ./opencdx-media
     build_docker_image opencdx/connected-test ./opencdx-connected-test
     build_docker_image opencdx/iam ./opencdx-iam
-	build_docker_image opencdx/routine ./opencdx-routine
+	  build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
     build_docker_image opencdx/questionnaire ./opencdx-questionnaire
