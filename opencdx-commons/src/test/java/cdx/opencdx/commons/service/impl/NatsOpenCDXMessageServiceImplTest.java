@@ -484,6 +484,7 @@ class NatsOpenCDXMessageServiceImplTest {
         when(tracerBrave.currentSpan()).thenReturn(spanBrave);
         when(tracerBrave.newChild(any())).thenReturn(spanBrave);
         when(tracingBrave.tracer()).thenReturn(tracerBrave);
+        when(tracer.currentSpan()).thenReturn(this.currentSpan);
         NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(
                 this.connection, this.objectMapper, "test", openCDXCurrentUser, tracer);
         Assertions.assertDoesNotThrow(() -> service.send("subject", "ObjectTest"));
@@ -507,6 +508,7 @@ class NatsOpenCDXMessageServiceImplTest {
         when(tracerBrave.newChild(any())).thenReturn(spanBrave);
         when(tracingBrave.tracer()).thenReturn(tracerBrave);
         when(connection.jetStream()).thenThrow(IOException.class);
+        when(tracer.currentSpan()).thenReturn(this.currentSpan);
         NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(
                 this.connection, this.objectMapper, "test", openCDXCurrentUser, tracer);
 
