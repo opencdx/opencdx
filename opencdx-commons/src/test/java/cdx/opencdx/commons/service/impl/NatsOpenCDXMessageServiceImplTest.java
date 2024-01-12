@@ -452,7 +452,7 @@ class NatsOpenCDXMessageServiceImplTest {
         OpenCDXMessageHandler handler = new OpenCDXMessageHandler() {
             @Override
             public void receivedMessage(byte[] message) {
-                Assertions.assertEquals("Test", new String(message));
+                throw new RuntimeException();
             }
         };
 
@@ -463,18 +463,8 @@ class NatsOpenCDXMessageServiceImplTest {
         String jsonVal = "{\"spanId\": 123, \"traceId\": 456, \"parentId\": 789, \"json\": \"Test\"}";
         when(message.getData()).thenReturn(jsonVal.getBytes());
         when(message.getConnection()).thenReturn(this.natsConnection);
-        when(tracerBrave.nextSpan()).thenReturn(spanBrave);
-        when(tracerBrave.newChild(any())).thenReturn(spanBrave);
-        when(tracerBrave.currentSpan()).thenReturn(spanBrave);
-        when(tracingBrave.tracer()).thenReturn(tracerBrave);
-        when(tracerBrave.withSpanInScope(any())).thenThrow(RuntimeException.class);
 
-        Assertions.assertDoesNotThrow(() -> natsMessageHandler.onMessage(message));
-        //        try (MockedStatic<Tracing> tracingMockedStatic = Mockito.mockStatic(Tracing.class)) {
-        //            tracingMockedStatic.when(Tracing::currentTracer).thenReturn(tracerBrave);
-        //            tracingMockedStatic.when(Tracing::current).thenReturn(tracingBrave);
-        //            Assertions.assertThrows(RuntimeException.class, () -> natsMessageHandler.onMessage(message));
-        //        }
+        Assertions.assertThrows(RuntimeException.class, () -> natsMessageHandler.onMessage(message));
     }
 
     @Test

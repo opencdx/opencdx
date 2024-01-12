@@ -80,10 +80,10 @@ public class CommonsConfig {
     @ExcludeFromJacocoGeneratedReport
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
         PathMatcher pathMatcher = new AntPathMatcher("/");
-        return registry -> registry.observationConfig().observationPredicate((name, context) -> {
-            return observationPrediciton(context, pathMatcher);
-        });
+        return registry -> registry.observationConfig()
+                .observationPredicate((name, context) -> observationPrediciton(context, pathMatcher));
     }
+
     @ExcludeFromJacocoGeneratedReport
     private static boolean observationPrediciton(Observation.Context context, PathMatcher pathMatcher) {
         if (context instanceof ServerRequestObservationContext observationContext) {
@@ -94,6 +94,11 @@ public class CommonsConfig {
         }
     }
 
+    /**
+     * Observation Registry
+     * @param observationRegistry Observation Registry
+     * @return Observation Registry
+     */
     @Bean
     @GRpcGlobalInterceptor
     @ExcludeFromJacocoGeneratedReport
@@ -106,11 +111,15 @@ public class CommonsConfig {
     @ExcludeFromJacocoGeneratedReport
     MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
             ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
-        return clientSettingsBuilder -> getClientSetttingsBuilder(observationRegistry, mongoProperties, clientSettingsBuilder);
+        return clientSettingsBuilder ->
+                getClientSetttingsBuilder(observationRegistry, mongoProperties, clientSettingsBuilder);
     }
 
     @ExcludeFromJacocoGeneratedReport
-    private static MongoClientSettings.Builder getClientSetttingsBuilder(ObservationRegistry observationRegistry, MongoProperties mongoProperties, MongoClientSettings.Builder clientSettingsBuilder) {
+    private static MongoClientSettings.Builder getClientSetttingsBuilder(
+            ObservationRegistry observationRegistry,
+            MongoProperties mongoProperties,
+            MongoClientSettings.Builder clientSettingsBuilder) {
         return clientSettingsBuilder
                 .contextProvider(ContextProviderFactory.create(observationRegistry))
                 .addCommandListener(new MongoObservationCommandListener(
@@ -184,6 +193,7 @@ public class CommonsConfig {
      * @param objectMapper Object Mapper to use.
      * @param applicationName Name of the service.
      * @param openCDXCurrentUser Current User Service
+     * @param tracer Tracer to use.
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")

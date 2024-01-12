@@ -63,6 +63,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
      * @param objectMapper Jackson Object Mapper
      * @param applicationName Name of the application
      * @param openCDXCurrentUser System for setting the current user
+     * @param tracer Micrometer Tracer
      */
     public NatsOpenCDXMessageServiceImpl(
             Connection natsConnection,
@@ -194,6 +195,8 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
          *
          * @param handler            OpenCDXMessageHandler to wrap.
          * @param openCDXCurrentUser System for setting the current user
+         * @param objectMapper      Jackson Object Mapper
+         * @param tracer             Micrometer Tracer
          */
         protected NatsMessageHandler(
                 OpenCDXMessageHandler handler,
@@ -236,12 +239,6 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                         .start();
 
                 try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
-                    if (!natsMessage.spanId.equals(span.context().spanId())) {
-                        log.warn(
-                                "Span ID mismatch: {} != {}",
-                                natsMessage.spanId(),
-                                span.context().spanId());
-                    }
                     processMessage(natsMessage);
                 } catch (Throwable e) {
                     span.error(e);
