@@ -134,37 +134,43 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenAPI Configuration</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.swagger.v3.core.jackson.ModelResolver</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modelResolver(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">modelResolver</a><wbr>(<a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interceptor(io.micrometer.observation.ObservationRegistry)" class="member-name-link">interceptor</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Observation Registry</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.swagger.v3.core.jackson.ModelResolver</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modelResolver(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">modelResolver</a><wbr>(<a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Model Resolver for Swagger</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String,io.micrometer.tracing.Tracer)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
  <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
  <a href="../service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName,
+ io.micrometer.tracing.Tracer&nbsp;tracer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#objectMapper()" class="member-name-link">objectMapper</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#objectMapper()" class="member-name-link">objectMapper</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generates the Jackson Objectmapper with the JSON-to/from-Protobuf Message support.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.observation.aop.ObservedAspect</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#observedAspect(io.micrometer.observation.ObservationRegistry)" class="member-name-link">observedAspect</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.observation.aop.ObservedAspect</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#observedAspect(io.micrometer.observation.ObservationRegistry)" class="member-name-link">observedAspect</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Observation Registry for the OpenCDX Performance Tracking.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.crypto.password.PasswordEncoder</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#passwordEncoder()" class="member-name-link">passwordEncoder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.crypto.password.PasswordEncoder</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#passwordEncoder()" class="member-name-link">passwordEncoder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Default Password Encoder</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitizer()" class="member-name-link">sanitizer</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitizer()" class="member-name-link">sanitizer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXHtmlSanitizer</div>
 </div>
 </div>
@@ -199,6 +205,21 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="interceptor(io.micrometer.observation.ObservationRegistry)">
+<h3>interceptor</h3>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+@GRpcGlobalInterceptor
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor</span>&nbsp;<span class="element-name">interceptor</span><wbr><span class="parameters">(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</span></div>
+<div class="block">Observation Registry</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>observationRegistry</code> - Observation Registry</dd>
+<dt>Returns:</dt>
+<dd>Observation Registry</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="cacheManager()">
 <h3>cacheManager</h3>
@@ -269,7 +290,7 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String)">
+<section class="detail" id="natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String,io.micrometer.tracing.Tracer)">
 <h3>natsOpenCDXMessageService</h3>
 <div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>("nats")
 <a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("NATS implementation of the OpenCDXMessageService.")
@@ -280,7 +301,8 @@ loadScripts(document, 'script');</script>
  <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
  <a href="../service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
  <a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Value.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Value</a>("${spring.application.name}")
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName,
+ io.micrometer.tracing.Tracer&nbsp;tracer)</span></div>
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -288,6 +310,7 @@ loadScripts(document, 'script');</script>
 <dd><code>objectMapper</code> - Object Mapper to use.</dd>
 <dd><code>openCDXCurrentUser</code> - Current User Service</dd>
 <dd><code>applicationName</code> - Name of the service.</dd>
+<dd><code>tracer</code> - Tracer to use.</dd>
 <dt>Returns:</dt>
 <dd>OpenCDXMessageService to use for messaginging.</dd>
 </dl>

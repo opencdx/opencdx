@@ -148,9 +148,14 @@ implements <a href="../OpenCDXCountryService.html" title="interface in cdx.openc
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieve a country by an id</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.common.Country</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry</a><wbr>(cdx.opencdx.grpc.common.Country&nbsp;request)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.inventory.CountryListResponse</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)" class="member-name-link">listCountries</a><wbr>(cdx.opencdx.grpc.inventory.CountryListRequest&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Method to get list of countries</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.common.Country</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry</a><wbr>(cdx.opencdx.grpc.common.Country&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update the records of a country.</div>
 </div>
 </div>
@@ -262,6 +267,22 @@ implements <a href="../OpenCDXCountryService.html" title="interface in cdx.openc
 <dd><code>request</code> - Request of the country to delete</dd>
 <dt>Returns:</dt>
 <dd>Response indicating success.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)">
+<h3>listCountries</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.inventory.CountryListResponse</span>&nbsp;<span class="element-name">listCountries</span><wbr><span class="parameters">(cdx.opencdx.grpc.inventory.CountryListRequest&nbsp;request)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXCountryService.html#listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)">OpenCDXCountryService</a></code></span></div>
+<div class="block">Method to get list of countries</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../OpenCDXCountryService.html#listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)">listCountries</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>request</code> - Request indicating pagination, sorting, and page size.</dd>
+<dt>Returns:</dt>
+<dd>requested Countries with page, sorting, and page size</dd>
 </dl>
 </section>
 </li>
