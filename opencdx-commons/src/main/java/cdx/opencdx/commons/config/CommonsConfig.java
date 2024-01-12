@@ -26,7 +26,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor;
+import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.micrometer.tracing.Tracer;
@@ -75,29 +77,41 @@ public class CommonsConfig {
     }
 
     @Bean
+    @ExcludeFromJacocoGeneratedReport
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
         PathMatcher pathMatcher = new AntPathMatcher("/");
         return registry -> registry.observationConfig().observationPredicate((name, context) -> {
-            if (context instanceof ServerRequestObservationContext observationContext) {
-                return !pathMatcher.match(
-                        "/actuator/**", observationContext.getCarrier().getRequestURI());
-            } else {
-                return true;
-            }
+            return observationPrediciton(context, pathMatcher);
         });
+    }
+    @ExcludeFromJacocoGeneratedReport
+    private static boolean observationPrediciton(Observation.Context context, PathMatcher pathMatcher) {
+        if (context instanceof ServerRequestObservationContext observationContext) {
+            return !pathMatcher.match(
+                    "/actuator/**", observationContext.getCarrier().getRequestURI());
+        } else {
+            return true;
+        }
     }
 
     @Bean
     @GRpcGlobalInterceptor
+    @ExcludeFromJacocoGeneratedReport
     public ObservationGrpcServerInterceptor interceptor(ObservationRegistry observationRegistry) {
         return new ObservationGrpcServerInterceptor(observationRegistry);
     }
 
     @Bean
     @Profile("mongo")
+    @ExcludeFromJacocoGeneratedReport
     MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
             ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
-        return clientSettingsBuilder -> clientSettingsBuilder
+        return clientSettingsBuilder -> getClientSetttingsBuilder(observationRegistry, mongoProperties, clientSettingsBuilder);
+    }
+
+    @ExcludeFromJacocoGeneratedReport
+    private static MongoClientSettings.Builder getClientSetttingsBuilder(ObservationRegistry observationRegistry, MongoProperties mongoProperties, MongoClientSettings.Builder clientSettingsBuilder) {
+        return clientSettingsBuilder
                 .contextProvider(ContextProviderFactory.create(observationRegistry))
                 .addCommandListener(new MongoObservationCommandListener(
                         observationRegistry, new ConnectionString(mongoProperties.determineUri())));

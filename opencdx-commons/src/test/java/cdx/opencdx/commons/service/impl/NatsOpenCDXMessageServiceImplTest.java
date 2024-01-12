@@ -497,16 +497,6 @@ class NatsOpenCDXMessageServiceImplTest {
         NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(
                 this.connection, this.objectMapper, "test", openCDXCurrentUser, tracer);
         Assertions.assertDoesNotThrow(() -> service.send("subject", "ObjectTest"));
-
-        //        try (MockedStatic<Tracing> tracingMockedStatic = Mockito.mockStatic(Tracing.class)) {
-        //            tracingMockedStatic.when(Tracing::currentTracer).thenReturn(tracerBrave);
-        //            tracingMockedStatic.when(Tracing::current).thenReturn(tracingBrave);
-        //            NatsOpenCDXMessageServiceImpl service =
-        //                    new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper, "test",
-        // openCDXCurrentUserAssertions.assertThrows(RuntimeException.class, () ->
-        // natsMessageHandler.onMessage(message)););
-        //            Assertions.assertDoesNotThrow(() -> service.send("subject", "ObjectTest"));
-        //        }
     }
 
     @Test
@@ -526,19 +516,10 @@ class NatsOpenCDXMessageServiceImplTest {
         when(tracerBrave.currentSpan()).thenReturn(spanBrave);
         when(tracerBrave.newChild(any())).thenReturn(spanBrave);
         when(tracingBrave.tracer()).thenReturn(tracerBrave);
+        when(connection.jetStream()).thenThrow(IOException.class);
         NatsOpenCDXMessageServiceImpl service = new NatsOpenCDXMessageServiceImpl(
                 this.connection, this.objectMapper, "test", openCDXCurrentUser, tracer);
 
-        Assertions.assertDoesNotThrow(() -> service.send("subject", "ObjectTest"));
-        //        try (MockedStatic<Tracing> tracingMockedStatic = Mockito.mockStatic(Tracing.class)) {
-        //            tracingMockedStatic.when(Tracing::currentTracer).thenReturn(tracerBrave);
-        //            tracingMockedStatic.when(Tracing::current).thenReturn(tracingBrave);
-        //            when(connection.jetStream()).thenThrow(IOException.class);
-        //            NatsOpenCDXMessageServiceImpl service =
-        //                    new NatsOpenCDXMessageServiceImpl(this.connection, this.objectMapper, "test",
-        // openCDXCurrentUser);
-        //
-        //            Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> service.send("subject", "ObjectTest"));
-        //        }
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> service.send("subject", "ObjectTest"));
     }
 }
