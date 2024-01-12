@@ -144,8 +144,9 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     public void send(String subject, Object object) {
 
         Span span = this.tracer.nextSpan();
-        span.name("NATS: Publish");
+        span.name("NATS: Producer");
         span.remoteServiceName("NATS");
+        span.tag("nats.subject", subject);
         span.start();
 
         try (Tracer.SpanInScope ws = tracer.withSpan(span)) {
@@ -226,12 +227,20 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                         .setParent(context)
                         .kind(Span.Kind.CONSUMER)
                         .remoteServiceName("NATS")
-                        .name("NATS: Receive")
+                        .tag("nats.subject", msg.getSubject())
+                        .tag("nats.replyTo", msg.getReplyTo())
+                        .tag("nats.url", msg.getConnection().getConnectedUrl())
+                        .tag("nats.host", msg.getConnection().getServerInfo().getHost())
+                        .tag("nats.port", msg.getConnection().getServerInfo().getPort())
+                        .name("NATS: Consumer")
                         .start();
 
                 try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
-                    if(!natsMessage.spanId.equals(span.context().spanId())) {
-                        log.warn("Span ID mismatch: {} != {}", natsMessage.spanId(), span.context().spanId());
+                    if (!natsMessage.spanId.equals(span.context().spanId())) {
+                        log.warn(
+                                "Span ID mismatch: {} != {}",
+                                natsMessage.spanId(),
+                                span.context().spanId());
                     }
                     processMessage(natsMessage);
                 } catch (Throwable e) {
@@ -250,8 +259,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
         private void processMessage(NatsMessage natsMessage) {
             Span span = this.tracer.nextSpan();
-            span.remoteServiceName(this.appName);
-            span.name("NATS: Processor");
+            span.name(this.getClass().getCanonicalName());
             span.start();
             try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
                 handler.receivedMessage(natsMessage.json().getBytes());

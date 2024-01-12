@@ -31,6 +31,7 @@ import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import io.micrometer.tracing.*;
 import io.micrometer.tracing.Tracer;
 import io.nats.client.*;
+import io.nats.client.api.ServerInfo;
 import io.nats.client.api.StreamConfiguration;
 import io.nats.client.api.StreamInfo;
 import io.nats.client.impl.Headers;
@@ -100,6 +101,9 @@ class NatsOpenCDXMessageServiceImplTest {
 
     @Mock
     Connection natsConnection;
+
+    @Mock
+    ServerInfo serverInfo;
     // private Tracer tracer1;
 
     @BeforeEach
@@ -121,6 +125,10 @@ class NatsOpenCDXMessageServiceImplTest {
         this.natsConnection = mock(Connection.class);
         this.objectMapper.registerModule(new ProtobufModule());
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.serverInfo = mock(ServerInfo.class);
+
+        when(this.natsConnection.getServerInfo()).thenReturn(this.serverInfo);
+        when(this.connection.getServerInfo()).thenReturn(this.serverInfo);
         when(this.connection.createDispatcher()).thenReturn(this.dispatcher);
         when(this.connection.jetStreamManagement()).thenReturn(this.jetStreamManagement);
         when(this.jetStreamManagement.addStream(Mockito.any())).thenReturn(this.streamInfo);
@@ -138,6 +146,8 @@ class NatsOpenCDXMessageServiceImplTest {
         when(this.tracer.nextSpan()).thenReturn(Tracer.NOOP.nextSpan());
         when(this.tracer.traceContextBuilder()).thenReturn(Tracer.NOOP.traceContextBuilder());
         when(this.tracer.spanBuilder()).thenReturn(Tracer.NOOP.spanBuilder());
+        when(this.serverInfo.getHost()).thenReturn("127.0.0.1");
+        when(this.serverInfo.getPort()).thenReturn(8080);
         this.commonsConfig = new CommonsConfig();
     }
 
@@ -432,6 +442,7 @@ class NatsOpenCDXMessageServiceImplTest {
         Message message = mock(Message.class);
         String jsonVal = "{\"spanId\": 123, \"traceId\": 456, \"parentId\": 789, \"json\": \"Test\"}";
         when(message.getData()).thenReturn(jsonVal.getBytes());
+        when(message.getConnection()).thenReturn(this.natsConnection);
 
         Assertions.assertDoesNotThrow(() -> natsMessageHandler.onMessage(message));
     }
@@ -451,6 +462,7 @@ class NatsOpenCDXMessageServiceImplTest {
         Message message = mock(Message.class);
         String jsonVal = "{\"spanId\": 123, \"traceId\": 456, \"parentId\": 789, \"json\": \"Test\"}";
         when(message.getData()).thenReturn(jsonVal.getBytes());
+        when(message.getConnection()).thenReturn(this.natsConnection);
         when(tracerBrave.nextSpan()).thenReturn(spanBrave);
         when(tracerBrave.newChild(any())).thenReturn(spanBrave);
         when(tracerBrave.currentSpan()).thenReturn(spanBrave);
