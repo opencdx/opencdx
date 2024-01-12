@@ -148,14 +148,27 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
         SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
 
-        this.gauge = Gauge.builder(this.name + ".entries", store, ConcurrentMap::size)
+        this.gauge = Gauge.builder(
+                        "opencdx."
+                                + this.name
+                                        .toLowerCase()
+                                        .replace(' ', '.')
+                                        .replace('_', '.')
+                                        .replace('-', '.') + ".entries",
+                        store,
+                        ConcurrentMap::size)
                 .baseUnit("entries")
                 .description("The number of entries in the cache")
                 .register(simpleMeterRegistry);
 
         log.debug("Created Gauge: {}", gauge.getId().getName());
 
-        this.counter = Counter.builder(this.name + ".hits.counter")
+        this.counter = Counter.builder("opencdx."
+                        + this.name
+                                .toLowerCase()
+                                .replace(' ', '.')
+                                .replace('_', '.')
+                                .replace('-', '.') + ".hits.counter")
                 .baseUnit("hits")
                 .description("The number of hits in the cache")
                 .register(simpleMeterRegistry);

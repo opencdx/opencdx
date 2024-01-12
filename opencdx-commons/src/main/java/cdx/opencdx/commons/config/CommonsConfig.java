@@ -77,6 +77,7 @@ public class CommonsConfig {
     }
 
     @Bean
+    @Profile("actuator")
     @ExcludeFromJacocoGeneratedReport
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
         PathMatcher pathMatcher = new AntPathMatcher("/");
