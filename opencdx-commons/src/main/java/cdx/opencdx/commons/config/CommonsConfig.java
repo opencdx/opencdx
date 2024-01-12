@@ -25,8 +25,13 @@ import cdx.opencdx.commons.utils.MongoDocumentExists;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor;
+import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
+import io.micrometer.tracing.Tracer;
 import io.nats.client.Connection;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.models.Components;
@@ -34,18 +39,27 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
+import org.lognet.springboot.grpc.GRpcGlobalInterceptor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationRegistryCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
+import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
+import org.springframework.data.mongodb.observability.ContextProviderFactory;
+import org.springframework.data.mongodb.observability.MongoObservationCommandListener;
+import org.springframework.http.server.observation.ServerRequestObservationContext;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -60,6 +74,56 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    @ExcludeFromJacocoGeneratedReport
+    ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
+        PathMatcher pathMatcher = new AntPathMatcher("/");
+        return registry -> registry.observationConfig()
+                .observationPredicate((name, context) -> observationPrediciton(context, pathMatcher));
+    }
+
+    @ExcludeFromJacocoGeneratedReport
+    private static boolean observationPrediciton(Observation.Context context, PathMatcher pathMatcher) {
+        if (context instanceof ServerRequestObservationContext observationContext) {
+            return !pathMatcher.match(
+                    "/actuator/**", observationContext.getCarrier().getRequestURI());
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Observation Registry
+     * @param observationRegistry Observation Registry
+     * @return Observation Registry
+     */
+    @Bean
+    @GRpcGlobalInterceptor
+    @ExcludeFromJacocoGeneratedReport
+    public ObservationGrpcServerInterceptor interceptor(ObservationRegistry observationRegistry) {
+        return new ObservationGrpcServerInterceptor(observationRegistry);
+    }
+
+    @Bean
+    @Profile("mongo")
+    @ExcludeFromJacocoGeneratedReport
+    MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
+            ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
+        return clientSettingsBuilder ->
+                getClientSetttingsBuilder(observationRegistry, mongoProperties, clientSettingsBuilder);
+    }
+
+    @ExcludeFromJacocoGeneratedReport
+    private static MongoClientSettings.Builder getClientSetttingsBuilder(
+            ObservationRegistry observationRegistry,
+            MongoProperties mongoProperties,
+            MongoClientSettings.Builder clientSettingsBuilder) {
+        return clientSettingsBuilder
+                .contextProvider(ContextProviderFactory.create(observationRegistry))
+                .addCommandListener(new MongoObservationCommandListener(
+                        observationRegistry, new ConnectionString(mongoProperties.determineUri())));
     }
 
     /**
@@ -129,6 +193,7 @@ public class CommonsConfig {
      * @param objectMapper Object Mapper to use.
      * @param applicationName Name of the service.
      * @param openCDXCurrentUser Current User Service
+     * @param tracer Tracer to use.
      * @return OpenCDXMessageService to use for messaginging.
      */
     @Bean("nats")
@@ -139,9 +204,11 @@ public class CommonsConfig {
             Connection natsConnection,
             ObjectMapper objectMapper,
             OpenCDXCurrentUser openCDXCurrentUser,
-            @Value("${spring.application.name}") String applicationName) {
+            @Value("${spring.application.name}") String applicationName,
+            Tracer tracer) {
         log.info("Using NATS based Messaging Service");
-        return new NatsOpenCDXMessageServiceImpl(natsConnection, objectMapper, applicationName, openCDXCurrentUser);
+        return new NatsOpenCDXMessageServiceImpl(
+                natsConnection, objectMapper, applicationName, openCDXCurrentUser, tracer);
     }
 
     @Bean("noop")

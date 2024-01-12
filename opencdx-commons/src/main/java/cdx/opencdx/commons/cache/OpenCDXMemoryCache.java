@@ -15,6 +15,9 @@
  */
 package cdx.opencdx.commons.cache;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Comparator;
 import java.util.Map;
@@ -25,6 +28,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.core.serializer.support.SerializationDelegate;
 import org.springframework.lang.Nullable;
@@ -49,6 +53,7 @@ import org.springframework.util.Assert;
  * @see org.springframework.cache.support.SimpleCacheManager
  * @see org.springframework.cache.concurrent.ConcurrentMapCacheManager
  */
+@Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
@@ -62,6 +67,10 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @Getter
     @Setter
     private int maxEntries;
+
+    private final Gauge gauge;
+
+    private final Counter counter;
 
     private final ConcurrentMap<Object, CacheValue> store;
 
@@ -136,6 +145,20 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         this.serialization = serialization;
         this.timeToIdle = timeToIdle;
         this.maxEntries = maxEntries;
+
+        SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
+
+        this.gauge = Gauge.builder(this.name + ".entries", store, ConcurrentMap::size)
+                .baseUnit("entries")
+                .description("The number of entries in the cache")
+                .register(simpleMeterRegistry);
+
+        log.debug("Created Gauge: {}", gauge.getId().getName());
+
+        this.counter = Counter.builder(this.name + ".hits.counter")
+                .baseUnit("hits")
+                .description("The number of hits in the cache")
+                .register(simpleMeterRegistry);
     }
 
     /**
@@ -165,6 +188,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
+            this.counter.increment();
             return cacheValue.getValue();
         }
         return null;
@@ -177,6 +201,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         CacheValue cacheValue = this.store.compute(key, (k, oldValue) -> {
             try {
                 T value = valueLoader.call();
+                this.counter.increment();
                 return new CacheValue(value);
             } catch (Throwable ex) {
                 throw new ValueRetrievalException(key, valueLoader, ex);
@@ -244,6 +269,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
             CacheValue cacheValue = this.store.compute(
                     key, (k, oldValue) -> new CacheValue(valueLoader.get().join()));
             cacheValue.updateLastAccessed();
+            this.counter.increment();
             return (T) cacheValue.getValue();
         });
     }
@@ -288,12 +314,14 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         Object storeValue = super.toStoreValue(userValue);
         if (this.serialization != null) {
             try {
+                this.counter.increment();
                 return this.serialization.serializeToByteArray(storeValue);
             } catch (Throwable ex) {
                 throw new IllegalArgumentException(
                         "Failed to serialize cache value '" + userValue + "'. Does it implement Serializable?", ex);
             }
         } else {
+            this.counter.increment();
             return storeValue;
         }
     }
@@ -303,11 +331,13 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     protected Object fromStoreValue(@Nullable Object storeValue) {
         if (storeValue != null && this.serialization != null) {
             try {
+                this.counter.increment();
                 return super.fromStoreValue(this.serialization.deserializeFromByteArray((byte[]) storeValue));
             } catch (Throwable ex) {
                 throw new IllegalArgumentException("Failed to deserialize cache value '" + storeValue + "'", ex);
             }
         } else {
+            this.counter.increment();
             return super.fromStoreValue(storeValue);
         }
     }
