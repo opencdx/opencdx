@@ -33,6 +33,27 @@ enum EmailType {
   EMAIL_TYPE_OTHER = 3; // Other
 }
 
+// Enumeration for gender.
+enum Gender {
+  GENDER_NOT_SPECIFIED = 0; // Not specified
+  GENDER_MALE = 1; // Male
+  GENDER_FEMALE = 2; // Female
+  GENDER_NON_BINARY = 3; // Non-binary
+  GENDER_OTHER = 4; // Other
+}
+
+enum DurationType {
+  DURATION_TYPE_NOT_SPECIFIED = 0; // Not specified
+  DURATION_TYPE_MILLISECONDS = 1; // Milliseconds
+  DURATION_TYPE_SECONDS = 2; // Seconds
+  DURATION_TYPE_MINUTES = 3; // Minutes
+  DURATION_TYPE_HOURS = 4; // Hours
+  DURATION_TYPE_DAYS = 5; // Days
+  DURATION_TYPE_WEEKS = 6; // Weeks
+  DURATION_TYPE_MONTHS = 7; // Months
+  DURATION_TYPE_YEARS = 8; // Years
+}
+
 // Country message represents a country.
 message Country {
   optional string id = 1;    // Country ID
@@ -94,3 +115,9 @@ message Pagination {
   optional int64 total_pages = 5; // Total number of pages set on the response.
   optional int64 total_records = 6; // Total number of records set on the response.
 }
+
+message Duration {
+  int64 duration = 1; // Duration
+  DurationType type = 2; // Type of duration (e.g., milliseconds, seconds, minutes)
+}
+

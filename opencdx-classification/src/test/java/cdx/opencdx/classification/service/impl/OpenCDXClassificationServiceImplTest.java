@@ -20,6 +20,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.Duration;
+import cdx.opencdx.grpc.common.DurationType;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.SeverityLevel;
@@ -102,7 +104,10 @@ class OpenCDXClassificationServiceImplTest {
                                         .setOnsetDate(Timestamp.newBuilder()
                                                 .setSeconds(1641196800)
                                                 .setNanos(0)) // Set onset date to a specific timestamp
-                                        .setDuration(5) // Set duration of the symptom
+                                        .setDuration(Duration.newBuilder()
+                                                .setDuration(5)
+                                                .setType(DurationType.DURATION_TYPE_HOURS)
+                                                .build()) // Set duration of the symptom
                                         .setAdditionalDetails(
                                                 "Additional details about the symptom") // Set additional details
                                 )
