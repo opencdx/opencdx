@@ -4,5 +4,7 @@ FROM openjdk:21-slim
 RUN apt-get update && apt-get install -y \
 curl
 
+RUN apt-get clean
+
 COPY build/libs/opencdx-audit-*.jar app.jar
 ENTRYPOINT ["sh", "-c", "java -jar /app.jar "]

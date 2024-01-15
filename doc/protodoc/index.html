@@ -960,6 +960,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.inventory.CountryListRequest"><span class="badge">M</span>CountryListRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.CountryListResponse"><span class="badge">M</span>CountryListResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.inventory.DeleteResponse"><span class="badge">M</span>DeleteResponse</a>
                 </li>
               
@@ -980,6 +988,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.inventory.ManufacturerListRequest"><span class="badge">M</span>ManufacturerListRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.ManufacturersListResponse"><span class="badge">M</span>ManufacturersListResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.inventory.TestCase"><span class="badge">M</span>TestCase</a>
                 </li>
               
@@ -993,6 +1009,14 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.inventory.VendorIdRequest"><span class="badge">M</span>VendorIdRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.VendorsListRequest"><span class="badge">M</span>VendorsListRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.VendorsListResponse"><span class="badge">M</span>VendorsListResponse</a>
                 </li>
               
               
@@ -9144,6 +9168,61 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.inventory.CountryListRequest">CountryListRequest</h3>
+        <p>Request Message to list Countries</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.CountryListResponse">CountryListResponse</h3>
+        <p>Response containing the requested list of Countries</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>countries</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Country">cdx.opencdx.grpc.common.Country</a></td>
+                  <td>repeated</td>
+                  <td><p>List of Countries </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.inventory.DeleteResponse">DeleteResponse</h3>
         <p>Response message for delete operations.</p>
 
@@ -9607,6 +9686,61 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.inventory.ManufacturerListRequest">ManufacturerListRequest</h3>
+        <p>Request Message to list Manufacturers</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.ManufacturersListResponse">ManufacturersListResponse</h3>
+        <p>Response containing the requested list of Manufacturers</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>manufacturers</td>
+                  <td><a href="#cdx.opencdx.grpc.inventory.Manufacturer">Manufacturer</a></td>
+                  <td>repeated</td>
+                  <td><p>List of Manufacturers </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.inventory.TestCase">TestCase</h3>
         <p>TestCase message represents a case or package of tests.</p>
 
@@ -9913,6 +10047,61 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.inventory.VendorsListRequest">VendorsListRequest</h3>
+        <p>Request Message to list Vendors</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.VendorsListResponse">VendorsListResponse</h3>
+        <p>Response containing the requested list of Vendors</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>vendors</td>
+                  <td><a href="#cdx.opencdx.grpc.inventory.Vendor">Vendor</a></td>
+                  <td>repeated</td>
+                  <td><p>List of Vendors </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -9953,6 +10142,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.CountryIdRequest">CountryIdRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.DeleteResponse">DeleteResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>listCountries</td>
+                <td><a href="#cdx.opencdx.grpc.inventory.CountryListRequest">CountryListRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.inventory.CountryListResponse">CountryListResponse</a></td>
+                <td><p>Retrieve a list of Countries.</p></td>
               </tr>
             
           </tbody>
@@ -10035,6 +10231,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><p></p></td>
               </tr>
             
+              <tr>
+                <td>listManufacturers</td>
+                <td><a href="#cdx.opencdx.grpc.inventory.ManufacturerListRequest">ManufacturerListRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.inventory.ManufacturersListResponse">ManufacturersListResponse</a></td>
+                <td><p>Retrieve a list of Manufacturers.</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -10113,6 +10316,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.VendorIdRequest">VendorIdRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.DeleteResponse">DeleteResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>listVendors</td>
+                <td><a href="#cdx.opencdx.grpc.inventory.VendorsListRequest">VendorsListRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.inventory.VendorsListResponse">VendorsListResponse</a></td>
+                <td><p>Retrieve a list of Vendors.</p></td>
               </tr>
             
           </tbody>

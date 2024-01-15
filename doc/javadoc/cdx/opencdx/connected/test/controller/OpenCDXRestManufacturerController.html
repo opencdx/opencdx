@@ -139,9 +139,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Method to get a ManufacturerById</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a><wbr>&lt;cdx.opencdx.grpc.inventory.Manufacturer&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateManufacturer(cdx.opencdx.grpc.inventory.Manufacturer)" class="member-name-link">updateManufacturer</a><wbr>(cdx.opencdx.grpc.inventory.Manufacturer&nbsp;manufacturer)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a><wbr>&lt;cdx.opencdx.grpc.inventory.ManufacturersListResponse&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listCountries(cdx.opencdx.grpc.inventory.ManufacturerListRequest)" class="member-name-link">listCountries</a><wbr>(cdx.opencdx.grpc.inventory.ManufacturerListRequest&nbsp;manufacturerListRequest)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">List Countries</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a><wbr>&lt;cdx.opencdx.grpc.inventory.Manufacturer&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateManufacturer(cdx.opencdx.grpc.inventory.Manufacturer)" class="member-name-link">updateManufacturer</a><wbr>(cdx.opencdx.grpc.inventory.Manufacturer&nbsp;manufacturer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Method to update a manufacturer</div>
 </div>
 </div>
@@ -238,6 +243,22 @@ loadScripts(document, 'script');</script>
 <dd><code>id</code> - Id of the manufacturer to delete.</dd>
 <dt>Returns:</dt>
 <dd>Response with the deleted manufacturer.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="listCountries(cdx.opencdx.grpc.inventory.ManufacturerListRequest)">
+<h3>listCountries</h3>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@PostMapping</a>(<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html#value--" title="class or interface in org.springframework.web.bind.annotation" class="external-link">value</a>="/list",
+             <a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html#consumes--" title="class or interface in org.springframework.web.bind.annotation" class="external-link">consumes</a>="application/json")
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/http/ResponseEntity.html" title="class or interface in org.springframework.http" class="external-link">ResponseEntity</a>&lt;cdx.opencdx.grpc.inventory.ManufacturersListResponse&gt;</span>&nbsp;<span class="element-name">listCountries</span><wbr><span class="parameters">(<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html" title="class or interface in org.springframework.web.bind.annotation" class="external-link">@RequestBody</a>
+ cdx.opencdx.grpc.inventory.ManufacturerListRequest&nbsp;manufacturerListRequest)</span></div>
+<div class="block">List Countries</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>manufacturerListRequest</code> - request for Connected Tests.</dd>
+<dt>Returns:</dt>
+<dd>the requested connected tests.</dd>
 </dl>
 </section>
 </li>
