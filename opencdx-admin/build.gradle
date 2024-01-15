@@ -8,7 +8,9 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 	implementation "de.codecentric:spring-boot-admin-starter-server"
 	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+
 	implementation 'io.micrometer:micrometer-observation'
+	implementation 'io.micrometer:micrometer-tracing'
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
 }

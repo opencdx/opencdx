@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.connected.test.service;
 
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
+import cdx.opencdx.grpc.inventory.*;
 
 /**
  * Manufacturer Service for manufacturer identificaiton
@@ -51,4 +49,11 @@ public interface OpenCDXManufacturerService {
      * @return Response indicating if success.
      */
     DeleteResponse deleteManufacturer(ManufacturerIdRequest request);
+
+    /**
+     * Method to get list of manufacturer
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested Manufacturer with page, sorting, and page size
+     */
+    ManufacturersListResponse listManufacturers(ManufacturerListRequest request);
 }

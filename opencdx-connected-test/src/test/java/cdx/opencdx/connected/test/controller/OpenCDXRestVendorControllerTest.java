@@ -28,6 +28,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXTestCaseRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXVendorRepository;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.inventory.Vendor;
+import cdx.opencdx.grpc.inventory.VendorsListRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -224,5 +228,51 @@ class OpenCDXRestVendorControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void listVendors() throws Exception {
+        Mockito.when(this.openCDXVendorRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXVendorModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        MvcResult result = this.mockMvc
+                .perform(post("/vendor/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(VendorsListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(false)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void listVendorsElse() throws Exception {
+        Mockito.when(this.openCDXVendorRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXVendorModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        MvcResult result2 = this.mockMvc
+                .perform(post("/vendor/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(VendorsListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(true)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content2 = result2.getResponse().getContentAsString();
+        log.info("Received\n {}", content2);
     }
 }
