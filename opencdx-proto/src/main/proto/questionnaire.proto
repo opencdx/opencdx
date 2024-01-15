@@ -3,6 +3,7 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.questionnaire;
 
 import "google/protobuf/any.proto";
+import "anf_connector.proto";
 
 /**
  * Represents a FHIR questionnaire collection.
@@ -45,6 +46,8 @@ message QuestionnaireItem {
 
   // Field for storing user responses
   optional google.protobuf.Any submission_user_response = 11; // User-provided response to the item
+
+  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 12; // ANF statement connector
 }
 
 /**

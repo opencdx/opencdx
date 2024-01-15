@@ -1,0 +1,40 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.anf;
+
+import "anf_statement.proto";
+
+
+// Expresses how an ANF Statement is connected to a question item.
+enum AnfStatementType {
+  ANF_STATEMENT_TYPE_UNSPECIFIED=0; // Unspecified ANF statement type
+  ANF_STATEMENT_TYPE_MAIN=1; // Main ANF statement
+  ANF_STATEMENT_TYPE_ASSOCIATED=2; // Associated ANF statement
+  ANF_STATEMENT_TYPE_QUESTION=3; // Main statement question
+  ANF_STATEMENT_TYPE_NOT_APPLICABLE=4; // Not applicable
+}
+
+// Represents the type of operator used in an ANF statement.
+enum AnfOperatorType {
+  ANF_OPERATOR_TYPE_UNSPECIFIED=0; // Unspecified ANF operator type
+  ANF_OPERATOR_TYPE_EQUAL=1; // Equal operator
+  ANF_OPERATOR_TYPE_NOT_EQUAL=2; // Not equal operator
+  ANF_OPERATOR_TYPE_GREATER_THAN=3; // Greater than operator
+  ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL=4; // Greater than or equal operator
+  ANF_OPERATOR_TYPE_LESS_THAN=5; // Less than operator
+  ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL=6; // Less than or equal operator
+  ANF_OPERATOR_TYPE_CONTAINS=7; // Contains operator
+  ANF_OPERATOR_TYPE_NOT_CONTAINS=8; // Not contains operator
+  ANF_OPERATOR_TYPE_IN=9; // In operator
+  ANF_OPERATOR_TYPE_NOT_IN=10; // Not in operator
+}
+
+/*
+  * Connects and ANF Statement to a question item.
+ */
+message AnfStatementConnector {
+  cdx.opencdx.grpc.anf.ANFStatement anf_statement = 1; // ANF statement
+  AnfStatementType anf_statement_type = 2; // ANF statement type
+  AnfOperatorType anf_operator_type = 3; // ANF operator type
+  string operator_value = 4; // ANF operator value
+}
