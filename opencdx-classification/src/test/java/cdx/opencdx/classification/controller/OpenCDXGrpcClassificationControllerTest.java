@@ -19,6 +19,7 @@ import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
@@ -70,7 +71,8 @@ class OpenCDXGrpcClassificationControllerTest {
         StreamObserver<ClassificationResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
-                .setUserAnswer(UserAnswer.newBuilder().setGender("male").setAge(30))
+                .setUserAnswer(
+                        UserAnswer.newBuilder().setGender(Gender.GENDER_MALE).setAge(30))
                 .build();
         ClassificationResponse response =
                 ClassificationResponse.newBuilder().setMessage("Executed").build();
