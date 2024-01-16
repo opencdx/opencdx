@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +58,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
     }
-    
+
     /**
      * Operation to get rulesets
      *
@@ -90,9 +89,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         // fetch rulesets from Evrete engine
         List<RuleSet> rulesets = fetchRuleSetsFromEvrete();
 
-        return RuleSetsResponse.newBuilder()
-                .addAllRuleSets(rulesets)
-                .build();
+        return RuleSetsResponse.newBuilder().addAllRuleSets(rulesets).build();
     }
 
     // Placeholder for now to be replaced with the evrete interface
@@ -109,13 +106,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                         .setType("Authorization Rule")
                         .setCategory("Access Control")
                         .setDescription("Control access based on user responses")
-                        .build()
-        );
+                        .build());
     }
-
-
-
-
 
     // Submiited Questionnaire
     /**

@@ -30,10 +30,10 @@ import cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 
-    /**
-     * Interface for the QuestionnaireService
-    */
-    public interface OpenCDXQuestionnaireService {
+/**
+ * Interface for the QuestionnaireService
+ */
+public interface OpenCDXQuestionnaireService {
 
     /**
      * Operation to get rulesets

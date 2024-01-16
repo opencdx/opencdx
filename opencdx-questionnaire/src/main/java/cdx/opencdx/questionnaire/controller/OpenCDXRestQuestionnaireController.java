@@ -50,7 +50,7 @@ public class OpenCDXRestQuestionnaireController {
     public OpenCDXRestQuestionnaireController(OpenCDXQuestionnaireService openCDXQuestionnaireService) {
         this.openCDXQuestionnaireService = openCDXQuestionnaireService;
     }
-    
+
     /**
      * Get RuleSets Rest API
      * @param request ClientRulesRequest indicating organization and workspace
