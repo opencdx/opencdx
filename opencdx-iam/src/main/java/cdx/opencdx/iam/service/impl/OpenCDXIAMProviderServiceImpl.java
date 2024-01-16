@@ -17,6 +17,7 @@ package cdx.opencdx.iam.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
@@ -177,21 +178,23 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
 
                 OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse =
                         this.objectMapper.readValue(response.toString(), OpenCDXDtoNpiJsonResponse.class);
-                openCDXIAMProviderModel = new OpenCDXIAMProviderModel(
-                        openCDXDtoNpiJsonResponse.getResults().get(0), openCDXCountryRepository);
-                log.info("Response: {}", openCDXDtoNpiJsonResponse);
+                if (openCDXDtoNpiJsonResponse != null) {
+                    log.info("Response: {}", openCDXDtoNpiJsonResponse);
+                    openCDXIAMProviderModel = new OpenCDXIAMProviderModel(
+                            openCDXDtoNpiJsonResponse.getResults().get(0), openCDXCountryRepository);
+                    return LoadProviderResponse.newBuilder()
+                            .setProvider(this.openCDXIAMProviderRepository
+                                    .save(openCDXIAMProviderModel)
+                                    .getProtobufMessage())
+                            .build();
+                }
             } else {
-                // Handle error response
                 log.error("Error: " + responseCode);
+                throw new OpenCDXServiceUnavailable(DOMAIN, 1, "FAILED_TO_LOAD_PROVIDER" + responseCode);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new OpenCDXServiceUnavailable(DOMAIN, 2, "FAILED_TO_LOAD_PROVIDER" + e.getMessage(), e);
         }
-        assert openCDXIAMProviderModel != null;
-        return LoadProviderResponse.newBuilder()
-                .setProvider(this.openCDXIAMProviderRepository
-                        .save(openCDXIAMProviderModel)
-                        .getProtobufMessage())
-                .build();
+        return null;
     }
 }
