@@ -28,6 +28,7 @@ import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +43,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -359,12 +362,24 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
     @Override
     public NotificationEventListResponse listNotificationEvents(NotificationEventListRequest request) {
-        Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(
-                PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXNotificationEventModel> all = this.openCDXNotificationEventRepository.findAll(pageable);
         return NotificationEventListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllTemplates(all.get()
                         .map(OpenCDXNotificationEventModel::getProtobufMessage)
                         .toList())

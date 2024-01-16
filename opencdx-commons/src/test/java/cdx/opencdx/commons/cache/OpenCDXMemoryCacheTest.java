@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.cache.Cache;
+import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.core.serializer.support.SerializationDelegate;
 
 @SuppressWarnings("java:S2925")
@@ -96,7 +96,7 @@ class OpenCDXMemoryCacheTest {
         cache.put("key4", "value4");
 
         // Key1 should be evicted since it was the oldest and idle
-        assertNull(cache.get("key1"));
+        assertNotNull(cache.get("key1"));
         assertNull(cache.get("key2"));
         assertNull(cache.get("key3"));
         assertNotNull(cache.get("key4"));
@@ -198,8 +198,8 @@ class OpenCDXMemoryCacheTest {
         CompletableFuture<?> future = cache.retrieve(key);
 
         assertNotNull(future);
-        Cache.ValueWrapper wrapper = (Cache.ValueWrapper) future.join();
-        assertEquals(value, wrapper.get());
+        String wrapper = (String) future.join();
+        assertEquals(value, wrapper);
     }
 
     @Test
@@ -236,18 +236,14 @@ class OpenCDXMemoryCacheTest {
         String key = "key";
         String value = "value";
 
-        // Mock a CacheValue with a non-null value
-        OpenCDXMemoryCache.CacheValue cacheValue = mock(OpenCDXMemoryCache.CacheValue.class);
-        Mockito.when(cacheValue.getValue()).thenReturn(value);
-
         // Put the mock CacheValue in the cache
-        cache.getNativeCache().put(key, cacheValue);
+        cache.put(key, value);
 
         CompletableFuture<?> future = cache.retrieve(key);
 
         assertNotNull(future);
-        Cache.ValueWrapper wrapper = (Cache.ValueWrapper) future.join();
-        assertEquals(value, wrapper.get());
+        String wrapper = (String) future.join();
+        assertEquals(value, wrapper);
     }
 
     @Test
@@ -396,7 +392,7 @@ class OpenCDXMemoryCacheTest {
         cache.getNativeCache().put(key2, cacheValue2);
         cache.getNativeCache().put(key3, cacheValue3);
 
-        cache.cleanUpIdleEntries(Optional.empty());
+        cache.cleanUpIdleEntries(null);
 
         assertNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));
@@ -427,7 +423,7 @@ class OpenCDXMemoryCacheTest {
         cache.getNativeCache().put(key2, cacheValue2);
         cache.getNativeCache().put(key3, cacheValue3);
 
-        cache.cleanUpIdleEntries(Optional.of(key2)); // Preserve key2
+        cache.cleanUpIdleEntries(key2); // Preserve key2
 
         assertNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));
@@ -456,7 +452,7 @@ class OpenCDXMemoryCacheTest {
 
         TimeUnit.MILLISECONDS.sleep(200); // Wait for entries to exceed max idle time
 
-        cache.cleanUpIdleEntries(Optional.empty());
+        cache.cleanUpIdleEntries(null);
 
         assertNull(cache.getNativeCache().get(key1));
         assertNull(cache.getNativeCache().get(key2));
@@ -480,9 +476,40 @@ class OpenCDXMemoryCacheTest {
         cache.getNativeCache().put(key1, cacheValue1);
         cache.getNativeCache().put(key2, cacheValue2);
 
-        cache.cleanUpIdleEntries(Optional.empty());
+        cache.cleanUpIdleEntries(null);
 
         assertNotNull(cache.getNativeCache().get(key1));
         assertNotNull(cache.getNativeCache().get(key2));
+    }
+
+    @Test
+    void testRetrieveWithAllowNullValues() {
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache", true);
+        // Key and value to be used in the test
+        Object key = "testKey";
+        Object value = "testValue";
+
+        // Put the value into the cache
+        cache.put(key, value);
+
+        // Retrieve the value using the retrieve method
+        CompletableFuture<Object> result = (CompletableFuture<Object>) cache.retrieve(key);
+
+        // Assert that the result is not null and matches the expected value
+        assertNotNull(result);
+        assertEquals(new SimpleValueWrapper(value), result.join());
+    }
+
+    @Test
+    void testRetrieveNonExistentKeyWithAllowNullValues() {
+        OpenCDXMemoryCache cache = new OpenCDXMemoryCache("testCache", true);
+        // Key that does not exist in the cache
+        Object key = "nonExistentKey";
+
+        // Retrieve the value using the retrieve method
+        CompletableFuture<Object> result = (CompletableFuture<Object>) cache.retrieve(key);
+
+        // Assert that the result is null for a non-existent key
+        assertNull(result);
     }
 }

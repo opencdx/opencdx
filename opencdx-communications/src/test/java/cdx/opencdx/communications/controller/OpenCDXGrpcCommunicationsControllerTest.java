@@ -35,6 +35,7 @@ import cdx.opencdx.communications.service.OpenCDXSMSService;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationEmailServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXCommunicationSmsServiceImpl;
 import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
@@ -418,9 +419,11 @@ class OpenCDXGrpcCommunicationsControllerTest {
     void listSMSTemplates() {
         StreamObserver<SMSTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         this.openCDXGrpcCommunicationsController.listSMSTemplates(request, responseObserver);
 
@@ -432,9 +435,11 @@ class OpenCDXGrpcCommunicationsControllerTest {
     void listEmailTemplates() {
         StreamObserver<EmailTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         EmailTemplateListRequest request = EmailTemplateListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         this.openCDXGrpcCommunicationsController.listEmailTemplates(request, responseObserver);
 
@@ -446,9 +451,113 @@ class OpenCDXGrpcCommunicationsControllerTest {
     void listNotificationEvents() {
         StreamObserver<NotificationEventListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         NotificationEventListRequest request = NotificationEventListRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .build();
+        this.openCDXGrpcCommunicationsController.listNotificationEvents(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listSMSTemplates_2() {
+        StreamObserver<SMSTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("message")
+                        .build())
+                .build();
+        this.openCDXGrpcCommunicationsController.listSMSTemplates(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listEmailTemplates_2() {
+        StreamObserver<EmailTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        EmailTemplateListRequest request = EmailTemplateListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("subject")
+                        .build())
+                .build();
+        this.openCDXGrpcCommunicationsController.listEmailTemplates(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listNotificationEvents_2() {
+        StreamObserver<NotificationEventListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        NotificationEventListRequest request = NotificationEventListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("eventName")
+                        .build())
+                .build();
+        this.openCDXGrpcCommunicationsController.listNotificationEvents(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listSMSTemplates_3() {
+        StreamObserver<SMSTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("message")
+                        .build())
+                .build();
+        this.openCDXGrpcCommunicationsController.listSMSTemplates(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listEmailTemplates_3() {
+        StreamObserver<EmailTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        EmailTemplateListRequest request = EmailTemplateListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("subject")
+                        .build())
+                .build();
+        this.openCDXGrpcCommunicationsController.listEmailTemplates(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listNotificationEvents_3() {
+        StreamObserver<NotificationEventListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        NotificationEventListRequest request = NotificationEventListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("eventName")
+                        .build())
                 .build();
         this.openCDXGrpcCommunicationsController.listNotificationEvents(request, responseObserver);
 

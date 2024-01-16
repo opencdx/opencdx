@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.connected.test.service.impl</a></div>
 <h1 title="Class OpenCDXCountryServiceImpl" class="title">Class OpenCDXCountryServiceImpl</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">cdx.opencdx.connected.test.service.impl.OpenCDXCountryServiceImpl</div>
 </div>
 <section class="class-description" id="class-description">
@@ -93,9 +93,9 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/stereotype/Service.html" title="class or interface in org.springframework.stereotype" class="external-link">@Service</a>
+<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/stereotype/Service.html" title="class or interface in org.springframework.stereotype" class="external-link">@Service</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OpenCDXCountryServiceImpl</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></span></div>
 <div class="block">Service for Country Protobuf messages</div>
 </section>
@@ -109,12 +109,12 @@ implements <a href="../OpenCDXCountryService.html" title="interface in cdx.openc
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXVendorRepository,cdx.opencdx.connected.test.repository.OpenCDXCountryRepository,cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)" class="member-name-link">OpenCDXCountryServiceImpl</a><wbr>(<a href="../../repository/OpenCDXVendorRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXVendorRepository</a>&nbsp;openCDXVendorRepository,
- <a href="../../repository/OpenCDXCountryRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXCountryRepository</a>&nbsp;openCDXCountryRepository,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.connected.test.repository.OpenCDXVendorRepository,cdx.opencdx.commons.repository.OpenCDXCountryRepository,cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)" class="member-name-link">OpenCDXCountryServiceImpl</a><wbr>(<a href="../../repository/OpenCDXVendorRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXVendorRepository</a>&nbsp;openCDXVendorRepository,
+ <a href="../../../../commons/repository/OpenCDXCountryRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXCountryRepository</a>&nbsp;openCDXCountryRepository,
  <a href="../../repository/OpenCDXManufacturerRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXManufacturerRepository</a>&nbsp;openCDXManufacturerRepository,
  <a href="../../repository/OpenCDXDeviceRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXDeviceRepository</a>&nbsp;openCDXDeviceRepository,
  <a href="../../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
- com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+ <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
  <a href="../../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Protobuf Country service</div>
@@ -148,17 +148,22 @@ implements <a href="../OpenCDXCountryService.html" title="interface in cdx.openc
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieve a country by an id</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.common.Country</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry</a><wbr>(cdx.opencdx.grpc.common.Country&nbsp;request)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.inventory.CountryListResponse</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)" class="member-name-link">listCountries</a><wbr>(cdx.opencdx.grpc.inventory.CountryListRequest&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Method to get list of countries</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.common.Country</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCountry(cdx.opencdx.grpc.common.Country)" class="member-name-link">updateCountry</a><wbr>(cdx.opencdx.grpc.common.Country&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update the records of a country.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -171,14 +176,14 @@ implements <a href="../OpenCDXCountryService.html" title="interface in cdx.openc
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(cdx.opencdx.connected.test.repository.OpenCDXVendorRepository,cdx.opencdx.connected.test.repository.OpenCDXCountryRepository,cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)">
+<section class="detail" id="&lt;init&gt;(cdx.opencdx.connected.test.repository.OpenCDXVendorRepository,cdx.opencdx.commons.repository.OpenCDXCountryRepository,cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository,cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXAuditService)">
 <h3>OpenCDXCountryServiceImpl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXCountryServiceImpl</span><wbr><span class="parameters">(<a href="../../repository/OpenCDXVendorRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXVendorRepository</a>&nbsp;openCDXVendorRepository,
- <a href="../../repository/OpenCDXCountryRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXCountryRepository</a>&nbsp;openCDXCountryRepository,
+ <a href="../../../../commons/repository/OpenCDXCountryRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXCountryRepository</a>&nbsp;openCDXCountryRepository,
  <a href="../../repository/OpenCDXManufacturerRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXManufacturerRepository</a>&nbsp;openCDXManufacturerRepository,
  <a href="../../repository/OpenCDXDeviceRepository.html" title="interface in cdx.opencdx.connected.test.repository">OpenCDXDeviceRepository</a>&nbsp;openCDXDeviceRepository,
  <a href="../../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
- com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+ <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
  <a href="../../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService)</span></div>
 <div class="block">Protobuf Country service</div>
 <dl class="notes">
@@ -262,6 +267,22 @@ implements <a href="../OpenCDXCountryService.html" title="interface in cdx.openc
 <dd><code>request</code> - Request of the country to delete</dd>
 <dt>Returns:</dt>
 <dd>Response indicating success.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)">
+<h3>listCountries</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.inventory.CountryListResponse</span>&nbsp;<span class="element-name">listCountries</span><wbr><span class="parameters">(cdx.opencdx.grpc.inventory.CountryListRequest&nbsp;request)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXCountryService.html#listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)">OpenCDXCountryService</a></code></span></div>
+<div class="block">Method to get list of countries</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../OpenCDXCountryService.html#listCountries(cdx.opencdx.grpc.inventory.CountryListRequest)">listCountries</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXCountryService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXCountryService</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>request</code> - Request indicating pagination, sorting, and page size.</dd>
+<dt>Returns:</dt>
+<dd>requested Countries with page, sorting, and page size</dd>
 </dl>
 </section>
 </li>

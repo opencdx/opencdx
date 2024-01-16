@@ -84,16 +84,16 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.commons.config</a></div>
 <h1 title="Class CommonsConfig" class="title">Class CommonsConfig</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">cdx.opencdx.commons.config.CommonsConfig</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/annotation/EnableCaching.html" title="class or interface in org.springframework.cache.annotation" class="external-link">@EnableCaching</a>
+<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/cache/annotation/EnableCaching.html" title="class or interface in org.springframework.cache.annotation" class="external-link">@EnableCaching</a>
 @AutoConfiguration
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Configuration.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Configuration</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Configuration.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Configuration</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">CommonsConfig</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Autoconfiguraiton class for opencdx-commons.</div>
 </section>
 <section class="summary">
@@ -124,7 +124,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/CacheManager.html" title="class or interface in org.springframework.cache" class="external-link">CacheManager</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/cache/CacheManager.html" title="class or interface in org.springframework.cache" class="external-link">CacheManager</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cacheManager()" class="member-name-link">cacheManager</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Default Cache Manager</div>
@@ -134,45 +134,51 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenAPI Configuration</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.swagger.v3.core.jackson.ModelResolver</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modelResolver(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">modelResolver</a><wbr>(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interceptor(io.micrometer.observation.ObservationRegistry)" class="member-name-link">interceptor</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Observation Registry</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.swagger.v3.core.jackson.ModelResolver</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modelResolver(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">modelResolver</a><wbr>(<a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Model Resolver for Swagger</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
- com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String,io.micrometer.tracing.Tracer)" class="member-name-link">natsOpenCDXMessageService</a><wbr>(io.nats.client.Connection&nbsp;natsConnection,
+ <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
  <a href="../service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
- <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName,
+ io.micrometer.tracing.Tracer&nbsp;tracer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.ObjectMapper</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#objectMapper()" class="member-name-link">objectMapper</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#objectMapper()" class="member-name-link">objectMapper</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generates the Jackson Objectmapper with the JSON-to/from-Protobuf Message support.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.observation.aop.ObservedAspect</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#observedAspect(io.micrometer.observation.ObservationRegistry)" class="member-name-link">observedAspect</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.micrometer.observation.aop.ObservedAspect</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#observedAspect(io.micrometer.observation.ObservationRegistry)" class="member-name-link">observedAspect</a><wbr>(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Observation Registry for the OpenCDX Performance Tracking.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.crypto.password.PasswordEncoder</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#passwordEncoder()" class="member-name-link">passwordEncoder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.crypto.password.PasswordEncoder</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#passwordEncoder()" class="member-name-link">passwordEncoder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Default Password Encoder</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitizer()" class="member-name-link">sanitizer</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitizer()" class="member-name-link">sanitizer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">OpenCDXHtmlSanitizer</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -200,11 +206,26 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="interceptor(io.micrometer.observation.ObservationRegistry)">
+<h3>interceptor</h3>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+@GRpcGlobalInterceptor
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.micrometer.core.instrument.binder.grpc.ObservationGrpcServerInterceptor</span>&nbsp;<span class="element-name">interceptor</span><wbr><span class="parameters">(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</span></div>
+<div class="block">Observation Registry</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>observationRegistry</code> - Observation Registry</dd>
+<dt>Returns:</dt>
+<dd>Observation Registry</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="cacheManager()">
 <h3>cacheManager</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/cache/CacheManager.html" title="class or interface in org.springframework.cache" class="external-link">CacheManager</a></span>&nbsp;<span class="element-name">cacheManager</span>()</div>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/cache/CacheManager.html" title="class or interface in org.springframework.cache" class="external-link">CacheManager</a></span>&nbsp;<span class="element-name">cacheManager</span>()</div>
 <div class="block">Default Cache Manager</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -215,9 +236,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="passwordEncoder()">
 <h3>passwordEncoder</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("Password Encoder using the recommend Spring Delegating encoder.")
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("Password Encoder using the recommend Spring Delegating encoder.")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.security.crypto.password.PasswordEncoder</span>&nbsp;<span class="element-name">passwordEncoder</span>()</div>
 <div class="block">Default Password Encoder</div>
 <dl class="notes">
@@ -229,9 +250,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="sanitizer()">
 <h3>sanitizer</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("OWASP Html Sanitizer.")
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("OWASP Html Sanitizer.")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></span>&nbsp;<span class="element-name">sanitizer</span>()</div>
 <div class="block">OpenCDXHtmlSanitizer</div>
 <dl class="notes">
@@ -243,7 +264,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="observedAspect(io.micrometer.observation.ObservationRegistry)">
 <h3>observedAspect</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.micrometer.observation.aop.ObservedAspect</span>&nbsp;<span class="element-name">observedAspect</span><wbr><span class="parameters">(io.micrometer.observation.ObservationRegistry&nbsp;observationRegistry)</span></div>
 <div class="block">Observation Registry for the OpenCDX Performance Tracking.</div>
 <dl class="notes">
@@ -257,10 +278,10 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="objectMapper()">
 <h3>objectMapper</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("Jackson ObjectMapper with all required registered modules.")
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">com.fasterxml.jackson.databind.ObjectMapper</span>&nbsp;<span class="element-name">objectMapper</span>()</div>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("Jackson ObjectMapper with all required registered modules.")
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a></span>&nbsp;<span class="element-name">objectMapper</span>()</div>
 <div class="block">Generates the Jackson Objectmapper with the JSON-to/from-Protobuf Message support.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -269,18 +290,19 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String)">
+<section class="detail" id="natsOpenCDXMessageService(io.nats.client.Connection,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,java.lang.String,io.micrometer.tracing.Tracer)">
 <h3>natsOpenCDXMessageService</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>("nats")
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("NATS implementation of the OpenCDXMessageService.")
-<a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>("nats")
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Description.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Description</a>("NATS implementation of the OpenCDXMessageService.")
+<a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Primary.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Primary</a>
 @ConditionalOnProperty(prefix="nats.spring",
                        name="server")
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a></span>&nbsp;<span class="element-name">natsOpenCDXMessageService</span><wbr><span class="parameters">(io.nats.client.Connection&nbsp;natsConnection,
- com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+ <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
  <a href="../service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
- <a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Value.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Value</a>("${spring.application.name}")
- <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</span></div>
+ <a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Value.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Value</a>("${spring.application.name}")
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName,
+ io.micrometer.tracing.Tracer&nbsp;tracer)</span></div>
 <div class="block">OpenCDXMessageService Bean based on NATS</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -288,6 +310,7 @@ loadScripts(document, 'script');</script>
 <dd><code>objectMapper</code> - Object Mapper to use.</dd>
 <dd><code>openCDXCurrentUser</code> - Current User Service</dd>
 <dd><code>applicationName</code> - Name of the service.</dd>
+<dd><code>tracer</code> - Tracer to use.</dd>
 <dt>Returns:</dt>
 <dd>OpenCDXMessageService to use for messaginging.</dd>
 </dl>
@@ -296,8 +319,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="modelResolver(com.fasterxml.jackson.databind.ObjectMapper)">
 <h3>modelResolver</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.swagger.v3.core.jackson.ModelResolver</span>&nbsp;<span class="element-name">modelResolver</span><wbr><span class="parameters">(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</span></div>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.swagger.v3.core.jackson.ModelResolver</span>&nbsp;<span class="element-name">modelResolver</span><wbr><span class="parameters">(<a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper)</span></div>
 <div class="block">Model Resolver for Swagger</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -310,7 +333,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="customizeOpenAPI()">
 <h3>customizeOpenAPI</h3>
-<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/context/annotation/Bean.html" title="class or interface in org.springframework.context.annotation" class="external-link">@Bean</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.swagger.v3.oas.models.OpenAPI</span>&nbsp;<span class="element-name">customizeOpenAPI</span>()</div>
 <div class="block">OpenAPI Configuration</div>
 <dl class="notes">

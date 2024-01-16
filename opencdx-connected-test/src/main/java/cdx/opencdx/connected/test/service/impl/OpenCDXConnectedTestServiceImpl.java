@@ -28,10 +28,7 @@ import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.EmailType;
-import cdx.opencdx.grpc.common.PhoneNumber;
-import cdx.opencdx.grpc.common.PhoneType;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,6 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -213,8 +212,21 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         ObjectId objectId = new ObjectId(request.getUserId());
 
         log.info("Searching Database");
-        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(
-                objectId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+
+        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(objectId, pageable);
         log.info("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
@@ -239,10 +251,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         });
 
         return ConnectedTestListResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllConnectedTests(all.get()
                         .map(OpenCDXConnectedTestModel::getProtobufMessage)
                         .toList())
@@ -258,11 +270,23 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTestListByNHIDResponse listConnectedTestsByNHID(ConnectedTestListByNHIDRequest request) {
 
-        Integer nationalHealthId = request.getNationalHealthId();
+        String nationalHealthId = request.getNationalHealthId();
 
         log.info("Searching Database");
-        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByNationalHealthId(
-                nationalHealthId, PageRequest.of(request.getPageNumber(), request.getPageSize()));
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        Page<OpenCDXConnectedTestModel> all =
+                this.openCDXConnectedTestRepository.findAllByNationalHealthId(nationalHealthId, pageable);
         log.info("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
@@ -287,10 +311,10 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         });
 
         return ConnectedTestListByNHIDResponse.newBuilder()
-                .setPageCount(all.getTotalPages())
-                .setPageNumber(request.getPageNumber())
-                .setPageSize(request.getPageSize())
-                .setSortAscending(request.getSortAscending())
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .addAllConnectedTests(all.get()
                         .map(OpenCDXConnectedTestModel::getProtobufMessage)
                         .toList())

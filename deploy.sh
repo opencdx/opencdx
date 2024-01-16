@@ -211,6 +211,10 @@ open_reports() {
         ./gradlew testReport || handle_error "Failed to generate the test report."
         open_url "build/reports/allTests/index.html"
         ;;
+    dashboard)
+        handle_info "Opening OpenCDX Dashboard..."
+        open_url "https://localhost:3005"
+        ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
         ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
@@ -234,8 +238,12 @@ open_reports() {
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
         mv build/docs/javadoc-all ./doc/javadoc
 
+        handle_info "Creating ProtoDoc..."
         mkdir -p doc/protodoc
         protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+        handle_info "Creating Dependency Check Report..."
+        mkdir -p doc/dependency
+        cp build/reports/dependency-check-report.html ./doc/dependency
         ;;
     proto)
         handle_info "Opening Proto Doc..."
@@ -302,7 +310,7 @@ build_docker() {
     build_docker_image opencdx/media ./opencdx-media
     build_docker_image opencdx/connected-test ./opencdx-connected-test
     build_docker_image opencdx/iam ./opencdx-iam
-	build_docker_image opencdx/routine ./opencdx-routine
+	  build_docker_image opencdx/routine ./opencdx-routine
     build_docker_image opencdx/protector ./opencdx-protector
     build_docker_image opencdx/predictor ./opencdx-predictor
     build_docker_image opencdx/questionnaire ./opencdx-questionnaire
@@ -473,7 +481,7 @@ menu() {
             "Open Test Report" "Publish Doc"
             "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
-            "Dependency Check"
+            "Dependency Check" "OpenCDX Dashboard"
         )
 
         # Calculate the number of menu items
@@ -528,6 +536,7 @@ menu() {
             13) open_reports "proto" ;;
             14) open_reports "status" ;;
             15) open_reports "dependency" ;;
+            16) open_reports "dashboard" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
@@ -760,6 +769,7 @@ if [ "$no_menu" = false ]; then
         start_docker "docker-compose.yml";
         DEPLOYED="ALL"
         open_reports "admin";
+        open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
             countdown 120

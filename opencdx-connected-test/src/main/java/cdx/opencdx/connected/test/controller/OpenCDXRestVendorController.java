@@ -30,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/vendor",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/vendor", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestVendorController {
 
@@ -68,7 +65,7 @@ public class OpenCDXRestVendorController {
      * @param vendor Vendor to be added
      * @return The added Vendor.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vendor) {
         return new ResponseEntity<>(this.openCDXVendorService.addVendor(vendor), HttpStatus.OK);
     }
@@ -79,7 +76,7 @@ public class OpenCDXRestVendorController {
      * @param vendor Vendor to update.
      * @return The updated Vendor.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vendor> updateVendor(@RequestBody Vendor vendor) {
         return new ResponseEntity<>(this.openCDXVendorService.updateVendor(vendor), HttpStatus.OK);
     }
@@ -95,5 +92,16 @@ public class OpenCDXRestVendorController {
                 this.openCDXVendorService.deleteVendor(
                         VendorIdRequest.newBuilder().setVendorId(id).build()),
                 HttpStatus.OK);
+    }
+
+    /**
+     * List Countries
+     *
+     * @param vendorsListRequest request for Connected Tests.
+     * @return the requested connected tests.
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VendorsListResponse> listVendors(@RequestBody VendorsListRequest vendorsListRequest) {
+        return new ResponseEntity<>(this.openCDXVendorService.listVendors(vendorsListRequest), HttpStatus.OK);
     }
 }

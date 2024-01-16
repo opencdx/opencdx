@@ -121,9 +121,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Method to retrive a vendor by ID</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>cdx.opencdx.grpc.inventory.Vendor</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateVendor(cdx.opencdx.grpc.inventory.Vendor)" class="member-name-link">updateVendor</a><wbr>(cdx.opencdx.grpc.inventory.Vendor&nbsp;request)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>cdx.opencdx.grpc.inventory.VendorsListResponse</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#listVendors(cdx.opencdx.grpc.inventory.VendorsListRequest)" class="member-name-link">listVendors</a><wbr>(cdx.opencdx.grpc.inventory.VendorsListRequest&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Method to get list of vandors</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>cdx.opencdx.grpc.inventory.Vendor</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateVendor(cdx.opencdx.grpc.inventory.Vendor)" class="member-name-link">updateVendor</a><wbr>(cdx.opencdx.grpc.inventory.Vendor&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Update the records of the vendor</div>
 </div>
 </div>
@@ -189,6 +194,19 @@ loadScripts(document, 'script');</script>
 <dd><code>request</code> - ID of the vendor to delete</dd>
 <dt>Returns:</dt>
 <dd>Response indicating if successful.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="listVendors(cdx.opencdx.grpc.inventory.VendorsListRequest)">
+<h3>listVendors</h3>
+<div class="member-signature"><span class="return-type">cdx.opencdx.grpc.inventory.VendorsListResponse</span>&nbsp;<span class="element-name">listVendors</span><wbr><span class="parameters">(cdx.opencdx.grpc.inventory.VendorsListRequest&nbsp;request)</span></div>
+<div class="block">Method to get list of vandors</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>request</code> - Request indicating pagination, sorting, and page size.</dd>
+<dt>Returns:</dt>
+<dd>requested Vendor with page, sorting, and page size</dd>
 </dl>
 </section>
 </li>

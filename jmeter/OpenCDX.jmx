@@ -235,9 +235,12 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-	&quot;page_size&quot;:10,
-	&quot;page_number&quot;:1,
-	&quot;sort_ascending&quot;:true
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -443,7 +446,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -614,6 +624,350 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Create Organization" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/CreateOrganization</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;organization&quot; : {
+    &quot;name&quot; : &quot;OrganizationName&quot;,
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;address&quot; : {
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
+    &quot;website&quot; : &quot;http://&quot;,
+    &quot;industry&quot; : &quot;Medical&quot;,
+    &quot;revenue&quot; : 100.0,
+    &quot;logoUrl&quot; : &quot;http://&quot;,
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
+    &quot;contacts&quot; : [ {
+      &quot;name&quot; : {
+        &quot;title&quot; : &quot;&quot;,
+        &quot;firstName&quot; : &quot;Contact&quot;,
+        &quot;middleName&quot; : &quot;&quot;,
+        &quot;lastName&quot; : &quot;Name&quot;,
+        &quot;suffix&quot; : &quot;&quot;
+      },
+      &quot;addresses&quot; : [ ],
+      &quot;phoneNumbers&quot; : [ {
+        &quot;number&quot; : &quot;123-456-7890&quot;,
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+      } ],
+      &quot;email&quot; : [ {
+        &quot;email&quot; : &quot;contact@organization&quot;,
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+      } ]
+    } ]
+  }
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">organization_g</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Update Organization" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/UpdateOrganization</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;organization&quot; : {
+    &quot;id&quot; : &quot;${organization_g}&quot;,
+    &quot;name&quot; : &quot;OrganizationName&quot;,
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;address&quot; : {
+      &quot;countryId&quot; : &quot;${countryId}&quot;,
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
+      &quot;address1&quot; : &quot;Address Line 1&quot;,
+      &quot;address2&quot; : &quot;Address Line 2&quot;,
+      &quot;address3&quot; : &quot;Address Line 3&quot;,
+      &quot;city&quot; : &quot;City&quot;,
+      &quot;state&quot; : &quot;state&quot;,
+      &quot;postalCode&quot; : &quot;Postcode&quot;
+    },
+    &quot;website&quot; : &quot;http://&quot;,
+    &quot;industry&quot; : &quot;Medical&quot;,
+    &quot;revenue&quot; : 100.0,
+    &quot;logoUrl&quot; : &quot;http://&quot;,
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
+    &quot;contacts&quot; : [ {
+      &quot;name&quot; : {
+        &quot;title&quot; : &quot;&quot;,
+        &quot;firstName&quot; : &quot;Contact&quot;,
+        &quot;middleName&quot; : &quot;&quot;,
+        &quot;lastName&quot; : &quot;Name&quot;,
+        &quot;suffix&quot; : &quot;&quot;
+      },
+      &quot;addresses&quot; : [ ],
+      &quot;phoneNumbers&quot; : [ {
+        &quot;number&quot; : &quot;123-456-7890&quot;,
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
+      } ],
+      &quot;email&quot; : [ {
+        &quot;email&quot; : &quot;contact@organization&quot;,
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
+      } ]
+    } ]
+  }
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / GetOrganizationDetailsById" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/GetOrganizationDetailsById</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;organization_id&quot;:&quot;${organization_g}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / List Organization" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/ListOrganizations</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson"> { }</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;organization&quot; : {&#xd;
+    &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;address&quot; : {&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    },&#xd;
+    &quot;website&quot; : &quot;http://&quot;,&#xd;
+    &quot;industry&quot; : &quot;Medical&quot;,&#xd;
+    &quot;revenue&quot; : 100.0,&#xd;
+    &quot;logoUrl&quot; : &quot;http://&quot;,&#xd;
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
+    &quot;contacts&quot; : [ {&#xd;
+      &quot;name&quot; : {&#xd;
+        &quot;title&quot; : &quot;&quot;,&#xd;
+        &quot;firstName&quot; : &quot;Contact&quot;,&#xd;
+        &quot;middleName&quot; : &quot;&quot;,&#xd;
+        &quot;lastName&quot; : &quot;Name&quot;,&#xd;
+        &quot;suffix&quot; : &quot;&quot;&#xd;
+      },&#xd;
+      &quot;addresses&quot; : [ ],&#xd;
+      &quot;phoneNumbers&quot; : [ {&#xd;
+        &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+      } ],&#xd;
+      &quot;email&quot; : [ {&#xd;
+        &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+      } ]&#xd;
+    } ]&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">organization_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;organization&quot; : {&#xd;
+    &quot;id&quot; : &quot;${organization_r}&quot;,&#xd;
+    &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
+    &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
+    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;address&quot; : {&#xd;
+      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
+      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
+      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
+      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
+      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
+      &quot;city&quot; : &quot;City&quot;,&#xd;
+      &quot;state&quot; : &quot;state&quot;,&#xd;
+      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
+    },&#xd;
+    &quot;website&quot; : &quot;http://&quot;,&#xd;
+    &quot;industry&quot; : &quot;Medical&quot;,&#xd;
+    &quot;revenue&quot; : 100.0,&#xd;
+    &quot;logoUrl&quot; : &quot;http://&quot;,&#xd;
+    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
+    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
+    &quot;contacts&quot; : [ {&#xd;
+      &quot;name&quot; : {&#xd;
+        &quot;title&quot; : &quot;&quot;,&#xd;
+        &quot;firstName&quot; : &quot;Contact&quot;,&#xd;
+        &quot;middleName&quot; : &quot;&quot;,&#xd;
+        &quot;lastName&quot; : &quot;Name&quot;,&#xd;
+        &quot;suffix&quot; : &quot;&quot;&#xd;
+      },&#xd;
+      &quot;addresses&quot; : [ ],&#xd;
+      &quot;phoneNumbers&quot; : [ {&#xd;
+        &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
+        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
+      } ],&#xd;
+      &quot;email&quot; : [ {&#xd;
+        &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
+        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
+      } ]&#xd;
+    } ]&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization/${organization_r}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/list [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"> { }</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/iam/organization/list</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Create Workspace" enabled="true">
             <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
             <stringProp name="GRPCSampler.libFolder"></stringProp>
@@ -631,6 +985,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;workspace&quot; : {
     &quot;name&quot; : &quot;Workspace Name&quot;,
     &quot;description&quot; : &quot;Workspace Description&quot;,
+    &quot;organizationId&quot; : &quot;${organization_g}&quot;,
     &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;location&quot; : &quot;San Diego, California, United States&quot;,
     &quot;manager&quot; : &quot;Bob&quot;,
@@ -695,6 +1050,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;id&quot; : &quot;${workspace_g}&quot;,
     &quot;name&quot; : &quot;Workspace Name&quot;,
     &quot;description&quot; : &quot;Workspace Description&quot;,
+    &quot;organizationId&quot; : &quot;${organization_g}&quot;,
     &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;location&quot; : &quot;San Diego, California, United States&quot;,
     &quot;manager&quot; : &quot;Bob&quot;,
@@ -781,6 +1137,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;description&quot; : &quot;Workspace Description&quot;,&#xd;
     &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;location&quot; : &quot;San Diego, California, United States&quot;,&#xd;
+    &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
     &quot;manager&quot; : &quot;Bob&quot;,&#xd;
     &quot;capacity&quot; : 32,&#xd;
     &quot;facilities&quot; : [ &quot;Facility A&quot;, &quot;Facility B&quot; ],&#xd;
@@ -854,6 +1211,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;description&quot; : &quot;Workspace Description&quot;,&#xd;
     &quot;createdDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
     &quot;location&quot; : &quot;San Diego, California, United States&quot;,&#xd;
+    &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
     &quot;manager&quot; : &quot;Bob&quot;,&#xd;
     &quot;capacity&quot; : 32,&#xd;
     &quot;facilities&quot; : [ &quot;Facility A&quot;, &quot;Facility B&quot; ],&#xd;
@@ -953,354 +1311,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Create Organization" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/CreateOrganization</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-  &quot;organization&quot; : {
-    &quot;name&quot; : &quot;OrganizationName&quot;,
-    &quot;description&quot; : &quot;OrganizationDescription&quot;,
-    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;address&quot; : {
-      &quot;countryId&quot; : &quot;${countryId}&quot;,
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
-      &quot;address1&quot; : &quot;Address Line 1&quot;,
-      &quot;address2&quot; : &quot;Address Line 2&quot;,
-      &quot;address3&quot; : &quot;Address Line 3&quot;,
-      &quot;city&quot; : &quot;City&quot;,
-      &quot;state&quot; : &quot;state&quot;,
-      &quot;postalCode&quot; : &quot;Postcode&quot;
-    },
-    &quot;website&quot; : &quot;http://&quot;,
-    &quot;industry&quot; : &quot;Medical&quot;,
-    &quot;revenue&quot; : 100.0,
-    &quot;logoUrl&quot; : &quot;http://&quot;,
-    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
-    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
-    &quot;contacts&quot; : [ {
-      &quot;name&quot; : {
-        &quot;title&quot; : &quot;&quot;,
-        &quot;firstName&quot; : &quot;Contact&quot;,
-        &quot;middleName&quot; : &quot;&quot;,
-        &quot;lastName&quot; : &quot;Name&quot;,
-        &quot;suffix&quot; : &quot;&quot;
-      },
-      &quot;addresses&quot; : [ ],
-      &quot;phoneNumbers&quot; : [ {
-        &quot;number&quot; : &quot;123-456-7890&quot;,
-        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
-      } ],
-      &quot;email&quot; : [ {
-        &quot;email&quot; : &quot;contact@organization&quot;,
-        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
-      } ]
-    } ],
-    &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot; ]
-  }
-}
-</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">organization_g</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / Update Organization" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/UpdateOrganization</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-  &quot;organization&quot; : {
-    &quot;id&quot; : &quot;${organization_g}&quot;,
-    &quot;name&quot; : &quot;OrganizationName&quot;,
-    &quot;description&quot; : &quot;OrganizationDescription&quot;,
-    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;address&quot; : {
-      &quot;countryId&quot; : &quot;${countryId}&quot;,
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,
-      &quot;address1&quot; : &quot;Address Line 1&quot;,
-      &quot;address2&quot; : &quot;Address Line 2&quot;,
-      &quot;address3&quot; : &quot;Address Line 3&quot;,
-      &quot;city&quot; : &quot;City&quot;,
-      &quot;state&quot; : &quot;state&quot;,
-      &quot;postalCode&quot; : &quot;Postcode&quot;
-    },
-    &quot;website&quot; : &quot;http://&quot;,
-    &quot;industry&quot; : &quot;Medical&quot;,
-    &quot;revenue&quot; : 100.0,
-    &quot;logoUrl&quot; : &quot;http://&quot;,
-    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],
-    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,
-    &quot;contacts&quot; : [ {
-      &quot;name&quot; : {
-        &quot;title&quot; : &quot;&quot;,
-        &quot;firstName&quot; : &quot;Contact&quot;,
-        &quot;middleName&quot; : &quot;&quot;,
-        &quot;lastName&quot; : &quot;Name&quot;,
-        &quot;suffix&quot; : &quot;&quot;
-      },
-      &quot;addresses&quot; : [ ],
-      &quot;phoneNumbers&quot; : [ {
-        &quot;number&quot; : &quot;123-456-7890&quot;,
-        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;
-      } ],
-      &quot;email&quot; : [ {
-        &quot;email&quot; : &quot;contact@organization&quot;,
-        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;
-      } ]
-    } ],
-    &quot;workspaceIds&quot; : [ &quot;${workspace_g}&quot;]
-  }
-}
-</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / GetOrganizationDetailsById" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/GetOrganizationDetailsById</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-	&quot;organization_id&quot;:&quot;${organization_g}&quot;
-}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="IAM / List Organization" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.organization.OrganizationService/ListOrganizations</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson"> { }</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [POST]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;organization&quot; : {&#xd;
-    &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
-    &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
-    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;address&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
-    },&#xd;
-    &quot;website&quot; : &quot;http://&quot;,&#xd;
-    &quot;industry&quot; : &quot;Medical&quot;,&#xd;
-    &quot;revenue&quot; : 100.0,&#xd;
-    &quot;logoUrl&quot; : &quot;http://&quot;,&#xd;
-    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
-    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
-    &quot;contacts&quot; : [ {&#xd;
-      &quot;name&quot; : {&#xd;
-        &quot;title&quot; : &quot;&quot;,&#xd;
-        &quot;firstName&quot; : &quot;Contact&quot;,&#xd;
-        &quot;middleName&quot; : &quot;&quot;,&#xd;
-        &quot;lastName&quot; : &quot;Name&quot;,&#xd;
-        &quot;suffix&quot; : &quot;&quot;&#xd;
-      },&#xd;
-      &quot;addresses&quot; : [ ],&#xd;
-      &quot;phoneNumbers&quot; : [ {&#xd;
-        &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
-        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
-      } ],&#xd;
-      &quot;email&quot; : [ {&#xd;
-        &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
-        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
-      } ]&#xd;
-    } ],&#xd;
-    &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot; ]&#xd;
-  }&#xd;
-}&#xd;
-&#xd;
-</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/iam/organization</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">organization_r</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.organization.id</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization [PUT]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;organization&quot; : {&#xd;
-    &quot;id&quot; : &quot;${organization_r}&quot;,&#xd;
-    &quot;name&quot; : &quot;OrganizationName&quot;,&#xd;
-    &quot;description&quot; : &quot;OrganizationDescription&quot;,&#xd;
-    &quot;foundingDate&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;address&quot; : {&#xd;
-      &quot;countryId&quot; : &quot;${countryId}&quot;,&#xd;
-      &quot;addressPurpose&quot; : &quot;LOCATION&quot;,&#xd;
-      &quot;address1&quot; : &quot;Address Line 1&quot;,&#xd;
-      &quot;address2&quot; : &quot;Address Line 2&quot;,&#xd;
-      &quot;address3&quot; : &quot;Address Line 3&quot;,&#xd;
-      &quot;city&quot; : &quot;City&quot;,&#xd;
-      &quot;state&quot; : &quot;state&quot;,&#xd;
-      &quot;postalCode&quot; : &quot;Postcode&quot;&#xd;
-    },&#xd;
-    &quot;website&quot; : &quot;http://&quot;,&#xd;
-    &quot;industry&quot; : &quot;Medical&quot;,&#xd;
-    &quot;revenue&quot; : 100.0,&#xd;
-    &quot;logoUrl&quot; : &quot;http://&quot;,&#xd;
-    &quot;socialMediaLinks&quot; : [ &quot;http://&quot; ],&#xd;
-    &quot;missionStatement&quot; : &quot;Mission Statement&quot;,&#xd;
-    &quot;contacts&quot; : [ {&#xd;
-      &quot;name&quot; : {&#xd;
-        &quot;title&quot; : &quot;&quot;,&#xd;
-        &quot;firstName&quot; : &quot;Contact&quot;,&#xd;
-        &quot;middleName&quot; : &quot;&quot;,&#xd;
-        &quot;lastName&quot; : &quot;Name&quot;,&#xd;
-        &quot;suffix&quot; : &quot;&quot;&#xd;
-      },&#xd;
-      &quot;addresses&quot; : [ ],&#xd;
-      &quot;phoneNumbers&quot; : [ {&#xd;
-        &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
-        &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
-      } ],&#xd;
-      &quot;email&quot; : [ {&#xd;
-        &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
-        &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
-      } ]&#xd;
-    } ],&#xd;
-    &quot;workspaceIds&quot; : [ &quot;${workspace_r}&quot;]&#xd;
-  }&#xd;
-}&#xd;
-&#xd;
-</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/iam/organization</stringProp>
-            <stringProp name="HTTPSampler.method">PUT</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/{id} [GET]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/iam/organization/${organization_r}</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/iam/organization/list [POST]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value"> { }</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/iam/organization/list</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
         </hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
@@ -1315,7 +1325,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="HelloWorld" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="HelloWorld" enabled="false">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
@@ -1527,7 +1537,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
@@ -1619,7 +1636,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
@@ -1711,7 +1735,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
@@ -1886,7 +1917,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -2007,7 +2045,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -2128,7 +2173,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -2324,7 +2376,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
@@ -2416,7 +2475,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
@@ -2508,7 +2574,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
@@ -2629,7 +2702,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -2750,7 +2830,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -2871,7 +2958,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -3010,7 +3104,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
@@ -3102,7 +3203,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
@@ -3194,7 +3302,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
@@ -3315,7 +3430,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -3436,7 +3558,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -3557,7 +3686,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -3696,7 +3832,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateSMSTemplate" enabled="true">
@@ -3788,7 +3931,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/CreateNotificationEvent" enabled="true">
@@ -3880,7 +4030,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/SendNotification" enabled="true">
@@ -4001,7 +4158,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -4122,7 +4286,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -4243,7 +4414,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -5166,11 +5344,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-    &quot;page_number&quot;: 1,
-    &quot;page_size&quot;: 1,
-    &quot;sort_ascending&quot;: true,
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	},
     &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
-}</stringProp>
+}
+</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="true">
@@ -5231,7 +5413,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true,&quot;userId&quot;:&quot;6512d485f7f8935ea3994013&quot;}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	},&#xd;
+	&quot;userId&quot;:&quot;6512d485f7f8935ea3994013&quot;&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -5410,9 +5600,12 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-    &quot;page_number&quot;: 1,
-    &quot;page_size&quot;: 10,
-    &quot;sort_ascending&quot;: true
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	}
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -5590,7 +5783,14 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;pageSize&quot;:10,&quot;pageNumber&quot;:1,&quot;sortAscending&quot;:true}</stringProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	}&#xd;
+}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -7499,6 +7699,103 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 	&quot;country_id&quot;:&quot;${countryId}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Classification" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / Classify" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;user_answer&quot;: {
+        &quot;age&quot;: 66609670,
+        &quot;gender&quot;: 4,
+        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
+        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
+        &quot;pregnancy_status&quot;: false,
+        &quot;symptoms&quot;: [
+            {
+                &quot;duration&quot;: {
+                    &quot;duration&quot;: &quot;14424702&quot;,
+                    &quot;type&quot;: 5
+                },
+                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
+                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
+                &quot;severity&quot;: &quot;MEDIUM&quot;,
+                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
+            }
+        ],
+        &quot;test_kit_id&quot;: &quot;65a59bebb652711b434294e1&quot;,
+        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
+        &quot;user_location&quot;: {
+            &quot;latitude&quot;: &quot;Infinity&quot;,
+            &quot;longitude&quot;: &quot;-Infinity&quot;
+        }
+    }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/classify [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;userAnswer&quot; : {&#xd;
+    &quot;testKitId&quot; : &quot;65a59bebb652711b434294e1&quot;,&#xd;
+    &quot;symptoms&quot; : [ {&#xd;
+      &quot;name&quot; : &quot;Fever&quot;,&#xd;
+      &quot;severity&quot; : &quot;HIGH&quot;,&#xd;
+      &quot;onsetDate&quot; : &quot;2023-10-08T02:28:24Z&quot;,&#xd;
+      &quot;duration&quot; : {&#xd;
+        &quot;duration&quot; : 4,&#xd;
+        &quot;type&quot; : &quot;DURATION_TYPE_DAYS&quot;&#xd;
+      },&#xd;
+      &quot;additionalDetails&quot; : &quot;Fever 101&quot;&#xd;
+    } ],&#xd;
+    &quot;textResult&quot; : &quot;Positive&quot;,&#xd;
+    &quot;age&quot; : 25,&#xd;
+    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
+    &quot;medicalConditions&quot; : &quot;Medical Conditions&quot;,&#xd;
+    &quot;pregnancyStatus&quot; : false,&#xd;
+    &quot;languagePreference&quot; : &quot;english&quot;,&#xd;
+    &quot;userLocation&quot; : {&#xd;
+      &quot;latitude&quot; : 0.1,&#xd;
+      &quot;longitude&quot; : 0.1&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/classification/classify</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
       </hashTree>

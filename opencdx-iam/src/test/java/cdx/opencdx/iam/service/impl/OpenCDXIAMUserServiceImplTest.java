@@ -120,7 +120,8 @@ class OpenCDXIAMUserServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-
+        Mockito.when(this.openCDXCurrentUser.checkCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,
@@ -223,9 +224,11 @@ class OpenCDXIAMUserServiceImplTest {
         when(this.openCDXIAMUserRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(model3), PageRequest.of(1, 10), 1));
         ListIamUsersRequest request = ListIamUsersRequest.newBuilder()
-                .setPageNumber(1)
-                .setPageSize(10)
-                .setSortAscending(true)
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.listIamUsers(request));
     }
@@ -499,6 +502,9 @@ class OpenCDXIAMUserServiceImplTest {
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
                         .build());
+
+        Mockito.when(currentUser.checkCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         this.openCDXIAMUserService = new OpenCDXIAMUserServiceImpl(
                 this.objectMapper,
                 this.openCDXAuditService,

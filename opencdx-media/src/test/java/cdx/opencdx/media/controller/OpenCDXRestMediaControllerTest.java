@@ -18,6 +18,7 @@ package cdx.opencdx.media.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.media.*;
 import cdx.opencdx.media.dto.FileUploadResponse;
 import cdx.opencdx.media.model.OpenCDXMediaModel;
@@ -150,9 +151,11 @@ class OpenCDXRestMediaControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/list")
                         .content(this.objectMapper.writeValueAsString(ListMediaRequest.newBuilder()
-                                .setPageNumber(1)
-                                .setPageSize(10)
-                                .setSortAscending(true)
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(true)
+                                        .build())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

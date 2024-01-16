@@ -17,22 +17,27 @@ package cdx.opencdx.connected.test.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Country;
-import cdx.opencdx.grpc.inventory.CountryIdRequest;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
+import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -150,6 +155,34 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Country ID: " + request.getCountryId() + " deleted.")
+                .build();
+    }
+
+    @Override
+    public CountryListResponse listCountries(CountryListRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        log.info("Searching Database");
+        Page<OpenCDXCountryModel> all = this.openCDXCountryRepository.findAll(pageable);
+        log.info("found database results");
+
+        return CountryListResponse.newBuilder()
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
+                .addAllCountries(
+                        all.get().map(OpenCDXCountryModel::getProtobufMessage).toList())
                 .build();
     }
 }

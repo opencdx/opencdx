@@ -28,10 +28,7 @@ import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
-import cdx.opencdx.grpc.common.ContactInfo;
-import cdx.opencdx.grpc.common.EmailType;
-import cdx.opencdx.grpc.common.FullName;
-import cdx.opencdx.grpc.common.PhoneType;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import io.micrometer.observation.annotation.Observed;
 import java.util.ArrayList;
@@ -42,6 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.Address;
 import org.springframework.stereotype.Service;
 
 /**
@@ -142,13 +140,13 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         device.setLotNumber(deviceModel.getBatchNumber());
         device.setSerialNumber(deviceModel.getSerialNumber());
         device.setModelNumber(deviceModel.getModel());
-        device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
 
         OpenCDXManufacturerModel manufacturerModel = this.openCDXManufacturerRepository
                 .findById(new ObjectId(String.valueOf(deviceModel.getManufacturerId())))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN, 3, "Failed to find manufacturer: " + deviceModel.getManufacturerId()));
         device.setManufacturerElement(new StringType(manufacturerModel.getName()));
+        device.setManufactureDate(Date.from(manufacturerModel.getCreated()));
 
         // Set the patient
         Reference subject = device.getPatient();
@@ -168,7 +166,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
         Coding typeCoding = identifier.getType().addCoding();
         typeCoding.setCode("FILL");
-        typeCoding.setDisplay(String.valueOf(connectedTestModel.getId()));
+        typeCoding.setDisplay(String.valueOf(deviceModel.getId()));
 
         // Give the report a status
         device.setStatus(Device.FHIRDeviceStatus.ACTIVE);
@@ -367,6 +365,27 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                             .setRank(rank.getAndIncrement())));
             patient.setTelecom(telecomList);
         }
+
+        if (user.getGender() != null) {
+            patient.setGender(Enumerations.AdministrativeGender.fromCode(
+                    user.getGender().name().replace("GENDER_", "").toLowerCase()));
+        }
+
+        if (user.getAddresses() != null && !user.getAddresses().isEmpty()) {
+            user.getAddresses().forEach(a -> {
+                if (a.getAddressPurpose() == AddressPurpose.PRIMARY) {
+                    patient.addAddress(new Address()
+                            .setUse(Address.AddressUse.HOME)
+                            .setType(Address.AddressType.POSTAL)
+                            .setLine(List.of(new StringType(a.getAddress1())))
+                            .setCity(a.getCity())
+                            .setState(a.getState())
+                            .setPostalCode(a.getPostalCode())
+                            .setCountry(a.getCountryId()));
+                }
+            });
+        }
+
         return patient;
     }
 

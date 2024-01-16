@@ -13,7 +13,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -42,7 +41,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -69,7 +67,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -97,7 +94,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -125,7 +121,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -151,7 +146,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -177,7 +171,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -187,34 +180,6 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
-    volumes:
-      - ../certs:/certs
-
-  helloworld:
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 60s
-        max_attempts: 5
-        window: 60s
-    image: opencdx/helloworld:latest
-    healthcheck:
-      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    depends_on:
-      config:
-        condition: service_healthy
-      discovery:
-        condition: service_healthy
-      database:
-        condition: service_healthy
-      nats:
-        condition: service_started
-      iam:
-        condition: service_healthy
     volumes:
       - ../certs:/certs
 
@@ -251,8 +216,7 @@ services:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
-      retries: 5
-      start_period: 10s
+      retries: 10
     depends_on:
       config:
         condition: service_healthy
@@ -278,7 +242,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -306,7 +269,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
     depends_on:
       config:
         condition: service_healthy
@@ -334,7 +296,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -362,7 +323,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -390,7 +350,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     depends_on:
       config:
         condition: service_healthy
@@ -412,7 +371,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     ports:
       - "8861:8861"
     depends_on:
@@ -428,7 +386,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     ports:
       - "8761:8761"
     volumes:
@@ -448,7 +405,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
 
   database:
     image: opencdx/mongodb:latest
@@ -462,7 +418,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
 
   nats:
     image: nats:alpine3.18
@@ -506,7 +461,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 5s
     ports:
       - "9411:9411"
     restart: unless-stopped

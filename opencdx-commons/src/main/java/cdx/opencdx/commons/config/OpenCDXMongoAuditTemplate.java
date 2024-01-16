@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.*;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -37,6 +37,7 @@ import org.springframework.data.mongodb.core.query.Update;
 @Slf4j
 @Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
+@SuppressWarnings("java:S1181")
 public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     /**

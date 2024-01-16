@@ -33,8 +33,6 @@ public class OpenCDXCDCMessageHandler implements OpenCDXMessageHandler {
 
     private final OpenCDXCDCMessageService openCDXCDCMessageService;
 
-    private final OpenCDXMessageService openCDXMessageService;
-
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
@@ -49,10 +47,9 @@ public class OpenCDXCDCMessageHandler implements OpenCDXMessageHandler {
             OpenCDXMessageService openCDXMessageService,
             OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXCDCMessageService = openCDXCDCMessageService;
-        this.openCDXMessageService = openCDXMessageService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         log.info("OpenCDXCDCMessageHandler - Constructor");
-        this.openCDXMessageService.subscribe(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, this);
+        openCDXMessageService.subscribe(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, this);
     }
 
     @Override

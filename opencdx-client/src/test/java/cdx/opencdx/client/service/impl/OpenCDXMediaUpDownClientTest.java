@@ -45,7 +45,7 @@ import reactor.core.publisher.Mono;
 
 @ExtendWith(MockitoExtension.class)
 public class OpenCDXMediaUpDownClientTest {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
     private OpenCDXMediaUpDownClientImpl client;

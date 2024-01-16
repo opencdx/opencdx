@@ -18,6 +18,8 @@ package cdx.opencdx.connected.test.controller;
 import cdx.opencdx.connected.test.service.OpenCDXCountryService;
 import cdx.opencdx.grpc.common.Country;
 import cdx.opencdx.grpc.inventory.CountryIdRequest;
+import cdx.opencdx.grpc.inventory.CountryListRequest;
+import cdx.opencdx.grpc.inventory.CountryListResponse;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +34,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/country",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/country", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestCountryController {
 
@@ -70,7 +69,7 @@ public class OpenCDXRestCountryController {
      * @param country Country to retrieve.
      * @return The added Country.
      */
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Country> addCountry(@RequestBody Country country) {
         return new ResponseEntity<>(this.openCDXCountryService.addCountry(country), HttpStatus.OK);
     }
@@ -81,7 +80,7 @@ public class OpenCDXRestCountryController {
      * @param country Country to update.
      * @return The updated Country.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Country> updateCountry(@RequestBody Country country) {
         return new ResponseEntity<>(this.openCDXCountryService.updateCountry(country), HttpStatus.OK);
     }
@@ -97,5 +96,16 @@ public class OpenCDXRestCountryController {
                 this.openCDXCountryService.deleteCountry(
                         CountryIdRequest.newBuilder().setCountryId(id).build()),
                 HttpStatus.OK);
+    }
+
+    /**
+     * List Countries
+     *
+     * @param countryListRequest request for Connected Tests.
+     * @return the requested connected tests.
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CountryListResponse> listCountries(@RequestBody CountryListRequest countryListRequest) {
+        return new ResponseEntity<>(this.openCDXCountryService.listCountries(countryListRequest), HttpStatus.OK);
     }
 }

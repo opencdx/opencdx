@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.commons.service.impl</a></div>
 <h1 title="Class OpenCDXCurrentUserImpl" class="title">Class OpenCDXCurrentUserImpl</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">cdx.opencdx.commons.service.impl.OpenCDXCurrentUserImpl</div>
 </div>
 <section class="class-description" id="class-description">
@@ -93,9 +93,9 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/stereotype/Service.html" title="class or interface in org.springframework.stereotype" class="external-link">@Service</a>
+<div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/stereotype/Service.html" title="class or interface in org.springframework.stereotype" class="external-link">@Service</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OpenCDXCurrentUserImpl</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></span></div>
 <div class="block">Implementaiton based on JWT</div>
 </section>
@@ -110,7 +110,7 @@ implements <a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,java.lang.String)" class="member-name-link">OpenCDXCurrentUserImpl</a><wbr>(<a href="../../repository/OpenCDXIAMUserRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXIAMUserRepository</a>&nbsp;openCDXIAMUserRepository,
- <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Consturtor for OpenCDXCurrentUser service.</div>
 </div>
@@ -133,27 +133,32 @@ implements <a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Method to assign the System as the current user with the specified role.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureAuthentication(java.lang.String)" class="member-name-link">configureAuthentication</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;role)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">checkCurrentUser</a><wbr>(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Method to check the current user against the default user.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#configureAuthentication(java.lang.String)" class="member-name-link">configureAuthentication</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;role)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Method to assign the System as the current user with the specified role.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentUser()" class="member-name-link">getCurrentUser</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentUser()" class="member-name-link">getCurrentUser</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Method to get the current authenticated user.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">getCurrentUser</a><wbr>(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">getCurrentUser</a><wbr>(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Metho to get the current authenticated user, or return the default user.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -169,8 +174,8 @@ implements <a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.
 <section class="detail" id="&lt;init&gt;(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository,java.lang.String)">
 <h3>OpenCDXCurrentUserImpl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXCurrentUserImpl</span><wbr><span class="parameters">(<a href="../../repository/OpenCDXIAMUserRepository.html" title="interface in cdx.opencdx.commons.repository">OpenCDXIAMUserRepository</a>&nbsp;openCDXIAMUserRepository,
- <a href="https://docs.spring.io/spring-framework/docs/3.1.3.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Value.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Value</a>("${spring.application.name}")
- <a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</span></div>
+ <a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Value.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Value</a>("${spring.application.name}")
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;applicationName)</span></div>
 <div class="block">Consturtor for OpenCDXCurrentUser service.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -202,6 +207,22 @@ implements <a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.
 </section>
 </li>
 <li>
+<section class="detail" id="checkCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">
+<h3>checkCurrentUser</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></span>&nbsp;<span class="element-name">checkCurrentUser</span><wbr><span class="parameters">(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXCurrentUser.html#checkCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">OpenCDXCurrentUser</a></code></span></div>
+<div class="block">Method to check the current user against the default user.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../OpenCDXCurrentUser.html#checkCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">checkCurrentUser</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>defaultUser</code> - Default user to return if no current user.</dd>
+<dt>Returns:</dt>
+<dd>Model for the current user.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getCurrentUser(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">
 <h3>getCurrentUser</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a></span>&nbsp;<span class="element-name">getCurrentUser</span><wbr><span class="parameters">(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;defaultUser)</span></div>
@@ -221,7 +242,7 @@ implements <a href="../OpenCDXCurrentUser.html" title="interface in cdx.opencdx.
 <li>
 <section class="detail" id="configureAuthentication(java.lang.String)">
 <h3>configureAuthentication</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">configureAuthentication</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;role)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">configureAuthentication</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;role)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXCurrentUser.html#configureAuthentication(java.lang.String)">OpenCDXCurrentUser</a></code></span></div>
 <div class="block">Method to assign the System as the current user with the specified role.</div>
 <dl class="notes">

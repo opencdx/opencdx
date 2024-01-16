@@ -99,8 +99,11 @@ class OpenCDXCDCPayloadServiceImplTest {
         OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
         openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
         OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
-        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(
-                Manufacturer.newBuilder().setId(manufacturerId).build());
+        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
+                .setId(manufacturerId)
+                .setName("ABC Devices Inc")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .build());
 
         when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
                 .thenReturn(Optional.of(openCDXConnectedTestModel));
@@ -130,11 +133,16 @@ class OpenCDXCDCPayloadServiceImplTest {
         openCDXConnectedTestModel.setTestDetails(
                 TestDetails.newBuilder().setDeviceIdentifier(deviceId).build());
         OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
+        openCDXIAMUserModel.setGender(null);
         openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
+        openCDXIAMUserModel.setAddresses(null);
         OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
         openCDXDeviceModel.setExpiryDate(null);
-        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(
-                Manufacturer.newBuilder().setId(manufacturerId).build());
+        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
+                .setId(manufacturerId)
+                .setName("ABC Devices Inc")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .build());
 
         when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
                 .thenReturn(Optional.of(openCDXConnectedTestModel));
@@ -283,6 +291,15 @@ class OpenCDXCDCPayloadServiceImplTest {
                         .setEmail("contact@opencdx.org")
                         .build()))
                 .build());
+        openCDXIAMUserModel.setGender(Gender.GENDER_MALE);
+        openCDXIAMUserModel.setAddresses(List.of(Address.newBuilder()
+                .setAddress1("123 Main St")
+                .setCity("Vienna")
+                .setState("VA")
+                .setPostalCode("22182")
+                .setCountryId("USA")
+                .setAddressPurpose(AddressPurpose.PRIMARY)
+                .build()));
 
         return openCDXIAMUserModel;
     }

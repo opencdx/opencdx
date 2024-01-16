@@ -15,10 +15,12 @@
  */
 package cdx.opencdx.commons.cache;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,6 +28,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.core.serializer.support.SerializationDelegate;
 import org.springframework.lang.Nullable;
@@ -50,10 +53,11 @@ import org.springframework.util.Assert;
  * @see org.springframework.cache.support.SimpleCacheManager
  * @see org.springframework.cache.concurrent.ConcurrentMapCacheManager
  */
+@Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
-    private static final int MAX_ENTRIES = 1000;
+    private static final int MAX_ENTRIES = 2000;
     private final String name;
 
     @Getter
@@ -64,6 +68,10 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @Setter
     private int maxEntries;
 
+    private final Gauge gauge;
+
+    private final Counter counter;
+
     private final ConcurrentMap<Object, CacheValue> store;
 
     @Nullable private final SerializationDelegate serialization;
@@ -73,7 +81,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @param name the name of the cache
      */
     public OpenCDXMemoryCache(String name) {
-        this(name, new ConcurrentHashMap<>(256), true, 60000L, null, MAX_ENTRIES);
+        this(name, new ConcurrentHashMap<>(512), false, 300000L, null, MAX_ENTRIES);
     }
 
     /**
@@ -83,7 +91,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * values for this cache
      */
     public OpenCDXMemoryCache(String name, boolean allowNullValues) {
-        this(name, new ConcurrentHashMap<>(256), allowNullValues, 60000L, MAX_ENTRIES);
+        this(name, new ConcurrentHashMap<>(512), allowNullValues, 300000L, MAX_ENTRIES);
     }
 
     /**
@@ -137,6 +145,33 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         this.serialization = serialization;
         this.timeToIdle = timeToIdle;
         this.maxEntries = maxEntries;
+
+        SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
+
+        this.gauge = Gauge.builder(
+                        "opencdx."
+                                + this.name
+                                        .toLowerCase()
+                                        .replace(' ', '.')
+                                        .replace('_', '.')
+                                        .replace('-', '.') + ".entries",
+                        store,
+                        ConcurrentMap::size)
+                .baseUnit("entries")
+                .description("The number of entries in the cache")
+                .register(simpleMeterRegistry);
+
+        log.debug("Created Gauge: {}", gauge.getId().getName());
+
+        this.counter = Counter.builder("opencdx."
+                        + this.name
+                                .toLowerCase()
+                                .replace(' ', '.')
+                                .replace('_', '.')
+                                .replace('-', '.') + ".hits.counter")
+                .baseUnit("hits")
+                .description("The number of hits in the cache")
+                .register(simpleMeterRegistry);
     }
 
     /**
@@ -156,16 +191,17 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Override
     public final ConcurrentMap<Object, CacheValue> getNativeCache() {
-        this.cleanUpIdleEntries(Optional.empty());
+        this.cleanUpIdleEntries(null);
         return this.store;
     }
 
     @Override
     @Nullable protected Object lookup(Object key) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
+            this.counter.increment();
             return cacheValue.getValue();
         }
         return null;
@@ -174,10 +210,11 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings({"java:S1181", "unchecked"})
     @Override
     @Nullable public <T> T get(Object key, Callable<T> valueLoader) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         CacheValue cacheValue = this.store.compute(key, (k, oldValue) -> {
             try {
                 T value = valueLoader.call();
+                this.counter.increment();
                 return new CacheValue(value);
             } catch (Throwable ex) {
                 throw new ValueRetrievalException(key, valueLoader, ex);
@@ -206,7 +243,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings({"java:S1452", "java:S3358"})
     @Override
     @Nullable public CompletableFuture<?> retrieve(Object key) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         CacheValue cacheValue = this.store.get(key);
         if (cacheValue != null) {
             cacheValue.updateLastAccessed();
@@ -240,11 +277,12 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @SuppressWarnings("unchecked")
     @Override
     public <T> CompletableFuture<T> retrieve(Object key, Supplier<CompletableFuture<T>> valueLoader) {
-        this.cleanUpIdleEntries(Optional.of(key));
+        this.cleanUpIdleEntries(key);
         return CompletableFuture.supplyAsync(() -> {
             CacheValue cacheValue = this.store.compute(
                     key, (k, oldValue) -> new CacheValue(valueLoader.get().join()));
             cacheValue.updateLastAccessed();
+            this.counter.increment();
             return (T) cacheValue.getValue();
         });
     }
@@ -289,12 +327,14 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         Object storeValue = super.toStoreValue(userValue);
         if (this.serialization != null) {
             try {
+                this.counter.increment();
                 return this.serialization.serializeToByteArray(storeValue);
             } catch (Throwable ex) {
                 throw new IllegalArgumentException(
                         "Failed to serialize cache value '" + userValue + "'. Does it implement Serializable?", ex);
             }
         } else {
+            this.counter.increment();
             return storeValue;
         }
     }
@@ -304,11 +344,13 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     protected Object fromStoreValue(@Nullable Object storeValue) {
         if (storeValue != null && this.serialization != null) {
             try {
+                this.counter.increment();
                 return super.fromStoreValue(this.serialization.deserializeFromByteArray((byte[]) storeValue));
             } catch (Throwable ex) {
                 throw new IllegalArgumentException("Failed to deserialize cache value '" + storeValue + "'", ex);
             }
         } else {
+            this.counter.increment();
             return super.fromStoreValue(storeValue);
         }
     }
@@ -317,32 +359,30 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * Clean up entries that have been idle for longer than the configured time to idle.
      * @param keyToPreserve the key to preserve
      */
-    public void cleanUpIdleEntries(Optional<Object> keyToPreserve) {
+    public void cleanUpIdleEntries(Object keyToPreserve) {
         long currentTime = System.currentTimeMillis();
         long maxIdleTime = currentTime - timeToIdle;
 
-        this.checkMaxEntries();
-
         store.entrySet().removeIf(entry -> {
             long lastAccessedTime = entry.getValue().getLastAccessed();
-            boolean isIdle = lastAccessedTime <= maxIdleTime;
-            return isIdle && (keyToPreserve.isEmpty() || !entry.getKey().equals(keyToPreserve.get()));
+            return lastAccessedTime <= maxIdleTime && !entry.getKey().equals(keyToPreserve);
         });
+
+        this.checkMaxEntries();
     }
 
     private void checkMaxEntries() {
-        while (store.size() > maxEntries) {
-            // Remove the oldest entry if max entries is reached
-            removeOldestEntry();
+
+        if (store.size() > maxEntries) {
+            int remove = store.size() - maxEntries;
+
+            store.entrySet().stream()
+                    .sorted(Comparator.comparingLong(entry -> entry.getValue().getLastAccessed()))
+                    .limit(remove)
+                    .map(Map.Entry::getKey)
+                    .toList()
+                    .forEach(store::remove);
         }
-    }
-
-    private void removeOldestEntry() {
-        Optional<Object> oldestKey = store.entrySet().stream()
-                .min(Comparator.comparingLong(entry -> entry.getValue().getLastAccessed()))
-                .map(Map.Entry::getKey);
-
-        oldestKey.ifPresent(this::evict);
     }
 
     /**
@@ -351,17 +391,11 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @Getter
     public static class CacheValue {
         /**
-         * -- GETTER --
          *  Get the value.
-         *
-         * @return the value
          */
         private final Object value;
         /**
-         * -- GETTER --
          *  Get the last accessed timestamp.
-         *
-         * @return the timestamp
          */
         private volatile long lastAccessed;
         /**

@@ -4,14 +4,6 @@ package cdx.opencdx.grpc.profile;
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-// Enumeration for gender.
-enum Gender {
-  GENDER_NOT_SPECIFIED = 0; // Not specified
-  GENDER_MALE = 1; // Male
-  GENDER_FEMALE = 2; // Female
-  GENDER_NON_BINARY = 3; // Non-binary
-  GENDER_OTHER = 4; // Other
-}
 
 // User Profile message containing user-related information.
 message UserProfile {
@@ -19,7 +11,7 @@ message UserProfile {
   string national_health_id= 2; // National health identifier
   cdx.opencdx.grpc.common.FullName full_name = 3; // Full name of the user
   repeated cdx.opencdx.grpc.common.ContactInfo contacts = 4; // User's contact information
-  Gender gender = 5; // Gender of the user
+  cdx.opencdx.grpc.common.Gender gender = 5; // Gender of the user
   DateOfBirth date_of_birth = 6; // User's date of birth
   PlaceOfBirth place_of_birth = 7; // User's place of birth
   bytes photo = 8; // Photo represented as bytes (binary data)
@@ -70,7 +62,7 @@ message Demographics {
   string ethnicity = 1; // Ethnicity of the user
   string race = 2; // Race of the user
   string nationality = 3; // Nationality of the user
-  Gender gender = 4; // Gender of the user (e.g., Male, Female, Non-binary, etc.)
+  cdx.opencdx.grpc.common.Gender gender = 4; // Gender of the user (e.g., Male, Female, Non-binary, etc.)
 }
 
 // User's date of birth information.

@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestCommunicationsController {
 
@@ -64,7 +64,7 @@ public class OpenCDXRestCommunicationsController {
      * @param emailTemplate the EmailTemplate to create
      * @return the created EmailTemplate
      */
-    @PostMapping(value = "/email")
+    @PostMapping(value = "/email", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmailTemplate> createEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
         return new ResponseEntity<>(
                 this.openCDXCommunicationEmailService.createEmailTemplate(emailTemplate), HttpStatus.OK);
@@ -90,7 +90,7 @@ public class OpenCDXRestCommunicationsController {
      * @param emailTemplate the EmailTemplate to update
      * @return the updated EmailTemplate
      */
-    @PutMapping("/email")
+    @PutMapping(value = "/email", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmailTemplate> updateEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
         return new ResponseEntity<>(
                 this.openCDXCommunicationEmailService.updateEmailTemplate(emailTemplate), HttpStatus.OK);
@@ -116,7 +116,7 @@ public class OpenCDXRestCommunicationsController {
      * @param smsTemplate the SMSTemplate to create
      * @return the created SMSTemplate
      */
-    @PostMapping("/sms")
+    @PostMapping(value = "/sms", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplate> createSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
         return new ResponseEntity<>(this.openCDXCommunicationSmsService.createSMSTemplate(smsTemplate), HttpStatus.OK);
     }
@@ -141,7 +141,7 @@ public class OpenCDXRestCommunicationsController {
      * @param smsTemplate the SMSTemplate to update
      * @return the updated SMSTemplate.
      */
-    @PutMapping("/sms")
+    @PutMapping(value = "/sms", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplate> updateSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
         return new ResponseEntity<>(this.openCDXCommunicationSmsService.updateSMSTemplate(smsTemplate), HttpStatus.OK);
     }
@@ -166,7 +166,7 @@ public class OpenCDXRestCommunicationsController {
      * @param notificationEvent the NotificationEvent to create.
      * @return the created NotificationEvent.
      */
-    @PostMapping("/event")
+    @PostMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NotificationEvent> createNotificationEvent(@RequestBody NotificationEvent notificationEvent) {
         return new ResponseEntity<>(
                 this.openCDXNotificationService.createNotificationEvent(notificationEvent), HttpStatus.OK);
@@ -192,7 +192,7 @@ public class OpenCDXRestCommunicationsController {
      * @param notificationEvent the NotificationEvent to update.
      * @return the updated NotificationEvent
      */
-    @PutMapping("/event")
+    @PutMapping(value = "/event", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NotificationEvent> updateNotificationEvent(@RequestBody NotificationEvent notificationEvent) {
         return new ResponseEntity<>(
                 this.openCDXNotificationService.updateNotificationEvent(notificationEvent), HttpStatus.OK);
@@ -218,7 +218,7 @@ public class OpenCDXRestCommunicationsController {
      * @param notification the Notification for the event.
      * @return a SuccessResponse indicating if successful.
      */
-    @PostMapping("/notification")
+    @PostMapping(value = "/notification", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuccessResponse> sendNotification(@RequestBody Notification notification) {
         return new ResponseEntity<>(this.openCDXNotificationService.sendNotification(notification), HttpStatus.OK);
     }
@@ -229,7 +229,7 @@ public class OpenCDXRestCommunicationsController {
      * @param smsTemplateListRequest request for SMSTemplates
      * @return the requested SMSTemplates.
      */
-    @PostMapping("/sms/list")
+    @PostMapping(value = "/sms/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplateListResponse> listSMSTemplates(
             @RequestBody SMSTemplateListRequest smsTemplateListRequest) {
         return new ResponseEntity<>(
@@ -242,7 +242,7 @@ public class OpenCDXRestCommunicationsController {
      * @param emailTemplateListRequest request for EmailTemplates.
      * @return the requested EmailTemplates.
      */
-    @PostMapping("/email/list")
+    @PostMapping(value = "/email/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmailTemplateListResponse> listEmailTemplates(
             @RequestBody EmailTemplateListRequest emailTemplateListRequest) {
         return new ResponseEntity<>(
@@ -255,7 +255,7 @@ public class OpenCDXRestCommunicationsController {
      * @param notificationEventListRequest request for NotificationEvents.
      * @return the requested NotificationEvents.
      */
-    @PostMapping("/event/list")
+    @PostMapping(value = "/event/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NotificationEventListResponse> listNotificationEvents(
             @RequestBody NotificationEventListRequest notificationEventListRequest) {
         return new ResponseEntity<>(

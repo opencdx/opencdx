@@ -19,6 +19,9 @@ import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.service.OpenCDXCDCMessageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
@@ -29,6 +32,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,9 +65,16 @@ class OpenCDXCDCMessageServiceImplTest {
     @Mock
     StatusLine statusLine;
 
+    @Mock
+    OpenCDXAuditService openCDXAuditService;
+
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
     @BeforeEach
     void setUp() {
-        openCDXCDCMessageService = new OpenCDXCDCMessageServiceImpl("cdcUri", "cdcClient", "cdcKe");
+        openCDXCDCMessageService = new OpenCDXCDCMessageServiceImpl(
+                "cdcUri", "cdcClient", "cdcKe", openCDXAuditService, openCDXCurrentUser);
     }
 
     @Test
@@ -75,12 +87,17 @@ class OpenCDXCDCMessageServiceImplTest {
 
     @Test
     void testSendCDCMessage() throws IOException {
-        try (MockedStatic<HttpClients> httpClients = Mockito.mockStatic(HttpClients.class)) {
+        try (MockedStatic<HttpClients> httpClients = Mockito.mockStatic(HttpClients.class);
+                MockedStatic<EntityUtils> entityUtils = Mockito.mockStatic(EntityUtils.class)) {
             httpClients.when(HttpClients::createDefault).thenReturn(httpClient);
+            entityUtils.when(() -> EntityUtils.toString(responseEntity)).thenReturn("{SUCCESS}");
             when(httpClient.execute(Mockito.any(HttpUriRequest.class))).thenReturn(response);
             when(response.getEntity()).thenReturn(responseEntity);
             when(response.getStatusLine()).thenReturn(statusLine);
             when(statusLine.getStatusCode()).thenReturn(HttpStatus.SC_CREATED);
+
+            Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                    .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
             openCDXCDCMessageService.sendCDCMessage("CDC Message");
 
@@ -88,13 +105,16 @@ class OpenCDXCDCMessageServiceImplTest {
             verify(response).getEntity();
             verify(response).getStatusLine();
             verify(statusLine).getStatusCode();
+            verify(this.openCDXCurrentUser).getCurrentUser();
         }
     }
 
     @Test
     void testSendCDCMessageInternalServerError() throws IOException {
-        try (MockedStatic<HttpClients> httpClients = Mockito.mockStatic(HttpClients.class)) {
+        try (MockedStatic<HttpClients> httpClients = Mockito.mockStatic(HttpClients.class);
+                MockedStatic<EntityUtils> entityUtils = Mockito.mockStatic(EntityUtils.class)) {
             httpClients.when(HttpClients::createDefault).thenReturn(httpClient);
+            entityUtils.when(() -> EntityUtils.toString(responseEntity)).thenReturn("{FAIL}");
             when(httpClient.execute(Mockito.any(HttpUriRequest.class))).thenReturn(response);
             when(response.getEntity()).thenReturn(responseEntity);
             when(response.getStatusLine()).thenReturn(statusLine);

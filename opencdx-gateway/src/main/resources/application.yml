@@ -168,6 +168,12 @@ spring:
             - Path=/cdx.opencdx.grpc.routine.RoutineSystemService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-classification
+          uri: https://classification:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.neural.classification.ClassificationService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:

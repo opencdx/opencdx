@@ -15,16 +15,19 @@
  */
 package cdx.opencdx.connected.test.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.connected.test.model.OpenCDXCountryModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.grpc.common.Country;
+import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.inventory.CountryListRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -39,6 +42,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -167,5 +173,51 @@ class OpenCDXRestCountryControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void listCountries() throws Exception {
+        Mockito.when(this.openCDXCountryRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXCountryModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        MvcResult result = this.mockMvc
+                .perform(post("/country/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(CountryListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(false)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void listCountriesIfSortTrue() throws Exception {
+        Mockito.when(this.openCDXCountryRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXCountryModel.builder().name("USA").build()), PageRequest.of(1, 10), 1));
+        MvcResult result = this.mockMvc
+                .perform(post("/country/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(CountryListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(true)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content2 = result.getResponse().getContentAsString();
+        log.info("Received\n {}", content2);
     }
 }

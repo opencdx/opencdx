@@ -415,6 +415,10 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.common.Pagination"><span class="badge">M</span>Pagination</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.common.PhoneNumber"><span class="badge">M</span>PhoneNumber</a>
                 </li>
               
@@ -956,6 +960,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.inventory.CountryListRequest"><span class="badge">M</span>CountryListRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.CountryListResponse"><span class="badge">M</span>CountryListResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.inventory.DeleteResponse"><span class="badge">M</span>DeleteResponse</a>
                 </li>
               
@@ -976,6 +988,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.inventory.ManufacturerListRequest"><span class="badge">M</span>ManufacturerListRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.ManufacturersListResponse"><span class="badge">M</span>ManufacturersListResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.inventory.TestCase"><span class="badge">M</span>TestCase</a>
                 </li>
               
@@ -989,6 +1009,14 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.inventory.VendorIdRequest"><span class="badge">M</span>VendorIdRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.VendorsListRequest"><span class="badge">M</span>VendorsListRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.inventory.VendorsListResponse"><span class="badge">M</span>VendorsListResponse</a>
                 </li>
               
               
@@ -3796,6 +3824,65 @@ For a Request of Action, the Timing will always represent a future time. </p></t
 
         
       
+        <h3 id="cdx.opencdx.grpc.common.Pagination">Pagination</h3>
+        <p>Pagination structure for lists.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>page_number</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Page number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page_size</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Page size </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sort_ascending</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>indicating if the results should ascending. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sort</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Sort field </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_pages</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td>optional</td>
+                  <td><p>Total number of pages set on the response. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_records</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td>optional</td>
+                  <td><p>Total number of records set on the response. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.common.PhoneNumber">PhoneNumber</h3>
         <p>Phone number details.</p>
 
@@ -4143,24 +4230,10 @@ For a Request of Action, the Timing will always represent a future time. </p></t
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -4181,31 +4254,10 @@ For a Request of Action, the Timing will always represent a future time. </p></t
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -4552,24 +4604,10 @@ Variables or placeholders. </p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -4590,31 +4628,10 @@ Variables or placeholders. </p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -4715,24 +4732,10 @@ Variables or placeholders. </p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -4753,31 +4756,10 @@ Variables or placeholders. </p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -5325,29 +5307,15 @@ Retrieve a list of SMS templates.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
                   <td>national_health_id</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>national health id of user </p></td>
                 </tr>
@@ -5370,31 +5338,10 @@ Retrieve a list of SMS templates.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -5422,24 +5369,10 @@ Retrieve a list of SMS templates.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -5467,31 +5400,10 @@ Retrieve a list of SMS templates.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -7041,13 +6953,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>workspace_ids</td>
-                  <td><a href="#string">string</a></td>
-                  <td>repeated</td>
-                  <td><p>Departments (Workspaces) within the organization </p></td>
-                </tr>
-              
-                <tr>
                   <td>created</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
@@ -7207,6 +7112,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Description of the workspace </p></td>
+                </tr>
+              
+                <tr>
+                  <td>organization_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>ID of the organization that owns the workspace </p></td>
                 </tr>
               
                 <tr>
@@ -8795,24 +8707,10 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page in the result. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Page number being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>Indicates whether the results should be sorted in ascending order. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -8833,31 +8731,10 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page in the result. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Page number being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>Indicates whether the results should be sorted in ascending order. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -9282,6 +9159,61 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>Country ID </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.CountryListRequest">CountryListRequest</h3>
+        <p>Request Message to list Countries</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.CountryListResponse">CountryListResponse</h3>
+        <p>Response containing the requested list of Countries</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>countries</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Country">cdx.opencdx.grpc.common.Country</a></td>
+                  <td>repeated</td>
+                  <td><p>List of Countries </p></td>
                 </tr>
               
             </tbody>
@@ -9754,6 +9686,61 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.inventory.ManufacturerListRequest">ManufacturerListRequest</h3>
+        <p>Request Message to list Manufacturers</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.ManufacturersListResponse">ManufacturersListResponse</h3>
+        <p>Response containing the requested list of Manufacturers</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>manufacturers</td>
+                  <td><a href="#cdx.opencdx.grpc.inventory.Manufacturer">Manufacturer</a></td>
+                  <td>repeated</td>
+                  <td><p>List of Manufacturers </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.inventory.TestCase">TestCase</h3>
         <p>TestCase message represents a case or package of tests.</p>
 
@@ -10060,6 +10047,61 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.inventory.VendorsListRequest">VendorsListRequest</h3>
+        <p>Request Message to list Vendors</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.inventory.VendorsListResponse">VendorsListResponse</h3>
+        <p>Response containing the requested list of Vendors</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>vendors</td>
+                  <td><a href="#cdx.opencdx.grpc.inventory.Vendor">Vendor</a></td>
+                  <td>repeated</td>
+                  <td><p>List of Vendors </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -10100,6 +10142,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.CountryIdRequest">CountryIdRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.DeleteResponse">DeleteResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>listCountries</td>
+                <td><a href="#cdx.opencdx.grpc.inventory.CountryListRequest">CountryListRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.inventory.CountryListResponse">CountryListResponse</a></td>
+                <td><p>Retrieve a list of Countries.</p></td>
               </tr>
             
           </tbody>
@@ -10182,6 +10231,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><p></p></td>
               </tr>
             
+              <tr>
+                <td>listManufacturers</td>
+                <td><a href="#cdx.opencdx.grpc.inventory.ManufacturerListRequest">ManufacturerListRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.inventory.ManufacturersListResponse">ManufacturersListResponse</a></td>
+                <td><p>Retrieve a list of Manufacturers.</p></td>
+              </tr>
+            
           </tbody>
         </table>
 
@@ -10260,6 +10316,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.VendorIdRequest">VendorIdRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.inventory.DeleteResponse">DeleteResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>listVendors</td>
+                <td><a href="#cdx.opencdx.grpc.inventory.VendorsListRequest">VendorsListRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.inventory.VendorsListResponse">VendorsListResponse</a></td>
+                <td><p>Retrieve a list of Vendors.</p></td>
               </tr>
             
           </tbody>
@@ -10464,24 +10527,10 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -10502,31 +10551,10 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             <tbody>
               
                 <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
                   <td></td>
-                  <td><p>Size of each page. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_number</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>The page being requested. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>sort_ascending</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p>indicating if the results should ascending. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_count</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p>Total number of available pages. </p></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
                 <tr>
@@ -12064,7 +12092,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
             <tbody>
               
                 <tr>
-                  <td>provider_number</td>
+                  <td>user_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>Provider Number to lookup. </p></td>

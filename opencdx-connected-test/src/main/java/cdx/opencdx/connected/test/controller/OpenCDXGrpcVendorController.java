@@ -16,10 +16,7 @@
 package cdx.opencdx.connected.test.controller;
 
 import cdx.opencdx.connected.test.service.OpenCDXVendorService;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Vendor;
-import cdx.opencdx.grpc.inventory.VendorIdRequest;
-import cdx.opencdx.grpc.inventory.VendorServiceGrpc;
+import cdx.opencdx.grpc.inventory.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +66,13 @@ public class OpenCDXGrpcVendorController extends VendorServiceGrpc.VendorService
     @Override
     public void deleteVendor(VendorIdRequest request, StreamObserver<DeleteResponse> responseObserver) {
         responseObserver.onNext(this.openCDXVendorService.deleteVendor(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void listVendors(VendorsListRequest request, StreamObserver<VendorsListResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXVendorService.listVendors(request));
         responseObserver.onCompleted();
     }
 }

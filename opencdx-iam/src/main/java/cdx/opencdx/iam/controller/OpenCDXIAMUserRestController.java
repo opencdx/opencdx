@@ -31,10 +31,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping(
-        value = "/user",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXIAMUserRestController {
 
@@ -81,7 +78,7 @@ public class OpenCDXIAMUserRestController {
      * @param request The updated information for a user.
      * @return The updated user.
      */
-    @PutMapping()
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateIamUserResponse> updateIamUser(@RequestBody UpdateIamUserRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.updateIamUser(request), HttpStatus.OK);
     }
@@ -91,7 +88,7 @@ public class OpenCDXIAMUserRestController {
      * @param request New user information for signup
      * @return New user record.
      */
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.signUp(request), HttpStatus.OK);
     }
@@ -101,7 +98,7 @@ public class OpenCDXIAMUserRestController {
      * @param request The pagination of uses to return.
      * @return The users for the page of users.
      */
-    @PostMapping("/list")
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListIamUsersResponse> listIamUsers(@RequestBody ListIamUsersRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.listIamUsers(request), HttpStatus.OK);
     }
@@ -111,7 +108,7 @@ public class OpenCDXIAMUserRestController {
      * @param request Password change information
      * @return Updated user record.
      */
-    @PostMapping("/password")
+    @PostMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.changePassword(request), HttpStatus.OK);
     }
@@ -121,7 +118,7 @@ public class OpenCDXIAMUserRestController {
      * @param request Request with the user to check if exists
      * @return The user record if found.
      */
-    @PostMapping("/exists")
+    @PostMapping(value = "/exists", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserExistsResponse> userExists(@RequestBody UserExistsRequest request) {
         return new ResponseEntity<>(this.openCDXIAMUserService.userExists(request), HttpStatus.OK);
     }
@@ -143,7 +140,7 @@ public class OpenCDXIAMUserRestController {
      * @param request LoginRequest to authenticate user
      * @return Response with login token.
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok()
                 .header(

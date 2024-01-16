@@ -8,6 +8,7 @@
 - Spring 3.1.2
 - MongoDb for Docker Deployment ?version
 - JDK > openjdk 20.0.2
+- node version ? list of dependencies such as [pnpm, ]
 
 ## External Dependencies   
 - link to analysis report

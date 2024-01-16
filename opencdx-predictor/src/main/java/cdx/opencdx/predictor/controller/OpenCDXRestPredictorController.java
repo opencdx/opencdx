@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestPredictorController {
 
@@ -61,7 +61,7 @@ public class OpenCDXRestPredictorController {
      * @param request PredictorRequest indicating data to be predicted.
      * @return ResponseEntity with a PredictorResponse containing the prediction.
      */
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PredictorResponse> postPredict(@RequestBody PredictorRequest request) {
         return new ResponseEntity<>(
                 PredictorResponse.newBuilder()
