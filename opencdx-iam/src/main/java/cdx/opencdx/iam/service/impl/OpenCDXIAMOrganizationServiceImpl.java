@@ -164,7 +164,6 @@ public class OpenCDXIAMOrganizationServiceImpl implements OpenCDXIAMOrganization
      * @return ListOrganizationsResponse with all the organization.
      */
     @Override
-    @SuppressWarnings("java:S6204")
     public ListOrganizationsResponse listOrganizations() {
         List<OpenCDXIAMOrganizationModel> all = this.openCDXIAMOrganizationRepository.findAll();
         return ListOrganizationsResponse.newBuilder()

@@ -150,7 +150,6 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      * @return LoadProviderResponse with all the providers.
      */
     @Override
-    @SuppressWarnings("java:S4449")
     public LoadProviderResponse loadProvider(LoadProviderRequest request) {
         OpenCDXIAMProviderModel openCDXIAMProviderModel = null;
         try {
@@ -186,10 +185,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                 log.error("Error: " + responseCode);
             }
         } catch (Exception e) {
-
             e.printStackTrace();
         }
-        //        assert openCDXIAMProviderModel != null;
+        assert openCDXIAMProviderModel != null;
         return LoadProviderResponse.newBuilder()
                 .setProvider(this.openCDXIAMProviderRepository
                         .save(openCDXIAMProviderModel)

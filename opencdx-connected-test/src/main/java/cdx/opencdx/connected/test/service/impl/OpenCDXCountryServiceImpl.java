@@ -141,10 +141,10 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
     @Override
     public DeleteResponse deleteCountry(CountryIdRequest request) {
         ObjectId countryId = new ObjectId(request.getCountryId());
-        if (this.openCDXManufacturerRepository.existsByAddress_CountryId(countryId)
+        if (Boolean.TRUE.equals(this.openCDXManufacturerRepository.existsByAddress_CountryId(countryId)
                 || this.openCDXVendorRepository.existsByAddress_CountryId(countryId)
                 || this.openCDXDeviceRepository.existsByManufacturerCountryId(countryId)
-                || this.openCDXDeviceRepository.existsByVendorCountryId(countryId)) {
+                || this.openCDXDeviceRepository.existsByVendorCountryId(countryId))) {
             return DeleteResponse.newBuilder()
                     .setSuccess(false)
                     .setMessage("Country ID: " + request.getCountryId() + " in use.")
