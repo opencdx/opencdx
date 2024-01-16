@@ -744,10 +744,10 @@ if [ "$no_ui" = false ]; then
   cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
 
   # Install dependencies
-  #yarn install || handle_error "yarn install failed"
+  yarn install || handle_error "yarn install failed"
 
   # Run linting
-  #yarn run lint
+  yarn run lint
 
   # Change back to the previous directory
   cd - || handle_error "Unable to change back to the previous directory"
