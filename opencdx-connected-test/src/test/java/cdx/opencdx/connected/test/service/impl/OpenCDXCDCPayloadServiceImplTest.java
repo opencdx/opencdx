@@ -38,7 +38,6 @@ import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.Manufacturer;
-import cdx.opencdx.grpc.profile.Gender;
 import com.google.protobuf.Timestamp;
 import java.util.List;
 import java.util.Optional;

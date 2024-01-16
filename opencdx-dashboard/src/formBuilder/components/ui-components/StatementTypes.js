@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormControl, FormControlLabel, Grid, Radio, RadioGroup, Button, Typography, Checkbox } from '@mui/material';
 import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
-import { IconRestore } from '@tabler/icons-react';
+import IconRestore from '@mui/icons-material/Restore';
 
 const StatementTypes = forwardRef(({ register, index, control, item }) => {
     const [selectedOption, setSelectedOption] = React.useState('');

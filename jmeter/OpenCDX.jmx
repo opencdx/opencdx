@@ -7701,6 +7701,103 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
         </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Classification" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / Classify" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;user_answer&quot;: {
+        &quot;age&quot;: 66609670,
+        &quot;gender&quot;: 4,
+        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
+        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
+        &quot;pregnancy_status&quot;: false,
+        &quot;symptoms&quot;: [
+            {
+                &quot;duration&quot;: {
+                    &quot;duration&quot;: &quot;14424702&quot;,
+                    &quot;type&quot;: 5
+                },
+                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
+                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
+                &quot;severity&quot;: &quot;MEDIUM&quot;,
+                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
+            }
+        ],
+        &quot;test_kit_id&quot;: &quot;65a59bebb652711b434294e1&quot;,
+        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
+        &quot;user_location&quot;: {
+            &quot;latitude&quot;: &quot;Infinity&quot;,
+            &quot;longitude&quot;: &quot;-Infinity&quot;
+        }
+    }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/classify [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;userAnswer&quot; : {&#xd;
+    &quot;testKitId&quot; : &quot;65a59bebb652711b434294e1&quot;,&#xd;
+    &quot;symptoms&quot; : [ {&#xd;
+      &quot;name&quot; : &quot;Fever&quot;,&#xd;
+      &quot;severity&quot; : &quot;HIGH&quot;,&#xd;
+      &quot;onsetDate&quot; : &quot;2023-10-08T02:28:24Z&quot;,&#xd;
+      &quot;duration&quot; : {&#xd;
+        &quot;duration&quot; : 4,&#xd;
+        &quot;type&quot; : &quot;DURATION_TYPE_DAYS&quot;&#xd;
+      },&#xd;
+      &quot;additionalDetails&quot; : &quot;Fever 101&quot;&#xd;
+    } ],&#xd;
+    &quot;textResult&quot; : &quot;Positive&quot;,&#xd;
+    &quot;age&quot; : 25,&#xd;
+    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
+    &quot;medicalConditions&quot; : &quot;Medical Conditions&quot;,&#xd;
+    &quot;pregnancyStatus&quot; : false,&#xd;
+    &quot;languagePreference&quot; : &quot;english&quot;,&#xd;
+    &quot;userLocation&quot; : {&#xd;
+      &quot;latitude&quot; : 0.1,&#xd;
+      &quot;longitude&quot; : 0.1&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/classification/classify</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
       </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>

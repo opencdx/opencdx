@@ -6,8 +6,6 @@ option java_multiple_files = true;
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-import "google/protobuf/empty.proto"; // Import for the Empty message
-
 // Definition for an organization
 message Organization {
   optional string id = 1; // Unique identifier for the organization

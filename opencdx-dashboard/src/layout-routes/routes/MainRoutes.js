@@ -13,6 +13,7 @@ import Admin from 'pages/Admin';
 const DashboardPage = Loadable(lazy(() => import('pages/dashboard')));
 const Maps = Loadable(lazy(() => import('pages/maps/Maps')));
 const Discovery = Loadable(lazy(() => import('pages/Discovery')));
+const FormViewer = Loadable(lazy(() => import('pages/FormViewer')));
 
 //  routing
 const Profile = Loadable(lazy(() => import('pages/profile/GeneralProfile')));
@@ -140,6 +141,10 @@ const MainRoutes = {
         {
             path: '/pages/external-interfaces',
             element: <ExternalInterfaces />
+        },
+        {
+            path: '/pages/form-viewer',
+            element: <FormViewer />
         }
     ]
 };

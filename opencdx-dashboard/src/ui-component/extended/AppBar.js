@@ -27,7 +27,8 @@ import {
 import Logo from 'ui-component/Logo';
 
 // assets
-import { IconDashboard, IconHome2 } from '@tabler/icons-react';
+import { IconDashboard, IconHome2 } from '@mui/icons-material';
+
 import MenuIcon from '@mui/icons-material/Menu';
 
 // elevation scroll

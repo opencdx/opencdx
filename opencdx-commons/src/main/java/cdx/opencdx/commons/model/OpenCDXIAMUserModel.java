@@ -19,6 +19,7 @@ import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.FullName;
+import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
