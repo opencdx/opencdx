@@ -27,7 +27,10 @@ import LAYOUT_CONST from 'utils/constant';
 import useConfig from 'utils/hooks/useConfig';
 
 // assets
-import { IconChevronDown, IconChevronRight, IconChevronUp } from '@tabler/icons-react';
+import IconChevronDown from '@mui/icons-material/KeyboardArrowDownRounded';
+import IconChevronRight from '@mui/icons-material/KeyboardArrowRightRounded';
+import IconChevronUp from '@mui/icons-material/KeyboardArrowUpRounded';
+
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 // mini-menu - wrapper

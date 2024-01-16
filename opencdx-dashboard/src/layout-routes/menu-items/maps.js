@@ -4,7 +4,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconMap } from '@tabler/icons-react';
+import IconMap from '@mui/icons-material/Map';
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 

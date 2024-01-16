@@ -2,7 +2,8 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconUser, IconUsersPlus, IconUserEdit, IconUserCog, IconUserCheck } from '@tabler/icons-react';
+
+import { SupervisedUserCircle, VerifiedUser, Login, LoginSharp } from '@mui/icons-material';
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -15,7 +16,7 @@ const other = {
             id: 'login',
             title: <FormattedMessage id="login" />,
             type: 'item',
-            icon: IconUserCheck,
+            icon: Login,
             target: true,
             url: '/login'
         },
@@ -23,21 +24,21 @@ const other = {
             id: 'register',
             title: <FormattedMessage id="register" />,
             type: 'item',
-            icon: IconUsersPlus,
+            icon: LoginSharp,
             target: true,
             url: '/register'
         },
         {
             id: 'profile',
             title: <FormattedMessage id="profile" />,
-            icon: IconUserCog,
+            icon: SupervisedUserCircle,
             type: 'collapse',
             children: [
                 {
                     id: 'view',
                     title: <FormattedMessage id="view-profile" />,
                     type: 'item',
-                    icon: IconUser,
+                    icon: VerifiedUser,
                     url: '/user/view-profile'
                 },
 
@@ -45,7 +46,7 @@ const other = {
                     id: 'edit',
                     title: <FormattedMessage id="edit-profile" />,
                     type: 'item',
-                    icon: IconUserEdit,
+                    icon: VerifiedUser,
                     url: '/user/edit-profile'
                 }
             ]

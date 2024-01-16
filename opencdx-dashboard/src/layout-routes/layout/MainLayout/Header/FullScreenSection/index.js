@@ -3,9 +3,8 @@ import { useCallback, useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, Tooltip } from '@mui/material';
-
-// assets
-import { IconArrowsMaximize, IconArrowsMinimize } from '@tabler/icons-react';
+import IconArrowsMaximize from '@mui/icons-material/Maximize';
+import IconArrowsMinimize from '@mui/icons-material/Minimize';
 
 // ==============================|| HEADER CONTENT - FULLSCREEN ||============================== //
 
