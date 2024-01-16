@@ -1,1 +1,278 @@
-{"openapi":"3.0.1","info":{"title":"OpenAPI definition","version":"v0"},"servers":[{"url":"https://localhost:8080/classification","description":"Generated server url"}],"security":[{"bearerAuth":[]}],"paths":{"/classify":{"post":{"tags":["open-cdx-rest-classification-controller"],"operationId":"submitClassification","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ClassificationRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ClassificationResponse"}}}}}}}},"components":{"schemas":{"ByteString":{"type":"object","properties":{"empty":{"type":"boolean"},"validUtf8":{"type":"boolean"}}},"ClassificationRequest":{"type":"object","properties":{"userAnswer":{"$ref":"#/components/schemas/UserAnswer"}}},"Location":{"type":"object","properties":{"latitude":{"type":"number","format":"double"},"longitude":{"type":"number","format":"double"}}},"Symptom":{"type":"object","properties":{"name":{"type":"string"},"severity":{"type":"string","enum":["LOW","MEDIUM","HIGH","UNRECOGNIZED"]},"onsetDate":{"$ref":"#/components/schemas/Timestamp"},"duration":{"type":"integer","format":"int32"},"additionalDetails":{"type":"string"}}},"Timestamp":{"type":"object","properties":{"seconds":{"type":"integer","format":"int64"},"nanos":{"type":"integer","format":"int32"}}},"UserAnswer":{"type":"object","properties":{"testKitId":{"type":"integer","format":"int32"},"symptoms":{"type":"array","items":{"$ref":"#/components/schemas/Symptom"}},"age":{"type":"integer","format":"int32"},"gender":{"type":"string"},"medicalConditions":{"type":"string"},"pregnancyStatus":{"type":"string"},"languagePreference":{"type":"string"},"userLocation":{"$ref":"#/components/schemas/Location"},"imageData":{"$ref":"#/components/schemas/ByteString"},"textResult":{"type":"string"}}},"ClassificationResponse":{"type":"object","properties":{"testKitName":{"type":"string"},"confidence":{"type":"number","format":"float"},"positiveProbability":{"type":"number","format":"float"},"message":{"type":"string"},"availability":{"type":"string"},"cost":{"type":"number","format":"float"},"furtherActions":{"type":"string"},"alternativeOptions":{"type":"array","items":{"$ref":"#/components/schemas/TestKit"}},"feedbackUrl":{"type":"string"},"timestamp":{"$ref":"#/components/schemas/Timestamp"},"userId":{"type":"string"}}},"Interpretation":{"type":"object","properties":{"positive":{"type":"object","additionalProperties":{"type":"string","deprecated":true},"deprecated":true},"negative":{"type":"object","additionalProperties":{"type":"string","deprecated":true},"deprecated":true}}},"TestKit":{"type":"object","properties":{"name":{"type":"string"},"targetDisease":{"type":"string"},"specimenType":{"type":"string","enum":["BLOOD","SWAB","URINE","UNRECOGNIZED"]},"procedure":{"type":"string"},"interpretationGuide":{"$ref":"#/components/schemas/Interpretation"},"brand":{"type":"string"},"approvalStatus":{"type":"string"},"accuracy":{"type":"number","format":"float"},"testDuration":{"type":"integer","format":"int32"}}}},"securitySchemes":{"bearerAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}}}
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI Classification",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:8080/classification",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/classify": {
+      "post": {
+        "tags": [
+          "open-cdx-rest-classification-controller"
+        ],
+        "operationId": "submitClassification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ByteString": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "validUtf8": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ClassificationRequest": {
+        "type": "object",
+        "properties": {
+          "userAnswer": {
+            "$ref": "#/components/schemas/UserAnswer"
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Symptom": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "UNRECOGNIZED"
+            ]
+          },
+          "onsetDate": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "additionalDetails": {
+            "type": "string"
+          }
+        }
+      },
+      "Timestamp": {
+        "type": "object",
+        "properties": {
+          "seconds": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nanos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UserAnswer": {
+        "type": "object",
+        "properties": {
+          "testKitId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "symptoms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Symptom"
+            }
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "medicalConditions": {
+            "type": "string"
+          },
+          "pregnancyStatus": {
+            "type": "string"
+          },
+          "languagePreference": {
+            "type": "string"
+          },
+          "userLocation": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "imageData": {
+            "$ref": "#/components/schemas/ByteString"
+          },
+          "textResult": {
+            "type": "string"
+          }
+        }
+      },
+      "ClassificationResponse": {
+        "type": "object",
+        "properties": {
+          "testKitName": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float"
+          },
+          "positiveProbability": {
+            "type": "number",
+            "format": "float"
+          },
+          "message": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          },
+          "cost": {
+            "type": "number",
+            "format": "float"
+          },
+          "furtherActions": {
+            "type": "string"
+          },
+          "alternativeOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestKit"
+            }
+          },
+          "feedbackUrl": {
+            "type": "string"
+          },
+          "timestamp": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "Interpretation": {
+        "type": "object",
+        "properties": {
+          "positive": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "deprecated": true
+            },
+            "deprecated": true
+          },
+          "negative": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "deprecated": true
+            },
+            "deprecated": true
+          }
+        }
+      },
+      "TestKit": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "targetDisease": {
+            "type": "string"
+          },
+          "specimenType": {
+            "type": "string",
+            "enum": [
+              "BLOOD",
+              "SWAB",
+              "URINE",
+              "UNRECOGNIZED"
+            ]
+          },
+          "procedure": {
+            "type": "string"
+          },
+          "interpretationGuide": {
+            "$ref": "#/components/schemas/Interpretation"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "approvalStatus": {
+            "type": "string"
+          },
+          "accuracy": {
+            "type": "number",
+            "format": "float"
+          },
+          "testDuration": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

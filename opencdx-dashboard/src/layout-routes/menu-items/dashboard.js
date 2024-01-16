@@ -4,14 +4,14 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconHome2 } from '@tabler/icons-react';
+import { Home } from '@mui/icons-material';
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const samplePage = {
     id: 'dashboard',
     title: <FormattedMessage id="dashboard" />,
-    icon: IconHome2,
+    icon: Home,
     type: 'group',
     url: '/dashboard',
     children: [

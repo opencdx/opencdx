@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconLocationShare, IconDeviceMobileMessage, IconDeviceHeartMonitor } from '@tabler/icons-react';
+import { Share, Monitor, DeviceHub } from '@mui/icons-material';
 
 // constant
 
@@ -17,13 +17,13 @@ const pages = {
             id: 'template',
             title: <FormattedMessage id="template" />,
             type: 'collapse',
-            icon: IconDeviceHeartMonitor,
+            icon: Monitor,
             children: [
                 {
                     id: 'email',
                     title: <FormattedMessage id="email" />,
                     type: 'item',
-                    icon: IconDeviceMobileMessage,
+                    icon: DeviceHub,
                     url: '/pages/email'
                 },
 
@@ -31,7 +31,7 @@ const pages = {
                     id: 'sms',
                     title: <FormattedMessage id="sms" />,
                     type: 'item',
-                    icon: IconLocationShare,
+                    icon: Share,
                     url: '/pages/sms'
                 }
             ]

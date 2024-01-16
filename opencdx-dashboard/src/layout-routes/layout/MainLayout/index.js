@@ -17,9 +17,9 @@ import useConfig from 'utils/hooks/useConfig';
 import { drawerWidth } from 'utils/store/constant';
 import { openDrawer } from 'utils/store/slices/menu';
 import { useDispatch, useSelector } from 'utils/store';
+import IconChevronRight from '@mui/icons-material/ChevronRight';
 
 // assets
-import { IconChevronRight } from '@tabler/icons-react';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open, layout }) => ({

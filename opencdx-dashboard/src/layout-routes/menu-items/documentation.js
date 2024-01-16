@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconBrandNetbeans, IconPropeller } from '@tabler/icons-react';
+import { Javascript, Image } from '@mui/icons-material';
 
 // ==============================|| DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -15,14 +15,14 @@ const documentation = {
             id: 'java',
             title: <FormattedMessage id="java" />,
             type: 'item',
-            icon: IconBrandNetbeans,
+            icon: Javascript,
             url: '/pages/java'
         },
         {
             id: 'proto',
             title: <FormattedMessage id="proto" />,
             type: 'item',
-            icon: IconPropeller,
+            icon: Image,
             url: '/pages/proto'
         }
     ]

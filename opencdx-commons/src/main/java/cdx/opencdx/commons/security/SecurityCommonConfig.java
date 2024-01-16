@@ -61,7 +61,6 @@ public class SecurityCommonConfig {
      */
     @Bean
     @Primary
-    @SuppressWarnings("java:S1874")
     public UserDetailsService userDetailsService() {
         return this.userDetailsService;
     }

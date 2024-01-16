@@ -10,9 +10,9 @@ import FullScreenSection from './FullScreenSection';
 
 import { useDispatch, useSelector } from 'utils/store';
 import { openDrawer } from 'utils/store/slices/menu';
+import IconMenu2 from '@mui/icons-material/Menu';
 
 // assets
-import { IconMenu2 } from '@tabler/icons-react';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 

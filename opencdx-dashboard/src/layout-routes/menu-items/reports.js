@@ -2,7 +2,6 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-// import { IconBrandNetbeans, IconPropeller } from '@tabler/icons-react';
 
 // ==============================|| DOCUMENTATION MENU ITEMS ||============================== //
 

@@ -1,8 +1,6 @@
 // third-party
 import { FormattedMessage } from 'react-intl';
-
-// assets
-import { IconTopologyStar3, IconUserCircle, IconTarget } from '@tabler/icons-react';
+import { ArrowBack, PeopleAlt, StackedBarChart } from '@mui/icons-material';
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -15,7 +13,7 @@ const documentation = {
             id: 'discovery',
             title: <FormattedMessage id="discovery" />,
             type: 'item',
-            icon: IconTarget,
+            icon: ArrowBack,
             target: true,
             external: true,
             url: 'https://localhost:8761/'
@@ -24,7 +22,7 @@ const documentation = {
             id: 'admin',
             title: <FormattedMessage id="admin" />,
             type: 'item',
-            icon: IconUserCircle,
+            icon: PeopleAlt,
             target: true,
             external: true,
             url: '/pages/admin'
@@ -33,7 +31,7 @@ const documentation = {
             id: 'nats',
             title: <FormattedMessage id="nats" />,
             type: 'collapse',
-            icon: IconTopologyStar3,
+            icon: StackedBarChart,
             children: [
                 {
                     id: 'general',

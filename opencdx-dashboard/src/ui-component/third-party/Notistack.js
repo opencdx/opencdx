@@ -10,7 +10,7 @@ import { SnackbarProvider } from 'notistack';
 import { useSelector } from 'utils/store';
 
 // assets
-import { IconCircleCheck, IconSquareRoundedX, IconInfoCircle, IconAlertCircle } from '@tabler/icons-react';
+import { Info, Warning, Error } from '@mui/icons-material';
 
 // custom styles
 const StyledSnackbarProvider = styled(SnackbarProvider)(({ theme }) => ({
@@ -44,10 +44,10 @@ const Notistack = ({ children }) => {
             iconVariant={
                 snackbar.iconVariant === 'useemojis'
                     ? {
-                          success: <IconCircleCheck style={iconSX} />,
-                          error: <IconSquareRoundedX style={iconSX} />,
-                          warning: <IconInfoCircle style={iconSX} />,
-                          info: <IconAlertCircle style={iconSX} />
+                          success: <Info style={iconSX} />,
+                          error: <Error style={iconSX} />,
+                          warning: <Warning style={iconSX} />,
+                          info: <Info style={iconSX} />
                       }
                     : undefined
             }

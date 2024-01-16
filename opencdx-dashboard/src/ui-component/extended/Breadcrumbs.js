@@ -11,7 +11,8 @@ import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import { gridSpacing } from 'utils/store/constant';
 
 // assets
-import { IconTallymark1 } from '@tabler/icons-react';
+import { Calculate } from '@mui/icons-material';
+
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import HomeIcon from '@mui/icons-material/Home';
 import HomeTwoToneIcon from '@mui/icons-material/HomeTwoTone';
@@ -73,7 +74,7 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
 
     // item separator
     const SeparatorIcon = separator;
-    const separatorIcon = separator ? <SeparatorIcon stroke={1.5} size="16px" /> : <IconTallymark1 stroke={1.5} size="16px" />;
+    const separatorIcon = separator ? <SeparatorIcon stroke={1.5} size="16px" /> : <Calculate stroke={1.5} size="16px" />;
 
     let mainContent;
     let itemContent;
