@@ -82,6 +82,41 @@ class OpenCDXGrpcQuestionnaireControllerTest {
             SystemQuestionnaireData.newBuilder().addQuestionnaireData(data).build();
 
     @Test
+    void getRuleSets() {
+        StreamObserver<RuleSetsResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        ClientRulesRequest request = ClientRulesRequest.newBuilder()
+                .setOrgnizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.getRuleSets(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(RuleSetsResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getRuleSets_2() throws JsonProcessingException {
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService =
+                new OpenCDXQuestionnaireServiceImpl(this.openCDXAuditService, mapper, openCDXCurrentUser);
+        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
+
+        StreamObserver<RuleSetsResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        ClientRulesRequest request = ClientRulesRequest.newBuilder()
+                .setOrgnizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build();
+
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXGrpcQuestionnaireController.getRuleSets(request, responseObserver));
+    }
+
+    @Test
     void submitQuestionnaire() {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 

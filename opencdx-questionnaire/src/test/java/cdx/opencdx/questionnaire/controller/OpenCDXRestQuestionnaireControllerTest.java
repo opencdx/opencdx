@@ -24,16 +24,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData;
-import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest;
-import cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest;
-import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
-import cdx.opencdx.grpc.questionnaire.Questionnaire;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireData;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest;
-import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
-import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
+import cdx.opencdx.grpc.questionnaire.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.List;
@@ -135,6 +126,21 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void checkMockMvc() throws Exception {
         Assertions.assertNotNull(mockMvc);
+    }
+
+    @Test
+    void testGetRuleSets() throws Exception {
+        MvcResult mv = this.mockMvc
+                .perform(post("/questionnaire/getrulesets")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(ClientRulesRequest.newBuilder()
+                                .setOrgnizationId(ObjectId.get().toHexString())
+                                .setWorkspaceId(ObjectId.get().toHexString())
+                                .build())))
+                .andReturn();
+        Assertions.assertEquals(
+                "{\"ruleSets\":[{\"ruleId\":\"1\",\"type\":\"Business Rule\",\"category\":\"Validation\",\"description\":\"Validate user responses\"},{\"ruleId\":\"2\",\"type\":\"Authorization Rule\",\"category\":\"Access Control\",\"description\":\"Control access based on user responses\"}]}",
+                mv.getResponse().getContentAsString());
     }
 
     @Test

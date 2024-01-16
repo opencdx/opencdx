@@ -56,7 +56,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request ClientRulesRequest indicating organization and workspace
      * @return RuleSetsResponse with the message.
      */
-    @GetMapping(value = "/getrulesets")
+    @PostMapping(value = "/getrulesets")
     public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody ClientRulesRequest request) {
         RuleSetsResponse ruleSets = openCDXQuestionnaireService.getRuleSets(request);
         return new ResponseEntity<>(ruleSets, HttpStatus.OK);
