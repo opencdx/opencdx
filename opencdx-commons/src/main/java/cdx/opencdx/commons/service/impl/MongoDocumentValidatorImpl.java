@@ -54,7 +54,6 @@ public class MongoDocumentValidatorImpl implements OpenCDXDocumentValidator {
      * @param mongoDocumentExists MongoDocumentExists to use for validation with caching
      * @param openCDXIAMUserRepository OpenCDXIAMUserRepository to use for validation with caching
      */
-    @SuppressWarnings("java:S3010")
     public MongoDocumentValidatorImpl(
             MongoTemplate mongoTemplate,
             MongoDocumentExists mongoDocumentExists,

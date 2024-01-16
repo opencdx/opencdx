@@ -90,7 +90,6 @@ public class OpenCDXANFStatementModel {
         this.status = AnfStatement.Status.STATUS_ACTIVE;
     }
 
-    @SuppressWarnings("java:S3776")
     public AnfStatement.ANFStatement getProtobufMessage() {
         AnfStatement.ANFStatement.Builder builder = AnfStatement.ANFStatement.newBuilder();
 
