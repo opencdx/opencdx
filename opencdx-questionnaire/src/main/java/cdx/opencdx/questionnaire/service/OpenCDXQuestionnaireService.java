@@ -17,21 +17,31 @@ package cdx.opencdx.questionnaire.service;
 
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest;
+import cdx.opencdx.grpc.questionnaire.ClientRulesRequest;
 import cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.Questionnaire;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.Questionnaires;
+import cdx.opencdx.grpc.questionnaire.RuleSetsResponse;
 import cdx.opencdx.grpc.questionnaire.SubmissionResponse;
 import cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 
-/**
- * Interface for the QuestionnaireService
- */
-public interface OpenCDXQuestionnaireService {
+    /**
+     * Interface for the QuestionnaireService
+    */
+    public interface OpenCDXQuestionnaireService {
+
+    /**
+     * Operation to get rulesets
+     * @param request the request to retrieve rules at the client level
+     * @return Response containing a list of rulesets
+     */
+    RuleSetsResponse getRuleSets(ClientRulesRequest request);
+
     /**
      * Process the QuestionnaireRequest Data
      * @param request request the process

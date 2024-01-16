@@ -50,6 +50,17 @@ public class OpenCDXRestQuestionnaireController {
     public OpenCDXRestQuestionnaireController(OpenCDXQuestionnaireService openCDXQuestionnaireService) {
         this.openCDXQuestionnaireService = openCDXQuestionnaireService;
     }
+    
+    /**
+     * Get RuleSets Rest API
+     * @param request ClientRulesRequest indicating organization and workspace
+     * @return RuleSetsResponse with the message.
+     */
+    @GetMapping(value = "/getrulesets")
+    public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody ClientRulesRequest request) {
+        RuleSetsResponse ruleSets = openCDXQuestionnaireService.getRuleSets(request);
+        return new ResponseEntity<>(ruleSets, HttpStatus.OK);
+    }
 
     /**
      * Post Questionnaire Rest API

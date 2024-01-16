@@ -27,6 +27,7 @@ message Questionnaire {
   // Field for storing user submission information
   optional string submission_date = 7; // Date the questionnaire was submitted on  
   optional string submisison_user_id=8; // Data submitted by
+  optional string rule_id=9; // Id of the rule that was executed for the submission
 }
 
 /**
@@ -131,6 +132,7 @@ message ClientQuestionnaireData {
   repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
   optional string orgnization_id = 2; // Organization Id associated with the Questionnaire data.
   optional string workspace_id = 3; // Workspace Id associated with the Questionnaire data.
+  optional string rule_id=4; // Id of the rule to be executed on Rules Engine upon submission
 }
 
 /* 
@@ -142,9 +144,36 @@ message UserQuestionnaireData {
 }
 
 /**
+ * Represents a ruleset for the rule engine.
+ */
+ message RuleSet {
+  optional string rule_id = 1;  // Unique identifier for the rule.
+  optional string type = 2;     // Type of the rule (e.g., business rule).
+  optional string category = 3; // Category of the rule.
+  optional string description = 4;  // Description of the rule.
+}
+
+/**
+ * Represents the request to retrieve rules at the client level.
+ */
+message ClientRulesRequest {
+  optional string orgnization_id = 1; // Organization Id associated with the Questionnaire data.
+  optional string workspace_id = 2; // Workspace Id associated with the Questionnaire data.
+}
+
+/**
+ * Represents the response for the GetRuleSets operation.
+ */
+ message RuleSetsResponse {
+  repeated RuleSet rule_sets = 1;  // List of rulesets available.
+}
+
+/**
  * Service for handling FHIR questionnaires.
  */
 service QuestionnaireService {
+  rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);    // Operation to get rulesets for specific client
+  
   rpc SubmitQuestionnaire(QuestionnaireRequest) returns (SubmissionResponse); // Submits a questionnaire and returns the submission status.
   rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire); // Get submitted questionnaire data by id.
   rpc GetSubmittedQuestionnaireList(GetQuestionnaireRequest) returns (Questionnaires); // Get all submitted questionnaire data.

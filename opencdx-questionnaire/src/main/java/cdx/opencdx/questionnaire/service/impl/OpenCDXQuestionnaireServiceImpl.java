@@ -26,6 +26,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
-     * Constructor taking the a PersonRepository
      * @param openCDXCurrentUser Current User Service.
      * @param openCDXAuditService Audit Service.
      * @param objectMapper Object Mapper.
@@ -58,6 +59,63 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
     }
+    
+    /**
+     * Operation to get rulesets
+     *
+     * @param request the request to retrieve rules at the client level
+     * @return Response containing a list of rulesets
+     */
+    @Override
+    public RuleSetsResponse getRuleSets(ClientRulesRequest request) {
+        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+        try {
+            this.openCDXAuditService.phiAccessed(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Get RuleSets Request",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    currentUser.getId().toHexString(),
+                    currentUser.getNationalHealthId(),
+                    AUTHORIZATION_CONTROL,
+                    this.objectMapper.writeValueAsString(request.toString()));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
+
+        // fetch rulesets from Evrete engine
+        List<RuleSet> rulesets = fetchRuleSetsFromEvrete();
+
+        return RuleSetsResponse.newBuilder()
+                .addAllRuleSets(rulesets)
+                .build();
+    }
+
+    // Placeholder for now to be replaced with the evrete interface
+    private List<RuleSet> fetchRuleSetsFromEvrete() {
+        return List.of(
+                RuleSet.newBuilder()
+                        .setRuleId("1")
+                        .setType("Business Rule")
+                        .setCategory("Validation")
+                        .setDescription("Validate user responses")
+                        .build(),
+                RuleSet.newBuilder()
+                        .setRuleId("2")
+                        .setType("Authorization Rule")
+                        .setCategory("Access Control")
+                        .setDescription("Control access based on user responses")
+                        .build()
+        );
+    }
+
+
+
+
 
     // Submiited Questionnaire
     /**

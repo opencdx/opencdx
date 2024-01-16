@@ -43,6 +43,20 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
         this.openCDXQuestionnaireService = openCDXQuestionnaireService;
     }
 
+    /**
+     * Operation to get rulesets
+     * @param request the request to retrieve rules at the client level
+     * @param responseObserver Observer to process the response
+     */
+    @Secured({})
+    @Override
+    public void getRuleSets(ClientRulesRequest request, StreamObserver<RuleSetsResponse> responseObserver) {
+        RuleSetsResponse reply = openCDXQuestionnaireService.getRuleSets(request);
+
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
     // User submitted questionnaire
     /**
      * submitQuestionnaire gRPC Service Call
