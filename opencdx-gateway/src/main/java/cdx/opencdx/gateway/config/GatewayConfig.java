@@ -21,9 +21,26 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * GatewayConfig is a configuration class that sets up the gateway application.
+ * It contains a method to create an instance of ActuatorGlobalFilter, which is
+ * used to prevent access to the actuator endpoints.
+ */
 @Configuration
 @Generated
 public class GatewayConfig {
+    /**
+     * Default Constructor
+     */
+    public GatewayConfig() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+    /**
+     * This method creates an instance of the ActuatorGlobalFilter class, which is used as a global filter in the application gateway.
+     * The ActuatorGlobalFilter class is responsible for preventing access to the actuator endpoints.
+     *
+     * @return an instance of the ActuatorGlobalFilter class
+     */
     @Bean
     public GlobalFilter actuatorGlobalFilter() {
         return new ActuatorGlobalFilter();

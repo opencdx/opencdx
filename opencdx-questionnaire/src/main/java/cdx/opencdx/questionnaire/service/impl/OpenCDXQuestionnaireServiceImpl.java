@@ -47,9 +47,12 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
-     * @param openCDXCurrentUser Current User Service.
-     * @param openCDXAuditService Audit Service.
-     * @param objectMapper Object Mapper.
+     * This class is an implementation of the OpenCDXQuestionnaireService interface.
+     * It provides methods for processing questionnaire-related requests.
+     *
+     * @param openCDXAuditService    the OpenCDXAuditService used for audit logging
+     * @param objectMapper          the ObjectMapper used for JSON serialization/deserialization
+     * @param openCDXCurrentUser     the OpenCDXCurrentUser for retrieving current user information
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(

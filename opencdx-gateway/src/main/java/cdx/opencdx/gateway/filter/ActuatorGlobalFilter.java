@@ -30,6 +30,9 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Generated
 public class ActuatorGlobalFilter implements GlobalFilter, Ordered {
+    /**
+     * Default Constructor
+     */
     public ActuatorGlobalFilter() {
         log.info("ActuatorGlobalFilter loaded");
     }
