@@ -5,12 +5,20 @@ package cdx.opencdx.grpc.questionnaire;
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 import "anf_connector.proto";
+import "common.proto";
+
+enum QuestionnaireStatus {
+  QUESTIONNAIRE_STATUS_UNSPECIFIED = 0;
+  QUESTIONNAIRE_STATUS_ACTIVE = 1;
+  QUESTIONNAIRE_STATUS_DELETED = 2;
+}
 
 /**
  * Represents a FHIR questionnaire collection.
  */
 message Questionnaires {
   repeated Questionnaire questionnaires = 1;  // Questionnaire Resource List
+  cdx.opencdx.grpc.common.Pagination pagination = 2; // Pagination information and sorting.
 }
 
 
@@ -21,19 +29,17 @@ message Questionnaire {
   optional string id = 1;  // Resource Id
   optional string resource_type = 2; // Resource type identifier.
   optional string title = 3; // Title of the questionnaire.
-  optional string status = 4; // Status of the questionnaire (e.g., draft).
+  optional QuestionnaireStatus status = 4; // Status of the questionnaire (e.g., draft).
   optional string description = 5; // Description of the questionnaire.
   repeated QuestionnaireItem item = 6; // List of questionnaire items.
 
   // Field for storing user submission information
-  optional string submission_date = 7; // Date the questionnaire was submitted on  
-  optional string submission_user_id=8; // Data submitted by
-  optional string rule_id=9; // Id of the rule that was executed for the submission
+  optional string rule_id=7; // Id of the rule that was executed for the submission
 
-  optional google.protobuf.Timestamp created = 10; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 11; // Timestamp when this event was modified.
-  optional string creator = 12; // ID of the creator of this event.
-  optional string modifier = 13; // ID of the modifier of this event.
+  optional google.protobuf.Timestamp created = 8; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 9; // Timestamp when this event was modified.
+  optional string creator = 10; // ID of the creator of this event.
+  optional string modifier = 11; // ID of the modifier of this event.
 }
 
 /**
@@ -185,27 +191,28 @@ message ClientRulesRequest {
 service QuestionnaireService {
   rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);    // Operation to get rule sets for specific client
   
-  rpc SubmitQuestionnaire(QuestionnaireRequest) returns (SubmissionResponse); // Submits a questionnaire and returns the submission status.
+  rpc CreateQuestionnaire(QuestionnaireRequest) returns (Questionnaire); // Submits a questionnaire and returns the submission status.
+  rpc UpdateQuestionnaire(QuestionnaireRequest) returns (Questionnaire); // Submits a questionnaire to be updated.
   rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire); // Get submitted questionnaire data by id.
-  rpc GetSubmittedQuestionnaireList(GetQuestionnaireRequest) returns (Questionnaires); // Get all submitted questionnaire data.
+  rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (Questionnaires); // Get all submitted questionnaire data.
   rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at system level.
   rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at system level.
   rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (SystemQuestionnaireData); // Get system questionnaire data by Id.
-  rpc GetQuestionnaireDataList(GetQuestionnaireRequest) returns (SystemQuestionnaireData); // Get all system questionnaire data.
+  rpc GetQuestionnaireDataList(GetQuestionnaireListRequest) returns (SystemQuestionnaireData); // Get all system questionnaire data.
   rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete submitted questionnaire data by id.
 
   rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at client level.
   rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at client level.
   rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (ClientQuestionnaireData); // Get client questionnaire data by Id.
-  rpc GetClientQuestionnaireDataList(GetQuestionnaireRequest) returns (ClientQuestionnaireData); // Get all client questionnaire data.
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireListRequest) returns (ClientQuestionnaireData); // Get all client questionnaire data.
   rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Get client questionnaire data by Id.
 
   rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Creates the questionnaire entity to be displayed at User level.
   rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); // Updates the questionnaire entity displayed at User level.
   rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData); // Get user questionnaire by Id.
-  rpc GetUserQuestionnaireDataList(GetQuestionnaireRequest) returns (UserQuestionnaireData); // Get all user questionnaire.
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireData); // Get all user questionnaire.
   rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); // Delete user questionnaire data by id.
 }
 
@@ -224,11 +231,15 @@ service QuestionnaireService {
  */
 message GetQuestionnaireRequest {
   optional string id=1; // Questionnaire resource Id
-  optional string organization_id=2; // Organization associated with the questionnaire
-  optional string workspace_id=3; // Workspace associated with the questionnaire
-  optional string user_id=4; // User associated with the questionnaire
-} 
-
+  cdx.opencdx.grpc.common.Pagination pagination = 2; // Pagination information and sorting.
+}
+/*
+ * Represents the request to retrieve data
+ */
+message GetQuestionnaireListRequest {
+  optional string id=1; // Questionnaire resource Id
+  cdx.opencdx.grpc.common.Pagination pagination = 2; // Pagination information and sorting.
+}
 
 /*
  * Represents the status of a questionnaire operation.

@@ -57,7 +57,6 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
         responseObserver.onCompleted();
     }
 
-    // User submitted questionnaire
     /**
      * submitQuestionnaire gRPC Service Call
      * @param request Request to process
@@ -65,14 +64,23 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
      */
     @Secured({})
     @Override
-    public void submitQuestionnaire(QuestionnaireRequest request, StreamObserver<SubmissionResponse> responseObserver) {
-        SubmissionResponse reply = openCDXQuestionnaireService.submitQuestionnaire(request);
+    public void createQuestionnaire(QuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
+        Questionnaire response = openCDXQuestionnaireService.createQuestionnaire(request);
 
-        responseObserver.onNext(reply);
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
-    /*
+    @Secured({})
+    @Override
+    public void updateQuestionnaire(QuestionnaireRequest request, StreamObserver<Questionnaire> responseObserver) {
+        Questionnaire response = openCDXQuestionnaireService.updateQuestionnaire(request);
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    /**
      * getSubmittedQuestionnaire gRPC Service Call
      * @param request Request to process
      * @param responseObserver Observer to process the response
@@ -87,7 +95,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
         responseObserver.onCompleted();
     }
 
-    /*
+    /**
      * getSubmittedQuestionnaireList gRPC Service Call
      * @param request Request to process
      * @param responseObserver Observer to process the response
@@ -95,14 +103,14 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getSubmittedQuestionnaireList(
-            GetQuestionnaireRequest request, StreamObserver<Questionnaires> responseObserver) {
+            GetQuestionnaireListRequest request, StreamObserver<Questionnaires> responseObserver) {
         Questionnaires response = openCDXQuestionnaireService.getSubmittedQuestionnaireList(request);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
-    /*
+    /**
      * deleteSubmittedQuestionnaire gRPC Service Call
      * @param request Request to process
      * @param responseObserver Observer to process the response
@@ -158,7 +166,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     public void getQuestionnaireData(
             GetQuestionnaireRequest request, StreamObserver<SystemQuestionnaireData> responseObserver) {
 
-        SystemQuestionnaireData reply = openCDXQuestionnaireService.getQuestionnaireDataList(request);
+        SystemQuestionnaireData reply = openCDXQuestionnaireService.getQuestionnaireData(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -172,8 +180,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getQuestionnaireDataList(
-            GetQuestionnaireRequest request, StreamObserver<SystemQuestionnaireData> responseObserver) {
-        SystemQuestionnaireData reply = openCDXQuestionnaireService.getQuestionnaireData(request);
+            GetQuestionnaireListRequest request, StreamObserver<SystemQuestionnaireData> responseObserver) {
+        SystemQuestionnaireData reply = openCDXQuestionnaireService.getQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -249,7 +257,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getClientQuestionnaireDataList(
-            GetQuestionnaireRequest request, StreamObserver<ClientQuestionnaireData> responseObserver) {
+            GetQuestionnaireListRequest request, StreamObserver<ClientQuestionnaireData> responseObserver) {
         ClientQuestionnaireData reply = openCDXQuestionnaireService.getClientQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
@@ -325,7 +333,7 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getUserQuestionnaireDataList(
-            GetQuestionnaireRequest request, StreamObserver<UserQuestionnaireData> responseObserver) {
+            GetQuestionnaireListRequest request, StreamObserver<UserQuestionnaireData> responseObserver) {
         UserQuestionnaireData reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
