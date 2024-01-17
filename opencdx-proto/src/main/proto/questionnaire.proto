@@ -3,13 +3,14 @@ option java_multiple_files = true;
 package cdx.opencdx.grpc.questionnaire;
 
 import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
 import "anf_connector.proto";
 
 /**
  * Represents a FHIR questionnaire collection.
  */
 message Questionnaires {
-  repeated Questionnaire questionnaires = 1;  // Questionnaire Resouce List 
+  repeated Questionnaire questionnaires = 1;  // Questionnaire Resource List
 }
 
 
@@ -17,7 +18,7 @@ message Questionnaires {
  * Represents a FHIR questionnaire.
  */
 message Questionnaire {
-  optional string id = 1;  // Resouce Id 
+  optional string id = 1;  // Resource Id
   optional string resource_type = 2; // Resource type identifier.
   optional string title = 3; // Title of the questionnaire.
   optional string status = 4; // Status of the questionnaire (e.g., draft).
@@ -26,8 +27,13 @@ message Questionnaire {
 
   // Field for storing user submission information
   optional string submission_date = 7; // Date the questionnaire was submitted on  
-  optional string submisison_user_id=8; // Data submitted by
+  optional string submission_user_id=8; // Data submitted by
   optional string rule_id=9; // Id of the rule that was executed for the submission
+
+  optional google.protobuf.Timestamp created = 10; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 11; // Timestamp when this event was modified.
+  optional string creator = 12; // ID of the creator of this event.
+  optional string modifier = 13; // ID of the modifier of this event.
 }
 
 /**
@@ -56,15 +62,15 @@ message QuestionnaireItem {
  */
 message QuestionnaireItemExtension {
   optional string url = 1; // URL for the extension.
-  ValueCodeableConcept value_codeable_concept = 2; // Value for codeable concept extensions.
+  ValueCodeableConcept value_codeable_concept = 2; // Value for code-able concept extensions.
 }
 
 /**
- * Represents a codeable concept value.
+ * Represents a code-able concept value.
  */
 message ValueCodeableConcept {
-  optional string text = 1; // Text content for codeable concept values.
-  repeated Coding coding = 2; // Coded values for codeable concepts.
+  optional string text = 1; // Text content for code-able concept values.
+  repeated Coding coding = 2; // Coded values for code-able concepts.
 }
 
 /**
@@ -116,6 +122,11 @@ message QuestionnaireData {
   optional string question_json_id = 5; // JSON to be displayed to the end user.
   optional string question_anf_json = 6; // JSON field for ANF statements.
   optional string rules_engine_config = 7; // Associated Rules engine configuration.
+
+  optional google.protobuf.Timestamp created = 8; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 9; // Timestamp when this event was modified.
+  optional string creator = 10; // ID of the creator of this event.
+  optional string modifier = 11; // ID of the modifier of this event.
 }
 
 /* 
@@ -130,7 +141,7 @@ message SystemQuestionnaireData {
  */
 message ClientQuestionnaireData {
   repeated QuestionnaireData questionnaire_data = 1; // Questionnaire data.
-  optional string orgnization_id = 2; // Organization Id associated with the Questionnaire data.
+  optional string organization_id = 2; // Organization Id associated with the Questionnaire data.
   optional string workspace_id = 3; // Workspace Id associated with the Questionnaire data.
   optional string rule_id=4; // Id of the rule to be executed on Rules Engine upon submission
 }
@@ -157,7 +168,7 @@ message UserQuestionnaireData {
  * Represents the request to retrieve rules at the client level.
  */
 message ClientRulesRequest {
-  optional string orgnization_id = 1; // Organization Id associated with the Questionnaire data.
+  optional string organization_id = 1; // Organization Id associated with the Questionnaire data.
   optional string workspace_id = 2; // Workspace Id associated with the Questionnaire data.
 }
 
@@ -165,14 +176,14 @@ message ClientRulesRequest {
  * Represents the response for the GetRuleSets operation.
  */
  message RuleSetsResponse {
-  repeated RuleSet rule_sets = 1;  // List of rulesets available.
+  repeated RuleSet rule_sets = 1;  // List of rule sets available.
 }
 
 /**
  * Service for handling FHIR questionnaires.
  */
 service QuestionnaireService {
-  rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);    // Operation to get rulesets for specific client
+  rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);    // Operation to get rule sets for specific client
   
   rpc SubmitQuestionnaire(QuestionnaireRequest) returns (SubmissionResponse); // Submits a questionnaire and returns the submission status.
   rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire); // Get submitted questionnaire data by id.
@@ -203,7 +214,7 @@ service QuestionnaireService {
  */
  message DeleteQuestionnaireRequest {
   optional string id=1; // Questionnaire resource Id
-  optional string orgnization_id=2; // Organization associated with the questionnaire
+  optional string organization_id=2; // Organization associated with the questionnaire
   optional string workspace_id=3; // Workspace associated with the questionnaire
   optional string user_id=4; // User associated with the questionnaire
 } 
@@ -213,7 +224,7 @@ service QuestionnaireService {
  */
 message GetQuestionnaireRequest {
   optional string id=1; // Questionnaire resource Id
-  optional string orgnization_id=2; // Organization associated with the questionnaire
+  optional string organization_id=2; // Organization associated with the questionnaire
   optional string workspace_id=3; // Workspace associated with the questionnaire
   optional string user_id=4; // User associated with the questionnaire
 } 

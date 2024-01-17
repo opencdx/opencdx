@@ -74,7 +74,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
             QuestionnaireData.newBuilder().setId("1").setState("Active").build();
 
     ClientQuestionnaireData cdata = ClientQuestionnaireData.newBuilder()
-            .setOrgnizationId("org-opencdx")
+            .setOrganizationId("org-opencdx")
             .addQuestionnaireData(data)
             .build();
 
@@ -86,7 +86,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<RuleSetsResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClientRulesRequest request = ClientRulesRequest.newBuilder()
-                .setOrgnizationId(ObjectId.get().toHexString())
+                .setOrganizationId(ObjectId.get().toHexString())
                 .setWorkspaceId(ObjectId.get().toHexString())
                 .build();
 
@@ -109,11 +109,13 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<RuleSetsResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClientRulesRequest request = ClientRulesRequest.newBuilder()
-                .setOrgnizationId(ObjectId.get().toHexString())
+                .setOrganizationId(ObjectId.get().toHexString())
                 .setWorkspaceId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXGrpcQuestionnaireController.getRuleSets(request, responseObserver));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcQuestionnaireController.getRuleSets(request, responseObserver));
     }
 
     @Test
