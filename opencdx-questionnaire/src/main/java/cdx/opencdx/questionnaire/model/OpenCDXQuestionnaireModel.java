@@ -138,10 +138,10 @@ public class OpenCDXQuestionnaireModel {
         if (this.description != null) {
             builder.setDescription(this.description);
         }
-        if(this.ruleId != null) {
+        if (this.ruleId != null) {
             builder.setRuleId(this.ruleId.toHexString());
         }
-        if(this.items != null && !this.items.isEmpty()) {
+        if (this.items != null && !this.items.isEmpty()) {
             builder.addAllItem(this.items);
         }
 
