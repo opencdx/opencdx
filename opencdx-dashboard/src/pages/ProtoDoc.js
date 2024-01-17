@@ -3,7 +3,7 @@
 import React from 'react';
 
 const ProtoDoc = () => {
-  const protodocHTML = `
+    const protodocHTML = `
   <!DOCTYPE html>
 
   <html>
@@ -8432,7 +8432,7 @@ const ProtoDoc = () => {
   
   `;
 
-  return <div dangerouslySetInnerHTML={{ __html: protodocHTML }} />;
+    return <div dangerouslySetInnerHTML={{ __html: protodocHTML }} />;
 };
 
 export default ProtoDoc;

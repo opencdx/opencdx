@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ import {
     OutlinedInput,
     ListItemText
 } from '@mui/material';
+
 import { TextArea } from '../ui-components/TextArea';
 import { MainCard } from '../ui-components/MainCard';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -171,6 +172,7 @@ const MenuProps = {
 
 export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => {
     const { register, getValues } = useForm();
+    const ref = useRef()
 
     const [selectedCategories, setSelectedCategories] = useState([]);
     const categories = [
@@ -185,9 +187,15 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
     const handleCheckboxChange = (event) => {
         const attributeLabel = event.target.value;
         const selectedOption = document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
-        const textArea = document.getElementById('calculated-topic-textarea');
-        textArea.value += selectedOption + '-' + attributeLabel + '\n';
+        if (event.target.checked && selectedOption && selectedOption.trim() !== '') {
+            const textArea = document.getElementById('calculated-topic-textarea');
+            textArea.value += selectedOption + '-' + attributeLabel + '\n';
+        }
     };
+    const handleSelectChange = (event) => {
+        ref.current.close();
+    }
+
 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
@@ -205,11 +213,13 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                             <InputLabel>{typeof attribute === 'object' ? attribute.label : attribute}</InputLabel>
                             {typeof attribute === 'object' && attribute.options ? (
                                 <Select
+                                    ref={ref}
                                     id={`calculated-topic-textarea.${attribute.label}`}
                                     {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
                                     label={attribute.label}
                                     input={<OutlinedInput label={attribute.label} />}
                                     MenuProps={MenuProps}
+                                    handleChange={handleChange}
                                 >
                                     {Object.entries(attribute.options).map(([key, value]) => (
                                         <MenuItem key={key} value={key}>
@@ -276,7 +286,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                                 id="observation-categories-multiple-checkbox"
                                 multiple
                                 value={selectedCategories}
-                                onChange={handleChange}
+                                onChange={handleSelectChange}
                                 input={<OutlinedInput label="Select Observation Categories" />}
                                 renderValue={(selected) => selected.join(', ')}
                                 MenuProps={MenuProps}
