@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/questionnaire", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
 public class OpenCDXRestQuestionnaireController {
 
@@ -52,21 +52,25 @@ public class OpenCDXRestQuestionnaireController {
     }
 
     /**
+     * Get RuleSets Rest API
+     * @param request ClientRulesRequest indicating organization and workspace
+     * @return RuleSetsResponse with the message.
+     */
+    @PostMapping(value = "/getrulesets")
+    public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody ClientRulesRequest request) {
+        RuleSetsResponse ruleSets = openCDXQuestionnaireService.getRuleSets(request);
+        return new ResponseEntity<>(ruleSets, HttpStatus.OK);
+    }
+
+    /**
      * Post Questionnaire Rest API
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
     @PostMapping(value = "/submitquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SubmissionResponse> submitQuestionnaire(@RequestBody QuestionnaireRequest request) {
+    public ResponseEntity<Questionnaire> createQuestionnaire(@RequestBody QuestionnaireRequest request) {
 
-        return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .submitQuestionnaire(request)
-                                .getSuccess())
-                        .setMessage("Executed SubmitQuestionnaire operation.")
-                        .build(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(openCDXQuestionnaireService.createQuestionnaire(request), HttpStatus.OK);
     }
 
     /**
@@ -76,10 +80,8 @@ public class OpenCDXRestQuestionnaireController {
      */
     @GetMapping(value = "/submittedquestionnaire/{Id}")
     public ResponseEntity<Questionnaire> getQuestionnaire(@PathVariable(value = "Id") String questionnaireId) {
-        GetQuestionnaireRequest request =
-                GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build();
-
-        Questionnaire questionnaire = openCDXQuestionnaireService.getSubmittedQuestionnaire(request);
+        Questionnaire questionnaire = openCDXQuestionnaireService.getSubmittedQuestionnaire(
+                GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build());
         return new ResponseEntity<>(questionnaire, HttpStatus.OK);
     }
 
@@ -88,22 +90,24 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetSubmittedQuestionnaireList indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @GetMapping(value = "/submittedquestionnaires")
-    public ResponseEntity<Questionnaires> getQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
+    @PostMapping(value = "/submittedquestionnaires")
+    public ResponseEntity<Questionnaires> getQuestionnaires(@RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getSubmittedQuestionnaireList(request), HttpStatus.OK);
     }
 
     /**
      * Delete Questionnaire Rest API
-     * @param request DeleteQuestionnaireRequest indicating questionnaire realted data
+     * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
     @DeleteMapping(value = "/deletequestionnaire/{Id}")
-    public ResponseEntity<SubmissionResponse> deleteQuestionnaire(@RequestBody DeleteQuestionnaireRequest request) {
+    public ResponseEntity<SubmissionResponse> deleteQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
                         .setSuccess(openCDXQuestionnaireService
-                                .deleteQuestionnaireData(request)
+                                .deleteQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
+                                        .setId(id)
+                                        .build())
                                 .getSuccess())
                         .setMessage("Executed DeleteQuestionnaire operation.")
                         .build(),
@@ -149,13 +153,15 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get Questionnaire Rest API
-     * @param request GetQuestionnaireRequest indicating questionnaire realted data
+     * @param id  Identifier of questionnaire to get.
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/system/questionnaire/{Id}")
-    public ResponseEntity<SystemQuestionnaireData> getSystemQuestionnaire(
-            @RequestBody GetQuestionnaireRequest request) {
-        return new ResponseEntity<>(openCDXQuestionnaireService.getQuestionnaireData(request), HttpStatus.OK);
+    public ResponseEntity<SystemQuestionnaireData> getSystemQuestionnaire(@PathVariable(value = "Id") String id) {
+        return new ResponseEntity<>(
+                openCDXQuestionnaireService.getQuestionnaireData(
+                        GetQuestionnaireRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 
     /**
@@ -163,24 +169,25 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetQuestionnaireListRequest indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @GetMapping(value = "/system/questionnaires")
-    public ResponseEntity<SystemQuestionnaireData> getSystemQuestionnaires(
-            @RequestBody GetQuestionnaireRequest request) {
+    @PostMapping(value = "/system/questionnaires")
+    public ResponseEntity<SystemQuestionnaireData> getQuestionnaireDataList(
+            @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getQuestionnaireDataList(request), HttpStatus.OK);
     }
 
     /**
      * Delete Questionnaire Rest API
-     * @param request DeleteQuestionnaireRequest indicating questionnaire realted data
+     * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
     @DeleteMapping(value = "/system/deletequestionnaire/{Id}")
-    public ResponseEntity<SubmissionResponse> deleteSystemQuestionnaire(
-            @RequestBody DeleteQuestionnaireRequest request) {
+    public ResponseEntity<SubmissionResponse> deleteSystemQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
                         .setSuccess(openCDXQuestionnaireService
-                                .deleteQuestionnaireData(request)
+                                .deleteQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
+                                        .setId(id)
+                                        .build())
                                 .getSuccess())
                         .setMessage("Executed DeleteQuestionnaire operation.")
                         .build(),
@@ -228,13 +235,15 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get Client Questionnaire Rest API
-     * @param request GetClientQuestionnaireRequest indicating questionnaire realted data
+     *  @param id  Identifier of questionnaire to get.
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/client/questionnaire/{Id}")
-    public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaire(
-            @RequestBody GetQuestionnaireRequest request) {
-        return new ResponseEntity<>(openCDXQuestionnaireService.getClientQuestionnaireData(request), HttpStatus.OK);
+    public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaire(@PathVariable(value = "Id") String id) {
+        return new ResponseEntity<>(
+                openCDXQuestionnaireService.getClientQuestionnaireData(
+                        GetQuestionnaireRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 
     /**
@@ -242,24 +251,25 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetClientQuestionnaireListRequest indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @GetMapping(value = "/client/questionnaires")
-    public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaires(
-            @RequestBody GetQuestionnaireRequest request) {
+    @PostMapping(value = "/client/questionnaires")
+    public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaireDataList(
+            @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getClientQuestionnaireDataList(request), HttpStatus.OK);
     }
 
     /**
      * Delete Client Questionnaire Rest API
-     * @param request DeleteClientQuestionnaireRequest indicating questionnaire realted data
+     * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
     @DeleteMapping(value = "/client/deletequestionnaire/{Id}")
-    public ResponseEntity<SubmissionResponse> deleteClientQuestionnaire(
-            @RequestBody DeleteQuestionnaireRequest request) {
+    public ResponseEntity<SubmissionResponse> deleteClientQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
                         .setSuccess(openCDXQuestionnaireService
-                                .deleteClientQuestionnaireData(request)
+                                .deleteClientQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
+                                        .setId(id)
+                                        .build())
                                 .getSuccess())
                         .setMessage("Executed DeleteClientQuestionnaire operation.")
                         .build(),
@@ -307,12 +317,15 @@ public class OpenCDXRestQuestionnaireController {
 
     /**
      * Get User Questionnaire Rest API
-     * @param request GetUserQuestionnaireRequest indicating questionnaire realted data
+     *  @param id  Identifier of questionnaire to get.
      * @return Questionnaire with the message.
      */
     @GetMapping(value = "/user/questionnaire/{Id}")
-    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaire(@RequestBody GetQuestionnaireRequest request) {
-        return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireData(request), HttpStatus.OK);
+    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaire(@PathVariable(value = "Id") String id) {
+        return new ResponseEntity<>(
+                openCDXQuestionnaireService.getUserQuestionnaireData(
+                        GetQuestionnaireRequest.newBuilder().setId(id).build()),
+                HttpStatus.OK);
     }
 
     /**
@@ -320,22 +333,25 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetUserQuestionnaireListRequest indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @GetMapping(value = "/user/questionnaires")
-    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaires(@RequestBody GetQuestionnaireRequest request) {
+    @PostMapping(value = "/user/questionnaires")
+    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaireDataList(
+            @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireDataList(request), HttpStatus.OK);
     }
 
     /**
      * Delete User Questionnaire Rest API
-     * @param request DeleteUserQuestionnaireRequest indicating questionnaire realted data
+     * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
     @DeleteMapping(value = "/user/deletequestionnaire/{Id}")
-    public ResponseEntity<SubmissionResponse> deleteUserQuestionnaire(@RequestBody DeleteQuestionnaireRequest request) {
+    public ResponseEntity<SubmissionResponse> deleteUserQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
                         .setSuccess(openCDXQuestionnaireService
-                                .deleteUserQuestionnaireData(request)
+                                .deleteUserQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
+                                        .setId(id)
+                                        .build())
                                 .getSuccess())
                         .setMessage("Executed DeleteUserQuestionnaire operation.")
                         .build(),

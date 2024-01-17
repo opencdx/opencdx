@@ -108,18 +108,21 @@ otsSwInfo {
 
 def exportedProjects = [
         ":opencdx-audit",
+        ":opencdx-classification",
         ":opencdx-client",
         ":opencdx-commons",
         ":opencdx-communications",
+        ":opencdx-config",
         ":opencdx-connected-test",
+        ":opencdx-discovery",
+        ":opencdx-gateway",
         ":opencdx-helloworld",
         ":opencdx-iam",
-        ":opencdx-routine",
-        ":opencdx-protector",
-        ":opencdx-predictor",
-        ":opencdx-questionnaire",
-        ":opencdx-classification",
         ":opencdx-media",
+        ":opencdx-predictor",
+        ":opencdx-protector",
+        ":opencdx-questionnaire",
+        ":opencdx-routine",
         ":opencdx-tinkar"
 ]
 

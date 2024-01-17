@@ -79,7 +79,10 @@ message Device {
     optional google.protobuf.Timestamp modified = 33; // Timestamp when this event was modified.
     optional string creator = 34; // ID of the creator of this event.
     optional string modifier = 35; // ID of the modifier of this event.
-    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 36;  // Category type [custom type]    
+    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 36;  // Category type [custom type] 
+    optional string qr_scan_code = 37;  // QR Scan Code for the device
+    optional string sku = 38;                    // Stock Keeping Unit (SKU) for the device
+
 }
 
 // TestCase message represents a case or package of tests.
@@ -101,7 +104,10 @@ message TestCase {
     optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
     optional string creator = 16; // ID of the creator of this event.
     optional string modifier = 17; // ID of the modifier of this event.
-    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 18;  // Category type [custom type]    
+    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 18;  // Category type [custom type]   
+    optional string qr_scan_code = 19;  // QR Scan Code for the test
+    optional string sku = 20;                    // Stock Keeping Unit (SKU) for the test
+
 }
 
 // gRPC service for managing countries.
