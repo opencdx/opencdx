@@ -117,7 +117,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                     </Grid>
                 )}
             </Grid>
-            <Grid container spacing={1} xs={12} lg={12} sx={{ pt: 2 }}>
+            <Grid container spacing={1} sx={{ pt: 2 }}>
                 <Grid item xs={12} lg={12}>
                     <AccordianWrapper title="Anf Statement">
                         <CustomTabs currentIndex={0} {...{ control, register, index, item, getValues }} />

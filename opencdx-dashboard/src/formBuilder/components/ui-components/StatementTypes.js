@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
 import IconRestore from '@mui/icons-material/Restore';
 
-const StatementTypes = forwardRef(({ register, index, control, item }) => {
+const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -134,7 +134,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
         [renderList]
     );
     return (
-        <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
+        <Grid item xs={12} lg={12} sx={{ pt: 2 }} ref={ref}>
             <SubCard
                 title="Component Type"
                 secondary={

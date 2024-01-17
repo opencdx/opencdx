@@ -27,8 +27,8 @@ function CustomTabPanel(props) {
 
 CustomTabPanel.propTypes = {
     children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired
+    index: PropTypes.number,
+    value: PropTypes.number
 };
 
 function a11yProps(index) {
@@ -38,7 +38,7 @@ function a11yProps(index) {
     };
 }
 
-export const CustomTabs = React.forwardRef(({ control, register, index, currentIndex, item, getValues }) => {
+export const CustomTabs = React.forwardRef(({ control, register, index, currentIndex, item, getValues }, ref) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -47,7 +47,7 @@ export const CustomTabs = React.forwardRef(({ control, register, index, currentI
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} ref={ref}>
                 <Tabs
                     value={value}
                     variant="scrollable"
