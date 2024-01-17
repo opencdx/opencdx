@@ -42,21 +42,15 @@ public class OpenCDXCallCredentials extends CallCredentials {
     }
 
     @Override
-    @SuppressWarnings("java:S1181")
     public void applyRequestMetadata(RequestInfo requestInfo, Executor executor, MetadataApplier metadataApplier) {
         executor.execute(() -> {
             try {
                 Metadata headers = new Metadata();
                 headers.put(Metadata.Key.of("Authorization", ASCII_STRING_MARSHALLER), "Bearer " + token);
                 metadataApplier.apply(headers);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 metadataApplier.fail(Status.UNAUTHENTICATED.withCause(e));
             }
         });
-    }
-
-    @Override
-    public void thisUsesUnstableApi() {
-        // noop
     }
 }

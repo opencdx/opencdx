@@ -56,7 +56,6 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     private final Tracer tracer;
 
     record NatsMessage(String spanId, String traceId, String parentId, String json) {}
-    ;
 
     /**
      * Constructor for setting up NATS based OpenCDXMessageService

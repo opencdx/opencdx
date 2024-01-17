@@ -15,10 +15,18 @@
  */
 package cdx.opencdx.audit.config;
 
+import cdx.opencdx.audit.repository.OpenCDXAuditEventRepository;
+import cdx.opencdx.commons.security.JwtTokenFilter;
+import cdx.opencdx.commons.service.OpenCDXMessageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
@@ -32,8 +40,29 @@ class AppConfigTest {
     @MockBean
     Connection connection;
 
+    @Autowired
+    AppConfig appConfig;
+
+    @Mock
+    ObjectMapper objectMapper;
+
+    @Mock
+    OpenCDXMessageService openCDXMessageService;
+
+    @Mock
+    OpenCDXAuditEventRepository openCDXAuditEventRepository;
+
+    @MockBean
+    JwtTokenFilter jwtTokenFilter;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void openCDXAuditMessageHandlerTest() {
+        Assertions.assertNotNull(
+                appConfig.openCDXAuditMessageHandler(objectMapper, openCDXMessageService, openCDXAuditEventRepository));
     }
 }
