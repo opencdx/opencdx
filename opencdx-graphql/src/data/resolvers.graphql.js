@@ -6,37 +6,37 @@ import { Manufacturers, Devices } from "../db/dbConnector.js";
 
 export const resolvers = {
   Query: {
-    getManufacturers: (root) => {
-      return new Promise((resolve, reject) => {
-        Manufacturers.find((err, manufacturers) => {
-          if (err) reject(err);
-          else resolve(manufacturers);
-        });
-      });
+    getManufacturers: async (root) => {
+      try {
+        const manufacturers = await Manufacturers.find();
+        return manufacturers;
+      } catch (err) {
+        reject(err)
+      }
     },
-    findAManufacturer: (root, { id }) => {
-      return new Promise((resolve, reject) => {
-        Manufacturers.findOne({ _id: id }, (err, manufacturer) => {
-          if (err) reject(err);
-          else resolve(manufacturer);
-        });
-      });
+    findAManufacturer: async (root, { id }) => {
+      try {
+        const manufacturer = await Manufacturers.find({ _id: id });
+        return manufacturer;
+      } catch (err) {
+        reject(err)
+      }
     },
-    getDevices: (root) => {
-      return new Promise((resolve, reject) => {
-        Devices.find((err, devices) => {
-          if (err) reject(err);
-          else resolve(devices);
-        });
-      });
+    getDevices: async (root) => {
+      try {
+        const devices = await Devices.find();
+        return devices;
+      } catch (err) {
+        reject(err)
+      }
     },
-    findADevice: (root, { id }) => {
-      return new Promise((resolve, reject) => {
-        Devices.findOne({ _id: id }, (err, device) => {
-          if (err) reject(err);
-          else resolve(device);
-        });
-      });
+    findADevice: async (root, { id }) => {
+      try {
+        const device = await Devices.find({ _id: id });
+        return device;
+      } catch (err) {
+        reject(err)
+      }
     },
   },
 };
