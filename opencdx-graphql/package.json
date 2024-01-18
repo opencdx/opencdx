@@ -1,14 +1,13 @@
 {
   "name": "opencdx-graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "OpenCDX GraphQL server",
   "main": "./src/index.js",
   "scripts": {
-    "compile": "tsc",
     "start": "nodemon ./src/index.js --exec babel-node -e js"
   },
   "keywords": [],
-  "author": "",
+  "author": "opencdx",
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^3.13.0",
