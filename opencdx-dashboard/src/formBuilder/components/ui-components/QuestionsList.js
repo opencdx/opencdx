@@ -59,7 +59,6 @@ const QuestionsList = forwardRef((props, ref) => {
 export default QuestionsList;
 
 QuestionsList.propTypes = {
-    getValues: PropTypes.any,
     currentIndex: PropTypes.number,
     tab: PropTypes.string
 };
