@@ -15,10 +15,9 @@ import {
     Chip,
     Box,
     Autocomplete,
-    TextField,
+    TextField
 } from '@mui/material';
 
-import { TextArea } from '../ui-components/TextArea';
 import { MainCard } from '../ui-components/MainCard';
 import Typography from '@mui/material/Typography';
 import { categories, observationAttributes } from '../../store/constant';
@@ -36,9 +35,7 @@ const MenuProps = {
 
 export const ObservationId = ({ index, currentIndex, tab }) => {
     const { register } = useForm();
-    
-  
-   
+
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleChange = function (event) {
@@ -47,7 +44,6 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
         } = event;
         setSelectedCategories(typeof value === 'string' ? value.split(',') : value);
     };
-   
 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
@@ -67,17 +63,18 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
                                     multiple
                                     freeSolo
                                     id="tags-filled"
+                                    key={attrIndex}
                                     renderOption={(props, option) => (
-                                        <li {...props} key={props.id}>
+                                        <li {...props} key={attrIndex}>
                                             {option}
                                         </li>
                                     )}
                                     {...register(`test.${index}.item.${currentIndex}.${tab}.topic.${attrIndex}}`)}
                                     options={Object.values(attribute.options)}
                                     renderTags={(value, getTagProps) =>
-                                        value.map((option, index) =>
-                                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                                        )
+                                        value.map((option, index) => (
+                                            <Chip key={index} variant="outlined" label={option} {...getTagProps({ index })} />
+                                        ))
                                     }
                                     renderInput={(params) => (
                                         <TextField {...params} label={typeof attribute === 'object' ? attribute.label : attribute} />
@@ -92,7 +89,6 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
             ))}
         </>
     );
-
 
     const filteredAttributes = observationAttributes.filter((attr) => selectedCategories.includes(attr.observationCategory));
 
@@ -133,9 +129,7 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
             {/* Display filtered attributes based on the selected categories */}
             <ObservationAttributes filteredAttributes={filteredAttributes} />
 
-            <MainCard>
-                {/* Observation Topic */}
-            </MainCard>
+            <MainCard>{/* Observation Topic */}</MainCard>
         </Grid>
     );
 };
@@ -154,8 +148,6 @@ ObservationId.propTypes = {
     setSelectedCategories: PropTypes.func,
     value: PropTypes.string,
     setValue: PropTypes.func,
-    ObservationAttributes: PropTypes.func,
-    filteredAttributes: PropTypes.array
-    
+    ObservationAttributes: PropTypes.func
 };
 export default ObservationId;

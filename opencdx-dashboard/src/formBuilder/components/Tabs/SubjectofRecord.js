@@ -7,24 +7,21 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import QuestionsList from '../ui-components/QuestionsList';
 import { ParticipantComponent } from '../TabComponents/ParticipantComponent';
 
-
 const SubjectofRecord = React.forwardRef(({ register, index, getValues, currentIndex }, ref) => {
     const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState('');
     const handleClickOpen = () => {
         setOpen(true);
-    }
+    };
     const handleCloseDialog = () => {
         setOpen(false);
-    }
+    };
 
     return (
-
-    <>
-     <Grid container>
+        <>
+            <Grid container>
                 <Grid item xs={12} lg={12} ref={ref} justifyContent="flex-end" sx={{ display: 'flex' }}>
                     <Button variant="contained" color="primary" onClick={handleClickOpen}>
-                        <SettingsIcon />  System Variables
+                        <SettingsIcon /> System Variables
                     </Button>
                 </Grid>
             </Grid>
@@ -38,12 +35,13 @@ const SubjectofRecord = React.forwardRef(({ register, index, getValues, currentI
                 </DialogActions>
             </Dialog>
             <ParticipantComponent {...{ register, index, currentIndex }} tab="subjectOfRecord" ref={ref} />
-
-    </>
-)});
+        </>
+    );
+});
 SubjectofRecord.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
-    currentIndex: PropTypes.number
+    currentIndex: PropTypes.number,
+    getValues: PropTypes.any
 };
 export { SubjectofRecord };

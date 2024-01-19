@@ -151,97 +151,113 @@ export const observationAttributes = [
 ];
 
 export const systemVariables = {
-    "time": {
-        "lowerBound": "${{system.util.epoc(\"${{application.statement.documented.start.time}}\")}}",
-        "semantic": "Seconds | ${{upperbound - lowerbound}}",
-        "resolution": "1 second",
-        "upperBound": "${{system.util.epoc(\"${{application.statement.documented.end.time}}\")}}",
-        "lowerBoundOptions": "yes",
-        "upperBoundOptions": "yes"
+    time: {
+        lowerBound: '${{system.util.epoc("${{application.statement.documented.start.time}}")}}',
+        semantic: 'Seconds | ${{upperbound - lowerbound}}',
+        resolution: '1 second',
+        upperBound: '${{system.util.epoc("${{application.statement.documented.end.time}}")}}',
+        lowerBoundOptions: 'yes',
+        upperBoundOptions: 'yes'
     },
-    "subjectOfRecord": {
-        "id": "${{participant.uuid}}",
-        "practitionerValue": "${{participant.id}}",
-        "code": ""
+    subjectOfRecord: {
+        id: '${{participant.uuid}}',
+        practitionerValue: '${{participant.id}}',
+        code: ''
     },
-    "authors": [
+    authors: [
         {
-            "id": "${{paractitioner[0].uuid}}",
-            "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[0].id}}\", \"role\": \"Practitioner/${{paractitioner[0].role}}\"",
-            "code": "${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}"
+            id: '${{paractitioner[0].uuid}}',
+            practitionerValue:
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[0].id}}", "role": "Practitioner/${{paractitioner[0].role}}"',
+            code: '${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}'
         },
         {
-            "id": "{{paractitioner[1].uuid}}",
-            "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[1].id}}\", \"role\": \"Practitioner/${{paractitioner[1].role}}\"",
-            "code": "${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}"
+            id: '{{paractitioner[1].uuid}}',
+            practitionerValue:
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[1].id}}", "role": "Practitioner/${{paractitioner[1].role}}"',
+            code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
         }
     ],
-    "subject_of_information": {
-        "subjectOfRecord": "{ id: ${{participant.id}} }"
+    subject_of_information: {
+        subjectOfRecord: '{ id: ${{participant.id}} }'
     },
-    "associatedStatement": [
-        {"id": "JHMH-EDDH-6591-HVQTY-GFSM", "semantic": "TBD - a Precondition | an interpretation | a component"},
-        {"id": "ZDWC-WZDU-2801-DDHZI-KELI", "semantic": "TBD - a Precondition | an interpretation | a component"},
-        {"id": "JNMC-FXBC-7589-MTEQD-IMBB", "semantic": "TBD - a Precondition | an interpretation | a component"},
-        {"id": "BNAJ-FCSY-1342-GPXZD-QMCO", "semantic": "Precondition"},
-        {"id": "GEEI-TJBI-9441-VIAQB-QOYU", "semantic": "Precondition"}
+    associatedStatement: [
+        { id: 'JHMH-EDDH-6591-HVQTY-GFSM', semantic: 'TBD - a Precondition | an interpretation | a component' },
+        { id: 'ZDWC-WZDU-2801-DDHZI-KELI', semantic: 'TBD - a Precondition | an interpretation | a component' },
+        { id: 'JNMC-FXBC-7589-MTEQD-IMBB', semantic: 'TBD - a Precondition | an interpretation | a component' },
+        { id: 'BNAJ-FCSY-1342-GPXZD-QMCO', semantic: 'Precondition' },
+        { id: 'GEEI-TJBI-9441-VIAQB-QOYU', semantic: 'Precondition' }
     ],
-    "topic": {
-        "observationProcedure": {"method": "Examination - action", "hasFocus": "On examination - Systolic blood pressure reading", "procedureSiteDirect": "Structure of right brachial artery", "usingDevice": "Blood pressure cuff adult size"}
+    topic: {
+        observationProcedure: {
+            method: 'Examination - action',
+            hasFocus: 'On examination - Systolic blood pressure reading',
+            procedureSiteDirect: 'Structure of right brachial artery',
+            usingDevice: 'Blood pressure cuff adult size'
+        }
     },
-    "type": {
-        "expressionType": "simple", "expressionLanguage": "local", "expressionValue": "performed", "expressionDescription": "Measurement action has been performed."
+    type: {
+        expressionType: 'simple',
+        expressionLanguage: 'local',
+        expressionValue: 'performed',
+        expressionDescription: 'Measurement action has been performed.'
     },
-    "circumstanceChoice": [{"healthRisk": "XXXXX ${{rules.engine.calculated[circumstanceChoice.result]}}"}],
-    "status": {
-        "expressionType": "simple", "expressionLanguage": "local", "expressionValue": "performed", "expressionDescription": "Measurement action has been performed."
-    }, 
-    "result": {
-        "lowerBound": "90",
-        "semantic": "[${{getElementById(\"3079919224534\").value}}, ${{getElementById(\"3079919224534\").value}}] ${{getElementById(\"3079919224534\").unit}}",
-        "resolution": "1 mmHg",
-        "upperBound": "120",
-        "lowerBoundOptions": "yes",
-        "upperBoundOptions": "yes"
+    circumstanceChoice: [{ healthRisk: 'XXXXX ${{rules.engine.calculated[circumstanceChoice.result]}}' }],
+    status: {
+        expressionType: 'simple',
+        expressionLanguage: 'local',
+        expressionValue: 'performed',
+        expressionDescription: 'Measurement action has been performed.'
     },
-    "rangeMeasure": {
-        "lowerBound": "90",
-        "semantic": "Systolic blood pressure measurement",
-        "resolution": "1 mmHg",
-        "upperBound": "120",
-        "lowerBoundOptions": "yes",
-        "upperBoundOptions": "yes"
+    result: {
+        lowerBound: '90',
+        semantic:
+            '[${{getElementById("3079919224534").value}}, ${{getElementById("3079919224534").value}}] ${{getElementById("3079919224534").unit}}',
+        resolution: '1 mmHg',
+        upperBound: '120',
+        lowerBoundOptions: 'yes',
+        upperBoundOptions: 'yes'
     },
-    "rangeParticipant": [
+    rangeMeasure: {
+        lowerBound: '90',
+        semantic: 'Systolic blood pressure measurement',
+        resolution: '1 mmHg',
+        upperBound: '120',
+        lowerBoundOptions: 'yes',
+        upperBoundOptions: 'yes'
+    },
+    rangeParticipant: [
         {
-            "id": "${{paractitioner[0].uuid}}",
-            "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[0].id}}\", \"role\": \"Practitioner/${{paractitioner[0].role}}\"",
-            "code": "${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}"
+            id: '${{paractitioner[0].uuid}}',
+            practitionerValue:
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[0].id}}", "role": "Practitioner/${{paractitioner[0].role}}"',
+            code: '${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}'
         },
         {
-            "id": "{{paractitioner[1].uuid}}",
-            "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[1].id}}\", \"role\": \"Practitioner/${{paractitioner[1].role}}\"",
-            "code": "${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}"
+            id: '{{paractitioner[1].uuid}}',
+            practitionerValue:
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[1].id}}", "role": "Practitioner/${{paractitioner[1].role}}"',
+            code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
         }
     ],
-    "timingMeasure": {
-        "lowerBound": "${{system.util.epoc(\"${{application.statement.measurement.start.time}}\")}}",
-        "semantic": "Seconds | ${{upperbound - lowerbound}}",
-        "resolution": "1 second",
-        "upperBound": "${{system.util.epoc(\"${{application.statement.measurement.end.time}}\")}}",
-        "lowerBoundOptions": "yes",
-        "upperBoundOptions": "yes"
+    timingMeasure: {
+        lowerBound: '${{system.util.epoc("${{application.statement.measurement.start.time}}")}}',
+        semantic: 'Seconds | ${{upperbound - lowerbound}}',
+        resolution: '1 second',
+        upperBound: '${{system.util.epoc("${{application.statement.measurement.end.time}}")}}',
+        lowerBoundOptions: 'yes',
+        upperBoundOptions: 'yes'
     },
-    "purpose": [
+    purpose: [
         {
-            "procedureId": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].id}}",
-            "procedureName": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].name}}",
-            "focus": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].code}} | ${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].procedure.name}} (procedure)"
+            procedureId: '${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].id}}',
+            procedureName: '${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].name}}',
+            focus: '${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].code}} | ${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].procedure.name}} (procedure)'
         },
         {
-            "procedureId": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].id}}",
-            "procedureName": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].name}}",
-            "focus": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].code}} | ${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].procedure.name}} (procedure)"
+            procedureId: '${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].id}}',
+            procedureName: '${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].name}}',
+            focus: '${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].code}} | ${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].procedure.name}} (procedure)'
         }
     ]
 };

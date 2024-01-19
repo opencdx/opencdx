@@ -9,8 +9,7 @@ import { InputLabel } from '../ui-components/InputLabel';
 import { Controller } from 'react-hook-form';
 import { ExpressionType } from '../TabComponents/ExpressionType';
 
-import {systemVariables} from '../../store/constant';
-
+import { systemVariables } from '../../store/constant';
 
 export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex }, ref) => {
     const formData = JSON.parse(localStorage.getItem('anf-form'));
@@ -58,10 +57,9 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={3} lg={12} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
-                    <ExpressionType register={register} index={index} currentIndex={currentIndex} tab='status' ref={ref}/>
-                                    
+                        <ExpressionType register={register} index={index} currentIndex={currentIndex} tab="status" ref={ref} />
                     </Grid>
-                        <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Result</InputLabel>
                     </Grid>
                     {<MeasureComponent {...{ control, register, index, currentIndex }} tab="result" />}
@@ -70,18 +68,20 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     </Grid>
                     <Grid item xs={12} sm={9} lg={6}>
                         <FormControl fullWidth>
-                            {componentType ?
-                            <TextField
-                                {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
-                                fullWidth
-                                placeholder="Enter Health Risk Information"
-                                value={systemVariables['circumstanceChoice'][0].healthRisk}
-                                />:
-                            <TextField
-                                {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
-                                fullWidth
-                                placeholder="Enter Health Risk Information"
-                            />}
+                            {componentType ? (
+                                <TextField
+                                    {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
+                                    fullWidth
+                                    placeholder="Enter Health Risk Information"
+                                    value={systemVariables['circumstanceChoice'][0].healthRisk}
+                                />
+                            ) : (
+                                <TextField
+                                    {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
+                                    fullWidth
+                                    placeholder="Enter Health Risk Information"
+                                />
+                            )}
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
@@ -96,7 +96,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Timing</InputLabel>
                     </Grid>
-                    {<MeasureComponent {...{ control, register, index, currentIndex }}  tab="timingMeasure"/>}
+                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="timingMeasure" />}
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Participant</InputLabel>
                     </Grid>

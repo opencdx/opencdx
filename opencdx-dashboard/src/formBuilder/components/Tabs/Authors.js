@@ -20,7 +20,7 @@ const Authors = React.forwardRef(({ control, register, index, currentIndex, getV
             <Grid container>
                 <Grid item xs={12} lg={12} ref={ref} justifyContent="flex-end" sx={{ display: 'flex' }}>
                     <Button variant="contained" color="primary" onClick={handleClickOpen}>
-                        <SettingsIcon />  System Variables
+                        <SettingsIcon /> System Variables
                     </Button>
                 </Grid>
             </Grid>

@@ -5,13 +5,11 @@ import { ExpressionType } from '../TabComponents/ExpressionType';
 
 import { MainCard } from '../ui-components/MainCard';
 
-
-const Type = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
-    
+const Type = React.forwardRef(({ register, index, currentIndex }, ref) => {
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
-                <ExpressionType register={register} index={index} currentIndex={currentIndex} tab='type' ref={ref}/>
+                <ExpressionType register={register} index={index} currentIndex={currentIndex} tab="type" ref={ref} />
                 {/* //TODO: AFTER CONFIRMING WITH RAVI, WE WILL ADD THIS BACK IN */}
                 {/* <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
@@ -36,7 +34,6 @@ const Type = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
 Type.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
-    currentIndex: PropTypes.number,
-    tab: PropTypes.string
+    currentIndex: PropTypes.number
 };
 export { Type };
