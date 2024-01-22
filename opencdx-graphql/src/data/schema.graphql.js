@@ -7,7 +7,20 @@ export const typeDefs = gql`
     website: String
     description: String
   }
-
+  type Patient {
+    id: ID
+    gender: String
+    firstName: String
+    lastName: String
+    birthDate: String
+    language: String
+    race: String
+    ethnicity: String
+    zipCode: String
+    state: String
+    city: String
+    county: String
+  }
   type Device {
     id: ID
     type: String
@@ -40,5 +53,8 @@ export const typeDefs = gql`
 
     getDevices: [Device]
     findADevice(id: String): Device
+
+    getPatients: [Patient]
+    findAPatient(id: String): Patient
   }
 `;

@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { environment } = require('../config/config');
 const { manufacturerSchema } = require('./schema/manufacturerSchema.js');
 const { deviceSchema } = require('./schema/deviceSchema.js');
+const { patientSchema } = require('./schema/patientSchema.js');
+
 const env = process.env.NODE_ENV || "development";
 
 /**
@@ -20,5 +22,6 @@ db.on('error', () => {
 
 const Manufacturers = mongoose.model('Manufacturers', manufacturerSchema);
 const Devices = mongoose.model('Devices', deviceSchema);
+const Patients = mongoose.model('Patients', patientSchema);
 
-export { Manufacturers, Devices };
+export { Manufacturers, Devices, Patients };

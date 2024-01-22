@@ -1,21 +1,45 @@
 import PropTypes from 'prop-types';
-
-// material-ui
-
-// third-party
+import { useState, useEffect, useCallback } from 'react';
 import Chart from 'react-apexcharts';
-
-// project imports
 import MainCard from 'ui-component/cards/MainCard';
-
-// assets
-
-// =========================|| CONVERSIONS CHART CARD ||========================= //
-// ==============================|| WIDGET - CONVERSION CHART ||============================== //
+import axios from 'axios';
 
 // ==============================|| WIDGET - Gender CHART ||============================== //
-const GenderChart = ({ gender }) => {
-    console.log('GenderChart:', gender);
+
+const GenderChart = () => {
+    const [gender, setGender] = useState([0, 0]);
+
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await axios.post('http://localhost:8632/graphql', {
+                query: `{
+                    getPatients {
+                        gender
+                    }
+                }`
+            });
+
+            let maleCount = 0;
+            let femaleCount = 0;
+
+            response.data.data?.getPatients.forEach((item) => {
+                if (item.gender === 'M') {
+                    maleCount++;
+                } else if (item.gender === 'F') {
+                    femaleCount++;
+                }
+            });
+
+            setGender([maleCount, femaleCount]);
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
     const chartData = {
         height: 228,
         type: 'donut',
@@ -40,7 +64,7 @@ const GenderChart = ({ gender }) => {
                 }
             }
         },
-        series: [gender[0], gender[1]]
+        series: gender
     };
 
     return (
