@@ -23,13 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the /questionnaire api's
@@ -67,10 +61,21 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/submitquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Questionnaire> createQuestionnaire(@RequestBody QuestionnaireRequest request) {
 
         return new ResponseEntity<>(openCDXQuestionnaireService.createQuestionnaire(request), HttpStatus.OK);
+    }
+
+    /**
+     * Update Questionnaire Rest API
+     * @param request QuestionnaireRequest indicating questionnaire realted data
+     * @return SubmissionResponse with the message.
+     */
+    @PutMapping(value = "/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Questionnaire> updateQuestionnaire(@RequestBody QuestionnaireRequest request) {
+
+        return new ResponseEntity<>(openCDXQuestionnaireService.updateQuestionnaire(request), HttpStatus.OK);
     }
 
     /**
@@ -78,7 +83,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param questionnaireId GetQuestionnaireRequest indicating questionnaire realted data
      * @return Questionnaire with the message.
      */
-    @GetMapping(value = "/submittedquestionnaire/{Id}")
+    @GetMapping(value = "/questionnaire/{Id}")
     public ResponseEntity<Questionnaire> getQuestionnaire(@PathVariable(value = "Id") String questionnaireId) {
         Questionnaire questionnaire = openCDXQuestionnaireService.getSubmittedQuestionnaire(
                 GetQuestionnaireRequest.newBuilder().setId(questionnaireId).build());
@@ -90,7 +95,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetSubmittedQuestionnaireList indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @PostMapping(value = "/submittedquestionnaires")
+    @PostMapping(value = "/questionnaire/list")
     public ResponseEntity<Questionnaires> getQuestionnaires(@RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getSubmittedQuestionnaireList(request), HttpStatus.OK);
     }
@@ -100,7 +105,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/deletequestionnaire/{Id}")
+    @DeleteMapping(value = "/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
@@ -120,7 +125,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/system/createquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/system/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> createQuestionnaireData(@RequestBody QuestionnaireDataRequest request) {
 
         return new ResponseEntity<>(
@@ -138,7 +143,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/system/updatequestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/system/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> updateQuestionnaireData(@RequestBody QuestionnaireDataRequest request) {
 
         return new ResponseEntity<>(
@@ -169,7 +174,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetQuestionnaireListRequest indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @PostMapping(value = "/system/questionnaires")
+    @PostMapping(value = "/system/questionnaire/list")
     public ResponseEntity<SystemQuestionnaireData> getQuestionnaireDataList(
             @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getQuestionnaireDataList(request), HttpStatus.OK);
@@ -180,7 +185,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/system/deletequestionnaire/{Id}")
+    @DeleteMapping(value = "/system/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteSystemQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
@@ -200,7 +205,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/client/createquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/client/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> createClientQuestionnaireData(
             @RequestBody ClientQuestionnaireDataRequest request) {
 
@@ -219,7 +224,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/client/updatequestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/client/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> updateClientQuestionnaireData(
             @RequestBody ClientQuestionnaireDataRequest request) {
 
@@ -251,7 +256,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetClientQuestionnaireListRequest indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @PostMapping(value = "/client/questionnaires")
+    @PostMapping(value = "/client/questionnaire/list")
     public ResponseEntity<ClientQuestionnaireData> getClientQuestionnaireDataList(
             @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getClientQuestionnaireDataList(request), HttpStatus.OK);
@@ -262,7 +267,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/client/deletequestionnaire/{Id}")
+    @DeleteMapping(value = "/client/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteClientQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
@@ -282,7 +287,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/user/createquestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> createUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
@@ -301,7 +306,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request QuestionnaireRequest indicating questionnaire realted data
      * @return SubmissionResponse with the message.
      */
-    @PostMapping(value = "/user/updatequestionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/user/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SubmissionResponse> updateUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
@@ -333,7 +338,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request GetUserQuestionnaireListRequest indicating questionnaire realted data
      * @return Questionnaires with the message.
      */
-    @PostMapping(value = "/user/questionnaires")
+    @PostMapping(value = "/user/questionnaire/list")
     public ResponseEntity<UserQuestionnaireData> getUserQuestionnaireDataList(
             @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireDataList(request), HttpStatus.OK);
@@ -344,7 +349,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param id Identifier of questionnaire to delete.
      * @return SubmissionResponse with the message.
      */
-    @DeleteMapping(value = "/user/deletequestionnaire/{Id}")
+    @DeleteMapping(value = "/user/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteUserQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
                 SubmissionResponse.newBuilder()
