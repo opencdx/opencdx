@@ -95,6 +95,8 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 OpenCDXQuestionnaireModel.builder().id(argument).build());
                     }
                 });
+        Mockito.when(openCDXQuestionnaireRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
         Mockito.when(this.openCDXQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -171,6 +173,20 @@ class OpenCDXRestQuestionnaireControllerTest {
     void testSubmitQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
                 .perform(post("/questionnaire")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(QuestionnaireRequest.newBuilder()
+                                .setQuestionnaire(Questionnaire.newBuilder()
+                                        .setId(ObjectId.get().toHexString())
+                                        .build())
+                                .build())))
+                .andReturn();
+        Assertions.assertNotNull(mv.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testUpdateQuestionnaire() throws Exception {
+        MvcResult mv = this.mockMvc
+                .perform(put("/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireRequest.newBuilder()
                                 .setQuestionnaire(Questionnaire.newBuilder()
