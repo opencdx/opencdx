@@ -167,16 +167,15 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
 
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
-                .setQuestionnaire(
-                        Questionnaire.newBuilder()
-                                .setRuleId(ObjectId.get().toHexString())
-                                .setCreated(Timestamp.newBuilder().setSeconds(50000).build())
-                                .setModified(Timestamp.newBuilder().setSeconds(600000).build())
-                                .setCreator(ObjectId.get().toHexString())
-                                .setModifier(ObjectId.get().toHexString())
-                                .setResourceType("form")
-                                .addAllItem(List.of(QuestionnaireItem.getDefaultInstance()))
-                                .setTitle("Questionnaire"))
+                .setQuestionnaire(Questionnaire.newBuilder()
+                        .setRuleId(ObjectId.get().toHexString())
+                        .setCreated(Timestamp.newBuilder().setSeconds(50000).build())
+                        .setModified(Timestamp.newBuilder().setSeconds(600000).build())
+                        .setCreator(ObjectId.get().toHexString())
+                        .setModifier(ObjectId.get().toHexString())
+                        .setResourceType("form")
+                        .addAllItem(List.of(QuestionnaireItem.getDefaultInstance()))
+                        .setTitle("Questionnaire"))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -249,8 +248,10 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
 
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
-                .setQuestionnaire(
-                        Questionnaire.newBuilder().setId(ObjectId.get().toHexString()).setResourceType("form").setTitle("Questionnaire"))
+                .setQuestionnaire(Questionnaire.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .setResourceType("form")
+                        .setTitle("Questionnaire"))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -267,7 +268,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         this.openCDXQuestionnaireRepository = Mockito.mock(OpenCDXQuestionnaireRepository.class);
 
-        Mockito.when(this.openCDXQuestionnaireRepository.existsById(Mockito.any(ObjectId.class))).thenReturn(false);
+        Mockito.when(this.openCDXQuestionnaireRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(false);
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
@@ -278,8 +280,10 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
 
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
-                .setQuestionnaire(
-                        Questionnaire.newBuilder().setId(ObjectId.get().toHexString()).setResourceType("form").setTitle("Questionnaire"))
+                .setQuestionnaire(Questionnaire.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .setResourceType("form")
+                        .setTitle("Questionnaire"))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -355,6 +359,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void getSubmittedQuestionnaireListWithSort() {
         StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
@@ -378,6 +383,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaires.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
+
     @Test
     void getSubmittedQuestionnaireListWithSortDesc() {
         StreamObserver<Questionnaires> responseObserver = Mockito.mock(StreamObserver.class);
@@ -443,11 +449,13 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 OpenCDXNotAcceptable.class,
                 () -> this.openCDXGrpcQuestionnaireController.deleteSubmittedQuestionnaire(request, responseObserver));
     }
+
     @Test
     void deleteSubmittedQuestionnaireWithOutFinding() throws JsonProcessingException {
 
         this.openCDXQuestionnaireRepository = Mockito.mock(OpenCDXQuestionnaireRepository.class);
-        Mockito.when(this.openCDXQuestionnaireRepository.findById(Mockito.any(ObjectId.class))).thenReturn(Optional.empty());
+        Mockito.when(this.openCDXQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
                 this.openCDXAuditService, this.objectMapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
@@ -456,8 +464,9 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        DeleteQuestionnaireRequest request =
-                DeleteQuestionnaireRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
+        DeleteQuestionnaireRequest request = DeleteQuestionnaireRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Executed")
