@@ -8,6 +8,7 @@ import { systemVariables } from '../../store/constant';
 
 const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
     const formData = JSON.parse(localStorage.getItem('anf-form'));
+
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
@@ -23,7 +24,7 @@ const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, 
                                     <TextField
                                         {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
                                         fullWidth
-                                        value={systemVariables['subject_of_information'].subjectOfRecord}
+                                        value={systemVariables['subject_of_information'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
                                         placeholder="Enter Subject Of Information"
                                     />
                                 ) : (

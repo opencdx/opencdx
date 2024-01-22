@@ -7,7 +7,6 @@ import { FormControl, Grid, MenuItem, Select, TextField } from '@mui/material';
 import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
 import { Controller } from 'react-hook-form';
-import { ExpressionType } from '../TabComponents/ExpressionType';
 
 import { systemVariables } from '../../store/constant';
 
@@ -41,6 +40,14 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         <InputLabel horizontal>Status</InputLabel>
                     </Grid>
                     <Grid item xs={12} sm={9} lg={6}>
+                        {componentType ? (
+                             <TextField
+                             {...register(`test.${index}.item.${currentIndex}.choice`)}
+                             fullWidth
+                             placeholder="Enter Type Information"
+                             value={JSON.stringify(systemVariables['status'])}
+
+                         />) : (
                         <FormControl fullWidth>
                             <Controller
                                 name={`test.${index}.item.${currentIndex}.status`}
@@ -54,11 +61,9 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                                     </Select>
                                 )}
                             />
-                        </FormControl>
+                        </FormControl>)}
                     </Grid>
-                    <Grid item xs={12} sm={3} lg={12} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
-                        <ExpressionType register={register} index={index} currentIndex={currentIndex} tab="status" ref={ref} />
-                    </Grid>
+                   
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Result</InputLabel>
                     </Grid>
@@ -73,7 +78,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                                     {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
                                     fullWidth
                                     placeholder="Enter Health Risk Information"
-                                    value={systemVariables['circumstanceChoice'][0].healthRisk}
+                                    value={systemVariables['circumstanceChoice'][0].healthRisk.replace('XXXXX', '')}
                                 />
                             ) : (
                                 <TextField

@@ -27,7 +27,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
             case 'integer':
                 return ['Any value', 'Value', 'Not Answered'];
             case 'logical':
-                return ['=', '!=', 'Equal', 'Not Equal'];
+                return ['Equal', 'Not Equal'];
             default:
                 return ['Not Answered'];
         }
