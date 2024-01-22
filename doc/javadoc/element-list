@@ -41,6 +41,7 @@ cdx.opencdx.communications.security
 cdx.opencdx.communications.service
 cdx.opencdx.communications.service.impl
 cdx.opencdx.communications.tasks
+cdx.opencdx.config
 cdx.opencdx.connected.test
 cdx.opencdx.connected.test.config
 cdx.opencdx.connected.test.controller
@@ -49,6 +50,10 @@ cdx.opencdx.connected.test.repository
 cdx.opencdx.connected.test.security
 cdx.opencdx.connected.test.service
 cdx.opencdx.connected.test.service.impl
+cdx.opencdx.discovery
+cdx.opencdx.gateway
+cdx.opencdx.gateway.config
+cdx.opencdx.gateway.filter
 cdx.opencdx.helloworld
 cdx.opencdx.helloworld.config
 cdx.opencdx.helloworld.controller
@@ -91,6 +96,8 @@ cdx.opencdx.protector.service.impl
 cdx.opencdx.questionnaire
 cdx.opencdx.questionnaire.config
 cdx.opencdx.questionnaire.controller
+cdx.opencdx.questionnaire.model
+cdx.opencdx.questionnaire.repository
 cdx.opencdx.questionnaire.security
 cdx.opencdx.questionnaire.service
 cdx.opencdx.questionnaire.service.impl
