@@ -68,7 +68,8 @@ message QuestionnaireItem {
  */
 message QuestionnaireItemExtension {
   optional string url = 1; // URL for the extension.
-  ValueCodeableConcept value_codeable_concept = 2; // Value for code-able concept extensions.
+  optional ValueCodeableConcept value_codeable_concept = 2; // Value for code-able concept extensions.
+  optional ValueCoding value_coding = 3;
 }
 
 /**
@@ -92,7 +93,7 @@ message Coding {
  * Represents an answer option for a questionnaire item.
  */
 message QuestionnaireItemAnswerOption {
-  ValueCoding value_coding = 1; // Coding value for answer options.
+  optional ValueCoding value_coding = 1; // Coding value for answer options.
   optional bool initial_selected = 2; // Indicates if the option is initially selected.
 }
 
@@ -101,20 +102,14 @@ message QuestionnaireItemAnswerOption {
  */
 message ValueCoding {
   optional string display = 1; // Display text for the coding value.
+  optional string code = 2;
 }
 
 /**
  * Represents initial values for a questionnaire item.
  */
 message QuestionnaireItemInitial {
-  ValueBoolean value_boolean = 1; // Initial boolean value for the item.
-}
-
-/**
- * Represents a boolean value.
- */
-message ValueBoolean {
-  optional bool value_boolean = 1; // Boolean value.
+  optional bool value_boolean = 1; // Initial boolean value for the item.
 }
 
 /*
