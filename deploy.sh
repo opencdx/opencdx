@@ -152,8 +152,6 @@ run_jmeter_tests() {
     mkdir -p build/reports
 
     jmeter -p "./jmeter/$properties_file.properties" -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
-
-    open_url "build/reports/jmeter/index.html"
 }
 
 # Usage: open_url <url>
@@ -193,9 +191,11 @@ open_reports() {
     case $1 in
     jmeter)
         run_jmeter_tests smoke
+        open_url "build/reports/jmeter/index.html"
         ;;
     jmeter_performance)
         run_jmeter_tests performance
+        open_url "build/reports/jmeter/index.html"
         ;;
     jmeter_edit)
         handle_info "Opening JMeter Test Script in Editor"
@@ -244,6 +244,13 @@ open_reports() {
         handle_info "Creating Dependency Check Report..."
         mkdir -p doc/dependency
         cp build/reports/dependency-check-report.html ./doc/dependency
+        handle_info "Running Smoke Test...."
+        mkdir -p doc/jmeter
+
+        run_jmeter_tests smoke
+
+        mv build/reports/jmeter ./doc
+
         ;;
     proto)
         handle_info "Opening Proto Doc..."
@@ -739,7 +746,7 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
     fi
 fi
 
-if [ "$no_ui" = false ]; then
+if [ "$no_ui" = false ] && [ "$skip" = false ]; then
   # Change directory to opencdx-dashboard
   cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
 
@@ -774,6 +781,7 @@ if [ "$no_menu" = false ]; then
             handle_info "Waiting to run $jmeter_test tests"
             countdown 120
             run_jmeter_tests $jmeter_test
+            open_url "build/reports/jmeter/index.html"
         fi
     fi
 

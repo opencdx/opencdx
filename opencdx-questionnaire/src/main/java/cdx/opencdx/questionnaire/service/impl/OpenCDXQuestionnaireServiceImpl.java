@@ -49,8 +49,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String OBJECT = "OBJECT";
     private static final String AUTHORIZATION_CONTROL = "AUTHORIZATION_CONTROL: 131";
     private static final String ACTIVE = "Active";
-    public static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
-    public static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
+    private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
+    private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
