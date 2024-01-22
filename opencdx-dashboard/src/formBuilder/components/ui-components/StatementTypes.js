@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
 import IconRestore from '@mui/icons-material/Restore';
 
-const StatementTypes = forwardRef(({ register, index, control, item }) => {
+const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -86,7 +86,9 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
             case 'main_statement_questions':
                 return (
                     <Grid item xs={12} lg={12}>
-                        <Typography variant="subtitle2">Select Main Statement for the Associated Question</Typography>
+                        <Typography variant="subtitle2" sx={{ color: 'red' }}>
+                            Pending: Select Main Statement for the Associated Question
+                        </Typography>
                         <Grid item xs={12} lg={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                             {item?.markedMainANFStatement &&
                                 item?.markedMainANFStatement.map((item, indexItem) => (
@@ -134,7 +136,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }) => {
         [renderList]
     );
     return (
-        <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
+        <Grid item xs={12} lg={12} sx={{ pt: 2 }} ref={ref}>
             <SubCard
                 title="Component Type"
                 secondary={

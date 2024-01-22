@@ -11,7 +11,7 @@ const FormViewer = () => {
 
     useEffect(() => {
         const values = Object.keys(localStorage)
-            .filter(key => key.includes('form-v'))
+            .filter((key) => key.includes('form-v'))
             .sort();
         setForm(values);
     }, []);
@@ -28,13 +28,7 @@ const FormViewer = () => {
         <MainCard title="Compare Forms">
             <Grid container spacing={gridSpacing}>
                 <Grid item xs={12} sm={6}>
-                    <TextField
-                        select
-                        label="Select a form"
-                        variant="outlined"
-                        fullWidth
-                        onChange={handleOldDataChange}
-                    >
+                    <TextField select label="Select a form" variant="outlined" fullWidth onChange={handleOldDataChange}>
                         {form?.map((template, index) => (
                             <MenuItem key={index} value={template}>
                                 {template}
@@ -43,13 +37,7 @@ const FormViewer = () => {
                     </TextField>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField
-                        select
-                        label="Select a form"
-                        variant="outlined"
-                        fullWidth
-                        onChange={handleNewDataChange}
-                    >
+                    <TextField select label="Select a form" variant="outlined" fullWidth onChange={handleNewDataChange}>
                         {form?.map((template, index) => (
                             <MenuItem key={index} value={template}>
                                 {template}

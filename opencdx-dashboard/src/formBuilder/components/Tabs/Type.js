@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, TextField } from '@mui/material';
+import { Grid,
+    TextField,
+    InputLabel
+ } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
-import { InputLabel } from '../ui-components/InputLabel';
+import { systemVariables } from '../../store/constant';
 
-const Type = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
+const Type = React.forwardRef(({ register, index, currentIndex }, ref) => {
+    const formData = JSON.parse(localStorage.getItem('anf-form'));
+    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
@@ -16,11 +21,22 @@ const Type = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
                                 <InputLabel horizontal>Type</InputLabel>
                             </Grid>
                             <Grid item xs={12} sm={9} lg={6}>
-                                <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.${tab}.type`)}
+                                {componentType ? (
+                                    <TextField
+                                    {...register(`test.${index}.item.${currentIndex}.type`)}
+                                    fullWidth
+                                    placeholder="Enter Type Information"
+                                    value={JSON.stringify(systemVariables['status'])}
+
+                                />
+                                ) : (
+                                    <TextField
+                                    {...register(`test.${index}.item.${currentIndex}.type`)}
                                     fullWidth
                                     placeholder="Enter Type Information"
                                 />
+                                )}
+                               
                             </Grid>
                         </Grid>
                     </Grid>
@@ -32,7 +48,6 @@ const Type = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
 Type.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
-    currentIndex: PropTypes.number,
-    tab: PropTypes.string
+    currentIndex: PropTypes.number
 };
 export { Type };
