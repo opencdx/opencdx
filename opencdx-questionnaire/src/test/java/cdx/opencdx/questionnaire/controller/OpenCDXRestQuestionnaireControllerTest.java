@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.questionnaire.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -172,7 +170,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testSubmitQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/submitquestionnaire")
+                .perform(post("/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireRequest.newBuilder()
                                 .setQuestionnaire(Questionnaire.newBuilder()
@@ -187,7 +185,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     void testGetSubmittedQuestionnaire() throws Exception {
         String id = ObjectId.get().toHexString();
         MvcResult mv = this.mockMvc
-                .perform(get("/submittedquestionnaire/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(get("/questionnaire/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
         Assertions.assertEquals(
                 "{\"id\":\"" + id + "\",\"item\":[]}", mv.getResponse().getContentAsString());
@@ -196,7 +194,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testGetSubmittedQuestionnaireList() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/submittedquestionnaires")
+                .perform(post("/questionnaire/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(GetQuestionnaireListRequest.newBuilder()
                                 .setPagination(Pagination.newBuilder()
@@ -211,7 +209,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/deletequestionnaire/639")
+                .perform(delete("/questionnaire/639")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("639")
@@ -226,7 +224,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testCreateSystemQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/system/createquestionnaire")
+                .perform(post("/system/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireDataRequest.newBuilder()
                                 .setQuestionnaireData(QuestionnaireData.newBuilder()
@@ -242,7 +240,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testUpdateSystemQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/system/updatequestionnaire")
+                .perform(put("/system/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireDataRequest.newBuilder()
                                 .setQuestionnaireData(QuestionnaireData.newBuilder()
@@ -269,7 +267,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteSystemQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/system/deletequestionnaire/789")
+                .perform(delete("/system/questionnaire/789")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("789")
@@ -284,7 +282,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testCreateClientQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/client/createquestionnaire")
+                .perform(post("/client/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(ClientQuestionnaireDataRequest.newBuilder()
                                 .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
@@ -301,7 +299,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testUpdateClientQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/client/updatequestionnaire")
+                .perform(put("/client/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(ClientQuestionnaireDataRequest.newBuilder()
                                 .setClientQuestionnaireData(ClientQuestionnaireData.newBuilder()
@@ -332,7 +330,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteClientQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/client/deletequestionnaire/789")
+                .perform(delete("/client/questionnaire/789")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("789")
@@ -347,7 +345,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testCreateUserQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/user/createquestionnaire")
+                .perform(post("/user/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(UserQuestionnaireDataRequest.newBuilder()
                                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
@@ -363,7 +361,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testUpdateUserQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(post("/user/updatequestionnaire")
+                .perform(put("/user/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(UserQuestionnaireDataRequest.newBuilder()
                                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
@@ -391,7 +389,7 @@ class OpenCDXRestQuestionnaireControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/user/questionnaires", "/system/questionnaires", "/client/questionnaires"})
+    @ValueSource(strings = {"/user/questionnaire/list", "/system/questionnaire/list", "/client/questionnaire/list"})
     void testGetUserQuestionnaires(String url) throws Exception {
         MvcResult mv = this.mockMvc
                 .perform(post(url)
@@ -401,6 +399,14 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .andReturn();
         Assertions.assertEquals(
                 "{\"questionnaireData\":[{\"id\":\"1\",\"state\":\"Active\"},{\"id\":\"2\",\"state\":\"Active\"}]}",
+                mv.getResponse().getContentAsString());
+    }
+
+    @Test
+    void testDeleteUserQuestionnaire() throws Exception {
+        MvcResult mv = this.mockMvc.perform(delete("/user/questionnaire/777")).andReturn();
+        Assertions.assertEquals(
+                "{\"success\":true,\"message\":\"Executed DeleteUserQuestionnaire operation.\"}",
                 mv.getResponse().getContentAsString());
     }
 }

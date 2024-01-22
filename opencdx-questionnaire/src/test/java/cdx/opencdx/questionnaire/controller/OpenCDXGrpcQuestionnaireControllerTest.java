@@ -99,6 +99,8 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                                 OpenCDXQuestionnaireModel.builder().id(argument).build());
                     }
                 });
+        Mockito.when(openCDXQuestionnaireRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
         Mockito.when(this.openCDXQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXQuestionnaireModel.builder()
@@ -173,6 +175,27 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 .build();
 
         this.openCDXGrpcQuestionnaireController.createQuestionnaire(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateQuestionnaire() {
+        StreamObserver<Questionnaire> responseObserver = Mockito.mock(StreamObserver.class);
+
+        QuestionnaireRequest request = QuestionnaireRequest.newBuilder()
+                .setQuestionnaire(Questionnaire.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .setResourceType("form")
+                        .setTitle("Questionnaire"))
+                .build();
+        SubmissionResponse response = SubmissionResponse.newBuilder()
+                .setSuccess(true)
+                .setMessage("Executed")
+                .build();
+
+        this.openCDXGrpcQuestionnaireController.updateQuestionnaire(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(Questionnaire.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();

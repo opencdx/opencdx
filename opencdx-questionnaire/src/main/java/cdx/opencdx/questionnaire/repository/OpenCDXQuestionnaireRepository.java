@@ -19,7 +19,6 @@ import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-
 /**
  * The OpenCDXQuestionnaireRepository interface is responsible for managing and accessing
  * OpenCDXQuestionnaireModel objects. It extends the MongoRepository interface, which provides
