@@ -33,7 +33,7 @@ const observationAttributes = [
     { observationCategory: 'General', label: 'encounter', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
 
     // Timing Attributes
-    { observationCategory: 'Timing', label: 'effective_x_', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
+    { observationCategory: 'Timing', label: 'effective', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
     { observationCategory: 'Timing', label: 'issued', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
 
     // Context Attributes
@@ -43,7 +43,7 @@ const observationAttributes = [
     // Value and Interpretation Attributes
     {
         observationCategory: 'Value and Interpretation',
-        label: 'value_x_',
+        label: 'value',
         options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
     },
     {
@@ -142,7 +142,7 @@ const observationAttributes = [
     },
     {
         observationCategory: 'Relationship',
-        label: 'component.value_x_',
+        label: 'component.value',
         options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
     },
     {
