@@ -21,7 +21,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to retry a certain operation.
+ * Annotation used to mark methods that should be retried in case an exception is thrown.
+ * This annotation should be applied to methods only.
+ * <p>
+ * Example usage:
+ * <pre>
+ * {@code @RetryAnnotation}
+ * public void retryTestMethod() {
+ *     // Method code goes here
+ * }
+ * </pre>
+ *
+ * In this example, the retryTestMethod() method will be retried if an exception is thrown.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})

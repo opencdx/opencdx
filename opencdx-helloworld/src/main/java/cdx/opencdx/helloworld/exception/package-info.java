@@ -1,8 +1,7 @@
 /**
- * This is the package for maintaining exceptions.
+ * This package is dedicated to exception classes.
  * <p>
- * Exceptions should be maintained here for ease of lookup and access to quickly find a customer
- * exception that has been defined.
+ * The exceptions are classified and isolated for simpler identification and retrieval.
  * </p>
  *
  * @author Safe Health LLC.

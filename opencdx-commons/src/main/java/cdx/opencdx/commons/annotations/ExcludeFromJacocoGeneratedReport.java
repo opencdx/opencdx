@@ -21,8 +21,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to exclude the class or method from being calculated into
- * the JaCoCo coverage report.  Should only be used sparingly.
+ * Annotation used to instruct Jacoco to exclude the annotated method or class
+ * from the generated code coverage report.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})

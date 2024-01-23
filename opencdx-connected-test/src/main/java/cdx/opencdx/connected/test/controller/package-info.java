@@ -1,8 +1,7 @@
 /**
- * This is the package for maintaining controller for the REST API in spring
+ * This package is dedicated to the maintenance of the REST and gRPC API controllers.
  * <p>
- * Spring Controller files should be maintained in this package. These consist of the Rest API
- * for this application.
+ * The controller files, which constitute the Rest API for this application, are maintained here.
  * </p>
  *
  * @author Safe Health LLC.

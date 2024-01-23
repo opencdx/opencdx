@@ -162,12 +162,6 @@ class MediaTest {
     }
 
     @Test
-    void testMediaFilter() throws JsonProcessingException {
-        MediaFilter mediaFilter = MediaFilter.newBuilder().setFilter("filter").build();
-        log.info("MediaFilter: {}", this.mapper.writeValueAsString(mediaFilter));
-    }
-
-    @Test
     void testUpdateMediaRequest() throws JsonProcessingException {
         UpdateMediaRequest updateMediaRequest = UpdateMediaRequest.newBuilder()
                 .setId("id")

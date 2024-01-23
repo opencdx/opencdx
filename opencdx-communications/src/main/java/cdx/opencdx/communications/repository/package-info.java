@@ -1,8 +1,7 @@
 /**
- * This is the package for maintaining Hibernate Repositories or DAO (Data Access Objects)
- * <p>
- * Hibernate repositories should be located here for quick identification and lookup.
- * </p>
+ * This package is dedicated to housing Hibernate-based repositories or Data Access Objects (DAOs).
+ *
+ * <p>All Hibernate repositories are proposed to be placed in this package to ensure their swift identification and retrieval.</p>
  *
  * @author Safe Health LLC.
  * @version 1.0

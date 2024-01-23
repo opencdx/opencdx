@@ -1,8 +1,8 @@
 /**
- * This is the main configuration files for spring
+ * This is the principal configuration file for Spring.
  * <p>
- * Spring Configuration files should be maintained in this package. Security files are the exception
- * as they are maintained in a separate package.
+ * All Spring configuration files should be kept in this package. The only exception pertains to security files,
+ * which are maintained in a separate package.
  * </p>
  *
  * @author Safe Health LLC.
