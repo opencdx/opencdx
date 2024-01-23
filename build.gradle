@@ -107,14 +107,18 @@ otsSwInfo {
 }
 
 def exportedProjects = [
+        ":opencdx-admin",
         ":opencdx-anf",
         ":opencdx-audit",
         ":opencdx-classification",
         ":opencdx-client",
         ":opencdx-commons",
         ":opencdx-communications",
+        ":opencdx-config",
         ":opencdx-connected-test",
+        ":opencdx-discovery",
         ":opencdx-iam",
+        ":opencdx-gateway",
         ":opencdx-media",
         ":opencdx-predictor",
         ":opencdx-protector",
