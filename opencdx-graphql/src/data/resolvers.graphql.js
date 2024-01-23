@@ -16,7 +16,7 @@ export const resolvers = {
     },
     findAManufacturer: async (root, { id }) => {
       try {
-        const manufacturer = await Manufacturers.find({ _id: id });
+        const manufacturer = await Manufacturers.findOne({ _id: id });
         return manufacturer;
       } catch (err) {
         reject(err)
@@ -32,7 +32,7 @@ export const resolvers = {
     },
     findADevice: async (root, { id }) => {
       try {
-        const device = await Devices.find({ _id: id });
+        const device = await Devices.findOne({ _id: id });
         return device;
       } catch (err) {
         reject(err)
@@ -48,7 +48,7 @@ export const resolvers = {
     },
     findAPatient: async (root, { id }) => {
       try {
-        const patient = await Patients.find({ _id: id });
+        const patient = await Patients.findOne({ _id: id });
         return patient;
       } catch (err) {
         reject(err)
