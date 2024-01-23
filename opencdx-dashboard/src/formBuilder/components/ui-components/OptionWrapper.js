@@ -27,7 +27,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
             case 'integer':
                 return ['Any value', 'Value', 'Not Answered'];
             case 'logical':
-                return ['=', '!=', 'Equal', 'Not Equal'];
+                return ['Equal', 'Not Equal'];
             default:
                 return ['Not Answered'];
         }
@@ -117,7 +117,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                     </Grid>
                 )}
             </Grid>
-            <Grid container spacing={1} xs={12} lg={12} sx={{ pt: 2 }}>
+            <Grid container spacing={1} sx={{ pt: 2 }}>
                 <Grid item xs={12} lg={12}>
                     <AccordianWrapper title="Anf Statement">
                         <CustomTabs currentIndex={0} {...{ control, register, index, item, getValues }} />
@@ -163,7 +163,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
                                             }}
-                                            id={`test.${index}.item.${i}.answerField`}
+                                            id={`test.${index}.item.${i + 1}.answerField`}
                                         >
                                             {getOptions(item.type).map((option, index) => (
                                                 <MenuItem key={index} value={option}>
@@ -179,7 +179,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                     <Grid style={{ display: 'flex', alignItems: 'baseline' }}>
                         <Grid item xs={12} lg={4} sx={{ p: 2 }}>
                             <AccordianWrapper title="Anf Statement">
-                                <CustomTabs currentIndex={i} {...{ control, register, index, item, getValues }} />
+                                <CustomTabs currentIndex={i + 1} {...{ control, register, index, item, getValues }} />
                             </AccordianWrapper>
                         </Grid>
                         <Button variant="outlined" type="button" onClick={() => remove(index)}>

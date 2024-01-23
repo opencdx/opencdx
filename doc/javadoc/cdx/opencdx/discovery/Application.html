@@ -95,12 +95,12 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">The Application class is the entry point for the application. It is responsible for bootstrapping the application
  and starting the Eureka server.
-
+ <p>
  The class is annotated with @EnableEurekaServer, which enables the Eureka server functionality. It is also annotated
  with @SpringBootApplication, which is a convenience annotation that combines @Configuration, @EnableAutoConfiguration,
  and @ComponentScan annotations. This annotation scans the classpath for other Spring components, configurations,
  and services, and starts the server.
-
+ <p>
  The main() method is the starting point of the application. It calls SpringApplication.run() method passing the
  Application class and the command-line arguments. This method uses Spring Boot to bootstrap and launch the application.</div>
 </section>

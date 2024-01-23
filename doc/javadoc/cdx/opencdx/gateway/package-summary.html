@@ -69,13 +69,14 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="package-signature">package <span class="element-name">cdx.opencdx.gateway</span></div>
 <section class="package-description" id="package-description">
-<div class="block">This is the main spring Application and supporting files
- <p>
- [Insert Description of Service]
- </p></div>
+<div class="block">The OpenCDX Gateway, built on the Spring Gateway, primarily routes REST and gRPC requests to the appropriate microservice for further processing.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0</dd>
+<dt>Implementation Requirements:</dt>
+<dd>Gateway's gRPC routes require manual registration via modifications in the application.yml file.</dd>
+<dt>Implementation Note:</dt>
+<dd>One distinctive feature of this class is that it prevents external calls to actuator endpoints.</dd>
 </dl>
 </section>
 <section class="summary">
@@ -88,7 +89,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><a href="config/package-summary.html">cdx.opencdx.gateway.config</a></div>
 <div class="col-last even-row-color">
-<div class="block">This is the main configuration files for spring</div>
+<div class="block">This is the principal configuration file for Spring.</div>
 </div>
 <div class="col-first odd-row-color"><a href="filter/package-summary.html">cdx.opencdx.gateway.filter</a></div>
 <div class="col-last odd-row-color">

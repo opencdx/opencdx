@@ -339,9 +339,6 @@ start_docker() {
 
     handle_info "Starting Docker services using $1..."
     (cd docker && docker compose --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
-
-    # Store the last used Docker Compose filename
-    echo "$1" > last_docker_compose_filename.txt
 }
 
 # Function to stop Docker services

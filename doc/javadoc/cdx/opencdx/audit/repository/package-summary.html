@@ -69,10 +69,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="package-signature">package <span class="element-name">cdx.opencdx.audit.repository</span></div>
 <section class="package-description" id="package-description">
-<div class="block">This is the package for maintaining Hibernate Repositories or DAO (Data Access Objects)
- <p>
- Hibernate repositories should be located here for quick identification and lookup.
- </p></div>
+<div class="block">This package is dedicated to housing Hibernate-based repositories or Data Access Objects (DAOs).
+
+ <p>All Hibernate repositories are proposed to be placed in this package to ensure their swift identification and retrieval.</p></div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0</dd>
@@ -88,27 +87,32 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><a href="../package-summary.html">cdx.opencdx.audit</a></div>
 <div class="col-last even-row-color">
-<div class="block">This is the main spring Application and supporting files</div>
+<div class="block">The OpenCDX-Audit service performs the following key functions:
+ 
+   It notes the creation, alteration, access, and removal of PII/PHI records.
+   It logs modifications to a user's access controls.
+   It tracks alterations to the configuration of OpenCDX.
+ </div>
 </div>
 <div class="col-first odd-row-color"><a href="../config/package-summary.html">cdx.opencdx.audit.config</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This is the main configuration files for spring</div>
+<div class="block">This is the principal configuration file for Spring.</div>
 </div>
 <div class="col-first even-row-color"><a href="../controller/package-summary.html">cdx.opencdx.audit.controller</a></div>
 <div class="col-last even-row-color">
-<div class="block">This is the package for maintaining controller for the REST API in spring</div>
+<div class="block">This package is dedicated to the maintenance of the REST and gRPC API controllers.</div>
 </div>
 <div class="col-first odd-row-color"><a href="../handlers/package-summary.html">cdx.opencdx.audit.handlers</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This is the Service Interface package for defining interfaces for spring services.</div>
+<div class="block">Handlers package, containing specific handlers for various processing tasks.</div>
 </div>
 <div class="col-first even-row-color"><a href="../model/package-summary.html">cdx.opencdx.audit.model</a></div>
 <div class="col-last even-row-color">
-<div class="block">This is the package for maintaining Models for Database access with Hibernate.</div>
+<div class="block">This package is dedicated to the management of Database Models leveraging Hibernate.</div>
 </div>
 <div class="col-first odd-row-color"><a href="../security/package-summary.html">cdx.opencdx.audit.security</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This package is for security related configuration for spring</div>
+<div class="block">The purpose of this package is to encompass security-related configurations for Spring Security.</div>
 </div>
 </div>
 </div>

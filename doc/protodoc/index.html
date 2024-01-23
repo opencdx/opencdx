@@ -1118,10 +1118,6 @@
                 </li>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.media.MediaFilter"><span class="badge">M</span>MediaFilter</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.media.UpdateMediaRequest"><span class="badge">M</span>UpdateMediaRequest</a>
                 </li>
               
@@ -1442,10 +1438,6 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest"><span class="badge">M</span>UserQuestionnaireDataRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.questionnaire.ValueBoolean"><span class="badge">M</span>ValueBoolean</a>
                 </li>
               
                 <li>
@@ -11073,30 +11065,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
 
         
       
-        <h3 id="cdx.opencdx.grpc.media.MediaFilter">MediaFilter</h3>
-        <p>Media Filter</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>filter</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Filter string </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.media.UpdateMediaRequest">UpdateMediaRequest</h3>
         <p>Request for UpdateMedia.</p>
 
@@ -13473,7 +13441,7 @@ User-provided response to the item </p></td>
                 <tr>
                   <td>value_coding</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.ValueCoding">ValueCoding</a></td>
-                  <td></td>
+                  <td>optional</td>
                   <td><p>Coding value for answer options. </p></td>
                 </tr>
               
@@ -13511,8 +13479,15 @@ User-provided response to the item </p></td>
                 <tr>
                   <td>value_codeable_concept</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.ValueCodeableConcept">ValueCodeableConcept</a></td>
-                  <td></td>
+                  <td>optional</td>
                   <td><p>Value for code-able concept extensions. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value_coding</td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.ValueCoding">ValueCoding</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -13534,8 +13509,8 @@ User-provided response to the item </p></td>
               
                 <tr>
                   <td>value_boolean</td>
-                  <td><a href="#cdx.opencdx.grpc.questionnaire.ValueBoolean">ValueBoolean</a></td>
-                  <td></td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
                   <td><p>Initial boolean value for the item. </p></td>
                 </tr>
               
@@ -13780,30 +13755,6 @@ User-provided response to the item </p></td>
 
         
       
-        <h3 id="cdx.opencdx.grpc.questionnaire.ValueBoolean">ValueBoolean</h3>
-        <p></p><p>Represents a boolean value.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>value_boolean</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td>optional</td>
-                  <td><p>Boolean value. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.questionnaire.ValueCodeableConcept">ValueCodeableConcept</h3>
         <p></p><p>Represents a code-able concept value.</p>
 
@@ -13850,6 +13801,13 @@ User-provided response to the item </p></td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Display text for the coding value. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>code</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
