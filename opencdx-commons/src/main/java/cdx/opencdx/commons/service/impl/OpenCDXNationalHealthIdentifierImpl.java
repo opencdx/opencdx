@@ -35,6 +35,8 @@ public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealt
      * The default constructor is declared explicitly to prevent inadvertent instantiation of this class.
      */
     public OpenCDXNationalHealthIdentifierImpl() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+
     }
 
     /**

@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.commons.service;
 
-
 /**
  * OpenCDXHtmlSanitizer interface offers capabilities to cleanse HTML content.
  * Ideally, it is employed in scenarios where client-provided HTML requires
@@ -29,5 +28,4 @@ public interface OpenCDXHtmlSanitizer {
      * @return String comprising the cleansed HTML.
      */
     String sanitize(String html);
-
 }

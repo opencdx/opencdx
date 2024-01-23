@@ -47,5 +47,4 @@ public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
     public String sanitize(String untrustedHtml) {
         return defaultPolicy.sanitize(untrustedHtml);
     }
-
 }

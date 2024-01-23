@@ -17,7 +17,6 @@ package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 
-
 /**
  * The OpenCDXMessageService interface provides methods for subscribing to message subjects,
  * unsubscribing from message subjects, and sending messages.

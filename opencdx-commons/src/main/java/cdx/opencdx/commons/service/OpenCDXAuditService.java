@@ -18,7 +18,6 @@ package cdx.opencdx.commons.service;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 
-
 /**
  * The OpenCDXAuditService interface provides methods for recording various audit events.
  * This interface defines methods to record user login, logout, access changes, password changes,

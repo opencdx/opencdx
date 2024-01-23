@@ -17,7 +17,6 @@ package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 
-
 /**
  * The OpenCDXNationalHealthIdentifier interface serves as a blueprint for creating National Health ID for users in the OpenCDX system.
  *

@@ -18,7 +18,6 @@ package cdx.opencdx.commons.service;
 import java.util.List;
 import org.bson.types.ObjectId;
 
-
 /**
  * OpenCDXDocumentValidator is an interface that defines methods to validate the existence of documents in a collection or repository.
  * @implNote This is specifically setup for using MongoDB.
