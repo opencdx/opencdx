@@ -138,6 +138,7 @@ tasks.register('allJavadoc', Javadoc) {
         tags 'apiNote:a:API Note:'
         tags 'implSpec:a:Implementation Requirements:'
         tags 'implNote:a:Implementation Note:'
+        overview './overview.html'
     }
     options.addBooleanOption("Xwerror", true)
 }
