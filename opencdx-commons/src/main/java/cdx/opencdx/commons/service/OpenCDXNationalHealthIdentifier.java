@@ -17,16 +17,20 @@ package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 
+
 /**
- * Service interface for generating the National Health ID for a
- * user.
+ * The OpenCDXNationalHealthIdentifier interface serves as a blueprint for creating National Health ID for users in the OpenCDX system.
+ *
+ * @implNote The current approach involves generation of a {@link java.util.UUID} based on a user's email and further conversion to a {@link String}.
+ * @implSpec The creation of this interface is to facilitate the development of an agnostic mechanism to generate a National Health Identifier since no standard method exists currently.
+ *           Being a string, this identifier can be easily shared. Nonetheless, it is important to bear in the mind the risk of collisions, which should be prevented through proper care.
  */
 public interface OpenCDXNationalHealthIdentifier {
-
     /**
-     * Generate the National Health ID
-     * @param userModel User to generate the National Health ID for
-     * @return String containing the National Health ID.
+     * Method to generate the National Health ID for a given user.
+     *
+     * @param userModel The user for whom the National Health ID is to be generated.
+     * @return Returns a String containing the generated National Health ID.
      */
     String generateNationalHealthId(OpenCDXIAMUserModel userModel);
 }
