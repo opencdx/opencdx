@@ -69,10 +69,11 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="package-signature">package <span class="element-name">cdx.opencdx.communications</span></div>
 <section class="package-description" id="package-description">
-<div class="block">This is the main spring Application and supporting files
- <p>
- [Insert Description of Service]
- </p></div>
+<div class="block">OpenCDX Communication Microservice plays a pivotal role in enabling communication via email and SMS. It leverages a notification events system whereby events, each potentially having SMS and/or email messages affixed, are created and stored to be broadcasted upon event reception. Notification events may comprise several priority levels. Furthermore, a cron-based task runs periodically to deal with any unresolved notifications.
+
+ This service also expertly manages the communication with the CDC.
+
+ Fired by incoming messages from <a href="../commons/service/OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service"><code>OpenCDXMessageService</code></a>, it triggers both the Notification events and CDC messages.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0</dd>
@@ -88,35 +89,35 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><a href="changelog/package-summary.html">cdx.opencdx.communications.changelog</a></div>
 <div class="col-last even-row-color">
-<div class="block">This package is for change sets to be applied on startup to the database</div>
+<div class="block">This package houses change sets that are applied to the database upon startup.</div>
 </div>
 <div class="col-first odd-row-color"><a href="config/package-summary.html">cdx.opencdx.communications.config</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This is the main configuration files for spring</div>
+<div class="block">This is the principal configuration file for Spring.</div>
 </div>
 <div class="col-first even-row-color"><a href="controller/package-summary.html">cdx.opencdx.communications.controller</a></div>
 <div class="col-last even-row-color">
-<div class="block">This is the package for maintaining controller for the REST API in spring</div>
+<div class="block">This package is dedicated to the maintenance of the REST and gRPC API controllers.</div>
 </div>
 <div class="col-first odd-row-color"><a href="handlers/package-summary.html">cdx.opencdx.communications.handlers</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This is the Service Interface package for defining interfaces for spring services.</div>
+<div class="block">Handlers package, containing specific handlers for various processing tasks.</div>
 </div>
 <div class="col-first even-row-color"><a href="model/package-summary.html">cdx.opencdx.communications.model</a></div>
 <div class="col-last even-row-color">
-<div class="block">This is the package for maintaining Models for Database access with Hibernate.</div>
+<div class="block">This package is dedicated to the management of Database Models leveraging Hibernate.</div>
 </div>
 <div class="col-first odd-row-color"><a href="repository/package-summary.html">cdx.opencdx.communications.repository</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This is the package for maintaining Hibernate Repositories or DAO (Data Access Objects)</div>
+<div class="block">This package is dedicated to housing Hibernate-based repositories or Data Access Objects (DAOs).</div>
 </div>
 <div class="col-first even-row-color"><a href="security/package-summary.html">cdx.opencdx.communications.security</a></div>
 <div class="col-last even-row-color">
-<div class="block">This package is for security related configuration for spring</div>
+<div class="block">The purpose of this package is to encompass security-related configurations for Spring Security.</div>
 </div>
 <div class="col-first odd-row-color"><a href="service/package-summary.html">cdx.opencdx.communications.service</a></div>
 <div class="col-last odd-row-color">
-<div class="block">This is the Service Interface package for defining interfaces for spring services.</div>
+<div class="block">This is the Service Interface package, designed specifically for defining Spring service interfaces.</div>
 </div>
 <div class="col-first even-row-color"><a href="tasks/package-summary.html">cdx.opencdx.communications.tasks</a></div>
 <div class="col-last even-row-color">
