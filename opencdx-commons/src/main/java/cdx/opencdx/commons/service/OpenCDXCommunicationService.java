@@ -18,7 +18,10 @@ package cdx.opencdx.commons.service;
 import cdx.opencdx.grpc.communication.Notification;
 
 /**
- * Interface for sending Notificaitons as messages to OpenCDX-Communication.
+ * The OpenCDXCommunicationService interface provides methods to send notifications to the opencdx-communication system.
+ * Notifications can be sent for various events such as verifying email, changing password, and sending welcome emails.
+ * @implSpec This implementation is based on {@link cdx.opencdx.commons.service.OpenCDXMessageService}.  Any changes
+ * will require changes to {@link cdx.opencdx.communications} be modified as well.
  */
 public interface OpenCDXCommunicationService {
 

@@ -19,8 +19,10 @@ import cdx.opencdx.grpc.communication.Attachment;
 import java.util.List;
 
 /**
- * Interface to the OpenCDX Email service.  Used to send emails
- * to users.
+ * Interface for sending emails using OpenCDXEmailService.
+ * @implSpec Implement this interface using your Email system.
+ * @implNote Current implementation does not send the email, just outputs the email to logging
+ * for verification it was called, for demonstration purposes only.
  */
 public interface OpenCDXEmailService {
     /**

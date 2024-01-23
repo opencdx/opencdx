@@ -20,7 +20,10 @@ import java.util.Map;
 
 /**
  * An interface for processing a template of HTML with variable substitution
- * to generate HTML with fully substituted
+ * to generate HTML with fully substitute
+ * @implSpec Implement this interface using your SMS system.
+ * @implNote Current implementation does not send the SMS, just outputs the email to logging
+ * for verification it was called, for demonstration purposes only.
  */
 public interface OpenCDXHTMLProcessor {
     /**

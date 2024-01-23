@@ -22,7 +22,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.grpc.communication.*;
 
 /**
- * Interface for the OpenCDXCommunicationEmailService
+ * Represents a service for communicating with OpenCDX via email.
  */
 public interface OpenCDXCommunicationEmailService {
 
