@@ -23,11 +23,11 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 /**
  * The Application class is the entry point for running the Config Server application.
  * It is responsible for configuring and starting the Spring Boot application.
- *
+ * <p>
  * This class uses the following annotations:
  * - @EnableConfigServer: This annotation enables the Config Server functionality.
  * - @SpringBootApplication: This annotation is a convenience annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan.
- *
+ * <p>
  * Example usage:
  * SpringApplication.run(Application.class, args);
  */

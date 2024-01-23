@@ -95,14 +95,6 @@ message ListMediaResponse {
   repeated Media templates = 2; // List of Media
 }
 
-// TODO need to think about a more generic way to represent filtering and sorting (not a priority right now)
-
-// Media Filter
-message MediaFilter {
-  // Filter string
-  string filter = 1;
-}
-
 // Request for UpdateMedia.
 message UpdateMediaRequest {
   // Unique id for this media

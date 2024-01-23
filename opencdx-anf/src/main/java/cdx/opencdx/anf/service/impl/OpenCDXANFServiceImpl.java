@@ -42,11 +42,11 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     private static final String DOMAIN = "OpenCDXANFServiceImpl";
-    public static final String FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL =
+    private static final String FAILED_TO_CONVERT_OPEN_CDXANF_STATEMENT_MODEL =
             "Failed to convert OpenCDXANFStatementModel";
-    public static final String OBJECT = "OBJECT";
-    public static final String ANF_STATEMENT = "ANF-STATEMENT: ";
-    public static final String USERS = "users";
+    private static final String OBJECT = "OBJECT";
+    private static final String ANF_STATEMENT = "ANF-STATEMENT: ";
+    private static final String USERS = "users";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXANFStatementRepository openCDXANFStatementRepository;

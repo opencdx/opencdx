@@ -49,8 +49,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String OBJECT = "OBJECT";
     private static final String AUTHORIZATION_CONTROL = "AUTHORIZATION_CONTROL: 131";
     private static final String ACTIVE = "Active";
-    public static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
-    public static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
+    private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
+    private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -262,11 +262,11 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         Optional<OpenCDXQuestionnaireModel> model =
                 this.openCDXQuestionnaireRepository.findById(new ObjectId(request.getId()));
         if (model.isPresent()) {
-            model.get().setStatus(QuestionnaireStatus.QUESTIONNAIRE_STATUS_DELETED);
+            model.get().setStatus(QuestionnaireStatus.retired);
             this.openCDXQuestionnaireRepository.save(model.get());
             return SubmissionResponse.newBuilder()
                     .setSuccess(true)
-                    .setMessage("Status updated to deleted.")
+                    .setMessage("Status updated to retired.")
                     .build();
         }
         return SubmissionResponse.newBuilder()

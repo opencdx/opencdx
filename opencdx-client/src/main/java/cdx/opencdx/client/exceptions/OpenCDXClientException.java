@@ -24,8 +24,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * OpenCDXClientException is the grpc client exceptions.
- *
+ * Represents an exception that can occur in the OpenCDX client.
  */
 @Slf4j
 @Data

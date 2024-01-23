@@ -19,7 +19,11 @@ import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 
 /**
- * Integrated Audit service to use the Audit Aspect.
+ * The OpenCDXAuditService interface provides methods for recording various audit events.
+ * This interface defines methods to record user login, logout, access changes, password changes,
+ * PII and PHI information accesses, creations, updates, and deletions, as well as user communications.
+ * @implSpec Current implementation is based on {@link cdx.opencdx.commons.service.OpenCDXMessageService}. This can
+ * be changed to other systems if desired. However, this will require that {@link cdx.opencdx.audit} be modified as well.
  */
 public interface OpenCDXAuditService {
     /**

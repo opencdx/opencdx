@@ -310,6 +310,16 @@ class OpenCDXCommunicationClientImplTest {
     }
 
     @Test
+    void getEmailListException() {
+        EmailTemplateListRequest request = EmailTemplateListRequest.newBuilder().build();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Mockito.when(this.blockingStub.listEmailTemplates(Mockito.any(EmailTemplateListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.client.listEmailTemplates(request, openCDXCallCredentials));
+    }
+
+    @Test
     void getSMSList() {
         SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder().build();
         SMSTemplateListResponse response = SMSTemplateListResponse.newBuilder().build();
@@ -321,6 +331,16 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.listSMSTemplates(Mockito.any(SMSTemplateListRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         Notification notification = Notification.newBuilder().build();
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> this.client.listSMSTemplates(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void getSMSListException() {
+        SMSTemplateListRequest request = SMSTemplateListRequest.newBuilder().build();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Mockito.when(this.blockingStub.listSMSTemplates(Mockito.any(SMSTemplateListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         Assertions.assertThrows(
                 OpenCDXClientException.class, () -> this.client.listSMSTemplates(request, openCDXCallCredentials));
     }
@@ -339,6 +359,18 @@ class OpenCDXCommunicationClientImplTest {
         Mockito.when(this.blockingStub.listNotificationEvents(Mockito.any(NotificationEventListRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         Notification notification = Notification.newBuilder().build();
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.client.listNotificationEvents(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void getNotificationListException() {
+        NotificationEventListRequest request =
+                NotificationEventListRequest.newBuilder().build().newBuilder().build();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Mockito.when(this.blockingStub.listNotificationEvents(Mockito.any(NotificationEventListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         Assertions.assertThrows(
                 OpenCDXClientException.class,
                 () -> this.client.listNotificationEvents(request, openCDXCallCredentials));

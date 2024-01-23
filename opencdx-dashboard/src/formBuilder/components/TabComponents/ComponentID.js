@@ -6,7 +6,7 @@ import generateUUID from '../../utils/GenerateUUID';
 
 export const ComponentID = forwardRef(({ register, index, item }, ref) => {
     return (
-        <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
+        <Grid item xs={12} lg={12} sx={{ pt: 2 }} ref={ref}>
             <MainCard border>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
@@ -22,7 +22,6 @@ export const ComponentID = forwardRef(({ register, index, item }, ref) => {
                                         value={item?.componentId ? item.componentId : generateUUID()}
                                         id={'component-id' + index}
                                         name={'component-id' + index}
-                                        ref={ref}
                                         {...register(`test.${index}.componentId`)}
                                     />
                                 </FormControl>

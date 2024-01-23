@@ -1,7 +1,7 @@
 /**
- * This is the package to store custom annotations for OpenCDX.
+ * This package contains custom annotations specifically for OpenCDX.
  * <p>
- * Annotations should be stored here under for OpenCDX GRPC.
+ * These annotations are utilized within the OpenCDX GRPC.
  * </p>
  *
  * @author Safe Health LLC.

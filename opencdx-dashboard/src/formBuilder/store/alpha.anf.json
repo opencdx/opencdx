@@ -1,0 +1,466 @@
+{
+  "anf-form": {
+    "item": [
+      {
+        "type": "integer",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+            "valueCoding": {
+              "code": "millimeter of mercury",
+              "display": "millimeter of mercury"
+            }
+          }
+        ],
+        "linkId": "3079919224534",
+        "text": "Upper Range (SYSTOLIC)",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+          "item": [
+            {
+              "text": "ANF Main Statement",
+              "type": "display",
+              "linkId": "3079919224534_helpText",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "text": "Help-Button",
+                    "coding": [
+                      {
+                        "code": "help",
+                        "display": "Help-Button",
+                        "system": "http://hl7.org/fhir/questionnaire-item-control"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "operatorValue": "=",
+              "answerValue": "Any value",
+              "time": {
+                "lowerBound": "${{system.util.epoc(\"${{application.statement.documented.start.time}}\")}}",
+                "sematic": "Seconds | ${{upperbound - lowerbound}}",
+                "resolution": "1 second",
+                "upperBound": "${{system.util.epoc(\"${{application.statement.documented.end.time}}\")}}",
+                "lowerBoundOptions": "yes",
+                "upperBoundOptions": "yes"
+              },
+              "answerTextValue": "100",
+              "subjectOfRecord": {
+                "id": "${{participant.uuid}}",
+                "practitionerValue": "${{participant.id}}",
+                "code": ""
+              },
+              "authors": [
+                {
+                  "id": "${{paractitioner[0].uuid}}",
+                  "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[0].id}}\", \"role\": \"Practitioner/${{paractitioner[0].role}}\"",
+                  "code": "${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}"
+                },
+                {
+                  "id": "{{paractitioner[1].uuid}}",
+                  "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[1].id}}\", \"role\": \"Practitioner/${{paractitioner[1].role}}\"",
+                  "code": "${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}"
+                }
+              ],
+              "undefined": {
+                "subject_of_information": "\"subjectOfRecord\": { \"id\": \"${{participant.id}}\" }\"",
+                "associatedStatement": [
+                  {"id": "JHMH-EDDH-6591-HVQTY-GFSM", "semantic": "TBD - a Precondition | an interpretation | a component"},
+                  {"id": "ZDWC-WZDU-2801-DDHZI-KELI", "semantic": "TBD - a Precondition | an interpretation | a component"},
+                  {"id": "JNMC-FXBC-7589-MTEQD-IMBB", "semantic": "TBD - a Precondition | an interpretation | a component"},
+                  {"id": "BNAJ-FCSY-1342-GPXZD-QMCO", "semantic": "Precondition"},
+                  {"id": "GEEI-TJBI-9441-VIAQB-QOYU", "semantic": "Precondition"}
+                ],
+                "topic": "{\"observationProcedure\": {\"method\": \"Examination - action\", \"hasFocus\": \"On examination - Systolic blood pressure reading\", \"procedureSiteDirect\": \"Structure of right brachial artery\", \"usingDevice\": \"Blood pressure cuff adult size\"}}",
+                "type": "\"expressionType\": \"simple\", \"expressionLanguage\": \"local\", \"expressionValue\": \"performed\", \"expressionDescription\": \"Measurement action has been performed.\""
+              },
+              "circumstanceChoice": [{"healthRisk": "XXXXX ${{rules.engine.calculated[circumstanceChoice.result]}}"}],
+              "status": "\"expressionType\": \"simple\", \"expressionLanguage\": \"local\", \"expressionValue\": \"completed\", \"expressionDescription\": \"Clinical statement completed and finalized.\"",
+              "result": {
+                "lowerBound": "90",
+                "sematic": "[${{getElementById(\"3079919224534\").value}}, ${{getElementById(\"3079919224534\").value}}] ${{getElementById(\"3079919224534\").unit}}",
+                "resolution": "1 mmHg",
+                "upperBound": "120",
+                "lowerBoundOptions": "yes",
+                "upperBoundOptions": "yes"
+              },
+              "rangeMeasure": {
+                "lowerBound": "90",
+                "sematic": "Systolic blood pressure measurement",
+                "resolution": "1 mmHg",
+                "upperBound": "120",
+                "lowerBoundOptions": "yes",
+                "upperBoundOptions": "yes"
+              },
+              "rangeParticipant": [
+                {
+                  "id": "${{paractitioner[0].uuid}}",
+                  "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[0].id}}\", \"role\": \"Practitioner/${{paractitioner[0].role}}\"",
+                  "code": "${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}"
+                },
+                {
+                  "id": "{{paractitioner[1].uuid}}",
+                  "practitionerValue": "\"Practitioner\": {\"reference\": \"Practitioner/${{paractitioner[1].id}}\", \"role\": \"Practitioner/${{paractitioner[1].role}}\"",
+                  "code": "${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}"
+                }
+              ],
+              "timingMeasure": {
+                "lowerBound": "${{system.util.epoc(\"${{application.statement.measurement.start.time}}\")}}",
+                "sematic": "Seconds | ${{upperbound - lowerbound}}",
+                "resolution": "1 second",
+                "upperBound": "${{system.util.epoc(\"${{application.statement.measurement.end.time}}\")}}",
+                "lowerBoundOptions": "yes",
+                "upperBoundOptions": "yes"
+              },
+              "purpose": [
+                {
+                  "procedureId": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].id}}",
+                  "procedureName": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].name}}",
+                  "focus": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].code}} | ${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].procedure.name}} (procedure)"
+                },
+                {
+                  "procedureId": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].id}}",
+                  "procedureName": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].name}}",
+                  "focus": "${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].code}} | ${{application.anfstatement.cicumstance.performancecircumstance.purpose[0].procedure.name}} (procedure)"
+                }
+              ]
+            }
+          ],
+        "componentId": "OVXZ-NMQH-7194-GYCHB-NXSL",
+        "componentType": "main_anf_statement",
+        "markedMainANFStatement": [
+          "Upper Range (SYSTOLIC)"
+        ]
+      },
+      {
+        "type": "boolean",
+        "linkId": "7048556169730",
+        "text": "Measurement taken using cuff",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "initial": [
+          {
+            "valueBoolean": true
+          }
+        ],
+        "componentId": "JHMH-EDDH-6591-HVQTY-GFSM",
+        "item": [
+        ],
+        "markedMainANFStatement": [
+          "Upper Range (SYSTOLIC)"
+        ],
+        "componentType": "main_statement_questions",
+        "componentTypeMain": [
+          true
+        ]
+      },
+      {
+        "type": "choice",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/questionnaire-item-control",
+                  "code": "drop-down",
+                  "display": "Drop down"
+                }
+              ]
+            }
+          }
+        ],
+        "linkId": "8501933950742",
+        "text": "Cuff Size",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "display": "Adult"
+            },
+            "initialSelected": true
+          },
+          {
+            "valueCoding": {
+              "display": "Pediatric"
+            }
+          }
+        ],
+        "componentId": "ZDWC-WZDU-2801-DDHZI-KELI",
+        "componentType": "main_statement_questions",
+        "item": [
+        ],
+        "markedMainANFStatement": [
+          "Upper Range (SYSTOLIC)"
+        ],
+        "componentTypeMain": [
+          true
+        ],
+        "items": [
+          {}
+        ]
+      },
+      {
+        "type": "choice",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/questionnaire-item-control",
+                  "code": "drop-down",
+                  "display": "Drop down"
+                }
+              ]
+            }
+          }
+        ],
+        "linkId": "1451784149570",
+        "text": "Arm Used",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "display": "Right"
+            },
+            "initialSelected": true
+          },
+          {
+            "valueCoding": {
+              "display": "Left"
+            }
+          }
+        ],
+        "componentId": "JNMC-FXBC-7589-MTEQD-IMBB",
+        "item": [
+        ],
+        "markedMainANFStatement": [
+          "Upper Range (SYSTOLIC)"
+        ],
+        "componentType": "main_statement_questions",
+        "componentTypeMain": [
+          true
+        ],
+        "items": [
+          {}
+        ]
+      },
+      {
+        "type": "boolean",
+        "linkId": "4051866307723",
+        "text": "Please confirm you have not urinated more than 30 minutes prior to taking the measurement.",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "initial": [
+          {
+            "valueBoolean": true
+          }
+        ],
+        "componentId": "BNAJ-FCSY-1342-GPXZD-QMCO",
+        "componentType": "associated_anf_statement",
+        "item": [
+        ],
+        "markedMainANFStatement": [
+          "Upper Range (SYSTOLIC)"
+        ],
+        "componentTypeAssociated": [
+          true
+        ],
+        "items": [
+          {}
+        ]
+      },
+      {
+        "type": "boolean",
+        "linkId": "2602220218173",
+        "text": "Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "initial": [
+          {
+            "valueBoolean": true
+          }
+        ],
+        "componentId": "GEEI-TJBI-9441-VIAQB-QOYU",
+        "componentType": "associated_anf_statement",
+        "item": [
+        ],
+        "items": [
+          {}
+        ],
+        "markedMainANFStatement": [
+          "Upper Range (SYSTOLIC)"
+        ],
+        "componentTypeAssociated": [
+          true
+        ]
+      }
+    ]
+  },
+  "uploaded-form": {
+    "resourceType": "Questionnaire",
+    "title": "BP-POC",
+    "status": "draft",
+    "item": [
+      {
+        "type": "integer",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+            "valueCoding": {
+              "code": "millimeter of mercury",
+              "display": "millimeter of mercury"
+            }
+          }
+        ],
+        "linkId": "3079919224534",
+        "text": "Upper Range (SYSTOLIC)",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "item": [
+          {
+            "text": "ANF Main Statement",
+            "type": "display",
+            "linkId": "3079919224534_helpText",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                "valueCodeableConcept": {
+                  "text": "Help-Button",
+                  "coding": [
+                    {
+                      "code": "help",
+                      "display": "Help-Button",
+                      "system": "http://hl7.org/fhir/questionnaire-item-control"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "linkId": "7048556169730",
+        "text": "Measurement taken using cuff",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "initial": [
+          {
+            "valueBoolean": true
+          }
+        ]
+      },
+      {
+        "type": "choice",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/questionnaire-item-control",
+                  "code": "drop-down",
+                  "display": "Drop down"
+                }
+              ]
+            }
+          }
+        ],
+        "linkId": "8501933950742",
+        "text": "Cuff Size",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "display": "Adult"
+            },
+            "initialSelected": true
+          },
+          {
+            "valueCoding": {
+              "display": "Pediatric"
+            }
+          }
+        ]
+      },
+      {
+        "type": "choice",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/questionnaire-item-control",
+                  "code": "drop-down",
+                  "display": "Drop down"
+                }
+              ]
+            }
+          }
+        ],
+        "linkId": "1451784149570",
+        "text": "Arm Used",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "answerOption": [
+          {
+            "valueCoding": {
+              "display": "Right"
+            },
+            "initialSelected": true
+          },
+          {
+            "valueCoding": {
+              "display": "Left"
+            }
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "linkId": "4051866307723",
+        "text": "Please confirm you have not urinated more than 30 minutes prior to taking the measurement.",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "initial": [
+          {
+            "valueBoolean": true
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "linkId": "2602220218173",
+        "text": "Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.",
+        "required": false,
+        "repeats": false,
+        "readOnly": false,
+        "initial": [
+          {
+            "valueBoolean": true
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -22,22 +22,27 @@ import org.owasp.html.Sanitizers;
 import org.springframework.stereotype.Component;
 
 /**
- * THis class is intended to supply OWASP HTML sanitizer methods
+ * OwaspHtmlSanitizerImpl class serves to encapsulate OWASP HTML sanitizer methods.
  */
 @Component
 @Observed(name = "opencdx")
 public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
 
-    // Define supported policy factories
+    // Establish supported policy factories
     private final PolicyFactory defaultPolicy;
 
     /**
-     * Constructor for the OWasp HTML Sanitizer
+     * Constructs an instance of OWASP HTML Sanitizer.
      */
     public OwaspHtmlSanitizerImpl() {
         this.defaultPolicy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
     }
 
+    /**
+     * Implement the sanitize method from OpenCDXHtmlSanitizer interface.
+     * @param untrustedHtml Potentially unsafe HTML string.
+     * @return Sanitized HTML string.
+     */
     @Override
     public String sanitize(String untrustedHtml) {
         return defaultPolicy.sanitize(untrustedHtml);

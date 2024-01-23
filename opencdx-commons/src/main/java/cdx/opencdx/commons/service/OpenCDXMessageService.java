@@ -18,8 +18,12 @@ package cdx.opencdx.commons.service;
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
 
 /**
- * Interface for implementing OpenCDXMessageService. An implemenation
- * agnostic interface.
+ * The OpenCDXMessageService interface provides methods for subscribing to message subjects,
+ * unsubscribing from message subjects, and sending messages.
+ * @implNote Two implementation are provided {@link cdx.opencdx.commons.service.impl.NatsOpenCDXMessageServiceImpl} based
+ * on the NATS message server, and {@link cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl} a NOOP implementation
+ * that is used for JUnit testing.
+ * @implSpec This interface was designed to be agnostic of messaging system.
  */
 public interface OpenCDXMessageService {
 

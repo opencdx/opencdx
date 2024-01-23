@@ -85,7 +85,18 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Retention.html" title="class or interface in java.lang.annotation" class="external-link">@Retention</a>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/RetentionPolicy.html#RUNTIME" title="class or interface in java.lang.annotation" class="external-link">RUNTIME</a>)
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Target.html" title="class or interface in java.lang.annotation" class="external-link">@Target</a>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/ElementType.html#METHOD" title="class or interface in java.lang.annotation" class="external-link">METHOD</a>)
 </span><span class="modifiers">public @interface </span><span class="element-name type-name-label">RetryAnnotation</span></div>
-<div class="block">Annotation to retry a certain operation.</div>
+<div class="block">Annotation used to mark methods that should be retried in case an exception is thrown.
+ This annotation should be applied to methods only.
+ <p>
+ Example usage:
+ <pre>
+ <code>@RetryAnnotation</code>
+ public void retryTestMethod() {
+     // Method code goes here
+ }
+ </pre>
+
+ In this example, the retryTestMethod() method will be retried if an exception is thrown.</div>
 </section>
 <section class="details" id="annotation-interface-element-detail"></section>
 <!-- ========= END OF CLASS DATA ========= -->

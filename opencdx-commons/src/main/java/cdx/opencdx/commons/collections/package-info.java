@@ -1,9 +1,7 @@
 /**
- * This is the utility project for the application.
- * <p>
- * Utility files are provided to assist with certain data / actions taken within
- * a service.  Limited in scope and minor in actions.
- * </p>
+ * This package comprises utility classes for the application.
+ *
+ * These utility classes provide convenient methods and operations that are commonly used but not directly related to the business logic. They are limited in scope and perform auxiliary functions, thereby enhancing code readability and maintainability.
  *
  * @author Safe Health LLC.
  * @version 1.0

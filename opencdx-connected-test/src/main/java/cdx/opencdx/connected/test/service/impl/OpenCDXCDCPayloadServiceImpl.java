@@ -373,7 +373,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
         if (user.getAddresses() != null && !user.getAddresses().isEmpty()) {
             user.getAddresses().forEach(a -> {
-                if (a.getAddressPurpose() == AddressPurpose.PRIMARY) {
+                if (a.getAddressPurpose().equals(AddressPurpose.PRIMARY)) {
                     patient.addAddress(new Address()
                             .setUse(Address.AddressUse.HOME)
                             .setType(Address.AddressType.POSTAL)

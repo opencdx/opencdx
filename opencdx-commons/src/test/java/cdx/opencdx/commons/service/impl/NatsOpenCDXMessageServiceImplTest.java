@@ -94,8 +94,6 @@ class NatsOpenCDXMessageServiceImplTest {
     @Mock
     Span currentSpan;
 
-    ;
-
     @Mock
     brave.Span spanBrave;
 

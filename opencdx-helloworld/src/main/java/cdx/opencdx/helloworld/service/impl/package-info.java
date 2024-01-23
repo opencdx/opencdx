@@ -1,11 +1,11 @@
 /**
- * This package is for the implementation of Spring Service Interfaces
+ * This package is dedicated to the concrete implementation of Spring Service Interfaces.
  * <p>
- * Spring Services are defined as an Interface, this package is for the implementation of those interfaces.
- * Multiple implementation may be created for a service, in those cases a @Qualifier should be used to
- * identify each instance of the services.  Please see
+ * In the context of Spring Services, an interface typically represents the contract for a service. This package provides their concrete implementations.
+ * In scenarios where multiple implementations for a single service are created, it's recommended to use the @Qualifier annotation for clear identification of each service instance.
+ * For further details on fine-tuning annotation-based autowiring with qualifiers, please refer to the official Spring documentation:
  * <a href="https://docs.spring.io/spring-framework/docs/4.3.12.RELEASE/spring-framework-reference/htmlsingle/#beans-autowired-annotation-qualifiers">
- * Fine-tuning annotation-based autowiring with qualifiers
+ * Fine-tuning annotation-based autowiring with qualifiers.
  * </a>
  * </p>
  *

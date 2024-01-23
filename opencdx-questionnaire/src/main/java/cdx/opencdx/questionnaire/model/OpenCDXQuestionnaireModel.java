@@ -31,25 +31,25 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * This class represents a questionnaire model.
- *
+ * <p>
  * The QuestionnaireModel class is an entity class that represents a questionnaire
  * in an application. It is used to store and retrieve data related to a questionnaire.
- *
+ * <p>
  * It is decorated with the following annotations:
- *
+ * <p>
  * - @Data: This annotation is provided by the Lombok library, and it automatically generates
  *         getters, setters, toString, equals, and hashCode methods for all fields of the class.
- *
+ * <p>
  * - @Builder: This annotation is provided by the Lombok library and is used to generate
  *         a builder pattern for the class. It allows the easy creation of instances of the class
  *         with a fluent API.
- *
+ * <p>
  * - @AllArgsConstructor: This annotation is provided by the Lombok library and generates a constructor
  *         with parameters for all fields of the class.
- *
+ * <p>
  * - @RequiredArgsConstructor: This annotation is provided by the Lombok library and generates
  *         a constructor with parameters only for the final fields.
- *
+ * <p>
  * - @Document: This annotation is used to indicate that instances of this class should be persisted
  *         to a database collection named "audit".
  */
@@ -87,7 +87,7 @@ public class OpenCDXQuestionnaireModel {
 
         this.resourceType = questionnaire.getResourceType();
         this.title = questionnaire.getTitle();
-        this.status = QuestionnaireStatus.QUESTIONNAIRE_STATUS_ACTIVE;
+        this.status = QuestionnaireStatus.active;
         this.description = questionnaire.getDescription();
         if (questionnaire.hasRuleId()) {
             this.ruleId = new ObjectId(questionnaire.getRuleId());
