@@ -16,7 +16,8 @@
 package cdx.opencdx.communications.service;
 
 /**
- * Interface to the OpenCDX CDC Notification service.  Used to send CDC Notification messages
+ * Interface for sending CDC (Change Data Capture) notifications.
+ * CDC notifications contain information about changes made to the system.
  */
 public interface OpenCDXCDCMessageService {
     /**

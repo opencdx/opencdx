@@ -18,7 +18,8 @@ package cdx.opencdx.commons.service;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 
 /**
- * Service to get information on the current user
+ * The OpenCDXCurrentUser interface defines methods to manage the current authenticated user.
+ * @implNote This implementation would only require changes if Spring Security was repleased.
  */
 public interface OpenCDXCurrentUser {
     /**

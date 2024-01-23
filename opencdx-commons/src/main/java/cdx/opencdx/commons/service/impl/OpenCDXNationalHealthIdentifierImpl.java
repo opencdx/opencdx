@@ -24,18 +24,29 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of OpenCDXNationalHealthIdentifier ID generated from user email.
+ * The OpenCDXNationalHealthIdentifierImpl class implements the OpenCDXNationalHealthIdentifier interface
+ * to generate the ID from a user's email.
  */
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealthIdentifier {
+
     /**
-     * Default Constructor
+     * The default constructor is declared explicitly to prevent inadvertent instantiation of this class.
      */
     public OpenCDXNationalHealthIdentifierImpl() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+
     }
 
+    /**
+     * The generateNationalHealthId method overrides the interface method to generate the National Health ID
+     * wrapped in a UUID and converts it to string.
+     *
+     * @param userModel The user for whom the National Health ID is to be generated.
+     * @return Returns the generated National Health ID in string format.
+     * @throws OpenCDXNotAcceptable Throws exception if the user type is not IAM_USER_TYPE_REGULAR.
+     */
     @Override
     public String generateNationalHealthId(OpenCDXIAMUserModel userModel) {
         if (userModel.getType().equals(IamUserType.IAM_USER_TYPE_REGULAR)) {

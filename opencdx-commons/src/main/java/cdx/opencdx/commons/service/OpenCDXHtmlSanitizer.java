@@ -16,13 +16,16 @@
 package cdx.opencdx.commons.service;
 
 /**
- * HTML Sanitizer to use for validating HTML being sent in.
+ * OpenCDXHtmlSanitizer interface offers capabilities to cleanse HTML content.
+ * Ideally, it is employed in scenarios where client-provided HTML requires
+ * sanitization to thwart cross-site scripting (XSS) assaults.
  */
 public interface OpenCDXHtmlSanitizer {
+
     /**
-     * Method to sanitize HTML
-     * @param html String containing the HTML
-     * @return String containing the sanitized HTML.
+     * Sanitize the HTML string.
+     * @param html HTML string to be sanitized.
+     * @return String comprising the cleansed HTML.
      */
     String sanitize(String html);
 }
