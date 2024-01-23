@@ -8,9 +8,10 @@ import "anf_connector.proto";
 import "common.proto";
 
 enum QuestionnaireStatus {
-  QUESTIONNAIRE_STATUS_UNSPECIFIED = 0;
-  QUESTIONNAIRE_STATUS_ACTIVE = 1;
-  QUESTIONNAIRE_STATUS_DELETED = 2;
+  draft = 0;
+  active = 1;
+  retired = 2;
+  unknown = 3;
 }
 
 /**
@@ -31,15 +32,16 @@ message Questionnaire {
   optional string title = 3; // Title of the questionnaire.
   optional QuestionnaireStatus status = 4; // Status of the questionnaire (e.g., draft).
   optional string description = 5; // Description of the questionnaire.
-  repeated QuestionnaireItem item = 6; // List of questionnaire items.
+  optional string purpose = 6; // Purpose of the questionnaire
+  repeated QuestionnaireItem item = 7; // List of questionnaire items.
 
   // Field for storing user submission information
-  optional string rule_id=7; // Id of the rule that was executed for the submission
+  optional string rule_id = 8; // Id of the rule that was executed for the submission
 
-  optional google.protobuf.Timestamp created = 8; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 9; // Timestamp when this event was modified.
-  optional string creator = 10; // ID of the creator of this event.
-  optional string modifier = 11; // ID of the modifier of this event.
+  optional google.protobuf.Timestamp created = 9; // Timestamp when this event was created.
+  optional google.protobuf.Timestamp modified = 10; // Timestamp when this event was modified.
+  optional string creator = 11; // ID of the creator of this event.
+  optional string modifier = 12; // ID of the modifier of this event.
 }
 
 /**
@@ -49,18 +51,41 @@ message QuestionnaireItem {
   optional string type = 1; // Type of the questionnaire item (e.g., integer, boolean, choice).
   optional string link_id = 2; // Unique identifier for the item.
   optional string text = 3; // Text content of the item.
-  optional bool required = 4; // Indicates if the item is required.
-  optional bool repeats = 5; // Indicates if the item can be repeated.
-  optional bool read_only = 6; // Indicates if the item is read-only.
-  repeated QuestionnaireItem item = 7; // Nested questionnaire items.
-  repeated QuestionnaireItemExtension extension = 8; // Extensions for the item.
-  repeated QuestionnaireItemAnswerOption answer_option = 9; // Answer options for choice-type items.
-  repeated QuestionnaireItemInitial initial = 10; // Initial values for the item.
+  repeated QuestionnaireEnableWhen enable_when = 4; // Conditional display logic for questions
+  optional string enable_behavior = 5; // Show questions when all or any conditions are true
+  optional bool required = 6; // Indicates if the item is required.
+  optional bool repeats = 7; // Indicates if the item can be repeated.
+  optional bool read_only = 8; // Indicates if the item is read-only.
+  repeated Code code = 9; // A terminology code that corresponds to this group or question
+  repeated QuestionnaireItem item = 10; // Nested questionnaire items.
+  repeated QuestionnaireItemExtension extension = 11; // Extensions for the item.
+  repeated QuestionnaireItemAnswerOption answer_option = 12; // Answer options for choice-type items.
+  repeated QuestionnaireItemInitial initial = 13; // Initial values for the item.
 
   // Field for storing user responses
-  optional google.protobuf.Any submission_user_response = 11; // User-provided response to the item
+  optional google.protobuf.Any submission_user_response = 14; // User-provided response to the item
 
-  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 12; // ANF statement connector
+  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 15; // ANF statement connector
+}
+
+/**
+ * Represents conditional display of questions
+ */
+message QuestionnaireEnableWhen {
+  optional string question = 1; // Question id
+  optional string operator = 2; // Operator for conditional display
+  optional Coding answer_coding = 3; // Answer options for choice question type
+  optional int32 answer_integer = 4; // Answer option for integer question type
+  optional double answer_double = 5; // Answer option for double question type
+  optional bool answer_boolean = 6; // Answer option for boolean question type
+}
+
+/**
+ * A terminology code that corresponds to this group or question
+ */
+message Code {
+  optional string system = 1;
+  optional string code = 2;
 }
 
 /**
@@ -69,7 +94,9 @@ message QuestionnaireItem {
 message QuestionnaireItemExtension {
   optional string url = 1; // URL for the extension.
   optional ValueCodeableConcept value_codeable_concept = 2; // Value for code-able concept extensions.
-  optional ValueCoding value_coding = 3;
+  optional Coding value_coding = 3;
+  optional int32 value_integer = 4;
+  optional double value_decimal = 5;
 }
 
 /**
@@ -93,16 +120,15 @@ message Coding {
  * Represents an answer option for a questionnaire item.
  */
 message QuestionnaireItemAnswerOption {
-  optional ValueCoding value_coding = 1; // Coding value for answer options.
+  optional Coding value_coding = 1; // Coding value for answer options.
   optional bool initial_selected = 2; // Indicates if the option is initially selected.
+  repeated Extension extension = 3;
 }
 
-/**
- * Represents a coding value.
- */
-message ValueCoding {
-  optional string display = 1; // Display text for the coding value.
-  optional string code = 2;
+message Extension {
+  optional string url = 1;
+  optional double value_decimal = 2;
+  optional Coding value_codeable_concept = 3;
 }
 
 /**
@@ -110,6 +136,8 @@ message ValueCoding {
  */
 message QuestionnaireItemInitial {
   optional bool value_boolean = 1; // Initial boolean value for the item.
+  optional int32 value_integer = 2; // Initial value for integer question type
+  optional double value_decimal = 3; // Initial value for decimal question type
 }
 
 /*
