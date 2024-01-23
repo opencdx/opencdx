@@ -54,7 +54,7 @@ const ControlledInput = (props) => {
                 <RadioIndicator _checked={{ bg: 'primary.500' }} margin={2}>
                   <RadioIcon as={CircleIcon} />
                 </RadioIndicator>
-                <RadioLabel>{option.label}</RadioLabel>
+                <RadioLabel style={styles.label}>{option.label}</RadioLabel>
               </Radio>
             ))}
           </RadioGroup>
@@ -102,5 +102,8 @@ const styles = StyleSheet.create({
   },
   error: {
     color: 'red'
-  }
+  },
+  label: {
+    marginRight: 5,
+  },
 });

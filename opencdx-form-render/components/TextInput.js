@@ -20,9 +20,11 @@ const ControlledInput = (props) => {
                     value={field.value}
                     {...inputProps}
                 />
+                { hasError &&
                 <View style={styles.errorContainer}>
-                    {hasError && (<Text style={styles.error}>{formState.errors[name].message}</Text>)}
+                    <Text style={styles.error}>{formState.errors[name].message}</Text>
                 </View>
+                }
             </View>
         </View>
     );
@@ -46,8 +48,6 @@ const styles = StyleSheet.create({
         flex: -1,
         justifyContent: 'center',
         padding: 8,
-        borderColor: 'white',
-        borderWidth: 1
     },
     input: {
         borderColor: 'gray',

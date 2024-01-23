@@ -4,7 +4,7 @@ import { RadioInput } from './RadioInput'
 import { SelectInputComp } from './SelectInputComp'
 import { Text, View, StyleSheet, Button } from 'react-native';
 import {
-    FormControlLabel, FormControlLabelText
+    FormControlLabel, FormControlLabelText, Heading
 } from '@gluestack-ui/themed';
 import { useForm, FormProvider } from 'react-hook-form';
 import Constants from 'expo-constants';
@@ -23,11 +23,11 @@ export default function App() {
             {formError ? <View><Text style={{ color: 'red' }}>There was a problem with loading the form. Please try again later.</Text></View> :
                 <>
                     <FormProvider {...methods}>
-                        <Text>{formData?.title}</Text>
+                        <Heading>{formData?.title}</Heading>
                         {formData?.item?.map((field, index) => {
 
                             return (
-                                <View>
+                                <View style={styles.margin}>
                                     <FormControlLabel>
                                         <FormControlLabelText>{field.text}</FormControlLabelText>
                                     </FormControlLabel>
@@ -98,7 +98,7 @@ export default function App() {
             }
             <View style={styles.button}>
                 <Button
-                    title="Login"
+                    title="Submit"
                     onPress={methods.handleSubmit(onSubmit)}
                 />
             </View>
