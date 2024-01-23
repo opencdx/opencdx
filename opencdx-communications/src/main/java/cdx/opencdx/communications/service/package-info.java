@@ -1,8 +1,8 @@
 /**
- * This is the Service Interface package for defining interfaces for spring services.
+ * This is the Service Interface package, designed specifically for defining Spring service interfaces.
  * <p>
- * All files in this package should be of type Interface, the child impl package will
- * contain the implementation of the interfaces.
+ * The files housed within this package are typically of the Interface type. The corresponding implementations of these interfaces
+ * are located in the adjoining 'impl' package.
  * </p>
  *
  * @author Safe Health LLC.

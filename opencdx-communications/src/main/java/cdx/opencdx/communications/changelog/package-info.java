@@ -1,7 +1,7 @@
 /**
- * This package is for change sets to be applied on startup to the database
+ * This package houses change sets that are applied to the database upon startup.
  * <p>
- * Change set related files are seperated as a whole for easier identification and lookup.
+ * Change set related files are distinctly separated for simplicity in identification and lookup operations.
  * </p>
  *
  * @author Safe Health LLC.

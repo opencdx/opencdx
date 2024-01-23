@@ -1,7 +1,7 @@
 /**
- * This is the package of maintaining DTO's or Data Transfer Objects for this application
+ * This package is dedicated to exception classes.
  * <p>
- * DTO's are used when Models should not be used in the API.
+ * The exceptions are classified and isolated for simpler identification and retrieval.
  * </p>
  *
  * @author Safe Health LLC.

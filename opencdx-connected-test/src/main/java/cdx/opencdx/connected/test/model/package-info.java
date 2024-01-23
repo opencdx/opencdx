@@ -1,7 +1,7 @@
 /**
- * This is the package for maintaining Models for Database access with Hibernate.
+ * This package is dedicated to the management of Database Models leveraging Hibernate.
  * <p>
- * Hibernate Models or Entities should be maintained in this package.
+ * It is intended to maintain Hibernate Models or Entities.
  * </p>
  *
  * @author Safe Health LLC.

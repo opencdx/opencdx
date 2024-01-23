@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.admin;
+package cdx.opencdx.admin.config;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -25,9 +25,28 @@ import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import reactor.netty.http.client.HttpClient;
 
+/**
+ * The WebClientConfig class provides configuration for the WebClient in a Spring application.
+ * It creates a custom HttpClient with a custom SSLContext and returns a ClientHttpConnector
+ * bean that can be used to configure and create a WebClient instance.
+ */
 @Configuration
 public class WebClientConfig {
+    /**
+     * Default constructor for WebClientConfig class.
+     * This constructor allows creating an instance of WebClientConfig without providing any initial values.
+     */
+    public WebClientConfig() {
+        // Default constructor body (usually empty in a configuration class)
+    }
 
+    /**
+     * Returns a custom {@link ClientHttpConnector} bean that can be used to configure and create a {@link HttpClient} instance.
+     * The custom {@link ClientHttpConnector} uses a custom {@link HttpClient} with a custom SSLContext.
+     *
+     * @return The custom {@link ClientHttpConnector} bean.
+     * @throws SSLException If an SSL error occurs while creating the SSLContext.
+     */
     @Bean
     public ClientHttpConnector customHttpClient() throws SSLException {
         SslContext sslContext = SslContextBuilder.forClient()

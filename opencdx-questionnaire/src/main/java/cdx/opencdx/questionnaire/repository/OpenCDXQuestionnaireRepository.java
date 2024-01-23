@@ -23,12 +23,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * The OpenCDXQuestionnaireRepository interface is responsible for managing and accessing
  * OpenCDXQuestionnaireModel objects. It extends the MongoRepository interface, which provides
  * basic CRUD operations for MongoDB.
- *
+ * <p>
  * This interface does not define any additional methods as it inherits all the necessary
  * methods from the MongoRepository interface. The OpenCDXQuestionnaireRepository interface
  * uses the OpenCDXQuestionnaireModel class as the entity type and ObjectId as the identifier
  * type for MongoDB.
- *
+ * <p>
  * It should be noted that this interface does not provide any example code, and does not
  * contain the @author and @version tags.
  */

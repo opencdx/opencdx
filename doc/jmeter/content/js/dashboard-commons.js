@@ -168,7 +168,7 @@ function unquote(str, quoteChar) {
         return str.slice(1, str.length - 1);
     else
         return str;
-};
+}
 
 /*
  * This comparison function evaluates abscissas to sort array of coordinates.
@@ -412,7 +412,7 @@ function prepareData(series, choiceContainer, customizeSeries){
  */
 function sortAlphaCaseless(a,b){
     return a.toLowerCase() > b.toLowerCase() ? 1 : -1;
-};
+}
 
 function createLegend(choiceContainer, infos) {
     // Sort series by name

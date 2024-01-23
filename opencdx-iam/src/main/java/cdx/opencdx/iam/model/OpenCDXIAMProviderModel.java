@@ -82,9 +82,8 @@ public class OpenCDXIAMProviderModel {
                     Address.Builder builder = Address.newBuilder();
                     Optional<OpenCDXCountryModel> byName =
                             openCDXCountryRepository.findByName(address.getCountryName());
-                    if (byName.isPresent()) {
-                        builder.setCountryId(byName.get().getId().toHexString());
-                    }
+                    byName.ifPresent(openCDXCountryModel ->
+                            builder.setCountryId(openCDXCountryModel.getId().toHexString()));
                     builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
                     builder.setAddress1(address.getAddress1());
                     builder.setCity(address.getCity());

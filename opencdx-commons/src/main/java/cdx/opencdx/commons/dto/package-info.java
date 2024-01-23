@@ -1,7 +1,7 @@
 /**
- * This is the package of maintaining DTO's or Data Transfer Objects for OpenCDX
+ * This package contains Data Transfer Objects (DTOs).
  * <p>
- * OpenCDX DTO's are used when Models should not be used in the API.
+ * DTOs are segregated into this package to facilitate easier identification and retrieval.
  * </p>
  *
  * @author Safe Health LLC.

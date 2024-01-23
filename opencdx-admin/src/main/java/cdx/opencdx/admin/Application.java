@@ -20,11 +20,34 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+/**
+ * The Application class is the entry point for the Spring Boot application.
+ * It is responsible for starting up the application and initializing the necessary components.
+ *
+ * This class is annotated with the following annotations:
+ * - @EnableAdminServer: Enables the Admin Server functionality in the application.
+ * - @EnableDiscoveryClient: Enables the registration of this application with a discovery server.
+ * - @SpringBootApplication: Indicates that this is a Spring Boot application and enables auto-configuration.
+ */
 @EnableAdminServer
 @EnableDiscoveryClient
 @SpringBootApplication
 public class Application {
+    /**
+     * Default constructor for the Application class.
+     * This constructor allows creating an instance of Application without providing any initial values.
+     */
+    public Application() {
+        // Default constructor body (usually empty for a Spring Boot application)
+    }
 
+    /**
+     * The main method is the entry point for the Spring Boot application.
+     * It starts up the application and initializes the necessary components.
+     *
+     * @param args The command line arguments passed to the application.
+     * @see Application
+     */
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

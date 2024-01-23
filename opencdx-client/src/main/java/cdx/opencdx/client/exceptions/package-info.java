@@ -1,7 +1,7 @@
 /**
- * This package is for exceptions
+ * This package is dedicated to exception classes.
  * <p>
- * Exceptions are seperated as a whole for easier identification and lookup.
+ * The exceptions are classified and isolated for simpler identification and retrieval.
  * </p>
  *
  * @author Safe Health LLC.

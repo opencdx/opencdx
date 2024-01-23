@@ -68,8 +68,6 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @Setter
     private int maxEntries;
 
-    private final Gauge gauge;
-
     private final Counter counter;
 
     private final ConcurrentMap<Object, CacheValue> store;
@@ -148,7 +146,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
         SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
 
-        this.gauge = Gauge.builder(
+        Gauge gauge = Gauge.builder(
                         "opencdx."
                                 + this.name
                                         .toLowerCase()

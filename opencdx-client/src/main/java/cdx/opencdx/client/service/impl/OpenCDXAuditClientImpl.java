@@ -80,7 +80,6 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
     /**
      * Abstract class that allows for replacement of communication system
      * @param event Event to send to Audit Service
-     * @return indicates if successfully sent.
      */
     private void sendMessage(AuditEvent event, OpenCDXCallCredentials openCDXCallCredentials) {
         try {

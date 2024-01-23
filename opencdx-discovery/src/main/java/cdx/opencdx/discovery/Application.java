@@ -22,12 +22,12 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 /**
  * The Application class is the entry point for the application. It is responsible for bootstrapping the application
  * and starting the Eureka server.
- *
+ * <p>
  * The class is annotated with @EnableEurekaServer, which enables the Eureka server functionality. It is also annotated
  * with @SpringBootApplication, which is a convenience annotation that combines @Configuration, @EnableAutoConfiguration,
  * and @ComponentScan annotations. This annotation scans the classpath for other Spring components, configurations,
  * and services, and starts the server.
- *
+ * <p>
  * The main() method is the starting point of the application. It calls SpringApplication.run() method passing the
  * Application class and the command-line arguments. This method uses Spring Boot to bootstrap and launch the application.
  */

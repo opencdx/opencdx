@@ -1,8 +1,8 @@
 /**
- * This is the implementation for the In-Memory Cache
- * <p>
- * Code related to the In-Memory Cache is located in this package.
- * </p>
+ * Implementation for the In-Memory Cache
+ *
+ * This package is solely dedicated to the functionalities
+ * related to the In-Memory Cache.
  *
  * @author Safe Health LLC.
  * @version 1.0
