@@ -25,6 +25,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This class represents a REST controller for managing ANF Statements in the OpenCDX platform.
+ */
 @Slf4j
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)

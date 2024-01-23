@@ -4,8 +4,12 @@ import { Grid, TextField } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
+import { systemVariables } from '../../store/constant';
 
 const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
+    const formData = JSON.parse(localStorage.getItem('anf-form'));
+
+    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
@@ -16,11 +20,20 @@ const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, 
                                 <InputLabel horizontal>Subject Of Information</InputLabel>
                             </Grid>
                             <Grid item xs={12} sm={9} lg={6}>
-                                <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
-                                    fullWidth
-                                    placeholder="Enter Subject Of Information"
-                                />
+                                {componentType ? (
+                                    <TextField
+                                        {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
+                                        fullWidth
+                                        value={systemVariables['subject_of_information'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
+                                        placeholder="Enter Subject Of Information"
+                                    />
+                                ) : (
+                                    <TextField
+                                        {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
+                                        fullWidth
+                                        placeholder="Enter Subject Of Information"
+                                    />
+                                )}
                             </Grid>
                         </Grid>
                     </Grid>

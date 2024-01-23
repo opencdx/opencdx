@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OpenCDx Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 1em;
+        }
+        h1 {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 1em;
+        }
+        p {
+            line-height: 1.5;
+        }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 0.5em;
+        }
+        img {
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+<h1>OpenCDx System Overview</h1>
+<p>OpenCDx provides an open framework, specification, and set of developer tools – including client libraries, Software Development Kits (SDKs), and Application Programming Interfaces (APIs) – to accelerate development and adoption of interoperable, standards-based CDx applications that can be leveraged for a wide variety of public and private sector use cases.</p>
+<h2>Key Services</h2>
+<ul>
+    <li><strong><a href="cdx/opencdx/admin/package-summary.html">OpenCDx-Admin</a></strong>: This is the admin portal for OpenCDx. Developed using Spring Admin Server, it provides backend monitoring capabilities specifically for the OpenCDx environment.</li>
+    <li><strong><a href="cdx/opencdx/anf/package-summary.html">OpenCDx-ANF</a></strong>: ANF aims to enhance data structure within HL7 v2 messages for more effective data analysis. It involves categorization of data into logical segments based on their interrelationships and usage frequency. This allows for better understanding, data manipulation, and ease of analysis.</li>
+    <li><strong><a href="cdx/opencdx/audit/package-summary.html">OpenCDx-Audit</a></strong>: This module records key actions performed by individual users, systems, or services on OpenCDx. It creates audit records for every service invocation and user interaction on the platform.</li>
+    <li><strong><a href="cdx/opencdx/classification/package-summary.html">OpenCDx-Classification</a></strong>: TODO: Description to be added.</li>
+    <li><strong><a href="cdx/opencdx/admin/package-summary.html">OpenCDx-Client</a></strong>: A Spring library used to provide gRPC clients for necessary inter-service communication.</li>
+    <li><strong><a href="cdx/opencdx/admin/package-summary.html">OpenCDx-Commons</a></strong>: This is a common library for OpenCDx aiming to reduce code redundancy and centralize common components.</li>
+    <li><strong><a href="cdx/opencdx/communications/package-summary.html">OpenCDx-Communications</a></strong>: This module provides functional capabilities for any organization on the OpenCDx platform to send necessary operation messages and notifications.</li>
+    <li><strong><a href="cdx/opencdx/config/package-summary.html">OpenCDx-Config</a></strong>: This class encapsulates the OpenCDX Configuration server, and it distributes configuration information to all related OpenCDX Microservices to ensure proper functioning.</li>
+    <li><strong><a href="cdx/opencdx/connected/test/package-summary.html">OpenCDx-ConnectedTest</a></strong>: This module enables OpenCDx to provide organizations on the platform with capabilities to create and manage Test Kits for patients.</li>
+    <li><strong>OpenCDx-Dashboard</strong>: TODO: Description to be added.</li>
+    <li><strong><a href="cdx/opencdx/discovery/package-summary.html">OpenCDx-Discovery</a></strong>: This is the OpenCDX Discovery server, based on Spring Discovery Server and Eureka, it manages instances of microservices, with services provided through configuration.</li>
+    <li><strong><a href="cdx/opencdx/gateway/package-summary.html">OpenCDx-Gateway</a></strong>: Built on the Spring Gateway, OpenCDX Gateway efficiently routes REST and gRPC requests to the appropriate microservices.</li>
+    <li><strong><a href="cdx/opencdx/iam/package-summary.html">OpenCDx-IAM</a></strong>: The IAM module oversees secure access control to essential resources and services provided by OpenCDx.</li>
+    <li><strong><a href="cdx/opencdx/media/package-summary.html">OpenCDx-Media</a></strong>: This module provides API functionality to enable uploads and downloads of media files like images, videos, PDFs, text documents, and spreadsheets to the OpenCDx platform.</li>
+    <li><strong><a href="cdx/opencdx/predictor/package-summary.html">OpenCDx-Predictor</a></strong>: TODO: Description to be added.</li>
+    <li><strong><a href="cdx/opencdx/protector/package-summary.html">OpenCDx-Protector</a></strong>: TODO: Description to be added.</li>
+    <li><strong><a href="cdx/opencdx/questionnaire/package-summary.html">OpenCDx-Questionnaire</a></strong>: This module enables OpenCDx to provide organizations on the platform with capabilities to create and manage questionnaires and recommendations for patients as part of a Clinical Protocol.</li>
+    <li><strong><a href="cdx/opencdx/routine/package-summary.html">OpenCDx-Routine</a></strong>: TODO: Description to be added.</li>
+    <li><strong><a href="cdx/opencdx/tinkar/package-summary.html">OpenCDx-Tinkar</a></strong>: OpenCDx employs the standards-based Terminology Knowledge Architecture (TINKAR) specification for storage of medical concepts, thus enabling the platform to manage terminology generated by various stakeholders across the platform and related ecosystem.</li>
+</ul>
+<h2>Benefits</h2>
+<ul>
+    <li><strong>Connected Diagnostics:</strong> Facilitating standards-based diagnostic data capture, harmonization, and transmission between disparate systems within the existing healthcare ecosystem.</li>
+    <li><strong>Community Focused:</strong> Remote and connected diagnostics adoption throughout the healthcare industry in an effort to support public health and national security interests.</li>
+</ul>
+<h2>Target Audience</h2>
+<p>OpenCDX is ideal for:</p>
+<ul>
+    <li>HHS</li>
+    <li>FDA</li>
+</ul>
+</body>
+</html>

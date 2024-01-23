@@ -1,10 +1,10 @@
 /**
- * This is the package for OpenCDX GRPC excpetion handlers.
+ * This package encompasses exception handlers specific to OpenCDX GRPC.
  * <p>
- * To handle various exceptions that could be thrown by OpenCDX.
+ * It manages a wide spectrum of potential exceptions thrown during OpenCDX operations.
  * </p>
  *
- * @author Safe Health LLC.
+ * @author Safe Health LLC
  * @version 1.0
  * @since 1.0
  */

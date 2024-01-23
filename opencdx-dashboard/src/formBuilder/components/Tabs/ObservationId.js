@@ -13,8 +13,12 @@ import {
     Checkbox,
     Button,
     OutlinedInput,
-    ListItemText
+    ListItemText,
+    Chip,
+    Box,
+
 } from '@mui/material';
+
 import { TextArea } from '../ui-components/TextArea';
 import { MainCard } from '../ui-components/MainCard';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -29,7 +33,7 @@ const observationAttributes = [
     { observationCategory: 'General', label: 'encounter', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
 
     // Timing Attributes
-    { observationCategory: 'Timing', label: 'effective_x_', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
+    { observationCategory: 'Timing', label: 'effective', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
     { observationCategory: 'Timing', label: 'issued', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
 
     // Context Attributes
@@ -39,7 +43,7 @@ const observationAttributes = [
     // Value and Interpretation Attributes
     {
         observationCategory: 'Value and Interpretation',
-        label: 'value_x_',
+        label: 'value',
         options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
     },
     {
@@ -138,7 +142,7 @@ const observationAttributes = [
     },
     {
         observationCategory: 'Relationship',
-        label: 'component.value_x_',
+        label: 'component.value',
         options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
     },
     {
@@ -169,10 +173,19 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => {
+export const ObservationId = ({ index, currentIndex, tab }) => {
     const { register, getValues } = useForm();
+    const [value, setValue] = useState('');
+    // const [selectedTopics, setSelectedTopics] = useState([]); //TODO: Remove this code if not needed
+
+    // const handleInputChange = (event) => {
+    //   setValue(event.target.value);
+    // };
+  
+   
 
     const [selectedCategories, setSelectedCategories] = useState([]);
+
     const categories = [
         'General',
         'Timing',
@@ -182,11 +195,20 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
         'Reference Range',
         'Relationship'
     ];
+    const handleChange = function (event) {
+        const {
+            target: { value }
+        } = event;
+        setSelectedCategories(typeof value === 'string' ? value.split(',') : value);
+    };
     const handleCheckboxChange = (event) => {
         const attributeLabel = event.target.value;
         const selectedOption = document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
-        const textArea = document.getElementById('calculated-topic-textarea');
-        textArea.value += selectedOption + '-' + attributeLabel + '\n';
+        if (event.target.checked && selectedOption && selectedOption.trim() !== '') {
+            const textArea = document.getElementById('calculated-topic-textarea');
+            handleChipAdd(selectedOption + '-' + attributeLabel)
+            textArea.value += selectedOption + '-' + attributeLabel + '\n';
+        }
     };
 
     const ObservationAttributes = ({ filteredAttributes }) => (
@@ -208,7 +230,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                                     id={`calculated-topic-textarea.${attribute.label}`}
                                     {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
                                     label={attribute.label}
-                                    input={<OutlinedInput label={attribute.label} />}
+                                    input={<OutlinedInput id="select-multiple-chip-1" label="Chip" />}
                                     MenuProps={MenuProps}
                                 >
                                     {Object.entries(attribute.options).map(([key, value]) => (
@@ -227,6 +249,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                             <FormControlLabel
                                 control={
                                     <Checkbox
+                                        key={index} // Add key prop to avoid rendering error
                                         onChange={(event) => handleCheckboxChange(event)}
                                         name={attribute.label}
                                         color="primary"
@@ -238,7 +261,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={1} lg={1}>
-                        <Button aria-label="Reset" label="Reset" onClick="">
+                        <Button aria-label="Reset" label="Reset" variant="outlined" size="small">
                             <RestoreIcon stroke={1.5} size="20px" />
                             Reset
                         </Button>
@@ -247,21 +270,8 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
             ))}
         </>
     );
-    //TODO: Remove this code if not needed
-    // const handleCategoryChange = (category) => {
-    //   const updatedCategories = selectedCategories.includes(category)
-    //     ? selectedCategories.filter((cat) => cat !== category)
-    //     : [...selectedCategories, category];
+   
 
-    //   setSelectedCategories(updatedCategories);
-    // };
-
-    const handleChange = (event) => {
-        const {
-            target: { value }
-        } = event;
-        setSelectedCategories(typeof value === 'string' ? value.split(',') : value);
-    };
     const filteredAttributes = observationAttributes.filter((attr) => selectedCategories.includes(attr.observationCategory));
 
     return (
@@ -272,13 +282,18 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                         <FormControl sx={{ width: '100%' }}>
                             <InputLabel id="demo-multiple-checkbox-label">Select Observation Categories</InputLabel>
                             <Select
-                                labelId="observation-categories-multiple-checkbox-label"
                                 id="observation-categories-multiple-checkbox"
                                 multiple
                                 value={selectedCategories}
                                 onChange={handleChange}
-                                input={<OutlinedInput label="Select Observation Categories" />}
-                                renderValue={(selected) => selected.join(', ')}
+                                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                )}
                                 MenuProps={MenuProps}
                             >
                                 {categories.map((name) => (
@@ -290,27 +305,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                             </Select>
                         </FormControl>
 
-                        {/*
-              //TODO: Remove this code if not needed
-              <>
-              <InputLabel horizontal>Select Observation Categories:</InputLabel>
-
-                {categories.map((category, index) => (
-                            <Grid container spacing={2} alignItems="center">
-
-                  <FormControlLabel
-                    key={index}
-                    control={
-                      <Checkbox
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => handleCategoryChange(category)}
-                      />
-                    }
-                    label={category}
-                  />
-                  </Grid>
-                ))}
-              </> */}
+                       
                     </Grid>
                 </Grid>
             </MainCard>
@@ -318,8 +313,7 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
             {/* Display filtered attributes based on the selected categories */}
             <ObservationAttributes filteredAttributes={filteredAttributes} />
 
-            <MainCard>
-                {/* Observation Topic */}
+            {/* <MainCard>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
                         <Grid container spacing={2} alignItems="center">
@@ -336,22 +330,24 @@ export const ObservationId = React.forwardRef(({ index, currentIndex, tab }) => 
                                     {...register(`test.${index}.item.${currentIndex}.${tab}.topic`)}
                                     fullWidth
                                     value={getValues(`test.${index}.item.${currentIndex}.${tab}.topic`) || ''}
-                                />
+                                    
+                                >
+                                </TextArea>
+                               
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </MainCard>
+            </MainCard> */}
         </Grid>
     );
-});
+};
 ObservationId.propTypes = {
-    register: PropTypes.func.isRequired,
-    index: PropTypes.number.isRequired,
-    currentIndex: PropTypes.number.isRequired,
-    tab: PropTypes.string.isRequired,
-    selectedOption: PropTypes.array.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    filteredAttributes: PropTypes.array.isRequired
+    register: PropTypes.func,
+    index: PropTypes.number,
+    currentIndex: PropTypes.number,
+    tab: PropTypes.string,
+    selectedOption: PropTypes.array,
+    filteredAttributes: PropTypes.array
 };
 export default ObservationId;

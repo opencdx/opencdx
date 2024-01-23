@@ -175,6 +175,29 @@
         
           
           <li>
+            <a href="#anf_connector.proto">anf_connector.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.anf.AnfStatementConnector"><span class="badge">M</span>AnfStatementConnector</a>
+                </li>
+              
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.anf.AnfOperatorType"><span class="badge">E</span>AnfOperatorType</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.anf.AnfStatementType"><span class="badge">E</span>AnfStatementType</a>
+                </li>
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#anf_statement.proto">anf_statement.proto</a>
             <ul>
               
@@ -407,6 +430,10 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.common.Duration"><span class="badge">M</span>Duration</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.common.EmailAddress"><span class="badge">M</span>EmailAddress</a>
                 </li>
               
@@ -428,7 +455,15 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.common.DurationType"><span class="badge">E</span>DurationType</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.common.EmailType"><span class="badge">E</span>EmailType</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.common.Gender"><span class="badge">E</span>Gender</a>
                 </li>
               
                 <li>
@@ -838,10 +873,6 @@
                 </li>
               
               
-                <li>
-                  <a href="#cdx.opencdx.grpc.profile.Gender"><span class="badge">E</span>Gender</a>
-                </li>
-              
               
               
                 <li>
@@ -1084,10 +1115,6 @@
               
                 <li>
                   <a href="#cdx.opencdx.grpc.media.Media"><span class="badge">M</span>Media</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.media.MediaFilter"><span class="badge">M</span>MediaFilter</a>
                 </li>
               
                 <li>
@@ -1334,11 +1361,19 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.ClientRulesRequest"><span class="badge">M</span>ClientRulesRequest</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.Coding"><span class="badge">M</span>Coding</a>
                 </li>
               
                 <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest"><span class="badge">M</span>DeleteQuestionnaireRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest"><span class="badge">M</span>GetQuestionnaireListRequest</a>
                 </li>
               
                 <li>
@@ -1382,6 +1417,14 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.RuleSet"><span class="badge">M</span>RuleSet</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.RuleSetsResponse"><span class="badge">M</span>RuleSetsResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse"><span class="badge">M</span>SubmissionResponse</a>
                 </li>
               
@@ -1398,10 +1441,6 @@
                 </li>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.questionnaire.ValueBoolean"><span class="badge">M</span>ValueBoolean</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.ValueCodeableConcept"><span class="badge">M</span>ValueCodeableConcept</a>
                 </li>
               
@@ -1409,6 +1448,10 @@
                   <a href="#cdx.opencdx.grpc.questionnaire.ValueCoding"><span class="badge">M</span>ValueCoding</a>
                 </li>
               
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireStatus"><span class="badge">E</span>QuestionnaireStatus</a>
+                </li>
               
               
               
@@ -1584,6 +1627,183 @@
       </ul>
     </div>
 
+    
+      
+      <div class="file-heading">
+        <h2 id="anf_connector.proto">anf_connector.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="cdx.opencdx.grpc.anf.AnfStatementConnector">AnfStatementConnector</h3>
+        <p>Connects and ANF Statement to a question item.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>anf_statement</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.ANFStatement">ANFStatement</a></td>
+                  <td></td>
+                  <td><p>ANF statement </p></td>
+                </tr>
+              
+                <tr>
+                  <td>anf_statement_type</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.AnfStatementType">AnfStatementType</a></td>
+                  <td></td>
+                  <td><p>ANF statement type </p></td>
+                </tr>
+              
+                <tr>
+                  <td>anf_operator_type</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.AnfOperatorType">AnfOperatorType</a></td>
+                  <td></td>
+                  <td><p>ANF operator type </p></td>
+                </tr>
+              
+                <tr>
+                  <td>operator_value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>ANF operator value </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+        <h3 id="cdx.opencdx.grpc.anf.AnfOperatorType">AnfOperatorType</h3>
+        <p>Represents the type of operator used in an ANF statement.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Unspecified ANF operator type</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_EQUAL</td>
+                <td>1</td>
+                <td><p>Equal operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_NOT_EQUAL</td>
+                <td>2</td>
+                <td><p>Not equal operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_GREATER_THAN</td>
+                <td>3</td>
+                <td><p>Greater than operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL</td>
+                <td>4</td>
+                <td><p>Greater than or equal operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_LESS_THAN</td>
+                <td>5</td>
+                <td><p>Less than operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL</td>
+                <td>6</td>
+                <td><p>Less than or equal operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_CONTAINS</td>
+                <td>7</td>
+                <td><p>Contains operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_NOT_CONTAINS</td>
+                <td>8</td>
+                <td><p>Not contains operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_IN</td>
+                <td>9</td>
+                <td><p>In operator</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_OPERATOR_TYPE_NOT_IN</td>
+                <td>10</td>
+                <td><p>Not in operator</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="cdx.opencdx.grpc.anf.AnfStatementType">AnfStatementType</h3>
+        <p>Expresses how an ANF Statement is connected to a question item.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ANF_STATEMENT_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Unspecified ANF statement type</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_STATEMENT_TYPE_MAIN</td>
+                <td>1</td>
+                <td><p>Main ANF statement</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_STATEMENT_TYPE_ASSOCIATED</td>
+                <td>2</td>
+                <td><p>Associated ANF statement</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_STATEMENT_TYPE_QUESTION</td>
+                <td>3</td>
+                <td><p>Main statement question</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANF_STATEMENT_TYPE_NOT_APPLICABLE</td>
+                <td>4</td>
+                <td><p>Not applicable</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+
+      
+
+      
     
       
       <div class="file-heading">
@@ -3176,7 +3396,7 @@ For a Request of Action, the Timing will always represent a future time. </p></t
               
                 <tr>
                   <td>duration</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Duration">cdx.opencdx.grpc.common.Duration</a></td>
                   <td>optional</td>
                   <td><p>Duration of the symptom in days or weeks </p></td>
                 </tr>
@@ -3287,7 +3507,7 @@ For a Request of Action, the Timing will always represent a future time. </p></t
               
                 <tr>
                   <td>test_kit_id</td>
-                  <td><a href="#int32">int32</a></td>
+                  <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>ID of the chosen test kit </p></td>
                 </tr>
@@ -3322,7 +3542,7 @@ For a Request of Action, the Timing will always represent a future time. </p></t
               
                 <tr>
                   <td>gender</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Gender">cdx.opencdx.grpc.common.Gender</a></td>
                   <td>optional</td>
                   <td><p>Gender of the user </p></td>
                 </tr>
@@ -3336,7 +3556,7 @@ For a Request of Action, the Timing will always represent a future time. </p></t
               
                 <tr>
                   <td>pregnancy_status</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#bool">bool</a></td>
                   <td>optional</td>
                   <td><p>Pregnancy status of the user (e.g., pregnant, not pregnant) </p></td>
                 </tr>
@@ -3741,6 +3961,37 @@ For a Request of Action, the Timing will always represent a future time. </p></t
 
         
       
+        <h3 id="cdx.opencdx.grpc.common.Duration">Duration</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>duration</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>Duration </p></td>
+                </tr>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#cdx.opencdx.grpc.common.DurationType">DurationType</a></td>
+                  <td></td>
+                  <td><p>Type of duration (e.g., milliseconds, seconds, minutes) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.common.EmailAddress">EmailAddress</h3>
         <p>Email address details.</p>
 
@@ -3969,6 +4220,71 @@ For a Request of Action, the Timing will always represent a future time. </p></t
           </tbody>
         </table>
       
+        <h3 id="cdx.opencdx.grpc.common.DurationType">DurationType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>DURATION_TYPE_NOT_SPECIFIED</td>
+                <td>0</td>
+                <td><p>Not specified</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_MILLISECONDS</td>
+                <td>1</td>
+                <td><p>Milliseconds</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_SECONDS</td>
+                <td>2</td>
+                <td><p>Seconds</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_MINUTES</td>
+                <td>3</td>
+                <td><p>Minutes</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_HOURS</td>
+                <td>4</td>
+                <td><p>Hours</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_DAYS</td>
+                <td>5</td>
+                <td><p>Days</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_WEEKS</td>
+                <td>6</td>
+                <td><p>Weeks</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_MONTHS</td>
+                <td>7</td>
+                <td><p>Months</p></td>
+              </tr>
+            
+              <tr>
+                <td>DURATION_TYPE_YEARS</td>
+                <td>8</td>
+                <td><p>Years</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="cdx.opencdx.grpc.common.EmailType">EmailType</h3>
         <p>Enumeration for email type.</p>
         <table class="enum-table">
@@ -3998,6 +4314,47 @@ For a Request of Action, the Timing will always represent a future time. </p></t
               <tr>
                 <td>EMAIL_TYPE_OTHER</td>
                 <td>3</td>
+                <td><p>Other</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="cdx.opencdx.grpc.common.Gender">Gender</h3>
+        <p>Enumeration for gender.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>GENDER_NOT_SPECIFIED</td>
+                <td>0</td>
+                <td><p>Not specified</p></td>
+              </tr>
+            
+              <tr>
+                <td>GENDER_MALE</td>
+                <td>1</td>
+                <td><p>Male</p></td>
+              </tr>
+            
+              <tr>
+                <td>GENDER_FEMALE</td>
+                <td>2</td>
+                <td><p>Female</p></td>
+              </tr>
+            
+              <tr>
+                <td>GENDER_NON_BINARY</td>
+                <td>3</td>
+                <td><p>Non-binary</p></td>
+              </tr>
+            
+              <tr>
+                <td>GENDER_OTHER</td>
+                <td>4</td>
                 <td><p>Other</p></td>
               </tr>
             
@@ -7425,7 +7782,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>gender</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Gender">Gender</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Gender">cdx.opencdx.grpc.common.Gender</a></td>
                   <td></td>
                   <td><p>Gender of the user (e.g., Male, Female, Non-binary, etc.) </p></td>
                 </tr>
@@ -8024,7 +8381,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>gender</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.Gender">Gender</a></td>
+                  <td><a href="#cdx.opencdx.grpc.common.Gender">cdx.opencdx.grpc.common.Gender</a></td>
                   <td></td>
                   <td><p>Gender of the user </p></td>
                 </tr>
@@ -8312,47 +8669,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
         
       
 
-      
-        <h3 id="cdx.opencdx.grpc.profile.Gender">Gender</h3>
-        <p>Enumeration for gender.</p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>GENDER_NOT_SPECIFIED</td>
-                <td>0</td>
-                <td><p>Not specified</p></td>
-              </tr>
-            
-              <tr>
-                <td>GENDER_MALE</td>
-                <td>1</td>
-                <td><p>Male</p></td>
-              </tr>
-            
-              <tr>
-                <td>GENDER_FEMALE</td>
-                <td>2</td>
-                <td><p>Female</p></td>
-              </tr>
-            
-              <tr>
-                <td>GENDER_NON_BINARY</td>
-                <td>3</td>
-                <td><p>Non-binary</p></td>
-              </tr>
-            
-              <tr>
-                <td>GENDER_OTHER</td>
-                <td>4</td>
-                <td><p>Other</p></td>
-              </tr>
-            
-          </tbody>
-        </table>
       
 
       
@@ -9516,6 +9832,20 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><p>Category type [custom type] </p></td>
                 </tr>
               
+                <tr>
+                  <td>qr_scan_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>QR Scan Code for the device </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sku</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Stock Keeping Unit (SKU) for the device </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -9875,6 +10205,20 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#cdx.opencdx.grpc.common.types.CategoryType">cdx.opencdx.grpc.common.types.CategoryType</a></td>
                   <td>repeated</td>
                   <td><p>Category type [custom type] </p></td>
+                </tr>
+              
+                <tr>
+                  <td>qr_scan_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>QR Scan Code for the test </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sku</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Stock Keeping Unit (SKU) for the test </p></td>
                 </tr>
               
             </tbody>
@@ -10712,30 +11056,6 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>ID of the modifier of this event. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.media.MediaFilter">MediaFilter</h3>
-        <p>Media Filter</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>filter</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>Filter string </p></td>
                 </tr>
               
             </tbody>
@@ -12564,7 +12884,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>orgnization_id</td>
+                  <td>organization_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Organization Id associated with the Questionnaire data. </p></td>
@@ -12575,6 +12895,13 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Workspace Id associated with the Questionnaire data. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rule_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Id of the rule to be executed on Rules Engine upon submission </p></td>
                 </tr>
               
             </tbody>
@@ -12599,6 +12926,37 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData">ClientQuestionnaireData</a></td>
                   <td></td>
                   <td><p>Client-level FHIR questionnaire data. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.questionnaire.ClientRulesRequest">ClientRulesRequest</h3>
+        <p></p><p>Represents the request to retrieve rules at the client level.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>organization_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Organization Id associated with the Questionnaire data. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>workspace_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Workspace Id associated with the Questionnaire data. </p></td>
                 </tr>
               
             </tbody>
@@ -12664,7 +13022,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>orgnization_id</td>
+                  <td>organization_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Organization associated with the questionnaire </p></td>
@@ -12682,6 +13040,37 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>User associated with the questionnaire </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</h3>
+        <p>Represents the request to retrieve data</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Questionnaire resource Id </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -12709,24 +13098,10 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>orgnization_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>Organization associated with the questionnaire </p></td>
-                </tr>
-              
-                <tr>
-                  <td>workspace_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>Workspace associated with the questionnaire </p></td>
-                </tr>
-              
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>User associated with the questionnaire </p></td>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
                 </tr>
               
             </tbody>
@@ -12750,7 +13125,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                   <td>id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Resouce Id </p></td>
+                  <td><p>Resource Id </p></td>
                 </tr>
               
                 <tr>
@@ -12769,7 +13144,7 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
               
                 <tr>
                   <td>status</td>
-                  <td><a href="#string">string</a></td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireStatus">QuestionnaireStatus</a></td>
                   <td>optional</td>
                   <td><p>Status of the questionnaire (e.g., draft). </p></td>
                 </tr>
@@ -12789,19 +13164,40 @@ a HelloReply greeting message. Used to Send a greeting.</p></td>
                 </tr>
               
                 <tr>
-                  <td>submission_date</td>
+                  <td>rule_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Field for storing user submission information
 
-Date the questionnaire was submitted on </p></td>
+Id of the rule that was executed for the submission </p></td>
                 </tr>
               
                 <tr>
-                  <td>submisison_user_id</td>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Data submitted by </p></td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -12868,6 +13264,34 @@ Date the questionnaire was submitted on </p></td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>Associated Rules engine configuration. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Timestamp when this event was modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the creator of this event. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>ID of the modifier of this event. </p></td>
                 </tr>
               
             </tbody>
@@ -12990,6 +13414,13 @@ Date the questionnaire was submitted on </p></td>
 User-provided response to the item </p></td>
                 </tr>
               
+                <tr>
+                  <td>anf_statement_connector</td>
+                  <td><a href="#cdx.opencdx.grpc.anf.AnfStatementConnector">cdx.opencdx.grpc.anf.AnfStatementConnector</a></td>
+                  <td>repeated</td>
+                  <td><p>ANF statement connector </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -13010,7 +13441,7 @@ User-provided response to the item </p></td>
                 <tr>
                   <td>value_coding</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.ValueCoding">ValueCoding</a></td>
-                  <td></td>
+                  <td>optional</td>
                   <td><p>Coding value for answer options. </p></td>
                 </tr>
               
@@ -13048,8 +13479,15 @@ User-provided response to the item </p></td>
                 <tr>
                   <td>value_codeable_concept</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.ValueCodeableConcept">ValueCodeableConcept</a></td>
-                  <td></td>
-                  <td><p>Value for codeable concept extensions. </p></td>
+                  <td>optional</td>
+                  <td><p>Value for code-able concept extensions. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value_coding</td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.ValueCoding">ValueCoding</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -13071,8 +13509,8 @@ User-provided response to the item </p></td>
               
                 <tr>
                   <td>value_boolean</td>
-                  <td><a href="#cdx.opencdx.grpc.questionnaire.ValueBoolean">ValueBoolean</a></td>
-                  <td></td>
+                  <td><a href="#bool">bool</a></td>
+                  <td>optional</td>
                   <td><p>Initial boolean value for the item. </p></td>
                 </tr>
               
@@ -13121,7 +13559,83 @@ User-provided response to the item </p></td>
                   <td>questionnaires</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
                   <td>repeated</td>
-                  <td><p>Questionnaire Resouce List </p></td>
+                  <td><p>Questionnaire Resource List </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Pagination information and sorting. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.questionnaire.RuleSet">RuleSet</h3>
+        <p></p><p>Represents a ruleset for the rule engine.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>rule_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Unique identifier for the rule. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Type of the rule (e.g., business rule). </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Category of the rule. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Description of the rule. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.questionnaire.RuleSetsResponse">RuleSetsResponse</h3>
+        <p></p><p>Represents the response for the GetRuleSets operation.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>rule_sets</td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.RuleSet">RuleSet</a></td>
+                  <td>repeated</td>
+                  <td><p>List of rule sets available. </p></td>
                 </tr>
               
             </tbody>
@@ -13241,32 +13755,8 @@ User-provided response to the item </p></td>
 
         
       
-        <h3 id="cdx.opencdx.grpc.questionnaire.ValueBoolean">ValueBoolean</h3>
-        <p></p><p>Represents a boolean value.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>value_boolean</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td>optional</td>
-                  <td><p>Boolean value. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.questionnaire.ValueCodeableConcept">ValueCodeableConcept</h3>
-        <p></p><p>Represents a codeable concept value.</p>
+        <p></p><p>Represents a code-able concept value.</p>
 
         
           <table class="field-table">
@@ -13279,14 +13769,14 @@ User-provided response to the item </p></td>
                   <td>text</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Text content for codeable concept values. </p></td>
+                  <td><p>Text content for code-able concept values. </p></td>
                 </tr>
               
                 <tr>
                   <td>coding</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.Coding">Coding</a></td>
                   <td>repeated</td>
-                  <td><p>Coded values for codeable concepts. </p></td>
+                  <td><p>Coded values for code-able concepts. </p></td>
                 </tr>
               
             </tbody>
@@ -13313,6 +13803,13 @@ User-provided response to the item </p></td>
                   <td><p>Display text for the coding value. </p></td>
                 </tr>
               
+                <tr>
+                  <td>code</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -13321,6 +13818,35 @@ User-provided response to the item </p></td>
         
       
 
+      
+        <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireStatus">QuestionnaireStatus</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>QUESTIONNAIRE_STATUS_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>QUESTIONNAIRE_STATUS_ACTIVE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>QUESTIONNAIRE_STATUS_DELETED</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
       
 
       
@@ -13335,10 +13861,24 @@ User-provided response to the item </p></td>
           <tbody>
             
               <tr>
-                <td>SubmitQuestionnaire</td>
+                <td>GetRuleSets</td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.ClientRulesRequest">ClientRulesRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.RuleSetsResponse">RuleSetsResponse</a></td>
+                <td><p>Operation to get rule sets for specific client</p></td>
+              </tr>
+            
+              <tr>
+                <td>CreateQuestionnaire</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireRequest">QuestionnaireRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
                 <td><p>Submits a questionnaire and returns the submission status.</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateQuestionnaire</td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireRequest">QuestionnaireRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
+                <td><p>Submits a questionnaire to be updated.</p></td>
               </tr>
             
               <tr>
@@ -13350,7 +13890,7 @@ User-provided response to the item </p></td>
             
               <tr>
                 <td>GetSubmittedQuestionnaireList</td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaires">Questionnaires</a></td>
                 <td><p>Get all submitted questionnaire data.</p></td>
               </tr>
@@ -13385,7 +13925,7 @@ User-provided response to the item </p></td>
             
               <tr>
                 <td>GetQuestionnaireDataList</td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData">SystemQuestionnaireData</a></td>
                 <td><p>Get all system questionnaire data.</p></td>
               </tr>
@@ -13420,7 +13960,7 @@ User-provided response to the item </p></td>
             
               <tr>
                 <td>GetClientQuestionnaireDataList</td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData">ClientQuestionnaireData</a></td>
                 <td><p>Get all client questionnaire data.</p></td>
               </tr>
@@ -13455,7 +13995,7 @@ User-provided response to the item </p></td>
             
               <tr>
                 <td>GetUserQuestionnaireDataList</td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
                 <td><p>Get all user questionnaire.</p></td>
               </tr>

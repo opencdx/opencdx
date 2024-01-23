@@ -18,10 +18,14 @@ package cdx.opencdx.commons.security;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import java.util.stream.Stream;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
 class JwtTokenUtilTest {
@@ -29,6 +33,12 @@ class JwtTokenUtilTest {
     JwtTokenUtil jwtTokenUtil;
     String token;
     OpenCDXIAMUserModel openCDXIAMUserModel;
+
+    @ParameterizedTest
+    @MethodSource("createExceptionsParameters")
+    void createVariousExceptions(String token) {
+        Assertions.assertFalse(jwtTokenUtil.validate(token));
+    }
 
     @BeforeEach
     void setUp() {
@@ -59,23 +69,41 @@ class JwtTokenUtilTest {
         Assertions.assertTrue(jwtTokenUtil.validate(token));
     }
 
+    private static Stream<Arguments> createExceptionsParameters() {
+        return Stream.of(
+                Arguments.of(
+                        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTNmMTc1NWM0MjAzZjU3ZjM5ODQzZjMsYWJAc2FmZWhlYWx0aC5jb20iLCJpc3MiOiJvcGVuY2R4LmNkeCIsImlhdCI6MTY5ODc0MzEyNiwiZXhwIjoxNjk4NzU3NTI2fQ.F-Sc76xOCZO2ENH3valiMwwJNce3QYCoZIqjOFbCt72EDFmawAQWgIbBDjan0oj7EuK7tbSbYq20zPCVgUOxbQ"));
+    }
+
     @Test
     void testValidateCatch() {
         String token1 = token + "1";
         // SignatureException
         Assertions.assertFalse(jwtTokenUtil.validate(token1));
-        String token2 =
-                "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTNmMTc1NWM0MjAzZjU3ZjM5ODQzZjMsYWJAc2FmZWhlYWx0aC5jb20iLCJpc3MiOiJvcGVuY2R4LmNkeCIsImlhdCI6MTY5ODc0MzEyNiwiZXhwIjoxNjk4NzU3NTI2fQ.F-Sc76xOCZO2ENH3valiMwwJNce3QYCoZIqjOFbCt72EDFmawAQWgIbBDjan0oj7EuK7tbSbYq20zPCVgUOxbQ";
-        // ExpiredJwtException
-        Assertions.assertFalse(jwtTokenUtil.validate(token2));
+        //        String token2 =
+        //
+        // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTNmMTc1NWM0MjAzZjU3ZjM5ODQzZjMsYWJAc2FmZWhlYWx0aC5jb20iLCJpc3MiOiJvcGVuY2R4LmNkeCIsImlhdCI6MTY5ODc0MzEyNiwiZXhwIjoxNjk4NzU3NTI2fQ.F-Sc76xOCZO2ENH3valiMwwJNce3QYCoZIqjOFbCt72EDFmawAQWgIbBDjan0oj7EuK7tbSbYq20zPCVgUOxbQ";
+        //        // ExpiredJwtException
+        //        Assertions.assertFalse(jwtTokenUtil.validate(token2));
         // IllegalArgumentException
-        Assertions.assertFalse(jwtTokenUtil.validate(null));
+        //        Assertions.assertFalse(jwtTokenUtil.validate(null));
+    }
 
+    @Test
+    void testValidateCatchIllegalArgumentException() {
+        Assertions.assertFalse(jwtTokenUtil.validate(null));
+    }
+
+    @Test
+    void testValidateCatchUnsupportedJwtException() {
         String token3 =
                 "eyJhbGciOiJub25lIn0.eyJzdWIiOiI2NTNmMTc1NWM0MjAzZjU3ZjM5ODQzZjMsYWJAc2FmZWhlYWx0aC5jb20iLCJpc3MiOiJvcGVuY2R4LmNkeCIsImlhdCI6MTY5ODc0MzEyNiwiZXhwIjoxNjk4NzU3NTI2fQ.";
         // UnsupportedJwtException
         Assertions.assertFalse(jwtTokenUtil.validate(token3));
+    }
 
+    @Test
+    void testValidateCatchMalformedJwtException() {
         // MalformedJwtException
         String token4 =
                 "eyJhbGciOiJIUUxMiJ9.eyJzdWIiOiI2NTNmMTc1NWM0MjAzZjU3ZjM5ODQzZjMsYWJAc2FmZWhlYWx0aC5b20iLCJpc3MiOiJvcGVuY2R4LmNkeCIsImlhdCI6MTY5ODc0MzEyNiwiZXhwIjoxNjk4NzU3NTI2fQ.F-Sc76xOCZO2ENH3valiMwwJNce3QYCoZIqjOFbCt72EDFmawAQWgIbBDjan0oj7EuK7tbSbYq20zPCVgUOxbQ";

@@ -107,19 +107,23 @@ otsSwInfo {
 }
 
 def exportedProjects = [
+        ":opencdx-admin",
+        ":opencdx-anf",
         ":opencdx-audit",
+        ":opencdx-classification",
         ":opencdx-client",
         ":opencdx-commons",
         ":opencdx-communications",
+        ":opencdx-config",
         ":opencdx-connected-test",
-        ":opencdx-helloworld",
+        ":opencdx-discovery",
         ":opencdx-iam",
-        ":opencdx-routine",
-        ":opencdx-protector",
-        ":opencdx-predictor",
-        ":opencdx-questionnaire",
-        ":opencdx-classification",
+        ":opencdx-gateway",
         ":opencdx-media",
+        ":opencdx-predictor",
+        ":opencdx-protector",
+        ":opencdx-questionnaire",
+        ":opencdx-routine",
         ":opencdx-tinkar"
 ]
 
@@ -131,6 +135,10 @@ tasks.register('allJavadoc', Javadoc) {
         links 'https://docs.oracle.com/en/java/javase/21/docs/api'
         links 'https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api'
         links 'https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3'
+        tags 'apiNote:a:API Note:'
+        tags 'implSpec:a:Implementation Requirements:'
+        tags 'implNote:a:Implementation Note:'
+        overview './overview.html'
     }
     options.addBooleanOption("Xwerror", true)
 }
@@ -229,7 +237,7 @@ allprojects {
     }
 
     sonarlint {
-        excludeRules = ["java:S4032","java:S107"]
+        excludeRules = ["java:S4032","java:S107","java:S1135"]
         includeRules = []
         ignoreFailures = false
         maxIssues = 0

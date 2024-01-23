@@ -152,7 +152,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      */
     @Override
     public LoadProviderResponse loadProvider(LoadProviderRequest request) {
-        OpenCDXIAMProviderModel openCDXIAMProviderModel = null;
+        OpenCDXIAMProviderModel openCDXIAMProviderModel;
         try {
             String npiNumber = request.getUserId();
             String apiUrl = "https://npiregistry.cms.hhs.gov/api/";

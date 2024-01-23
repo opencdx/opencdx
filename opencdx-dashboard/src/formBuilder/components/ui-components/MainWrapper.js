@@ -12,8 +12,6 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
     const [anfFormLocal, setAnfFormLocal] = useLocalStorage('anf-form');
     const [showAlert, setShowAlert] = useState(false);
 
-   
-
     const defaultValues = {
         test: uploadedFile.item
     };
@@ -51,18 +49,24 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
         console.log('anf-form', localStorage.getItem('anf-form'));
 
         const values = Object.keys(localStorage)
-            .filter(key => key.includes('form-v'))
-            .map(key => localStorage.getItem(key));
+            .filter((key) => key.includes('form-v'))
+            .map((key) => localStorage.getItem(key));
         if (values.length === 0) {
-            localStorage.setItem('form-v1', JSON.stringify({
+            localStorage.setItem(
+                'form-v1',
+                JSON.stringify({
+                    'anf-form': JSON.parse(localStorage.getItem('anf-form')),
+                    'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
+                })
+            );
+        }
+        localStorage.setItem(
+            'form-v' + (values.length + 1),
+            JSON.stringify({
                 'anf-form': JSON.parse(localStorage.getItem('anf-form')),
                 'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
-            }));
-        }
-        localStorage.setItem('form-v' + (values.length + 1), JSON.stringify({
-            'anf-form': JSON.parse(localStorage.getItem('anf-form')),
-            'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
-        }));
+            })
+        );
 
         setAnfFormLocal({ item: updatedItem });
 

@@ -39,6 +39,7 @@ import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.google.protobuf.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -96,7 +97,41 @@ class OpenCDXCDCPayloadServiceImplTest {
         String countryId = ObjectId.get().toHexString();
 
         OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
-        OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
+        OpenCDXIAMUserModel openCDXIAMUserModel = createUser1(patientId);
+        openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
+        OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
+                .setId(manufacturerId)
+                .setName("ABC Devices Inc")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .build());
+
+        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
+                .thenReturn(Optional.of(openCDXConnectedTestModel));
+        when(openCDXIAMUserRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(openCDXIAMUserModel));
+        when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.of(openCDXDeviceModel));
+        when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
+                .thenReturn(Optional.of(openCDXManufacturerModel));
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
+
+        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXIAMUserRepository).findById(new ObjectId(patientId));
+        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
+        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
+    }
+
+    @Test
+    void testSendCDCPayloadMessage_2() {
+        String testId = ObjectId.get().toHexString();
+        String patientId = ObjectId.get().toHexString();
+        String deviceId = ObjectId.get().toHexString();
+        String manufacturerId = ObjectId.get().toHexString();
+        String vendorId = ObjectId.get().toHexString();
+        String countryId = ObjectId.get().toHexString();
+
+        OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
+        OpenCDXIAMUserModel openCDXIAMUserModel = createUser2(patientId);
         openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
         OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
         OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
@@ -132,7 +167,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
         openCDXConnectedTestModel.setTestDetails(
                 TestDetails.newBuilder().setDeviceIdentifier(deviceId).build());
-        OpenCDXIAMUserModel openCDXIAMUserModel = createUser(patientId);
+        OpenCDXIAMUserModel openCDXIAMUserModel = createUser2(patientId);
         openCDXIAMUserModel.setGender(null);
         openCDXIAMUserModel.setStatus(IamUserStatus.IAM_USER_STATUS_ACTIVE);
         openCDXIAMUserModel.setAddresses(null);
@@ -193,7 +228,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         String patientId = ObjectId.get().toHexString();
         String deviceId = ObjectId.get().toHexString();
 
-        OpenCDXIAMUserModel patient = createUser(patientId);
+        OpenCDXIAMUserModel patient = createUser3(patientId);
         patient.setFullName(null);
         patient.setPrimaryContactInfo(null);
 
@@ -222,7 +257,8 @@ class OpenCDXCDCPayloadServiceImplTest {
         String countryId = ObjectId.get().toHexString();
         when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
                 .thenReturn(Optional.of(createTest(testId, patientId, deviceId)));
-        when(openCDXIAMUserRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(createUser(patientId)));
+        when(openCDXIAMUserRepository.findById(new ObjectId(patientId)))
+                .thenReturn(Optional.of(createUser4(patientId)));
         when(openCDXDeviceRepository.findById(new ObjectId(deviceId)))
                 .thenReturn(Optional.of(createDevice(deviceId, manufacturerId, vendorId, countryId)));
         when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
@@ -255,7 +291,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .build());
     }
 
-    private OpenCDXIAMUserModel createUser(String userId) {
+    private OpenCDXIAMUserModel createUser1(String userId) {
         OpenCDXIAMUserModel openCDXIAMUserModel =
                 new OpenCDXIAMUserModel(IamUser.newBuilder().setId(userId).build());
         openCDXIAMUserModel.setFullName(FullName.newBuilder()
@@ -300,6 +336,138 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .setCountryId("USA")
                 .setAddressPurpose(AddressPurpose.PRIMARY)
                 .build()));
+
+        return openCDXIAMUserModel;
+    }
+
+    private OpenCDXIAMUserModel createUser2(String userId) {
+        OpenCDXIAMUserModel openCDXIAMUserModel =
+                new OpenCDXIAMUserModel(IamUser.newBuilder().setId(userId).build());
+        openCDXIAMUserModel.setFullName(FullName.newBuilder()
+                .setFirstName("Adam")
+                .setMiddleName("Charles")
+                .setLastName("Smith")
+                .setSuffix("Sr")
+                .build());
+        openCDXIAMUserModel.setPrimaryContactInfo(ContactInfo.newBuilder()
+                .addAllPhoneNumbers(List.of(
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .setNumber("111-111-1111")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_HOME)
+                                .setNumber("222-222-2222")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("333-333-3333")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_FAX)
+                                .setNumber("333-333-3333")
+                                .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_PERSONAL)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .build());
+        openCDXIAMUserModel.setGender(Gender.GENDER_MALE);
+        openCDXIAMUserModel.setAddresses(List.of(Address.newBuilder()
+                .setAddress1("123 Main St")
+                .setCity("Vienna")
+                .setState("VA")
+                .setPostalCode("22182")
+                .setCountryId("USA")
+                .setAddressPurpose(AddressPurpose.BILLING)
+                .build()));
+
+        return openCDXIAMUserModel;
+    }
+
+    private OpenCDXIAMUserModel createUser3(String userId) {
+        OpenCDXIAMUserModel openCDXIAMUserModel =
+                new OpenCDXIAMUserModel(IamUser.newBuilder().setId(userId).build());
+        openCDXIAMUserModel.setFullName(FullName.newBuilder()
+                .setFirstName("Adam")
+                .setMiddleName("Charles")
+                .setLastName("Smith")
+                .setSuffix("Sr")
+                .build());
+        openCDXIAMUserModel.setPrimaryContactInfo(ContactInfo.newBuilder()
+                .addAllPhoneNumbers(List.of(
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .setNumber("111-111-1111")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_HOME)
+                                .setNumber("222-222-2222")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("333-333-3333")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_FAX)
+                                .setNumber("333-333-3333")
+                                .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_PERSONAL)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .build());
+        openCDXIAMUserModel.setGender(Gender.GENDER_MALE);
+        openCDXIAMUserModel.setAddresses(Collections.emptyList());
+
+        return openCDXIAMUserModel;
+    }
+
+    private OpenCDXIAMUserModel createUser4(String userId) {
+        OpenCDXIAMUserModel openCDXIAMUserModel =
+                new OpenCDXIAMUserModel(IamUser.newBuilder().setId(userId).build());
+        openCDXIAMUserModel.setFullName(FullName.newBuilder()
+                .setFirstName("Adam")
+                .setMiddleName("Charles")
+                .setLastName("Smith")
+                .setSuffix("Sr")
+                .build());
+        openCDXIAMUserModel.setPrimaryContactInfo(ContactInfo.newBuilder()
+                .addAllPhoneNumbers(List.of(
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .setNumber("111-111-1111")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_HOME)
+                                .setNumber("222-222-2222")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_WORK)
+                                .setNumber("333-333-3333")
+                                .build(),
+                        PhoneNumber.newBuilder()
+                                .setType(PhoneType.PHONE_TYPE_FAX)
+                                .setNumber("333-333-3333")
+                                .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_WORK)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .setType(EmailType.EMAIL_TYPE_PERSONAL)
+                        .setEmail("contact@opencdx.org")
+                        .build()))
+                .build());
+        openCDXIAMUserModel.setGender(Gender.GENDER_MALE);
 
         return openCDXIAMUserModel;
     }
