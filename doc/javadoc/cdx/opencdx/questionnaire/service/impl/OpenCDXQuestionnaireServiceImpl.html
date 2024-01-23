@@ -109,11 +109,12 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">OpenCDXQuestionnaireServiceImpl</a><wbr>(<a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository)" class="member-name-link">OpenCDXQuestionnaireServiceImpl</a><wbr>(<a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
  <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
- <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser)</code></div>
+ <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
+ <a href="../../repository/OpenCDXQuestionnaireRepository.html" title="interface in cdx.opencdx.questionnaire.repository">OpenCDXQuestionnaireRepository</a>&nbsp;openCDXQuestionnaireRepository)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor taking the a PersonRepository</div>
+<div class="block">This class represents the implementation of the OpenCDXQuestionnaireService interface.</div>
 </div>
 </div>
 </section>
@@ -134,55 +135,65 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the Create Client QuestionnaireRequest Data</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createQuestionnaireData(cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest)" class="member-name-link">createQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest&nbsp;request)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the Create QuestionnaireRequest Data</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest)" class="member-name-link">createUserQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest&nbsp;request)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the Create User QuestionnaireRequest Data</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteClientQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteClientQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the Delete Client QuestionnaireRequest Data</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the Delete QuestionnaireRequest Data</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteSubmittedQuestionnaire(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteSubmittedQuestionnaire</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.Questionnaire</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)" class="member-name-link">createQuestionnaire</a><wbr>(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the QuestionnaireRequest</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteUserQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createQuestionnaireData(cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest)" class="member-name-link">createQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the Create QuestionnaireRequest Data</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest)" class="member-name-link">createUserQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the Create User QuestionnaireRequest Data</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteClientQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteClientQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the Delete Client QuestionnaireRequest Data</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the Delete QuestionnaireRequest Data</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteSubmittedQuestionnaire(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteSubmittedQuestionnaire</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the QuestionnaireRequest</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteUserQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the Delete User QuestionnaireRequest Data</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClientQuestionnaireData(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getClientQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the Get Client QuestionnaireRequest Data</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClientQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getClientQuestionnaireDataList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClientQuestionnaireData(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getClientQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the Get Client QuestionnaireRequest Data</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getQuestionnaireData(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClientQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)" class="member-name-link">getClientQuestionnaireDataList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the Get QuestionnaireRequest Data</div>
+<div class="block">Process the Get Client QuestionnaireRequest Data</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getQuestionnaireDataList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getQuestionnaireData(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the Get QuestionnaireRequest Data</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)" class="member-name-link">getQuestionnaireDataList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the Get QuestionnaireRequest Data</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.RuleSetsResponse</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRuleSets(cdx.opencdx.grpc.questionnaire.ClientRulesRequest)" class="member-name-link">getRuleSets</a><wbr>(cdx.opencdx.grpc.questionnaire.ClientRulesRequest&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Operation to get rulesets</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.Questionnaire</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubmittedQuestionnaire(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getSubmittedQuestionnaire</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
@@ -190,7 +201,7 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 <div class="block">Process the GetQuestionnaireRequest</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.Questionnaires</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubmittedQuestionnaireList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getSubmittedQuestionnaireList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubmittedQuestionnaireList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)" class="member-name-link">getSubmittedQuestionnaireList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the GetQuestionnaireRequest</div>
 </div>
@@ -200,19 +211,19 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 <div class="block">Process the Get User QuestionnaireRequest Data</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.UserQuestionnaireData</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getUserQuestionnaireDataList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)" class="member-name-link">getUserQuestionnaireDataList</a><wbr>(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the Get User QuestionnaireRequest Data</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#submitQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)" class="member-name-link">submitQuestionnaire</a><wbr>(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateClientQuestionnaireData(cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest)" class="member-name-link">updateClientQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Process the QuestionnaireRequest</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateClientQuestionnaireData(cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest)" class="member-name-link">updateClientQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest&nbsp;request)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the Update Client QuestionnaireRequest Data</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.Questionnaire</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)" class="member-name-link">updateQuestionnaire</a><wbr>(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest&nbsp;request)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the QuestionnaireRequest</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>cdx.opencdx.grpc.questionnaire.SubmissionResponse</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateQuestionnaireData(cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest)" class="member-name-link">updateQuestionnaireData</a><wbr>(cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest&nbsp;request)</code></div>
@@ -242,18 +253,21 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser)">
+<section class="detail" id="&lt;init&gt;(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository)">
 <h3>OpenCDXQuestionnaireServiceImpl</h3>
 <div class="member-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html" title="class or interface in org.springframework.beans.factory.annotation" class="external-link">@Autowired</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXQuestionnaireServiceImpl</span><wbr><span class="parameters">(<a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
  <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
- <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser)</span></div>
-<div class="block">Constructor taking the a PersonRepository</div>
+ <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
+ <a href="../../repository/OpenCDXQuestionnaireRepository.html" title="interface in cdx.opencdx.questionnaire.repository">OpenCDXQuestionnaireRepository</a>&nbsp;openCDXQuestionnaireRepository)</span></div>
+<div class="block">This class represents the implementation of the OpenCDXQuestionnaireService interface.
+ It provides methods for processing various types of questionnaire requests.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>openCDXAuditService</code> - Audit Service.</dd>
-<dd><code>objectMapper</code> - Object Mapper.</dd>
-<dd><code>openCDXCurrentUser</code> - Current User Service.</dd>
+<dd><code>openCDXAuditService</code> - the OpenCDXAuditService instance used for auditing</dd>
+<dd><code>objectMapper</code> - the ObjectMapper instance used for object serialization and deserialization</dd>
+<dd><code>openCDXCurrentUser</code> - the OpenCDXCurrentUser instance used for managing user information</dd>
+<dd><code>openCDXQuestionnaireRepository</code> - the OpenCDXQuestionnaireRepository instance used for interacting with questionnaire data</dd>
 </dl>
 </section>
 </li>
@@ -266,13 +280,43 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="submitQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)">
-<h3>submitQuestionnaire</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.SubmissionResponse</span>&nbsp;<span class="element-name">submitQuestionnaire</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest&nbsp;request)</span></div>
+<section class="detail" id="getRuleSets(cdx.opencdx.grpc.questionnaire.ClientRulesRequest)">
+<h3>getRuleSets</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.RuleSetsResponse</span>&nbsp;<span class="element-name">getRuleSets</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.ClientRulesRequest&nbsp;request)</span></div>
+<div class="block">Operation to get rulesets</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#getRuleSets(cdx.opencdx.grpc.questionnaire.ClientRulesRequest)">getRuleSets</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>request</code> - the request to retrieve rules at the client level</dd>
+<dt>Returns:</dt>
+<dd>Response containing a list of rulesets</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)">
+<h3>createQuestionnaire</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.Questionnaire</span>&nbsp;<span class="element-name">createQuestionnaire</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest&nbsp;request)</span></div>
 <div class="block">Process the QuestionnaireRequest</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXQuestionnaireService.html#submitQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)">submitQuestionnaire</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#createQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)">createQuestionnaire</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>request</code> - request the process</dd>
+<dt>Returns:</dt>
+<dd>Message generated for this request.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updateQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)">
+<h3>updateQuestionnaire</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.Questionnaire</span>&nbsp;<span class="element-name">updateQuestionnaire</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest&nbsp;request)</span></div>
+<div class="block">Process the QuestionnaireRequest</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#updateQuestionnaire(cdx.opencdx.grpc.questionnaire.QuestionnaireRequest)">updateQuestionnaire</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - request the process</dd>
 <dt>Returns:</dt>
@@ -296,13 +340,13 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 </section>
 </li>
 <li>
-<section class="detail" id="getSubmittedQuestionnaireList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">
+<section class="detail" id="getSubmittedQuestionnaireList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">
 <h3>getSubmittedQuestionnaireList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.Questionnaires</span>&nbsp;<span class="element-name">getSubmittedQuestionnaireList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.Questionnaires</span>&nbsp;<span class="element-name">getSubmittedQuestionnaireList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</span></div>
 <div class="block">Process the GetQuestionnaireRequest</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXQuestionnaireService.html#getSubmittedQuestionnaireList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">getSubmittedQuestionnaireList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#getSubmittedQuestionnaireList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">getSubmittedQuestionnaireList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - request the process</dd>
 <dt>Returns:</dt>
@@ -371,13 +415,13 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 </section>
 </li>
 <li>
-<section class="detail" id="getQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">
+<section class="detail" id="getQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">
 <h3>getQuestionnaireDataList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData</span>&nbsp;<span class="element-name">getQuestionnaireDataList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData</span>&nbsp;<span class="element-name">getQuestionnaireDataList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</span></div>
 <div class="block">Process the Get QuestionnaireRequest Data</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXQuestionnaireService.html#getQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">getQuestionnaireDataList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#getQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">getQuestionnaireDataList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - request the process</dd>
 <dt>Returns:</dt>
@@ -446,13 +490,13 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 </section>
 </li>
 <li>
-<section class="detail" id="getClientQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">
+<section class="detail" id="getClientQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">
 <h3>getClientQuestionnaireDataList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData</span>&nbsp;<span class="element-name">getClientQuestionnaireDataList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData</span>&nbsp;<span class="element-name">getClientQuestionnaireDataList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</span></div>
 <div class="block">Process the Get Client QuestionnaireRequest Data</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXQuestionnaireService.html#getClientQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">getClientQuestionnaireDataList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#getClientQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">getClientQuestionnaireDataList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - request the process</dd>
 <dt>Returns:</dt>
@@ -521,13 +565,13 @@ implements <a href="../OpenCDXQuestionnaireService.html" title="interface in cdx
 </section>
 </li>
 <li>
-<section class="detail" id="getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">
+<section class="detail" id="getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">
 <h3>getUserQuestionnaireDataList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.UserQuestionnaireData</span>&nbsp;<span class="element-name">getUserQuestionnaireDataList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">cdx.opencdx.grpc.questionnaire.UserQuestionnaireData</span>&nbsp;<span class="element-name">getUserQuestionnaireDataList</span><wbr><span class="parameters">(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest&nbsp;request)</span></div>
 <div class="block">Process the Get User QuestionnaireRequest Data</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXQuestionnaireService.html#getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)">getUserQuestionnaireDataList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
+<dd><code><a href="../OpenCDXQuestionnaireService.html#getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest)">getUserQuestionnaireDataList</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - request the process</dd>
 <dt>Returns:</dt>

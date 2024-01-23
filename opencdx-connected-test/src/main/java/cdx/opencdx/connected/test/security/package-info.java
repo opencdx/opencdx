@@ -1,7 +1,7 @@
 /**
- * This package is for security related configuration for spring
+ * The purpose of this package is to encompass security-related configurations for Spring Security.
  * <p>
- * Spring Security related files are seperated as a whole for easier identification and lookup.
+ * To facilitate easier identification and lookup, files related to Spring Security are logically grouped and separated within this package.
  * </p>
  *
  * @author Safe Health LLC.

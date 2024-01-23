@@ -68,8 +68,6 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
     @Setter
     private int maxEntries;
 
-    private final Gauge gauge;
-
     private final Counter counter;
 
     private final ConcurrentMap<Object, CacheValue> store;
@@ -148,7 +146,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
         SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
 
-        this.gauge = Gauge.builder(
+        Gauge gauge = Gauge.builder(
                         "opencdx."
                                 + this.name
                                         .toLowerCase()
@@ -240,7 +238,6 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
      * @since 4.0
      * @see #get(Object)
      */
-    @SuppressWarnings({"java:S1452", "java:S3358"})
     @Override
     @Nullable public CompletableFuture<?> retrieve(Object key) {
         this.cleanUpIdleEntries(key);
@@ -321,7 +318,6 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         return notEmpty;
     }
 
-    @SuppressWarnings("java:S1181")
     @Override
     protected Object toStoreValue(@Nullable Object userValue) {
         Object storeValue = super.toStoreValue(userValue);
@@ -329,7 +325,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
             try {
                 this.counter.increment();
                 return this.serialization.serializeToByteArray(storeValue);
-            } catch (Throwable ex) {
+            } catch (Exception ex) {
                 throw new IllegalArgumentException(
                         "Failed to serialize cache value '" + userValue + "'. Does it implement Serializable?", ex);
             }
@@ -339,14 +335,13 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
         }
     }
 
-    @SuppressWarnings("java:S1181")
     @Override
     protected Object fromStoreValue(@Nullable Object storeValue) {
         if (storeValue != null && this.serialization != null) {
             try {
                 this.counter.increment();
                 return super.fromStoreValue(this.serialization.deserializeFromByteArray((byte[]) storeValue));
-            } catch (Throwable ex) {
+            } catch (Exception ex) {
                 throw new IllegalArgumentException("Failed to deserialize cache value '" + storeValue + "'", ex);
             }
         } else {

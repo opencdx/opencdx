@@ -1,7 +1,7 @@
 /**
- * This package is for data transfer objects
+ * This package contains Data Transfer Objects (DTOs).
  * <p>
- * Data transfer object files are seperated as a whole for easier identification and lookup.
+ * DTOs are segregated into this package to facilitate easier identification and retrieval.
  * </p>
  *
  * @author Safe Health LLC.

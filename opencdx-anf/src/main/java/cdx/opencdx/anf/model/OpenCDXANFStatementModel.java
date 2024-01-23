@@ -27,6 +27,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Represents a model for an ANF statement in OpenCDX.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,6 +57,13 @@ public class OpenCDXANFStatementModel {
 
     private AnfStatement.Status status;
 
+    /**
+     * Constructs a new OpenCDXANFStatementModel based on an instance of AnfStatement.ANFStatement.
+     * The method initializes the attributes of the OpenCDXANFStatementModel with the corresponding values
+     * from the AnfStatement instance.
+     *
+     * @param anfStatement the AnfStatement instance to create the OpenCDXANFStatementModel from
+     */
     public OpenCDXANFStatementModel(AnfStatement.ANFStatement anfStatement) {
         if (anfStatement.hasId()) {
             this.id = new ObjectId(anfStatement.getId().getId());
@@ -90,7 +100,11 @@ public class OpenCDXANFStatementModel {
         this.status = AnfStatement.Status.STATUS_ACTIVE;
     }
 
-    @SuppressWarnings("java:S3776")
+    /**
+     * Returns the Protobuf message representation of the AnfStatement.
+     *
+     * @return The Protobuf message representation
+     */
     public AnfStatement.ANFStatement getProtobufMessage() {
         AnfStatement.ANFStatement.Builder builder = AnfStatement.ANFStatement.newBuilder();
 

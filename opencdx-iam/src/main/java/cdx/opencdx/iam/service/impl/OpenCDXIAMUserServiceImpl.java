@@ -496,7 +496,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                         new OpenCDXUnauthorized(DOMAIN, 1, "Failed to authenticate user: " + request.getUserName()));
         try {
 
-            if (userModel.getEmailVerified()) {
+            if (Boolean.TRUE.equals(userModel.getEmailVerified())) {
 
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));

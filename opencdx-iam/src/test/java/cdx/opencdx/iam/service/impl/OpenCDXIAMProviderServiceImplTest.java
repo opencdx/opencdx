@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.provider.DeleteProviderRequest;
@@ -141,7 +142,7 @@ class OpenCDXIAMProviderServiceImplTest {
     }
 
     @Test
-    void loadProviderTest() throws IOException {
+    void loadProviderTestExcept() throws IOException {
         LoadProviderRequest loadProviderRequest1 =
                 LoadProviderRequest.newBuilder().setUserId("&%").build();
         URL url = mock(URL.class);
@@ -154,16 +155,15 @@ class OpenCDXIAMProviderServiceImplTest {
             when(url.openConnection()).thenReturn(connection);
             when(connection.getResponseCode()).thenReturn(HttpURLConnection.HTTP_BAD_GATEWAY);
             Assertions.assertThrows(
-                    NullPointerException.class,
+                    OpenCDXServiceUnavailable.class,
                     () -> this.openCDXIAMProviderService.loadProvider(loadProviderRequest1));
         }
     }
 
     @Test
-    void loadProviderTestExcept() {
+    void loadProviderTest() {
         LoadProviderRequest loadProviderRequest =
                 LoadProviderRequest.newBuilder().setUserId("2431").build();
-        Assertions.assertThrows(
-                NullPointerException.class, () -> this.openCDXIAMProviderService.loadProvider(loadProviderRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProviderService.loadProvider(loadProviderRequest));
     }
 }

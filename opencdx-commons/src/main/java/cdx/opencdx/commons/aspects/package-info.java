@@ -1,10 +1,10 @@
 /**
- * This is the package to audit various aspect for OpenCDX.
+ * This package is dedicated to aspect-oriented programming within the OpenCDX context.
  * <p>
- * Aspect should be stored here under for OpenCDX GRPC.
+ * Aspects related to OpenCDX GRPC should reside here.
  * </p>
  *
- * @author Safe Health LLC.
+ * @author Safe Health LLC
  * @version 1.0
  * @since 1.0
  */

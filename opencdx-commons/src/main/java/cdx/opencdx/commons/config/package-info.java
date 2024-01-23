@@ -1,7 +1,8 @@
 /**
- * This has the configuration files for OpenCDX
+ * This is the principal configuration file for Spring.
  * <p>
- * OpenCDX configuration files should be maintained in this package.
+ * All Spring configuration files should be kept in this package. The only exception pertains to security files,
+ * which are maintained in a separate package.
  * </p>
  *
  * @author Safe Health LLC.
