@@ -320,6 +320,7 @@ build_docker() {
     build_docker_image opencdx/anf ./opencdx-anf
     if [ "$no_ui" = false ]; then
       build_docker_image opencdx/dashboard ./opencdx-dashboard
+      build_docker_image opencdx/graphql ./opencdx-graphql
     fi
 }
 
