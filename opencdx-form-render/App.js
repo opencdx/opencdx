@@ -1,41 +1,20 @@
-import { StyleSheet, View, Platform } from 'react-native';
-import Constants from 'expo-constants';
-import FormRender from './components/FormRender';
-import { Center, GluestackUIProvider, ScrollView } from '@gluestack-ui/themed';
-import { config } from '@gluestack-ui/config';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 
-export default function App() {
+const Stack = createStackNavigator();
 
+const App = () => {
   return (
-    <View style={styles.container}>
-        <GluestackUIProvider config={config}>
-            { Platform.OS === "web" ? (
-              <Center>
-                <FormRender/>
-              </Center>
-            ) : (
-              <ScrollView h="$80" w="$100">
-                <FormRender/>
-              </ScrollView>
-            )}
-      </GluestackUIProvider>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    padding: 8,
-    ...Platform.select({
-      web: {
-
-      },
-      default: {
-        maxWidth: 500,
-      }
-    })
-  },
-});
+export default App;
