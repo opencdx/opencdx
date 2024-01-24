@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { TextInput } from './TextInput'
 import { RadioInput } from './RadioInput'
 import { SelectInputComp } from './SelectInputComp'
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { FormControlLabel, FormControlLabelText } from '@gluestack-ui/themed';
+import { Text, View, StyleSheet } from 'react-native';
+import { Button, ButtonText, FormControlLabel, FormControlLabelText, Heading } from '@gluestack-ui/themed';
 import { useForm, FormProvider } from 'react-hook-form';
 import Constants from 'expo-constants';
 
@@ -23,7 +23,7 @@ export default function App({ questionnaire }) {
             ) : (
                 <>
                     <FormProvider {...methods}>
-                        <Text>{questionnaire?.title}</Text>
+                        <Heading>{questionnaire?.title}</Heading>
                         {questionnaire?.item?.map((field, index) => {
                             let inputComponent;
 
@@ -109,7 +109,9 @@ export default function App({ questionnaire }) {
                 <Button
                     title="Submit"
                     onPress={methods.handleSubmit(onSubmit)}
-                />
+                >
+                    <ButtonText>Sumit</ButtonText>
+                </Button>
             </View>
         </View>
     );

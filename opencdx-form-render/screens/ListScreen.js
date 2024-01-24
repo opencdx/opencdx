@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, Heading, ButtonText } from '@gluestack-ui/themed';
 
 const ListScreen = ({ navigation }) => {
     const [buttonTitles, setButtonTitles] = useState([]);
@@ -38,12 +39,16 @@ const ListScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <Heading>Select a questionnaire:</Heading>
             {buttonTitles.map((questionnaire, index) => (
                 <Button
+                    style={styles.input}
                     key={index}
                     title={questionnaire.title}
                     onPress={() => navigation.navigate('Home', { questionnaire })}
-                />
+                >
+                    <ButtonText>{questionnaire.title}</ButtonText>
+                </Button>
             ))}
         </View>
     );
@@ -64,10 +69,6 @@ const styles = StyleSheet.create({
         })),
     },
     input: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 5,
         margin: 5,
     },
 });

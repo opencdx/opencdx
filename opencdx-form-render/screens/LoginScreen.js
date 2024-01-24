@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, TextInput, View , StyleSheet, Platform} from 'react-native';
+import { View , StyleSheet, Platform} from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, Heading, Input, ButtonText, InputField } from '@gluestack-ui/themed';
 
 const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState('admin@opencdx.org');
@@ -19,20 +20,22 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                placeholder="Username"
+            <Heading>Sign In</Heading>
+            <Input
                 onChangeText={setUsername}
                 style={styles.input}
-                defaultValue={username}
-            />
-            <TextInput
-                placeholder="Password"
-                secureTextEntry={true}
+            >
+                <InputField placeholder="Username" defaultValue={username}/>
+            </Input>
+            <Input
                 onChangeText={setPassword}
-                defaultValue={password}
-                style={[styles.input, { marginBottom: 10 }]}
-            />
-            <Button title="Login" onPress={handleLogin} />
+                style={styles.input}
+            >
+                <InputField type="password" placeholder="Password" defaultValue={password}/>
+            </Input>
+            <Button title="Login" onPress={handleLogin}>
+                <ButtonText>Login</ButtonText>
+            </Button>
         </View>
     );
 };
@@ -54,11 +57,7 @@ const styles = StyleSheet.create({
     })
     },
     input: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 5,
-        margin: 5,
+        marginBottom: 10,
     },
 });
 
