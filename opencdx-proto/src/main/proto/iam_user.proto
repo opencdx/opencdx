@@ -67,6 +67,7 @@ enum IamUserStatus {
   IAM_USER_STATUS_DELETED = 3;
 }
 
+// Login Request with user name.
 message LoginRequest {
   // User name for the user on login request.
   string user_name = 1;
@@ -75,6 +76,7 @@ message LoginRequest {
   string password = 2;
 }
 
+// The response token
 message LoginResponse {
   // JWT Token to use for authorization
   string token = 1;

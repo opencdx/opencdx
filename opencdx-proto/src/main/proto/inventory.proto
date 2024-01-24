@@ -112,45 +112,45 @@ message TestCase {
 
 // gRPC service for managing countries.
 service CountryService {
-    rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country);
-    rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
-    rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
-    rpc delete_country(CountryIdRequest) returns (DeleteResponse);
+    rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country); // Retrieve a Country.
+    rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country); // Add a Country.
+    rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country); // Update the Country.
+    rpc delete_country(CountryIdRequest) returns (DeleteResponse); // Delete a country.
     rpc listCountries(CountryListRequest) returns (CountryListResponse); // Retrieve a list of Countries.
 }
 
 // gRPC service for managing manufacturers.
 service ManufacturerService {
-    rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (Manufacturer);
-    rpc add_manufacturer(Manufacturer) returns (Manufacturer);
-    rpc update_manufacturer(Manufacturer) returns (Manufacturer);
-    rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse);
+    rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (Manufacturer); // Fetch a manufacturer by ID.
+    rpc add_manufacturer(Manufacturer) returns (Manufacturer); // Add a manufacturer.
+    rpc update_manufacturer(Manufacturer) returns (Manufacturer); // Update a manufacturer.
+    rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse); // Remove a manufacturer.
     rpc listManufacturers(ManufacturerListRequest) returns (ManufacturersListResponse); // Retrieve a list of Manufacturers.
 }
 
 // gRPC service for managing vendors.
 service VendorService {
-    rpc get_vendor_by_id(VendorIdRequest) returns (Vendor);
-    rpc add_vendor(Vendor) returns (Vendor);
-    rpc update_vendor(Vendor) returns (Vendor);
-    rpc delete_vendor(VendorIdRequest) returns (DeleteResponse);
+    rpc get_vendor_by_id(VendorIdRequest) returns (Vendor); // Fetch a vendor by ID.
+    rpc add_vendor(Vendor) returns (Vendor); // Add a vendor.
+    rpc update_vendor(Vendor) returns (Vendor); // Update a vendor.
+    rpc delete_vendor(VendorIdRequest) returns (DeleteResponse); // Remove a vendor.
     rpc listVendors(VendorsListRequest) returns (VendorsListResponse); // Retrieve a list of Vendors.
 }
 
 // gRPC service for managing devices.
 service DeviceService {
-    rpc get_device_by_id(DeviceIdRequest) returns (Device);
-    rpc add_device(Device) returns (Device);
-    rpc update_device(Device) returns (Device);
-    rpc delete_device(DeviceIdRequest) returns (DeleteResponse);
+    rpc get_device_by_id(DeviceIdRequest) returns (Device); // Fetch a device by ID.
+    rpc add_device(Device) returns (Device); // Add a device.
+    rpc update_device(Device) returns (Device); // Update a device.
+    rpc delete_device(DeviceIdRequest) returns (DeleteResponse); //Delete a device.
 }
 
 // gRPC service for managing test cases.
 service TestCaseService {
-    rpc get_test_case_by_id(TestCaseIdRequest) returns (TestCase);
-    rpc add_test_case(TestCase) returns (TestCase);
-    rpc update_test_case(TestCase) returns (TestCase);
-    rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse);
+    rpc get_test_case_by_id(TestCaseIdRequest) returns (TestCase); // Get testcase by ID.
+    rpc add_test_case(TestCase) returns (TestCase); // Add a test case.
+    rpc update_test_case(TestCase) returns (TestCase); // Update a test case.
+    rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse); // Delete a test case.
 }
 
 // Request message to get a country by ID.

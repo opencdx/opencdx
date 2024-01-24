@@ -6,6 +6,7 @@ import "anf_statement.proto";
 
 
 // Expresses how an ANF Statement is connected to a question item.
+// TODO: more on ANF statements
 enum AnfStatementType {
   ANF_STATEMENT_TYPE_UNSPECIFIED=0; // Unspecified ANF statement type
   ANF_STATEMENT_TYPE_MAIN=1; // Main ANF statement

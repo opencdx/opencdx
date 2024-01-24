@@ -124,6 +124,7 @@ message SystemSettings {
   string last_failed_login = 9; // Last failed login date and time
 }
 
+// TODO: medication
 message Medication {
   string name = 1; // Name of the medication
   string dosage = 2; // Dosage information (e.g., 500mg, twice daily)
@@ -137,6 +138,7 @@ message Medication {
   bool is_prescription = 10; // Indicates if the medication requires a prescription
 }
 
+// TODO: Known Allergy
 message KnownAllergy {
   string allergen = 1; // The substance causing the allergy
   string reaction = 2; // Description of the allergic reaction
@@ -148,8 +150,11 @@ message KnownAllergy {
 
 // Define the service
 service UserProfileService {
+  // Get the user profile
   rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse);
+  // Update user profile
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+  // Delete user profile
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
 }
 

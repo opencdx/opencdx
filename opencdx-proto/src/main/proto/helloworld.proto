@@ -12,11 +12,11 @@ service Greeter {
 // The request message containing the user's name.
 message HelloRequest {
   // This is the description for the name attribute of the HelloRequest message.
-  string name = 1;
+  string name = 1; // username
 }
 
 // The response message containing the greetings
 message HelloResponse {
   // This is the description for the message attribute of the HelloReply message.
-  string message = 1;
+  string message = 1; // message in response
 }

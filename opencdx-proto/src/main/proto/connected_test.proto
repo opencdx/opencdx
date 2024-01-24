@@ -190,6 +190,7 @@ message TestSubmissionResponse {
   string submission_id = 1; // ID of the Connected Test
 }
 
+//TODO: Connected Test
 message ConnectedTest {
   BasicInfo basic_info = 1;       // Basic information block
   OrderInfo order_info = 2;       // Ordering related block

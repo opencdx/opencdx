@@ -49,7 +49,6 @@ message EmailTemplate {
 }
 
 /**
-
 Defines the structure for representing SMS templates.
 */
 message SMSTemplate {
@@ -64,7 +63,6 @@ message SMSTemplate {
 }
 
 /**
-
 Defines the structure for notification events.
 */
 message NotificationEvent {
@@ -104,7 +102,7 @@ message Notification {
   optional google.protobuf.Timestamp timestamp = 5;               // Timestamp when the notification was added to the queue.
 
   // Store additional custom data associated with the notification.
-  map<string, string> custom_data = 6;
+  map<string, string> custom_data = 6; //TODO: data is used in.
 
   // Email attributes
   repeated string to_email = 7;      // Recipients' email addresses.
@@ -130,13 +128,13 @@ message Notification {
 Defines the template identification for the operation
  */
 message TemplateRequest{
-  string template_id = 1;
+  string template_id = 1; // template ID
 }
 /**
 Indicates if the operation was successful.
  */
 message SuccessResponse{
-  bool success = 1;
+  bool success = 1; // Success response
 }
 
 /**

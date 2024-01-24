@@ -82,6 +82,7 @@ message UserBehaviorAnalysisData {
 
 /**
  * NeuralProtectorService with operations.
+ // TODO: expand on the various methods inside the service.
  */
 service NeuralProtectorService {
   rpc DetectAnomalies(AnomalyDetectionDataRequest) returns (SecurityResponse);

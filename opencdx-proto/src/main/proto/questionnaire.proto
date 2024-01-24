@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 import "anf_connector.proto";
 import "common.proto";
 
+// TODO: Questionnaire Status
 enum QuestionnaireStatus {
   draft = 0;
   active = 1;
@@ -84,8 +85,8 @@ message QuestionnaireEnableWhen {
  * A terminology code that corresponds to this group or question
  */
 message Code {
-  optional string system = 1;
-  optional string code = 2;
+  optional string system = 1; // System code
+  optional string code = 2; // TODO: code
 }
 
 /**
@@ -94,9 +95,9 @@ message Code {
 message QuestionnaireItemExtension {
   optional string url = 1; // URL for the extension.
   optional ValueCodeableConcept value_codeable_concept = 2; // Value for code-able concept extensions.
-  optional Coding value_coding = 3;
-  optional int32 value_integer = 4;
-  optional double value_decimal = 5;
+  optional Coding value_coding = 3; // TODO: value coding
+  optional int32 value_integer = 4; // TODO: value integer
+  optional double value_decimal = 5; // TODO: value decimal
 }
 
 /**
@@ -122,13 +123,14 @@ message Coding {
 message QuestionnaireItemAnswerOption {
   optional Coding value_coding = 1; // Coding value for answer options.
   optional bool initial_selected = 2; // Indicates if the option is initially selected.
-  repeated Extension extension = 3;
+  repeated Extension extension = 3; // TODO : extension
 }
 
+// TODO: extension
 message Extension {
-  optional string url = 1;
-  optional double value_decimal = 2;
-  optional Coding value_codeable_concept = 3;
+  optional string url = 1; // TODO: url
+  optional double value_decimal = 2; // TODO: value decimal
+  optional Coding value_codeable_concept = 3; // TODO: value codeable concept
 }
 
 /**
@@ -210,6 +212,7 @@ message ClientRulesRequest {
 
 /**
  * Service for handling FHIR questionnaires.
+ // TODO: more on FHIR
  */
 service QuestionnaireService {
   rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);    // Operation to get rule sets for specific client
@@ -279,14 +282,17 @@ message QuestionnaireRequest {
   Questionnaire questionnaire = 1; // The questionnaire to be submitted.
 }
 
+// TODO : Questionnaire Data Request
 message QuestionnaireDataRequest {
   QuestionnaireData questionnaire_data = 1; // Questionnaire data.
 }
 
+// TODO: Client Questionnaire Data Request
 message ClientQuestionnaireDataRequest {
   ClientQuestionnaireData client_questionnaire_data = 1; // Client-level FHIR questionnaire data.
 }
 
+// TODO: User Questionnaire Data Request
 message UserQuestionnaireDataRequest {
   UserQuestionnaireData user_questionnaire_data = 1; // User-level FHIR questionnaire data.
 }

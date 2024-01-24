@@ -105,11 +105,12 @@ message AuditEvent {
  * Indicates the status of an operation
  */
 message AuditStatus {
-  bool success = 1;
+  bool success = 1; // Audit success
 }
 
 /**
  * Service calls to the Audit Service
+ // TODO: purpose of audit service
  */
 service AuditService {
   rpc Event(AuditEvent) returns (AuditStatus); //Register an AuditEvent.

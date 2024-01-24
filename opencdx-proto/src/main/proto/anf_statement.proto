@@ -30,7 +30,7 @@ enum NormalRange {
   NORMAL_RANGE_CRITICAL = 4;  // The result is critically high or low
 }
 
-// Media Status
+// Enum to represent the Media Status
 enum Status {
   STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
   STATUS_ACTIVE = 1; // Media is active.
@@ -180,9 +180,9 @@ message ANFStatement {
 
   // One of the following circumstances must be present: RequestCircumstance, PerformanceCircumstance, or NarrativeCircumstance.
   oneof circumstance_choice {
-    RequestCircumstance request_circumstance = 9;
-    PerformanceCircumstance performance_circumstance = 10;
-    NarrativeCircumstance narrative_circumstance = 11;
+    RequestCircumstance request_circumstance = 9; //TODO:
+    PerformanceCircumstance performance_circumstance = 10; //TODO:
+    NarrativeCircumstance narrative_circumstance = 11; //TODO:
   }
   optional google.protobuf.Timestamp created = 12; // Timestamp when this event was created.
   optional google.protobuf.Timestamp modified = 13; // Timestamp when this event was modified.

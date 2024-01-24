@@ -197,9 +197,10 @@ service RoutineSystemService {
 
 //Request and Response messages for CreateRoutine operation
 message RoutineRequest {
-  Routine routine = 1;
+  Routine routine = 1; // TODO: routine
 }
 
+// Response routine
 message RoutineResponse {
   Routine routine = 1;
 }
@@ -209,60 +210,67 @@ message DeliveryTrackingRequest {
   DeliveryTracking delivery_tracking = 1;
 }
 
+// Response data for delivery tracking
 message DeliveryTrackingResponse {
-  DeliveryTracking delivery_tracking = 1;
+  DeliveryTracking delivery_tracking = 1; // delivery tracking
 }
 
 // Request and Response messages for CreateClinicalProtocolExecution operation
 message ClinicalProtocolExecutionRequest {
-  ClinicalProtocolExecution clinical_protocol_execution = 1;
+  ClinicalProtocolExecution clinical_protocol_execution = 1; // TODO: Clinical Protocol Execution
 }
 
+// Response message for Clinical Protocol Execution
 message ClinicalProtocolExecutionResponse {
-  ClinicalProtocolExecution clinical_protocol_execution = 1;
+  ClinicalProtocolExecution clinical_protocol_execution = 1; // TODO: Clinical Protocol Execution
 }
 
 // Request and Response messages for CreateLabOrder operation
 message LabOrderRequest {
-  LabOrder lab_order = 1;
+  LabOrder lab_order = 1; // TODO: lab order
 }
 
+// Response for lab order.
 message LabOrderResponse {
-  LabOrder lab_order = 1;
+  LabOrder lab_order = 1; // TODO: lab order
 }
 
 // Request and Response messages for CreateDiagnosis operation
 message DiagnosisRequest {
-  Diagnosis diagnosis = 1;
+  Diagnosis diagnosis = 1; // TODO: Diagnosis
 }
 
+// Response of create a diagnosis
 message DiagnosisResponse {
-  Diagnosis diagnosis = 1;
+  Diagnosis diagnosis = 1; // TODO: Diagnosis
 }
 
 // Request and Response messages for CreateSuspectedDiagnosis operation
 message SuspectedDiagnosisRequest {
-  SuspectedDiagnosis suspected_diagnosis = 1;
+  SuspectedDiagnosis suspected_diagnosis = 1; // Suspected diagnosis
 }
 
+// Response to the creating a Suspected Diagnosis
 message SuspectedDiagnosisResponse {
-  SuspectedDiagnosis suspected_diagnosis = 1;
+  SuspectedDiagnosis suspected_diagnosis = 1; // Suspected diagnosis
 }
 
 // Request and Response messages for CreateLabResult operation
 message LabResultRequest {
-  LabResult lab_result = 1;
+  LabResult lab_result = 1; // Lab results
 }
 
+// Response for creating a lab result.
 message LabResultResponse {
-  LabResult lab_result = 1;
+  LabResult lab_result = 1; // Lab results
 }
 
 // Request and Response messages for CreateMedication operation
 message MedicationRequest {
-  Medication medication = 1;
+  Medication medication = 1; //TODO: medication
 }
 
+// Response messages for CreateMedication operation
 message MedicationResponse {
-  Medication medication = 1;
+  Medication medication = 1; //TODO: medication
 }

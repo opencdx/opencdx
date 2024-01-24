@@ -77,6 +77,7 @@ message GetProviderRequest {
   string user_id = 1;           // Provider Number to lookup.
 }
 
+// Response for creating a provider.
 message GetProviderResponse {
   Provider provider = 1;               // Provider information for lookup.
 }
@@ -86,6 +87,7 @@ message EditProviderRequest {
   Provider provider = 1;           // Provider information for editing.
 }
 
+// Response for editing a provider.
 message EditProviderResponse {}
 
 // Request and Response messages for deleting a provider.
@@ -93,15 +95,18 @@ message DeleteProviderRequest {
   string provider_id = 1;          // Provider ID for deletion.
 }
 
+// Request to load a provider.
 message LoadProviderRequest{
   string user_id = 1;              // User ID for loading.
   string provider_number = 2;      // Provider number for loading.
 }
 
+// Response to load a provider.
 message LoadProviderResponse{
   Provider provider = 1;           // Provider information for loading.
 }
 
+// Remove a provider response.
 message DeleteProviderResponse {}
 
 // Request and Response messages for listing providers.
@@ -109,8 +114,8 @@ message ListProvidersRequest {}
 
 // Service definition for ProviderService.
 service ProviderService {
-  rpc GetProviderByNumber(GetProviderRequest) returns (GetProviderResponse);
-  rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse);
-  rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
-  rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
+  rpc GetProviderByNumber(GetProviderRequest) returns (GetProviderResponse); // Get a provider by provider number.
+  rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse); // Remove a provider.
+  rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse); // Fetch a list of providers.
+  rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse); // To load a provider.
 }
