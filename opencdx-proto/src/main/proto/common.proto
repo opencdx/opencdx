@@ -1,123 +1,130 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package cdx.opencdx.grpc.common;
 
+// The collection of common gRPC messages, enums and timestamps for the cdx.opencdx application.
+package cdx.opencdx.grpc.common;
 import "google/protobuf/timestamp.proto";
 
-// Enum to represent the purpose of an address.
+// AddressPurpose identifies the intended use of an address.
 enum AddressPurpose {
-  LOCATION = 0;   // Address used for location purposes.
-  MAILING = 1;    // Address used for mailing purposes.
-  PRIMARY = 2;    // Primary address.
-  SECONDARY = 3;  // Secondary address.
-  BILLING =4;    // Billing address.
-  SHIPPING = 5;   // Shipping address.
-  WORK = 6;       // Work address.
+  LOCATION = 0;   // Represents an address used for geographical location.
+  MAILING = 1;    // Represents an address used for mail correspondence.
+  PRIMARY = 2;    // Represents the main or primary address.
+  SECONDARY = 3;  // Represents an additional or secondary address.
+  BILLING =4;     // Represents an address used for invoice or billing correspondence.
+  SHIPPING = 5;   // Represents an address used for shipping or delivery.
+  WORK = 6;       // Represents an address used for work or business location.
 }
 
-// Enumeration for phone types.
+// PhoneType defines the classification of phone numbers.
 enum PhoneType {
-  PHONE_TYPE_NOT_SPECIFIED = 0; // Not specified
-  PHONE_TYPE_MOBILE = 1; // Mobile phone
-  PHONE_TYPE_HOME = 2; // Home phone
-  PHONE_TYPE_WORK = 3; // Work phone
-  PHONE_TYPE_FAX = 4; // Fax
-  PHONE_TYPE_OTHER = 5; // Other
+  PHONE_TYPE_NOT_SPECIFIED = 0; // Unclassified or undefined phone number type.
+  PHONE_TYPE_MOBILE = 1;        // Mobile cell phone.
+  PHONE_TYPE_HOME = 2;          // Residential home phone.
+  PHONE_TYPE_WORK = 3;          // Work or business phone.
+  PHONE_TYPE_FAX = 4;           // Fax machine.
+  PHONE_TYPE_OTHER = 5;         // Other or miscellaneous phone type.
 }
 
-//Enumeration for email type.
+// EmailType distinguishes the category of email addresses.
 enum EmailType {
-  EMAIL_TYPE_NOT_SPECIFIED = 0; // Not specified
-  EMAIL_TYPE_PERSONAL = 1; // Personal email
-  EMAIL_TYPE_WORK = 2; // Work email
-  EMAIL_TYPE_OTHER = 3; // Other
+  EMAIL_TYPE_NOT_SPECIFIED = 0; // Unspecified email type.
+  EMAIL_TYPE_PERSONAL = 1;      // Personal and private email type.
+  EMAIL_TYPE_WORK = 2;          // Work or professional email type.
+  EMAIL_TYPE_OTHER = 3;         // Other or miscellaneous email type.
 }
 
-// Enumeration for gender.
+/*
+ * Gender defines a range of identities that do not necessarily align
+ * with established ideas of male and female.
+ */
 enum Gender {
-  GENDER_NOT_SPECIFIED = 0; // Not specified
-  GENDER_MALE = 1; // Male
-  GENDER_FEMALE = 2; // Female
-  GENDER_NON_BINARY = 3; // Non-binary
-  GENDER_OTHER = 4; // Other
+  GENDER_NOT_SPECIFIED = 0; // Unidentified or undefined gender.
+  GENDER_MALE = 1;          // Male gender.
+  GENDER_FEMALE = 2;        // Female gender.
+  GENDER_NON_BINARY = 3;    // Non-binary, neither male nor female.
+  GENDER_OTHER = 4;         // Other, undefined genders
 }
 
+// DurationType defines the units for periods of time.
 enum DurationType {
-  DURATION_TYPE_NOT_SPECIFIED = 0; // Not specified
-  DURATION_TYPE_MILLISECONDS = 1; // Milliseconds
-  DURATION_TYPE_SECONDS = 2; // Seconds
-  DURATION_TYPE_MINUTES = 3; // Minutes
-  DURATION_TYPE_HOURS = 4; // Hours
-  DURATION_TYPE_DAYS = 5; // Days
-  DURATION_TYPE_WEEKS = 6; // Weeks
-  DURATION_TYPE_MONTHS = 7; // Months
-  DURATION_TYPE_YEARS = 8; // Years
+  DURATION_TYPE_NOT_SPECIFIED = 0; // Unspecified unit of time.
+  DURATION_TYPE_MILLISECONDS = 1;  // Represents time in milliseconds.
+  DURATION_TYPE_SECONDS = 2;       // Represents time in seconds.
+  DURATION_TYPE_MINUTES = 3;       // Represents time in minutes.
+  DURATION_TYPE_HOURS = 4;         // Represents time in hours.
+  DURATION_TYPE_DAYS = 5;          // Represents time in days.
+  DURATION_TYPE_WEEKS = 6;         // Represents time in weeks.
+  DURATION_TYPE_MONTHS = 7;        // Represents time in months.
+  DURATION_TYPE_YEARS = 8;         // Represents time in years.
 }
 
-// Country message represents a country.
+
+// Message for Country includes country-identifier and metadata fields.
 message Country {
-  optional string id = 1;    // Country ID
-  string name = 2;  // Country name
-  optional google.protobuf.Timestamp created = 3; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 4; // Timestamp when this event was modified.
-  optional string creator = 5; // ID of the creator of this event.
-  optional string modifier = 6; // ID of the modifier of this event.
+  optional string id = 1;    // Unique ID representing a Country.
+  string name = 2;           // Name of the country.
+  optional google.protobuf.Timestamp created = 3; // Creation timestamp of the country data.
+  optional google.protobuf.Timestamp modified = 4; // Modification timestamp of the country data.
+  optional string creator = 5; // Identifier of the creator of this record.
+  optional string modifier = 6; // Identifier of the last modifier of this record.
 }
 
-// Message to represent an address.
+// Address, a composition of country, city, state, postal code and purpose of the address
 message Address {
-  string country_id = 1;        // Country code.
-  AddressPurpose address_purpose = 2; // Purpose of the address (e.g., LOCATION, MAILING).
-  string address_1 = 3;           // First line of the address.
-  optional string address_2 = 4;           // First line of the address.
-  optional string address_3 = 5;           // First line of the address.
-  string city = 6;                // City.
-  string state = 7;               // State.
-  string postal_code = 8;         // Postal code.
+  string country_id = 1;               // Country Identifier.
+  AddressPurpose address_purpose = 2;  // Purpose of the address.
+  string address_1 = 3;                // First line of the address.
+  optional string address_2 = 4;       // Optional: Second line of the address.
+  optional string address_3 = 5;       // Optional: Third line of the address.
+  string city = 6;                     // Name of the City.
+  string state = 7;                    // Name of the State.
+  string postal_code = 8;              // Zip or Postal code.
 }
 
-// Phone number details.
+// PhoneNumber encapsulates the number along with its type.
 message PhoneNumber {
-  string number = 1; // Phone number
-  PhoneType type = 2; // Type of phone number (e.g., mobile, home, work)
+  string number = 1; // Telephone number.
+  PhoneType type = 2; // Classification of the phone number.
 }
-// Full name information.
+
+// FullName includes the names of the user including first, middle, last along with title and suffix.
 message FullName {
-  string title = 1; // Title of the user (e.g., Mr., Mrs., Dr.)
-  string first_name = 2; // First name of the user
-  string middle_name = 3; // Middle name of the user
-  string last_name = 4; // Last name of the user
-  string suffix = 5; // Suffix for the name (e.g., Jr., Sr., III)
+  string title = 1;           // Title of the user (ex: Mr., Mrs., Dr.)
+  string first_name = 2;      // First name of the user.
+  string middle_name = 3;     // Middle name of the user(optional).
+  string last_name = 4;       // Last name of the user.
+  string suffix = 5;          // Suffix for the name (ex: Jr., Sr., III)
 }
 
-// Contact information.
+// ContactInfo stores the contact related information of a user.
 message ContactInfo {
-  FullName name = 1; // Full name of the user
-  optional string user_id = 2; // Unique identifier for the user
-  repeated Address addresses = 3; // User's addresses
-  repeated PhoneNumber phone_numbers = 4; // User's phone numbers
-  repeated EmailAddress email = 5; // User's email address
+  FullName name = 1;                  // Full name of the user.
+  optional string user_id = 2;        // Identity of the user.
+  repeated Address addresses = 3;     // Collection of addresses linked with the user.
+  repeated PhoneNumber phone_numbers = 4; // Collection of phone numbers linked with the user.
+  repeated EmailAddress emails = 5;   // Collection of email addresses linked with the user.
 }
 
-// Email address details.
+// EmailAddress, structure for storing email address and its type.
 message EmailAddress {
-  string email = 1; // Email address
-  EmailType type = 2; // Type of email address (e.g., personal, work)
+  string email = 1; // The email address.
+  EmailType type = 2; // The type of the email address
 }
 
-// Pagination structure for lists.
+// Pagination is used in response message to provide info about pagination.
 message Pagination {
-  int32 page_number = 1; // Page number
-  int32 page_size = 2; // Page size
-  bool sort_ascending = 3; // indicating if the results should ascending.
-  optional string sort = 4; // Sort field
-
-  optional int64 total_pages = 5; // Total number of pages set on the response.
-  optional int64 total_records = 6; // Total number of records set on the response.
+  int32 page_number = 1; // The current page number.
+  int32 page_size = 2; // The page size or count of items in the current page.
+  bool sort_ascending = 3; // Boolean value to sort in ascending order.
+  optional string sort = 4; // Column or field based on which the sorting should be applied.
+  optional int64 total_pages = 5; // Total number of pages.
+  optional int64 total_records = 6; // The total count of records available across pages.
 }
 
+// Duration carries the period of time along with unit of time.
 message Duration {
-  int64 duration = 1; // Duration
-  DurationType type = 2; // Type of duration (e.g., milliseconds, seconds, minutes)
+  int64 duration = 1; // Period of time.
+  DurationType type = 2; // Unit of time.
 }
 

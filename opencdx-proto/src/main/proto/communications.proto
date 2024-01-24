@@ -6,216 +6,264 @@ import "audit.proto";
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-// Enum for template types
+// TemplateType is an enumeration that lists all the possible types a template can be set as.
+// Values in the enum range from notification, welcome messages, newsletters, alerts, reminders, to confirmations.
+// When the type of a template is not set, the default is TEMPLATE_TYPE_UNSPECIFIED.
 enum TemplateType {
-  TEMPLATE_TYPE_UNSPECIFIED = 0; //Template is unspecified.
-  TEMPLATE_TYPE_NOTIFICATION = 1; //Template is a Notification
-  TEMPLATE_TYPE_WELCOME = 2; //Template is a welcome
-  TEMPLATE_TYPE_NEWSLETTER = 3; //Template is a newsletter.
-  TEMPLATE_TYPE_ALERT = 4; // Template is an alert.
-  TEMPLATE_TYPE_REMINDER = 5; // Template is a reminder.
-  TEMPLATE_TYPE_CONFIRMATION = 6; // Template is a confirmation.
+  TEMPLATE_TYPE_UNSPECIFIED = 0; // No specific type is assigned to the template.
+  TEMPLATE_TYPE_NOTIFICATION = 1; // The template is designated for notifications.
+  TEMPLATE_TYPE_WELCOME = 2; // The template is designated for welcome messages.
+  TEMPLATE_TYPE_NEWSLETTER = 3; // The template is designated for newsletters.
+  TEMPLATE_TYPE_ALERT = 4; // The template is designated for alerts.
+  TEMPLATE_TYPE_REMINDER = 5; // The template is designated for reminders.
+  TEMPLATE_TYPE_CONFIRMATION = 6; // The template is designated for confirmations.
 }
 
-// Indicates the status of the Notification
+// NotificationStatus is an enumeration that defines the different statuses a notification can be in.
+// Values in the enum range from being pending, sent, to failed.
+// When the status of a notification is not set, the default is NOTIFICATION_STATUS_UNSPECIFIED.
 enum NotificationStatus {
-  NOTIFICATION_STATUS_UNSPECIFIED = 0; // Unspecified Notification status.
-  NOTIFICATION_STATUS_PENDING = 1; // Unspecified Notification status.
-  NOTIFICATION_STATUS_SENT = 2; // Unspecified Notification status.
-  NOTIFICATION_STATUS_FAILED = 3; // Unspecified Notification status.
+  NOTIFICATION_STATUS_UNSPECIFIED = 0; // The status of the notification is not defined.
+  NOTIFICATION_STATUS_PENDING = 1; // The notification is yet to be sent.
+  NOTIFICATION_STATUS_SENT = 2; // The notification has been sent.
+  NOTIFICATION_STATUS_FAILED = 3; // The notification failed to send.
 }
 
-// Indicates the priority of this Notification
+// NotificationPriority defines the levels of priority for notifications.
+// Values in the enum range from low, medium, high, to immediate priority.
+// When the priority of a notification is not set, the default is NOTIFICATION_PRIORITY_UNSPECIFIED.
 enum NotificationPriority {
-  NOTIFICATION_PRIORITY_UNSPECIFIED = 0; // Priority is not specified.
-  NOTIFICATION_PRIORITY_LOW = 1; // Priority is low
-  NOTIFICATION_PRIORITY_MEDIUM = 2; // Priority is Medium
-  NOTIFICATION_PRIORITY_HIGH = 3; // Priority is High
-  NOTIFICATION_PRIORITY_IMMEDIATE = 4; // Priority is Immediate
+  NOTIFICATION_PRIORITY_UNSPECIFIED = 0; // The priority level for the notification is undefined.
+  NOTIFICATION_PRIORITY_LOW = 1; // The priority level for the notification is low.
+  NOTIFICATION_PRIORITY_MEDIUM = 2; // The priority level for the notification is medium.
+  NOTIFICATION_PRIORITY_HIGH = 3; // The priority level for the notification is high.
+  NOTIFICATION_PRIORITY_IMMEDIATE = 4; // The notification requires immediate attention.
 }
 /**
-Defines the structure for representing email templates.
-*/
+ * EmailTemplate represents the structure of an email template.
+ * It's a set of properties necessary to maintain an email template's record.
+ */
 message EmailTemplate {
-  optional string template_id = 1;            // Unique identifier for the email template.
-  string subject = 2;                // Subject line of the email template.
-  string content = 3;                // Content of the email template.
-  repeated string variables = 4;     // Placeholder variables within the template.
-  TemplateType template_type = 5; // Type of the email template.
-  optional google.protobuf.Timestamp created = 6; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 7; // Timestamp when this event was modified.
-  optional string creator = 8; // ID of the creator of this event.
-  optional string modifier = 9; // ID of the modifier of this event.
+  optional string template_id = 1; // The unique identifier for the email template.
+  string subject = 2; // The subject line of the email template.
+  string content = 3; // The content/body text of the email template.
+  repeated string variables = 4; // The variables that might be replaced with actual values in the email template.
+  TemplateType template_type = 5; // Enumeration defining the type/category of the email template.
+  optional google.protobuf.Timestamp created = 6; // The UTC timestamp when the email template was created.
+  optional google.protobuf.Timestamp modified = 7; // The UTC timestamp when the email template was last modified.
+  optional string creator = 8; // The user ID of the creator of the email template.
+  optional string modifier = 9; // The user ID of the person who last modified the email template.
 }
 
 /**
-Defines the structure for representing SMS templates.
-*/
+ * SMSTemplate represents the structure of a sms template.
+ * It's a set of properties necessary to maintain an sms template's record.
+ */
 message SMSTemplate {
-  optional string template_id = 1;            // Unique identifier for the SMS template.
-  string message = 2;                // Content of the SMS template.
-  repeated string variables = 3;     // Placeholder variables within the SMS template.
-  TemplateType template_type = 4; // Type of the SMS template.
-  optional google.protobuf.Timestamp created = 5; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 6; // Timestamp when this event was modified.
-  optional string creator = 7; // ID of the creator of this event.
-  optional string modifier = 8; // ID of the modifier of this event.
+  optional string template_id = 1; // The unique identifier for the SMS template.
+  string message = 2; // The content/body text of the SMS template.
+  repeated string variables = 3; // The variables that might be replaced with actual values in the SMS template.
+  TemplateType template_type = 4; // Enumeration defining the type/category of the SMS template.
+  optional google.protobuf.Timestamp created = 5; // The UTC timestamp when the SMS template was created.
+  optional google.protobuf.Timestamp modified = 6; // The UTC timestamp when the SMS template was last modified.
+  optional string creator = 7; // The user ID of the creator of the SMS template.
+  optional string modifier = 8; // The user ID of the person who last modified the SMS template.
 }
 
 /**
-Defines the structure for notification events.
-*/
+ * NotificationEvent captures the details of a notification event.
+ * It contains the properties necessary to generate a named event with email and sms template associations and more.
+ */
 message NotificationEvent {
-  optional string event_id = 1;               // Unique identifier for the notification event.
-  string event_name = 2;             // Human-readable name of the event.
-  string event_description = 3;      // Brief description of the event.
-  optional string email_template_id = 4;      // ID of the associated email template.
-  optional string sms_template_id = 5;        // ID of the associated SMS template.
-  repeated string event_parameters = 6; // Event-specific parameters.
-  NotificationPriority priority = 7;  // Priority of this notification event.
-  cdx.opencdx.grpc.audit.SensitivityLevel sensitivity = 8; // Indicates the Sensitivity level of the notification when sent.
-  int32 email_retry = 9; // Number of attempts to try and send email. Defaults to 0 for infinite.
-  int32 sms_retry = 10; // Number of attempts to try and send SMS. Defaults to 0 for infinite.
-  optional google.protobuf.Timestamp created = 11; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 12; // Timestamp when this event was modified.
-  optional string creator = 13; // ID of the creator of this event.
-  optional string modifier = 14; // ID of the modifier of this event.
+  optional string event_id = 1; // The unique identifier for the notification event.
+  string event_name = 2; // The human-readable name of the event.
+  string event_description = 3; // A brief description about what the event signifies.
+  optional string email_template_id = 4; // The unique identifier for the associated email template.
+  optional string sms_template_id = 5; // The unique identifier for the associated sms template.
+  repeated string event_parameters = 6; // Any parameters related to the event which are necessary during event processing.
+  NotificationPriority priority = 7; // Enumeration defining the priority of this notification event.
+  cdx.opencdx.grpc.audit.SensitivityLevel sensitivity = 8; // Enumeration indicating the sensitivity level of the notification when sent.
+  int32 email_retry = 9; // Represents the number of attempts to retry sending email. It defaults to 0, meaning infinite retries.
+  int32 sms_retry = 10; // Represents the number of attempts to retry sending SMS. It defaults to 0, meaning infinite retries.
+  optional google.protobuf.Timestamp created = 11; // The UTC timestamp when the notification event was created.
+  optional google.protobuf.Timestamp modified = 12; // The UTC timestamp when the notification event was last modified.
+  optional string creator = 13; // The user ID of the creator of the notification event.
+  optional string modifier = 14; // The user ID of the person who last modified the notification event.
 }
 
 /**
-Defines the structure for attachments.
+ * Defines the structure for a file attachment.
  */
 message Attachment {
-  string filename = 1;             // Filename of the attachment.
-  bytes data = 2;                 // Binary data of the attachment.
-  string mime_type = 3;           // MIME type of the attachment.
+  string filename = 1;             // The name of the file to be attached.
+  bytes data = 2;                 // The binary content of the file to be attached.
+  string mime_type = 3;           // The MIME type, or 'Content-Type', of the file to be attached.
 }
 
 /**
-Representation of a notification that can be sent through the communication service.
-*/
+ * Defines the data structure for a notification. A notification could be an SMS or EMAIL mode of communication.
+ */
 message Notification {
-  optional string queue_id = 1;               // Unique identifier for the notification within the queue.
-  string event_id = 2;               // Event or trigger associated with this notification.
-  optional NotificationStatus sms_status = 3;  // Status of the SMS notification (e.g., pending, sent, failed).
-  optional NotificationStatus email_status = 4;// Status of the EMAIL notification (e.g., pending, sent, failed).
-  optional google.protobuf.Timestamp timestamp = 5;               // Timestamp when the notification was added to the queue.
+  optional string queue_id = 1;               // The unique identifier for the notification within the processing queue.
+  string event_id = 2;               // The unique identifier for the event that triggers this notification.
+  optional NotificationStatus sms_status = 3;  // The status of the SMS notification which could be 'pending', 'sent', or 'failed'.
+  optional NotificationStatus email_status = 4;// The status of the EMAIL notification which could also be 'pending', 'sent', or 'failed'.
+  optional google.protobuf.Timestamp timestamp = 5;               // The timestamp when the notification was added to the queue.
+  map<string, string> custom_data = 6; // Custom data associated with the notification. The purpose of this data varies based on the specific use case.
 
-  // Store additional custom data associated with the notification.
-  map<string, string> custom_data = 6; //TODO: data is used in.
+  // Email-specific attributes.
+  repeated string to_email = 7;      // The email addresses of the primary recipients.
+  repeated string cc_email = 8;      // The email addresses to which the notification should be carbon copied(Cc).
+  repeated string bcc_email = 9;     // The email addresses to which the notification should be blind carbon copied(Bcc).
+  repeated Attachment email_attachments = 10; // Any files that need to be attached to the email notification.
 
-  // Email attributes
-  repeated string to_email = 7;      // Recipients' email addresses.
-  repeated string cc_email = 8;      // Carbon copy (Cc) recipients' email addresses.
-  repeated string bcc_email = 9;     // Blind carbon copy (Bcc) recipients' email addresses.
-  repeated Attachment email_attachments = 10; // Email attachments.
+  // SMS-specific attributes.
+  repeated string to_phone_number = 11; // The phone numbers to which the SMS notification should be sent.
 
-  // SMS attributes
-  repeated string to_phone_number = 11; // Recipients' phone numbers.
+  map<string,string> variables = 12;   // Variables or placeholders that can be replaced in the notification's content.
+  repeated string recipients_id = 13; // The list of unique identifiers(UUIDs) for each recipient. This includes both email and phone number recipients.
 
-  // Variables for replacement.
-  map<string,string> variables = 12;   // Variables or placeholders.
-
-  repeated string recipients_id = 13; // List of the UUID's for each email recipient and for recipients phone numbers.
-  optional google.protobuf.Timestamp created = 14; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
-  optional string creator = 16; // ID of the creator of this event.
-  optional string modifier = 17; // ID of the modifier of this event.
-
+  optional google.protobuf.Timestamp created = 14; // The timestamp at which this event was created.
+  optional google.protobuf.Timestamp modified = 15; // The timestamp at which this event was last modified.
+  optional string creator = 16; // The unique identifier of the user or system that created this event.
+  optional string modifier = 17; // The unique identifier of the user or system that last modified this event.
 }
 
 /**
-Defines the template identification for the operation
+ * Defines the required parameters for a template request.
  */
 message TemplateRequest{
-  string template_id = 1; // template ID
+  string template_id = 1; // The unique identifier for the template.
 }
+
 /**
-Indicates if the operation was successful.
+ * Indicates whether the operation was successful.
  */
 message SuccessResponse{
-  bool success = 1; // Success response
+  bool success = 1; // Indication of success. If true, the operation was successful. If false, the operation failed.
 }
 
 /**
-Request Message to list SMSTemplates
+ * Defines the request to list SMS templates.
  */
 message SMSTemplateListRequest{
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination specifics like the page number and page size for the list request.
 }
 
 /**
-Request Message to list EmailTemplates
+ * Defines the request to list Email templates.
  */
 message EmailTemplateListRequest{
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination specifics like the page number and page size for the list request.
 }
 
 /**
-Request Message to list NotificationEvents
+ * Defines the request to list Notification events.
  */
 message NotificationEventListRequest{
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination specifics like the page number and page size for the list request.
 }
 
 /**
-Response containing the requested list of SMSTemplates
+ * Contains the response data for a list of SMS templates.
  */
 message SMSTemplateListResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
-  repeated SMSTemplate templates = 2; // List of SMSTemplates
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination details of the whole list.
+  repeated SMSTemplate templates = 2; // The actual list of SMS templates.
 }
 
 /**
-Response containing the requested list of EmailTemplates
+ * Contains the response data for a list of Email templates.
  */
 message EmailTemplateListResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
-  repeated EmailTemplate templates = 2; // List of EmailTemplates
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination details of the whole list.
+  repeated EmailTemplate templates = 2; // The actual list of Email templates.
 }
 
 /**
-Response containing the requested list of NotificationEvents
+ * Contains the response data for a list of Notification events.
  */
 message NotificationEventListResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
-  repeated NotificationEvent templates = 2; //List of NotificationEvents
+  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination details of the whole list.
+  repeated NotificationEvent templates = 2; // The actual list of Notification events.
 }
 
 /**
-Audit record for communication messages se
+ * Defines the audit record for a communication message.
  */
 message CommunicationAuditRecord{
-  Notification notification = 1; // The notification to trigger the communication
-  string emailContent = 2; // Content of the email
-  string smsContent = 3; // Content of the SMS Notification.
+  Notification notification = 1; // The notification that triggered the communication.
+  string emailContent = 2; // The actual content of the email communication.
+  string smsContent = 3; // The actual content of the SMS communication.
 }
 
-// Service API
+/**
+ * Service API Definition.
+ * This service provides functionality related to communication strategies, namely email and SMS templates as well as notification events.
+ * Each type of resource (Email, SMS, Notification Event) supports CRUD operations.
+ * Additionally, it also provides functionality to send notifications and to retrieve lists of resources.
+ */
 service CommunicationService {
-  // Email Template Management
-  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate); // Create a new email template.
-  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate); // Retrieve an email template by ID.
-  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate); // Update an email template.
-  rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse); // Delete an email template.
+  /**
+   * Operations related to Email Template Management.
+   */
+  // Creates a new email template and returns the created template.
+  rpc CreateEmailTemplate(EmailTemplate) returns (EmailTemplate);
 
-  // SMS Template Management
-  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate); // Create a new SMS template.
-  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate); // Retrieve an SMS template by ID.
-  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate); // Update an SMS template.
-  rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse); // Delete an SMS template.
+  // Retrieves an existing email template using its ID and returns the corresponding template.
+  rpc GetEmailTemplate(TemplateRequest) returns (EmailTemplate);
 
-  // Notification Event Management
-  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent); // Create a new notification event.
-  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent); // Retrieve a notification event by ID.
-  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent); // Update a notification event.
-  rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse); // Delete a notification event.
+  // Updates an existing email template and returns the updated template.
+  rpc UpdateEmailTemplate(EmailTemplate) returns (EmailTemplate);
 
-  // Notification Queue Operations
-  rpc SendNotification(Notification) returns (SuccessResponse); // Send a notification.
+  // Deletes an existing email template using its ID and returns a success response if the operation was successful.
+  rpc DeleteEmailTemplate(TemplateRequest) returns (SuccessResponse);
 
-  // Retrieve Lists
-  rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse); // Retrieve a list of SMS templates.
-  rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse); // Retrieve a list of email templates.
-  rpc listNotificationEvents(NotificationEventListRequest) returns (NotificationEventListResponse); // Retrieve a list of notification events.
+  /**
+   * Operations related to SMS Template Management.
+   */
+  // Creates a new SMS template and returns the created template.
+  rpc CreateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+
+  // Retrieves an existing SMS template using its ID and returns the corresponding template.
+  rpc GetSMSTemplate(TemplateRequest) returns (SMSTemplate);
+
+  // Updates an existing SMS template and returns the updated template.
+  rpc UpdateSMSTemplate(SMSTemplate) returns (SMSTemplate);
+
+  // Deletes an existing SMS template using its ID and returns a success response if the operation was successful.
+  rpc DeleteSMSTemplate(TemplateRequest) returns (SuccessResponse);
+
+  /**
+   *  Operations related to Notification Event Management.
+   */
+  // Creates a new notification event and returns the created event.
+  rpc CreateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+
+  // Retrieves an existing notification event using its ID and returns the corresponding event.
+  rpc GetNotificationEvent(TemplateRequest) returns (NotificationEvent);
+
+  // Updates an existing notification event and returns the updated event.
+  rpc UpdateNotificationEvent(NotificationEvent) returns (NotificationEvent);
+
+  // Deletes an existing notification event using its ID and returns a success response if the operation was successful.
+  rpc DeleteNotificationEvent(TemplateRequest) returns (SuccessResponse);
+
+  /**
+   * Operation related to Notification Queue
+   */
+  // Sends a notification and returns a success response if the operation was successful.
+  rpc SendNotification(Notification) returns (SuccessResponse);
+
+  /**
+   * Operations to retrieve lists of resources.
+   */
+  // Retrieves a list of SMS templates.
+  rpc listSMSTemplates(SMSTemplateListRequest) returns (SMSTemplateListResponse);
+
+  // Retrieves a list of email templates.
+  rpc listEmailTemplates(EmailTemplateListRequest) returns (EmailTemplateListResponse);
+
+  // Retrieves a list of notification events.
+  rpc listNotificationEvents(NotificationEventListRequest) returns (NotificationEventListResponse);
 }

@@ -3,191 +3,202 @@ package cdx.opencdx.grpc.anf;
 
 import "google/protobuf/timestamp.proto";
 
-// Enum to represent different levels of health risk.
+// Enumerates health risk levels.
 enum HealthRisk {
-  HEALTH_RISK_UNSPECIFIED = 0;  // Default, unspecified value
-  HEALTH_RISK_LOW = 1;  // Low level of health risk
-  HEALTH_RISK_NORMAL = 2;  // Normal level of health risk
-  HEALTH_RISK_HIGH = 3;  // High level of health risk
-  HEALTH_RISK_CRITICAL = 4;  // Critical level of health risk
+  HEALTH_RISK_UNSPECIFIED = 0;  // Default, not specified
+  HEALTH_RISK_LOW = 1;  // Low risk
+  HEALTH_RISK_NORMAL = 2;  // Average risk
+  HEALTH_RISK_HIGH = 3;  // High risk
+  HEALTH_RISK_CRITICAL = 4;  // Critical risk
 }
 
-// Enum to represent the different states a result can be in.
+// Enumeration representing the different potential statuses of a result.
 enum ResultStateStatus {
-  RESULT_STATE_STATUS_UNSPECIFIED = 0;  // Default, unspecified value
-  RESULT_STATE_STATUS_ON_HOLD = 1;  // The action is currently on hold
-  RESULT_STATE_STATUS_NEEDED = 2;  // The action is needed but not yet started
-  RESULT_STATE_STATUS_REJECTED = 3;  // The action was rejected
-  RESULT_STATE_STATUS_COMPLETED = 4;  // The action was completed
+  RESULT_STATE_STATUS_UNSPECIFIED = 0;  // The default, when the result status hasn't been specified
+  RESULT_STATE_STATUS_ON_HOLD = 1;      // Indicates that the associated action is currently paused or on hold
+  RESULT_STATE_STATUS_NEEDED = 2;       // Implies that the action is required but hasn't started yet
+  RESULT_STATE_STATUS_REJECTED = 3;     // Denotes that the action was declined or rejected
+  RESULT_STATE_STATUS_COMPLETED = 4;    // Represents that the action was successfully completed
 }
 
-// Enum to represent the normal range of a result.
+// Enum 'NormalRange' indicates the range in which a result falls.
 enum NormalRange {
-  NORMAL_RANGE_UNSPECIFIED = 0;  // Default, unspecified value
-  NORMAL_RANGE_LOW = 1;  // The result is low
-  NORMAL_RANGE_NORMAL = 2;  // The result is within the normal range
-  NORMAL_RANGE_HIGH = 3;  // The result is high
-  NORMAL_RANGE_CRITICAL = 4;  // The result is critically high or low
+  // The default value, indicating that the range has not been specified.
+  NORMAL_RANGE_UNSPECIFIED = 0;
+  // Indicates that the result is on the low end of the normal range.
+  NORMAL_RANGE_LOW = 1;
+  // The result falls within the normal range.
+  NORMAL_RANGE_NORMAL = 2;
+  // Indicates that the result is on the high end of the normal range.
+  NORMAL_RANGE_HIGH = 3;
+  // The result is critically high or low, falling outside the normal range.
+  NORMAL_RANGE_CRITICAL = 4;
 }
 
-// Enum to represent the Media Status
+// Enum to encapsulate the possible Media statuses.
 enum Status {
-  STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
-  STATUS_ACTIVE = 1; // Media is active.
-  STATUS_DELETED = 2; // Media is being deleted.
+  STATUS_UNSPECIFIED = 0;  // Unspecified or unknown media status.
+  STATUS_ACTIVE = 1;  // Media status is active.
+  STATUS_DELETED = 2;  // Media status designates that the media is being deleted.
 }
 
-// Service definition for ANF operations.
-// Provides CRUD operations for ANFStatement and circumstances.
+// Service interface for operations related to ANF Statement instances.
+// It provides create, retrieve, update, and delete (CRUD) operations for instances of ANFStatement.
 service ANFService {
-  rpc CreateANFStatement (ANFStatement) returns (Identifier);  // Create a new ANFStatement
-  rpc GetANFStatement (Identifier) returns (ANFStatement);  // Retrieve an existing ANFStatement by its Identifier
-  rpc UpdateANFStatement (ANFStatement) returns (Identifier);  // Update an existing ANFStatement
-  rpc DeleteANFStatement (Identifier) returns (Identifier);  // Delete an ANFStatement by its Identifier
+  // Creates a new ANF Statement instance and returns its identifier.
+  rpc CreateANFStatement (ANFStatement) returns (Identifier);
+  // Retrieves an existing ANF Statement using its identifier.
+  rpc GetANFStatement (Identifier) returns (ANFStatement);
+  // Updates an existing ANF Statement instance and returns its identifier.
+  rpc UpdateANFStatement (ANFStatement) returns (Identifier);
+  // Deletes an ANF Statement instance using its identifier and returns the identifier of the deleted item.
+  rpc DeleteANFStatement (Identifier) returns (Identifier);
 }
 
 
-// Unique identifier for an ANFStatement.
+// 'Identifier' Message definition for a unique ID associated with an ANFStatement.
 message Identifier {
-  string id = 1;  // The unique ID
+  string id = 1;  // The variable 'id' stands for the unique Identifier for an ANFStatement.
 }
 
-// Representation of a measurable element, such as time or test results.
+// The `Measure` message encapsulates a quantifiable attribute such as time duration or test results.
+// It defines an upper and lower bound for the measure, clarification if these bounds are inclusive,
+// the semantic interpretation of the measure, and optionally, the resolution or accuracy of the measure.
 message Measure {
-  float upper_bound = 1;  // The upper bound of the measure
-  float lower_bound = 2;  // The lower bound of the measure
-  bool include_upper_bound = 3;  // Indicates if the upper bound is inclusive
-  bool include_lower_bound = 4;  // Indicates if the lower bound is inclusive
-   
-  // Presence: upperBound = INF, lowerBound > 0, includeLowerBound = true/false based on context, semantic = "Countable quantity"
-  // For example, for "Nausea present": upperBound = INF, lowerBound = 0, includeLowerBound = false
+  // The `upper_bound` field signifies the maximum limit of the measure.
+  float upper_bound = 1;
+  // The `lower_bound` field signifies the minimum limit of the measure.
+  float lower_bound = 2;
+  // The `include_upper_bound` field reveals if the `upper_bound` value is inclusive in the measure.
+  bool include_upper_bound = 3;
+  // The `include_lower_bound` field reveals if the `lower_bound` value is inclusive in the measure.
+  bool include_lower_bound = 4;
 
-  // Absence: upperBound = 0, lowerBound = 0, includeLowerBound = true, includeUpperBound = true, semantic = "Countable quantity"
-  // For example, for "Nausea absent": upperBound = 0, lowerBound = 0, includeLowerBound = true, includeUpperBound = true
+  // Following are some examples of measures for clarification:
+  // "Presence" denotes a measure where a certain quantity is existent. The `upper_bound` is set to INF, `lower_bound` is greater than 0 with `include_lower_bound` set based on context.
+  // "Absence" denotes a measure where a certain quantity is non-existent. Both `upper_bound` and `lower_bound` are set to 0 with `include_lower_bound` and `include_upper_bound` set to true.
+  // "Indeterminate" indicates a measure that can range from 0 to some value greater than 0.
+  // "Exact Value" signifies a measure where a certain quantity is a precise value. Both `upper_bound` and `lower_bound` are set to this exact value with `include_lower_bound` and `include_upper_bound` set to true.
+  // "Ranges" represent a measure that falls within a particular range. The `upper_bound` and `lower_bound` are set to the extremities of this range with `include_lower_bound` and `include_upper_bound` set based on context.
 
-  // Indeterminate: Includes both 0 and at least one number > 0
-  // For example, for "Nausea indeterminate": upperBound = INF, lowerBound = 0, includeLowerBound = true
-
-  // Exact Value: upperBound = n, lowerBound = n, includeLowerBound = true, includeUpperBound = true
-  // For example, for "Blood Pressure is exactly 120": upperBound = 120, lowerBound = 120, includeLowerBound = true, includeUpperBound = true
-
-  // Ranges: upperBound = n, lowerBound = m, includeLowerBound = true/false, includeUpperBound = true/false
-  // For example, for "Blood Pressure between 110 and 130": upperBound = 130, lowerBound = 110, includeLowerBound = true, includeUpperBound = true  
- 
-  LogicalExpression semantic = 5;  // The semantic meaning of the measure, e.g., "Countable quantity"
-  float resolution = 6;  // The resolution or precision of the measure, optional
+  // `semantic` describes the semantical sense of the measure, e.g., "Countable quantity".
+  LogicalExpression semantic = 5;
+  // `resolution` denotes the accuracy or precision of the measure, it is an optional field.
+  float resolution = 6;
 }
 
-// Representation of a logical expression.
+// Message representing a logical expression using a string.
 message LogicalExpression {
-  string expression = 1;  // The logical expression as a string
+  string expression = 1; // Direct representation of the logical expression
 }
 
-// Representation of a participant, typically a patient.
+// Message representing a participant, who is typically a patient.
 message Participant {
-  string id = 1;  // The unique ID of the participant
+  string id = 1;  // Unique identifier for the participant
 }
 
-// Representation of timing information.
+// Message representing timing information.
 message Timing {
-  int64 time = 1;  // The time as a Unix timestamp
-  string description = 2;  // Description of the timing, e.g., "past", "present", "future"
+  int64 time = 1;  // Time represented as a Unix timestamp
+  string description = 2;  // Label of the timing, such as "past", "present", or "future"
 }
 
-// Representation of a practitioner or authoring entity.
+// Message representing a practitioner or an entity that authors.
 message Practitioner {
-  string id = 1;  // The unique ID of the practitioner
+  string id = 1;  // Unique identifier for the practitioner
   string practitioner = 2;  // Reference to the participating practitioner
-  LogicalExpression code = 3;  // Roles the practitioner is authorized to perform
+  LogicalExpression code = 3;  // Authorized roles of the practitioner
 }
 
-// Representation of associated statements like preconditions or interpretations.
+// Message representing associated statements like preconditions or interpretations.
 message AssociatedStatement {
-  string description = 1;  // Description or content of the associated statement
+  string description = 1;  // Contents or description of the associated statement
 }
 
-// Representation of repetition details for a RequestCircumstance.
+// Message representing the details of repetition for a RequestCircumstance.
 message Repetition {
-  Measure period_start = 1;  // When the repetition should start
-  Measure period_duration = 2;  // Duration of the repetition period
-  Measure event_separation = 3;  // Time between events
-  Measure event_duration = 4;  // Duration of each event, optional
-  Measure event_frequency = 5;  // Frequency of the events
+  Measure period_start = 1;  // The starting point of the repetition
+  Measure period_duration = 2;  // Duration for the repetition period
+  Measure event_separation = 3;  // Interval between events
+  Measure event_duration = 4;  // The expected duration of each event, optional
+  Measure event_frequency = 5;  // The frequency at which the events occur
 }
 
-// Representation of the circumstances associated with a clinical statement
+// Message representing the circumstances associated with a clinical statement
 message Circumstance {
-  Measure timing = 1;  // Timing information, represents a past or current time
-  repeated LogicalExpression purpose = 2;  // Purposes information
+  Measure timing = 1;  // Information about the timing, which is either past or current
+  repeated LogicalExpression purpose = 2;  // Information about the purposes
 }
 
-// Representation of a RequestCircumstance.
+// Message representing a RequestCircumstance.
 message RequestCircumstance {
-  repeated AssociatedStatement conditional_trigger = 1;  // Conditions that trigger the request
-  repeated Reference requested_participant = 2;  // Participants in the request
-  LogicalExpression priority = 3;  // Priority level of the request
-  Measure requested_result = 4;  // Expected result of the request
-  Repetition repetition = 5;  // Details about the repetition, optional
-  Circumstance circumstance = 6; // Circumstances associated with a clinical statement
+  repeated AssociatedStatement conditional_trigger = 1;  // Conditions that initiate the request
+  repeated Reference requested_participant = 2;  // Participants included in the request
+  LogicalExpression priority = 3;  // The level of priority for the request
+  Measure requested_result = 4;  // Expected result from the request
+  Repetition repetition = 5;  // Information about the repetition, optional
+  Circumstance circumstance = 6; // The associated circumstances for a clinical statement
 }
 
-// Representation of a PerformanceCircumstance.
+// Message representing a PerformanceCircumstance.
 message PerformanceCircumstance {
-  LogicalExpression status = 1;  // Current status of the performance
-  Measure result = 2;  // Result of the performance
-  LogicalExpression health_risk = 3;  // Health risk level, optional
-  Measure normal_range = 4;  // Normal range for the result, optional
-  repeated Participant participant = 5;  // Participants in the performance
-  Circumstance circumstance = 6; // Circumstances associated with a clinical statement
+  LogicalExpression status = 1;  // The current state of the performance
+  Measure result = 2;  // The result from the performance
+  LogicalExpression health_risk = 3;  // Level of health risk, optional
+  Measure normal_range = 4;  // The typical range for the result, optional
+  repeated Participant participant = 5;  // Participants involved in the performance
+  Circumstance circumstance = 6; // The associated circumstances for a clinical statement
 }
 
-// Representation of a NarrativeCircumstance.
+// Message representing a NarrativeCircumstance.
 message NarrativeCircumstance {
-  string text = 1;  // Textual description or narrative
-  Circumstance circumstance = 2; // Circumstances associated with a clinical statement 
+  string text = 1;  // Narrative or textual description
+  Circumstance circumstance = 2; // The associated circumstances for a clinical statement
 }
 
-// Representation of a reference to other entities like patient records or health practitioners.
+// Message representing a reference to other entities like patient records or health practitioners.
 message Reference {
-  string id = 1;  // The unique ID of the reference
-  string type = 2;  // Type of the reference, e.g., "Patient", "Practitioner"
+  string id = 1;  // Unique identifier for the reference
+  string type = 2;  // The type of the reference, for example, "Patient", "Practitioner"
 }
 
-// Main representation of an ANFStatement.
+// The ANFStatement message is the main representation of an ANFStatement. It defines the necessary fields required to represent it.
 message ANFStatement {
-  Identifier id = 1;  // The unique ID of the ANFStatement
- 
-  // Time of the statement
-  // Rule: Timing - past, present, or future
-  // For a Performance of Action, the Timing can represent a time in the past or a current time.
-  // For a Request of Action, the Timing will always represent a future time.
-  Measure time = 2;  
- 
-  Participant subject_of_record = 3;  // Subject of the record, usually the patient
-  repeated Practitioner author = 4;  // Authors of the statement
-  LogicalExpression subject_of_information = 5;  // Subject or topic of the information
-  repeated AssociatedStatement associated_statement = 6;  // Associated statements or conditions
+  Identifier id = 1;  // Uniquely identifies the ANFStatement.
 
-  // Topic of the statement
-  // All code will be implemented using TINKAR:
-  // - Simple observations use Observation procedure to represent the topic.
-  // - Medication administrations use an Administration of substance concept.
-  // - Laboratory tests use a Laboratory Procedure concept.
-  // - Imaging Procedures use an Imaging Procedure concept.
- 
-  LogicalExpression topic = 7;  // Main topic of the statement
-  LogicalExpression type = 8;  // Type of the statement, e.g., "Request", "Performance"
+  // Denotes the timestamp of the statement, adhering to the rule: Timing - past, present, or future.
+  // For the "Performance of Action", Timing could denote a past or current timestamp.
+  // For the "Request of Action", Timing would always denote a future timestamp.
+  Measure time = 2;
 
-  // One of the following circumstances must be present: RequestCircumstance, PerformanceCircumstance, or NarrativeCircumstance.
+  Participant subject_of_record = 3;  // Identifies the subject of the record, which is typically the patient.
+  repeated Practitioner author = 4;  // Identifies all authors behind this statement.
+  LogicalExpression subject_of_information = 5;  // Refers to the subject or topic of the incorporated information.
+  repeated AssociatedStatement associated_statement = 6;  // Refers to any related statements or conditions.
+
+  // Denotes the topic of the statement, and includes rules for different types of observations, procedures and test:
+  // - Simple observation statements use the "Observation" procedure to symbolize the topic.
+  // - Medication administration statements use the "Administration of substance" concept.
+  // - Laboratory test statements use the "Laboratory Procedure" concept.
+  // - Imaging Procedure statements use the "Imaging Procedure" concept.
+  LogicalExpression topic = 7;
+
+  LogicalExpression type = 8;  // Specifies the type category of the statement such as "Request", "Performance", etc.
+
+  // Circumstance choice: RequestCircumstance, PerformanceCircumstance, or NarrativeCircumstance, any one of which must be present.
   oneof circumstance_choice {
-    RequestCircumstance request_circumstance = 9; //TODO:
-    PerformanceCircumstance performance_circumstance = 10; //TODO:
-    NarrativeCircumstance narrative_circumstance = 11; //TODO:
+    RequestCircumstance request_circumstance = 9;
+    PerformanceCircumstance performance_circumstance = 10;
+    NarrativeCircumstance narrative_circumstance = 11;
   }
-  optional google.protobuf.Timestamp created = 12; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 13; // Timestamp when this event was modified.
-  optional string creator = 14; // ID of the creator of this event.
-  optional string modifier = 15; // ID of the modifier of this event.
-
-  Status status = 16; // Status of the ANFStatement
+  // Timestamp when this ANFStatement was created.
+  optional google.protobuf.Timestamp created = 12;
+  // Timestamp when modifications were done to this ANFStatement.
+  optional google.protobuf.Timestamp modified = 13;
+  // Specifies the unique identifier of the creator of this ANFStatement.
+  optional string creator = 14;
+  // Specifies the unique identifier of the modifier of this ANFStatement.
+  optional string modifier = 15;
+  // Specifies the current status of the ANFStatement.
+  Status status = 16;
 }

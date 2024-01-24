@@ -436,14 +436,14 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         model.setNationalHealthId(this.openCDXNationalHealthIdentifier.generateNationalHealthId(model));
         if (model.getPrimaryContactInfo() == null) {
             model.setPrimaryContactInfo(ContactInfo.newBuilder()
-                    .addAllEmail(List.of(EmailAddress.newBuilder()
+                    .addAllEmails(List.of(EmailAddress.newBuilder()
                             .setEmail(model.getUsername())
                             .setType(EmailType.EMAIL_TYPE_WORK)
                             .build()))
                     .build());
         } else {
             model.setPrimaryContactInfo(ContactInfo.newBuilder(model.getPrimaryContactInfo())
-                    .addAllEmail(List.of(EmailAddress.newBuilder()
+                    .addAllEmails(List.of(EmailAddress.newBuilder()
                             .setEmail(model.getUsername())
                             .setType(EmailType.EMAIL_TYPE_WORK)
                             .build()))

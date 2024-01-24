@@ -1,21 +1,26 @@
-syntax = "proto3";
-option java_multiple_files = true;
-package cdx.opencdx.grpc.tinkar;
+// This file is a Protocol Buffer (Proto3 syntax) definition.
+// It's for a service called `Tinkar`. `Tinkar` is a gRPC service within the `cdx.opencdx.grpc.tinkar` package.
 
-import "google/protobuf/wrappers.proto";
+syntax = "proto3";  // Indicating that proto3 syntax is used.
 
-// The greeting service definition.
+option java_multiple_files = true; // Enable to generate multiple java files, one for each message, as opposed to a single outer class containing inner classes.
+
+package cdx.opencdx.grpc.tinkar; // The package name which will be used in generated java files.
+
+import "google/protobuf/wrappers.proto"; // Importing the wrappers.proto file. The file contains wrapper message types for scalar types.
+
+// Tinkar Service: Provides a gRPC endpoint for the `sayTinkar` RPC method.
 service Tinkar {
-  // Sends a greeting
+  // `sayTinkar` RPC method, which expects a `TinkarRequest` and returns a `TinkarResponse`.
   rpc sayTinkar (TinkarRequest) returns (TinkarResponse) {}
 }
 
-// The request message containing the user's name.
+// TinkarRequest Message: Represents the user's request with a single field `name` (string).
 message TinkarRequest {
-  string name = 1; // username.
+  string name = 1; // The name of the user required for the request.
 }
 
-// The response message containing the greetings
+// TinkarResponse Message: Represents the response that `Tinkar` service returns.
 message TinkarResponse {
-  string message = 1; //response message.
+  string message = 1; // Response message from the Tinkar service.
 }
