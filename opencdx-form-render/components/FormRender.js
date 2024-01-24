@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextInput } from './TextInput'
 import { RadioInput } from './RadioInput'
 import { SelectInputComp } from './SelectInputComp'
 import { Text, View, StyleSheet, Button } from 'react-native';
-import {
-    FormControlLabel, FormControlLabelText, Heading
-} from '@gluestack-ui/themed';
+import { FormControlLabel, FormControlLabelText } from '@gluestack-ui/themed';
 import { useForm, FormProvider } from 'react-hook-form';
 import Constants from 'expo-constants';
-import formData from './alpha.json';
 
-
-export default function App() {
+export default function App({ questionnaire }) {
     const { ...methods } = useForm({ mode: 'onChange' });
 
     const onSubmit = (data) => console.log({ data });
@@ -20,82 +16,95 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            {formError ? <View><Text style={{ color: 'red' }}>There was a problem with loading the form. Please try again later.</Text></View> :
+            {formError ? (
+                <View>
+                    <Text style={{ color: 'red' }}>There was a problem with loading the form. Please try again later.</Text>
+                </View>
+            ) : (
                 <>
                     <FormProvider {...methods}>
-                        <Heading>{formData?.title}</Heading>
-                        {formData?.item?.map((field, index) => {
+                        <Text>{questionnaire?.title}</Text>
+                        {questionnaire?.item?.map((field, index) => {
+                            let inputComponent;
+
+                            switch (field.type) {
+                                case "integer":
+                                    inputComponent = (
+                                        <TextInput
+                                            key={index}
+                                            name={field.linkId}
+                                            label={field.text}
+                                            rules={{ required: 'This field is required!' }}
+                                            setFormError={setError}
+                                            type="number"
+                                        />
+                                    );
+                                    break;
+                                case "string":
+                                    inputComponent = (
+                                        <TextInput
+                                            key={index}
+                                            name={field.linkId}
+                                            label={field.text}
+                                            rules={{ required: 'This field is required!' }}
+                                            setFormError={setError}
+                                            type="text"
+                                        />
+                                    );
+                                    break;
+                                case "text":
+                                    inputComponent = (
+                                        <TextInput
+                                            key={index}
+                                            name={field.linkId}
+                                            label={field.text}
+                                            rules={{ required: 'This field is required!' }}
+                                            setFormError={setError}
+                                            type="text"
+                                        />
+                                    );
+                                    break;
+                                case "boolean":
+                                    inputComponent = (
+                                        <RadioInput
+                                            key={index}
+                                            name={field.linkId}
+                                            label={field.text}
+                                            rules={{ required: 'This field is required!' }}
+                                            setFormError={setError}
+                                            type="radio"
+                                        />
+                                    );
+                                    break;
+                                case "choice":
+                                    inputComponent = (
+                                        <SelectInputComp
+                                            key={index}
+                                            name={field.linkId}
+                                            label={field.text}
+                                            rules={{ required: 'This field is required!' }}
+                                            setFormError={setError}
+                                            type="select"
+                                            answerOption={field.answerOption}
+                                        />
+                                    );
+                                    break;
+                                default:
+                                    inputComponent = null;
+                            }
 
                             return (
-                                <View style={styles.margin}>
+                                <View key={index}>
                                     <FormControlLabel>
                                         <FormControlLabelText>{field.text}</FormControlLabelText>
                                     </FormControlLabel>
-                                    {
-                                        field.type === "integer" && (
-
-                                            <TextInput
-                                                key={index}
-                                                name={field.linkId}
-                                                label={field.text}
-                                                rules={{ required: 'This field is required!' }}
-                                                setFormError={setError}
-                                                type="number"
-                                            />
-                                        )
-                                        ||
-                                        field.type === "string" && (
-                                            <TextInput
-                                                key={index}
-                                                name={field.linkId}
-                                                label={field.text}
-                                                rules={{ required: 'This field is required!' }}
-                                                setFormError={setError}
-                                                type="text"
-                                            />
-                                        ) ||
-                                        field.type === "text" && (
-                                            <TextInput
-                                                key={index}
-                                                name={field.linkId}
-                                                label={field.text}
-                                                rules={{ required: 'This field is required!' }}
-                                                setFormError={setError}
-                                                type="text"
-                                            />
-                                        ) ||
-                                        field.type === "boolean" && (
-                                            <RadioInput
-                                                key={index}
-                                                name={field.linkId}
-                                                label={field.text}
-                                                rules={{ required: 'This field is required!' }}
-                                                setFormError={setError}
-                                                type="radio"
-                                            />
-                                        ) ||
-                                        field.type === "choice" && (
-                                            <SelectInputComp
-                                                key={index}
-                                                name={field.linkId}
-                                                label={field.text}
-                                                rules={{ required: 'This field is required!' }}
-                                                setFormError={setError}
-                                                type="select"
-                                                answerOption={field.answerOption}
-                                            />
-                                        )
-                                    }
-
+                                    {inputComponent}
                                 </View>
-
                             );
-                        }
-                        )}
-
+                        })}
                     </FormProvider>
                 </>
-            }
+            )}
             <View style={styles.button}>
                 <Button
                     title="Submit"

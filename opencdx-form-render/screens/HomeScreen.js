@@ -6,18 +6,18 @@ import { Center, GluestackUIProvider, ScrollView } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
 
 
-const HomeScreen = () => {
-
+const HomeScreen = ({route}) => {
+    const { questionnaire } = route.params;
     return (
         <View style={styles.container}>
                 <GluestackUIProvider config={config}>
                         { Platform.OS === "web" ? (
                             <Center>
-                                <FormRender/>
+                                <FormRender questionnaire={questionnaire}/>
                             </Center>
                         ) : (
                             <ScrollView h="$80" w="$100">
-                                <FormRender/>
+                                <FormRender questionnaire={questionnaire}/>
                             </ScrollView>
                         )}
             </GluestackUIProvider>

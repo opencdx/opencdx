@@ -4,15 +4,14 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('admin@opencdx.org');
+    const [password, setPassword] = useState('password');
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('https://localhost:8080/iam/user/login', { userName: 'admin@opencdx.org', password: 'password' });
-
+            const response = await axios.post('https://localhost:8080/iam/user/login', { userName: username, password: password });
             await AsyncStorage.setItem('jwtToken', response.data.token);
-            navigation.navigate('Home');
+            navigation.navigate('List');
         } catch (error) {
             alert('Invalid credentials');
         }
@@ -24,11 +23,13 @@ const LoginScreen = ({ navigation }) => {
                 placeholder="Username"
                 onChangeText={setUsername}
                 style={styles.input}
+                defaultValue={username}
             />
             <TextInput
                 placeholder="Password"
                 secureTextEntry={true}
                 onChangeText={setPassword}
+                defaultValue={password}
                 style={[styles.input, { marginBottom: 10 }]}
             />
             <Button title="Login" onPress={handleLogin} />
