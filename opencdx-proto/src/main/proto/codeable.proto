@@ -1,5 +1,8 @@
 /*
- * Package for handling codeable concepts in GRPC
+ * This package is designated for managing Codeable Concepts
+ * within a GRPC infrastructure. It centralizes operations that
+ * involve encoding and decoding concepts for efficient data
+ * transmission.
  */
 syntax = "proto3";
 option java_multiple_files = true;

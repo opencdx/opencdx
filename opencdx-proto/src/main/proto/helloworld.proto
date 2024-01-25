@@ -1,16 +1,9 @@
+/*
+ * This constitutes our primary building block, defining the Greeter service. It offers a straightforward gRPC API to transmit greetings.
+ */
 syntax = "proto3";
-/*
- * This option allows the generate Java code to be split into multiple files.
- */
 option java_multiple_files = true;
-/*
- * Defines the package for the protobuf messages and services.
- */
 package cdx.opencdx.grpc.helloworld;
-/*
- * The Greeter service definition.
- * This is the main block that defines our Greeter service which provides a simple gRPC API to send greetings.
- */
 service Greeter {
   /*
    * Defines the SayHello rpc method for the Greeter service.

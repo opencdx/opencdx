@@ -1,3 +1,7 @@
+/*
+ * This Protocol Buffers (protobuf) definition is primarily focused on the management of user profiles.
+ * It provides the structure for storing and manipulating user-centric data efficiently.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.profile;

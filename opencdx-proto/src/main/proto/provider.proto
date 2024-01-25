@@ -1,3 +1,6 @@
+/*
+ * This system is used for retrieving National Provider records given a specific National Provider Identifier.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.provider;

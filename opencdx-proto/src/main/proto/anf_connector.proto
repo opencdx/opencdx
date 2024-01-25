@@ -1,16 +1,5 @@
-/*
- * This .proto file defines the necessary structure for ANF Statements within our gRPC API.
- *
- * Enumerations:
- * - AnfStatementType: Enumerating the potential types of the ANF Statement's relationships with a question item.
- * - AnfOperatorType: Enumerating the possible operator types that can be used with an ANF Statement.
- *
- * Message:
- * - AnfStatementConnector: It facilitates the connection of an ANF Statement to a query component. This message
- *   contains the reference to the ANF statement, the type of the statement, the operator type used, and the value of
- *   the chosen operator.
- *
- * Note: This file is integral for ensuring strong typing and efficient serialization across our system.
+/**
+ * The Analysis Normal Form (ANF) Connector Protobuf file outlines the protocol for connecting a Questionnaire to an ANF Statement.
  */
 syntax = "proto3";
 option java_multiple_files = true;

@@ -1,3 +1,6 @@
+/*
+ * A specialized system designed for the efficient management and control of media files within the scope of the OpenCDX platform.
+ */
 syntax = "proto3";
 package cdx.opencdx.grpc.media;
 import "google/protobuf/timestamp.proto";

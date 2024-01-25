@@ -1,3 +1,6 @@
+/*
+ * This specification defines the structure for an Organization. It includes all the workspaces associated with that organization, in which users can participate.
+ */
 syntax = "proto3";
 package cdx.opencdx.grpc.organization;
 option java_multiple_files = true;

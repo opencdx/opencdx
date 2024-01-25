@@ -1,5 +1,5 @@
 /*
- * The collection of common gRPC messages, enums and timestamps for the cdx.opencdx application.
+ * This is the collection of shared gRPC messages, enumerations, and timestamp utilities specifically designed for the 'cdx.opencdx' application. It provides essential definitions that promote efficient communication protocols across different components of the application.
  */
 syntax = "proto3";
 option java_multiple_files = true;

@@ -1,3 +1,6 @@
+/*
+ * System responsible for the preprocessing tasks of Media files. This includes tasks like encoding, decoding, transformation and more.
+ */
 syntax = "proto3";
 package cdx.opencdx.grpc.media;
 import "google/protobuf/timestamp.proto";

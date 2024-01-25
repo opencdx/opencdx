@@ -1,3 +1,6 @@
+/*
+ * This system is designed for the efficient management of testkits. It also keeps track of pertinent data such as the manufacturer and vendor of each testkit for accountability and traceability purposes.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.inventory;

@@ -1,3 +1,6 @@
+/*
+ This is a system designed to receive, store, and manage questionnaires which are primarily used for the diagnosis of various medical conditions. This system plays a vital role in aiding healthcare professionals by providing a comprehensive, organized, and accessible database of diagnostic questionnaires.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.questionnaire;

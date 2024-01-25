@@ -1,3 +1,6 @@
+/*
+ * This definition streamlines the registration, login, and user management process within the system.
+ */
 syntax = "proto3";
 package cdx.opencdx.grpc.iam;
 import "google/protobuf/timestamp.proto";
