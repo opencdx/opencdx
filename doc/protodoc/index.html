@@ -1640,7 +1640,7 @@
       <div class="file-heading">
         <h2 id="anf_connector.proto">anf_connector.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>The Analysis Normal Form (ANF) Connector Protobuf file outlines the protocol for connecting a Questionnaire to an ANF Statement.</p>
 
       
         <h3 id="cdx.opencdx.grpc.anf.AnfStatementConnector">AnfStatementConnector</h3>
@@ -1819,7 +1819,7 @@ statement pertaining to the question.</p></td>
       <div class="file-heading">
         <h2 id="anf_statement.proto">anf_statement.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This Analysis Normal Form (ANF) Statement is used to succinctly represent a medical statement in its most pertinent and simplified form.</p>
 
       
         <h3 id="cdx.opencdx.grpc.anf.ANFStatement">ANFStatement</h3>
@@ -2013,7 +2013,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
         
       
         <h3 id="cdx.opencdx.grpc.anf.Identifier">Identifier</h3>
-        <p>'Identifier' Message definition for a unique ID associated with an ANFStatement.</p>
+        <p>'Identifier' Message definition for a unique ID associated with an ANFStatement</p>
 
         
           <table class="field-table">
@@ -2061,7 +2061,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
         
       
         <h3 id="cdx.opencdx.grpc.anf.Measure">Measure</h3>
-        <p>The `Measure` message encapsulates a quantifiable attribute such as time duration or test results.</p><p>It defines an upper and lower bound for the measure, clarification if these bounds are inclusive,</p><p>the semantic interpretation of the measure, and optionally, the resolution or accuracy of the measure.</p>
+        <p>The `Measure` message encapsulates a quantifiable attribute such as time duration or test results.</p><p>It defines an upper and lower bound for the measure, clarification if these bounds are inclusive,</p><p>the semantic interpretation of the measure, and optionally, the resolution or accuracy of the measure.</p><p>Following are some examples of measures for clarification:</p><p>"Presence" denotes a measure where a certain quantity is existent. The `upper_bound` is set to INF, `lower_bound` is greater than 0 with `include_lower_bound` set based on context.</p><p>"Absence" denotes a measure where a certain quantity is non-existent. Both `upper_bound` and `lower_bound` are set to 0 with `include_lower_bound` and `include_upper_bound` set to true.</p><p>"Indeterminate" indicates a measure that can range from 0 to some value greater than 0.</p><p>"Exact Value" signifies a measure where a certain quantity is a precise value. Both `upper_bound` and `lower_bound` are set to this exact value with `include_lower_bound` and `include_upper_bound` set to true.</p><p>"Ranges" represent a measure that falls within a particular range. The `upper_bound` and `lower_bound` are set to the extremities of this range with `include_lower_bound` and `include_upper_bound` set based on context.</p><p>`semantic` describes the semantical sense of the measure, e.g., "Countable quantity".</p>
 
         
           <table class="field-table">
@@ -2102,7 +2102,10 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>semantic</td>
                   <td><a href="#cdx.opencdx.grpc.anf.LogicalExpression">LogicalExpression</a></td>
                   <td></td>
-                  <td><p>`semantic` describes the semantical sense of the measure, e.g., &#34;Countable quantity&#34;. </p></td>
+                  <td><p>`LogicalExpression semantic` is a field in a Protocol Buffers message.
+This is declared with a unique number (5 in this case), which is used to identify the field in the serialized binary data.
+LogicalExpression is assumed to be another message type, and `semantic` is an instance of this LogicalExpression message type.
+Essentially, this line is defining a LogicalExpression object named &#34;semantic&#34; in the Protocol Buffers message format. </p></td>
                 </tr>
               
                 <tr>
@@ -2635,7 +2638,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                 <td>DeleteANFStatement</td>
                 <td><a href="#cdx.opencdx.grpc.anf.Identifier">Identifier</a></td>
                 <td><a href="#cdx.opencdx.grpc.anf.Identifier">Identifier</a></td>
-                <td><p>Deletes an ANF Statement instance using its identifier and returns the identifier of the deleted item.</p></td>
+                <td><p>Deletes an ANF Statement instance using its identifier and &gt;returns the identifier of the deleted item.</p></td>
               </tr>
             
           </tbody>
@@ -2647,7 +2650,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
       <div class="file-heading">
         <h2 id="audit.proto">audit.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>The Audit protobuf encapsulates the process of recording and monitoring events that are necessitated for audit purposes.</p>
 
       
         <h3 id="cdx.opencdx.grpc.audit.Actor">Actor</h3>
@@ -2858,7 +2861,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>success</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Indicates whether the operation was successful or not. </p></td>
                 </tr>
               
             </tbody>
@@ -3131,7 +3134,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
       <div class="file-heading">
         <h2 id="classification.proto">classification.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>Categorization outcome of a test analysis from a specific test-kit.</p>
 
       
         <h3 id="cdx.opencdx.grpc.neural.classification.ClassificationRequest">ClassificationRequest</h3>
@@ -3683,7 +3686,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
       <div class="file-heading">
         <h2 id="codeable.proto">codeable.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This package is designated for managing Codeable Concepts</p><p>within a GRPC infrastructure. It centralizes operations that</p><p>involve encoding and decoding concepts for efficient data</p><p>transmission.</p>
 
       
         <h3 id="cdx.opencdx.grpc.codeable.CodeableConcept">CodeableConcept</h3>
@@ -3752,7 +3755,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>version</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Specific version of the terminology system , if applicable </p></td>
+                  <td><p>Specific version of the terminology system, if applicable </p></td>
                 </tr>
               
                 <tr>
@@ -3787,11 +3790,11 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
       <div class="file-heading">
         <h2 id="common.proto">common.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This is the collection of shared gRPC messages, enumerations, and timestamp utilities specifically designed for the 'cdx.opencdx' application. It provides essential definitions that promote efficient communication protocols across different components of the application.</p>
 
       
         <h3 id="cdx.opencdx.grpc.common.Address">Address</h3>
-        <p>Address, a composition of country, city, state, postal code and purpose of the address</p>
+        <p>Address, a composition of country, city, state, postal code and purpose of the address.</p>
 
         
           <table class="field-table">
@@ -4026,7 +4029,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>type</td>
                   <td><a href="#cdx.opencdx.grpc.common.EmailType">EmailType</a></td>
                   <td></td>
-                  <td><p>The type of the email address </p></td>
+                  <td><p>The type of the email address. </p></td>
                 </tr>
               
             </tbody>
@@ -4050,7 +4053,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>title</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Title of the user (ex: Mr., Mrs., Dr.) </p></td>
+                  <td><p>Title of the user (ex: Mr., Mrs., Dr.). </p></td>
                 </tr>
               
                 <tr>
@@ -4078,7 +4081,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>suffix</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Suffix for the name (ex: Jr., Sr., III) </p></td>
+                  <td><p>Suffix for the name (ex: Jr., Sr., III). </p></td>
                 </tr>
               
             </tbody>
@@ -4430,7 +4433,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
       <div class="file-heading">
         <h2 id="communications.proto">communications.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>Outlines the communication protocol for OpenCDX via Email and SMS, facilitating interactions with users and other entities.</p>
 
       
         <h3 id="cdx.opencdx.grpc.communication.Attachment">Attachment</h3>
@@ -4700,9 +4703,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td>to_email</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>Email-specific attributes.
-
-The email addresses of the primary recipients. </p></td>
+                  <td><p>The email addresses of the primary recipients. </p></td>
                 </tr>
               
                 <tr>
@@ -4730,9 +4731,7 @@ The email addresses of the primary recipients. </p></td>
                   <td>to_phone_number</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>SMS-specific attributes.
-
-The phone numbers to which the SMS notification should be sent. </p></td>
+                  <td><p>The phone numbers to which the SMS notification should be sent. </p></td>
                 </tr>
               
                 <tr>
@@ -5328,7 +5327,7 @@ The phone numbers to which the SMS notification should be sent. </p></td>
 
       
         <h3 id="cdx.opencdx.grpc.communication.CommunicationService">CommunicationService</h3>
-        <p>Service API Definition.</p><p>This service provides functionality related to communication strategies, namely email and SMS templates as well as notification events.</p><p>Each type of resource (Email, SMS, Notification Event) supports CRUD operations.</p><p>Additionally, it also provides functionality to send notifications and to retrieve lists of resources.</p><p>*</p><p>Operations related to Email Template Management.</p>
+        <p>Service API Definition.</p><p>This service provides functionality related to communication strategies, namely email and SMS templates as well as notification events.</p><p>Each type of resource (Email, SMS, Notification Event) supports CRUD operations.</p><p>Additionally, it also provides functionality to send notifications and to retrieve lists of resources.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
@@ -5456,7 +5455,7 @@ The phone numbers to which the SMS notification should be sent. </p></td>
       <div class="file-heading">
         <h2 id="connected_test.proto">connected_test.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This section archives the outcomes of linked tests results originating from a specific patient.</p>
 
       
         <h3 id="cdx.opencdx.grpc.connected.BasicInfo">BasicInfo</h3>
@@ -6137,7 +6136,7 @@ The phone numbers to which the SMS notification should be sent. </p></td>
         
       
         <h3 id="cdx.opencdx.grpc.connected.ProviderInfo">ProviderInfo</h3>
-        <p>Contains information about the providers associated with the test.</p>
+        <p>Contains information about the providers associated with the=test.</p>
 
         
           <table class="field-table">
@@ -6780,7 +6779,7 @@ The phone numbers to which the SMS notification should be sent. </p></td>
       <div class="file-heading">
         <h2 id="helloworld.proto">helloworld.proto</h2><a href="#title">Top</a>
       </div>
-      <p>The syntax version of protobuf being used.</p>
+      <p>This constitutes our primary building block, defining the Greeter service. It offers a straightforward gRPC API to transmit greetings.</p>
 
       
         <h3 id="cdx.opencdx.grpc.helloworld.HelloRequest">HelloRequest</h3>
@@ -6844,7 +6843,7 @@ message in response </p></td>
 
       
         <h3 id="cdx.opencdx.grpc.helloworld.Greeter">Greeter</h3>
-        <p>The Greeter service definition.</p><p>This is the main block that defines our Greeter service which provides a simple gRPC API to send greetings.</p>
+        <p></p>
         <table class="enum-table">
           <thead>
             <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
@@ -6870,7 +6869,7 @@ This is the main method which clients using our service will interact with to se
       <div class="file-heading">
         <h2 id="iam_organization.proto">iam_organization.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This specification defines the structure for an Organization. It includes all the workspaces associated with that organization, in which users can participate.</p>
 
       
         <h3 id="cdx.opencdx.grpc.organization.CreateOrganizationRequest">CreateOrganizationRequest</h3>
@@ -7685,7 +7684,7 @@ by its specific ID.</p></td>
       <div class="file-heading">
         <h2 id="iam_profile.proto">iam_profile.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This Protocol Buffers (protobuf) definition is primarily focused on the management of user profiles.</p><p>It provides the structure for storing and manipulating user-centric data efficiently.</p>
 
       
         <h3 id="cdx.opencdx.grpc.profile.DateOfBirth">DateOfBirth</h3>
@@ -7958,7 +7957,7 @@ by its specific ID.</p></td>
         
       
         <h3 id="cdx.opencdx.grpc.profile.KnownAllergy">KnownAllergy</h3>
-        <p>Represents information about a known allergy including the allergen, description of the reaction, a boolean flag for severity, date of onset, date of last occurrence, and additional notes.</p>
+        <p>Represents information about a known allergy including the allergen,</p><p>description of the reaction, a boolean flag for severity, date of onset,</p><p>date of last occurrence, and additional notes.</p>
 
         
           <table class="field-table">
@@ -8017,7 +8016,7 @@ by its specific ID.</p></td>
         
       
         <h3 id="cdx.opencdx.grpc.profile.Medication">Medication</h3>
-        <p>Represents information about a medication including its name, dosage, instructions, route of administration, frequency, start and end dates, prescribing doctor, pharmacy, and a boolean flag for prescription.</p>
+        <p>Represents information about a medication including its name,</p><p>dosage, instructions, route of administration, frequency, start and end dates,</p><p>prescribing doctor, pharmacy, and a boolean flag for prescription.</p>
 
         
           <table class="field-table">
@@ -8180,7 +8179,7 @@ by its specific ID.</p></td>
         
       
         <h3 id="cdx.opencdx.grpc.profile.Preferences">Preferences</h3>
-        <p>Describes the user's communication preferences including preferred language and time zone, and a boolean flag for preferred mode of communication.</p>
+        <p>Describes the user's communication preferences including preferred language and time zone,</p><p>and a boolean flag for preferred mode of communication.</p>
 
         
           <table class="field-table">
@@ -8218,7 +8217,7 @@ by its specific ID.</p></td>
         
       
         <h3 id="cdx.opencdx.grpc.profile.SystemSettings">SystemSettings</h3>
-        <p>Represents system settings for a user including identity verification, email verification, notifications settings, biometrics setting,</p><p>registration date, multi-factor authentication settings, and last login information.</p>
+        <p>Represents system settings for a user including identity verification,</p><p>email verification, notifications settings, biometrics setting,</p><p>registration date, multi-factor authentication settings,</p><p>and last login information.</p>
 
         
           <table class="field-table">
@@ -8298,7 +8297,7 @@ by its specific ID.</p></td>
         
       
         <h3 id="cdx.opencdx.grpc.profile.UpdateUserProfileRequest">UpdateUserProfileRequest</h3>
-        <p>UpdateUserProfileRequest is the message format for the request to update a user profile.</p><p>It contains a user_id to identify the user whose profile needs to be updated, and updated_profile with the new profile details.</p>
+        <p>UpdateUserProfileRequest is the message format for the request to update a user profile.</p><p>It contains a user_id to identify the user whose profile needs to be updated,</p><p>and updated_profile with the new profile details.</p>
 
         
           <table class="field-table">
@@ -8723,7 +8722,7 @@ by its specific ID.</p></td>
       <div class="file-heading">
         <h2 id="iam_user.proto">iam_user.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This definition streamlines the registration, login, and user management process within the system.</p>
 
       
         <h3 id="cdx.opencdx.grpc.iam.ChangePasswordRequest">ChangePasswordRequest</h3>
@@ -9407,42 +9406,48 @@ by its specific ID.</p></td>
                 <td>ListIamUsers</td>
                 <td><a href="#cdx.opencdx.grpc.iam.ListIamUsersRequest">ListIamUsersRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.ListIamUsersResponse">ListIamUsersResponse</a></td>
-                <td><p>ListIamUsers is an rpc method that returns a paginated, sortable list of IAM users. It takes a ListIamUsersRequest and returns a ListIamUsersResponse.</p></td>
+                <td><p>ListIamUsers is an rpc method that returns a paginated, sortable list of IAM users.
+It takes a ListIamUsersRequest and returns a ListIamUsersResponse.</p></td>
               </tr>
             
               <tr>
                 <td>GetIamUser</td>
                 <td><a href="#cdx.opencdx.grpc.iam.GetIamUserRequest">GetIamUserRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.GetIamUserResponse">GetIamUserResponse</a></td>
-                <td><p>GetIamUser is an rpc method that returns IAM user information for a specified user ID. It takes a GetIamUserRequest and returns a GetIamUserResponse.</p></td>
+                <td><p>GetIamUser is an rpc method that returns IAM user information for a specified user ID.
+It takes a GetIamUserRequest and returns a GetIamUserResponse.</p></td>
               </tr>
             
               <tr>
                 <td>UpdateIamUser</td>
                 <td><a href="#cdx.opencdx.grpc.iam.UpdateIamUserRequest">UpdateIamUserRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.UpdateIamUserResponse">UpdateIamUserResponse</a></td>
-                <td><p>UpdateIamUser is an rpc method that updates the information of an existing IAM user. It takes an UpdateIamUserRequest and returns an UpdateIamUserResponse.</p></td>
+                <td><p>UpdateIamUser is an rpc method that updates the information of an existing IAM user.
+It takes an UpdateIamUserRequest and returns an UpdateIamUserResponse.</p></td>
               </tr>
             
               <tr>
                 <td>ChangePassword</td>
                 <td><a href="#cdx.opencdx.grpc.iam.ChangePasswordRequest">ChangePasswordRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.ChangePasswordResponse">ChangePasswordResponse</a></td>
-                <td><p>ChangePassword is an rpc method that changes the password of an existing IAM user. It takes a ChangePasswordRequest and returns a ChangePasswordResponse.</p></td>
+                <td><p>ChangePassword is an rpc method that changes the password of an existing IAM user.
+It takes a ChangePasswordRequest and returns a ChangePasswordResponse.</p></td>
               </tr>
             
               <tr>
                 <td>DeleteIamUser</td>
                 <td><a href="#cdx.opencdx.grpc.iam.DeleteIamUserRequest">DeleteIamUserRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.DeleteIamUserResponse">DeleteIamUserResponse</a></td>
-                <td><p>DeleteIamUser is an rpc method that deletes an IAM user specified by user ID. It takes a DeleteIamUserRequest and returns a DeleteIamUserResponse.</p></td>
+                <td><p>DeleteIamUser is an rpc method that deletes an IAM user specified by user ID.
+It takes a DeleteIamUserRequest and returns a DeleteIamUserResponse.</p></td>
               </tr>
             
               <tr>
                 <td>UserExists</td>
                 <td><a href="#cdx.opencdx.grpc.iam.UserExistsRequest">UserExistsRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.UserExistsResponse">UserExistsResponse</a></td>
-                <td><p>UserExists is an rpc method that checks if an IAM user with a given ID exists. It takes a UserExistsRequest and returns a UserExistsResponse.</p></td>
+                <td><p>UserExists is an rpc method that checks if an IAM user with a given ID exists.
+It takes a UserExistsRequest and returns a UserExistsResponse.</p></td>
               </tr>
             
               <tr>
@@ -9456,7 +9461,8 @@ by its specific ID.</p></td>
                 <td>CurrentUser</td>
                 <td><a href="#cdx.opencdx.grpc.iam.CurrentUserRequest">CurrentUserRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.iam.CurrentUserResponse">CurrentUserResponse</a></td>
-                <td><p>CurrentUser is an rpc method that returns the currently authenticated IAM user. It takes a CurrentUserRequest and returns a CurrentUserResponse.</p></td>
+                <td><p>CurrentUser is an rpc method that returns the currently authenticated IAM user.
+It takes a CurrentUserRequest and returns a CurrentUserResponse.</p></td>
               </tr>
             
           </tbody>
@@ -9468,7 +9474,7 @@ by its specific ID.</p></td>
       <div class="file-heading">
         <h2 id="inventory.proto">inventory.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This system is designed for the efficient management of testkits. It also keeps track of pertinent data such as the manufacturer and vendor of each testkit for accountability and traceability purposes.</p>
 
       
         <h3 id="cdx.opencdx.grpc.inventory.CountryIdRequest">CountryIdRequest</h3>
@@ -9958,42 +9964,48 @@ by its specific ID.</p></td>
                   <td>manufacturer_certifications</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>A list of all the certifications that the manufacturer holds. This is repeated as there can be multiple certifications. </p></td>
+                  <td><p>A list of all the certifications that the manufacturer holds.
+This is repeated as there can be multiple certifications. </p></td>
                 </tr>
               
                 <tr>
                   <td>created</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>The timestamp capturing when this particular Manufacturer instance was created. This is optional, and might not be present at all. </p></td>
+                  <td><p>The timestamp capturing when this particular Manufacturer instance was created.
+This is optional, and might not be present at all. </p></td>
                 </tr>
               
                 <tr>
                   <td>modified</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>The timestamp capturing any modifications to the Manufacturer instance. Similar to &#39;created&#39;, this too is optional. </p></td>
+                  <td><p>The timestamp capturing any modifications to the Manufacturer instance.
+Similar to &#39;created&#39;, this too is optional. </p></td>
                 </tr>
               
                 <tr>
                   <td>creator</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The ID of the user who initially created this Manufacturer instance. Another optional field. </p></td>
+                  <td><p>The ID of the user who initially created this Manufacturer instance.
+Another optional field. </p></td>
                 </tr>
               
                 <tr>
                   <td>modifier</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The ID of the user who made the most recent modifications to this Manufacturer instance. This field is also optional. </p></td>
+                  <td><p>The ID of the user who made the most recent modifications to this Manufacturer instance.
+This field is also optional. </p></td>
                 </tr>
               
                 <tr>
                   <td>category_type</td>
                   <td><a href="#cdx.opencdx.grpc.common.types.CategoryType">cdx.opencdx.grpc.common.types.CategoryType</a></td>
                   <td>repeated</td>
-                  <td><p>A list of category types that this manufacturer falls under. Can be one or more, hence marked as repeated. </p></td>
+                  <td><p>A list of category types that this manufacturer falls under.
+Can be one or more, hence marked as repeated. </p></td>
                 </tr>
               
             </tbody>
@@ -10291,28 +10303,31 @@ by its specific ID.</p></td>
                   <td>vendor_address</td>
                   <td><a href="#cdx.opencdx.grpc.common.Address">cdx.opencdx.grpc.common.Address</a></td>
                   <td></td>
-                  <td><p>This describes the physical location of the vendor. It uses `Address` message type from `cdx.opencdx.grpc.common` </p></td>
+                  <td><p>This describes the physical location of the vendor.
+It uses `Address` message type from `cdx.opencdx.grpc.common`. </p></td>
                 </tr>
               
                 <tr>
                   <td>vendor_contact</td>
                   <td><a href="#cdx.opencdx.grpc.common.ContactInfo">cdx.opencdx.grpc.common.ContactInfo</a></td>
                   <td></td>
-                  <td><p>Contains contact information of the vendor (like name, title etc.) in `ContactInfo` message type from `cdx.opencdx.grpc.common` </p></td>
+                  <td><p>Contains contact information of the vendor (like name, title etc.)
+in `ContactInfo` message type from `cdx.opencdx.grpc.common`. </p></td>
                 </tr>
               
                 <tr>
                   <td>vendor_email</td>
                   <td><a href="#cdx.opencdx.grpc.common.EmailAddress">cdx.opencdx.grpc.common.EmailAddress</a></td>
                   <td></td>
-                  <td><p>An EmailAddress message type from `cdx.opencdx.grpc.common` which represents vendor&#39;s email address </p></td>
+                  <td><p>An EmailAddress message type from `cdx.opencdx.grpc.common`
+which represents vendor&#39;s email address. </p></td>
                 </tr>
               
                 <tr>
                   <td>vendor_phone</td>
                   <td><a href="#cdx.opencdx.grpc.common.PhoneNumber">cdx.opencdx.grpc.common.PhoneNumber</a></td>
                   <td></td>
-                  <td><p>A PhoneNumber message type from `cdx.opencdx.grpc.common` representing vendor&#39;s phone number </p></td>
+                  <td><p>A PhoneNumber message type from `cdx.opencdx.grpc.common` representing vendor&#39;s phone number. </p></td>
                 </tr>
               
                 <tr>
@@ -10333,21 +10348,24 @@ by its specific ID.</p></td>
                   <td>vendor_certifications</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>Contains list of certifications this vendor possesses. Multiple elements are allowed. </p></td>
+                  <td><p>Contains list of certifications this vendor possesses.
+Multiple elements are allowed. </p></td>
                 </tr>
               
                 <tr>
                   <td>created</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>This is a timestamp from `google.protobuf` which indicates the creation time of this record. </p></td>
+                  <td><p>This is a timestamp from `google.protobuf`
+which indicates the creation time of this record. </p></td>
                 </tr>
               
                 <tr>
                   <td>modified</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>This is a timestamp from `google.protobuf` which indicates the last modification time of this record. </p></td>
+                  <td><p>This is a timestamp from `google.protobuf`
+which indicates the last modification time of this record. </p></td>
                 </tr>
               
                 <tr>
@@ -10368,7 +10386,9 @@ by its specific ID.</p></td>
                   <td>category_type</td>
                   <td><a href="#cdx.opencdx.grpc.common.types.CategoryType">cdx.opencdx.grpc.common.types.CategoryType</a></td>
                   <td>repeated</td>
-                  <td><p>Contains list of categories the vendor can be bucketed into. Multiple elements are allowed. It uses `CategoryType` type from `cdx.opencdx.grpc.common.types`. </p></td>
+                  <td><p>Contains list of categories the vendor can be bucketed into.
+Multiple elements are allowed.
+It uses `CategoryType` type from `cdx.opencdx.grpc.common.types`. </p></td>
                 </tr>
               
             </tbody>
@@ -10689,7 +10709,7 @@ by its specific ID.</p></td>
       <div class="file-heading">
         <h2 id="media.proto">media.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>A specialized system designed for the efficient management and control of media files within the scope of the OpenCDX platform.</p>
 
       
         <h3 id="cdx.opencdx.grpc.media.CreateMediaRequest">CreateMediaRequest</h3>
@@ -11203,7 +11223,7 @@ by its specific ID.</p></td>
         </table>
       
         <h3 id="cdx.opencdx.grpc.media.MediaType">MediaType</h3>
-        <p>Defines the types of media. This type may be used in different media services' methods.</p>
+        <p>Defines the types of media.</p><p>This type may be used in different media services' methods.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Name</td><td>Number</td><td>Description</td></tr>
@@ -11254,7 +11274,7 @@ by its specific ID.</p></td>
 
       
         <h3 id="cdx.opencdx.grpc.media.MediaService">MediaService</h3>
-        <p>Provides an interface for the Media Service.</p><p>This service offers functionalities for managing media such as creating, listing, retrieving, updating and deleting media.</p>
+        <p>Provides an interface for the Media Service.</p><p>This service offers functionalities for managing media such as creating, listing,</p><p>retrieving, updating and deleting media.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
@@ -11305,7 +11325,7 @@ by its specific ID.</p></td>
       <div class="file-heading">
         <h2 id="media_preprocessor.proto">media_preprocessor.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>System responsible for the preprocessing tasks of Media files. This includes tasks like encoding, decoding, transformation and more.</p>
 
       
         <h3 id="cdx.opencdx.grpc.media.MediaPreprocessor">MediaPreprocessor</h3>
@@ -11519,7 +11539,7 @@ by its specific ID.</p></td>
       <div class="file-heading">
         <h2 id="predictor.proto">predictor.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This system is responsible for delivering predictions. Based on the given set of inputs, it analyzes patterns, computes correspondences and subsequently generates the most probable outcomes. Ideal for forecasting, statistical analysis, and other predictive modeling applications.</p>
 
       
         <h3 id="cdx.opencdx.grpc.neural.predictor.PredictorInput">PredictorInput</h3>
@@ -11670,11 +11690,11 @@ and returns a PredictorResponse message that contains the output of the predicti
       <div class="file-heading">
         <h2 id="protector.proto">protector.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>A system designed to facilitate the granting of permissions to both systems and</p><p>individuals for accessing medical records.</p>
 
       
         <h3 id="cdx.opencdx.grpc.neural.protector.AnomalyDetectionData">AnomalyDetectionData</h3>
-        <p>Defines the `AnomalyDetectionData` protocol buffer message, which encapsulates detailed information related to anomaly detection.</p><p>This information includes the encounter and user IDs, the pattern of data access, timestamp of the data, a list of detected anomalies, the user's IP address and geographical location, the systems affected by the anomalies, and the severity level of the anomalies.</p>
+        <p>This `AnomalyDetectionData` message contains details regarding detected anomalies in a system.</p><p>An anomaly could be an unusual access pattern, a fraud attempt, or a system hack.</p><p>It includes associated encounter information, user information, the data access pattern,</p><p>a timestamp of data access, and involved IP and geographical location.</p><p>Additionally, a list of detected anomalies, affected systems, and the severity level of the anomaly.</p>
 
         
           <table class="field-table">
@@ -11687,63 +11707,71 @@ and returns a PredictorResponse message that contains the output of the predicti
                   <td>encounter_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The unique identifier for the encounter associated with the anomaly detection data. </p></td>
+                  <td><p>`encounter_id` is the unique identifier for the encounter associated with the anomaly detection data.
+For instance, it may signify a specific event or instance when data was accessed anomalously. </p></td>
                 </tr>
               
                 <tr>
                   <td>user_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The unique identifier of the user associated with the anomaly detection data. </p></td>
+                  <td><p>`user_id` represents the unique identifier of the user associated with the anomaly detection data.
+This could be an internal system user or an external user accessing the system. </p></td>
                 </tr>
               
                 <tr>
                   <td>data_access_pattern</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Represents the pattern of data access. </p></td>
+                  <td><p>`data_access_pattern` is an attribute that represents the pattern of data access.
+It could signify whether the access was Read, Write, Update, or Delete operation, or a specific sequence of operations. </p></td>
                 </tr>
               
                 <tr>
                   <td>time_stamp</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>The timestamp when the data access occurred. </p></td>
+                  <td><p>`time_stamp` represents the timestamp when the anomalous data access occurred. </p></td>
                 </tr>
               
                 <tr>
                   <td>anomalies_detected</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>A list of the anomalies that were detected. </p></td>
+                  <td><p>`anomalies_detected` is a list of the anomalies that were detected during the encounter.
+Each anomaly might pertain to a different aspect of the system or data access. </p></td>
                 </tr>
               
                 <tr>
                   <td>source_ip</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The IP address from which the user&#39;s access originated. </p></td>
+                  <td><p>`source_ip` is the IP address from which the user&#39;s abnormal access originated.
+It could be used for tracking the source of the anomaly. </p></td>
                 </tr>
               
                 <tr>
                   <td>location</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The geographic location from which the data access was made. </p></td>
+                  <td><p>`location` represents the geographic location from which the anomalous data access was made.
+This could help in identifying patterns or specific regions where anomalies originate. </p></td>
                 </tr>
               
                 <tr>
                   <td>affected_systems</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>A list of all the systems adversely impacted by the detected anomalies. </p></td>
+                  <td><p>`affected_systems` is a list of all the systems that were adversely impacted by the detected anomalies.
+Multiple systems could be affected by a single anomaly. </p></td>
                 </tr>
               
                 <tr>
                   <td>severity_level</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The severity of the anomaly, typically presented as a level (e.g., low, medium, or high). </p></td>
+                  <td><p>`severity_level` indicates the severity of the detected anomaly, typically presented as a level.
+Levels can include classifications such as low, medium, or high. </p></td>
                 </tr>
               
             </tbody>
@@ -11778,7 +11806,7 @@ and returns a PredictorResponse message that contains the output of the predicti
         
       
         <h3 id="cdx.opencdx.grpc.neural.protector.AuthorizationControlData">AuthorizationControlData</h3>
-        <p>Defines the `AuthorizationControlData` protocol buffer message, which encapsulates comprehensive information related to authorization control.</p><p>This information includes the encounter and user IDs, the level of data access, the entity providing access, the scopes of access, the validity period of the access, a boolean flag indicating if the access is temporary, and conditions under which access is granted.</p>
+        <p>The `AuthorizationControlData` message represents the data necessary to control the authorization process.</p><p>It carries all the necessary identifiers, properties, and flags needed for managing data access.</p>
 
         
           <table class="field-table">
@@ -11791,56 +11819,63 @@ and returns a PredictorResponse message that contains the output of the predicti
                   <td>encounter_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The unique identifier for the encounter associated with the data access. </p></td>
+                  <td><p>The `encounter_id` field is the unique identifier for a particular encounter/session associated with the data access.
+It helps to trace back the exact instance when a particular data access was granted or denied. </p></td>
                 </tr>
               
                 <tr>
                   <td>user_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The unique identifier of the user associated with the data access. </p></td>
+                  <td><p>The `user_id` field represents the unique identifier of the user associated with the given data access.
+This helps clearly identify which user is being granted or denied access. </p></td>
                 </tr>
               
                 <tr>
                   <td>data_access_level</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The level of data access granted to the user. </p></td>
+                  <td><p>The `data_access_level` field represents the level or clearance of data access granted to the user.
+Different values of this field determine how much of the data the user can access. </p></td>
                 </tr>
               
                 <tr>
                   <td>access_granted_by</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The entity that has granted access. </p></td>
+                  <td><p>The `access_granted_by` field represents the entity or authority that has granted the access. </p></td>
                 </tr>
               
                 <tr>
                   <td>access_scopes</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>The scopes under which access was granted. </p></td>
+                  <td><p>The `access_scopes` field is a comprehensive list of all the scopes or areas under which
+the user is authorized to access the data. Each string in this list represents a different scope. </p></td>
                 </tr>
               
                 <tr>
                   <td>access_validity_period</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The time period during which the access remains valid. </p></td>
+                  <td><p>The `access_validity_period` field holds the time frame or period during which the access
+granted to the user is considered valid. After this period, the access becomes void and must be renewed. </p></td>
                 </tr>
               
                 <tr>
                   <td>is_temporary_access</td>
                   <td><a href="#bool">bool</a></td>
                   <td>optional</td>
-                  <td><p>A flag indicating whether the access is temporary. </p></td>
+                  <td><p>The `is_temporary_access` is a flag indicating whether the access granted is temporary or permanent.
+When this flag is set to true, the user has been granted temporary access. </p></td>
                 </tr>
               
                 <tr>
                   <td>conditional_access_params</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>The conditions that must be met for access to be granted. </p></td>
+                  <td><p>The `conditional_access_params` field contains a list of conditions or parameters that must be met
+for the user to be granted access. Each string in this list stands for a different condition or parameter. </p></td>
                 </tr>
               
             </tbody>
@@ -11875,7 +11910,7 @@ and returns a PredictorResponse message that contains the output of the predicti
         
       
         <h3 id="cdx.opencdx.grpc.neural.protector.PrivacyProtectionData">PrivacyProtectionData</h3>
-        <p>A structure that comprises various fields related to privacy protection mechanisms.</p><p>Each field contributes to a robust privacy-preserving system which encompasses aspects like</p><p>authentication, anonymization, encryption, retention policies, data sharing agreements, and data purpose specifications.</p>
+        <p>The PrivacyProtectionData message is a Protocol Buffers (protobuf) message</p><p>that contains information pertinent to privacy protection of user data.</p><p>It includes specifics such as the type of data, anonymized form of data,</p><p>encryption details, retention policy, data sharing agreement status,</p><p>and the purpose of data collection.</p>
 
         
           <table class="field-table">
@@ -11888,56 +11923,65 @@ and returns a PredictorResponse message that contains the output of the predicti
                   <td>encounter_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The unique identifier for the specified encounter linked to the data. </p></td>
+                  <td><p>Contains the unique identifier of the encounter linked to this privacy protection data.
+An &#39;encounter&#39; refers to the specific interaction or event where the data was obtained. </p></td>
                 </tr>
               
                 <tr>
                   <td>data_type</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Specifies the type or category of the data. It can be personal, health-related, or any other type of data. </p></td>
+                  <td><p>Represents the category or nature of the data involved.
+This could be Personal Identifiable Information (PII), health-related data,
+financial information, etc. </p></td>
                 </tr>
               
                 <tr>
                   <td>anonymized_data</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Contains the anonymized version of the original data, which has undergone a process to protect users&#39; identities. </p></td>
+                  <td><p>Stores the data that has been anonymized or de-identified, through a
+process that ensures the original data does not reveal the identity of the users. </p></td>
                 </tr>
               
                 <tr>
                   <td>is_data_encrypted</td>
                   <td><a href="#bool">bool</a></td>
                   <td>optional</td>
-                  <td><p>A flag indicating whether the data is securely stored using a specific encryption mechanism. </p></td>
+                  <td><p>This flag is used to check whether the data is stored securely by applying
+a specific encryption method. </p></td>
                 </tr>
               
                 <tr>
                   <td>encryption_method</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The encryption method used, if applicable, to enhance data security. </p></td>
+                  <td><p>If data encryption is enabled (is_data_encrypted = true),
+this field specifies the particular encryption method used. </p></td>
                 </tr>
               
                 <tr>
                   <td>data_retention_policy</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Specifies how long the data should be kept, when it should be reviewed, and when it should be deleted or archived. </p></td>
+                  <td><p>Defines the policy for data retention, including the length of data storage,
+time of review, and conditions for data deletion or archival, in line with privacy regulations. </p></td>
                 </tr>
               
                 <tr>
                   <td>has_data_sharing_agreement</td>
                   <td><a href="#bool">bool</a></td>
                   <td>optional</td>
-                  <td><p>A flag indicating whether there&#39;s an agreement in place which dictates how, when, and to whom the data can be shared. </p></td>
+                  <td><p>Verifies whether there is a mutually agreed upon data sharing contract that
+defines the process, rules, and recipients of data sharing, if any. </p></td>
                 </tr>
               
                 <tr>
                   <td>data_purpose</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Explains why the data was gathered and what its intended uses are. This can be crucial information for users providing the data. </p></td>
+                  <td><p>Articulates why this specific data was collected and what the anticipated uses
+of this data are. This explanation is often a part of privacy guidelines for user transparency. </p></td>
                 </tr>
               
             </tbody>
@@ -11972,7 +12016,7 @@ and returns a PredictorResponse message that contains the output of the predicti
         
       
         <h3 id="cdx.opencdx.grpc.neural.protector.RealTimeMonitoringData">RealTimeMonitoringData</h3>
-        <p>This protocol buffer defines the RealTimeMonitoringData message, which represents a comprehensive set of data related to real-time monitoring.</p><p>Every field is optional, allowing for high flexibility in what information is present in any given instance of the data.</p>
+        <p>Defines a protocol for the real-time monitoring data.</p>
 
         
           <table class="field-table">
@@ -11985,63 +12029,63 @@ and returns a PredictorResponse message that contains the output of the predicti
                   <td>encounter_id</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Unique identifier for the encounter related to the data being monitored. </p></td>
+                  <td><p>A unique identifier related to the data being monitored - typically related to a particular encounter. </p></td>
                 </tr>
               
                 <tr>
                   <td>monitored_entity</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The name or identifier of the entity(such as user, device, process, etc.) being monitored. </p></td>
+                  <td><p>Specifies the name or the unique identifier of the entity (such as user, device, process) that is being monitored in real-time. </p></td>
                 </tr>
               
                 <tr>
                   <td>monitoring_details</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Detailed information about what aspects are being monitored or what kind of data is being collected during the monitoring process. </p></td>
+                  <td><p>Details about what is being monitored or what kind of data is being collected during the real-time monitoring process. </p></td>
                 </tr>
               
                 <tr>
                   <td>monitoring_start_time</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>The precise time at which the monitoring activity started. </p></td>
+                  <td><p>Specifies the precise time when the monitoring process was initiated. </p></td>
                 </tr>
               
                 <tr>
                   <td>monitoring_end_time</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td>optional</td>
-                  <td><p>The precise time at which the monitoring activity ended. Not applicable if the monitoring is continuous. </p></td>
+                  <td><p>Indicates the exact time when the monitoring process was concluded. Needless if the monitoring process is continuous. </p></td>
                 </tr>
               
                 <tr>
                   <td>triggered_alerts</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p>List of alerts triggered during the monitoring process, each represented as a string. It can include things like triggered thresholds, system failures, errors, etc. </p></td>
+                  <td><p>Contains a list of alerts initiated during the monitoring process. These alerts can include threshold triggers, system failures, errors, etc. </p></td>
                 </tr>
               
                 <tr>
                   <td>monitoring_frequency</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>Information about how frequently the monitoring activity is carried out. Examples could be &#39;every 5 minutes&#39;, &#39;hourly&#39;, etc. </p></td>
+                  <td><p>Provides information about the frequency of the monitoring activity, such as &#39;every 5 minutes or &#39;hourly&#39;. </p></td>
                 </tr>
               
                 <tr>
                   <td>is_continuous_monitoring</td>
                   <td><a href="#bool">bool</a></td>
                   <td>optional</td>
-                  <td><p>A boolean flag indicating whether the monitoring is a continuous process(i.e., it is always happening) or not. If true, monitoring_end_time is not applicable. </p></td>
+                  <td><p>A boolean value that determines if the monitoring process is continuous. If set to true, the &#39;monitoring_end_time&#39; field becomes unnecessary. </p></td>
                 </tr>
               
                 <tr>
                   <td>responsible_monitoring_team</td>
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
-                  <td><p>The name or identifier of the team who is responsible for conducting the monitoring activity. </p></td>
+                  <td><p>The name or the identifier of the team responsible for executing the monitoring process. </p></td>
                 </tr>
               
             </tbody>
@@ -12279,7 +12323,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
       <div class="file-heading">
         <h2 id="provider.proto">provider.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This system is used for retrieving National Provider records given a specific National Provider Identifier.</p>
 
       
         <h3 id="cdx.opencdx.grpc.provider.BasicInfo">BasicInfo</h3>
@@ -12618,7 +12662,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.provider.Provider">Provider</h3>
-        <p>"Provider" message captures all relevant details of a healthcare provider including "id", "user_id" among other fields.</p><p>Several fields (e.g., addresses, taxonomies, identifiers) can comprise multiple values hence "repeated" is used.</p>
+        <p>"Provider" message captures all relevant details of a healthcare provider including "id",</p><p>"user_id" among other fields. Several fields (e.g., addresses, taxonomies, identifiers) can</p><p>comprise multiple values hence "repeated" is used.</p>
 
         
           <table class="field-table">
@@ -12886,7 +12930,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
       <div class="file-heading">
         <h2 id="questionnaire.proto">questionnaire.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>This is a system designed to receive, store, and manage questionnaires which are primarily used for the diagnosis of various medical conditions. This system plays a vital role in aiding healthcare professionals by providing a comprehensive, organized, and accessible database of diagnostic questionnaires.</p>
 
       
         <h3 id="cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData">ClientQuestionnaireData</h3>
@@ -12959,7 +13003,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.ClientRulesRequest">ClientRulesRequest</h3>
-        <p></p><p>Represents the request to retrieve client-level rules.</p>
+        <p>Represents the request to retrieve client-level rules.</p>
 
         
           <table class="field-table">
@@ -12990,7 +13034,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.Code">Code</h3>
-        <p></p><p>Represents a coding system to correspond to a given group or question.</p>
+        <p>Represents a coding system to correspond to a given group or question.</p>
 
         
           <table class="field-table">
@@ -13021,7 +13065,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.Coding">Coding</h3>
-        <p></p><p>Represents a coded value used in fields such as answer_coding in QuestionnaireEnableWhen.</p>
+        <p>Represents a coded value used in fields such as answer_coding in QuestionnaireEnableWhen.</p>
 
         
           <table class="field-table">
@@ -13104,7 +13148,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.Extension">Extension</h3>
-        <p></p><p>Represents an extension element used in a QuestionnaireItemAnswerOption message.</p>
+        <p>Represents an extension element used in a QuestionnaireItemAnswerOption message.</p>
 
         
           <table class="field-table">
@@ -13204,7 +13248,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</h3>
-        <p>A single questionnaire resource. It contains various properties that provide information about the questionnaire.</p>
+        <p>A single questionnaire resource. It contains various properties that</p><p>provide information about the questionnaire.</p>
 
         
           <table class="field-table">
@@ -13238,7 +13282,8 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
                   <td>status</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireStatus">QuestionnaireStatus</a></td>
                   <td>optional</td>
-                  <td><p>The status of the questionnaire. See the QuestionnaireStatus enum for possible values. </p></td>
+                  <td><p>The status of the questionnaire. See the QuestionnaireStatus enum
+for possible values. </p></td>
                 </tr>
               
                 <tr>
@@ -13423,7 +13468,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireEnableWhen">QuestionnaireEnableWhen</h3>
-        <p></p><p>Represents a condition to control the display of the questions.</p>
+        <p>Represents a condition to control the display of the questions.</p>
 
         
           <table class="field-table">
@@ -13482,7 +13527,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireItem">QuestionnaireItem</h3>
-        <p></p><p>Represents a question or a group of questions within a questionnaire. Each item has a type, a unique identifier,</p><p>conditional display logic, repetitions, read-only status, nested items, answer options and initial values.</p>
+        <p>Represents a question or a group of questions within a questionnaire. Each item has a type, a unique identifier,</p><p>conditional display logic, repetitions, read-only status, nested items, answer options and initial values.</p>
 
         
           <table class="field-table">
@@ -13516,7 +13561,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
                   <td>enable_when</td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireEnableWhen">QuestionnaireEnableWhen</a></td>
                   <td>repeated</td>
-                  <td><p>Conditional display logic for questions </p></td>
+                  <td><p>Conditional display logic for questions. </p></td>
                 </tr>
               
                 <tr>
@@ -13604,7 +13649,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireItemAnswerOption">QuestionnaireItemAnswerOption</h3>
-        <p></p><p>Represents an answer option for a particular questionnaire item.</p>
+        <p>Represents an answer option for a particular questionnaire item.</p>
 
         
           <table class="field-table">
@@ -13642,7 +13687,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireItemExtension">QuestionnaireItemExtension</h3>
-        <p></p><p>Represents an extension of a questionnaire item, giving it additional features.</p>
+        <p>Represents an extension of a questionnaire item, giving it additional features.</p>
 
         
           <table class="field-table">
@@ -13694,7 +13739,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireItemInitial">QuestionnaireItemInitial</h3>
-        <p></p><p>`QuestionnaireItemInitial` message which represents initial values for a questionnaire item.</p><p>This aids in setting up default responses for different types of questions.</p>
+        <p>`QuestionnaireItemInitial` message which represents initial values for a questionnaire item.</p><p>This aids in setting up default responses for different types of questions.</p>
 
         
           <table class="field-table">
@@ -13756,7 +13801,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.Questionnaires">Questionnaires</h3>
-        <p>A message that encapsulates a collection of Questionnaires. It also includes pagination features for navigating between large volumes of questionnaire data.</p>
+        <p>A message that encapsulates a collection of Questionnaires. It also</p><p>includes pagination features for navigating between large volumes</p><p>of questionnaire data.</p>
 
         
           <table class="field-table">
@@ -13787,7 +13832,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.RuleSet">RuleSet</h3>
-        <p></p><p>`RuleSet` message represents a certain ruleset for the rule engine.</p><p>This message is used for defining and documenting rules that are applied to questionnaire responses.</p>
+        <p>`RuleSet` message represents a certain ruleset for the rule engine.</p><p>This message is used for defining and documenting rules that are applied to questionnaire responses.</p>
 
         
           <table class="field-table">
@@ -13832,7 +13877,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.RuleSetsResponse">RuleSetsResponse</h3>
-        <p></p><p>Represents the response retrieved from the GetRuleSets operation.</p>
+        <p>Represents the response retrieved from the GetRuleSets operation.</p>
 
         
           <table class="field-table">
@@ -13966,7 +14011,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
         
       
         <h3 id="cdx.opencdx.grpc.questionnaire.ValueCodeableConcept">ValueCodeableConcept</h3>
-        <p></p><p>Represents a code-able concept value used in the value_codeable_concept field of a QuestionnaireItemExtension.</p>
+        <p>Represents a code-able concept value used in the value_codeable_concept field of a QuestionnaireItemExtension.</p>
 
         
           <table class="field-table">
@@ -14038,7 +14083,7 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
 
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireService">QuestionnaireService</h3>
-        <p></p><p>Defines a service for managing FHIR questionnaires.</p><p>TODO: Expand information on FHIR.</p>
+        <p>Defines a service for managing FHIR questionnaires.</p><p>TODO: Expand information on FHIR.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
@@ -14049,157 +14094,147 @@ Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.</p></
                 <td>GetRuleSets</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.ClientRulesRequest">ClientRulesRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.RuleSetsResponse">RuleSetsResponse</a></td>
-                <td><p>Defines operations for FHIR questionnaires
-
-Fetches rule sets for a specific client.</p></td>
+                <td><p>Defines operations for FHIR questionnaires</p></td>
               </tr>
             
               <tr>
                 <td>CreateQuestionnaire</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireRequest">QuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
-                <td><p>Handling operations for Questionnaires
-
-Submits a questionnaire request and responds with the status of submission.</p></td>
+                <td><p>Handling operations for Questionnaires</p></td>
               </tr>
             
               <tr>
                 <td>UpdateQuestionnaire</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireRequest">QuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
-                <td><p>Dispatches a request to update a questionnaire.</p></td>
+                <td><p>Submits a questionnaire request and responds with the status of submission.</p></td>
               </tr>
             
               <tr>
                 <td>GetSubmittedQuestionnaire</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
-                <td><p>Fetches the submitted questionnaire data by its unique Id.</p></td>
+                <td><p>Dispatches a request to update a questionnaire.</p></td>
               </tr>
             
               <tr>
                 <td>GetSubmittedQuestionnaireList</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaires">Questionnaires</a></td>
-                <td><p>Fetches the entire list of submitted questionnaire data.</p></td>
+                <td><p>Fetches the submitted questionnaire data by its unique Id.</p></td>
               </tr>
             
               <tr>
                 <td>DeleteSubmittedQuestionnaire</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest">DeleteQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Removes a submitted questionnaire data using its unique id.</p></td>
+                <td><p>Fetches the entire list of submitted questionnaire data.</p></td>
               </tr>
             
               <tr>
                 <td>CreateQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest">QuestionnaireDataRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Handling operations for QuestionnaireData
-
-Constructs a new questionnaire entity for system-level display.</p></td>
+                <td><p>Handling operations for QuestionnaireData</p></td>
               </tr>
             
               <tr>
                 <td>UpdateQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireDataRequest">QuestionnaireDataRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Modifies an existing questionnaire entity at the system level.</p></td>
+                <td><p>Constructs a new questionnaire entity for system-level display.</p></td>
               </tr>
             
               <tr>
                 <td>GetQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData">SystemQuestionnaireData</a></td>
-                <td><p>Fetches system-level questionnaire data by its unique Id.</p></td>
+                <td><p>Modifies an existing questionnaire entity at the system level.</p></td>
               </tr>
             
               <tr>
                 <td>GetQuestionnaireDataList</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SystemQuestionnaireData">SystemQuestionnaireData</a></td>
-                <td><p>Fetches the list of all system-level questionnaire data.</p></td>
+                <td><p>Fetches system-level questionnaire data by its unique Id.</p></td>
               </tr>
             
               <tr>
                 <td>DeleteQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest">DeleteQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Removes submitted questionnaire data using its unique id.</p></td>
+                <td><p>Fetches the list of all system-level questionnaire data.</p></td>
               </tr>
             
               <tr>
                 <td>CreateClientQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest">ClientQuestionnaireDataRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Handling operations for ClientQuestionnaireData
-
-Constructs a new questionnaire entity for client-level display.</p></td>
+                <td><p>Handling operations for ClientQuestionnaireData</p></td>
               </tr>
             
               <tr>
                 <td>UpdateClientQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.ClientQuestionnaireDataRequest">ClientQuestionnaireDataRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Modifies an existing questionnaire entity at the client level.</p></td>
+                <td><p>Constructs a new questionnaire entity for client-level display.</p></td>
               </tr>
             
               <tr>
                 <td>GetClientQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData">ClientQuestionnaireData</a></td>
-                <td><p>Fetches client-level questionnaire data by its unique Id.</p></td>
+                <td><p>Modifies an existing questionnaire entity at the client level.</p></td>
               </tr>
             
               <tr>
                 <td>GetClientQuestionnaireDataList</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.ClientQuestionnaireData">ClientQuestionnaireData</a></td>
-                <td><p>Fetches the list of all client-level questionnaire data.</p></td>
+                <td><p>Fetches client-level questionnaire data by its unique Id.</p></td>
               </tr>
             
               <tr>
                 <td>DeleteClientQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest">DeleteQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Removes client-level questionnaire data using its unique id.</p></td>
+                <td><p>Fetches the list of all client-level questionnaire data.</p></td>
               </tr>
             
               <tr>
                 <td>CreateUserQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest">UserQuestionnaireDataRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Handling operations for UserQuestionnaireData
-
-Constructs a new questionnaire entity for user-level display.</p></td>
+                <td><p>Handling operations for UserQuestionnaireData</p></td>
               </tr>
             
               <tr>
                 <td>UpdateUserQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest">UserQuestionnaireDataRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Modifies an existing questionnaire entity at the user level.</p></td>
+                <td><p>Constructs a new questionnaire entity for user-level display.</p></td>
               </tr>
             
               <tr>
                 <td>GetUserQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
-                <td><p>Fetches user-level questionnaire data by its unique Id.</p></td>
+                <td><p>Modifies an existing questionnaire entity at the user level.</p></td>
               </tr>
             
               <tr>
                 <td>GetUserQuestionnaireDataList</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
-                <td><p>Fetches the list of all user-level questionnaire data.</p></td>
+                <td><p>Fetches user-level questionnaire data by its unique Id.</p></td>
               </tr>
             
               <tr>
                 <td>DeleteUserQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest">DeleteQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Removes user questionnaire data using its unique id.</p></td>
+                <td><p>Fetches the list of all user-level questionnaire data.</p></td>
               </tr>
             
           </tbody>
@@ -14211,7 +14246,7 @@ Constructs a new questionnaire entity for user-level display.</p></td>
       <div class="file-heading">
         <h2 id="routine.proto">routine.proto</h2><a href="#title">Top</a>
       </div>
-      <p></p>
+      <p>A comprehensive care management system that monitors a user's medications, clinical tests, and other standard health practices.</p>
 
       
         <h3 id="cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</h3>
@@ -15094,7 +15129,7 @@ Constructs a new questionnaire entity for user-level display.</p></td>
 
       
         <h3 id="cdx.opencdx.grpc.routine.ClinicalProtocolExecution.Status">ClinicalProtocolExecution.Status</h3>
-        <p>The 'Status' enum captures the various states the protocol execution can be in at any given time.</p>
+        <p>The possible statuses for a clinical protocol execution.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Name</td><td>Number</td><td>Description</td></tr>
@@ -15439,7 +15474,7 @@ Constructs a new questionnaire entity for user-level display.</p></td>
       <div class="file-heading">
         <h2 id="tinkar.proto">tinkar.proto</h2><a href="#title">Top</a>
       </div>
-      <p>Indicating that proto3 syntax is used.</p>
+      <p>An interface that allows retrieval of TINKAR codes using non-TINKAR codes from various coding systems, and vice versa.</p><p>It facilitates a two-way conversion between TINKAR codes and other coding systems.</p>
 
       
         <h3 id="cdx.opencdx.grpc.tinkar.TinkarRequest">TinkarRequest</h3>
@@ -15524,7 +15559,7 @@ Constructs a new questionnaire entity for user-level display.</p></td>
 
       
         <h3 id="cdx.opencdx.grpc.common.types.CategoryType">CategoryType</h3>
-        <p></p>
+        <p>The 'CategoryType' message is designed to handle different types of categories that</p><p>might be needed in the application. This might include categories related to vendor,</p><p>manufacturer, test type etc.</p>
 
         
           <table class="field-table">
@@ -15545,7 +15580,8 @@ to identify and differentiate categories from each other. </p></td>
                   <td>type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>&#39;type&#39; field describes the category. This is a descriptive field giving information about the type of category. </p></td>
+                  <td><p>&#39;type&#39; field describes the category. This is a descriptive field giving information about
+the type of category. </p></td>
                 </tr>
               
             </tbody>
