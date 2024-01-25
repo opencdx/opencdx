@@ -1,260 +1,767 @@
+/*
+ * This system is designed for the efficient management of testkits. It also keeps track of pertinent data such as the manufacturer and vendor of each testkit for accountability and traceability purposes.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.inventory;
-
 import "common.proto";
 import "types.proto";
 import "google/protobuf/timestamp.proto";
-
-// Manufacturer is a data structure that captures all the relevant information about a certain manufacturer.
+/*
+ * Manufacturer is a data structure that captures all the relevant information about a certain manufacturer.
+ */
 message Manufacturer {
-    optional string id = 1;                       // An optional field representing the unique identifier of the manufacturer.
-    string name = 2;                              // The name of the manufacturer.
-    cdx.opencdx.grpc.common.Address manufacturer_address = 3;      // The physical address/office location of the manufacturer.
-    cdx.opencdx.grpc.common.ContactInfo manufacturer_contact = 4;  // Detailed contact information of the manufacturer including name of contact, position, etc.
-    cdx.opencdx.grpc.common.EmailAddress manufacturer_email = 5;   // The email address used for formal communications with the manufacturer.
-    cdx.opencdx.grpc.common.PhoneNumber manufacturer_phone = 6;    // The phone number used to get in touch with the manufacturer.
-    string manufacturer_website = 7;               // The official website of the manufacturer.
-    string manufacturer_description = 8;           // A brief description about the manufacturer.
-    repeated string manufacturer_certifications = 9; // A list of all the certifications that the manufacturer holds. This is repeated as there can be multiple certifications.
-    optional google.protobuf.Timestamp created = 10; // The timestamp capturing when this particular Manufacturer instance was created. This is optional, and might not be present at all.
-    optional google.protobuf.Timestamp modified = 11; // The timestamp capturing any modifications to the Manufacturer instance. Similar to 'created', this too is optional.
-    optional string creator = 12;                  // The ID of the user who initially created this Manufacturer instance. Another optional field.
-    optional string modifier = 13;                 // The ID of the user who made the most recent modifications to this Manufacturer instance. This field is also optional.
-    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 14; // A list of category types that this manufacturer falls under. Can be one or more, hence marked as repeated.
-}
+  /*
+   * An optional field representing the unique identifier of the manufacturer.
+   */
+  optional string id = 1;
 
-/**
+  /*
+   * The name of the manufacturer.
+   */
+  string name = 2;
+
+  /*
+   * The physical address/office location of the manufacturer.
+   */
+  cdx.opencdx.grpc.common.Address manufacturer_address = 3;
+
+  /*
+   * Detailed contact information of the manufacturer including name of contact, position, etc.
+   */
+  cdx.opencdx.grpc.common.ContactInfo manufacturer_contact = 4;
+
+  /*
+   * The email address used for formal communications with the manufacturer.
+   */
+  cdx.opencdx.grpc.common.EmailAddress manufacturer_email = 5;
+
+  /*
+   * The phone number used to get in touch with the manufacturer.
+   */
+  cdx.opencdx.grpc.common.PhoneNumber manufacturer_phone = 6;
+
+  /*
+   * The official website of the manufacturer.
+   */
+  string manufacturer_website = 7;
+
+  /*
+   * A brief description about the manufacturer.
+   */
+  string manufacturer_description = 8;
+
+  /*
+   * A list of all the certifications that the manufacturer holds.
+   * This is repeated as there can be multiple certifications.
+   */
+  repeated string manufacturer_certifications = 9;
+
+  /*
+   * The timestamp capturing when this particular Manufacturer instance was created.
+   * This is optional, and might not be present at all.
+   */
+  optional google.protobuf.Timestamp created = 10;
+
+  /*
+   * The timestamp capturing any modifications to the Manufacturer instance.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 11;
+
+  /*
+   * The ID of the user who initially created this Manufacturer instance.
+   * Another optional field.
+   */
+  optional string creator = 12;
+
+  /*
+   * The ID of the user who made the most recent modifications to this Manufacturer instance.
+   * This field is also optional.
+   */
+  optional string modifier = 13;
+
+  /*
+   * A list of category types that this manufacturer falls under.
+   * Can be one or more, hence marked as repeated.
+   */
+  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 14;
+}
+/*
  * Vendor is a protobuf message type used to represent a vendor.
  */
 message Vendor {
-    optional string id = 1;               // ID of the vendor. This field is optional.
-    string vendor_name = 2;               // The name of the vendor.
 
-    // This describes the physical location of the vendor. It uses `Address` message type from `cdx.opencdx.grpc.common`
-    cdx.opencdx.grpc.common.Address vendor_address = 3;
+  /*
+   * ID of the vendor. This field is optional.
+   */
+  optional string id = 1;
 
-    // Contains contact information of the vendor (like name, title etc.) in `ContactInfo` message type from `cdx.opencdx.grpc.common`
-    cdx.opencdx.grpc.common.ContactInfo vendor_contact = 4;
+  /*
+   * The name of the vendor.
+   */
+  string vendor_name = 2;
 
-    // An EmailAddress message type from `cdx.opencdx.grpc.common` which represents vendor's email address
-    cdx.opencdx.grpc.common.EmailAddress vendor_email = 5;
+  /*
+   * This describes the physical location of the vendor.
+   * It uses `Address` message type from `cdx.opencdx.grpc.common`.
+   */
+  cdx.opencdx.grpc.common.Address vendor_address = 3;
 
-    // A PhoneNumber message type from `cdx.opencdx.grpc.common` representing vendor's phone number
-    cdx.opencdx.grpc.common.PhoneNumber vendor_phone = 6;
+  /*
+   * Contains contact information of the vendor (like name, title etc.)
+   * in `ContactInfo` message type from `cdx.opencdx.grpc.common`.
+   */
+  cdx.opencdx.grpc.common.ContactInfo vendor_contact = 4;
 
-    string vendor_website = 7;            // The URL of the vendor's website.
-    string vendor_description = 8;        // A description of the vendor.
+  /*
+   * An EmailAddress message type from `cdx.opencdx.grpc.common`
+   * which represents vendor's email address.
+   */
+  cdx.opencdx.grpc.common.EmailAddress vendor_email = 5;
 
-    // Contains list of certifications this vendor possesses. Multiple elements are allowed.
-    repeated string vendor_certifications = 9;
+  /*
+   * A PhoneNumber message type from `cdx.opencdx.grpc.common` representing vendor's phone number.
+   */
+  cdx.opencdx.grpc.common.PhoneNumber vendor_phone = 6;
 
-    // This is a timestamp from `google.protobuf` which indicates the creation time of this record.
-    optional google.protobuf.Timestamp created = 10;
+  /*
+   * The URL of the vendor's website.
+   */
+  string vendor_website = 7;
 
-    // This is a timestamp from `google.protobuf` which indicates the last modification time of this record.
-    optional google.protobuf.Timestamp modified = 11;
+  /*
+   * A description of the vendor.
+   */
+  string vendor_description = 8;
 
-    optional string creator = 12;         // ID of the user who created this record. This field is optional.
-    optional string modifier = 13;        // ID of the user who last modified this record. This field is optional.
+  /*
+   * Contains list of certifications this vendor possesses.
+   * Multiple elements are allowed.
+   */
+  repeated string vendor_certifications = 9;
 
-    // Contains list of categories the vendor can be bucketed into. Multiple elements are allowed. It uses `CategoryType` type from `cdx.opencdx.grpc.common.types`.
-    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 14;
+  /*
+   * This is a timestamp from `google.protobuf`
+   * which indicates the creation time of this record.
+   */
+  optional google.protobuf.Timestamp created = 10;
+
+  /*
+   * This is a timestamp from `google.protobuf`
+   * which indicates the last modification time of this record.
+   */
+  optional google.protobuf.Timestamp modified = 11;
+
+  /*
+   * ID of the user who created this record. This field is optional.
+   */
+  optional string creator = 12;
+
+  /*
+   * ID of the user who last modified this record. This field is optional.
+   */
+  optional string modifier = 13;
+
+  /*
+   * Contains list of categories the vendor can be bucketed into.
+   * Multiple elements are allowed.
+   * It uses `CategoryType` type from `cdx.opencdx.grpc.common.types`.
+   */
+  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 14;
 }
 
-// This message "Device" represents an individual device. Each device has
-// unique characteristics such as model, manufacturer, vendor, batch number,
-// type, etc. Some of the fields in this message are related to the tests
-// performed on this device (if any), and others provide information about
-// its production, distribution, documentation, and digital files (if any).
+/*
+ * This message "Device" represents an individual device. Each device has
+ * unique characteristics such as model, manufacturer, vendor, batch number,
+ * type, etc. Some of the fields in this message are related to the tests
+ * performed on this device (if any), and others provide information about
+ * its production, distribution, documentation, and digital files (if any).
+ */
 message Device {
-    optional string id = 1;   // Unique identifier for the device
-    string type = 2;   // Specifies the type of the device
-    string model = 3;   // Model name of the device manufactured
-    string manufacturer_id = 4;   // Unique identifier for the manufacturer of the device
-    string manufacturer_country_id = 5;   // Unique identifier for the country of the manufacturer
-    string vendor_id = 6;   // Unique identifier for the vendor of the device
-    string vendor_country_id = 7;   // Unique identifier for the country of the vendor
-    google.protobuf.Timestamp manufacture_date = 8;   // Timestamp representing the manufacturing date of the device
-    google.protobuf.Timestamp expiry_date = 9;   // Timestamp representing the expiry date of the device
-    string batch_number = 10;   // Unique batch number assigned during device production
-    string serial_number = 11;    // The unique serial number of each individual device
-    string test_type_id = 12;   // Unique identifier for the type of test performed on the device
-    double test_sensitivity = 13;   // Sensitivity metric from the test results
-    double test_specificity = 14;   // Specificity metric from the test results
-    string storage_requirements = 15;   // Details about storage conditions required for the device
-    google.protobuf.Timestamp test_validation_date = 16;   // Timestamp representing the validation date of the test performed on the device
-    string approval_status = 17;   // Current status of device approval
-    string url = 18;   // URL providing more information about the device
-    string notes = 19;   // Additional notes or comments about the device
-    string safety = 20;   // Safety measures or precautions related to the device
-    string user_instructions = 21;   // Guidelines or instructions for users to handle or operate the device
-    string limitations = 22;   // Constraints or limitations of the device
-    string warranty_info = 23;   // Information about the warranty provided for the device
-    int32 intended_use_age = 24;   // Recommended minimum age for the device usage
-    bool is_fda_authorized = 25;   // Boolean flag indicating if the device is FDA authorized or not
-    string device_status = 26;   // Current status or condition of the device
-    string associated_software_version = 27;   // Software version associated with the device, if any
-    repeated string test_case_ids = 28;   // List of identifiers for the test cases this device is involved in, if any
-    string name = 29;    // Name used to identify the device
-    string short_description = 30;    // A brief description about the device
-    string description = 31;   // Detailed description of the device
-    optional google.protobuf.Timestamp created = 32;  // Timestamp when this event was created.
-    optional google.protobuf.Timestamp modified = 33;  // Timestamp when this event was modified.
-    optional string creator = 34;  // ID of the creator of this event.
-    optional string modifier = 35;  // ID of the person who last modified this event.
-    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 36;   // List of categories that this device belongs to, using a custom type 'CategoryType'
-    optional string qr_scan_code = 37;  // QR code that links to the device's digital documentation or files
-    optional string sku = 38;   // SKU (Stock Keeping Unit) identifier, for inventory tracking purposes
+  /*
+   * Unique identifier for the device
+   */
+  optional string id = 1;
+
+  /*
+   * Specifies the type of the device
+   */
+  string type = 2;
+
+  /*
+   * Model name of the device manufactured
+   */
+  string model = 3;
+
+  /*
+   * Unique identifier for the manufacturer of the device
+   */
+  string manufacturer_id = 4;
+
+  /*
+   * Unique identifier for the country of the manufacturer
+   */
+  string manufacturer_country_id = 5;
+
+  /*
+   * Unique identifier for the vendor of the device
+   */
+  string vendor_id = 6;
+
+  /*
+   * Unique identifier for the country of the vendor
+   */
+  string vendor_country_id = 7;
+
+  /*
+   * Timestamp representing the manufacturing date of the device
+   */
+  google.protobuf.Timestamp manufacture_date = 8;
+
+  /*
+   * Timestamp representing the expiry date of the device
+   */
+  google.protobuf.Timestamp expiry_date = 9;
+
+  /*
+   * Unique batch number assigned during device production
+   */
+  string batch_number = 10;
+
+  /*
+   * The unique serial number of each individual device
+   */
+  string serial_number = 11;
+
+  /*
+   * Unique identifier for the type of test performed on the device
+   */
+  string test_type_id = 12;
+
+  /*
+   * Sensitivity metric from the test results
+   */
+  double test_sensitivity = 13;
+
+  /*
+   * Specificity metric from the test results
+   */
+  double test_specificity = 14;
+
+  /*
+   * Details about storage conditions required for the device
+   */
+  string storage_requirements = 15;
+
+  /*
+   * Timestamp representing the validation date of the test performed on the device
+   */
+  google.protobuf.Timestamp test_validation_date = 16;
+
+  /*
+   * Current status of device approval
+   */
+  string approval_status = 17;
+
+  /*
+   * URL providing more information about the device
+   */
+  string url = 18;
+
+  /*
+   * Additional notes or comments about the device
+   */
+  string notes = 19;
+
+  /*
+   * Safety measures or precautions related to the device
+   */
+  string safety = 20;
+
+  /*
+   * Guidelines or instructions for users to handle or operate the device
+   */
+  string user_instructions = 21;
+
+  /*
+   * Constraints or limitations of the device
+   */
+  string limitations = 22;
+
+  /*
+   * Information about the warranty provided for the device
+   */
+  string warranty_info = 23;
+
+  /*
+   * Recommended minimum age for the device usage
+   */
+  int32 intended_use_age = 24;
+
+  /*
+   * Boolean flag indicating if the device is FDA authorized or not
+   */
+  bool is_fda_authorized = 25;
+
+  /*
+   * Current status or condition of the device
+   */
+  string device_status = 26;
+
+  /*
+   * Software version associated with the device, if any
+   */
+  string associated_software_version = 27;
+
+  /*
+   * List of identifiers for the test cases this device is involved in, if any
+   */
+  repeated string test_case_ids = 28;
+
+  /*
+   * Name used to identify the device
+   */
+  string name = 29;
+
+  /*
+   * A brief description about the device
+   */
+  string short_description = 30;
+
+  /*
+   * Detailed description of the device
+   */
+  string description = 31;
+
+  /*
+   * Timestamp when this event was created.
+   */
+  optional google.protobuf.Timestamp created = 32;
+
+  /*
+   * Timestamp when this event was modified.
+   */
+  optional google.protobuf.Timestamp modified = 33;
+
+  /*
+   * ID of the creator of this event.
+   */
+  optional string creator = 34;
+
+  /*
+   * ID of the person who last modified this event.
+   */
+  optional string modifier = 35;
+
+  /*
+   * List of categories that this device belongs to, using a custom type 'CategoryType'
+   */
+  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 36;
+
+  /*
+   * QR code that links to the device's digital documentation or files
+   */
+  optional string qr_scan_code = 37;
+
+  /*
+   * SKU (Stock Keeping Unit) identifier, for inventory tracking purposes
+   */
+  optional string sku = 38;
 }
 
-// The TestCase message encapsulates the information related to a specific test case or a package of tests.
+/*
+ * The TestCase message encapsulates the information related to a specific test case or a package of tests.
+ */
 message TestCase {
-    optional string id = 1;                     // The unique identifier of the test case.
-    optional string manufacturer_id = 2;        // The unique identifier of the manufacturer of the test case.
-    optional string vendor_id = 3;              // The unique identifier of the vendor who supplies the test case.
-    repeated string device_ids = 4;             // The list of unique identifiers of devices that are tested by the test case.
-    int32 number_of_tests = 5;                  // The total count of tests encapsulated in this test case.
-    google.protobuf.Timestamp packaging_date = 6; // The date on which the test case was packaged.
-    google.protobuf.Timestamp expiry_date = 7;  // The date on which the test case expires and is no longer fit for use.
-    string batch_number = 8;                    // The unique identifier of the batch which includes this test case.
-    string serial_number = 9;                   // The unique serial number of the test case.
-    string storage_requirements = 10;           // Guidelines on how to properly store the test case.
-    string user_instructions = 11;              // The instructions about how to use the test case.
-    string limitations = 12;                    // All limitations or restrictions associated with the usage of test case.
-    string safety = 13;                         // Safety guidelines to prevent improper or harmful usage of the test case.
-    optional google.protobuf.Timestamp created = 14; // The date and time when this test case was created.
-    optional google.protobuf.Timestamp modified = 15; // The date and time when the test case was last modified.
-    optional string creator = 16;               // The unique identifier of the user who created this test case.
-    optional string modifier = 17;              // The unique identifier of the user who last modified this test case.
-    repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 18; // A list of categories applicable to this test case. Uses a custom data type.
-    optional string qr_scan_code = 19;          // The Quick Response (QR) code that can be scanned to access more information about this test case.
-    optional string sku = 20;                   // The Stock Keeping Unit (SKU) that is used to track the inventory of this test case.
+  /*
+   * The unique identifier of the test case.
+   */
+  optional string id = 1;
+
+  /*
+   * The unique identifier of the manufacturer of the test case.
+   */
+  optional string manufacturer_id = 2;
+
+  /*
+   * The unique identifier of the vendor who supplies the test case.
+   */
+  optional string vendor_id = 3;
+
+  /*
+   * The list of unique identifiers of devices that are tested by the test case.
+   */
+  repeated string device_ids = 4;
+
+  /*
+   * The total count of tests encapsulated in this test case.
+   */
+  int32 number_of_tests = 5;
+
+  /*
+   * The date on which the test case was packaged.
+   */
+  google.protobuf.Timestamp packaging_date = 6;
+
+  /*
+   * The date on which the test case expires and is no longer fit for use.
+   */
+  google.protobuf.Timestamp expiry_date = 7;
+
+  /*
+   * The unique identifier of the batch which includes this test case.
+   */
+  string batch_number = 8;
+
+  /*
+   * The unique serial number of the test case.
+   */
+  string serial_number = 9;
+
+  /*
+   * Guidelines on how to properly store the test case.
+   */
+  string storage_requirements = 10;
+
+  /*
+   * The instructions about how to use the test case.
+   */
+  string user_instructions = 11;
+
+  /*
+   * All limitations or restrictions associated with the usage of test case.
+   */
+  string limitations = 12;
+
+  /*
+   * Safety guidelines to prevent improper or harmful usage of the test case.
+   */
+  string safety = 13;
+
+  /*
+   * The date and time when this test case was created.
+   */
+  optional google.protobuf.Timestamp created = 14;
+
+  /*
+   * The date and time when the test case was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 15;
+
+  /*
+   * The unique identifier of the user who created this test case.
+   */
+  optional string creator = 16;
+
+  /*
+   * The unique identifier of the user who last modified this test case.
+   */
+  optional string modifier = 17;
+
+  /*
+   * A list of categories applicable to this test case. Uses a custom data type.
+   */
+  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 18;
+
+  /*
+   * The Quick Response (QR) code that can be scanned to access more information about this test case.
+   */
+  optional string qr_scan_code = 19;
+
+  /*
+   * The Stock Keeping Unit (SKU) that is used to track the inventory of this test case.
+   */
+  optional string sku = 20;
 }
 
-// CountryService is a gRPC service for managing Countries.
-// It offers CRUD operations like retrieving a specific country by its ID,
-// adding a new country, updating an existing country, deleting a country and
-// retrieving the list of all available countries.
+/*
+ * CountryService is a gRPC service for managing Countries.
+ * It offers CRUD operations like retrieving a specific country by its ID,
+ * adding a new country, updating an existing country, deleting a country and
+ * retrieving the list of all available countries.
+ */
 service CountryService {
-    rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country); // Get a specific country by its ID.
-    rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country); // Add a new country.
-    rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country); // Update an existing country.
-    rpc delete_country(CountryIdRequest) returns (DeleteResponse); // Delete a specific country.
-    rpc listCountries(CountryListRequest) returns (CountryListResponse); // Get the list of all available countries.
+  /*
+   * Get a specific country by its ID.
+   */
+  rpc get_country_by_id(CountryIdRequest) returns (cdx.opencdx.grpc.common.Country);
+
+  /*
+   * Add a new country.
+   */
+  rpc add_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
+
+  /*
+   * Update an existing country.
+   */
+  rpc update_country(cdx.opencdx.grpc.common.Country) returns (cdx.opencdx.grpc.common.Country);
+
+  /*
+   * Delete a specific country.
+   */
+  rpc delete_country(CountryIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available countries.
+   */
+  rpc listCountries(CountryListRequest) returns (CountryListResponse);
 }
-// ManufacturerService is a gRPC service for managing manufacturers.
-// It offers CRUD operations like retrieving a specific manufacturer by its ID,
-// adding a new manufacturer, updating an existing manufacturer,
-// deleting a manufacturer and retrieving the list of all available manufacturers.
+/*
+ * ManufacturerService is a gRPC service for managing manufacturers.
+ * It offers CRUD operations like retrieving a specific manufacturer by its ID,
+ * adding a new manufacturer, updating an existing manufacturer,
+ * deleting a manufacturer and retrieving the list of all available manufacturers.
+ */
 service ManufacturerService {
-    rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (Manufacturer); // Get a specific manufacturer by its ID.
-    rpc add_manufacturer(Manufacturer) returns (Manufacturer); // Add a new manufacturer.
-    rpc update_manufacturer(Manufacturer) returns (Manufacturer); // Update an existing manufacturer.
-    rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse); // Delete a specific manufacturer.
-    rpc listManufacturers(ManufacturerListRequest) returns (ManufacturersListResponse); // Get the list of all available manufacturers.
+  /*
+   * Get a specific manufacturer by its ID.
+   */
+  rpc get_manufacturer_by_id(ManufacturerIdRequest) returns (Manufacturer);
+
+  /*
+   * Add a new manufacturer.
+   */
+  rpc add_manufacturer(Manufacturer) returns (Manufacturer);
+
+  /*
+   * Update an existing manufacturer.
+   */
+  rpc update_manufacturer(Manufacturer) returns (Manufacturer);
+
+  /*
+   * Delete a specific manufacturer.
+   */
+  rpc delete_manufacturer(ManufacturerIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available manufacturers.
+   */
+  rpc listManufacturers(ManufacturerListRequest) returns (ManufacturersListResponse);
 }
-// VendorService is a gRPC service for managing vendors.
-// It offers CRUD operations like retrieving a specific vendor by its ID, adding a new vendor,
-// updating an existing vendor, deleting a vendor and retrieving the list of all available vendors.
+
+/*
+ * VendorService is a gRPC service for managing vendors.
+ * It offers CRUD operations like retrieving a specific vendor by its ID, adding a new vendor,
+ * updating an existing vendor, deleting a vendor and retrieving the list of all available vendors.
+ */
 service VendorService {
-    rpc get_vendor_by_id(VendorIdRequest) returns (Vendor); // Get a specific vendor by its ID.
-    rpc add_vendor(Vendor) returns (Vendor); // Add a new vendor.
-    rpc update_vendor(Vendor) returns (Vendor); // Update an existing vendor.
-    rpc delete_vendor(VendorIdRequest) returns (DeleteResponse); // Delete a specific vendor.
-    rpc listVendors(VendorsListRequest) returns (VendorsListResponse); // Get the list of all available vendors.
+  /*
+   * Get a specific vendor by its ID.
+   */
+  rpc get_vendor_by_id(VendorIdRequest) returns (Vendor);
+
+  /*
+   * Add a new vendor.
+   */
+  rpc add_vendor(Vendor) returns (Vendor);
+
+  /*
+   * Update an existing vendor.
+   */
+  rpc update_vendor(Vendor) returns (Vendor);
+
+  /*
+   * Delete a specific vendor.
+   */
+  rpc delete_vendor(VendorIdRequest) returns (DeleteResponse);
+
+  /*
+   * Get the list of all available vendors.
+   */
+  rpc listVendors(VendorsListRequest) returns (VendorsListResponse);
 }
-// DeviceService is a gRPC service for managing devices.
-// It offers CRUD operations like retrieving a specific device by its ID,
-// adding a new device, updating an existing device and deleting a device.
+
+/*
+ * DeviceService is a gRPC service for managing devices.
+ * It offers CRUD operations like retrieving a specific device by its ID,
+ * adding a new device, updating an existing device and deleting a device.
+ */
 service DeviceService {
-    rpc get_device_by_id(DeviceIdRequest) returns (Device); // Get a specific device by its ID.
-    rpc add_device(Device) returns (Device); // Add a new device.
-    rpc update_device(Device) returns (Device); // Update an existing device.
-    rpc delete_device(DeviceIdRequest) returns (DeleteResponse); // Delete a specific device.
+  /*
+   * Get a specific device by its ID.
+   */
+  rpc get_device_by_id(DeviceIdRequest) returns (Device);
+
+  /*
+   * Add a new device.
+   */
+  rpc add_device(Device) returns (Device);
+
+  /*
+   * Update an existing device.
+   */
+  rpc update_device(Device) returns (Device);
+
+  /*
+   * Delete a specific device.
+   */
+  rpc delete_device(DeviceIdRequest) returns (DeleteResponse);
 }
-// TestCaseService is a gRPC service for managing test cases.
-// It offers CRUD operations like retrieving a specific test case by its ID,
-// adding a new test case, updating an existing test case and deleting a test case.
+
+/*
+ * TestCaseService is a gRPC service for managing test cases.
+ * It offers CRUD operations like retrieving a specific test case by its ID,
+ * adding a new test case, updating an existing test case and deleting a test case.
+ */
 service TestCaseService {
-    rpc get_test_case_by_id(TestCaseIdRequest) returns (TestCase); // Get a specific test case by its ID.
-    rpc add_test_case(TestCase) returns (TestCase); // Add a new test case.
-    rpc update_test_case(TestCase) returns (TestCase); // Update an existing test case.
-    rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse); // Delete a specific test case.
+  /*
+   * Get a specific test case by its ID.
+   */
+  rpc get_test_case_by_id(TestCaseIdRequest) returns (TestCase);
+
+  /*
+   * Add a new test case.
+   */
+  rpc add_test_case(TestCase) returns (TestCase);
+
+  /*
+   * Update an existing test case.
+   */
+  rpc update_test_case(TestCase) returns (TestCase);
+
+  /*
+   * Delete a specific test case.
+   */
+  rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse);
 }
 
-// The CountryIdRequest is a request message used to retrieve a country by its specific ID.
+/*
+ * The CountryIdRequest is a request message used to retrieve a country by its specific ID.
+ */
 message CountryIdRequest {
-    string country_id = 1; // The ID of the country to be fetched.
+  /*
+   * The ID of the country to be fetched.
+   */
+  string country_id = 1;
 }
 
-// The ManufacturerIdRequest is a request message used to retrieve a manufacturer by its specific ID.
+/*
+ * The ManufacturerIdRequest is a request message used to retrieve a manufacturer by its specific ID.
+ */
 message ManufacturerIdRequest {
-    string manufacturer_id = 1; // The ID of the manufacturer to be fetched.
+  /*
+   * The ID of the manufacturer to be fetched.
+   */
+  string manufacturer_id = 1;
 }
 
-// The VendorIdRequest is a request message used to retrieve a vendor by its specific ID.
+/*
+ * The VendorIdRequest is a request message used to retrieve a vendor by its specific ID.
+ */
 message VendorIdRequest {
-    string vendor_id = 1; // The ID of the vendor to be fetched.
+  /*
+   * The ID of the vendor to be fetched.
+   */
+  string vendor_id = 1;
 }
 
-// The DeviceIdRequest is a request message used to retrieve a device by its specific ID.
+/*
+ * The DeviceIdRequest is a request message used to retrieve a device by its specific ID.
+ */
 message DeviceIdRequest {
-    string device_id = 1; // The ID of the device to be fetched.
+  /*
+   * The ID of the device to be fetched.
+   */
+  string device_id = 1;
 }
 
-// The TestCaseIdRequest is a request message used to retrieve a test case by its specific ID.
+/*
+ * The TestCaseIdRequest is a request message used to retrieve a test case by its specific ID.
+ */
 message TestCaseIdRequest {
-    string test_case_id = 1; // The ID of the test case to be fetched.
+  /*
+   * The ID of the test case to be fetched.
+   */
+  string test_case_id = 1;
 }
 
-// The DeleteResponse message returns the status and descriptive message of the delete operation.
+/*
+ * The DeleteResponse message returns the status and descriptive message of the delete operation.
+ */
 message DeleteResponse {
-    bool success = 1; // A boolean flag to show the status of the delete operation.
-    string message = 2; // A detailed message about the result of the delete operation.
+  /*
+   * A boolean flag to show the status of the delete operation.
+   */
+  bool success = 1;
+
+  /*
+   * A detailed message about the result of the delete operation.
+   */
+  string message = 2;
 }
 
-/**
+/*
  * The CountryListRequest message to retrieve a paginated, sorted list of countries.
  */
 message CountryListRequest{
-    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination and sorting information for the countries list.
+  /*
+   * Pagination and sorting information for the countries list.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
 }
 
-/**
+/*
  * The ManufacturerListRequest message to retrieve a paginated, sorted list of manufacturers.
  */
 message ManufacturerListRequest{
-    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination and sorting information for the manufacturers list.
+  /*
+   * Pagination and sorting information for the manufacturers list.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
 }
 
-/**
+/*
  * The VendorsListRequest message to retrieve a paginated, sorted list of vendors.
  */
 message VendorsListRequest{
-    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination and sorting information for the vendors list.
+  /*
+   * Pagination and sorting information for the vendors list.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
 }
 
-/**
+/*
  * The CountryListResponse message contains the requested list of countries.
  */
 message CountryListResponse {
-    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination and sorting information about the returned list of countries.
-    repeated common.Country countries = 5; // The array list of country entities in the response.
+  /*
+   * Pagination and sorting information about the returned list of countries.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+
+  /*
+   * The array list of country entities in the response.
+   */
+  repeated common.Country countries = 5;
 }
 
-/**
+/*
  * The ManufacturersListResponse message contains the requested list of manufacturers.
  */
 message ManufacturersListResponse {
-    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination and sorting information about the returned list of manufacturers.
-    repeated Manufacturer manufacturers = 5; // The array list of manufacturer entities in the response.
+  /*
+   * Pagination and sorting information about the returned list of manufacturers.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+
+  /*
+   * The array list of manufacturer entities in the response.
+   */
+  repeated Manufacturer manufacturers = 5;
 }
 
-/**
+/*
  * The VendorsListResponse message contains the requested list of vendors.
  */
 message VendorsListResponse {
-    cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination and sorting information about the returned list of vendors.
-    repeated Vendor vendors = 5; // The array list of vendor entities in the response.
+  /*
+   * Pagination and sorting information about the returned list of vendors.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+
+  /*
+   * The array list of vendor entities in the response.
+   */
+  repeated Vendor vendors = 5;
 }

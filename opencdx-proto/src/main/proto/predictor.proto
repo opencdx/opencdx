@@ -1,51 +1,77 @@
+/*
+ * This system is responsible for delivering predictions. Based on the given set of inputs, it analyzes patterns, computes correspondences and subsequently generates the most probable outcomes. Ideal for forecasting, statistical analysis, and other predictive modeling applications.
+ */
 syntax = "proto3";
-
 package cdx.opencdx.grpc.neural.predictor;
-
 option java_multiple_files = true;
-
-/**
+/*
  * This is a Protobuf message that serves as a container for the input data
  * that will be used for making predictions. This could be used in any service
  * that requires data prediction.
  */
 message PredictorInput {
-  optional string encounter_id = 1; // This is the ID of the encounter that is associated with the data.
-  optional string test_id = 2; // This is the ID of the test that the data is connected to.
-  repeated string test_features = 3; // These are the various features extracted from the test data.
+  /*
+   * This is the ID of the encounter that is associated with the data.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * This is the ID of the test that the data is connected to.
+   */
+  optional string test_id = 2;
+
+  /*
+   * These are the various features extracted from the test data.
+   */
+  repeated string test_features = 3;
 }
 
-/**
+/*
  * This is a Protobuf message that is used to encapsulate the output from a prediction model.
  * The output is associated with a given encounter.
  */
 message PredictorOutput {
-  optional string encounter_id = 1; // The ID of the encounter that the data is associated with.
-  optional string predicted_value = 2; // The predicted outcome or value that the model has produced.
+  /*
+   * The ID of the encounter that the data is associated with.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * The predicted outcome or value that the model has produced.
+   */
+  optional string predicted_value = 2;
 }
 
-/**
+/*
  * A Protobuf message that is used as a request for the Neural Predictor Service.
  * It encapsulates the necessary input data for a prediction.
  */
 message PredictorRequest {
-  PredictorInput predictor_input = 1; // The input data that will be used for prediction.
+  /*
+   * The input data that will be used for prediction.
+   */
+  PredictorInput predictor_input = 1;
 }
 
-/**
+/*
  * A Protobuf message that serves as a response from the Neural Predictor Service.
  * It encapsulates the output of the prediction model.
  */
 message PredictorResponse {
-  PredictorOutput predictor_output = 1; // The output of the prediction model.
+  /*
+   * The output of the prediction model.
+   */
+  PredictorOutput predictor_output = 1;
 }
 
-/**
+/*
  * This is a Protobuf service definition for a Neural Predictor.
  * It includes a method for making a prediction based on input data.
  */
 service NeuralPredictorService {
-  // This method predicts a value based on input data it receives in a PredictorRequest message
-  // and returns a PredictorResponse message that contains the output of the prediction model.
+  /*
+   * This method predicts a value based on input data it receives in a PredictorRequest message
+   * and returns a PredictorResponse message that contains the output of the prediction model.
+   */
   rpc Predict(PredictorRequest) returns (PredictorResponse);
 }

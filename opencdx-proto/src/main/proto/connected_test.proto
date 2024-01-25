@@ -1,3 +1,6 @@
+/*
+ * This section archives the outcomes of linked tests results originating from a specific patient.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.connected;
@@ -6,361 +9,728 @@ import "google/protobuf/timestamp.proto";
 import "common.proto";
 import "codeable.proto";
 
-/**
+/*
  * Enum for defining the format types of various tests.
  */
 enum TestFormat {
-  TEST_FORMAT_UNSPECIFIED = 0;  // Represents an unspecified test format.
-  TEST_FORMAT_BLOOD = 1;        // Represents a blood test format.
-  TEST_FORMAT_URINE = 2;        // Represents a urine test format.
-  TEST_FORMAT_SALIVA = 3;       // Represents a saliva test format.
-  TEST_FORMAT_COVID_19 = 4;     // Represents a COVID-19 test format.
+  /*
+   * Represents an unspecified test format.
+   */
+  TEST_FORMAT_UNSPECIFIED = 0;
+  /*
+   * Represents a blood test format.
+   */
+  TEST_FORMAT_BLOOD = 1;
+  /*
+   * Represents a urine test format.
+   */
+  TEST_FORMAT_URINE = 2;
+  /*
+   * Represents a saliva test format.
+   */
+  TEST_FORMAT_SALIVA = 3;
+  /*
+   * Represents a COVID-19 test format.
+   */
+  TEST_FORMAT_COVID_19 = 4;
 }
 
-/**
+/*
  * Enum for categorising types of tests.
  */
 enum TestClassification {
-  TEST_CLASSIFICATION_UNSPECIFIED = 0;  // Represents unspecified test classification.
-  TEST_CLASSIFICATION_GENERAL = 1;      // Represents a general test.
-  TEST_CLASSIFICATION_DIAGNOSTIC = 2;   // Represents a diagnostic test.
-  TEST_CLASSIFICATION_SCREENING = 3;    // Represents a screening test.
-  TEST_CLASSIFICATION_MONITORING = 4;   // Represents a monitoring test.
-  TEST_CLASSIFICATION_COVID_19 = 5;     // Represents a COVID-19 related test.
+  /*
+   * Represents unspecified test classification.
+   */
+  TEST_CLASSIFICATION_UNSPECIFIED = 0;
+  /*
+   * Represents a general test.
+   */
+  TEST_CLASSIFICATION_GENERAL = 1;
+  /*
+   * Represents a diagnostic test.
+   */
+  TEST_CLASSIFICATION_DIAGNOSTIC = 2;
+  /*
+   * Represents a screening test.
+   */
+  TEST_CLASSIFICATION_SCREENING = 3;
+  /*
+   * Represents a monitoring test.
+   */
+  TEST_CLASSIFICATION_MONITORING = 4;
+  /*
+   * Represents a COVID-19 related test.
+   */
+  TEST_CLASSIFICATION_COVID_19 = 5;
 }
 
-/**
+/*
  * Enum for specifying the types of lab tests.
  */
 enum LabTestType {
-  LAB_TEST_TYPE_UNSPECIFIED = 0; // Represents an unspecified Lab Test Type.
-  LAB_TEST_TYPE_BLOOD_TEST = 1;  // Represents a Blood Lab Test.
-  LAB_TEST_TYPE_URINE_TEST = 2;  // Represents a Urine Lab Test.
+  /*
+   * Represents an unspecified Lab Test Type.
+   */
+  LAB_TEST_TYPE_UNSPECIFIED = 0;
+  /*
+   * Represents a Blood Lab Test.
+   */
+  LAB_TEST_TYPE_BLOOD_TEST = 1;
+  /*
+   * Represents a Urine Lab Test.
+   */
+  LAB_TEST_TYPE_URINE_TEST = 2;
 }
 
-/**
+/*
  * Enum for specifying the types of specimens collected for tests.
  */
 enum SpecimenType {
-  SPECIMEN_TYPE_UNSPECIFIED = 0; // Represents an unspecified Lab Test Type.
-  SPECIMEN_TYPE_BLOOD = 1;       // Represents a blood specimen type.
-  SPECIMEN_TYPE_URINE = 2;       // Represents a urine specimen type.
-  SPECIMEN_TYPE_SALIVA = 3;      // Represents a saliva specimen type.
+  /*
+   * Represents an unspecified Lab Test Type.
+   */
+  SPECIMEN_TYPE_UNSPECIFIED = 0;
+  /*
+   * Represents a blood specimen type.
+   */
+  SPECIMEN_TYPE_BLOOD = 1;
+  /*
+   * Represents a urine specimen type.
+   */
+  SPECIMEN_TYPE_URINE = 2;
+  /*
+   * Represents a saliva specimen type.
+   */
+  SPECIMEN_TYPE_SALIVA = 3;
 }
 
-/**
+/*
  * Represents basic information regarding the test.
  */
 message BasicInfo {
-  optional string id = 1;                  // Unique identifier for the test.
-  google.protobuf.Timestamp created = 2;   // Timestamp marking the creation of the test record.
-  string creator = 3;                      // User or entity that initiated the creation of the test.
-  google.protobuf.Timestamp modified = 4;  // Timestamp of the last modification on the test record.
-  string modifier = 5;                     // User or entity that last modified the test.
-  // ID referencing the test within the vendor's system.
+  /*
+   * Unique identifier for the test.
+   */
+  optional string id = 1;
+  /*
+   * Timestamp marking the creation of the test record.
+   */
+  google.protobuf.Timestamp created = 2;
+  /*
+   * User or entity that initiated the creation of the test.
+   */
+  string creator = 3;
+  /*
+   * Timestamp of the last modification on the test record.
+   */
+  google.protobuf.Timestamp modified = 4;
+  /*
+   * User or entity that last modified the test.
+   */
+  string modifier = 5;
+  /*
+   * ID referencing the test within the vendor's system.
+   */
   string vendor_lab_test_id = 6;
-  // String denoting the classification or type of the test.
+  /*
+   * String denoting the classification or type of the test.
+   */
   string type = 7;
-  // ID of the user associated with the test.
+  /*
+   * ID of the user associated with the test.
+   */
   string user_id = 8;
-  // National health ID of the user associated with the test.
+  /*
+   * National health ID of the user associated with the test.
+   */
   string national_health_id = 9;
-  // ID of the health service provider related to the test.
+  /*
+   * ID of the health service provider related to the test.
+   */
   string health_service_id = 10;
-  // ID of the organization involved in the test.
+  /*
+   * ID of the organization involved in the test.
+   */
   string organization_id = 11;
-  // ID denoting the workspace in which the test was administered.
+  /*
+   * ID denoting the workspace in which the test was administered.
+   */
   string workspace_id = 12;
-  // String denoting the source or origin detail of the tested data.
+  /*
+   * String denoting the source or origin detail of the tested data.
+   */
   string source = 13;
 }
-
-/**
+/*
  * Contains information related to the test order.
  */
 message OrderInfo {
-  string order_id = 1;               // Unique identifier for the test order.
-  string status = 2;                // Current status of the test order.
-  string status_message = 3;         // Descriptive message conveying the order status.
-  // Any actions associated with the test order's status.
+  /*
+   * Unique identifier for the test order.
+   */
+  string order_id = 1;
+  /*
+   * Current status of the test order.
+   */
+  string status = 2;
+  /*
+   * Descriptive message conveying the order status.
+   */
+  string status_message = 3;
+  /*
+   * Any actions associated with the test order's status.
+   */
   repeated StatusMessageAction status_message_actions = 4;
-  // ID of the clinical encounter pertaining to the test.
+  /*
+   * ID of the clinical encounter pertaining to the test.
+   */
   string encounter_id = 5;
-  // Boolean field indicating if the test has been synced with any Electronic Health Record (EHR) system.
+  /*
+   * Boolean field indicating if the test has been synced with any Electronic Health Record (EHR) system.
+   */
   bool is_synced_with_ehr = 6;
-  // String detailing the result data from the test.
+  /*
+   * String detailing the result data from the test.
+   */
   string result = 7;
-  // ID of any associated questionnaire linked to the test.
+  /*
+   * ID of any associated questionnaire linked to the test.
+   */
   string questionnaire_id = 8;
 }
-
-/**
+/*
  * Contains notes related to the test.
  */
 message TestNotes {
-  string notes = 1;                 // General notes regarding the test.
-  string medication_notes = 2;      // Notes regarding any medication related to the test.
-  string referral_notes = 3;        // Notes regarding any referrals related to the test.
-  string diagnostic_notes = 4;      // Notes or observations made during diagnosis.
+  /*
+   * General notes regarding the test.
+   */
+  string notes = 1;
+  /*
+   * Notes regarding any medication related to the test.
+   */
+  string medication_notes = 2;
+  /*
+   * Notes regarding any referrals related to the test.
+   */
+  string referral_notes = 3;
+  /*
+   * Notes or observations made during diagnosis.
+   */
+  string diagnostic_notes = 4;
 }
-
-/**
+/*
  * Contains details related to payments for the test.
  */
 message PaymentDetails {
-  string payment_mode = 1;           // Mode of payment used for the test.
-  // ID referring to insurance information used for the test.
+  /*
+   * Mode of payment used for the test.
+   */
+  string payment_mode = 1;
+  /*
+   * ID referring to insurance information used for the test.
+   */
   string insurance_info_id = 2;
-  // ID of the payment transaction for the test.
+  /*
+   * ID of the payment transaction for the test.
+   */
   string payment_transaction_id = 3;
-  // More details about the payment.
+  /*
+   * More details about the payment.
+   */
   string payment_details = 4;
 }
-
-/**
- * Contains information about the providers associated with the test.
+/*
+ * Contains information about the providers associated with the=test.
  */
 message ProviderInfo {
-  // ID of the provider who ordered the test.
+  /*
+   * ID of the provider who ordered the test.
+   */
   string ordering_provider_id = 1;
-  // ID of the provider assigned to oversee the test.
+  /*
+   * ID of the provider assigned to oversee the test.
+   */
   int32 assigned_provider_id = 2;
-  // National Provider Identifier of the ordering provider.
+  /*
+   * National Provider Identifier of the ordering provider.
+   */
   int32 ordering_provider_npi = 3;
 }
-
-/**
+/*
  * Contains detailed information about the test and its results.
  */
 message TestDetails {
-  Metadata metadata = 1;            // Metadata associated with the test.
-  // Base64 encoded data of the test requisition.
+  /*
+   * Metadata associated with the test.
+   */
+  Metadata metadata = 1;
+  /*
+   * Base64 encoded data of the test requisition.
+   */
   string requisition_base64 = 2;
-  // Internal reference ID for the test administered.
+  /*
+   * Internal reference ID for the test administered.
+   */
   string internal_test_id = 3;
-  // Information regarding any medications linked to the test.
+  /*
+   * Information regarding any medications linked to the test.
+   */
   string medications = 4;
-  // Details of any referrals related to the test.
+  /*
+   * Details of any referrals related to the test.
+   */
   string referrals = 5;
-  // Observations or details regarding diagnosis.
+  /*
+   * Observations or details regarding diagnosis.
+   */
   string diagnostics = 6;
-  // List of IDs for other mentionable tests supplementing the main test.
+  /*
+   * List of IDs for other mentionable tests supplementing the main test.
+   */
   repeated string orderable_test_ids = 7;
-  // Details of other mentionable tests that were possibly ordered.
+  /*
+   * Details of other mentionable tests that were possibly ordered.
+   */
   repeated OrderableTest orderable_tests = 8;
-  // Results for all mentioned or mentioned orderable tests.
+  /*
+   * Results for all mentioned or mentioned orderable tests.
+   */
   repeated OrderableTestResult orderable_test_results = 9;
-  // Classification or the type of the test.
+  /*
+   * Classification or the type of the test.
+   */
   TestClassification test_classification = 10;
-  // Boolean denoting if the test was conducted on-site.
+  /*
+   * Boolean denoting if the test was conducted on-site.
+   */
   bool is_onsite_test = 11;
-  // ID of the specimen collected for the test.
+  /*
+   * ID of the specimen collected for the test.
+   */
   string specimen_id = 12;
-  // Confirmation ID from the lab that conducted the test.
+  /*
+   * Confirmation ID from the lab that conducted the test.
+   */
   string lab_vendor_confirmation_id = 13;
-  // Identifier for the device used for the test.
+  /*
+   * Identifier for the device used for the test.
+   */
   string device_identifier = 14;
-  // Serial number for the device used for the test.
+  /*
+   * Serial number for the device used for the test.
+   */
   string device_serial_number = 15;
-  // Boolean denoting if the test record was auto-generated.
+  /*
+   * Boolean denoting if the test record was auto-generated.
+   */
   bool is_auto_generated = 16;
-  // Flag relating to the reporting status of the test.
+  /*
+   * Flag relating to the reporting status of the test.
+   */
   string reporting_flag = 17;
-  // Flag influencing the notification status of the test.
+  /*
+   * Flag influencing the notification status of the test.
+   */
   string notification_flag = 18;
-  // Status indicator for the test order.
+  /*
+   * Status indicator for the test order.
+   */
   string order_status_flag = 19;
-  // Path to the location of the order receipt.
+  /*
+   * Path to the location of the order receipt.
+   */
   string order_receipt_path = 20;
-  // Detailing the type of lab test conducted.
+  /*
+   * Detailing the type of lab test conducted.
+   */
   string lab_test_type = 21;
-  // Specifies the type of specimen used for the test.
+  /*
+   * Specifies the type of specimen used for the test.
+   */
   string specimen_type = 22;
-  // Medical code associated with the implemented test.
+  /*
+   * Medical code associated with the implemented test.
+   */
   string medical_code = 23;
-  // Human friendly name for the test.
-  string test_name=24;
-  // Descriptive string to illustrate the format of the test.
+  /*
+   * Human friendly name for the test.
+   */
+  string test_name = 24;
+  /*
+   * Descriptive string to illustrate the format of the test.
+   */
   TestFormat test_format = 25;
-  // LOINC code associated with the test.
+  /*
+   * LOINC code associated with the test.
+   */
   cdx.opencdx.grpc.codeable.Coding loinc_code = 26;
 }
 
-/**
+/*
  * Contains metadata related to a specific test.
  */
 message Metadata {
-  string qr_data = 1;                          // QR Code data associated with the test kit.
-  // ID associated with the upload event for the kit's data.
+
+  /*
+   * QR Code data associated with the test kit.
+   */
+  string qr_data = 1;
+
+  /*
+   * ID associated with the upload event for the kit's data.
+   */
   string kit_upload_id = 2;
-  // Detailed response message related to the test.
+
+  /*
+   * Detailed response message related to the test.
+   */
   string response_message = 3;
-  // Header or title of the response.
+
+  /*
+   * Header or title of the response.
+   */
   string response_title = 4;
-  // Numeric code representing the type of response.
+
+  /*
+   * Numeric code representing the type of response.
+   */
   int32 response_code = 5;
-  // Type of any image data associated with the test (for example, "jpg" or "png").
+
+  /*
+   * Type of any image data associated with the test (for example, "jpg" or "png").
+   */
   string image_type = 6;
-  // A string depicting the type of the test.
+
+  /*
+   * A string depicting the type of the test.
+   */
   string type = 7;
-  // Manufacturer or creator of the test kit.
+
+  /*
+   * Manufacturer or creator of the test kit.
+   */
   string manufacturer = 8;
-  // Lot number attributed to the test kit's cassette.
+
+  /*
+   * Lot number attributed to the test kit's cassette.
+   */
   string cassette_lot_number = 9;
-  // Boolean outcome of the IgM antibody test.
+
+  /*
+   * Boolean outcome of the IgM antibody test.
+   */
   bool outcome_igm = 10;
-  // Boolean outcome of the IgG antibody test.
+
+  /*
+   * Boolean outcome of the IgG antibody test.
+   */
   bool outcome_igg = 11;
-  // Overall outcome or result of the test.
+
+  /*
+   * Overall outcome or result of the test.
+   */
   string outcome = 12;
-  // Self-assessed outcome for the IgM antibody test.
+
+  /*
+   * Self-assessed outcome for the IgM antibody test.
+   */
   bool self_assessment_outcome_igm = 13;
-  // Self-assessed outcome for the IgG antibody test.
+
+  /*
+   * Self-assessed outcome for the IgG antibody test.
+   */
   bool self_assessment_outcome_igg = 14;
-  // Self-assessed overall outcome or result.
+
+  /*
+   * Self-assessed overall outcome or result.
+   */
   string self_assessment_outcome = 15;
-  // Expiry date of the test kit's cassette.
+
+  /*
+   * Expiry date of the test kit's cassette.
+   */
   string cassette_expiration_date = 16;
-  // Orderable ID associated with the lab test.
+
+  /*
+   * Orderable ID associated with the lab test.
+   */
   string lab_test_orderable_id = 17;
-  // The SKU ID associated with the test kit.
+
+  /*
+   * The SKU ID associated with the test kit.
+   */
   string sku_id = 18;
-  // Verification status or detail of the cassette.
+
+  /*
+   * Verification status or detail of the cassette.
+   */
   string cassette_verification = 19;
 }
 
-/**
+/*
  * Specifies actions or recommendations based on a specific status message.
  */
 message StatusMessageAction {
-  string id = 1;                  // Unique identifier for the action exemplified.
-  // The value or directive to be followed based on the status message.
+  /*
+  * Unique identifier for the action exemplified.
+  */
+  string id = 1;
+
+  /*
+  * The value or directive to be followed based on the status message.
+  */
   string value = 2;
-  // Detailed description regarding the action or recommendation.
+
+  /*
+  * Detailed description regarding the action or recommendation.
+  */
   string description = 3;
 }
 
-/**
+/*
  * Represents a specific test that can be ordered in a healthcare context.
  * This could be any diagnostic, imaging, pathology, or genetic test.
  */
 message OrderableTest {
-  string orderable_test_id = 1;                 // Unique identifier for the orderable test. This is vital for test tracking.
+  /*
+   * Unique identifier for the orderable test. This is vital for test tracking.
+   */
+  string orderable_test_id = 1;
 }
 
-/**
+/*
  * Provides detailed result information for an orderable test. This includes when the
  * test was conducted, the results, and the interpretation or outcome.
  */
 message OrderableTestResult {
-  string orderable_test_id = 1;                 // Refers to the specific test that was conducted.
-  string collection_date = 2;                  // Indicates the date when the sample or specimen was collected for conducting the test.
-  string test_result = 3;                      // The actual result or value obtained from the test. It might contain numeric or descriptive results depending on the test type.
-  string outcome = 4;                          // Provides an interpretation or high-level outcome of the test which can be understand by non-medical personnel.
-  string response_message = 5;                 // Offers a detailed message related to the test's response or result.
-  string response_title = 6;                   // Refers to the title or header of the response. It provides a summary of the type of response produced by the test.
-  int32 response_code = 7;                     // A numeric code representing the type of response. These are standard codes that translate to specific responses.
+  /*
+  * Refers to the specific test that was conducted.
+  */
+  string orderable_test_id = 1;
+
+  /*
+  * Indicates the date when the sample or specimen was collected for conducting the test.
+  */
+  string collection_date = 2;
+
+  /*
+  * The actual result or value obtained from the test. It might contain numeric or descriptive results depending on the test type.
+  */
+  string test_result = 3;
+
+  /*
+  * Provides an interpretation or high-level outcome of the test which can be understand by non-medical personnel.
+  */
+  string outcome = 4;
+
+  /*
+  * Offers a detailed message related to the test's response or result.
+  */
+  string response_message = 5;
+
+  /*
+  * Refers to the title or header of the response. It provides a summary of the type of response produced by the test.
+  */
+  string response_title = 6;
+
+  /*
+  * A numeric code representing the type of response. These are standard codes that translate to specific responses.
+  */
+  int32 response_code = 7;
 }
 
-/**
+/*
  * The TestKitMetadata message encapsulates all the metadata related to the physical test kit used.
- *
  * This includes unique identifiers for the test kit and its manufacturing data.
  */
 message TestKitMetadata {
-  string orderable_test_id = 1;                 // This is the ID that associates the test kit with the orderable test.
-  int32 device_identifier = 2;                 // The unique device identifier or code for the test kit provided by the manufacturer.
-  string batch_lot_number = 3;                  // The lot or batch number of the test kit. It allows tracing back to the batch of production for quality control.
-  string serial_number = 4;                    // The physical test kit's serial number usually provided for tracking individual kits.
-  string manufacturing_date = 5;               // Specifies the date when the test kit was manufactured.
-  string expiration_date = 6;                  // Shows the expiration date for the test kit. After this date, the test may not function accurately.
-  string barcode_data_format = 7;               // Indicates the data format of the kit's barcode. It could vary based on the barcode technology used.
-  string scan_date = 8;                        // Tracks the timestamp when the kit's barcode was scanned, typically representing when the test kit was issued for use.
+  /*
+  * This is the ID that associates the test kit with the orderable test.
+  */
+  string orderable_test_id = 1;
+
+  /*
+  * The unique device identifier or code for the test kit provided by the manufacturer.
+  */
+  int32 device_identifier = 2;
+
+  /*
+  * The lot or batch number of the test kit. It allows tracing back to the batch of production for quality control.
+  */
+  string batch_lot_number = 3;
+
+  /*
+  * The physical test kit's serial number usually provided for tracking individual kits.
+  */
+  string serial_number = 4;
+
+  /*
+  * Specifies the date when the test kit was manufactured.
+  */
+  string manufacturing_date = 5;
+
+  /*
+  * Shows the expiration date for the test kit. After this date, the test may not function accurately.
+  */
+  string expiration_date = 6;
+
+  /*
+  * Indicates the data format of the kit's barcode. It could vary based on the barcode technology used.
+  */
+  string barcode_data_format = 7;
+
+  /*
+  * Tracks the timestamp when the kit's barcode was scanned, typically representing when the test kit was issued for use.
+  */
+  string scan_date = 8;
 }
 
-/**
+/*
  * Request for a Connected Test. Connected test is a term used to describe a test
  * that is connected to the system and can send and receive data to/from it. The
  * requested test's detail is fetched using the Test's ID.
  */
 message TestIdRequest {
-  string test_id = 1; // The ID of a connected Test. This ID enables us to fetch details for a specific test from the system.
+  /*
+  * The ID of a connected Test. This ID enables us to fetch details for a specific test from the system.
+  */
+  string test_id = 1;
 }
 
-/**
+/*
  * The response one gets when they submit a ConnectedTest. This includes an ID for
  * the submission. The client applications can use this ID for tracking the test submission.
  */
 message TestSubmissionResponse {
-  string submission_id = 1; // The ID of the Connected Test submission. This unique ID is used to reference the submission in subsequent operations.
+  /*
+  * The ID of the Connected Test submission. This unique ID is used to reference the submission in subsequent operations.
+  */
+  string submission_id = 1;
 }
 
-
-/**
+/*
  * The ConnectedTest message represents a full connected test order,
  * including all necessary sub-messages for different sections of information.
  */
 message ConnectedTest {
-  BasicInfo basic_info = 1;       // This field captures basic information relating to the test.
-  OrderInfo order_info = 2;       // This block captures all order related information.
-  TestNotes test_notes = 3;       // Holds any notes or annotations related to the test.
-  PaymentDetails payment_details = 4; // This block captures all payment related details.
-  ProviderInfo provider_info = 5;     // Information about the provider is found in this block.
-  TestDetails test_details = 6;       // This block captures all the details related to the test and its results.
-  optional google.protobuf.Timestamp created = 7; // The timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 8; // The timestamp when this event was modified.
-  optional string creator = 9; // The user ID of the creator of this event.
-  optional string modifier = 10; // The user ID of the modifier of this event.
+  /*
+   * This field captures basic information relating to the test.
+   */
+  BasicInfo basic_info = 1;
+  /*
+   * This block captures all order related information.
+   */
+  OrderInfo order_info = 2;
+  /*
+   * Holds any notes or annotations related to the test.
+   */
+  TestNotes test_notes = 3;
+  /*
+   * This block captures all payment related details.
+   */
+  PaymentDetails payment_details = 4;
+  /*
+   * Information about the provider is found in this block.
+   */
+  ProviderInfo provider_info = 5;
+  /*
+   * This block captures all the details related to the test and its results.
+   */
+  TestDetails test_details = 6;
+  /*
+   * The timestamp when this event was created.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /*
+   * The timestamp when this event was modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /*
+   * The user ID of the creator of this event.
+   */
+  optional string creator = 9;
+  /*
+   * The user ID of the modifier of this event.
+   */
+  optional string modifier = 10;
 }
 
-/**
+/*
  * Request Message to list NotificationConnectedTests. This helps
  * fetching multiple test data for a user, leveraging pagination.
  */
 message ConnectedTestListRequest{
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting. Used to fetch a batch of tests for a user rather than all.
-  string user_id = 2; // Unique identifier for the user, used to fetch the tests related to this user.
+  /*
+   * Pagination information and sorting. Used to fetch a batch of tests for a user rather than all.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /*
+   * Unique identifier for the user, used to fetch the tests related to this user.
+   */
+  string user_id = 2;
 }
 
-/**
+/*
  * Request to fetch a list of NotificationConnectedTests by National health id.
  * This helps to get the tests done for a person based on the National health id.
  */
 message ConnectedTestListByNHIDRequest{
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
-  string national_health_id = 2; // National Health ID of the user. This ID is unique for each individual in a country, used for fetching health related information.
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /*
+   * National Health ID of the user. This ID is unique for each individual in a country, used for fetching health related information.
+   */
+  string national_health_id = 2;
 }
 
-/**
+/*
  * Response containing the requested list of connected tests for a specific national health id.
  * The response includes details of all connected tests for an individual mapped with his/her national health id.
  */
 message ConnectedTestListByNHIDResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
   repeated ConnectedTest connected_tests = 2;
 }
 
-/**
+/*
  * Response containing the requested list of connected tests for a specific user.
  * The response includes details of all connected tests for a user.
  */
 message ConnectedTestListResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
   repeated ConnectedTest connected_tests = 2;
 }
 
-/**
+/*
  * The HealthcareService provides remote procedure call (RPC) methods to manipulate and fetch
  * Test related information from connected Tests.
  */
 service HealthcareService {
-  // The RPC method to submit a new test. It takes a ConnectedTest message as input and returns a TestSubmissionResponse message.
+  /*
+   * The RPC method to submit a new test. It takes a ConnectedTest message as input and returns a TestSubmissionResponse message.
+   */
   rpc SubmitTest(ConnectedTest) returns (TestSubmissionResponse);
-  // The RPC method to get test details by ID. It takes a TestIdRequest message as input and returns a ConnectedTest message.
+  /*
+   * The RPC method to get test details by ID. It takes a TestIdRequest message as input and returns a ConnectedTest message.
+   */
   rpc GetTestDetailsById(TestIdRequest) returns (ConnectedTest);
-  // Retrieves a list of connected tests by user ID. It takes a ConnectedTestListRequest as input and returns a ConnectedTestListResponse.
+  /*
+   * Retrieves a list of connected tests by user ID. It takes a ConnectedTestListRequest as input and returns a ConnectedTestListResponse.
+   */
   rpc ListConnectedTests(ConnectedTestListRequest) returns (ConnectedTestListResponse);
-  // Retrieves a list of connected tests by national health ID. It takes a ConnectedTestListByNHIDRequest as input and returns a ConnectedTestListByNHIDResponse.
+  /*
+   * Retrieves a list of connected tests by national health ID. It takes a ConnectedTestListByNHIDRequest as input and returns a ConnectedTestListByNHIDResponse.
+   */
   rpc ListConnectedTestsByNHID(ConnectedTestListByNHIDRequest) returns (ConnectedTestListByNHIDResponse);
 }
 

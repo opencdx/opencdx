@@ -1,56 +1,124 @@
+/**
+ * The Analysis Normal Form (ANF) Connector Protobuf file outlines the protocol for connecting a Questionnaire to an ANF Statement.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.anf;
-
 import "anf_statement.proto";
 
-
-// `AnfStatementType` represents the various ways that an ANF Statement can be connected to a question item.
+/*
+ * `AnfStatementType` represents the various ways that an ANF Statement can be connected to a question item.
+ */
 enum AnfStatementType {
-  // `ANF_STATEMENT_TYPE_UNSPECIFIED` indicates that the ANF statement type is not specified.
+  /*
+   * `ANF_STATEMENT_TYPE_UNSPECIFIED` indicates that the ANF statement type is not specified.
+   */
   ANF_STATEMENT_TYPE_UNSPECIFIED = 0;
 
-  // `ANF_STATEMENT_TYPE_MAIN` signifies that it is a primary ANF statement.
+  /*
+   * `ANF_STATEMENT_TYPE_MAIN` signifies that it is a primary ANF statement.
+   */
   ANF_STATEMENT_TYPE_MAIN = 1;
 
-  // `ANF_STATEMENT_TYPE_ASSOCIATED` denotes that the ANF statement is associated with
-  // but not primary to the item in question.
+  /*
+   * `ANF_STATEMENT_TYPE_ASSOCIATED` denotes that the ANF statement is associated with
+   * but not primary to the item in question.
+   */
   ANF_STATEMENT_TYPE_ASSOCIATED = 2;
 
-  // `ANF_STATEMENT_TYPE_QUESTION` implies that the ANF statement is the main
-  // statement pertaining to the question.
+  /*
+   * `ANF_STATEMENT_TYPE_QUESTION` implies that the ANF statement is the main
+   * statement pertaining to the question.
+   */
   ANF_STATEMENT_TYPE_QUESTION = 3;
 
-  // `ANF_STATEMENT_TYPE_NOT_APPLICABLE` implies that the ANF statement does not apply.
+  /*
+   * `ANF_STATEMENT_TYPE_NOT_APPLICABLE` implies that the ANF statement does not apply.
+   */
   ANF_STATEMENT_TYPE_NOT_APPLICABLE = 4;
 }
 
-// Enumeration for ANF statement operator types.
+/*
+ * Enumeration for ANF statement operator types.
+ */
 enum AnfOperatorType {
-  ANF_OPERATOR_TYPE_UNSPECIFIED=0; // No specific operator is defined
-  ANF_OPERATOR_TYPE_EQUAL=1; // Represents an equal (=) operator
-  ANF_OPERATOR_TYPE_NOT_EQUAL=2; // Symbolizes a not equal (!=) operator
-  ANF_OPERATOR_TYPE_GREATER_THAN=3; // Denotes a greater-than (>) operator
-  ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL=4; // Indicates a greater-than or equals (>=) operator
-  ANF_OPERATOR_TYPE_LESS_THAN=5; // Represents a less-than (<) operator
-  ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL=6; // Symbolizes a less-than or equals (<=) operator
-  ANF_OPERATOR_TYPE_CONTAINS=7; // Denotes a contains operator
-  ANF_OPERATOR_TYPE_NOT_CONTAINS=8; // Indicates a "does not contain" operator
-  ANF_OPERATOR_TYPE_IN=9; // Stands for an "in" operator
-  ANF_OPERATOR_TYPE_NOT_IN=10; // Represents a "not in" operator
+  /*
+   * No specific operator is defined
+   */
+  ANF_OPERATOR_TYPE_UNSPECIFIED = 0;
+
+  /*
+   * Represents an equal (=) operator
+   */
+  ANF_OPERATOR_TYPE_EQUAL = 1;
+
+  /*
+   * Symbolizes a not equal (!=) operator
+   */
+  ANF_OPERATOR_TYPE_NOT_EQUAL = 2;
+
+  /*
+   * Denotes a greater-than (>) operator
+   */
+  ANF_OPERATOR_TYPE_GREATER_THAN = 3;
+
+  /*
+   * Indicates a greater-than or equals (>=) operator
+   */
+  ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL = 4;
+
+  /*
+   * Represents a less-than (<) operator
+   */
+  ANF_OPERATOR_TYPE_LESS_THAN = 5;
+
+  /*
+   * Symbolizes a less-than or equals (<=) operator
+   */
+  ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL = 6;
+
+  /*
+   * Denotes a contains operator
+   */
+  ANF_OPERATOR_TYPE_CONTAINS = 7;
+
+  /*
+   * Indicates a "does not contain" operator
+   */
+  ANF_OPERATOR_TYPE_NOT_CONTAINS = 8;
+
+  /*
+   * Stands for an "in" operator
+   */
+  ANF_OPERATOR_TYPE_IN = 9;
+
+  /*
+   * Represents a "not in" operator
+   */
+  ANF_OPERATOR_TYPE_NOT_IN = 10;
 }
 
-// Connects an ANF (Attribute-Name-Function) Statement to a query component.
+/*
+ * Connects an ANF (Attribute-Name-Function) Statement to a query component.
+ */
 message AnfStatementConnector {
-  // The Reference to the ANF Statement
+  /*
+   * The Reference to the ANF Statement
+   */
   cdx.opencdx.grpc.anf.ANFStatement anf_statement = 1;
 
-  // The Type of the ANF Statement
+  /*
+   * The Type of the ANF Statement
+   */
   AnfStatementType anf_statement_type = 2;
 
-  // The Type of the ANF Operator used in the Statement
+  /*
+   * The Type of the ANF Operator used in the Statement
+   */
   AnfOperatorType anf_operator_type = 3;
 
-  // The Value of the ANF Operator used in the Statement
+  /*
+   * The Value of the ANF Operator used in the Statement
+   */
   string operator_value = 4;
 }
