@@ -1,6 +1,8 @@
 // third-party
 import { FormattedMessage } from 'react-intl';
-import { ArrowBack, PeopleAlt, StackedBarChart } from '@mui/icons-material';
+import {  PeopleAlt, StackedBarChart } from '@mui/icons-material';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -13,7 +15,7 @@ const documentation = {
             id: 'discovery',
             title: <FormattedMessage id="discovery" />,
             type: 'item',
-            icon: ArrowBack,
+            icon: TravelExploreIcon,
             target: true,
             external: true,
             url: 'https://localhost:8761/'
@@ -26,6 +28,15 @@ const documentation = {
             target: true,
             external: true,
             url: '/pages/admin'
+        },
+        {
+            id: 'dependency',
+            title: <FormattedMessage id="dependency" />,
+            type: 'item',
+            icon: AssessmentIcon,
+            target: true,
+            external: true,
+            url: '/pages/dependency'
         },
         {
             id: 'nats',
