@@ -1,95 +1,84 @@
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.neural.classification;
-
 import "common.proto";
 import "google/protobuf/timestamp.proto";
-
-// Enum to categorize different types of specimens.
+/* Enum to categorize different types of specimens. */
 enum SpecimenType {
-    BLOOD = 0;  // Blood specimen.
-    SWAB = 1;   // Swab specimen.
-    URINE = 2;  // Urine specimen.
+    BLOOD = 0;  /* Blood specimen. */
+    SWAB = 1;   /* Swab specimen. */
+    URINE = 2;  /* Urine specimen. */
 }
-
-// Enum to denote the severity level.
+/* Enum to denote the severity level. */
 enum SeverityLevel {
-    LOW = 0;    // Low severity.
-    MEDIUM = 1; // Moderate severity.
-    HIGH = 2;   // High severity.
+    LOW = 0;    /* Low severity. */
+    MEDIUM = 1; /* Moderate severity. */
+    HIGH = 2;   /* High severity. */
 }
-
-// Message denoting a geographical location via coordinates.
+/* Message denoting a geographical location via coordinates. */
 message Location {
-    double latitude = 1;   // The latitude of the location.
-    double longitude = 2;  // The longitude of the location.
+    double latitude = 1;   /* The latitude of the location. */
+    double longitude = 2;  /* The longitude of the location. */
 }
-
-// Message providing guidelines for positive and negative interpretations.
+/* Message providing guidelines for positive and negative interpretations. */
 message Interpretation {
-    map<string, string> positive = 1;  // Guide for interpreting positive results.
-    map<string, string> negative = 2;  // Guide for interpreting negative results.
+    map<string, string> positive = 1;  /* Guide for interpreting positive results. */
+    map<string, string> negative = 2;  /* Guide for interpreting negative results. */
 }
-
-// Message outlining the details of a test kit.
+/* Message outlining the details of a test kit. */
 message TestKit {
-    string name = 1;                   // Name of the test kit.
-    string target_disease = 2;         // The disease that the test kit targets.
-    SpecimenType specimen_type = 3;    // Required type of specimen for the test.
-    string procedure = 4;              // Procedure for conducting the test.
-    Interpretation interpretation_guide = 5;  // Guide for test results interpretation.
-    string brand = 6;                  // The brand that manufactured the test kit.
-    string approval_status = 7;        // The approval status of the test kit.
-    float accuracy = 8;                // The accuracy percentage of the test kit.
-    int32 test_duration = 9;           // The duration of the test in minutes.
+    string name = 1;                   /* Name of the test kit. */
+    string target_disease = 2;         /* The disease that the test kit targets. */
+    SpecimenType specimen_type = 3;    /* Required type of specimen for the test. */
+    string procedure = 4;              /* Procedure for conducting the test. */
+    Interpretation interpretation_guide = 5;  /* Guide for test results interpretation. */
+    string brand = 6;                  /* The brand that manufactured the test kit. */
+    string approval_status = 7;        /* The approval status of the test kit. */
+    float accuracy = 8;                /* The accuracy percentage of the test kit. */
+    int32 test_duration = 9;           /* The duration of the test in minutes. */
 }
-
-// Message to store symptom information.
+/* Message to store symptom information. */
 message Symptom {
-    string name = 1;                             // Name of the symptom.
-    SeverityLevel severity = 2;                  // Severity level of the symptom.
-    google.protobuf.Timestamp onset_date = 3;    // Date when the symptom first appeared.
-    cdx.opencdx.grpc.common.Duration duration = 4;     // Duration of the symptom.
-    string additional_details = 5;               // Additional details about the symptom.
+    string name = 1;                             /* Name of the symptom. */
+    SeverityLevel severity = 2;                  /* Severity level of the symptom. */
+    google.protobuf.Timestamp onset_date = 3;    /* Date when the symptom first appeared. */
+    cdx.opencdx.grpc.common.Duration duration = 4;     /* Duration of the symptom. */
+    string additional_details = 5;               /* Additional details about the symptom. */
 }
-
-// Message to record user-provided test kit classification information.
+/* Message to record user-provided test kit classification information. */
 message UserAnswer {
-    string test_kit_id = 1;               // Id of the selected test kit.
-    repeated Symptom symptoms = 2;        // Symptoms reported by the user.
+    string test_kit_id = 1;               /* Id of the selected test kit. */
+    repeated Symptom symptoms = 2;        /* Symptoms reported by the user. */
     oneof result {
-        bytes image_data = 3;             // Image data for the test result.
-        string text_result = 9;           // Text description of the test result.
+        bytes image_data = 3;             /* Image data for the test result. */
+        string text_result = 9;           /* Text description of the test result. */
     }
-    int32 age = 4;                        // Age of the user.
-    cdx.opencdx.grpc.common.Gender gender = 5;      // Gender of the user.
-    string medical_conditions = 6;       // Medical conditions of the user.
-    bool pregnancy_status = 7;           // Pregnancy status of the user.
-    string language_preference = 8;      // Language preference of the user.
-    Location user_location = 10;          // Location of the user.
+    int32 age = 4;                        /* Age of the user. */
+    cdx.opencdx.grpc.common.Gender gender = 5;      /* Gender of the user. */
+    string medical_conditions = 6;       /* Medical conditions of the user. */
+    bool pregnancy_status = 7;           /* Pregnancy status of the user. */
+    string language_preference = 8;      /* Language preference of the user. */
+    Location user_location = 10;          /* Location of the user. */
 }
-
-// The response message to user classification request.
+/* The response message to user classification request. */
 message ClassificationResponse {
-    string test_kit_name = 1;               // Name of the recommended test kit.
-    float confidence = 2;                   // Confidence score of the classification.
-    float positive_probability = 3;         // Probability of a positive result.
-    string message = 4;                     // Classification related message.
-    string availability = 5;                // Availability of the recommended test kit.
-    float cost = 6;                         // Cost of the recommended test kit.
-    string further_actions = 7;             // Additional recommendations based on classification.
-    repeated TestKit alternative_options = 8;   // Alternative test kits.
-    string feedback_url = 9;                // Feedback URL for user classification result.
-    google.protobuf.Timestamp timestamp = 10;   // Timestamp of the classification result.
-    string user_id = 11;                    // Identifier for the user.
+    string test_kit_name = 1;               /* Name of the recommended test kit. */
+    float confidence = 2;                   /* Confidence score of the classification. */
+    float positive_probability = 3;         /* Probability of a positive result. */
+    string message = 4;                     /* Classification related message. */
+    string availability = 5;                /* Availability of the recommended test kit. */
+    float cost = 6;                         /* Cost of the recommended test kit. */
+    string further_actions = 7;             /* Additional recommendations based on classification. */
+    repeated TestKit alternative_options = 8;   /* Alternative test kits. */
+    string feedback_url = 9;                /* Feedback URL for user classification result. */
+    google.protobuf.Timestamp timestamp = 10;   /* Timestamp of the classification result. */
+    string user_id = 11;                    /* Identifier for the user. */
 }
-
-// The request message detailing user-provided information for classification.
+/* The request message detailing user-provided information for classification. */
 message ClassificationRequest {
-    UserAnswer user_answer = 1; // Information provided by user for classification.
+    UserAnswer user_answer = 1; /* Information provided by user for classification. */
 }
-
-// Service providing the Classify RPC for test kit classification.
+/* Service providing the Classify RPC for test kit classification. */
 service ClassificationService {
-    rpc Classify(ClassificationRequest) returns (ClassificationResponse);  // Classify RPC returns a classification result based on UserAnswer input.
+    rpc Classify(ClassificationRequest) returns (ClassificationResponse);  /* Classify RPC returns a classification result based on UserAnswer input. */
 }

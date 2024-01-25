@@ -1,37 +1,34 @@
-// The syntax version of protobuf being used.
 syntax = "proto3";
-
-// This option allows the generate Java code to be split into multiple files.
+/* This option allows the generate Java code to be split into multiple files. */
 option java_multiple_files = true;
-
-// Defines the package for the protobuf messages and services.
+/* Defines the package for the protobuf messages and services. */
 package cdx.opencdx.grpc.helloworld;
-
-// The Greeter service definition.
-// This is the main block that defines our Greeter service which provides a simple gRPC API to send greetings.
+/*
+The Greeter service definition.
+This is the main block that defines our Greeter service which provides a simple gRPC API to send greetings. */
 service Greeter {
-
-  // Defines the SayHello rpc method for the Greeter service.
-  // The SayHello service receives a HelloRequest message containing a user's name and sends back a greeting in a HelloResponse message.
-  // It takes a single argument (HelloRequest) and returns a response (HelloResponse).
-  // This is the main method which clients using our service will interact with to send and receive greeting
+  /*
+  Defines the SayHello rpc method for the Greeter service.
+  The SayHello service receives a HelloRequest message containing a user's name and sends back a greeting in a HelloResponse message.
+  It takes a single argument (HelloRequest) and returns a response (HelloResponse).
+  This is the main method which clients using our service will interact with to send and receive greeting */
   rpc SayHello (HelloRequest) returns (HelloResponse) {}
 }
-
-// The protocol message definition for the request.
-// The HelloRequest message structure which will be used to pass request information from the client to the greeter service.
+/*
+The protocol message definition for the request.
+The HelloRequest message structure which will be used to pass request information from the client to the greeter service. */
 message HelloRequest {
-
-  // The name field of the HelloRequest message.
-  // It constitutes the main part of our request message and represents the user's name to be greeted.
-  string name = 1; // username
+  /*
+  The name field of the HelloRequest message.
+  It constitutes the main part of our request message and represents the user's name to be greeted. */
+  string name = 1; /* username */
 }
-
-// The protocol message definition for the response.
-// The HelloResponse message structure which will be used by the greeter service to pass greeting message back to the client.
+/*
+The protocol message definition for the response.
+The HelloResponse message structure which will be used by the greeter service to pass greeting message back to the client. */
 message HelloResponse {
-
-  // The message field of the HelloResponse message.
-  // It serves as our greeting message, sent back to the user.
-  string message = 1; // message in response
+  /*
+  The message field of the HelloResponse message.
+  It serves as our greeting message, sent back to the user. */
+  string message = 1; /* message in response */
 }
