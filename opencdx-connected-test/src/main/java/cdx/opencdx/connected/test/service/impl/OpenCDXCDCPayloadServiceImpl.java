@@ -347,7 +347,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                             .setSystem(ContactPoint.ContactPointSystem.FAX)
                             .setValue(phone.getNumber())
                             .setRank(rank.getAndIncrement())));
-            primaryContact.getEmailList().stream()
+            primaryContact.getEmailsList().stream()
                     .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
                     .findFirst()
                     .ifPresent(email -> telecomList.add(new ContactPoint()
@@ -355,7 +355,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                             .setUse(ContactPoint.ContactPointUse.HOME)
                             .setValue(email.getEmail())
                             .setRank(rank.getAndIncrement())));
-            primaryContact.getEmailList().stream()
+            primaryContact.getEmailsList().stream()
                     .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
                     .findFirst()
                     .ifPresent(email -> telecomList.add(new ContactPoint()

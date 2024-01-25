@@ -821,7 +821,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
       } ],&#xd;
-      &quot;email&quot; : [ {&#xd;
+      &quot;emails&quot; : [ {&#xd;
         &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
       } ]&#xd;
@@ -897,7 +897,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;number&quot; : &quot;123-456-7890&quot;,&#xd;
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
       } ],&#xd;
-      &quot;email&quot; : [ {&#xd;
+      &quot;emails&quot; : [ {&#xd;
         &quot;email&quot; : &quot;contact@organization&quot;,&#xd;
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
       } ]&#xd;
@@ -6088,7 +6088,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;number&quot; : &quot;1234567890&quot;,&#xd;
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
       } ],&#xd;
-      &quot;email&quot; : [ {&#xd;
+      &quot;emails&quot; : [ {&#xd;
         &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
       } ]&#xd;
@@ -6143,7 +6143,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;number&quot; : &quot;1234567890&quot;,&#xd;
         &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
       } ],&#xd;
-      &quot;email&quot; : [ {&#xd;
+      &quot;emails&quot; : [ {&#xd;
         &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
         &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
       } ]&#xd;
@@ -6171,7 +6171,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           &quot;number&quot; : &quot;1234567890&quot;,&#xd;
           &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
         } ],&#xd;
-        &quot;email&quot; : [ {&#xd;
+        &quot;emails&quot; : [ {&#xd;
           &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
           &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
         } ]&#xd;
@@ -6201,7 +6201,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           &quot;number&quot; : &quot;1234567890&quot;,&#xd;
           &quot;type&quot; : &quot;PHONE_TYPE_MOBILE&quot;&#xd;
         } ],&#xd;
-        &quot;email&quot; : [ {&#xd;
+        &quot;emails&quot; : [ {&#xd;
           &quot;email&quot; : &quot;email@email.com&quot;,&#xd;
           &quot;type&quot; : &quot;EMAIL_TYPE_WORK&quot;&#xd;
         } ]&#xd;

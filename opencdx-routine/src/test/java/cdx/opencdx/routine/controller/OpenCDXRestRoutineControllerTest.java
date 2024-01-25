@@ -109,7 +109,7 @@ class OpenCDXRestRoutineControllerTest {
                                                 .setPostalCode("12345")
                                                 .setAddress1("101 Main Street")
                                                 .build()))
-                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                        .addAllEmails(List.of(EmailAddress.newBuilder()
                                                 .setEmail("email@email.com")
                                                 .setType(EmailType.EMAIL_TYPE_WORK)
                                                 .build()))

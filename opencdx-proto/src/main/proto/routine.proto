@@ -1,268 +1,347 @@
 syntax = "proto3";
-
 package cdx.opencdx.grpc.routine;
-
 option java_multiple_files = true;
-
 import "google/protobuf/timestamp.proto";
 
 /**
- * Entities for the Routine System
+ * Defines entities for the Routine System.
+ * The main categories specified here are routines and their statuses.
+ *
  */
 message Routine {
-  enum Status { // Entities for Routine status enumeration
-    SCHEDULED = 0; // The routine has been planned and scheduled
-    IN_PROGRESS = 1; // The routine is currently in progress
-    COMPLETED = 2; // The routine has been successfully completed
-    CANCELED = 3; // The routine was scheduled but got canceled
-    DELAYED = 4; // The routine is behind schedule or delayed
-    PENDING_APPROVAL = 5; // The routine is awaiting approval
-    FAILED = 6; // The routine execution was not successful
-    ON_HOLD = 7; // The routine is temporarily on hold
-    NOT_STARTED = 8; // The routine has not started yet
-    UNDER_REVIEW = 9; // The routine or its results are under review
-    DISCHARGED = 10; // Applicable in healthcare settings, indicating completion
-    RECALLED = 11; // The routine has been recalled or needs to be re-executed
+  /**
+   * Defines the enumeration for various statuses that a routine operation may exist in.
+   * E.g., Scheduled, In progress, Completed, etc.
+   */
+  enum Status {
+    SCHEDULED = 0; // Indicates that the routine has been planned and is now scheduled
+    IN_PROGRESS = 1; // Indicates that the execution of the routine is currently underway
+    COMPLETED = 2; // Indicates that the routine has been successfully completed
+    CANCELED = 3; // Indicates that the routine was planned and scheduled but eventually got canceled
+    DELAYED = 4; // Indicates that the execution of the routine is behind the previously defined schedule
+    PENDING_APPROVAL = 5; // Indicates that the routine execution has been completed and is now awaiting approval
+    FAILED = 6; // Indicates that the execution of the routine was not successful
+    ON_HOLD = 7; // Indicates that the routine is temporarily on hold for now
+    NOT_STARTED = 8; // Indicates that the routine is planned but its execution has not started yet
+    UNDER_REVIEW = 9; // Indicates that the routine or its results are currently under review
+    DISCHARGED = 10; // Commonly used in healthcare settings, indicating that the routine has been marked as completed
+    RECALLED = 11; // Indicates that the routine has been recalled or needs to be re-run
   }
-
-  optional string routine_id = 1; // Unique identifier for each routine process
-  optional string name = 2; // Name or title for the routine process
-  optional string description = 3; // Additional details describing the nature of the routine
-  Status  status = 4; // Status indicating the state of the routine (e.g., in progress, completed)
-  google.protobuf.Timestamp creation_datetime = 5; // Timestamp for when the routine was created
-  google.protobuf.Timestamp last_updated_datetime = 6; // Timestamp for the last update to the routine
-  optional string assigned_user = 7; // User or team responsible for the routine
-  repeated string associated_protocols = 8; // Reference to clinical protocols linked to the routine
+  optional string routine_id = 1; // Holds the unique identifier assigned to each routine process
+  optional string name = 2; // Stores the name or title assigned to the routine process
+  optional string description = 3; // Holds a brief description providing further details about the routine
+  Status  status = 4; // Represents the status, indicating the current state of the routine
+  google.protobuf.Timestamp creation_datetime = 5; // Stores the timestamp for when the routine was created
+  google.protobuf.Timestamp last_updated_datetime = 6; // Stores the timestamp for the most recent update made to the routine
+  optional string assigned_user = 7; // Holds the information about the user or team responsible for execution of the routine
+  repeated string associated_protocols = 8; // Defines an array to store references to any clinical protocols that are linked with the routine
 }
 
 /**
- * Entities for the Delivery Tracking System
+ * This protobuf message represents the entities involved in a Delivery Tracking System. It includes various fields that
+ * provide information about an ongoing or completed delivery.
+ *
+ * The 'DeliveryTracking' is a message which represents a specific delivery and stores the details related to it.
  */
 message DeliveryTracking {
-  enum Status { // Entities for Delivery status enumeration
-    IN_TRANSIT = 0; // The delivery is currently in transit
-    DELIVERED = 1; // The delivery has been successfully completed
-    CANCELED = 2; // The delivery was scheduled but got canceled
-    PENDING_PICKUP = 3; // The delivery is awaiting pickup
-    OUT_FOR_DELIVERY = 4; // The delivery is out for delivery
-    FAILED_DELIVERY = 5; // The delivery attempt was not successful
-    RETURNED = 6; // The delivery has been returned
-    DELAYED = 7; // The delivery is behind schedule or delayed
-    ON_HOLD = 8; // The delivery is temporarily on hold
-    EXCEPTION = 9; // There is an exception or issue with the delivery
-    LOST = 10; // The delivery is lost or cannot be located
+
+  /**
+   * The 'Status' enumeration is used to represent the different stages/phases that a delivery can go through in its journey.
+   * Each member of this enum represents a particular status that a delivery can possess.
+   */
+  enum Status {
+    IN_TRANSIT = 0; // The delivery is currently being transported from the source to the destination.
+    DELIVERED = 1; // The delivery has been successfully made at the destination.
+    CANCELED = 2; // The planned delivery was called off.
+    PENDING_PICKUP = 3; // The delivery is yet to be picked up from the source.
+    OUT_FOR_DELIVERY = 4; // The delivery is in its final phase of reaching the destination.
+    FAILED_DELIVERY = 5; // The delivery couldn't reach the destination due to some reason.
+    RETURNED = 6; // The delivery was made but it was returned back from the destination.
+    DELAYED = 7; // The delivery is running behind the scheduled time.
+    ON_HOLD = 8; // The delivery is currently kept on a temporary pause.
+    EXCEPTION = 9; // There is some exceptional case or issue associated with the delivery.
+    LOST = 10; // The delivery couldn't be traced or located.
   }
 
-  optional string delivery_id = 1; // Unique identifier for each tracked delivery
-  optional string order_id = 2; // Identifier linking the delivery to an order or request
-  optional Status status = 3; // Status of the delivery (e.g., in transit, delivered)
-  google.protobuf.Timestamp start_datetime = 4; // Timestamp when the delivery process started
-  google.protobuf.Timestamp end_datetime = 5; // Timestamp when the delivery was completed
-  optional string current_location = 6; // Information about the current location of the delivery
-  optional string recipient = 7; // Information about the recipient or receiver of the delivery
-  repeated string delivery_items = 8; // Details of the items being delivered
-  optional string assigned_courier = 9; // Courier or delivery person responsible for the delivery
+  // Uniquely identifies a delivery instance.
+  optional string delivery_id = 1;
+
+  // This field is used to link the delivery to a particular order.
+  optional string order_id = 2;
+
+  // Stores the current status of the delivery.
+  optional Status status = 3;
+
+  // The timestamp representing when the delivery process was commenced.
+  google.protobuf.Timestamp start_datetime = 4;
+
+  // The timestamp indicating when the delivery reached its destination.
+  google.protobuf.Timestamp end_datetime = 5;
+
+  // Information about the current whereabouts of the delivery.
+  optional string current_location = 6;
+
+  // Contains information about the person who is supposed to receive the delivery.
+  optional string recipient = 7;
+
+  // Here all the details related to the items included in the delivery are stored.
+  repeated string delivery_items = 8;
+
+  // The courier person who has been responsible for the delivery is identified by this field.
+  optional string assigned_courier = 9;
 }
 
 /**
- * Entities for the Clinical Protocol Execution
+ * This Protocol Buffers (protobuf) message represents entities related to the execution of a Clinical Protocol.
+ * A Clinical Protocol Execution details the process of undergoing a specific protocol in a clinical setup.
  */
 message ClinicalProtocolExecution {
-  enum Status { // Entities for protocol Execution status enumeration
-    NOT_STARTED = 0; // The protocol execution has not started yet
-    IN_PROGRESS = 1; // The protocol execution is currently in progress
-    COMPLETED = 2; // The protocol execution has been successfully completed
-    FAILED = 3; // The protocol execution was not successful
-    CANCELED = 4; // The protocol execution was scheduled but got canceled
-    DELAYED = 5; // The protocol execution is behind schedule or delayed
-    UNDER_REVIEW = 6; // The protocol execution or its results are under review
+  // The 'Status' enum captures the various states the protocol execution can be in at any given time.
+  enum Status {
+    NOT_STARTED = 0; // The protocol execution is yet to start.
+    IN_PROGRESS = 1; // The protocol execution is currently ongoing.
+    COMPLETED = 2; // The protocol execution has finished successfully.
+    FAILED = 3; // The protocol execution was unsuccessful.
+    CANCELED = 4; // The protocol execution was planned but subsequently cancelled.
+    DELAYED = 5; // The protocol execution is overdue and is running late.
+    UNDER_REVIEW = 6; // The protocol execution results are being analysed/reviewed.
   }
 
-  optional string execution_id = 1; // Unique identifier for each execution of a clinical protocol
-  optional string routine_id = 2; // Reference to the routine associated with the clinical protocol execution
-  optional string protocol_id = 3; // Reference to the specific clinical protocol being executed
-  optional Status status = 4; // Status of the protocol execution (e.g., not started, in progress, completed)
-  google.protobuf.Timestamp start_datetime = 5; // Timestamp when the execution of the protocol began
-  google.protobuf.Timestamp end_datetime = 6; // Timestamp when the execution was completed
-  optional string results = 7; // Details about the results or outcomes of the protocol execution
-  optional string assigned_medical_staff = 8; // Information about the medical professionals responsible for the protocol execution
-  repeated string steps = 9; // Representation of the individual steps or actions within the protocol
+  optional string execution_id = 1; // A unique identifier associated with this particular execution of a clinical protocol.
+  optional string routine_id = 2; // An ID that points to the routine that this clinical protocol execution is tied to.
+  optional string protocol_id = 3; // The ID that links to the clinical protocol that is being executed.
+  optional Status status = 4; // An enum value that represents the current status of this protocol execution.
+  google.protobuf.Timestamp start_datetime = 5; // The date and time at which the protocol execution commenced.
+  google.protobuf.Timestamp end_datetime = 6; // The date and time at which the protocol execution ended.
+  optional string results = 7; // Detailed information about the outcomes or results of the protocol execution.
+  optional string assigned_medical_staff = 8; // Any relevant information about the medical personnel overseeing this clinical protocol execution.
+  repeated string steps = 9; // A list of steps or procedures that encompass the clinical protocol.
 }
 
 /**
- * Entities for Create Conditions
+ * This message represents a Laboratory Order entity used in creating conditions.
+ * It includes both required and optional fields.
  */
 message LabOrder {
-  optional string lab_order_id = 1; // Unique identifier for lab orders
-  optional string test_name = 2; // Name of the lab test
-  google.protobuf.Timestamp order_datetime= 3; // Timestamp of the lab order
-  optional string matched_value_set = 4; // Value set that triggered the eICR
-  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+  optional string lab_order_id = 1; // This is a unique identifier assigned to each lab orders
+  optional string test_name = 2; // This refers to the name of the lab test ordered
+  google.protobuf.Timestamp order_datetime= 3; // This indicates when the lab order was made
+  optional string matched_value_set = 4; // This refers to the value set that triggered the creation of the eICR
+  repeated string related_entities = 5; // Entities that are related to this lab order (e.g., Patients, Practitioners)
 }
 
 /**
- * Diagnosis Data
+ * This message represents a Diagnosis entity.
+ * It includes both required and optional fields.
  */
 message Diagnosis {
-  optional string diagnosis_id = 1; // Unique identifier for diagnoses
-  optional string diagnosis_code = 2; // Diagnosis code
-  google.protobuf.Timestamp diagnosis_datetime= 3; // Timestamp of the diagnosis
-  optional string matched_value_set = 4; // Value set that triggered the eICR
-  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+  optional string diagnosis_id = 1; // This is a unique identifier for diagnosis
+  optional string diagnosis_code = 2; // This represents the diagnosis code assigned to the diagnosis
+  google.protobuf.Timestamp diagnosis_datetime= 3; // This indicates when the diagnosis was made
+  optional string matched_value_set = 4; // This refers to the value set that triggered the creation of the eICR
+  repeated string related_entities = 5; // Entities that are related to this diagnosis (e.g., Patients, Practitioners)
 }
 
 /**
- * Suspected Diagnosis data
+ * This message represents a Suspected Diagnosis entity.
+ * It includes both required and optional fields.
  */
 message SuspectedDiagnosis {
-  optional string suspected_diagnosis_id = 1; // Unique identifier for suspected diagnoses
-  optional string diagnosis_code = 2; // Diagnosis code for suspected diagnoses
-  google.protobuf.Timestamp diagnosis_datetime= 3; // Timestamp of the suspected diagnosis
-  optional string matched_value_set = 4; // Value set that triggered the eICR
-  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+  optional string suspected_diagnosis_id = 1; // This is a unique identifier for suspected diagnosis
+  optional string diagnosis_code = 2; // This represents the diagnosis code assigned to the suspected diagnosis
+  google.protobuf.Timestamp diagnosis_datetime= 3; // This indicates the time when the suspected diagnosis was made
+  optional string matched_value_set = 4; // This refers to the value set that triggered the creation of the eICR
+  repeated string related_entities = 5; // Entities that are related to this suspected diagnosis (e.g., Patients, Practitioners)
 }
 
 /**
- * Lab Result data
+ * This message represents a Laboratory Result entity.
+ * It includes both required and optional fields.
  */
 message LabResult {
-  optional string result_id = 1; // Unique identifier for lab results
-  optional string result_value = 2; // Value of the lab result
-  google.protobuf.Timestamp result_datetime= 3; // Timestamp of the lab result
-  optional string matched_value_set = 4; // Value set that triggered the eICR
-  repeated string related_entities = 5; // Related entities (e.g., Patients, Lab Facilities)
+  optional string result_id = 1; // This is a unique identifier for lab result
+  optional string result_value = 2; // This represents the value of the lab result
+  google.protobuf.Timestamp result_datetime= 3; // This indicates when the lab result was generated
+  optional string matched_value_set = 4; // This is the value set that triggered the creation of the eICR
+  repeated string related_entities = 5; // Entities that are related to this lab result (e.g., Patients, Lab Facilities)
 }
 
 /**
- * Medication data
+ * Medication data object.
+ * This message type represents the medication data
+ * with unique and optional elements.
  */
 message Medication {
-  optional string medication_id = 1; // Unique identifier for medications
-  optional string medication_name = 2; // Name of the medication
-  google.protobuf.Timestamp administration_datetime= 3; // Timestamp of medication administration
-  optional string matched_value_set = 4; // Value set that triggered the eICR
-  repeated string related_entities = 5; // Related entities (e.g., Patients, Practitioners)
+  optional string medication_id = 1; // The unique identifier for each medication.
+  optional string medication_name = 2; // Contains the name of the indicated medication.
+  google.protobuf.Timestamp administration_datetime= 3; // Captures the specific time the medication was administered.
+  optional string matched_value_set = 4; // Represents the value set that initiated the eICR.
+  repeated string related_entities = 5; // Any associated entities such as patients and practitioners.
 }
 
-// gRPC services and operations
+// gRPC services and operations for managing healthcare data.
 service RoutineSystemService {
-  // Create a new routine entity
+
+  /**
+   * RPC service for creating a new entity in the healthcare routine.
+   */
   rpc CreateRoutine(RoutineRequest) returns (RoutineResponse);
 
-  // Retrieve information about a routine entity 
+  /**
+   * RPC service for retrieving information about a specified entity in the healthcare routine.
+   */
   rpc GetRoutine(RoutineRequest) returns (RoutineResponse);
 
-  // Create a new delivery tracking entity
+  /**
+   * RPC service for creating a new entity to track medication delivery.
+   */
   rpc CreateDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
 
-  // Retrieve information about a delivery tracking entity 
+  /**
+   * RPC service for retrieving information about a specific medication delivery tracking entity.
+   */
   rpc GetDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
 
-  // Create a new clinical protocol execution entity
+  /**
+   * RPC service for creating new clinical protocol execution entity.
+   */
   rpc CreateClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
 
-  // Retrieve information about a clinical protocol execution entity 
+  /**
+   * RPC service for retrieving data about a specific clinical protocol execution entity.
+   */
   rpc GetClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
 
-  // Create a new lab order entity
+  /**
+   * RPC service for creating a new lab order entity.
+   */
   rpc CreateLabOrder(LabOrderRequest) returns (LabOrderResponse);
 
-  // Retrieve information about a lab order entity 
+  /**
+   * RPC service for retrieving information about a specific lab order entity.
+   */
   rpc GetLabOrder(LabOrderRequest) returns (LabOrderResponse);
 
-  // Create a new diagnosis entity
+  /**
+   * RPC service for creating a new diagnosis entity.
+   */
   rpc CreateDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
 
-  // Retrieve information about a diagnosis entity 
+  /**
+   * RPC service for retrieving information about a specific diagnosis entity.
+   */
   rpc GetDiagnosis(DiagnosisRequest) returns (DiagnosisResponse);
 
-  // Create a new suspected diagnosis entity
+  /**
+   * RPC service for creating a new suspected diagnosis entity.
+   */
   rpc CreateSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
 
-  // Retrieve information about a suspected diagnosis entity 
+  /**
+   * RPC service for retrieving information about a suspected diagnosis entity.
+   */
   rpc GetSuspectedDiagnosis(SuspectedDiagnosisRequest) returns (SuspectedDiagnosisResponse);
 
-  // Create a new lab result entity
+  /**
+   * RPC service for creating a new lab result entity.
+   */
   rpc CreateLabResult(LabResultRequest) returns (LabResultResponse);
 
-  // Retrieve information about a lab result entity 
+  /**
+   * RPC service for retrieving data about a specific lab result entity.
+   */
   rpc GetLabResult(LabResultRequest) returns (LabResultResponse);
 
-  // Create a new medication entity
+  /**
+   * RPC service for creating a new medication entity.
+   */
   rpc CreateMedication(MedicationRequest) returns (MedicationResponse);
 
-  // Retrieve information about a medication entity 
+  /**
+   * RPC service for retrieving information about a specific medication entity.
+   */
   rpc GetMedication(MedicationRequest) returns (MedicationResponse);
-}  
+}
 
-//Request and Response messages for CreateRoutine operation
+// The RoutineRequest message describing the request format for a Routine operation.
+// The field 'routine' holds the new routine information that needs to be created.
 message RoutineRequest {
-  Routine routine = 1;
+  Routine routine = 1; // Data structure for the routine details
 }
 
+// The RoutineResponse message represents the response format from the Routine operation.
+// The field 'routine' holds the created routine information.
 message RoutineResponse {
-  Routine routine = 1;
+  Routine routine = 1; // Newly created routine data
 }
 
-// Request and Response messages for CreateDeliveryTracking operation
+// The DeliveryTrackingRequest message defining the request format for a Delivery Tracking entity.
 message DeliveryTrackingRequest {
-  DeliveryTracking delivery_tracking = 1;
+  DeliveryTracking delivery_tracking = 1; // Delivery tracking details
 }
 
+// The DeliveryTrackingResponse message states the response format from the Delivery Tracking operation.
+// 'delivery_tracking' holds the created delivery tracking details.
 message DeliveryTrackingResponse {
-  DeliveryTracking delivery_tracking = 1;
+  DeliveryTracking delivery_tracking = 1; // Created delivery tracking data
 }
 
-// Request and Response messages for CreateClinicalProtocolExecution operation
+// Message for Requesting a Clinical Protocol Execution.
 message ClinicalProtocolExecutionRequest {
-  ClinicalProtocolExecution clinical_protocol_execution = 1;
+  ClinicalProtocolExecution clinical_protocol_execution = 1; // Details for the Clinical Protocol Execution.
 }
 
+// Response message for the Clinical Protocol Execution Operation.
 message ClinicalProtocolExecutionResponse {
-  ClinicalProtocolExecution clinical_protocol_execution = 1;
+  ClinicalProtocolExecution clinical_protocol_execution = 1; // Resulting data from the Clinical Protocol Execution.
 }
 
-// Request and Response messages for CreateLabOrder operation
+// Lab Order Request message. Contains all the necessary information to create a Lab Order.
 message LabOrderRequest {
-  LabOrder lab_order = 1;
+  LabOrder lab_order = 1; // Lab order details
 }
 
+// Response message for the Lab Order creation operation.
 message LabOrderResponse {
-  LabOrder lab_order = 1;
+  LabOrder lab_order = 1; // Newly created lab order data
 }
 
-// Request and Response messages for CreateDiagnosis operation
+// Diagnosis Request message. Contains all the necessary information to create a Diagnosis record.
 message DiagnosisRequest {
-  Diagnosis diagnosis = 1;
+  Diagnosis diagnosis = 1; // Diagnosis details
 }
 
+// Response message for the Diagnosis creation operation.
 message DiagnosisResponse {
-  Diagnosis diagnosis = 1;
+  Diagnosis diagnosis = 1; // Created diagnosis data
 }
 
-// Request and Response messages for CreateSuspectedDiagnosis operation
+// Message for Requesting a new Suspected Diagnosis record.
 message SuspectedDiagnosisRequest {
-  SuspectedDiagnosis suspected_diagnosis = 1;
+  SuspectedDiagnosis suspected_diagnosis = 1; // Data structure for suspected diagnosis
 }
 
+// Response message after Suspected Diagnosis operation.
 message SuspectedDiagnosisResponse {
-  SuspectedDiagnosis suspected_diagnosis = 1;
+  SuspectedDiagnosis suspected_diagnosis = 1; // The suspected diagnosis data that was created
 }
 
-// Request and Response messages for CreateLabResult operation
+// Request message for Lab Result operation which requires all necessary information to create Lab Result data.
 message LabResultRequest {
-  LabResult lab_result = 1;
+  LabResult lab_result = 1; // Lab result details
 }
 
+// Response message to contain the created Lab Result from the CreateLabResult operation.
 message LabResultResponse {
-  LabResult lab_result = 1;
+  LabResult lab_result = 1; // Created lab result data
 }
 
-// Request and Response messages for CreateMedication operation
+// Medication Request message. Contains all the necessary information to create a new medication record.
 message MedicationRequest {
-  Medication medication = 1;
+  Medication medication = 1; // Medication details
 }
 
+// Response message for Medication creation operation.
 message MedicationResponse {
-  Medication medication = 1;
+  Medication medication = 1; // New medication data
 }

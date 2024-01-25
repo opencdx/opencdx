@@ -5,47 +5,46 @@ package cdx.opencdx.grpc.audit;
 import "google/protobuf/timestamp.proto";
 
 /**
- * Indicates the type of Audit event that is being recorded.
+ * Describes the specific type of Audit event being recorded.
  */
 enum AuditEventType {
-  AUDIT_EVENT_TYPE_UNSPECIFIED = 0; // Unspecified audit event type
-  AUDIT_EVENT_TYPE_USER_LOGIN_SUCCEEDED = 1; // User successfully logged in.
-  AUDIT_EVENT_TYPE_USER_LOG_OUT = 2; // User logged out from system.
-  AUDIT_EVENT_TYPE_USER_LOGIN_FAIL = 3; // User failed to login
-  AUDIT_EVENT_TYPE_USER_ACCESS_CHANGE = 4; // User access changed
-  AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE = 5; // User Password Change
-  AUDIT_EVENT_TYPE_SYSTEM_LOGIN_SUCCEEDED = 6; // System successfully logged in.
-  AUDIT_EVENT_TYPE_SYSTEM_LOG_OUT = 7; // System logged out.
-  AUDIT_EVENT_TYPE_SYSTEM_LOGIN_FAIL = 8; // System failed to login.
-  AUDIT_EVENT_TYPE_USER_PII_ACCESSED = 9; // Personal Identifiable Information accessed.
-  AUDIT_EVENT_TYPE_USER_PII_UPDATED = 10; // Personal Identifiable Information updated.
-  AUDIT_EVENT_TYPE_USER_PII_CREATED = 11; // Personal Identifiable Information created.
-  AUDIT_EVENT_TYPE_USER_PII_DELETED = 12; // Personal Identifiable Information deleted.
-  AUDIT_EVENT_TYPE_USER_PHI_ACCESSED = 13; // Personal Health Information accessed.
-  AUDIT_EVENT_TYPE_USER_PHI_UPDATED = 14; // Personal Health Information updated.
-  AUDIT_EVENT_TYPE_USER_PHI_CREATED = 15; // Personal Health Information created.
-  AUDIT_EVENT_TYPE_USER_PHI_DELETED = 16; // Personal Health Information deleted.
-  AUDIT_EVENT_TYPE_USER_COMMUNICATION = 17; // Configuration information changed.
-  AUDIT_EVENT_TYPE_CONFIG_CHANGE = 18; // Configuration information changed.
+  AUDIT_EVENT_TYPE_UNSPECIFIED = 0; // Represents an unspecified audit event type.
+  AUDIT_EVENT_TYPE_USER_LOGIN_SUCCEEDED = 1; // Represents a successful user login event.
+  AUDIT_EVENT_TYPE_USER_LOG_OUT = 2; // Designates an event where a user logged out from the system.
+  AUDIT_EVENT_TYPE_USER_LOGIN_FAIL = 3; // Depicts a failed user login attempt.
+  AUDIT_EVENT_TYPE_USER_ACCESS_CHANGE = 4; // Signifies that there was a change in user access.
+  AUDIT_EVENT_TYPE_USER_PASSWORD_CHANGE = 5; // Reflects an event where a user password was changed.
+  AUDIT_EVENT_TYPE_SYSTEM_LOGIN_SUCCEEDED = 6; // Corresponds to a successful system login event.
+  AUDIT_EVENT_TYPE_SYSTEM_LOG_OUT = 7; // Symbolizes a system logout event.
+  AUDIT_EVENT_TYPE_SYSTEM_LOGIN_FAIL = 8; // Indicates a failed system login attempt.
+  AUDIT_EVENT_TYPE_USER_PII_ACCESSED = 9; // Stands for an event where Personal Identifiable Information was accessed.
+  AUDIT_EVENT_TYPE_USER_PII_UPDATED = 10; // Immplies an event where Personal Identifiable Information was updated.
+  AUDIT_EVENT_TYPE_USER_PII_CREATED = 11; // Entails an event where Personal Identifiable Information was created.
+  AUDIT_EVENT_TYPE_USER_PII_DELETED = 12; // Notes an event where Personal Identifiable Information was deleted.
+  AUDIT_EVENT_TYPE_USER_PHI_ACCESSED = 13; // Represents an event where Personal Health Information was accessed.
+  AUDIT_EVENT_TYPE_USER_PHI_UPDATED = 14; // Exemplifies an event where Personal Health Information was updated.
+  AUDIT_EVENT_TYPE_USER_PHI_CREATED = 15; // Constitutes an event where Personal Health Information was created.
+  AUDIT_EVENT_TYPE_USER_PHI_DELETED = 16; // Portrays an event where Personal Health Information was deleted.
+  AUDIT_EVENT_TYPE_USER_COMMUNICATION = 17; // Shows a user communication event.
+  AUDIT_EVENT_TYPE_CONFIG_CHANGE = 18; // Denotes a configuration change event.
 }
 
 /**
- * Indicates the sensitivity level of the data contained
- * in this audit message.
+ * Describes the level of sensitivity of the data contained within this audit message.
  */
 enum SensitivityLevel {
-  SENSITIVITY_LEVEL_UNSPECIFIED = 0; // Unspecified sensitivity level
-  SENSITIVITY_LEVEL_LOW = 1; // Information is not sensitive.
-  SENSITIVITY_LEVEL_MEDIUM = 2; // Information could be used to identify an individual.
-  SENSITIVITY_LEVEL_HIGH = 3; // Personal information is contained.
+  SENSITIVITY_LEVEL_UNSPECIFIED = 0; // Represents an unspecified sensitivity level.
+  SENSITIVITY_LEVEL_LOW = 1; // Implies that the information contained is not sensitive.
+  SENSITIVITY_LEVEL_MEDIUM = 2; // Stipulates that the info could be used to identify an individual.
+  SENSITIVITY_LEVEL_HIGH = 3; // Indicates that the message contains Personal information.
 }
 
 /**
- * Indicates if the actor is a Human, System or another entity.
+ * Defines the category of an actor: Human, System, or another entity.
  */
 enum AgentType {
-  AGENT_TYPE_UNSPECIFIED = 0; // Unspecified agent type
-  AGENT_TYPE_HUMAN_USER = 1; // The actor is a human.
+  AGENT_TYPE_UNSPECIFIED = 0; // Symbolizes an unspecified agent type.
+  AGENT_TYPE_HUMAN_USER = 1; // Demonstrates that the actor is a human.
   AGENT_TYPE_SYSTEM = 2; // The actor is a system.
   AGENT_TYPE_OTHER_ENTITY = 3; // The actor is a separate entity.
 }
@@ -109,9 +108,11 @@ message AuditStatus {
 }
 
 /**
- * Service calls to the Audit Service
+ * This service engages in communication with the Audit Service
+ * to record AuditEvent entities that are essential for retaining certain information.
  */
 service AuditService {
-  rpc Event(AuditEvent) returns (AuditStatus); //Register an AuditEvent.
+  // This operation enables the registration of an AuditEvent.
+  rpc Event(AuditEvent) returns (AuditStatus);
 }
 
