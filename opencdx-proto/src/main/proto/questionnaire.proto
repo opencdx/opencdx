@@ -5,126 +5,338 @@ import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 import "anf_connector.proto";
 import "common.proto";
-/* Enum representing the various states a Questionnaire can be in. */
+
+
+/*
+ * Enum representing the various states a Questionnaire can be in.
+ */
 enum QuestionnaireStatus {
-  draft = 0;  /* The questionnaire is still being drafted. */
-  active = 1;  /* The questionnaire is currently in use. */
-  retired = 2;  /* The questionnaire is retired and no longer in use. */
-  unknown = 3;  /* The status of the questionnaire is not known. */
-}
-/* A message that encapsulates a collection of Questionnaires. It also includes pagination features for navigating between large volumes of questionnaire data. */
-message Questionnaires {
-  repeated Questionnaire questionnaires = 1;  /* A list of Questionnaire resources. */
-  cdx.opencdx.grpc.common.Pagination pagination = 2; /* Metadata about the pagination state of the Questionnaires list. */
-}
-/* A single questionnaire resource. It contains various properties that provide information about the questionnaire. */
-message Questionnaire {
-  optional string id = 1;  /* The unique identifier for the questionnaire. */
-  optional string resource_type = 2; /* The type of the resource, in this case, "Questionnaire". */
-  optional string title = 3; /* The title of the questionnaire. */
-  optional QuestionnaireStatus status = 4; /* The status of the questionnaire. See the QuestionnaireStatus enum for possible values. */
-  optional string description = 5; /* A short description of what the questionnaire is for. */
-  optional string purpose = 6; /* The purpose or objective that this questionnaire is meant to fulfill. */
-  repeated QuestionnaireItem item = 7; /* The list of questionnaire items/questions. */
-  optional string rule_id = 8; /* The identifier of the rule that was executed for the questionnaire submission. */
-  optional google.protobuf.Timestamp created = 9; /* The timestamp representing when this questionnaire was created. */
-  optional google.protobuf.Timestamp modified = 10; /* The timestamp representing when this questionnaire was last modified. */
-  optional string creator = 11; /* The identifier of the individual or system who created the questionnaire. */
-  optional string modifier = 12; /* The identifier of the individual or system who last modified the questionnaire. */
+  /*
+   * The questionnaire is still being drafted.
+   */
+  draft = 0;
+
+  /*
+   * The questionnaire is currently in use.
+   */
+  active = 1;
+
+  /*
+   * The questionnaire is retired and no longer in use.
+   */
+  retired = 2;
+
+  /*
+   * The status of the questionnaire is not known.
+   */
+  unknown = 3;
 }
 
-/* Represents a question or a group of questions within a questionnaire. Each item has a type, a unique identifier,
+/*
+ * A message that encapsulates a collection of Questionnaires. It also
+ * includes pagination features for navigating between large volumes
+ * of questionnaire data.
+ */
+message Questionnaires {
+  /*
+   * A list of Questionnaire resources.
+   */
+  repeated Questionnaire questionnaires = 1;
+
+  /*
+   * Metadata about the pagination state of the Questionnaires list.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+
+/*
+ * A single questionnaire resource. It contains various properties that
+ * provide information about the questionnaire.
+ */
+message Questionnaire {
+  /*
+   * The unique identifier for the questionnaire.
+   */
+  optional string id = 1;
+
+  /*
+   * The type of the resource, in this case, "Questionnaire".
+   */
+  optional string resource_type = 2;
+
+  /*
+   * The title of the questionnaire.
+   */
+  optional string title = 3;
+
+  /*
+   * The status of the questionnaire. See the QuestionnaireStatus enum
+   * for possible values.
+   */
+  optional QuestionnaireStatus status = 4;
+
+  /*
+   * A short description of what the questionnaire is for.
+   */
+  optional string description = 5;
+
+  /*
+   * The purpose or objective that this questionnaire is meant to fulfill.
+   */
+  optional string purpose = 6;
+
+  /*
+   * The list of questionnaire items/questions.
+   */
+  repeated QuestionnaireItem item = 7;
+
+  /*
+   * The identifier of the rule that was executed for the questionnaire submission.
+   */
+  optional string rule_id = 8;
+
+  /*
+   * The timestamp representing when this questionnaire was created.
+   */
+  optional google.protobuf.Timestamp created = 9;
+
+  /*
+   * The timestamp representing when this questionnaire was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 10;
+
+  /*
+   * The identifier of the individual or system who created the questionnaire.
+   */
+  optional string creator = 11;
+
+  /*
+   * The identifier of the individual or system who last modified the questionnaire.
+   */
+  optional string modifier = 12;
+}
+
+/*
+ * Represents a question or a group of questions within a questionnaire. Each item has a type, a unique identifier,
  * conditional display logic, repetitions, read-only status, nested items, answer options and initial values.
  */
 message QuestionnaireItem {
-  optional string type = 1; /* The type of the questionnaire item (ex. integer, boolean, choice). */
-  optional string link_id = 2; /* The unique identifier for the item. */
-  optional string text = 3; /* The text content of the item. */
-  repeated QuestionnaireEnableWhen enable_when = 4; /* Conditional display logic for questions */
-  optional string enable_behavior = 5; /* How the questions are shown when all or any conditions are true. */
-  optional bool required = 6; /* Denotes if the item is required. */
-  optional bool repeats = 7; /* Denotes if the item can be repeated. */
-  optional bool read_only = 8; /* Denotes if the item is read-only. */
-  repeated Code code = 9; /* A terminology code that corresponds to this group or question. */
-  repeated QuestionnaireItem item = 10; /* Nested questionnaire items. */
-  repeated QuestionnaireItemExtension extension = 11; /* Extensions for the item. */
-  repeated QuestionnaireItemAnswerOption answer_option = 12; /* Answer options for choice-type items. */
-  repeated QuestionnaireItemInitial initial = 13; /* Initial values for the item. */
-  optional google.protobuf.Any submission_user_response = 14; /* The response provided by the user to the item. */
-  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 15; /* The ANF statement connector associated with this item. */
+  /*
+   * The type of the questionnaire item (ex. integer, boolean, choice).
+   */
+  optional string type = 1;
+  /*
+   * The unique identifier for the item.
+   */
+  optional string link_id = 2;
+  /*
+   * The text content of the item.
+   */
+  optional string text = 3;
+  /*
+   * Conditional display logic for questions.
+   */
+  repeated QuestionnaireEnableWhen enable_when = 4;
+  /*
+   * How the questions are shown when all or any conditions are true.
+   */
+  optional string enable_behavior = 5;
+  /*
+   * Denotes if the item is required.
+   */
+  optional bool required = 6;
+  /*
+   * Denotes if the item can be repeated.
+   */
+  optional bool repeats = 7;
+  /*
+   * Denotes if the item is read-only.
+   */
+  optional bool read_only = 8;
+  /*
+   * A terminology code that corresponds to this group or question.
+   */
+  repeated Code code = 9;
+  /*
+   * Nested questionnaire items.
+   */
+  repeated QuestionnaireItem item = 10;
+  /*
+   * Extensions for the item.
+   */
+  repeated QuestionnaireItemExtension extension = 11;
+  /*
+   * Answer options for choice-type items.
+   */
+  repeated QuestionnaireItemAnswerOption answer_option = 12;
+  /*
+   * Initial values for the item.
+   */
+  repeated QuestionnaireItemInitial initial = 13;
+  /*
+   * The response provided by the user to the item.
+   */
+  optional google.protobuf.Any submission_user_response = 14;
+  /*
+   * The ANF statement connector associated with this item.
+   */
+  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 15;
 }
-/**
+
+/*
  * Represents a condition to control the display of the questions.
  */
 message QuestionnaireEnableWhen {
-  optional string question = 1; /* The question identifier. */
-  optional string operator = 2; /* The operator for the conditional display. */
-  optional Coding answer_coding = 3; /* The answer options for choice-type questions. */
-  optional int32 answer_integer = 4; /* The answer option for integer-type questions. */
-  optional double answer_double = 5; /* The answer option for double-type questions. */
-  optional bool answer_boolean = 6; /* The answer option for boolean-type questions. */
+  /*
+   * The question identifier.
+   */
+  optional string question = 1;
+  /*
+   * The operator for the conditional display.
+   */
+  optional string operator = 2;
+  /*
+   * The answer options for choice-type questions.
+   */
+  optional Coding answer_coding = 3;
+  /*
+   * The answer option for integer-type questions.
+   */
+  optional int32 answer_integer = 4;
+  /*
+   * The answer option for double-type questions.
+   */
+  optional double answer_double = 5;
+  /*
+   * The answer option for boolean-type questions.
+   */
+  optional bool answer_boolean = 6;
 }
-/**
+
+/*
  * Represents a coding system to correspond to a given group or question.
  */
 message Code {
-  optional string system = 1; /* The system of the code. */
-  optional string code = 2; /* The code value itself. */
+  /*
+   * The system of the code.
+   */
+  optional string system = 1;
+  /*
+   * The code value itself.
+   */
+  optional string code = 2;
 }
-/**
+/*
  * Represents an extension of a questionnaire item, giving it additional features.
  */
 message QuestionnaireItemExtension {
-  optional string url = 1; /* The URL of the extension. */
-  optional ValueCodeableConcept value_codeable_concept = 2; /* The code-able concept extension's value. */
-  optional Coding value_coding = 3; /* The coding value for the extension. */
-  optional int32 value_integer = 4; /* The integer value for the extension. */
-  optional double value_decimal = 5; /* The decimal value for the extension. */
+  /*
+   * The URL of the extension.
+   */
+  optional string url = 1;
+  /*
+   * The code-able concept extension's value.
+   */
+  optional ValueCodeableConcept value_codeable_concept = 2;
+  /*
+   * The coding value for the extension.
+   */
+  optional Coding value_coding = 3;
+  /*
+   * The integer value for the extension.
+   */
+  optional int32 value_integer = 4;
+  /*
+   * The decimal value for the extension.
+   */
+  optional double value_decimal = 5;
 }
 
-/**
+/*
  * Represents a code-able concept value used in the value_codeable_concept field of a QuestionnaireItemExtension.
  */
 message ValueCodeableConcept {
-  optional string text = 1; // The human-readable text for the concept value.
-  repeated Coding coding = 2; // The list of coding values for the concept.
+  /*
+   * The human-readable text for the concept value.
+   */
+  optional string text = 1;
+  /*
+   * The list of coding values for the concept.
+   */
+  repeated Coding coding = 2;
 }
 
-/**
+/*
  * Represents a coded value used in fields such as answer_coding in QuestionnaireEnableWhen.
  */
 message Coding {
-  optional string system = 1; /* The system that defines the coding. */
-  optional string code = 2; /* The code value in the defined system. */
-  optional string display = 3; /* The human-readable text that represents the code value. */
+  /*
+   * The system that defines the coding.
+   */
+  optional string system = 1;
+  /*
+   * The code value in the defined system.
+   */
+  optional string code = 2;
+  /*
+   * The human-readable text that represents the code value.
+   */
+  optional string display = 3;
 }
 
-/**
+/*
  * Represents an answer option for a particular questionnaire item.
  */
 message QuestionnaireItemAnswerOption {
-  optional Coding value_coding = 1; /* The coded value for this answer option. */
-  optional bool initial_selected = 2; /* Indicates whether this answer option is pre-selected. */
-  repeated Extension extension = 3; /* The extensions associated with the answer option. */
+  /*
+   * The coded value for this answer option.
+   */
+  optional Coding value_coding = 1;
+  /*
+   * Indicates whether this answer option is pre-selected.
+   */
+  optional bool initial_selected = 2;
+  /*
+   * The extensions associated with the answer option.
+   */
+  repeated Extension extension = 3;
 }
 
-/**
+/*
  * Represents an extension element used in a QuestionnaireItemAnswerOption message.
  */
 message Extension {
-  optional string url = 1; /* The URL that defines the extension. */
-  optional double value_decimal = 2; /* The decimal value associated with the extension. */
-  optional Coding value_codeable_concept = 3; /* The code-able concept associated with the extension. */
+  /*
+   * The URL that defines the extension.
+   */
+  optional string url = 1;
+  /*
+   * The decimal value associated with the extension.
+   */
+  optional double value_decimal = 2;
+  /*
+   * The code-able concept associated with the extension.
+   */
+  optional Coding value_codeable_concept = 3;
 }
 
-/**
+/*
  * `QuestionnaireItemInitial` message which represents initial values for a questionnaire item.
  * This aids in setting up default responses for different types of questions.
  */
 message QuestionnaireItemInitial {
-  optional bool value_boolean = 1; /* Represents initial boolean value for the item. */
-  optional int32 value_integer = 2; /* Represents initial value for questions of integer type. */
-  optional double value_decimal = 3; /* Represents initial value for questions of decimal type. */
+  /*
+   * Represents initial boolean value for the item.
+   */
+  optional bool value_boolean = 1;
+  /*
+   * Represents initial value for questions of integer type.
+   */
+  optional int32 value_integer = 2;
+  /*
+   * Represents initial value for questions of decimal type.
+   */
+  optional double value_decimal = 3;
 }
 
 /*
@@ -132,17 +344,50 @@ message QuestionnaireItemInitial {
  * This message captures all necessary details to fully describe a questionnaire at a general level.
  */
 message QuestionnaireData {
-  optional string id = 1; /* Represents the unique identifier for the questionnaire. */
-  optional string name = 2; /* Represents the name of the questionnaire. */
-  optional string status = 3; /* Represents the current status of the questionnaire. */
-  optional string state = 4; /* Represents the state of the questionnaire (active or inactive). */
-  optional string question_json_id = 5; /* Represents a JSON structure to be used for displaying the questionnaire to the end user. */
-  optional string question_anf_json = 6;/* Represents a JSON field for ANF or any special statements. */
-  optional string rules_engine_config = 7; /* Stands for the associated rules engine configuration. */
-  optional google.protobuf.Timestamp created = 8; /* Timestamp indicating when the questionnaire was created. */
-  optional google.protobuf.Timestamp modified = 9; /* Timestamp indicating when the questionnaire was last modified. */
-  optional string creator = 10; /* Identifier of the creator of this questionnaire. */
-  optional string modifier = 11; /* Identifier of the last modifier of this questionnaire. */
+  /*
+   * Represents the unique identifier for the questionnaire.
+   */
+  optional string id = 1;
+  /*
+   * Represents the name of the questionnaire.
+   */
+  optional string name = 2;
+  /*
+   * Represents the current status of the questionnaire.
+   */
+  optional string status = 3;
+  /*
+   * Represents the state of the questionnaire (active or inactive).
+   */
+  optional string state = 4;
+  /*
+   * Represents a JSON structure to be used for displaying the questionnaire to the end user.
+   */
+  optional string question_json_id = 5;
+  /*
+   * Represents a JSON field for ANF or any special statements.
+   */
+  optional string question_anf_json = 6;
+  /*
+   * Stands for the associated rules engine configuration.
+   */
+  optional string rules_engine_config = 7;
+  /*
+   * Timestamp indicating when the questionnaire was created.
+   */
+  optional google.protobuf.Timestamp created = 8;
+  /*
+   * Timestamp indicating when the questionnaire was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 9;
+  /*
+   * Identifier of the creator of this questionnaire.
+   */
+  optional string creator = 10;
+  /*
+   * Identifier of the last modifier of this questionnaire.
+   */
+  optional string modifier = 11;
 }
 
 /*
@@ -150,7 +395,10 @@ message QuestionnaireData {
  * This message typically contains questionnaires that are shared across the entire system.
  */
 message SystemQuestionnaireData {
-  repeated QuestionnaireData questionnaire_data = 1; /* Contains a list of `QuestionnaireData`. */
+  /*
+   * Contains a list of `QuestionnaireData`.
+   */
+  repeated QuestionnaireData questionnaire_data = 1;
 }
 
 /*
@@ -158,10 +406,22 @@ message SystemQuestionnaireData {
  * This message is used to define questionnaires specific to a certain workspace within an organization.
  */
 message ClientQuestionnaireData {
-  repeated QuestionnaireData questionnaire_data = 1; /* Contains a list of `QuestionnaireData`. */
-  optional string organization_id = 2; /* Represents the Id of the Organization associated with these questionnaires. */
-  optional string workspace_id = 3; /* Represents the Id of the Workspace within the organization where these questionnaires are used. */
-  optional string rule_id=4; /* Id of the rule to be executed on Rules Engine upon questionnaire's submission. */
+  /*
+   * Contains a list of `QuestionnaireData`.
+   */
+  repeated QuestionnaireData questionnaire_data = 1;
+  /*
+   * Represents the Id of the Organization associated with these questionnaires.
+   */
+  optional string organization_id = 2;
+  /*
+   * Represents the Id of the Workspace within the organization where these questionnaires are used.
+   */
+  optional string workspace_id = 3;
+  /*
+   * Id of the rule to be executed on Rules Engine upon questionnaire's submission.
+   */
+  optional string rule_id=4;
 }
 
 /*
@@ -169,120 +429,279 @@ message ClientQuestionnaireData {
  * This message is used to define questionnaires that are tied to specific users for user-centric tasks.
  */
 message UserQuestionnaireData {
-  repeated QuestionnaireData questionnaire_data = 1; /* Contains a list of `QuestionnaireData` associated with a specific user. */
-  optional string user_id = 2; /* Represents the user identifier associated with these questionnaires. */
+  /*
+   * Contains a list of `QuestionnaireData` associated with a specific user.
+   */
+  repeated QuestionnaireData questionnaire_data = 1;
+  /*
+   * Represents the user identifier associated with these questionnaires.
+   */
+  optional string user_id = 2;
 }
 
-/**
+/*
  * `RuleSet` message represents a certain ruleset for the rule engine.
  * This message is used for defining and documenting rules that are applied to questionnaire responses.
  */
 message RuleSet {
-  optional string rule_id = 1;  /* Unique identifier for the rule. */
-  optional string type = 2;     /* Indicates the type of the rule (e.g., business rule, validation rule etc.). */
-  optional string category = 3; /* Indicates the category of the rule. */
-  optional string description = 4;  /* Description or any remarks regarding the rule. */
+  /*
+   * Unique identifier for the rule.
+   */
+  optional string rule_id = 1;
+  /*
+   * Indicates the type of the rule (e.g., business rule, validation rule etc.).
+   */
+  optional string type = 2;
+  /*
+   * Indicates the category of the rule.
+   */
+  optional string category = 3;
+  /*
+   * Description or any remarks regarding the rule.
+   */
+  optional string description = 4;
 }
 
-/**
+/*
  * Represents the request to retrieve client-level rules.
  */
 message ClientRulesRequest {
-  optional string organization_id = 1; /* The ID of the specified organization linked to the Questionnaire data. */
-  optional string workspace_id = 2; /* The ID of the specified workspace linked to the Questionnaire data. */
+  /*
+   * The ID of the specified organization linked to the Questionnaire data.
+   */
+  optional string organization_id = 1;
+  /*
+   * The ID of the specified workspace linked to the Questionnaire data.
+   */
+  optional string workspace_id = 2;
 }
 
-/**
+/*
  * Represents the response retrieved from the GetRuleSets operation.
  */
 message RuleSetsResponse {
-  repeated RuleSet rule_sets = 1;  /* The collection of rule sets that are available. */
+  /*
+   * The collection of rule sets that are available.
+   */
+  repeated RuleSet rule_sets = 1;
 }
 
-/**
+/*
  * Defines a service for managing FHIR questionnaires.
  * TODO: Expand information on FHIR.
  */
 service QuestionnaireService {
-  /* Defines operations for FHIR questionnaires */
-  rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);    /* Fetches rule sets for a specific client. */
-  /* Handling operations for Questionnaires */
-  rpc CreateQuestionnaire(QuestionnaireRequest) returns (Questionnaire); /* Submits a questionnaire request and responds with the status of submission. */
-  rpc UpdateQuestionnaire(QuestionnaireRequest) returns (Questionnaire); /* Dispatches a request to update a questionnaire. */
-  rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire); /* Fetches the submitted questionnaire data by its unique Id. */
-  rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (Questionnaires); /* Fetches the entire list of submitted questionnaire data. */
-  rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse); /* Removes a submitted questionnaire data using its unique id. */
-  /* Handling operations for QuestionnaireData */
-  rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); /* Constructs a new questionnaire entity for system-level display. */
-  rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse); /* Modifies an existing questionnaire entity at the system level. */
-  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (SystemQuestionnaireData); /* Fetches system-level questionnaire data by its unique Id. */
-  rpc GetQuestionnaireDataList(GetQuestionnaireListRequest) returns (SystemQuestionnaireData); /* Fetches the list of all system-level questionnaire data. */
-  rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); /* Removes submitted questionnaire data using its unique id. */
-  /* Handling operations for ClientQuestionnaireData */
-  rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); /* Constructs a new questionnaire entity for client-level display. */
-  rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse); /* Modifies an existing questionnaire entity at the client level. */
-  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (ClientQuestionnaireData); /* Fetches client-level questionnaire data by its unique Id. */
-  rpc GetClientQuestionnaireDataList(GetQuestionnaireListRequest) returns (ClientQuestionnaireData); /* Fetches the list of all client-level questionnaire data. */
-  rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); /* Removes client-level questionnaire data using its unique id. */
-  /* Handling operations for UserQuestionnaireData */
-  rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); /* Constructs a new questionnaire entity for user-level display. */
-  rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse); /* Modifies an existing questionnaire entity at the user level. */
-  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData); /* Fetches user-level questionnaire data by its unique Id. */
-  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireData); /* Fetches the list of all user-level questionnaire data. */
-  rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse); /* Removes user questionnaire data using its unique id. */
+
+  /*
+   * Defines operations for FHIR questionnaires
+   */
+  rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);
+
+  /*
+   * Handling operations for Questionnaires
+   */
+  rpc CreateQuestionnaire(QuestionnaireRequest) returns (Questionnaire);
+
+  /*
+   * Submits a questionnaire request and responds with the status of submission.
+   */
+  rpc UpdateQuestionnaire(QuestionnaireRequest) returns (Questionnaire);
+
+  /*
+   * Dispatches a request to update a questionnaire.
+   */
+  rpc GetSubmittedQuestionnaire(GetQuestionnaireRequest) returns (Questionnaire);
+
+  /*
+   * Fetches the submitted questionnaire data by its unique Id.
+   */
+  rpc GetSubmittedQuestionnaireList(GetQuestionnaireListRequest) returns (Questionnaires);
+
+  /*
+   * Fetches the entire list of submitted questionnaire data.
+   */
+  rpc DeleteSubmittedQuestionnaire(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for QuestionnaireData
+   */
+  rpc CreateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for system-level display.
+   */
+  rpc UpdateQuestionnaireData(QuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the system level.
+   */
+  rpc GetQuestionnaireData(GetQuestionnaireRequest) returns (SystemQuestionnaireData);
+
+  /*
+   * Fetches system-level questionnaire data by its unique Id.
+   */
+  rpc GetQuestionnaireDataList(GetQuestionnaireListRequest) returns (SystemQuestionnaireData);
+
+  /*
+   * Fetches the list of all system-level questionnaire data.
+   */
+  rpc DeleteQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for ClientQuestionnaireData
+   */
+  rpc CreateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for client-level display.
+   */
+  rpc UpdateClientQuestionnaireData(ClientQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the client level.
+   */
+  rpc GetClientQuestionnaireData(GetQuestionnaireRequest) returns (ClientQuestionnaireData);
+
+  /*
+   * Fetches client-level questionnaire data by its unique Id.
+   */
+  rpc GetClientQuestionnaireDataList(GetQuestionnaireListRequest) returns (ClientQuestionnaireData);
+
+  /*
+   * Fetches the list of all client-level questionnaire data.
+   */
+  rpc DeleteClientQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Handling operations for UserQuestionnaireData
+   */
+  rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Constructs a new questionnaire entity for user-level display.
+   */
+  rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse);
+
+  /*
+   * Modifies an existing questionnaire entity at the user level.
+   */
+  rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData);
+
+  /*
+   * Fetches user-level questionnaire data by its unique Id.
+   */
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireData);
+
+  /*
+   * Fetches the list of all user-level questionnaire data.
+   */
+  rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
+
+  /*
+   * Removes user questionnaire data using its unique id.
+   */
 }
 
 /*
  * Represents the request to delete data
  */
 message DeleteQuestionnaireRequest {
-  optional string id=1; /* The unique identifier of the Questionnaire resource */
-  optional string organization_id=2; /* The identifier of the associated organization */
-  optional string workspace_id=3; /* The identifier of the associated workspace */
-  optional string user_id=4; /* The identifier of the associated user */
+  /*
+   * The unique identifier of the Questionnaire resource
+   */
+  optional string id=1;
+  /*
+   * The identifier of the associated organization
+   */
+  optional string organization_id=2;
+  /*
+   * The identifier of the associated workspace
+   */
+  optional string workspace_id=3;
+  /*
+   * The identifier of the associated user
+   */
+  optional string user_id=4;
 }
+
 /*
  * Represents the request to retrieve a specific questionnaire
  */
 message GetQuestionnaireRequest {
-  optional string id=1; /* The unique identifier of the Questionnaire resource */
-  cdx.opencdx.grpc.common.Pagination pagination = 2; /* The respective pagination information and sorting details. */
+  /*
+   * The unique identifier of the Questionnaire resource
+   */
+  optional string id=1;
+  /*
+   * The respective pagination information and sorting details.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
 }
+
 /*
  * Represents the request to retrieve a list of questionnaires
  */
 message GetQuestionnaireListRequest {
-  optional string id=1; /* The unique identifier of the Questionnaire resource */
-  cdx.opencdx.grpc.common.Pagination pagination = 2; /* The respective pagination information and sorting details. */
+  /*
+   * The unique identifier of the Questionnaire resource
+   */
+  optional string id=1;
+  /*
+   * The respective pagination information and sorting details.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
 }
+
 /*
  * Represents the response status of a questionnaire operation.
  */
 message SubmissionResponse {
-  bool success = 1; /* Denotes whether the operation was successful or not. */
-  string message = 2; /* Supplementary message providing more details about the operation status. */
+  /*
+   * Denotes whether the operation was successful or not.
+   */
+  bool success = 1;
+  /*
+   * Supplementary message providing more details about the operation status.
+   */
+  string message = 2;
 }
+
 /*
  * Represents a request to submit a FHIR questionnaire.
  */
 message QuestionnaireRequest {
-  Questionnaire questionnaire = 1; /* The requested questionnaire to be submitted. */
+  /*
+   * The requested questionnaire to be submitted.
+   */
+  Questionnaire questionnaire = 1;
 }
+
 /* The `QuestionnaireDataRequest` message type is used to wrap the questionnaire data for a specific request.
  * It contains a single field `questionnaire_data` which encapsulates the details specific to the requested questionnaire.
  */
 message QuestionnaireDataRequest {
-  QuestionnaireData questionnaire_data = 1; /* Field that holds the respective questionnaire data. */
+  /*
+   * Field that holds the respective questionnaire data.
+   */
+  QuestionnaireData questionnaire_data = 1;
 }
+
 /* The `ClientQuestionnaireDataRequest` message type is used for client-level requests for the FHIR questionnaire data.
  * It contains a single field `client_questionnaire_data` which encapsulates the client-level specific questionnaire.
  */
 message ClientQuestionnaireDataRequest {
-  ClientQuestionnaireData client_questionnaire_data = 1; /* Field that holds the client-level FHIR questionnaire data. */
+  /*
+   * Field that holds the client-level FHIR questionnaire data.
+   */
+  ClientQuestionnaireData client_questionnaire_data = 1;
 }
+
 /* The `UserQuestionnaireDataRequest` message type is used for user-level requests for the FHIR questionnaire data.
  * It contains a single field `user_questionnaire_data` which encapsulates the user-level specific questionnaire.
  */
 message UserQuestionnaireDataRequest {
-  UserQuestionnaireData user_questionnaire_data = 1; /* Field that holds user-level FHIR questionnaire data. */
+  /*
+   * Field that holds user-level FHIR questionnaire data.
+   */
+  UserQuestionnaireData user_questionnaire_data = 1;
 }

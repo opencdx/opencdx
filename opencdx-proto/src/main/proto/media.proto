@@ -4,148 +4,337 @@ package cdx.opencdx.grpc.media;
 import "google/protobuf/timestamp.proto";
 import "common.proto";
 option java_multiple_files = true;
-/* Provides an interface for the Media Service.
-   This service offers functionalities for managing media such as creating, listing, retrieving, updating and deleting media. */
+/*
+ * Provides an interface for the Media Service.
+ * This service offers functionalities for managing media such as creating, listing,
+ * retrieving, updating and deleting media.
+ */
 service MediaService {
-  /* CreateMedia method creates a new media object based on the client request. */
+  /*
+   * CreateMedia method creates a new media object based on the client request.
+   */
   rpc CreateMedia(CreateMediaRequest) returns (CreateMediaResponse);
-  /* ListMedia method returns a list of media objects from the media records. */
+
+  /*
+   * ListMedia method returns a list of media objects from the media records.
+   */
   rpc ListMedia(ListMediaRequest) returns (ListMediaResponse);
-  /* GetMedia method returns a specific media object from the media record using its ID. */
+
+  /*
+   * GetMedia method returns a specific media object from the media record using its ID.
+   */
   rpc GetMedia(GetMediaRequest) returns (GetMediaResponse);
-  /* UpdateMedia method updates existing media data using the provided new data. */
+
+  /*
+   * UpdateMedia method updates existing media data using the provided new data.
+   */
   rpc UpdateMedia(UpdateMediaRequest) returns (UpdateMediaResponse);
-  /* DeleteMedia method deletes a media object from the media record using its ID. */
+
+  /*
+   * DeleteMedia method deletes a media object from the media record using its ID.
+   */
   rpc DeleteMedia(DeleteMediaRequest) returns (DeleteMediaResponse);
 }
-/* Defines the types of media. This type may be used in different media services' methods. */
+
+/*
+ * Defines the types of media.
+ * This type may be used in different media services' methods.
+ */
 enum MediaType {
-  MEDIA_TYPE_UNSPECIFIED = 0; /* Unspecified or not yet determined media type. */
-  MEDIA_TYPE_IMAGE = 1; /* Indicates that the media is an image type. */
-  MEDIA_TYPE_VIDEO = 2; /* Indicates that the media is a video type. */
-  MEDIA_TYPE_ARCHIVE = 3; /* Indicates that the media is archived. */
-  MEDIA_TYPE_INTEGRATION = 4; /* Indicates that the media is a type of integration. */
-  MEDIA_TYPE_BYTE_ARRAY = 5; /* Indicates that the media a byte array or data stream. */
+  MEDIA_TYPE_UNSPECIFIED = 0; /*
+                               * Unspecified or not yet determined media type.
+                               */
+
+  MEDIA_TYPE_IMAGE = 1; /*
+                         * Indicates that the media is an image type.
+                         */
+
+  MEDIA_TYPE_VIDEO = 2; /*
+                         * Indicates that the media is a video type.
+                         */
+
+  MEDIA_TYPE_ARCHIVE = 3; /*
+                           * Indicates that the media is archived.
+                           */
+
+  MEDIA_TYPE_INTEGRATION = 4; /*
+                               * Indicates that the media is a type of integration.
+                               */
+
+  MEDIA_TYPE_BYTE_ARRAY = 5; /*
+                              * Indicates that the media a byte array or data stream.
+                              */
 }
-/* Defines possible states that media can have. */
+
+/*
+ * Defines possible states that media can have.
+ */
 enum MediaStatus {
-  MEDIA_STATUS_UNSPECIFIED = 0; /* Media status is unspecified or not yet determined. */
-  MEDIA_STATUS_UPLOADING = 1; /* Media is in the process of uploading. */
-  MEDIA_STATUS_ACTIVE = 2; /* Media is currently active and available. */
-  MEDIA_STATUS_DELETED = 3; /* Media has been deleted from the records. */
-  MEDIA_STATUS_ERROR = 4; /* An error occurred with the media. */
+  MEDIA_STATUS_UNSPECIFIED = 0; /*
+                                 * Media status is unspecified or not yet determined.
+                                 */
+
+  MEDIA_STATUS_UPLOADING = 1; /*
+                               * Media is in the process of uploading.
+                               */
+
+  MEDIA_STATUS_ACTIVE = 2; /*
+                           * Media is currently active and available.
+                           */
+
+  MEDIA_STATUS_DELETED = 3; /*
+                             * Media has been deleted from the records.
+                             */
+
+  MEDIA_STATUS_ERROR = 4; /*
+                           * An error occurred with the media.
+                           */
 }
-/* Contains required parameters for invoking the CreateMedia method. */
+
+/*
+ * Contains required parameters for invoking the CreateMedia method.
+ */
 message CreateMediaRequest {
-  /* Media type such as video, image etc. */
+  /*
+   * Media type such as video, image etc.
+   */
   MediaType type = 1;
-  /* The name of the media to be created. */
+
+  /*
+   * The name of the media to be created.
+   */
   string name = 2;
-  /* Brief description about the media. */
+
+  /*
+   * Brief description about the media.
+   */
   string short_description = 3;
-  /* Detailed information about the media. */
+
+  /*
+   * Detailed information about the media.
+   */
   string description = 4;
-  /* Additional labels related to the media. */
+
+  /*
+   * Additional labels related to the media.
+   */
   repeated string labels = 5;
 }
-/* Contains information received from CreateMedia method once the media is created. */
+/*
+ * Contains information received from CreateMedia method once the media is created.
+ */
 message CreateMediaResponse {
-  /* The media data that was created. */
+  /*
+   * The media data that was created.
+   */
   Media media = 1;
-  /* The URL to which the created media should be uploaded. */
+  /*
+   * The URL to which the created media should be uploaded.
+   */
   string upload_url = 2;
 }
-/* Contains required parameter (media's ID) for invoking the GetMedia method. */
+
+/*
+ * Contains required parameter (media's ID) for invoking the GetMedia method.
+ */
 message GetMediaRequest {
-  /* The ID of the media that client wants to retrieve. */
+  /*
+   * The ID of the media that client wants to retrieve.
+   */
   string id = 1;
 }
-/* Contains information received from GetMedia method. */
+
+/*
+ * Contains information received from GetMedia method.
+ */
 message GetMediaResponse {
-  /* The media object that was requested by client. */
-  Media media = 1;
-}
-/* Contains required parameters for invoking the ListMedia method. */
-message ListMediaRequest {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; /* Information for pagination and sorting of the media list. */
-}
-/* Contains the list of media objects retrieved from the ListMedia method. */
-message ListMediaResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; /* Pagination details for the listed media. */
-  repeated Media templates = 2; /* The list of media objects. */
-}
-/* Contains required parameters for invoking the UpdateMedia method. */
-message UpdateMediaRequest {
-  /* The ID of the media to be updated. */
-  string id = 1;
-  /* The new name for the media. */
-  string name = 2;
-  /* The new brief description of the media. */
-  string short_description = 3;
-  /* The new detailed description of the media. */
-  string description = 4;
-  /* The new labels for the media. */
-  repeated string labels = 5;
-  /* The new type for the media. */
-  MediaType type = 6;
-}
-/* Contains information received from UpdateMedia method after the media data is updated. */
-message UpdateMediaResponse {
-  /* The media data after update. */
-  Media media = 1;
-}
-/* Contains required parameter (media's ID) for invoking the DeleteMedia method. */
-message DeleteMediaRequest {
-  /* The ID of the media to be deleted. */
-  string id = 1;
-}
-/* Contains information received from DeleteMedia method after the media data is deleted. */
-message DeleteMediaResponse {
-  /* The details of the media that was deleted. */
+  /*
+   * The media object that was requested by client.
+   */
   Media media = 1;
 }
 
-/* Message containing media related metadata
- *
+/*
+ * Contains required parameters for invoking the ListMedia method.
+ */
+message ListMediaRequest {
+  /*
+   * Information for pagination and sorting of the media list.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+}
+
+/*
+ * Contains the list of media objects retrieved from the ListMedia method.
+ */
+message ListMediaResponse {
+  /*
+   * Pagination details for the listed media.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /*
+   * The list of media objects.
+   */
+  repeated Media templates = 2;
+}
+
+/*
+ * Contains required parameters for invoking the UpdateMedia method.
+ */
+message UpdateMediaRequest {
+  /*
+   * The ID of the media to be updated.
+   */
+  string id = 1;
+  /*
+   * The new name for the media.
+   */
+  string name = 2;
+  /*
+   * The new brief description of the media.
+   */
+  string short_description = 3;
+  /*
+   * The new detailed description of the media.
+   */
+  string description = 4;
+  /*
+   * The new labels for the media.
+   */
+  repeated string labels = 5;
+  /*
+   * The new type for the media.
+   */
+  MediaType type = 6;
+}
+
+/*
+ * Contains information received from UpdateMedia method after the media data is updated.
+ */
+message UpdateMediaResponse {
+  /*
+   * The media data after update.
+   */
+  Media media = 1;
+}
+
+/*
+ * Contains required parameter (media's ID) for invoking the DeleteMedia method.
+ */
+message DeleteMediaRequest {
+  /*
+   * The ID of the media to be deleted.
+   */
+  string id = 1;
+}
+
+/*
+ * Contains information received from DeleteMedia method after the media data is deleted.
+ */
+message DeleteMediaResponse {
+  /*
+   * The details of the media that was deleted.
+   */
+  Media media = 1;
+}
+
+/*
+ * Message containing media related metadata
  * This message type is used for capturing all details pertaining to a media entity such as documents, images, audio files, etc.
  */
 message Media {
-  /* Unique identifier of the media entity. */
+  /*
+   * Unique identifier of the media entity.
+   */
   optional string id = 1;
-  /* The time at which the media entity was created. The time is in the Timestamp format, as provided by the google protobuf library. */
+
+  /*
+   * The time at which the media entity was created. The time is in the Timestamp format, as provided by the google protobuf library.
+   */
   optional google.protobuf.Timestamp created_at = 2;
-  /* The time at which this media entity was last updated. */
+
+  /*
+   * The time at which this media entity was last updated.
+   */
   optional google.protobuf.Timestamp updated_at = 3;
-  /* Identifier of the organization this media entity belongs to. */
+
+  /*
+   * Identifier of the organization this media entity belongs to.
+   */
   string organization_id = 4;
-  /* Identifier of the workspace this media entity is part of. */
+
+  /*
+   * Identifier of the workspace this media entity is part of.
+   */
   string workspace_id = 5;
-  /* Name of the file representing the media entity. */
+
+  /*
+   * Name of the file representing the media entity.
+   */
   string name = 6;
-  /* A concise description or summary of the media entity. */
+
+  /*
+   * A concise description or summary of the media entity.
+   */
   string short_description = 7;
-  /* A detailed description of the media entity. */
+
+  /*
+   * A detailed description of the media entity.
+   */
   string description = 8;
-  /* The type of media entity. The value is an enum defined by the `MediaType` message. */
+
+  /*
+   * The type of media entity. The value is an enum defined by the `MediaType` message.
+   */
   MediaType type = 9;
-  /* List of labels associated with the media entity. Each media entity can have zero or more labels. */
+
+  /*
+   * List of labels associated with the media entity. Each media entity can have zero or more labels.
+   */
   repeated string labels = 10;
-  /* The MIME type of the media entity. For example, 'text/plain' for a text file. */
+
+  /*
+   * The MIME type of the media entity. For example, 'text/plain' for a text file.
+   */
   string mime_type = 11;
-  /* Size of the media entity file in bytes. */
+
+  /*
+   * Size of the media entity file in bytes.
+   */
   uint64 size = 12;
-  /* URL indicating the location where the media entity is stored, such as on AWS S3 or Google Cloud Platform (GCP). This URL isn't used for retrieval purposes. */
+
+  /*
+   * URL indicating the location where the media entity is stored, such as on AWS S3 or Google Cloud Platform (GCP). This URL isn't used for retrieval purposes.
+   */
   string location = 13;
-  /* URL endpoint used for rendering or downloading the media entity. */
+
+  /*
+   * URL endpoint used for rendering or downloading the media entity.
+   */
   string endpoint = 14;
-  /* The current state of the media entity. The value is an enum defined by the `MediaStatus` message. */
+
+  /*
+   * The current state of the media entity. The value is an enum defined by the `MediaStatus` message.
+   */
   MediaStatus status = 16;
-  /* Timestamp at which this media entity was created. This is a legacy field and is being replaced by `created_at`. */
+
+  /*
+   * Timestamp at which this media entity was created. This is a legacy field and is being replaced by `created_at`.
+   */
   optional google.protobuf.Timestamp created = 17;
-  /* Timestamp at which this media entity was last modified. This is a legacy field and is being replaced by `updated_at`. */
+
+  /*
+   * Timestamp at which this media entity was last modified. This is a legacy field and is being replaced by `updated_at`.
+   */
   optional google.protobuf.Timestamp modified = 18;
-  /* ID of the user who created this media entity. */
+
+  /*
+   * ID of the user who created this media entity.
+   */
   optional string creator = 19;
-  /* ID of the user who last modified this media entity. */
+
+  /*
+   * ID of the user who last modified this media entity.
+   */
   optional string modifier = 20;
 }

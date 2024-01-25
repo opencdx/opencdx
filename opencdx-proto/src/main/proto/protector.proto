@@ -4,53 +4,233 @@ option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
 
+/*
+ * This `AnomalyDetectionData` message contains details regarding detected anomalies in a system.
+ * An anomaly could be an unusual access pattern, a fraud attempt, or a system hack.
+ * It includes associated encounter information, user information, the data access pattern,
+ * a timestamp of data access, and involved IP and geographical location.
+ * Additionally, a list of detected anomalies, affected systems, and the severity level of the anomaly.
+ */
 message AnomalyDetectionData {
-  optional string encounter_id = 1; /* The unique identifier for the encounter associated with the anomaly detection data. */
-  optional string user_id = 2; /* The unique identifier of the user associated with the anomaly detection data.*/
-  optional string data_access_pattern = 3; /* Represents the pattern of data access. */
-  optional google.protobuf.Timestamp time_stamp = 4; /* The timestamp when the data access occurred. */
-  repeated string anomalies_detected = 5; /* A list of the anomalies that were detected. */
-  optional string source_ip = 6; /* The IP address from which the user's access originated. */
-  optional string location = 7; /* The geographic location from which the data access was made. */
-  repeated string affected_systems = 8; /* A list of all the systems adversely impacted by the detected anomalies. */
-  optional string severity_level = 9; /* The severity of the anomaly, typically presented as a level (e.g., low, medium, or high). */
+  /*
+   * `encounter_id` is the unique identifier for the encounter associated with the anomaly detection data.
+   * For instance, it may signify a specific event or instance when data was accessed anomalously.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * `user_id` represents the unique identifier of the user associated with the anomaly detection data.
+   * This could be an internal system user or an external user accessing the system.
+   */
+  optional string user_id = 2;
+
+  /*
+   * `data_access_pattern` is an attribute that represents the pattern of data access.
+   * It could signify whether the access was Read, Write, Update, or Delete operation, or a specific sequence of operations.
+   */
+  optional string data_access_pattern = 3;
+
+  /*
+   * `time_stamp` represents the timestamp when the anomalous data access occurred.
+   */
+  optional google.protobuf.Timestamp time_stamp = 4;
+
+  /*
+   * `anomalies_detected` is a list of the anomalies that were detected during the encounter.
+   * Each anomaly might pertain to a different aspect of the system or data access.
+   */
+  repeated string anomalies_detected = 5;
+
+  /*
+   * `source_ip` is the IP address from which the user's abnormal access originated.
+   * It could be used for tracking the source of the anomaly.
+   */
+  optional string source_ip = 6;
+
+  /*
+   * `location` represents the geographic location from which the anomalous data access was made.
+   * This could help in identifying patterns or specific regions where anomalies originate.
+   */
+  optional string location = 7;
+
+  /*
+   * `affected_systems` is a list of all the systems that were adversely impacted by the detected anomalies.
+   * Multiple systems could be affected by a single anomaly.
+   */
+  repeated string affected_systems = 8;
+
+  /*
+   * `severity_level` indicates the severity of the detected anomaly, typically presented as a level.
+   * Levels can include classifications such as low, medium, or high.
+   */
+  optional string severity_level = 9;
 }
 
+/*
+ * The `AuthorizationControlData` message represents the data necessary to control the authorization process.
+ * It carries all the necessary identifiers, properties, and flags needed for managing data access.
+ */
 message AuthorizationControlData {
-  optional string encounter_id = 1; /* The unique identifier for the encounter associated with the data access. */
-  optional string user_id = 2; /* The unique identifier of the user associated with the data access. */
-  optional string data_access_level = 3; /* The level of data access granted to the user. */
-  optional string access_granted_by = 4; /* The entity that has granted access. */
-  repeated string access_scopes = 5; /* The scopes under which access was granted. */
-  optional string access_validity_period = 6; /* The time period during which the access remains valid. */
-  optional bool is_temporary_access = 7; /* A flag indicating whether the access is temporary. */
-  repeated string conditional_access_params = 8; /* The conditions that must be met for access to be granted. */
+
+  /*
+   * The `encounter_id` field is the unique identifier for a particular encounter/session associated with the data access.
+   * It helps to trace back the exact instance when a particular data access was granted or denied.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * The `user_id` field represents the unique identifier of the user associated with the given data access.
+   * This helps clearly identify which user is being granted or denied access.
+   */
+  optional string user_id = 2;
+
+  /*
+   * The `data_access_level` field represents the level or clearance of data access granted to the user.
+   * Different values of this field determine how much of the data the user can access.
+   */
+  optional string data_access_level = 3;
+
+  /*
+   * The `access_granted_by` field represents the entity or authority that has granted the access.
+   */
+  optional string access_granted_by = 4;
+
+  /*
+   * The `access_scopes` field is a comprehensive list of all the scopes or areas under which
+   * the user is authorized to access the data. Each string in this list represents a different scope.
+   */
+  repeated string access_scopes = 5;
+
+  /*
+   * The `access_validity_period` field holds the time frame or period during which the access
+   * granted to the user is considered valid. After this period, the access becomes void and must be renewed.
+   */
+  optional string access_validity_period = 6;
+
+  /*
+   * The `is_temporary_access` is a flag indicating whether the access granted is temporary or permanent.
+   * When this flag is set to true, the user has been granted temporary access.
+   */
+  optional bool is_temporary_access = 7;
+
+  /*
+   * The `conditional_access_params` field contains a list of conditions or parameters that must be met
+   * for the user to be granted access. Each string in this list stands for a different condition or parameter.
+   */
+  repeated string conditional_access_params = 8;
 }
 
+/*
+ * The PrivacyProtectionData message is a Protocol Buffers (protobuf) message
+ * that contains information pertinent to privacy protection of user data.
+ * It includes specifics such as the type of data, anonymized form of data,
+ * encryption details, retention policy, data sharing agreement status,
+ * and the purpose of data collection.
+ */
 message PrivacyProtectionData {
-  optional string encounter_id = 1; /* The unique identifier for the specified encounter linked to the data. */
-  optional string data_type = 2; /* Specifies the type or category of the data. It can be personal, health-related, or any other type of data. */
-  optional string anonymized_data = 3; /* Contains the anonymized version of the original data, which has undergone a process to protect users' identities. */
-  optional bool is_data_encrypted = 4; /* A flag indicating whether the data is securely stored using a specific encryption mechanism. */
-  optional string encryption_method = 5; /* The encryption method used, if applicable, to enhance data security. */
-  optional string data_retention_policy = 6; /* Specifies how long the data should be kept, when it should be reviewed, and when it should be deleted or archived. */
-  optional bool has_data_sharing_agreement = 7; /* A flag indicating whether there's an agreement in place which dictates how, when, and to whom the data can be shared. */
-  optional string data_purpose = 8; /* Explains why the data was gathered and what its intended uses are. This can be crucial information for users providing the data. */
+  /*
+   * Contains the unique identifier of the encounter linked to this privacy protection data.
+   * An 'encounter' refers to the specific interaction or event where the data was obtained.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * Represents the category or nature of the data involved.
+   * This could be Personal Identifiable Information (PII), health-related data,
+   * financial information, etc.
+   */
+  optional string data_type = 2;
+
+  /*
+   * Stores the data that has been anonymized or de-identified, through a
+   * process that ensures the original data does not reveal the identity of the users.
+   */
+  optional string anonymized_data = 3;
+
+  /*
+   * This flag is used to check whether the data is stored securely by applying
+   * a specific encryption method.
+   */
+  optional bool is_data_encrypted = 4;
+
+  /*
+   * If data encryption is enabled (is_data_encrypted = true),
+   * this field specifies the particular encryption method used.
+   */
+  optional string encryption_method = 5;
+
+  /*
+   * Defines the policy for data retention, including the length of data storage,
+   * time of review, and conditions for data deletion or archival, in line with privacy regulations.
+   */
+  optional string data_retention_policy = 6;
+
+  /*
+   * Verifies whether there is a mutually agreed upon data sharing contract that
+   * defines the process, rules, and recipients of data sharing, if any.
+   */
+  optional bool has_data_sharing_agreement = 7;
+
+  /*
+   * Articulates why this specific data was collected and what the anticipated uses
+   * of this data are. This explanation is often a part of privacy guidelines for user transparency.
+   */
+  optional string data_purpose = 8;
 }
 
+
+/*
+ * Defines a protocol for the real-time monitoring data.
+ */
 message RealTimeMonitoringData {
-  optional string encounter_id = 1; /* Unique identifier for the encounter related to the data being monitored. */
-  optional string monitored_entity = 2; /* The name or identifier of the entity(such as user, device, process, etc.) being monitored. */
-  optional string monitoring_details = 3; /* Detailed information about what aspects are being monitored or what kind of data is being collected during the monitoring process. */
-  optional google.protobuf.Timestamp monitoring_start_time = 4; /* The precise time at which the monitoring activity started. */
-  optional google.protobuf.Timestamp monitoring_end_time = 5; /* The precise time at which the monitoring activity ended. Not applicable if the monitoring is continuous. */
-  repeated string triggered_alerts = 6; /* List of alerts triggered during the monitoring process, each represented as a string. It can include things like triggered thresholds, system failures, errors, etc. */
-  optional string monitoring_frequency = 7; /* Information about how frequently the monitoring activity is carried out. Examples could be 'every 5 minutes', 'hourly', etc. */
-  optional bool is_continuous_monitoring = 8; /* A boolean flag indicating whether the monitoring is a continuous process(i.e., it is always happening) or not. If true, monitoring_end_time is not applicable. */
-  optional string responsible_monitoring_team = 9; /* The name or identifier of the team who is responsible for conducting the monitoring activity. */
+
+  /*
+   * A unique identifier related to the data being monitored - typically related to a particular encounter.
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * Specifies the name or the unique identifier of the entity (such as user, device, process) that is being monitored in real-time.
+   */
+  optional string monitored_entity = 2;
+
+  /*
+   * Details about what is being monitored or what kind of data is being collected during the real-time monitoring process.
+   */
+  optional string monitoring_details = 3;
+
+  /*
+   * Specifies the precise time when the monitoring process was initiated.
+   */
+  optional google.protobuf.Timestamp monitoring_start_time = 4;
+
+  /*
+   * Indicates the exact time when the monitoring process was concluded. Needless if the monitoring process is continuous.
+   */
+  optional google.protobuf.Timestamp monitoring_end_time = 5;
+
+  /*
+   * Contains a list of alerts initiated during the monitoring process. These alerts can include threshold triggers, system failures, errors, etc.
+   */
+  repeated string triggered_alerts = 6;
+
+  /*
+   * Provides information about the frequency of the monitoring activity, such as 'every 5 minutes or 'hourly'.
+   */
+  optional string monitoring_frequency = 7;
+
+  /*
+   * A boolean value that determines if the monitoring process is continuous. If set to true, the 'monitoring_end_time' field becomes unnecessary.
+   */
+  optional bool is_continuous_monitoring = 8;
+
+  /*
+   * The name or the identifier of the team responsible for executing the monitoring process.
+   */
+  optional string responsible_monitoring_team = 9;
 }
 
-/**
+/*
  * This Protobuf message structure represents a detailed user behavior analysis data.
  * It includes information such as encounter ID, user ID, user behavior pattern,
  * associated activities, behavior analysis time frame, historical behavior data,
@@ -58,111 +238,150 @@ message RealTimeMonitoringData {
  * and potential consequences of the behavior.
  */
 message UserBehaviorAnalysisData {
-  /* Encounter ID associated with the data. An encounter ID is an unique identifier
+  /*
+   * Encounter ID associated with the data. An encounter ID is an unique identifier
    * for a particular encounter or event.
    */
   optional string encounter_id = 1;
-  /* ID of the user associated with the data. user_id represents the unique identifier
+  /*
+   * ID of the user associated with the data. user_id represents the unique identifier
    * of a user.
    */
   optional string user_id = 2;
-  /* Pattern of user behavior. It represents a particular way a user interacts with the system. */
+  /*
+   * Pattern of user behavior. It represents a particular way a user interacts with the system.
+   */
   optional string behavior_pattern = 3;
-  /* Activities associated with the behavior. They are a list of actions or tasks
+  /*
+   * Activities associated with the behavior. They are a list of actions or tasks
    * performed by the user that are related to the observed behavior.
    */
   repeated string associated_activities = 4;
-  /* Time frame for behavior analysis. It represents the period during which the behavior analysis was conducted. */
+  /*
+   * Time frame for behavior analysis. It represents the period during which the behavior analysis was conducted.
+   */
   optional string analysis_time_frame = 5;
-  /* Historical data of user behavior. This includes past behaviors of the user for historical comparison. */
+  /*
+   * Historical data of user behavior. This includes past behaviors of the user for historical comparison.
+   */
   repeated string historical_behavior_data = 6;
-  /* Risk assessment based on behavior. It is a judgement or estimation of the risk posed by the
+  /*
+   * Risk assessment based on behavior. It is a judgement or estimation of the risk posed by the
    * current behavior of the user.
    */
   optional string risk_assessment = 7;
-  /* Indicates if behavior is an outlier, i.e., if the current behavior significantly deviates from
+  /*
+   * Indicates if behavior is an outlier, i.e., if the current behavior significantly deviates from
    * the user's usual behavior.
    */
   optional bool is_behavior_outlier = 8;
-  /* Potential consequences of the behavior. These are predictions or estimations of the potential
+  /*
+   * Potential consequences of the behavior. These are predictions or estimations of the potential
    * outcomes if the current behavior is not addressed.
    */
   optional string behavior_consequence = 9;
 }
 
-/**
+/*
  * NeuralProtectorService contains security-related operations for neural networks.
  * This includes anomaly detection, authorization control enforcement, privacy protection,
  * real-time activity monitoring, and user behavior analysis.
  */
 service NeuralProtectorService {
-  /* An operation to detect unusual or suspicious activity within the network.
+  /*
+   * An operation to detect unusual or suspicious activity within the network.
    * Requires an AnomalyDetectionDataRequest and returns a SecurityResponse.
    */
   rpc DetectAnomalies(AnomalyDetectionDataRequest) returns (SecurityResponse);
-  /* An operation to enforce strict access and activity control within a protected environment.
+  /*
+   * An operation to enforce strict access and activity control within a protected environment.
    * Requires an AuthorizationControlDataRequest and returns a SecurityResponse.
    */
   rpc EnforceAuthorizationControl(AuthorizationControlDataRequest) returns (SecurityResponse);
-  /* An operation to enforce privacy protection measures in order to ensure data confidentiality.
+  /*
+   * An operation to enforce privacy protection measures in order to ensure data confidentiality.
    * Requires a PrivacyProtectionDataRequest and returns a SecurityResponse.
    */
   rpc ProtectPrivacy(PrivacyProtectionDataRequest) returns (SecurityResponse);
-  /* An operation to monitor real-time activities within the network for immediate threat detection.
+  /*
+   * An operation to monitor real-time activities within the network for immediate threat detection.
    * Requires a RealTimeMonitoringDataRequest and returns a SecurityResponse.
    */
   rpc MonitorRealTimeActivity(RealTimeMonitoringDataRequest) returns (SecurityResponse);
-  /* An operation to analyze user behavior patterns in an attempt to predict and prevent malicious actions.
+  /*
+   * An operation to analyze user behavior patterns in an attempt to predict and prevent malicious actions.
    * Requires a UserBehaviorAnalysisDataRequest and returns a SecurityResponse.
    */
   rpc AnalyzeUserBehavior(UserBehaviorAnalysisDataRequest) returns (SecurityResponse);
 }
 
-/**
+/*
  * This message format represents a request for AnomalyDetectionData.
  * It encapsulates the anomaly detection data details within AnomalyDetectionDataRequest.
  */
 message AnomalyDetectionDataRequest {
-  AnomalyDetectionData anomaly_detection_data = 1; /* A detailed request which encapsulates anomaly detection data */
+  /*
+   * A detailed request which encapsulates anomaly detection data
+   */
+  AnomalyDetectionData anomaly_detection_data = 1;
 }
 
-/**
+/*
  * This message format represents a request for AuthorizationControlData.
  * It encapsulates the authorization control data details within AuthorizationControlDataRequest.
  */
 message AuthorizationControlDataRequest {
-  AuthorizationControlData authorization_control_data = 1; /* A comprehensive request encapsulating authorization control data */
+  /*
+   * A comprehensive request encapsulating authorization control data
+   */
+  AuthorizationControlData authorization_control_data = 1;
 }
 
-/**
+/*
  * This message format represents a request for PrivacyProtectionData.
  * It encapsulates the privacy protection data details within PrivacyProtectionDataRequest.
  */
 message PrivacyProtectionDataRequest {
-  PrivacyProtectionData privacy_protection_data = 1; /* A request encapsulating privacy protection data with in-depth fields */
+  /*
+   * A request encapsulating privacy protection data with in-depth fields
+   */
+  PrivacyProtectionData privacy_protection_data = 1;
 }
 
-/**
+/*
  * This message format represents a request for RealTimeMonitoringData.
  * It encapsulates the real-time monitoring data details within RealTimeMonitoringDataRequest.
  */
 message RealTimeMonitoringDataRequest {
-  RealTimeMonitoringData real_time_monitoring_data = 1; /* An elaborate request encapsulating real-time monitoring data */
+  /*
+   * An elaborate request encapsulating real-time monitoring data
+   */
+  RealTimeMonitoringData real_time_monitoring_data = 1;
 }
 
-/**
+/*
  * This message format represents a request for UserBehaviorAnalysisData.
  * It encapsulates the user behavior analysis data details within UserBehaviorAnalysisDataRequest.
  */
 message UserBehaviorAnalysisDataRequest {
-  UserBehaviorAnalysisData user_behavior_analysis_data = 1; /* An expanded request containing user behavior analysis data */
+  /*
+   * An expanded request containing user behavior analysis data
+   */
+  UserBehaviorAnalysisData user_behavior_analysis_data = 1;
 }
 
-/**
+/*
  * This message format represents the response from the NeuralProtectorService.
  * It includes an optional encounter_id and response message.
  */
 message SecurityResponse {
-  optional string encounter_id = 1; /* Encounter ID associated with the data */
-  optional string response = 2; /* Response message from the NeuralProtectorService */
+  /*
+   * Encounter ID associated with the data
+   */
+  optional string encounter_id = 1;
+
+  /*
+   * Response message from the NeuralProtectorService
+   */
+  optional string response = 2;
 }
