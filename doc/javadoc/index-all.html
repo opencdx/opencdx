@@ -88,8 +88,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcDeviceController.html#addDevice(cdx.opencdx.grpc.inventory.Device,io.grpc.stub.StreamObserver)" class="member-name-link">addDevice(Device, StreamObserver&lt;Device&gt;)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXGrpcDeviceController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXGrpcDeviceController</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="index.html#additional-resources-heading" class="search-tag-link">Additional Resources</a> - Search tag in Overview</dt>
-<dd>Section</dd>
 <dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestManufacturerController.html#addManufacturer(cdx.opencdx.grpc.inventory.Manufacturer)" class="member-name-link">addManufacturer(Manufacturer)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestManufacturerController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestManufacturerController</a></dt>
 <dd>
 <div class="block">Method to add a manufacturer</div>
@@ -1884,10 +1882,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Email Verify Template</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXNationalHealthIdentifierImpl.html#generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">generateNationalHealthId(OpenCDXIAMUserModel)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXNationalHealthIdentifierImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXNationalHealthIdentifierImpl</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The generateNationalHealthId method overrides the interface method to generate the National Health ID
+ wrapped in a UUID and converts it to string.</div>
+</dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXNationalHealthIdentifier.html#generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">generateNationalHealthId(OpenCDXIAMUserModel)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXNationalHealthIdentifier.html" title="interface in cdx.opencdx.commons.service">OpenCDXNationalHealthIdentifier</a></dt>
 <dd>
-<div class="block">Generate the National Health ID</div>
+<div class="block">Method to generate the National Health ID for a given user.</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/changelog/CommunicationsChangeSet.html#generateNewsletterTemplate(cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository,cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository,cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser)" class="member-name-link">generateNewsletterTemplate(OpenCDXEmailTemplateRepository, OpenCDXSMSTemplateRespository, OpenCDXNotificationEventRepository, OpenCDXCurrentUser)</a> - Method in class cdx.opencdx.communications.changelog.<a href="cdx/opencdx/communications/changelog/CommunicationsChangeSet.html" title="class in cdx.opencdx.communications.changelog">CommunicationsChangeSet</a></dt>
 <dd>
@@ -2389,8 +2390,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets SMSTemplate with the id.</div>
 </dd>
-<dt><a href="index.html#get-started-heading" class="search-tag-link">Get Started</a> - Search tag in Overview</dt>
-<dd>Section</dd>
 <dt><a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html#getSubmittedQuestionnaire(cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest)" class="member-name-link">getSubmittedQuestionnaire(GetQuestionnaireRequest)</a> - Method in class cdx.opencdx.questionnaire.service.impl.<a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html" title="class in cdx.opencdx.questionnaire.service.impl">OpenCDXQuestionnaireServiceImpl</a></dt>
 <dd>
 <div class="block">Process the GetQuestionnaireRequest</div>
@@ -2684,7 +2683,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:K">K</h2>
 <dl class="index">
-<dt><a href="index.html#key-features-heading" class="search-tag-link">Key Features</a> - Search tag in Overview</dt>
+<dt><a href="index.html#key-services-heading" class="search-tag-link">Key Services</a> - Search tag in Overview</dt>
 <dd>Section</dd>
 </dl>
 <h2 class="title" id="I:L">L</h2>
@@ -3196,7 +3195,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXAuditService.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">Integrated Audit service to use the Audit Aspect.</div>
+<div class="block">The OpenCDXAuditService interface provides methods for recording various audit events.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXAuditServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">OpenCDXAuditServiceImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
@@ -3240,7 +3239,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/OpenCDXCDCMessageService.html" class="type-name-link" title="interface in cdx.opencdx.communications.service">OpenCDXCDCMessageService</a> - Interface in <a href="cdx/opencdx/communications/service/package-summary.html">cdx.opencdx.communications.service</a></dt>
 <dd>
-<div class="block">Interface to the OpenCDX CDC Notification service.</div>
+<div class="block">Interface for sending CDC (Change Data Capture) notifications.</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/impl/OpenCDXCDCMessageServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.communications.service.impl">OpenCDXCDCMessageServiceImpl</a> - Class in <a href="cdx/opencdx/communications/service/impl/package-summary.html">cdx.opencdx.communications.service.impl</a></dt>
 <dd>
@@ -3300,7 +3299,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/OpenCDXCommunicationEmailService.html" class="type-name-link" title="interface in cdx.opencdx.communications.service">OpenCDXCommunicationEmailService</a> - Interface in <a href="cdx/opencdx/communications/service/package-summary.html">cdx.opencdx.communications.service</a></dt>
 <dd>
-<div class="block">Interface for the OpenCDXCommunicationEmailService</div>
+<div class="block">Represents a service for communicating with OpenCDX via email.</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/impl/OpenCDXCommunicationEmailServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.communications.service.impl">OpenCDXCommunicationEmailServiceImpl</a> - Class in <a href="cdx/opencdx/communications/service/impl/package-summary.html">cdx.opencdx.communications.service.impl</a></dt>
 <dd>
@@ -3320,7 +3319,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXCommunicationService.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXCommunicationService</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">Interface for sending Notificaitons as messages to OpenCDX-Communication.</div>
+<div class="block">The OpenCDXCommunicationService interface provides methods to send notifications to the opencdx-communication system.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCommunicationServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">OpenCDXCommunicationServiceImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
@@ -3424,7 +3423,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXCurrentUser.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">Service to get information on the current user</div>
+<div class="block">The OpenCDXCurrentUser interface defines methods to manage the current authenticated user.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXCurrentUserImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">OpenCDXCurrentUserImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
@@ -3476,7 +3475,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXDocumentValidator.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXDocumentValidator</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">Service for validating documents</div>
+<div class="block">OpenCDXDocumentValidator is an interface that defines methods to validate the existence of documents in a collection or repository.</div>
 </dd>
 <dt><a href="cdx/opencdx/iam/dto/OpenCDXDtoNpiAddress.html" class="type-name-link" title="class in cdx.opencdx.iam.dto">OpenCDXDtoNpiAddress</a> - Class in <a href="cdx/opencdx/iam/dto/package-summary.html">cdx.opencdx.iam.dto</a></dt>
 <dd>
@@ -3528,7 +3527,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/OpenCDXEmailService.html" class="type-name-link" title="interface in cdx.opencdx.communications.service">OpenCDXEmailService</a> - Interface in <a href="cdx/opencdx/communications/service/package-summary.html">cdx.opencdx.communications.service</a></dt>
 <dd>
-<div class="block">Interface to the OpenCDX Email service.</div>
+<div class="block">Interface for sending emails using OpenCDXEmailService.</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/impl/OpenCDXEmailServiceImpl.html" class="type-name-link" title="class in cdx.opencdx.communications.service.impl">OpenCDXEmailServiceImpl</a> - Class in <a href="cdx/opencdx/communications/service/impl/package-summary.html">cdx.opencdx.communications.service.impl</a></dt>
 <dd>
@@ -3789,7 +3788,7 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/communications/service/OpenCDXHTMLProcessor.html" class="type-name-link" title="interface in cdx.opencdx.communications.service">OpenCDXHTMLProcessor</a> - Interface in <a href="cdx/opencdx/communications/service/package-summary.html">cdx.opencdx.communications.service</a></dt>
 <dd>
 <div class="block">An interface for processing a template of HTML with variable substitution
- to generate HTML with fully substituted</div>
+ to generate HTML with fully substitute</div>
 </dd>
 <dt><a href="cdx/opencdx/communications/service/impl/OpenCDXHTMLProcessorImpl.html" class="type-name-link" title="class in cdx.opencdx.communications.service.impl">OpenCDXHTMLProcessorImpl</a> - Class in <a href="cdx/opencdx/communications/service/impl/package-summary.html">cdx.opencdx.communications.service.impl</a></dt>
 <dd>
@@ -3801,7 +3800,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXHtmlSanitizer.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">HTML Sanitizer to use for validating HTML being sent in.</div>
+<div class="block">OpenCDXHtmlSanitizer interface offers capabilities to cleanse HTML content.</div>
 </dd>
 <dt><a href="cdx/opencdx/iam/controller/OpenCDXIAMOrganizationGrpcController.html" class="type-name-link" title="class in cdx.opencdx.iam.controller">OpenCDXIAMOrganizationGrpcController</a> - Class in <a href="cdx/opencdx/iam/controller/package-summary.html">cdx.opencdx.iam.controller</a></dt>
 <dd>
@@ -4146,7 +4145,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXMessageService.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXMessageService</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">Interface for implementing OpenCDXMessageService.</div>
+<div class="block">The OpenCDXMessageService interface provides methods for subscribing to message subjects,
+ unsubscribing from message subjects, and sending messages.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/config/OpenCDXMongoAuditTemplate.html" class="type-name-link" title="class in cdx.opencdx.commons.config">OpenCDXMongoAuditTemplate</a> - Class in <a href="cdx/opencdx/commons/config/package-summary.html">cdx.opencdx.commons.config</a></dt>
 <dd>
@@ -4159,16 +4159,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXNationalHealthIdentifier.html" class="type-name-link" title="interface in cdx.opencdx.commons.service">OpenCDXNationalHealthIdentifier</a> - Interface in <a href="cdx/opencdx/commons/service/package-summary.html">cdx.opencdx.commons.service</a></dt>
 <dd>
-<div class="block">Service interface for generating the National Health ID for a
- user.</div>
+<div class="block">The OpenCDXNationalHealthIdentifier interface serves as a blueprint for creating National Health ID for users in the OpenCDX system.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXNationalHealthIdentifierImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">OpenCDXNationalHealthIdentifierImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
-<div class="block">Implementation of OpenCDXNationalHealthIdentifier ID generated from user email.</div>
+<div class="block">The OpenCDXNationalHealthIdentifierImpl class implements the OpenCDXNationalHealthIdentifier interface
+ to generate the ID from a user's email.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXNationalHealthIdentifierImpl.html#%3Cinit%3E()" class="member-name-link">OpenCDXNationalHealthIdentifierImpl()</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXNationalHealthIdentifierImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXNationalHealthIdentifierImpl</a></dt>
 <dd>
-<div class="block">Default Constructor</div>
+<div class="block">The default constructor is declared explicitly to prevent inadvertent instantiation of this class.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/exceptions/OpenCDXNotAcceptable.html" class="type-name-link" title="class in cdx.opencdx.commons.exceptions">OpenCDXNotAcceptable</a> - Exception Class in <a href="cdx/opencdx/commons/exceptions/package-summary.html">cdx.opencdx.commons.exceptions</a></dt>
 <dd>
@@ -4507,6 +4507,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">MongoRepository for the sms-template collection.</div>
 </dd>
+<dt><a href="index.html#opencdx-system-overview-heading" class="search-tag-link">OpenCDx System Overview</a> - Search tag in Overview</dt>
+<dd>Section</dd>
 <dt><a href="cdx/opencdx/connected/test/model/OpenCDXTestCaseModel.html" class="type-name-link" title="class in cdx.opencdx.connected.test.model">OpenCDXTestCaseModel</a> - Class in <a href="cdx/opencdx/connected/test/model/package-summary.html">cdx.opencdx.connected.test.model</a></dt>
 <dd>
 <div class="block">Entity for the TestCase Protobuf message.</div>
@@ -4649,11 +4651,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OwaspHtmlSanitizerImpl.html" class="type-name-link" title="class in cdx.opencdx.commons.service.impl">OwaspHtmlSanitizerImpl</a> - Class in <a href="cdx/opencdx/commons/service/impl/package-summary.html">cdx.opencdx.commons.service.impl</a></dt>
 <dd>
-<div class="block">THis class is intended to supply OWASP HTML sanitizer methods</div>
+<div class="block">OwaspHtmlSanitizerImpl class serves to encapsulate OWASP HTML sanitizer methods.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OwaspHtmlSanitizerImpl.html#%3Cinit%3E()" class="member-name-link">OwaspHtmlSanitizerImpl()</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OwaspHtmlSanitizerImpl.html" title="class in cdx.opencdx.commons.service.impl">OwaspHtmlSanitizerImpl</a></dt>
 <dd>
-<div class="block">Constructor for the OWasp HTML Sanitizer</div>
+<div class="block">Constructs an instance of OWASP HTML Sanitizer.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
@@ -4778,8 +4780,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Record user PII information updated to audit log.</div>
 </dd>
-<dt><a href="index.html#placeholder-text-follows-heading" class="search-tag-link">PLACEHOLDER TEXT FOLLOWS</a> - Search tag in Overview</dt>
-<dd>Section</dd>
 <dt><a href="cdx/opencdx/protector/controller/OpenCDXRestProtectorController.html#postAnalyzeUserBehavior(cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest)" class="member-name-link">postAnalyzeUserBehavior(UserBehaviorAnalysisDataRequest)</a> - Method in class cdx.opencdx.protector.controller.<a href="cdx/opencdx/protector/controller/OpenCDXRestProtectorController.html" title="class in cdx.opencdx.protector.controller">OpenCDXRestProtectorController</a></dt>
 <dd>
 <div class="block">POST /protector/analyzeUserBehavior API.</div>
@@ -4918,10 +4918,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Guarantees a list will be safe to use, even if null.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/service/impl/OwaspHtmlSanitizerImpl.html#sanitize(java.lang.String)" class="member-name-link">sanitize(String)</a> - Method in class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OwaspHtmlSanitizerImpl.html" title="class in cdx.opencdx.commons.service.impl">OwaspHtmlSanitizerImpl</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Implement the sanitize method from OpenCDXHtmlSanitizer interface.</div>
+</dd>
 <dt><a href="cdx/opencdx/commons/service/OpenCDXHtmlSanitizer.html#sanitize(java.lang.String)" class="member-name-link">sanitize(String)</a> - Method in interface cdx.opencdx.commons.service.<a href="cdx/opencdx/commons/service/OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></dt>
 <dd>
-<div class="block">Method to sanitize HTML</div>
+<div class="block">Sanitize the HTML string.</div>
 </dd>
 <dt><a href="cdx/opencdx/commons/config/CommonsConfig.html#sanitizer()" class="member-name-link">sanitizer()</a> - Method in class cdx.opencdx.commons.config.<a href="cdx/opencdx/commons/config/CommonsConfig.html" title="class in cdx.opencdx.commons.config">CommonsConfig</a></dt>
 <dd>
@@ -5730,8 +5732,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">ID of the welcome email notification event.</div>
 </dd>
-<dt><a href="index.html#welcome-to-the-opencdx-management-system-overview-heading" class="search-tag-link">Welcome to the OpenCDX Management System Overview</a> - Search tag in Overview</dt>
-<dd>Section</dd>
 </dl>
 <a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<br><a href="allclasses-index.html">All&nbsp;Classes&nbsp;and&nbsp;Interfaces</a><span class="vertical-separator">|</span><a href="allpackages-index.html">All&nbsp;Packages</a><span class="vertical-separator">|</span><a href="constant-values.html">Constant&nbsp;Field&nbsp;Values</a><span class="vertical-separator">|</span><a href="serialized-form.html">Serialized&nbsp;Form</a></main>
 </div>

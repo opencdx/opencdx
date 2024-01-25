@@ -97,7 +97,8 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OpenCDXNationalHealthIdentifierImpl</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../OpenCDXNationalHealthIdentifier.html" title="interface in cdx.opencdx.commons.service">OpenCDXNationalHealthIdentifier</a></span></div>
-<div class="block">Implementation of OpenCDXNationalHealthIdentifier ID generated from user email.</div>
+<div class="block">The OpenCDXNationalHealthIdentifierImpl class implements the OpenCDXNationalHealthIdentifier interface
+ to generate the ID from a user's email.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -111,7 +112,7 @@ implements <a href="../OpenCDXNationalHealthIdentifier.html" title="interface in
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">OpenCDXNationalHealthIdentifierImpl</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Default Constructor</div>
+<div class="block">The default constructor is declared explicitly to prevent inadvertent instantiation of this class.</div>
 </div>
 </div>
 </section>
@@ -130,7 +131,8 @@ implements <a href="../OpenCDXNationalHealthIdentifier.html" title="interface in
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">generateNationalHealthId</a><wbr>(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;userModel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Generate the National Health ID</div>
+<div class="block">The generateNationalHealthId method overrides the interface method to generate the National Health ID
+ wrapped in a UUID and converts it to string.</div>
 </div>
 </div>
 </div>
@@ -153,7 +155,7 @@ implements <a href="../OpenCDXNationalHealthIdentifier.html" title="interface in
 <section class="detail" id="&lt;init&gt;()">
 <h3>OpenCDXNationalHealthIdentifierImpl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXNationalHealthIdentifierImpl</span>()</div>
-<div class="block">Default Constructor</div>
+<div class="block">The default constructor is declared explicitly to prevent inadvertent instantiation of this class.</div>
 </section>
 </li>
 </ul>
@@ -168,15 +170,17 @@ implements <a href="../OpenCDXNationalHealthIdentifier.html" title="interface in
 <section class="detail" id="generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">
 <h3>generateNationalHealthId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">generateNationalHealthId</span><wbr><span class="parameters">(<a href="../../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;userModel)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXNationalHealthIdentifier.html#generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">OpenCDXNationalHealthIdentifier</a></code></span></div>
-<div class="block">Generate the National Health ID</div>
+<div class="block">The generateNationalHealthId method overrides the interface method to generate the National Health ID
+ wrapped in a UUID and converts it to string.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../OpenCDXNationalHealthIdentifier.html#generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">generateNationalHealthId</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXNationalHealthIdentifier.html" title="interface in cdx.opencdx.commons.service">OpenCDXNationalHealthIdentifier</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>userModel</code> - User to generate the National Health ID for</dd>
+<dd><code>userModel</code> - The user for whom the National Health ID is to be generated.</dd>
 <dt>Returns:</dt>
-<dd>String containing the National Health ID.</dd>
+<dd>Returns the generated National Health ID in string format.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="../../exceptions/OpenCDXNotAcceptable.html" title="class in cdx.opencdx.commons.exceptions">OpenCDXNotAcceptable</a></code> - Throws exception if the user type is not IAM_USER_TYPE_REGULAR.</dd>
 </dl>
 </section>
 </li>

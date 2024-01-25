@@ -97,7 +97,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OwaspHtmlSanitizerImpl</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></span></div>
-<div class="block">THis class is intended to supply OWASP HTML sanitizer methods</div>
+<div class="block">OwaspHtmlSanitizerImpl class serves to encapsulate OWASP HTML sanitizer methods.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -111,7 +111,7 @@ implements <a href="../OpenCDXHtmlSanitizer.html" title="interface in cdx.opencd
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">OwaspHtmlSanitizerImpl</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor for the OWasp HTML Sanitizer</div>
+<div class="block">Constructs an instance of OWASP HTML Sanitizer.</div>
 </div>
 </div>
 </section>
@@ -130,7 +130,7 @@ implements <a href="../OpenCDXHtmlSanitizer.html" title="interface in cdx.opencd
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sanitize(java.lang.String)" class="member-name-link">sanitize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;untrustedHtml)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Method to sanitize HTML</div>
+<div class="block">Implement the sanitize method from OpenCDXHtmlSanitizer interface.</div>
 </div>
 </div>
 </div>
@@ -153,7 +153,7 @@ implements <a href="../OpenCDXHtmlSanitizer.html" title="interface in cdx.opencd
 <section class="detail" id="&lt;init&gt;()">
 <h3>OwaspHtmlSanitizerImpl</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OwaspHtmlSanitizerImpl</span>()</div>
-<div class="block">Constructor for the OWasp HTML Sanitizer</div>
+<div class="block">Constructs an instance of OWASP HTML Sanitizer.</div>
 </section>
 </li>
 </ul>
@@ -168,15 +168,14 @@ implements <a href="../OpenCDXHtmlSanitizer.html" title="interface in cdx.opencd
 <section class="detail" id="sanitize(java.lang.String)">
 <h3>sanitize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">sanitize</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;untrustedHtml)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXHtmlSanitizer.html#sanitize(java.lang.String)">OpenCDXHtmlSanitizer</a></code></span></div>
-<div class="block">Method to sanitize HTML</div>
+<div class="block">Implement the sanitize method from OpenCDXHtmlSanitizer interface.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../OpenCDXHtmlSanitizer.html#sanitize(java.lang.String)">sanitize</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXHtmlSanitizer.html" title="interface in cdx.opencdx.commons.service">OpenCDXHtmlSanitizer</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>untrustedHtml</code> - String containing the HTML</dd>
+<dd><code>untrustedHtml</code> - Potentially unsafe HTML string.</dd>
 <dt>Returns:</dt>
-<dd>String containing the sanitized HTML.</dd>
+<dd>Sanitized HTML string.</dd>
 </dl>
 </section>
 </li>

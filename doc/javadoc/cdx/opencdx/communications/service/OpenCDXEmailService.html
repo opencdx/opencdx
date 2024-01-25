@@ -91,8 +91,14 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">OpenCDXEmailService</span></div>
-<div class="block">Interface to the OpenCDX Email service.  Used to send emails
- to users.</div>
+<div class="block">Interface for sending emails using OpenCDXEmailService.</div>
+<dl class="notes">
+<dt>Implementation Requirements:</dt>
+<dd>Implement this interface using your Email system.</dd>
+<dt>Implementation Note:</dt>
+<dd>Current implementation does not send the email, just outputs the email to logging
+ for verification it was called, for demonstration purposes only.</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">

@@ -91,8 +91,16 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">OpenCDXMessageService</span></div>
-<div class="block">Interface for implementing OpenCDXMessageService. An implemenation
- agnostic interface.</div>
+<div class="block">The OpenCDXMessageService interface provides methods for subscribing to message subjects,
+ unsubscribing from message subjects, and sending messages.</div>
+<dl class="notes">
+<dt>Implementation Requirements:</dt>
+<dd>This interface was designed to be agnostic of messaging system.</dd>
+<dt>Implementation Note:</dt>
+<dd>Two implementation are provided <a href="impl/NatsOpenCDXMessageServiceImpl.html" title="class in cdx.opencdx.commons.service.impl"><code>NatsOpenCDXMessageServiceImpl</code></a> based
+ on the NATS message server, and <a href="impl/NoOpOpenCDXMessageServiceImpl.html" title="class in cdx.opencdx.commons.service.impl"><code>NoOpOpenCDXMessageServiceImpl</code></a> a NOOP implementation
+ that is used for JUnit testing.</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
