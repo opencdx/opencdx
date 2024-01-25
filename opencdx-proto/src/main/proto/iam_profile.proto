@@ -18,7 +18,7 @@ message UserProfile {
   /*
    * The national health identifier of the user.
    */
-  string national_health_id= 2;
+  string national_health_id = 2;
 
   /*
    * The full name details of the user.
@@ -113,17 +113,17 @@ message UserProfile {
   /*
    * A list of user's email addresses.
    */
-  repeated cdx.opencdx.grpc.common.EmailAddress email=21;
+  repeated cdx.opencdx.grpc.common.EmailAddress email = 21;
 
   /*
    * A list of user's phone numbers.
    */
-  repeated cdx.opencdx.grpc.common.PhoneNumber phone=22;
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 22;
 
   /*
    * A list of user's addresses.
    */
-  repeated cdx.opencdx.grpc.common.Address address=23;
+  repeated cdx.opencdx.grpc.common.Address address = 23;
 
   /*
    * The timestamp indicating when the user's profile was created.

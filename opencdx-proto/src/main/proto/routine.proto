@@ -322,7 +322,7 @@ message LabOrder {
   /*
    * This indicates when the lab order was made
    */
-  google.protobuf.Timestamp order_datetime= 3;
+  google.protobuf.Timestamp order_datetime = 3;
 
   /*
    * This refers to the value set that triggered the creation of the eICR
@@ -353,7 +353,7 @@ message Diagnosis {
   /*
    * This indicates when the diagnosis was made
    */
-  google.protobuf.Timestamp diagnosis_datetime= 3;
+  google.protobuf.Timestamp diagnosis_datetime = 3;
 
   /*
    * This refers to the value set that triggered the creation of the eICR
@@ -384,7 +384,7 @@ message SuspectedDiagnosis {
   /*
    * This indicates the time when the suspected diagnosis was made
    */
-  google.protobuf.Timestamp diagnosis_datetime= 3;
+  google.protobuf.Timestamp diagnosis_datetime = 3;
 
   /*
    * This refers to the value set that triggered the creation of the eICR
@@ -415,7 +415,7 @@ message LabResult {
   /*
    * This indicates when the lab result was generated
    */
-  google.protobuf.Timestamp result_datetime= 3;
+  google.protobuf.Timestamp result_datetime = 3;
 
   /*
    * This is the value set that triggered the creation of the eICR
@@ -447,7 +447,7 @@ message Medication {
   /*
   * Captures the specific time the medication was administered.
   */
-  google.protobuf.Timestamp administration_datetime= 3;
+  google.protobuf.Timestamp administration_datetime = 3;
 
   /*
   * Represents the value set that initiated the eICR.

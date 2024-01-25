@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 package cdx.opencdx.grpc.media;
 import "google/protobuf/timestamp.proto";

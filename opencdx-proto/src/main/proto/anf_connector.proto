@@ -56,57 +56,57 @@ enum AnfOperatorType {
   /*
    * No specific operator is defined
    */
-  ANF_OPERATOR_TYPE_UNSPECIFIED=0;
+  ANF_OPERATOR_TYPE_UNSPECIFIED = 0;
 
   /*
    * Represents an equal (=) operator
    */
-  ANF_OPERATOR_TYPE_EQUAL=1;
+  ANF_OPERATOR_TYPE_EQUAL = 1;
 
   /*
    * Symbolizes a not equal (!=) operator
    */
-  ANF_OPERATOR_TYPE_NOT_EQUAL=2;
+  ANF_OPERATOR_TYPE_NOT_EQUAL = 2;
 
   /*
    * Denotes a greater-than (>) operator
    */
-  ANF_OPERATOR_TYPE_GREATER_THAN=3;
+  ANF_OPERATOR_TYPE_GREATER_THAN = 3;
 
   /*
    * Indicates a greater-than or equals (>=) operator
    */
-  ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL=4;
+  ANF_OPERATOR_TYPE_GREATER_THAN_OR_EQUAL = 4;
 
   /*
    * Represents a less-than (<) operator
    */
-  ANF_OPERATOR_TYPE_LESS_THAN=5;
+  ANF_OPERATOR_TYPE_LESS_THAN = 5;
 
   /*
    * Symbolizes a less-than or equals (<=) operator
    */
-  ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL=6;
+  ANF_OPERATOR_TYPE_LESS_THAN_OR_EQUAL = 6;
 
   /*
    * Denotes a contains operator
    */
-  ANF_OPERATOR_TYPE_CONTAINS=7;
+  ANF_OPERATOR_TYPE_CONTAINS = 7;
 
   /*
    * Indicates a "does not contain" operator
    */
-  ANF_OPERATOR_TYPE_NOT_CONTAINS=8;
+  ANF_OPERATOR_TYPE_NOT_CONTAINS = 8;
 
   /*
    * Stands for an "in" operator
    */
-  ANF_OPERATOR_TYPE_IN=9;
+  ANF_OPERATOR_TYPE_IN = 9;
 
   /*
    * Represents a "not in" operator
    */
-  ANF_OPERATOR_TYPE_NOT_IN=10;
+  ANF_OPERATOR_TYPE_NOT_IN = 10;
 }
 
 /*

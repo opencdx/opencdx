@@ -9,14 +9,14 @@ package cdx.opencdx.grpc.common.types;
  * manufacturer, test type etc.
  */
 message CategoryType {
-    /*
-     * 'id' field carries a unique identifier for each category. It's a string and a primary way
-     * to identify and differentiate categories from each other.
-     */
-    string id = 1;
-    /*
-     * 'type' field describes the category. This is a descriptive field giving information about
-     * the type of category.
-     */
-    string type = 2;
+  /*
+   * 'id' field carries a unique identifier for each category. It's a string and a primary way
+   * to identify and differentiate categories from each other.
+   */
+  string id = 1;
+  /*
+   * 'type' field describes the category. This is a descriptive field giving information about
+   * the type of category.
+   */
+  string type = 2;
 }

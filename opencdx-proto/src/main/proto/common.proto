@@ -33,7 +33,7 @@ enum AddressPurpose {
   /*
    * Represents an address used for invoice or billing correspondence.
    */
-  BILLING =4;
+  BILLING = 4;
 
   /*
    * Represents an address used for shipping or delivery.

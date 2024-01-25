@@ -343,7 +343,7 @@ message Notification {
   /*
    * Variables or placeholders that can be replaced in the notification's content.
    */
-  map<string,string> variables = 12;
+  map<string, string> variables = 12;
 
   /*
    * The list of unique identifiers(UUIDs) for each recipient. This includes both email and phone number recipients.

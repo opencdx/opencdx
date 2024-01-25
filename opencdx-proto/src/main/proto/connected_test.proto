@@ -354,7 +354,7 @@ message TestDetails {
   /*
    * Human friendly name for the test.
    */
-  string test_name=24;
+  string test_name = 24;
   /*
    * Descriptive string to illustrate the format of the test.
    */

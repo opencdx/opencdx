@@ -421,7 +421,7 @@ message ClientQuestionnaireData {
   /*
    * Id of the rule to be executed on Rules Engine upon questionnaire's submission.
    */
-  optional string rule_id=4;
+  optional string rule_id = 4;
 }
 
 /*
@@ -609,19 +609,19 @@ message DeleteQuestionnaireRequest {
   /*
    * The unique identifier of the Questionnaire resource
    */
-  optional string id=1;
+  optional string id = 1;
   /*
    * The identifier of the associated organization
    */
-  optional string organization_id=2;
+  optional string organization_id = 2;
   /*
    * The identifier of the associated workspace
    */
-  optional string workspace_id=3;
+  optional string workspace_id = 3;
   /*
    * The identifier of the associated user
    */
-  optional string user_id=4;
+  optional string user_id = 4;
 }
 
 /*
@@ -631,7 +631,7 @@ message GetQuestionnaireRequest {
   /*
    * The unique identifier of the Questionnaire resource
    */
-  optional string id=1;
+  optional string id = 1;
   /*
    * The respective pagination information and sorting details.
    */
@@ -645,7 +645,7 @@ message GetQuestionnaireListRequest {
   /*
    * The unique identifier of the Questionnaire resource
    */
-  optional string id=1;
+  optional string id = 1;
   /*
    * The respective pagination information and sorting details.
    */
