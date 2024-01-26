@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     },
     input: {
         margin: 5,
+        textAlign: 'right'
     },
 });
 

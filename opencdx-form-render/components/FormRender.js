@@ -110,7 +110,7 @@ export default function App({ questionnaire }) {
                     title="Submit"
                     onPress={methods.handleSubmit(onSubmit)}
                 >
-                    <ButtonText>Sumit</ButtonText>
+                    <ButtonText>Submit</ButtonText>
                 </Button>
             </View>
         </View>
