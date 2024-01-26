@@ -48,11 +48,9 @@ const LoginScreen = ({ navigation }) => {
                 <Button title="Sign In" onPress={handleLogin} style={styles.button}>
                     <ButtonText>Sign In</ButtonText>
                 </Button>
-                <Text>Don't have an account? 
-                <Link href="" style={styles.forget}>
-                    <LinkText>Sign Up</LinkText>
+                <Link href="" style={styles.signup}>
+                    <LinkText>Don't have an account? Sign Up</LinkText>
                 </Link>
-                </Text>
             </View>
         </SafeAreaView>
     );
@@ -85,8 +83,16 @@ const styles = StyleSheet.create({
         width: 500,
     },
     forget: {
+        marginTop: 10,
+        textAlign: 'right',
+        flexDirection: "row",
+        justifyContent: "flex-end",
+    },
+    signup: {
         marginBottom: 10,
         textAlign: 'right',
+        flexDirection: "row",
+        justifyContent: "center",
     },
     body: {
         padding: 8,
