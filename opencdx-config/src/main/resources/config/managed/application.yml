@@ -1,5 +1,12 @@
 # Properties for a Managed Environment go here.
 management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
   endpoint:
     health:
       probes:
