@@ -19,26 +19,31 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @ActiveProfiles({"test", "managed"})
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXRestSearchControllerTest {
     @Autowired
     private WebApplicationContext context;
+
+    @Mock
+    OpenCDXTinkarService openCDXTinkarService;
 
     private MockMvc mockMvc;
 
@@ -55,7 +60,7 @@ class OpenCDXRestSearchControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .param("query", "chronic disease of respiratory")
                         .param("maxResults", "10"))
-                .andExpect(status().is(500))
+                .andExpect(status().is(400))
                 .andReturn();
     }
 
@@ -66,7 +71,7 @@ class OpenCDXRestSearchControllerTest {
                         .content("{\"name\": \"jeff\"}")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .param("nid", "1"))
-                .andExpect(status().is(500))
+                .andExpect(status().is(200))
                 .andReturn();
     }
 }

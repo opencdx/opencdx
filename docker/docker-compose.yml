@@ -377,6 +377,7 @@ services:
         condition: service_healthy
     volumes:
       - ../certs:/certs
+      - ../data:/data
 
   admin:
     image: opencdx/admin:latest

@@ -33,5 +33,5 @@ opencdx:
     format: "Hello %s!"
 data:
   path:
-    parent: C:\\Users\\way2v\\Solor\\sample_data
+    parent: ../data
     child: solor-us-tinkar.sa
