@@ -91,8 +91,14 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">OpenCDXNationalHealthIdentifier</span></div>
-<div class="block">Service interface for generating the National Health ID for a
- user.</div>
+<div class="block">The OpenCDXNationalHealthIdentifier interface serves as a blueprint for creating National Health ID for users in the OpenCDX system.</div>
+<dl class="notes">
+<dt>Implementation Requirements:</dt>
+<dd>The creation of this interface is to facilitate the development of an agnostic mechanism to generate a National Health Identifier since no standard method exists currently.
+           Being a string, this identifier can be easily shared. Nonetheless, it is important to bear in the mind the risk of collisions, which should be prevented through proper care.</dd>
+<dt>Implementation Note:</dt>
+<dd>The current approach involves generation of a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link"><code>UUID</code></a> based on a user's email and further conversion to a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a>.</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -110,7 +116,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)" class="member-name-link">generateNationalHealthId</a><wbr>(<a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;userModel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Generate the National Health ID</div>
+<div class="block">Method to generate the National Health ID for a given user.</div>
 </div>
 </div>
 </div>
@@ -130,12 +136,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="generateNationalHealthId(cdx.opencdx.commons.model.OpenCDXIAMUserModel)">
 <h3>generateNationalHealthId</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">generateNationalHealthId</span><wbr><span class="parameters">(<a href="../model/OpenCDXIAMUserModel.html" title="class in cdx.opencdx.commons.model">OpenCDXIAMUserModel</a>&nbsp;userModel)</span></div>
-<div class="block">Generate the National Health ID</div>
+<div class="block">Method to generate the National Health ID for a given user.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>userModel</code> - User to generate the National Health ID for</dd>
+<dd><code>userModel</code> - The user for whom the National Health ID is to be generated.</dd>
 <dt>Returns:</dt>
-<dd>String containing the National Health ID.</dd>
+<dd>Returns a String containing the generated National Health ID.</dd>
 </dl>
 </section>
 </li>

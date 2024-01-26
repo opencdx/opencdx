@@ -1,21 +1,36 @@
+/*
+ * An interface that allows retrieval of TINKAR codes using non-TINKAR codes from various coding systems, and vice versa.
+ * It facilitates a two-way conversion between TINKAR codes and other coding systems.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.tinkar;
-
 import "google/protobuf/wrappers.proto";
 
-// The greeting service definition.
+/*
+ * Tinkar Service: Provides a gRPC endpoint for the `sayTinkar` RPC method.
+ */
 service Tinkar {
-  // Sends a greeting
+  /*
+   * `sayTinkar` RPC method, which expects a `TinkarRequest` and returns a `TinkarResponse`.
+   */
   rpc sayTinkar (TinkarRequest) returns (TinkarResponse) {}
 }
-
-// The request message containing the user's name.
+/*
+ * TinkarRequest Message: Represents the user's request with a single field `name` (string).
+ */
 message TinkarRequest {
+  /*
+   * The name of the user required for the request.
+   */
   string name = 1;
 }
-
-// The response message containing the greetings
+/*
+ * TinkarResponse Message: Represents the response that `Tinkar` service returns.
+ */
 message TinkarResponse {
+  /*
+   * Response message from the Tinkar service.
+   */
   string message = 1;
 }

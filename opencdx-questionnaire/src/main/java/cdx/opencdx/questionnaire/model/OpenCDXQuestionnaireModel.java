@@ -87,7 +87,7 @@ public class OpenCDXQuestionnaireModel {
 
         this.resourceType = questionnaire.getResourceType();
         this.title = questionnaire.getTitle();
-        this.status = QuestionnaireStatus.QUESTIONNAIRE_STATUS_ACTIVE;
+        this.status = QuestionnaireStatus.active;
         this.description = questionnaire.getDescription();
         if (questionnaire.hasRuleId()) {
             this.ruleId = new ObjectId(questionnaire.getRuleId());

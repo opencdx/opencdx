@@ -91,7 +91,13 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">OpenCDXCommunicationService</span></div>
-<div class="block">Interface for sending Notificaitons as messages to OpenCDX-Communication.</div>
+<div class="block">The OpenCDXCommunicationService interface provides methods to send notifications to the opencdx-communication system.
+ Notifications can be sent for various events such as verifying email, changing password, and sending welcome emails.</div>
+<dl class="notes">
+<dt>Implementation Requirements:</dt>
+<dd>This implementation is based on <a href="OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service"><code>OpenCDXMessageService</code></a>.  Any changes
+ will require changes to <a href="../../communications/package-summary.html"><code>cdx.opencdx.communications</code></a> be modified as well.</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">

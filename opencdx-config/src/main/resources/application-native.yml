@@ -1,5 +1,7 @@
 # Properties for a Managed Environment go here.
 spring:
+  banner:
+    location: /banner.txt
   application:
     name: Config
 
@@ -29,6 +31,13 @@ server:
   http2:
     enabled: true
 management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
   endpoint:
     health:
       probes:

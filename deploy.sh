@@ -535,7 +535,7 @@ menu() {
             3) build_docker; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
-            6) run_jmeter_tests ;;
+            6) run_jmeter_tests; open_url "build/reports/jmeter/index.html" ;;
             7) open_reports "jmeter_edit" ;;
             8) open_reports "micrometer_tracing" ;;
             9) open_reports "test" ;;

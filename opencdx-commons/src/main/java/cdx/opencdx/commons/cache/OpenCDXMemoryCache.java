@@ -74,6 +74,8 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
     @Nullable private final SerializationDelegate serialization;
 
+    private Gauge gauge;
+
     /**
      * Create a new ConcurrentMapCache with the specified name.
      * @param name the name of the cache
@@ -146,7 +148,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
         SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry();
 
-        Gauge gauge = Gauge.builder(
+        this.gauge = Gauge.builder(
                         "opencdx."
                                 + this.name
                                         .toLowerCase()
@@ -161,7 +163,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
 
         log.debug("Created Gauge: {}", gauge.getId().getName());
 
-        this.counter = Counter.builder("opencdx."
+        this.counter = Counter.builder("opencdx.gauge."
                         + this.name
                                 .toLowerCase()
                                 .replace(' ', '.')

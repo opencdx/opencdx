@@ -85,7 +85,7 @@ class OpenCDXRestClassificationControllerTest {
                 .andReturn();
 
         Assertions.assertEquals(
-                "{\"message\":\"Executed classify operation.\",\"alternativeOptions\":[]}",
+                "{\"testKitName\":\"\",\"confidence\":0.0,\"positiveProbability\":0.0,\"message\":\"Executed classify operation.\",\"availability\":\"\",\"cost\":0.0,\"furtherActions\":\"\",\"alternativeOptions\":[],\"feedbackUrl\":\"\",\"userId\":\"\"}",
                 result.getResponse().getContentAsString());
     }
 }

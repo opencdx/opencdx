@@ -1,4 +1,6 @@
 spring:
+  banner:
+    location: /banner.txt
   application:
     name: Discovery
 
@@ -12,6 +14,13 @@ server:
     key-alias: discovery
 
 management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
   endpoint:
     health:
       probes:

@@ -262,11 +262,11 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         Optional<OpenCDXQuestionnaireModel> model =
                 this.openCDXQuestionnaireRepository.findById(new ObjectId(request.getId()));
         if (model.isPresent()) {
-            model.get().setStatus(QuestionnaireStatus.QUESTIONNAIRE_STATUS_DELETED);
+            model.get().setStatus(QuestionnaireStatus.retired);
             this.openCDXQuestionnaireRepository.save(model.get());
             return SubmissionResponse.newBuilder()
                     .setSuccess(true)
-                    .setMessage("Status updated to deleted.")
+                    .setMessage("Status updated to retired.")
                     .build();
         }
         return SubmissionResponse.newBuilder()

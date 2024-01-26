@@ -1,4 +1,6 @@
 spring:
+  banner:
+    location: /banner.txt
   application:
     name: Gateway
   ssl:
@@ -202,6 +204,13 @@ eureka:
     homePageUrl: https://${spring.application.name}:${server.port}/
 
 management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
   endpoint:
     gateway:
       enabled: true

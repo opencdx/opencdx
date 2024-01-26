@@ -1,13 +1,22 @@
 syntax = "proto3";
 option java_multiple_files = true;
+/* The base package name for the generated Java files. */
 package cdx.opencdx.grpc.common.types;
 
-/**
- * Definition for the custom types 
+/*
+ * The 'CategoryType' message is designed to handle different types of categories that
+ * might be needed in the application. This might include categories related to vendor,
+ * manufacturer, test type etc.
  */
-
-// Used to specify the type of category, vendor, manfacturer, test type etc. 
 message CategoryType {
-    string id = 1;  // Unique id 
-    string type = 2;  // Category description or type
+  /*
+   * 'id' field carries a unique identifier for each category. It's a string and a primary way
+   * to identify and differentiate categories from each other.
+   */
+  string id = 1;
+  /*
+   * 'type' field describes the category. This is a descriptive field giving information about
+   * the type of category.
+   */
+  string type = 2;
 }

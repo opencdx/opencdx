@@ -1,116 +1,333 @@
+/*
+ * This system is used for retrieving National Provider records given a specific National Provider Identifier.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.provider;
-// Importing the timestamp proto package
+/* Importing the timestamp proto package */
 import "google/protobuf/timestamp.proto";
 import "common.proto";
 
-
-// Enum to represent the status of a provider.
+/*
+ * Enum `ProviderStatus` is used to represent the current status of a healthcare provider account.
+ * It contains two states, VALIDATED and DELETED.
+ */
 enum ProviderStatus {
-  VALIDATED = 0;  // The provider has been validated.
-  DELETED = 1;    // The provider has been deleted.
+  /*
+   * The status when the provider's credentials and details have been reviewed and approved.
+   */
+  VALIDATED = 0;
+  /*
+   * The status when the provider's account has been deleted, possibly due to violation of terms or at the request of the provider.
+   */
+  DELETED = 1;
 }
 
-// Message to represent basic information about a healthcare provider.
+/*
+ * `BasicInfo` message holds essential details about a healthcare provider.
+ */
 message BasicInfo {
-  string first_name = 1;          // First name.
-  string last_name = 2;           // Last name.
-  string credential = 3;          // Credential (e.g., M.D.).
-  string sole_proprietor = 4;     // Sole proprietor indicator (e.g., YES).
-  string gender = 5;              // Gender.
-  string enumeration_date = 6;    // Date of enumeration.
-  ProviderStatus status = 7;      // Status of the provider (e.g., NEW, VALIDATED, DELETED).
-  string name_prefix = 8;         // Name prefix (e.g., Dr.).
-  string name_suffix = 9;         // Name suffix (e.g., --).
+  /*
+   * The first name of the provider.
+   */
+  string first_name = 1;
+  /*
+   * The last name of the provider.
+   */
+  string last_name = 2;
+  /*
+   * The credentials of the provider, for example, "M.D.".
+   */
+  string credential = 3;
+  /*
+   * Designation indicating whether the provider is operating as a sole proprietor. Typical values are "YES" / "NO".
+   */
+  string sole_proprietor = 4;
+  /*
+   * Provider's gender.
+   */
+  string gender = 5;
+  /*
+   * The date the provider was added/enumerated in the system.
+   */
+  string enumeration_date = 6;
+  /*
+   * The current status of the provider.
+   */
+  ProviderStatus status = 7;
+  /*
+   * Any prefix for the provider's name, typically designations like "Dr.".
+   */
+  string name_prefix = 8;
+  /*
+   * Any suffix for the provider's name, if applicable.
+   */
+  string name_suffix = 9;
 }
 
-// Message to represent a taxonomy code associated with a provider.
+/*
+ * The `Taxonomy` message represents the categorization of the healthcare provider based on their specialty/s.
+ */
 message Taxonomy {
-  string code = 1;                // Taxonomy code.
-  string taxonomy_group = 2;      // Taxonomy group.
-  string desc = 3;                // Description of the taxonomy.
-  string state = 4;               // State.
-  string license = 5;             // License number.
-  bool primary = 6;               // Primary taxonomy indicator.
+  /*
+   * Taxonomy code representing a specific medical specialty.
+   */
+  string code = 1;
+  /*
+   * Group or category to which the taxonomy belongs.
+   */
+  string taxonomy_group = 2;
+  /*
+   * Description of the taxonomy.
+   */
+  string desc = 3;
+  /*
+   * State where the provider holds this taxonomy designation.
+   */
+  string state = 4;
+  /*
+   * License number associated with this taxonomy code for the provider.
+   */
+  string license = 5;
+  /*
+   * Indicator to denote whether this taxonomy code is the provider's primary specialty.
+   */
+  bool primary = 6;
 }
 
-// Message to represent an identifier associated with a provider.
+/*
+ * `Identifier` message represents the unique identifiers associated with a healthcare provider.
+ */
 message Identifier {
-  string code = 1;                // Identifier code.
-  string desc = 2;                // Description of the identifier (e.g., MEDICAID).
-  string issuer = 3;              // Issuer information.
-  string identifier = 4;          // Identifier value.
-  string state = 5;               // State.
+  /*
+   * Unique identifier code.
+   */
+  string code = 1;
+  /*
+   * Description of the identifier, for example, could denote the type of identifier like "MEDICAID".
+   */
+  string desc = 2;
+  /*
+   * Information on the entity that issued the identifier.
+   */
+  string issuer = 3;
+  /*
+   * The identifier value itself.
+   */
+  string identifier = 4;
+  /*
+   * State associated with this identifier.
+   */
+  string state = 5;
 }
 
-// Message to represent the result of a query, containing a list of providers.
+/*
+ * `ListProvidersResponse` message is used to represent the response when retrieving a list of providers.
+ */
 message ListProvidersResponse {
-  int32 result_count = 1;         // Number of results in the response.
-  repeated Provider results = 2;  // List of providers.
+  /*
+   * The total number of providers information returned in the response.
+   */
+  int32 result_count = 1;
+  /*
+   * The list of provider's details.
+   */
+  repeated Provider results = 2;
 }
 
-// Message to represent a healthcare provider, including new fields "id" and "user_id".
+/*
+ * "Provider" message captures all relevant details of a healthcare provider including "id",
+ * "user_id" among other fields. Several fields (e.g., addresses, taxonomies, identifiers) can
+ * comprise multiple values hence "repeated" is used.
+ */
 message Provider {
-  string id = 1;                   // Provider ID.
-  string user_id = 2;              // User ID.
-  string created_epoch = 3;        // Epoch timestamp of creation.
-  string enumeration_type = 4;     // Enumeration type.
-  string last_updated_epoch = 5;   // Epoch timestamp of last update.
-  string number = 6;               // Provider number.
-  repeated cdx.opencdx.grpc.common.Address addresses = 7;  // List of addresses associated with the provider.
-  repeated string practiceLocations = 8; // List of practice locations.
-  BasicInfo basic = 9;             // Basic information about the provider.
-  repeated Taxonomy taxonomies = 10; // List of taxonomies associated with the provider.
-  repeated Identifier identifiers = 11; // List of identifiers associated with the provider.
-  repeated string endpoints = 12;  // List of endpoints.
-  repeated string other_names = 13; // List of other names.
+  /*
+   * Unique identifier for the provider.
+   */
+  string id = 1;
 
-  google.protobuf.Timestamp created = 14;  // Timestamp when this event was created.
-  google.protobuf.Timestamp modified = 15; // Timestamp when this event was modified.
-  string creator = 16;                    // ID of the creator of this event.
-  string modifier = 17;                   // ID of the modifier of this event.
+  /*
+   * Associated User ID of the healthcare provider.
+   */
+  string user_id = 2;
+
+  /*
+   * Timestamp (in epoch time) of the provider's creation.
+   */
+  string created_epoch = 3;
+
+  /*
+   * Enumeration type to categorize providers.
+   */
+  string enumeration_type = 4;
+
+  /*
+   * Latest timestamp (in epoch time) when the provider was updated.
+   */
+  string last_updated_epoch = 5;
+
+  /*
+   * Official registration number of the provider.
+   */
+  string number = 6;
+
+  /*
+   * Collection of the healthcare provider's addresses.
+   */
+  repeated cdx.opencdx.grpc.common.Address addresses = 7;
+
+  /*
+   * Correction of various practice locations associated with the provider.
+   */
+  repeated string practiceLocations = 8;
+
+  /*
+   * General information about the provider (name, speciality, etc.).
+   */
+  BasicInfo basic = 9;
+
+  /*
+   * Different taxonomy codes associated with the healthcare provider.
+   */
+  repeated Taxonomy taxonomies = 10;
+
+  /*
+   * Collection of unique identifiers linked to the provider.
+   */
+  repeated Identifier identifiers = 11;
+
+  /*
+   * Various touchpoints (email, phone number) related to the provider.
+   */
+  repeated string endpoints = 12;
+
+  /*
+   * Any aliases or other names registered under the healthcare provider.
+   */
+  repeated string other_names = 13;
+
+  /*
+   * Protobuf timestamp representing the initial creation of this record.
+   */
+  google.protobuf.Timestamp created = 14;
+
+  /*
+   * Protobuf timestamp when the provider record was last updated.
+   */
+  google.protobuf.Timestamp modified = 15;
+
+  /*
+   * Creator's ID who created provider event.
+   */
+  string creator = 16;
+
+  /*
+   * Modifier's ID who last updated provider event.
+   */
+  string modifier = 17;
 }
 
-// Request and Response messages for creating a provider.
+/*
+ * GetProviderRequest and GetProviderResponse message pair is used for fetching a provider's information.
+ */
 message GetProviderRequest {
-  string user_id = 1;           // Provider Number to lookup.
+  /*
+   * User ID (or Provider Number) as the unique lookup key.
+   */
+  string user_id = 1;
 }
 
+/*
+ * GetProviderResponse returns the information fetched for a healthcare provider.
+ */
 message GetProviderResponse {
-  Provider provider = 1;               // Provider information for lookup.
+  /*
+   * Object containing all information of the healthcare provider requested for.
+   */
+  Provider provider = 1;
 }
 
-// Request and Response messages for editing a provider.
+/*
+ * EditProviderRequest and EditProviderResponse message pair is used for modifying a provider's details.
+ */
 message EditProviderRequest {
-  Provider provider = 1;           // Provider information for editing.
+  /*
+   * Current state of the provider object that needs to be updated.
+   */
+  Provider provider = 1;
 }
 
+/*
+ * EditProviderResponse is empty as it is only used to acknowledge successful receipt of editing request.
+ */
 message EditProviderResponse {}
 
-// Request and Response messages for deleting a provider.
+/*
+ * DeleteProviderRequest enables deletion of a provider using the provider_id as the unique key.
+ */
 message DeleteProviderRequest {
-  string provider_id = 1;          // Provider ID for deletion.
+  /*
+   * Uniquely identifies the healthcare provider to be deleted.
+   */
+  string provider_id = 1;
 }
 
+/*
+ * LoadProviderRequest and LoadProviderResponse pair is used to load a specific provider's information based on user_id and provider_number.
+ */
 message LoadProviderRequest{
-  string user_id = 1;              // User ID for loading.
-  string provider_number = 2;      // Provider number for loading.
+  /*
+   * User ID of the healthcare provider.
+   */
+  string user_id = 1;
+
+  /*
+   * Provider number used to fetch the details of a healthcare provider.
+   */
+  string provider_number = 2;
 }
 
+/*
+ * LoadProviderResponse returns the details of a healthcare provider based on the LoadProviderRequest message.
+ */
 message LoadProviderResponse{
-  Provider provider = 1;           // Provider information for loading.
+  /*
+   * Object containing all details of the loaded healthcare provider.
+   */
+  Provider provider = 1;
 }
 
+/*
+ * DeleteProviderResponse is empty and is used to acknowledge the successful deletion of a provider.
+ */
 message DeleteProviderResponse {}
 
-// Request and Response messages for listing providers.
+/*
+ * ListProvidersRequest is used to fetch a list of all healthcare providers.
+ */
 message ListProvidersRequest {}
 
-// Service definition for ProviderService.
+/*
+ * Service definitions in ProviderService to Get, Delete, List and Load healthcare providers.
+ */
 service ProviderService {
+  /*
+   * RPC to retrieve a provider by their number.
+   */
   rpc GetProviderByNumber(GetProviderRequest) returns (GetProviderResponse);
+
+  /*
+  * RPC to remove a provider.
+  */
   rpc DeleteProvider(DeleteProviderRequest) returns (DeleteProviderResponse);
+
+  /*
+  * RPC to retrieve a list of all providers.
+  */
   rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse);
+
+  /*
+   * RPC to load a specific healthcare provider.
+   */
   rpc LoadProvider(LoadProviderRequest) returns (LoadProviderResponse);
 }
