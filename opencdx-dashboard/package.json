@@ -49,7 +49,7 @@
         "yup": "^1.2.0"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "REACT_APP_API_URL_SECURED=false react-scripts start",
         "build": "react-scripts build",
         "lint": "eslint --ext .js,.jsx ./src",
         "lintFix": "eslint --fix --ext .js,.jsx ./src",

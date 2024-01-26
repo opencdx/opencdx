@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View , StyleSheet, Platform} from 'react-native';
-import axios from 'axios';
+import axios from 'utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Heading, Input, ButtonText, InputField } from '@gluestack-ui/themed';
 
@@ -10,7 +10,7 @@ const LoginScreen = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('https://localhost:8080/iam/user/login', { userName: username, password: password });
+            const response = await axios.post('/iam/user/login', { userName: username, password: password });
             await AsyncStorage.setItem('jwtToken', response.data.token);
             navigation.navigate('List');
         } catch (error) {

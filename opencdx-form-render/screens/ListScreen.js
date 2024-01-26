@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import axios from 'axios';
+import axios from 'utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Heading, ButtonText } from '@gluestack-ui/themed';
 
@@ -13,7 +13,7 @@ const ListScreen = ({ navigation }) => {
                 const jwtToken = await AsyncStorage.getItem('jwtToken');
 
                 const response = await axios.post(
-                    'https://localhost:8080/questionnaire/questionnaire/list',
+                    '/questionnaire/questionnaire/list',
                     {
                         pagination: {
                             pageSize: 30,

@@ -51,30 +51,27 @@ export const JWTProvider = ({ children }) => {
 
     useEffect(() => {
         const init = async () => {
-            // try {
-            //     const serviceToken = window.localStorage.getItem('serviceToken');
-            //     if (serviceToken && verifyToken(serviceToken)) {
-            //         setSession(serviceToken);
-            //         const response = await axios.get('/api/account/me');
-            //         const { user } = response.data;
-            //         dispatch({
-            //             type: LOGIN,
-            //             payload: {
-            //                 isLoggedIn: true,
-            //                 user
-            //             }
-            //         });
-            //     } else {
-            //         dispatch({
-            //             type: LOGOUT
-            //         });
-            //     }
-            // } catch (err) {
-            //     console.error(err);
-            //     dispatch({
-            //         type: LOGOUT
-            //     });
-            // }
+             try {
+                 const serviceToken = window.localStorage.getItem('serviceToken');
+                 if (serviceToken && verifyToken(serviceToken)) {
+                     setSession(serviceToken);
+                     dispatch({
+                         type: LOGIN,
+                         payload: {
+                             isLoggedIn: true,    
+                         }
+                     });
+                 } else {
+                     dispatch({
+                         type: LOGOUT
+                     });
+                 }
+             } catch (err) {
+                 console.error(err);
+                 dispatch({
+                     type: LOGOUT
+                 });
+             }
             dispatch({
                 type: LOGOUT
             });
@@ -83,12 +80,8 @@ export const JWTProvider = ({ children }) => {
         init();
     }, []);
 
-    const login = async (email, password) => {
-        console.log(email, password);
-        const response = await axios.post('https://localhost:8080/iam/user/login', { userName: 'admin@opencdx.org', password: 'password' });
-        // const response = await axios.post('/iam/user/login', { email, password });
-        // const { serviceToken, user } = response.data;
-        // setSession(serviceToken);
+    const login = async () => {
+        const response = await axios.post('/iam/user/login', { userName: 'admin@opencdx.org', password: 'password' });
         const { token, user } = response.data;
         setSession(token);
         dispatch({

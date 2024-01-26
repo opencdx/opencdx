@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from 'utils/axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -83,7 +83,7 @@ const Profile2 = () => {
 
     useEffect(() => {
         const fetchEmailList = async () => {
-            const response = await axios.get('https://localhost:8080/iam/profile/5f63a53ddcc67c7a1c3d93e8', {
+            const response = await axios.get('/iam/profile/5f63a53ddcc67c7a1c3d93e8', {
                 headers: {
                     Accept: 'application/json', // Specify expected format
                     Authorization: `Bearer ${localStorage.getItem('serviceToken')}`

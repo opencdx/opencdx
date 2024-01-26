@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Grid, Stack, TextField, MenuItem } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import { useTheme } from '@mui/material/styles';
-import axios from 'axios';
+import axios from 'utils/axios';
 
 // third party
 import ReactQuill from 'react-quill';
@@ -17,7 +17,7 @@ const Sms = () => {
     useEffect(() => {
         const fetchSmsList = async () => {
             const response = await axios.post(
-                'https://localhost:8080/communications/sms/list',
+                '/communications/sms/list',
                 {
                     pageSize: 20,
                     sortAscending: true

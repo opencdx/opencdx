@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { gridSpacing } from 'utils/store/constant';
-import axios from 'axios';
+import axios from 'utils/axios';
 // ==============================|| Admin PAGE ||============================== //
 
 const Email = () => {
@@ -15,7 +15,7 @@ const Email = () => {
     useEffect(() => {
         const fetchEmailList = async () => {
             const response = await axios.post(
-                'https://localhost:8080/communications/email/list',
+                '/communications/email/list',
                 {
                     pageSize: 20,
                     sortAscending: true
