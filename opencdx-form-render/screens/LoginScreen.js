@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View , StyleSheet, Platform} from 'react-native';
-import axios from 'utils/axios';
+import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Heading, Input, ButtonText, InputField } from '@gluestack-ui/themed';
 
