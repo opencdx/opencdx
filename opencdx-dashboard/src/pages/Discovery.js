@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'utils/axios';
 import { useState, useEffect } from 'react';
 import ErrorPage from 'pages/ErrorPage';
 
@@ -6,10 +6,11 @@ import ErrorPage from 'pages/ErrorPage';
 
 const Discovery = () => {
     const [isValidPage, setIsValidPage] = useState(false);
+    const url = process.env.REACT_APP_API_URL_SECURED?'https://localhost:8761/':'http://localhost:8761/'   
 
     useEffect(() => {
         axios
-            .get('http://localhost:8761/')
+            .get(url)
             .then(() => {
                 setIsValidPage(true);
             })
@@ -25,7 +26,7 @@ const Discovery = () => {
 
     useEffect(() => {
         if (isValidPage) {
-            openInNewTab('https://localhost:8861/admin/wallboard');
+            openInNewTab(url);
         }
     }, [isValidPage]);
 

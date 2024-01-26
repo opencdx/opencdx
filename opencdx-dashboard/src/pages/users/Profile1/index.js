@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import axios from 'utils/axios';
 // material-ui
 import {
     Box,
@@ -79,7 +79,7 @@ const Profile1 = () => {
     const navigate = useNavigate();
     useEffect(() => {
         const fetchEmailList = async () => {
-            const response = await axios.get('https://localhost:8080/iam/profile/5f63a53ddcc67c7a1c3d93e8', {
+            const response = await axios.get('/iam/profile/5f63a53ddcc67c7a1c3d93e8', {
                 headers: {
                     Accept: 'application/json', // Specify expected format
                     Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
