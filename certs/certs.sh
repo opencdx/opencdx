@@ -73,6 +73,7 @@ services=(  "Audit"
             "nats"
             "classification"
             "Dashboard"
+            "GraphQl"
         )
 
 # Generate certificates for services
