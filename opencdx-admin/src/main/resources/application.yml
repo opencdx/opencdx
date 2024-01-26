@@ -1,4 +1,6 @@
 spring:
+  banner:
+    location: /banner.txt
   application:
     name: Admin
   boot:
@@ -54,6 +56,13 @@ server:
     key-alias: admin
 
 management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
   endpoint:
     health:
       probes:

@@ -64,6 +64,8 @@ springdoc:
 
 # Spring SSL bundle for securing a webserver
 spring:
+  banner:
+    location: /banner.txt
   output:
     ansi:
       enabled: always
