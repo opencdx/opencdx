@@ -295,21 +295,6 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
         responseObserver.onCompleted();
     }
 
-    /**
-     * updateUserQuestionnaireData gRPC Service Call
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
-     */
-    @Secured({})
-    @Override
-    public void updateUserQuestionnaireData(
-            UserQuestionnaireDataRequest request, StreamObserver<SubmissionResponse> responseObserver) {
-        SubmissionResponse reply = openCDXQuestionnaireService.updateUserQuestionnaireData(request);
-
-        responseObserver.onNext(reply);
-        responseObserver.onCompleted();
-    }
-
     /*
      * getUserQuestionnaire gRPC Service Call
      * @param request Request to process
@@ -333,23 +318,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getUserQuestionnaireDataList(
-            GetQuestionnaireListRequest request, StreamObserver<UserQuestionnaireData> responseObserver) {
-        UserQuestionnaireData reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
-
-        responseObserver.onNext(reply);
-        responseObserver.onCompleted();
-    }
-
-    /*
-     * deleteUserQuestionnaire gRPC Service Call
-     * @param request Request to process
-     * @param responseObserver Observer to process the response
-     */
-    @Secured({})
-    @Override
-    public void deleteUserQuestionnaireData(
-            DeleteQuestionnaireRequest request, StreamObserver<SubmissionResponse> responseObserver) {
-        SubmissionResponse reply = openCDXQuestionnaireService.deleteUserQuestionnaireData(request);
+            GetQuestionnaireListRequest request, StreamObserver<UserQUestionnaireDataResponse> responseObserver) {
+        UserQUestionnaireDataResponse reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();

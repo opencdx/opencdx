@@ -145,13 +145,6 @@ public interface OpenCDXQuestionnaireService {
     SubmissionResponse createUserQuestionnaireData(UserQuestionnaireDataRequest request);
 
     /**
-     * Process the QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the update user questionnaire request.
-     */
-    SubmissionResponse updateUserQuestionnaireData(UserQuestionnaireDataRequest request);
-
-    /**
      * Get the QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the user questionnaire request.
@@ -163,12 +156,5 @@ public interface OpenCDXQuestionnaireService {
      * @param request request the process
      * @return Message generated for the user questionnaire requests.
      */
-    UserQuestionnaireData getUserQuestionnaireDataList(GetQuestionnaireListRequest request);
-
-    /**
-     * Process the QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the delete user questionnaire request.
-     */
-    SubmissionResponse deleteUserQuestionnaireData(DeleteQuestionnaireRequest request);
+    UserQUestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request);
 }

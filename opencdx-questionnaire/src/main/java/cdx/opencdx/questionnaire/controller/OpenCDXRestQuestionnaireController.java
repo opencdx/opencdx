@@ -302,25 +302,6 @@ public class OpenCDXRestQuestionnaireController {
     }
 
     /**
-     * Post Update User Questionnaire Rest API
-     * @param request QuestionnaireRequest indicating questionnaire realted data
-     * @return SubmissionResponse with the message.
-     */
-    @PutMapping(value = "/user/questionnaire", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SubmissionResponse> updateUserQuestionnaireData(
-            @RequestBody UserQuestionnaireDataRequest request) {
-
-        return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .updateUserQuestionnaireData(request)
-                                .getSuccess())
-                        .setMessage("Executed UpdateUserQuestionnaireData operation.")
-                        .build(),
-                HttpStatus.OK);
-    }
-
-    /**
      * Get User Questionnaire Rest API
      *  @param id  Identifier of questionnaire to get.
      * @return Questionnaire with the message.
@@ -339,27 +320,8 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaires with the message.
      */
     @PostMapping(value = "/user/questionnaire/list")
-    public ResponseEntity<UserQuestionnaireData> getUserQuestionnaireDataList(
+    public ResponseEntity<UserQUestionnaireDataResponse> getUserQuestionnaireDataList(
             @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireDataList(request), HttpStatus.OK);
-    }
-
-    /**
-     * Delete User Questionnaire Rest API
-     * @param id Identifier of questionnaire to delete.
-     * @return SubmissionResponse with the message.
-     */
-    @DeleteMapping(value = "/user/questionnaire/{Id}")
-    public ResponseEntity<SubmissionResponse> deleteUserQuestionnaire(@PathVariable(value = "Id") String id) {
-        return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .deleteUserQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
-                                        .setId(id)
-                                        .build())
-                                .getSuccess())
-                        .setMessage("Executed DeleteUserQuestionnaire operation.")
-                        .build(),
-                HttpStatus.OK);
     }
 }
