@@ -151,6 +151,11 @@ run_jmeter_tests() {
     rm -rf build/reports/jmeter
     mkdir -p build/reports
 
+    # Set HEAP only if parameter is not "smoke"
+    if [ "$properties_file" != "smoke" ]; then
+        export HEAP="-Xms5g -Xmx16g -XX:MaxMetaspaceSize=1g"
+    fi
+
     jmeter -p "./jmeter/$properties_file.properties" -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
 }
 

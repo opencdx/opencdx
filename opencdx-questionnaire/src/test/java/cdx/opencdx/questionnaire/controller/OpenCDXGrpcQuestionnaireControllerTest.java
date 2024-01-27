@@ -18,13 +18,16 @@ package cdx.opencdx.questionnaire.controller;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
+import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
+import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.impl.OpenCDXQuestionnaireServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,6 +74,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
     OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository;
 
     @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    @Mock
+    OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
@@ -79,7 +88,33 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(argument)
+                                .password("{noop}pass")
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("bob")
+                                        .setLastName("bob")
+                                        .build())
+                                .username("ab@safehealth.me")
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .addAllEmails(List.of(EmailAddress.newBuilder()
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .setEmail("ab@safehealth.me")
+                                                .build()))
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .setNumber("1234567890")
+                                                .build()))
+                                        .build())
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
         Mockito.when(openCDXQuestionnaireRepository.save(Mockito.any(OpenCDXQuestionnaireModel.class)))
                 .thenAnswer(new Answer<OpenCDXQuestionnaireModel>() {
                     @Override
@@ -109,8 +144,49 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
+        Mockito.when(this.openCDXUserQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXUserQuestionnaireModel.builder()
+                                .id(ObjectId.get())
+                                .userId(ObjectId.get())
+                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        Mockito.when(openCDXUserQuestionnaireRepository.save(Mockito.any(OpenCDXUserQuestionnaireModel.class)))
+                .thenAnswer(new Answer<OpenCDXUserQuestionnaireModel>() {
+                    @Override
+                    public OpenCDXUserQuestionnaireModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXUserQuestionnaireModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+        Mockito.when(openCDXUserQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXUserQuestionnaireModel>>() {
+                    @Override
+                    public Optional<OpenCDXUserQuestionnaireModel> answer(InvocationOnMock invocation)
+                            throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXUserQuestionnaireModel.builder()
+                                .id(argument)
+                                .userId(ObjectId.get())
+                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .build());
+                    }
+                });
+        Mockito.when(openCDXUserQuestionnaireRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
+
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                this.objectMapper,
+                openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
     }
 
@@ -147,7 +223,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
         StreamObserver<RuleSetsResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -215,7 +296,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -241,7 +327,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -273,7 +364,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -321,7 +417,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(this.openCDXQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -432,7 +533,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -458,7 +564,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 .thenReturn(Optional.empty());
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, this.objectMapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                this.objectMapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -503,7 +614,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -546,7 +662,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -584,7 +705,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -617,7 +743,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -654,7 +785,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -697,7 +833,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -740,7 +881,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -779,7 +925,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -816,7 +967,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -857,7 +1013,12 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
@@ -880,7 +1041,9 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .addQuestionnaireData(data)
+                        .setUserId(ObjectId.get().toHexString()))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -899,14 +1062,21 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .addQuestionnaireData(data)
+                        .setUserId(ObjectId.get().toHexString()))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -919,52 +1089,14 @@ class OpenCDXGrpcQuestionnaireControllerTest {
     }
 
     @Test
-    void updateUserQuestionnaireData() {
-        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-
-        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
-                .build();
-        SubmissionResponse response = SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("Executed")
-                .build();
-
-        this.openCDXGrpcQuestionnaireController.updateUserQuestionnaireData(request, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void updateUserQuestionnaireDataWithInvalidRequest() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-
-        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
-
-        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
-
-        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-
-        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
-                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().addQuestionnaireData(data))
-                .build();
-        SubmissionResponse response = SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("Executed")
-                .build();
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXGrpcQuestionnaireController.updateUserQuestionnaireData(request, responseObserver));
-    }
-
-    @Test
     void getUserQuestionnaireData() {
         StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
-        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
         UserQuestionnaireData response = UserQuestionnaireData.newBuilder().build();
 
         this.openCDXGrpcQuestionnaireController.getUserQuestionnaireData(request, responseObserver);
@@ -979,13 +1111,22 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
         StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
 
-        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
         UserQuestionnaireData response = UserQuestionnaireData.newBuilder().build();
 
         Assertions.assertThrows(
@@ -995,16 +1136,17 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getUserQuestionnaireDataList() {
-        StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQUestionnaireDataResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        GetQuestionnaireListRequest request =
-                GetQuestionnaireListRequest.newBuilder().build();
-        UserQuestionnaireData response =
-                UserQuestionnaireData.newBuilder().addQuestionnaireData(data).build();
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
 
         this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserQuestionnaireData.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserQUestionnaireDataResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -1014,60 +1156,25 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository);
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<UserQuestionnaireData> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQUestionnaireDataResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
-        GetQuestionnaireListRequest request =
-                GetQuestionnaireListRequest.newBuilder().build();
-
-        UserQuestionnaireData response =
-                UserQuestionnaireData.newBuilder().addQuestionnaireData(data).build();
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
 
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
                 () -> this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver));
-    }
-
-    @Test
-    void deleteUserQuestionnaireData() {
-        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-
-        DeleteQuestionnaireRequest request =
-                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
-        SubmissionResponse response = SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("Executed")
-                .build();
-
-        this.openCDXGrpcQuestionnaireController.deleteUserQuestionnaireData(request, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void deleteUserQuestionnaireDataWithInvalidRequest() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
-
-        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXQuestionnaireRepository);
-
-        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
-
-        StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        DeleteQuestionnaireRequest request =
-                DeleteQuestionnaireRequest.newBuilder().setId("123").build();
-        SubmissionResponse response = SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("Executed")
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,
-                () -> this.openCDXGrpcQuestionnaireController.deleteUserQuestionnaireData(request, responseObserver));
     }
 }

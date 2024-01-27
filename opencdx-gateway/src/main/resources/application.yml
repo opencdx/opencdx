@@ -176,6 +176,12 @@ spring:
             - Path=/cdx.opencdx.grpc.neural.classification.ClassificationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: admin-dashboard
+          uri: https://dashboard:3005
+          predicates:
+            - Path=/dashboard/**
+          filters:
+            - RewritePath=/dashboard/?(?<segment>.*), /$\{segment}
 eureka:
   client:
     service-url:

@@ -433,13 +433,17 @@ message ClientQuestionnaireData {
  */
 message UserQuestionnaireData {
   /*
-   * Contains a list of `QuestionnaireData` associated with a specific user.
-   */
-  repeated QuestionnaireData questionnaire_data = 1;
+ * Represents the unique identifier for the questionnaire.
+ */
+  optional string id = 1;
   /*
    * Represents the user identifier associated with these questionnaires.
    */
-  optional string user_id = 2;
+  string user_id = 2;
+  /*
+    * Contains a list of `QuestionnaireData` associated with a specific user.
+    */
+  repeated QuestionnaireData questionnaire_data = 3;
 }
 
 /*
@@ -581,11 +585,6 @@ service QuestionnaireService {
   rpc CreateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse);
 
   /*
-   * Constructs a new questionnaire entity for user-level display.
-   */
-  rpc UpdateUserQuestionnaireData(UserQuestionnaireDataRequest) returns (SubmissionResponse);
-
-  /*
    * Modifies an existing questionnaire entity at the user level.
    */
   rpc GetUserQuestionnaireData(GetQuestionnaireRequest) returns (UserQuestionnaireData);
@@ -593,16 +592,7 @@ service QuestionnaireService {
   /*
    * Fetches user-level questionnaire data by its unique Id.
    */
-  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireData);
-
-  /*
-   * Fetches the list of all user-level questionnaire data.
-   */
-  rpc DeleteUserQuestionnaireData(DeleteQuestionnaireRequest) returns (SubmissionResponse);
-
-  /*
-   * Removes user questionnaire data using its unique id.
-   */
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQUestionnaireDataResponse);
 }
 
 /*
@@ -707,4 +697,30 @@ message UserQuestionnaireDataRequest {
    * Field that holds user-level FHIR questionnaire data.
    */
   UserQuestionnaireData user_questionnaire_data = 1;
+}
+
+
+/*
+ * UserQUestionnaireDataResponse is a message type defined in Protocol Buffers,
+ * a language-neutral, platform-neutral extensible mechanism for serializing structured data.
+ * This message type is used to pass response data of a user questionnaire request.
+ *
+ * list: An array of 'UserQuestionnaireData' items. Each item in the list represents
+ * individual user's response to the questionnaire.
+ *
+ * pagination: This field contains pagination information and sorting details to handle large
+ * data sets. The Pagination object is defined in 'cdx.opencdx.grpc.common' and it enables
+ * navigating through large data sets by loading only a subset of the data at a time, thus
+ * optimizing response time and system resources.
+ */
+message UserQUestionnaireDataResponse {
+  /*
+   * An array of UserQuestionnaireData items
+   */
+  repeated UserQuestionnaireData list = 1;
+
+  /*
+   * Contains pagination information for large data sets
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
 }
