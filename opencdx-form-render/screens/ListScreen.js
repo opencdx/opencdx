@@ -65,7 +65,10 @@ const styles = StyleSheet.create({
             web: {
                 minWidth: 500,
             },
-            default: {},
+            default: {
+                margin:20,
+                shadowColor: "#000",   
+            },
         })),
     },
     input: {

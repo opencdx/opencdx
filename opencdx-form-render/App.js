@@ -16,9 +16,21 @@ const App = () => {
     <GluestackUIProvider config={config}>
       <NavigationContainer styles={styles.container}>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="List" component={ListScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} 
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="List" component={ListScreen} 
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="Home" component={HomeScreen}
+            options={{
+              headerShown: false,
+            }}
+           />
         </Stack.Navigator>
       </NavigationContainer>
     </GluestackUIProvider>
