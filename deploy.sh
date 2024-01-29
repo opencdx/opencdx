@@ -70,6 +70,36 @@ if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
   LAST_COMMIT=$(git rev-parse --short HEAD)
 fi
 
+
+
+generate_version_number() {
+  # Check if $skip variable is set to true
+  if [ "$skip" = true ]; then
+    # Read the version number from ./version.txt
+    if [ -f "./version.txt" ]; then
+      version_number=$(cat "./version.txt")
+    else
+      generate_new_version=true
+    fi
+  else
+    generate_new_version=true
+  fi
+
+  # Generate a new version number if needed
+  if [ "$generate_new_version" = true ]; then
+    # Get the current date and time in the format YYYYMMDDHHMMSS
+    datetime=$(date +"%Y%m%d%H%M%S")
+
+    # Combine the hostname and date/time to create the version number
+    version_number="0.0.${datetime}"
+
+    # Save the version number to ./version.txt
+    echo "$version_number" > "./version.txt"
+  fi
+
+  echo "$version_number"
+}
+
 # Function to copy files from source to target directory
 # Parameters: $1 - Source directory, $2 - Target directory
 # Returns: 0 on success, 1 on failure
@@ -475,9 +505,9 @@ menu() {
 
         if [ -t 1 ]; then
                 # Check if stdout is a terminal
-                echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC} Deployed: ${GREEN}$DEPLOYED${NC}"
+                echo -e "Current branch: ${GREEN}$GIT_BRANCH${NC} Version: ${GREEN}$version${NC} Last commit: ${GREEN}$LAST_COMMIT${NC} Skip: ${GREEN}$skip${NC} Clean: ${GREEN}$clean${NC} Deploy: ${GREEN}$deploy${NC} Fast Build: ${GREEN}$fast_build${NC} Wipe: ${GREEN}$wipe${NC} Cert: ${GREEN}$cert${NC} Deployed: ${GREEN}$DEPLOYED${NC}"
             else
-                cho "Current branch: $GIT_BRANCH Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert Deployed: $DEPLOYED"
+                cho "Current branch: $GIT_BRANCH Version: $version Last commit: $LAST_COMMIT Skip: $skip Clean: $clean  Deploy: $deploy Fast Build: $fast_build Wipe: $wipe Cert: $cert Deployed: $DEPLOYED"
             fi
 
         echo "OpenCDX Deployment Menu:"
@@ -717,6 +747,9 @@ if [ "$proto" = true ]; then
     fi
     exit 0
 fi
+
+export version=$(generate_version_number)
+
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     git_info

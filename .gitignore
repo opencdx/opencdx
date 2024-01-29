@@ -67,3 +67,4 @@ Thumbs.db
 /certs/*.p12
 /last_docker_compose_filename.txt
 /docker/generated-docker-compose.yaml
+/version.txt
