@@ -54,7 +54,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String ACTIVE = "Active";
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
-    public static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
+    private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
