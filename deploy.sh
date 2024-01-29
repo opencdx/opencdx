@@ -338,7 +338,7 @@ print_usage() {
 
 # Function to build Docker image
 build_docker_image() {
-    docker build -t "$1" "$2" || handle_error "Docker $1 build failed."
+    docker build -t "$1:latest" -t "$1:$version" "$2" || handle_error "Docker $1 build failed."
 }
 build_docker() {
     handle_info "Building Docker images..."
