@@ -17,3 +17,6 @@ _**Links are part of the build not available from GitHub.**_
 - [API-DOCS](http://localhost:8180/api-docs)
 - [API-DOCS YAML](http://localhost:8180/api-docs.yaml)
 ## Interfaces
+
+## Tinkar DB Settings
+- Place the Tinkar DB under the data folder in the root of the project. Also name the Tinkar DB as **solor-us-tinkar.sa** 

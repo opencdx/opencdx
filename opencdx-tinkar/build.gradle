@@ -36,14 +36,14 @@ dependencies {
     implementation project(":opencdx-commons")
     implementation project(":opencdx-client")
 
-    implementation "dev.ikm.tinkar:entity:1.12.0"
-    implementation "dev.ikm.tinkar:common:1.12.0"
-    implementation "dev.ikm.tinkar:coordinate:1.12.0"
-    implementation "dev.ikm.tinkar:data-mvstore-provider:1.12.0"
-    implementation "dev.ikm.tinkar:data-spinedarray-provider:1.12.0"
-    implementation "dev.ikm.tinkar:data-websocket-client-provider:1.12.0"
-    implementation "dev.ikm.tinkar:data-ephemeral-provider:1.12.0"
-    implementation "dev.ikm.tinkar:executor-provider:1.12.0"
+    implementation "dev.ikm.tinkar:entity:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:common:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:coordinate:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:data-mvstore-provider:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:data-spinedarray-provider:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:data-websocket-client-provider:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:data-ephemeral-provider:${tinkarVersion}"
+    implementation "dev.ikm.tinkar:executor-provider:${tinkarVersion}"
     implementation 'io.micrometer:micrometer-observation'
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
@@ -51,12 +51,6 @@ dependencies {
 
     testImplementation "io.nats:nats-spring:${natsSpringVersion}"
 
-
-}
-
-configurations {
-    all*.exclude module : 'spring-boot-starter-logging'
-    all*.exclude module : 'logback-classic'
 }
 
 sourceSets {
