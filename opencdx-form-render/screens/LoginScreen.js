@@ -86,9 +86,12 @@ const LoginScreen = ({ navigation }) => {
                 <Button title="Sign In" onPress={handleLogin} style={styles.button}>
                     <ButtonText style={styles.buttonText}>Sign In</ButtonText>
                 </Button>
-                <Link href="" style={styles.signup}>
-                    <LinkText>Don't have an account? Sign Up</LinkText>
-                </Link>
+                <View style={styles.center}>
+                    <Text style={styles.centerText}>Don't have an account?</Text>
+                    <Link href="" style={styles.centerLink}>
+                        <LinkText>Sign Up</LinkText>
+                    </Link>
+                </View>
             </View>
         </SafeAreaView>
     );
