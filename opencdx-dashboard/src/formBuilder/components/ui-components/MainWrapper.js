@@ -47,27 +47,27 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
 
         localStorage.setItem('anf-form', JSON.stringify({ item: updatedItem, ...formData }));
 
-        // const values = Object.keys(localStorage)
-        //     .filter((key) => key.includes('form-v'))
-        //     .map((key) => localStorage.getItem(key));
-        // if (values.length === 0) {
-        //     localStorage.setItem(
-        //         'form-v1',
-        //         JSON.stringify({
-        //             'anf-form': JSON.parse(localStorage.getItem('anf-form')),
-        //             'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
-        //         })
-        //     );
-        // }
-        // localStorage.setItem(
-        //     'form-v' + (values.length + 1),
-        //     JSON.stringify({
-        //         'anf-form': JSON.parse(localStorage.getItem('anf-form')),
-        //         'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
-        //     })
-        // );
+        const values = Object.keys(localStorage)
+            .filter((key) => key.includes('form-v'))
+            .map((key) => localStorage.getItem(key));
+        if (values.length === 0) {
+            localStorage.setItem(
+                'form-v1',
+                JSON.stringify({
+                    'anf-form': JSON.parse(localStorage.getItem('anf-form')),
+                    'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
+                })
+            );
+        }
+        localStorage.setItem(
+            'form-v' + (values.length + 1),
+            JSON.stringify({
+                'anf-form': JSON.parse(localStorage.getItem('anf-form')),
+                'uploaded-form': JSON.parse(localStorage.getItem('uploaded-form'))
+            })
+        );
 
-        // setAnfFormLocal({ item: updatedItem ,ruleset: formData.ruleset});
+        setAnfFormLocal({ item: updatedItem ,ruleset: formData.ruleset});
 
         setShowAlert(true);
     };

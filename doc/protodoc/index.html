@@ -1445,6 +1445,10 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.UserQUestionnaireDataResponse"><span class="badge">M</span>UserQUestionnaireDataResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData"><span class="badge">M</span>UserQuestionnaireData</a>
                 </li>
               
@@ -13955,6 +13959,37 @@ for possible values. </p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.questionnaire.UserQUestionnaireDataResponse">UserQUestionnaireDataResponse</h3>
+        <p>UserQUestionnaireDataResponse is a message type defined in Protocol Buffers,</p><p>a language-neutral, platform-neutral extensible mechanism for serializing structured data.</p><p>This message type is used to pass response data of a user questionnaire request.</p><p>list: An array of 'UserQuestionnaireData' items. Each item in the list represents</p><p>individual user's response to the questionnaire.</p><p>pagination: This field contains pagination information and sorting details to handle large</p><p>data sets. The Pagination object is defined in 'cdx.opencdx.grpc.common' and it enables</p><p>navigating through large data sets by loading only a subset of the data at a time, thus</p><p>optimizing response time and system resources.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>list</td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
+                  <td>repeated</td>
+                  <td><p>An array of UserQuestionnaireData items </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Contains pagination information for large data sets </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</h3>
         <p>`UserQuestionnaireData` message represents a list of questionnaires associated with a specific user.</p><p>This message is used to define questionnaires that are tied to specific users for user-centric tasks.</p>
 
@@ -13966,17 +14001,24 @@ for possible values. </p></td>
             <tbody>
               
                 <tr>
-                  <td>questionnaire_data</td>
-                  <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireData">QuestionnaireData</a></td>
-                  <td>repeated</td>
-                  <td><p>Contains a list of `QuestionnaireData` associated with a specific user. </p></td>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Represents the unique identifier for the questionnaire. </p></td>
                 </tr>
               
                 <tr>
                   <td>user_id</td>
                   <td><a href="#string">string</a></td>
-                  <td>optional</td>
+                  <td></td>
                   <td><p>Represents the user identifier associated with these questionnaires. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>questionnaire_data</td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireData">QuestionnaireData</a></td>
+                  <td>repeated</td>
+                  <td><p>Contains a list of `QuestionnaireData` associated with a specific user. </p></td>
                 </tr>
               
             </tbody>
@@ -14210,13 +14252,6 @@ for possible values. </p></td>
               </tr>
             
               <tr>
-                <td>UpdateUserQuestionnaireData</td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest">UserQuestionnaireDataRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Constructs a new questionnaire entity for user-level display.</p></td>
-              </tr>
-            
-              <tr>
                 <td>GetUserQuestionnaireData</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest">GetQuestionnaireRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
@@ -14226,15 +14261,8 @@ for possible values. </p></td>
               <tr>
                 <td>GetUserQuestionnaireDataList</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.UserQUestionnaireDataResponse">UserQUestionnaireDataResponse</a></td>
                 <td><p>Fetches user-level questionnaire data by its unique Id.</p></td>
-              </tr>
-            
-              <tr>
-                <td>DeleteUserQuestionnaireData</td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest">DeleteQuestionnaireRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.SubmissionResponse">SubmissionResponse</a></td>
-                <td><p>Fetches the list of all user-level questionnaire data.</p></td>
               </tr>
             
           </tbody>

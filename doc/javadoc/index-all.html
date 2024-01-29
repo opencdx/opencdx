@@ -1623,20 +1623,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Method to delete a user.</div>
 </dd>
-<dt><a href="cdx/opencdx/questionnaire/controller/OpenCDXRestQuestionnaireController.html#deleteUserQuestionnaire(java.lang.String)" class="member-name-link">deleteUserQuestionnaire(String)</a> - Method in class cdx.opencdx.questionnaire.controller.<a href="cdx/opencdx/questionnaire/controller/OpenCDXRestQuestionnaireController.html" title="class in cdx.opencdx.questionnaire.controller">OpenCDXRestQuestionnaireController</a></dt>
-<dd>
-<div class="block">Delete User Questionnaire Rest API</div>
-</dd>
-<dt><a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html#deleteUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteUserQuestionnaireData(DeleteQuestionnaireRequest)</a> - Method in class cdx.opencdx.questionnaire.service.impl.<a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html" title="class in cdx.opencdx.questionnaire.service.impl">OpenCDXQuestionnaireServiceImpl</a></dt>
-<dd>
-<div class="block">Process the Delete User QuestionnaireRequest Data</div>
-</dd>
-<dt><a href="cdx/opencdx/questionnaire/service/OpenCDXQuestionnaireService.html#deleteUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest)" class="member-name-link">deleteUserQuestionnaireData(DeleteQuestionnaireRequest)</a> - Method in interface cdx.opencdx.questionnaire.service.<a href="cdx/opencdx/questionnaire/service/OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></dt>
-<dd>
-<div class="block">Process the QuestionnaireRequest Data</div>
-</dd>
-<dt><a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html#deleteUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.DeleteQuestionnaireRequest,io.grpc.stub.StreamObserver)" class="member-name-link">deleteUserQuestionnaireData(DeleteQuestionnaireRequest, StreamObserver&lt;SubmissionResponse&gt;)</a> - Method in class cdx.opencdx.questionnaire.controller.<a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html" title="class in cdx.opencdx.questionnaire.controller">OpenCDXGrpcQuestionnaireController</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/connected/test/service/impl/OpenCDXVendorServiceImpl.html#deleteVendor(cdx.opencdx.grpc.inventory.VendorIdRequest)" class="member-name-link">deleteVendor(VendorIdRequest)</a> - Method in class cdx.opencdx.connected.test.service.impl.<a href="cdx/opencdx/connected/test/service/impl/OpenCDXVendorServiceImpl.html" title="class in cdx.opencdx.connected.test.service.impl">OpenCDXVendorServiceImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/connected/test/service/OpenCDXVendorService.html#deleteVendor(cdx.opencdx.grpc.inventory.VendorIdRequest)" class="member-name-link">deleteVendor(VendorIdRequest)</a> - Method in interface cdx.opencdx.connected.test.service.<a href="cdx/opencdx/connected/test/service/OpenCDXVendorService.html" title="interface in cdx.opencdx.connected.test.service">OpenCDXVendorService</a></dt>
@@ -2290,6 +2276,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a protobuf message representation of the Questionnaire.</div>
 </dd>
+<dt><a href="cdx/opencdx/questionnaire/model/OpenCDXUserQuestionnaireModel.html#getProtobufMessage()" class="member-name-link">getProtobufMessage()</a> - Method in class cdx.opencdx.questionnaire.model.<a href="cdx/opencdx/questionnaire/model/OpenCDXUserQuestionnaireModel.html" title="class in cdx.opencdx.questionnaire.model">OpenCDXUserQuestionnaireModel</a></dt>
+<dd>
+<div class="block">Returns a UserQuestionnaireData object representing this OpenCDXUserQuestionnaireModel instance.</div>
+</dd>
 <dt><a href="cdx/opencdx/iam/controller/OpenCDXIAMProviderRestController.html#getProviderByNumber(cdx.opencdx.grpc.provider.GetProviderRequest)" class="member-name-link">getProviderByNumber(GetProviderRequest)</a> - Method in class cdx.opencdx.iam.controller.<a href="cdx/opencdx/iam/controller/OpenCDXIAMProviderRestController.html" title="class in cdx.opencdx.iam.controller">OpenCDXIAMProviderRestController</a></dt>
 <dd>
 <div class="block">Get a Provider by number.</div>
@@ -2518,7 +2508,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the QuestionnaireRequest Data</div>
 </dd>
-<dt><a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html#getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest,io.grpc.stub.StreamObserver)" class="member-name-link">getUserQuestionnaireDataList(GetQuestionnaireListRequest, StreamObserver&lt;UserQuestionnaireData&gt;)</a> - Method in class cdx.opencdx.questionnaire.controller.<a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html" title="class in cdx.opencdx.questionnaire.controller">OpenCDXGrpcQuestionnaireController</a></dt>
+<dt><a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html#getUserQuestionnaireDataList(cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest,io.grpc.stub.StreamObserver)" class="member-name-link">getUserQuestionnaireDataList(GetQuestionnaireListRequest, StreamObserver&lt;UserQUestionnaireDataResponse&gt;)</a> - Method in class cdx.opencdx.questionnaire.controller.<a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html" title="class in cdx.opencdx.questionnaire.controller">OpenCDXGrpcQuestionnaireController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="cdx/opencdx/commons/collections/ListUtils.html#getValue(java.util.List,java.util.function.Function)" class="member-name-link">getValue(List&lt;E&gt;, Function&lt;E, R&gt;)</a> - Static method in class cdx.opencdx.commons.collections.<a href="cdx/opencdx/commons/collections/ListUtils.html" title="class in cdx.opencdx.commons.collections">ListUtils</a></dt>
 <dd>
@@ -4315,7 +4305,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Service for processing Questionnaire Requests</div>
 </dd>
-<dt><a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository)" class="member-name-link">OpenCDXQuestionnaireServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser, OpenCDXQuestionnaireRepository)</a> - Constructor for class cdx.opencdx.questionnaire.service.impl.<a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html" title="class in cdx.opencdx.questionnaire.service.impl">OpenCDXQuestionnaireServiceImpl</a></dt>
+<dt><a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository,cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository,cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">OpenCDXQuestionnaireServiceImpl(OpenCDXAuditService, ObjectMapper, OpenCDXCurrentUser, OpenCDXQuestionnaireRepository, OpenCDXUserQuestionnaireRepository, OpenCDXIAMUserRepository)</a> - Constructor for class cdx.opencdx.questionnaire.service.impl.<a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html" title="class in cdx.opencdx.questionnaire.service.impl">OpenCDXQuestionnaireServiceImpl</a></dt>
 <dd>
 <div class="block">This class represents the implementation of the OpenCDXQuestionnaireService interface.</div>
 </dd>
@@ -4624,6 +4614,18 @@ loadScripts(document, 'script');</script>
 <dt><a href="cdx/opencdx/commons/service/impl/OpenCDXUserDetailsServiceImpl.html#%3Cinit%3E(cdx.opencdx.commons.repository.OpenCDXIAMUserRepository)" class="member-name-link">OpenCDXUserDetailsServiceImpl(OpenCDXIAMUserRepository)</a> - Constructor for class cdx.opencdx.commons.service.impl.<a href="cdx/opencdx/commons/service/impl/OpenCDXUserDetailsServiceImpl.html" title="class in cdx.opencdx.commons.service.impl">OpenCDXUserDetailsServiceImpl</a></dt>
 <dd>
 <div class="block">Constructor to access the User Repository</div>
+</dd>
+<dt><a href="cdx/opencdx/questionnaire/model/OpenCDXUserQuestionnaireModel.html" class="type-name-link" title="class in cdx.opencdx.questionnaire.model">OpenCDXUserQuestionnaireModel</a> - Class in <a href="cdx/opencdx/questionnaire/model/package-summary.html">cdx.opencdx.questionnaire.model</a></dt>
+<dd>
+<div class="block">The OpenCDXUserQuestionnaireModel class represents a user questionnaire data model in the OpenCDX system.</div>
+</dd>
+<dt><a href="cdx/opencdx/questionnaire/model/OpenCDXUserQuestionnaireModel.html#%3Cinit%3E(cdx.opencdx.grpc.questionnaire.UserQuestionnaireData)" class="member-name-link">OpenCDXUserQuestionnaireModel(UserQuestionnaireData)</a> - Constructor for class cdx.opencdx.questionnaire.model.<a href="cdx/opencdx/questionnaire/model/OpenCDXUserQuestionnaireModel.html" title="class in cdx.opencdx.questionnaire.model">OpenCDXUserQuestionnaireModel</a></dt>
+<dd>
+<div class="block">The OpenCDXUserQuestionnaireModel class represents a user questionnaire data model in the OpenCDX system.</div>
+</dd>
+<dt><a href="cdx/opencdx/questionnaire/repository/OpenCDXUserQuestionnaireRepository.html" class="type-name-link" title="interface in cdx.opencdx.questionnaire.repository">OpenCDXUserQuestionnaireRepository</a> - Interface in <a href="cdx/opencdx/questionnaire/repository/package-summary.html">cdx.opencdx.questionnaire.repository</a></dt>
+<dd>
+<div class="block">The OpenCDXUserQuestionnaireRepository interface provides methods for interacting with the "questionnaire-user" collection in MongoDB.</div>
 </dd>
 <dt><a href="cdx/opencdx/connected/test/model/OpenCDXVendorModel.html" class="type-name-link" title="class in cdx.opencdx.connected.test.model">OpenCDXVendorModel</a> - Class in <a href="cdx/opencdx/connected/test/model/package-summary.html">cdx.opencdx.connected.test.model</a></dt>
 <dd>
@@ -5526,22 +5528,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="cdx/opencdx/iam/controller/OpenCDXIAMProfileGrpcController.html#updateUserProfile(cdx.opencdx.grpc.profile.UpdateUserProfileRequest,io.grpc.stub.StreamObserver)" class="member-name-link">updateUserProfile(UpdateUserProfileRequest, StreamObserver&lt;UpdateUserProfileResponse&gt;)</a> - Method in class cdx.opencdx.iam.controller.<a href="cdx/opencdx/iam/controller/OpenCDXIAMProfileGrpcController.html" title="class in cdx.opencdx.iam.controller">OpenCDXIAMProfileGrpcController</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="cdx/opencdx/questionnaire/controller/OpenCDXRestQuestionnaireController.html#updateUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest)" class="member-name-link">updateUserQuestionnaireData(UserQuestionnaireDataRequest)</a> - Method in class cdx.opencdx.questionnaire.controller.<a href="cdx/opencdx/questionnaire/controller/OpenCDXRestQuestionnaireController.html" title="class in cdx.opencdx.questionnaire.controller">OpenCDXRestQuestionnaireController</a></dt>
-<dd>
-<div class="block">Post Update User Questionnaire Rest API</div>
-</dd>
-<dt><a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html#updateUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest)" class="member-name-link">updateUserQuestionnaireData(UserQuestionnaireDataRequest)</a> - Method in class cdx.opencdx.questionnaire.service.impl.<a href="cdx/opencdx/questionnaire/service/impl/OpenCDXQuestionnaireServiceImpl.html" title="class in cdx.opencdx.questionnaire.service.impl">OpenCDXQuestionnaireServiceImpl</a></dt>
-<dd>
-<div class="block">Process the Update User QuestionnaireRequest Data</div>
-</dd>
-<dt><a href="cdx/opencdx/questionnaire/service/OpenCDXQuestionnaireService.html#updateUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest)" class="member-name-link">updateUserQuestionnaireData(UserQuestionnaireDataRequest)</a> - Method in interface cdx.opencdx.questionnaire.service.<a href="cdx/opencdx/questionnaire/service/OpenCDXQuestionnaireService.html" title="interface in cdx.opencdx.questionnaire.service">OpenCDXQuestionnaireService</a></dt>
-<dd>
-<div class="block">Process the QuestionnaireRequest Data</div>
-</dd>
-<dt><a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html#updateUserQuestionnaireData(cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest,io.grpc.stub.StreamObserver)" class="member-name-link">updateUserQuestionnaireData(UserQuestionnaireDataRequest, StreamObserver&lt;SubmissionResponse&gt;)</a> - Method in class cdx.opencdx.questionnaire.controller.<a href="cdx/opencdx/questionnaire/controller/OpenCDXGrpcQuestionnaireController.html" title="class in cdx.opencdx.questionnaire.controller">OpenCDXGrpcQuestionnaireController</a></dt>
-<dd>
-<div class="block">updateUserQuestionnaireData gRPC Service Call</div>
-</dd>
 <dt><a href="cdx/opencdx/connected/test/controller/OpenCDXRestVendorController.html#updateVendor(cdx.opencdx.grpc.inventory.Vendor)" class="member-name-link">updateVendor(Vendor)</a> - Method in class cdx.opencdx.connected.test.controller.<a href="cdx/opencdx/connected/test/controller/OpenCDXRestVendorController.html" title="class in cdx.opencdx.connected.test.controller">OpenCDXRestVendorController</a></dt>
 <dd>
 <div class="block">Method to update a vendor</div>
