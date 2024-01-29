@@ -86,7 +86,7 @@ class OpenCDXRestProtectorControllerTest {
                                         .build())
                                 .username("ab@safehealth.me")
                                 .primaryContactInfo(ContactInfo.newBuilder()
-                                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                                        .addAllEmails(List.of(EmailAddress.newBuilder()
                                                 .setType(EmailType.EMAIL_TYPE_WORK)
                                                 .setEmail("ab@safehealth.me")
                                                 .build()))

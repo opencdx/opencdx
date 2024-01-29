@@ -1,231 +1,375 @@
+/*
+ * This definition streamlines the registration, login, and user management process within the system.
+ */
 syntax = "proto3";
-
 package cdx.opencdx.grpc.iam;
-
 import "google/protobuf/timestamp.proto";
 import "common.proto";
-
 option java_multiple_files = true;
 
-// Service Definition
+/*
+ * IamUserService is a protobuf service that handles user operations for the IAM system.
+ */
 service IamUserService {
-  // Sign up a new user.
+  /*
+   * SignUp is an rpc method that registers a new IAM user. It takes a SignUpRequest and returns a SignUpResponse.
+   */
   rpc SignUp(SignUpRequest) returns (SignUpResponse);
-
-  // List IAM users with pagination and sorting options.
+  /*
+   * ListIamUsers is an rpc method that returns a paginated, sortable list of IAM users.
+   * It takes a ListIamUsersRequest and returns a ListIamUsersResponse.
+   */
   rpc ListIamUsers(ListIamUsersRequest) returns (ListIamUsersResponse);
-
-  // Get an IAM user by their unique ID.
+  /*
+   * GetIamUser is an rpc method that returns IAM user information for a specified user ID.
+   * It takes a GetIamUserRequest and returns a GetIamUserResponse.
+   */
   rpc GetIamUser(GetIamUserRequest) returns (GetIamUserResponse);
-
-  // Update an existing IAM user.
+  /*
+   * UpdateIamUser is an rpc method that updates the information of an existing IAM user.
+   * It takes an UpdateIamUserRequest and returns an UpdateIamUserResponse.
+   */
   rpc UpdateIamUser(UpdateIamUserRequest) returns (UpdateIamUserResponse);
-
-  // Change the password of an IAM user.
+  /*
+   * ChangePassword is an rpc method that changes the password of an existing IAM user.
+   * It takes a ChangePasswordRequest and returns a ChangePasswordResponse.
+   */
   rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
-
-  // Delete an IAM user by their unique ID.
+  /*
+   * DeleteIamUser is an rpc method that deletes an IAM user specified by user ID.
+   * It takes a DeleteIamUserRequest and returns a DeleteIamUserResponse.
+   */
   rpc DeleteIamUser(DeleteIamUserRequest) returns (DeleteIamUserResponse);
-
-  // Check if an IAM user with a given ID exists.
+  /*
+   * UserExists is an rpc method that checks if an IAM user with a given ID exists.
+   * It takes a UserExistsRequest and returns a UserExistsResponse.
+   */
   rpc UserExists(UserExistsRequest) returns (UserExistsResponse);
-
-  // Authenticate IAM user.
+  /*
+   * Login is an rpc method that authenticates an IAM user. It takes a LoginRequest and returns a LoginResponse.
+   */
   rpc Login(LoginRequest) returns (LoginResponse);
-
-  // Get Current User
+  /*
+   * CurrentUser is an rpc method that returns the currently authenticated IAM user.
+   * It takes a CurrentUserRequest and returns a CurrentUserResponse.
+   */
   rpc CurrentUser(CurrentUserRequest) returns (CurrentUserResponse);
 }
 
-// Enum for IAM User Types
+/*
+ * This `.proto` file defines the data structures and messages used in managing identity and access management (IAM) users.
+ */
+
+/*
+ * Enum defining possible user types in IAM.
+ */
 enum IamUserType {
-  // Default or unspecified IAM user type.
+  /*
+   * Default or unspecified IAM user type.
+   */
   IAM_USER_TYPE_UNSPECIFIED = 0;
-
-  // Regular IAM user type.
+  /*
+   * Regular IAM user type.
+   */
   IAM_USER_TYPE_REGULAR = 1;
-
-  // System IAM user type.
+  /*
+   * System IAM user type.
+   */
   IAM_USER_TYPE_SYSTEM = 2;
-
-  // Trial IAM user type.
+  /*
+   * Trial IAM user type.
+   */
   IAM_USER_TYPE_TRIAL = 3;
 }
 
-// Enum for IAM User Status
+/*
+ * Enum defining possible statuses of IAM users.
+ */
 enum IamUserStatus {
-  // Default or unspecified IAM user status.
+  /*
+   * Default or unspecified IAM user status.
+   */
   IAM_USER_STATUS_UNSPECIFIED = 0;
-
-  // Active IAM user status.
+  /*
+   * Active IAM user status.
+   */
   IAM_USER_STATUS_ACTIVE = 1;
-
-  // Inactive IAM user status.
+  /*
+   * Inactive IAM user status.
+   */
   IAM_USER_STATUS_INACTIVE = 2;
-
-  // Deleted IAM user status.
+  /*
+   * Deleted IAM user status.
+   */
   IAM_USER_STATUS_DELETED = 3;
 }
 
+/*
+ * Defines a request to log in with a username and password.
+ */
 message LoginRequest {
-  // User name for the user on login request.
+  /*
+   * The username of the user.
+   */
   string user_name = 1;
-
-  // Password for user on login.
+  /*
+   * The password of the user.
+   */
   string password = 2;
 }
 
+/*
+ * Defines a response that holds a JWT token for authorizing future requests.
+ */
 message LoginResponse {
-  // JWT Token to use for authorization
+  /*
+   * The JWT token.
+   */
   string token = 1;
 }
 
-// Request message for current user
+/*
+ * Represents a request to get the current user. This message doesn't contain any fields.
+ */
 message CurrentUserRequest {
 }
 
-// Response message for current user
+/*
+ * Defines a response that returns the current user's data.
+ */
 message CurrentUserResponse {
-  // IAM user information.
+  /*
+   * Information about the current user.
+   */
   IamUser iam_user = 1;
 }
 
-// Request message for user sign-up.
+/*
+ * Defines a request to create a new IAM user.
+ */
 message SignUpRequest {
-  // Type of IAM user (e.g., Regular, System, Trial).
+  /*
+   * The type of the user.
+   */
   IamUserType type = 1;
-
-  // First name of the user.
+  /*
+   * The user's first name.
+   */
   string first_name = 2;
-
-  // Last name of the user.
+  /*
+   * The user's last name.
+   */
   string last_name = 3;
-
-  // System name for the user.
+  /*
+   * The system's name.
+   */
   string system_name = 4;
-
-  // Email address of the user.
+  /*
+   * The username of the new user.
+   */
   string username = 5;
-
-  // Password for the user account.
+  /*
+   * The password for the new user.
+   */
   string password = 6;
 }
 
-// Response message for user sign-up.
+/*
+ * Defines a response that contains the data of the created IAM user.
+ */
 message SignUpResponse {
-  // IAM user information.
+  /*
+   * Information about the new user.
+   */
   IamUser iam_user = 1;
 }
 
-// Request message for listing IAM users with pagination and sorting.
+/*
+ * Represents a request to list IAM users with pagination and sorting.
+ */
 message ListIamUsersRequest {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
+  /*
+   * Details for pagination and sorting.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
 }
 
-// Response message for listing IAM users with pagination and sorting.
+/*
+ * Defines a response that contains a list of IAM users.
+ */
 message ListIamUsersResponse {
-  cdx.opencdx.grpc.common.Pagination pagination = 1; // Pagination information and sorting.
-
-  // List of IAM users.
+  /*
+   * Pagination results.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /*
+   * List of fetched IAM users.
+   */
   repeated IamUser iam_users = 2;
 }
 
-// Request message for getting an IAM user by ID.
+/*
+ * Defines a request to fetch an IAM user by their user ID.
+ */
 message GetIamUserRequest {
-  // Unique ID of the IAM user.
+  /*
+   * ID of the user to fetch.
+   */
   string id = 1;
 }
 
-// Response message for getting an IAM user by ID.
+/*
+ * Defines a response that contains the fetched IAM user's data.
+ */
 message GetIamUserResponse {
-  // IAM user information.
+  /*
+   * Information about the fetched user.
+   */
   IamUser iam_user = 1;
 }
 
-// Request message for updating an IAM user.
+/*
+ * Defines a request to update an IAM user's data.
+ */
 message UpdateIamUserRequest {
-  // Updated IAM user information.
+  /*
+   * The user's updated data.
+   */
   IamUser iam_user = 1;
 }
 
-// Response message for updating an IAM user.
+/*
+ * Defines a response that contains the data of the updated IAM user.
+ */
 message UpdateIamUserResponse {
-  // Updated IAM user information.
+  /*
+   * Information about the updated user.
+   */
   IamUser iam_user = 1;
 }
 
-// Request message for changing a user's password.
+/*
+ * Defines a request to change an IAM user's password.
+ */
 message ChangePasswordRequest {
-  // User ID for which the password is being changed.
+  /*
+   * The ID of the user to update.
+   */
   string id = 1;
-
-  // User's old password.
+  /*
+   * The user's current password.
+   */
   string old_password = 2;
-
-  // New password for the user.
+  /*
+   * The user's new password.
+   */
   string new_password = 3;
-
-  // Confirmation of the new password.
+  /*
+   * Confirmation of the new password.
+   */
   string new_password_confirmation = 4;
 }
 
-// Response message for changing a user's password.
+/*
+ * Defines a response that contains the updated IAM user's data.
+ */
 message ChangePasswordResponse {
-  // IAM user information.
+  /*
+   * Information about the updated user.
+   */
   IamUser iam_user = 1;
 }
 
-// Request message for deleting an IAM user by ID.
+/*
+ * Defines a request to delete an IAM user by their ID.
+ */
 message DeleteIamUserRequest {
-  // Unique ID of the IAM user to be deleted.
+  /*
+   * ID of the user to delete.
+   */
   string id = 1;
 }
 
-// Response message for deleting an IAM user by ID.
+/*
+ * Defines a response that contains the data of the deleted IAM user.
+ */
 message DeleteIamUserResponse {
-  // IAM user information.
+  /*
+   * Information about the deleted user.
+   */
   IamUser iam_user = 1;
 }
 
-// Request message to check if an IAM user with a given ID exists.
+/*
+ * Represents a request to check if an IAM user exists by their ID.
+ */
 message UserExistsRequest {
-  // ID of the IAM user to check for existence.
+  /*
+   * The ID of the user to check.
+   */
   string id = 1;
 }
 
-// Response message for checking if an IAM user with a given ID exists.
+/*
+ * Defines a response that indicates whether the user exists.
+ */
 message UserExistsResponse {
-  // IAM user information.
+  /*
+   * The user's data if they exist.
+   */
   IamUser iam_user = 1;
 }
 
-// Message representing an IAM user.
+/*
+ * Represents an IAM user.
+ */
 message IamUser {
-  // Unique ID of the user.
+  /*
+   * The unique ID of the user.
+   */
   optional string id = 1;
-
-  // Timestamp when the user was created.
+  /*
+   * The timestamp when the user was created.
+   */
   optional google.protobuf.Timestamp created_at = 2;
-
-  // Timestamp when the user was last updated.
+  /*
+   * The timestamp when the user was last updated.
+   */
   optional google.protobuf.Timestamp updated_at = 3;
-
-  // Name of the system
+  /*
+   * The name of the system where the user is registered.
+   */
   string system_name = 4;
-
-  // Email address of the user.
+  /*
+   * The username of the user.
+   */
   string username = 5;
-
-  // Indicates whether the user's email is verified.
+  /*
+   * Indicates whether the user's email has been verified.
+   */
   bool email_verified = 6;
-
-  // Status of the user (e.g., Active, Inactive, Deleted).
+  /*
+   * The current status of the user.
+   */
   IamUserStatus status = 7;
-
-  // Type of IAM user (e.g., Regular, System, Trial).
+  /*
+   * The type of the user.
+   */
   IamUserType type = 8;
-  optional google.protobuf.Timestamp created = 9; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 10; // Timestamp when this event was modified.
-  optional string creator = 11; // ID of the creator of this event.
-  optional string modifier = 12; // ID of the modifier of this event.
+  /*
+   * The timestamp when the user was created.
+   */
+  optional google.protobuf.Timestamp created = 9;
+  /*
+   * The timestamp when the user was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 10;
+  /*
+   * The ID of the user who created this user.
+   */
+  optional string creator = 11;
+  /*
+   * The ID of the user who last modified this user.
+   */
+  optional string modifier = 12;
 }

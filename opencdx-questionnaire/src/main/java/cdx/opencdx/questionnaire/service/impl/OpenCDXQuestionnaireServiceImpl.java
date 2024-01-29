@@ -18,13 +18,16 @@ package cdx.opencdx.questionnaire.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
+import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
+import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,16 +48,19 @@ import org.springframework.stereotype.Service;
 public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireService {
 
     // Constants for error handling
-    private static final String CONVERSION_ERROR = "Failed to convert Protector Request";
+    private static final String CONVERSION_ERROR = "Failed to convert Questionnaire Request";
     private static final String OBJECT = "OBJECT";
     private static final String AUTHORIZATION_CONTROL = "AUTHORIZATION_CONTROL: 131";
     private static final String ACTIVE = "Active";
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
+    public static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository;
+    private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
+    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
     /**
      * This class represents the implementation of the OpenCDXQuestionnaireService interface.
@@ -64,17 +70,23 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param objectMapper              the ObjectMapper instance used for object serialization and deserialization
      * @param openCDXCurrentUser         the OpenCDXCurrentUser instance used for managing user information
      * @param openCDXQuestionnaireRepository   the OpenCDXQuestionnaireRepository instance used for interacting with questionnaire data
+     * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
+     * @param openCDXIAMUserRepository this OpenCDXIAMUserRepository instance used for interacting with the user data.
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             ObjectMapper objectMapper,
             OpenCDXCurrentUser openCDXCurrentUser,
-            OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository) {
+            OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
+            OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
+            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXQuestionnaireRepository = openCDXQuestionnaireRepository;
+        this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
+        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }
 
     /**
@@ -608,7 +620,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .build();
     }
 
-    // User Level Questionnaire
     /**
      * Process the Create User QuestionnaireRequest Data
      * @param request request the process
@@ -616,20 +627,30 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     public SubmissionResponse createUserQuestionnaireData(UserQuestionnaireDataRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+        OpenCDXUserQuestionnaireModel model = new OpenCDXUserQuestionnaireModel(request.getUserQuestionnaireData());
+        OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
+                .findById(model.getUserId())
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        DOMAIN,
+                        5,
+                        FAILED_TO_FIND_USER + request.getUserQuestionnaireData().getUserId()));
+
+        model = this.openCDXUserQuestionnaireRepository.save(model);
+
         try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.phiCreated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
                     "CreateUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    AUTHORIZATION_CONTROL,
-                    this.objectMapper.writeValueAsString(request.toString()));
+                    user.getId().toHexString(),
+                    user.getNationalHealthId(),
+                    "QUESTIONNAIR-USER: " + model.getId(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 37, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -641,43 +662,20 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     }
 
     /**
-     * Process the Update User QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the UpdateUserQuestionnaireData request.
-     */
-    @Override
-    public SubmissionResponse updateUserQuestionnaireData(UserQuestionnaireDataRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "UpdateUserQuestionnaireData [User Level]",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    AUTHORIZATION_CONTROL,
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
-        return SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("updateUserQuestionnaireData Executed")
-                .build();
-    }
-
-    /**
      * Process the Get User QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the GetUserQuestionnaireData request.
      */
     @Override
     public UserQuestionnaireData getUserQuestionnaireData(GetQuestionnaireRequest request) {
+        UserQuestionnaireData data = this.openCDXUserQuestionnaireRepository
+                .findById(new ObjectId(request.getId()))
+                .orElseThrow(
+                        () -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find user questionnaire: " + request.getId()))
+                .getProtobufMessage();
+        OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
+                .findById(new ObjectId(data.getUserId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + data.getUserId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -685,10 +683,10 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "GetUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    AUTHORIZATION_CONTROL,
-                    this.objectMapper.writeValueAsString(request.toString()));
+                    user.getId().toHexString(),
+                    user.getNationalHealthId(),
+                    "QUESTIONNAIRE-USER: " + data.getId(),
+                    this.objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
                     new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
@@ -709,66 +707,58 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @return Message generated for the GetUserQuestionnaireData request.
      */
     @Override
-    public UserQuestionnaireData getUserQuestionnaireDataList(GetQuestionnaireListRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiAccessed(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "GetUserQuestionnaireDataList [User Level]",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    AUTHORIZATION_CONTROL,
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
+    @SuppressWarnings("java:S3864")
+    public UserQUestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
         }
+        Page<OpenCDXUserQuestionnaireModel> all = this.openCDXUserQuestionnaireRepository.findAll(pageable);
 
-        return UserQuestionnaireData.newBuilder()
-                .addQuestionnaireData(QuestionnaireData.newBuilder()
-                        .setId("1")
-                        .setState(ACTIVE)
-                        .build())
-                .addQuestionnaireData(QuestionnaireData.newBuilder()
-                        .setId("2")
-                        .setState(ACTIVE)
-                        .build())
-                .build();
-    }
-
-    /**
-     * Process the Delete User QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the DeleteUserQuestionnaireData request.
-     */
-    @Override
-    public SubmissionResponse deleteUserQuestionnaireData(DeleteQuestionnaireRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiDeleted(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "DeleteUserQuestionnaireData [User Level]",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    AUTHORIZATION_CONTROL,
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
-        return SubmissionResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("deleteUserQuestionnaireData Executed")
+        List<UserQuestionnaireData> list = all.get()
+                .peek(model -> {
+                    OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
+                            .findById(model.getUserId())
+                            .orElseThrow(() -> new OpenCDXNotFound(
+                                    DOMAIN,
+                                    6,
+                                    FAILED_TO_FIND_USER + model.getUserId().toHexString()));
+                    try {
+                        this.openCDXAuditService.phiAccessed(
+                                currentUser.getId().toHexString(),
+                                currentUser.getAgentType(),
+                                "GetUserQuestionnaireDataList [User Level]",
+                                SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                                user.getId().toHexString(),
+                                user.getNationalHealthId(),
+                                "QUESTIONNAIRE-USER: " + model.getId(),
+                                this.objectMapper.writeValueAsString(model));
+                    } catch (JsonProcessingException e) {
+                        OpenCDXNotAcceptable openCDXNotAcceptable =
+                                new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                        openCDXNotAcceptable.setMetaData(new HashMap<>());
+                        openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+                        throw openCDXNotAcceptable;
+                    }
+                })
+                .map(OpenCDXUserQuestionnaireModel::getProtobufMessage)
+                .toList();
+
+        return UserQUestionnaireDataResponse.newBuilder()
+                .addAllList(list)
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
                 .build();
     }
 }

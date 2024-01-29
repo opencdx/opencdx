@@ -8,6 +8,7 @@ import Loadable from 'ui-component/Loadable';
 import AuditLog from 'pages/AuditLog';
 import ExternalInterfaces from 'pages/ExternalInterfaces';
 import Admin from 'pages/Admin';
+import Dependency from 'pages/Dependency';
 
 // sample page routing
 const DashboardPage = Loadable(lazy(() => import('pages/dashboard')));
@@ -61,6 +62,10 @@ const MainRoutes = {
         {
             path: '/pages/admin',
             element: <Admin />
+        },
+        {
+            path: '/pages/dependency',
+            element: <Dependency />
         },
         {
             path: '/pages/discovery',

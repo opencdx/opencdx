@@ -1,5 +1,12 @@
 # Properties for a Managed Environment go here.
 management:
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
   endpoint:
     health:
       probes:
@@ -57,6 +64,8 @@ springdoc:
 
 # Spring SSL bundle for securing a webserver
 spring:
+  banner:
+    location: /banner.txt
   output:
     ansi:
       enabled: always

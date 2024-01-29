@@ -176,5 +176,7 @@
     "forms-designer": "Forms Designer",
     "forms-viewer": "Forms Viewer",
     "forms-list": "Forms",
-    "maps": "Maps"
+    "maps": "Maps",
+    "dependency": "Dependency Check Report"
+
 }

@@ -151,6 +151,11 @@ run_jmeter_tests() {
     rm -rf build/reports/jmeter
     mkdir -p build/reports
 
+    # Set HEAP only if parameter is not "smoke"
+    if [ "$properties_file" != "smoke" ]; then
+        export HEAP="-Xms5g -Xmx16g -XX:MaxMetaspaceSize=1g"
+    fi
+
     jmeter -p "./jmeter/$properties_file.properties" -n -t ./jmeter/OpenCDX.jmx -l ./build/reports/jmeter/result.csv -e -o ./build/reports/jmeter
 }
 
@@ -327,6 +332,7 @@ build_docker() {
     build_docker_image opencdx/anf ./opencdx-anf
     if [ "$no_ui" = false ]; then
       build_docker_image opencdx/dashboard ./opencdx-dashboard
+      build_docker_image opencdx/graphql ./opencdx-graphql
     fi
 }
 
@@ -530,7 +536,7 @@ menu() {
             3) build_docker; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
-            6) run_jmeter_tests ;;
+            6) run_jmeter_tests; open_url "build/reports/jmeter/index.html" ;;
             7) open_reports "jmeter_edit" ;;
             8) open_reports "micrometer_tracing" ;;
             9) open_reports "test" ;;

@@ -1,61 +1,113 @@
+/*
+ * System responsible for the preprocessing tasks of Media files. This includes tasks like encoding, decoding, transformation and more.
+ */
 syntax = "proto3";
 package cdx.opencdx.grpc.media;
-
 import "google/protobuf/timestamp.proto";
-
 option java_multiple_files = true;
 
-// Media Preprocessor Service interface
+/*
+ * MediaPreprocessorService is the interface defining the service that preprocesses media.
+ */
 service MediaPreprocessorService {
-  // Method to preprocess media
+  /*
+   * PreprocessMedia is a method that takes a PreprocessMediaRequest message and returns a PreprocessMediaResponse message.
+   */
   rpc PreprocessMedia(PreprocessMediaRequest) returns (PreprocessMediaResponse);
 }
 
-// Media Preprocessor Commands
+/*
+ * MediaPreprocessorCommands is an enumeration that represents the list of commands used by the MediaPreprocessorService.
+ */
 enum MediaPreprocessorCommands {
-  MEDIA_PREPROCESSOR_COMMANDS_UNSPECIFIED = 0; // Unspecified or unknown command.
-  MEDIA_PREPROCESSOR_COMMANDS_PREPROCESS = 1; // Preprocess media.
+  /*
+   * MEDIA_PREPROCESSOR_COMMANDS_UNSPECIFIED is used when the specific command is not specified or is unknown.
+   */
+  MEDIA_PREPROCESSOR_COMMANDS_UNSPECIFIED = 0;
+  /*
+   * MEDIA_PREPROCESSOR_COMMANDS_PREPROCESS is used when the command to preprocess media is triggered.
+   */
+  MEDIA_PREPROCESSOR_COMMANDS_PREPROCESS = 1;
 }
 
-// Media Preprocessor Status
+/*
+ * MediaPreprocessorStatus is an enumeration defining the statuses of media preprocessor.
+ */
 enum MediaPreprocessorStatus {
-  MEDIA_PREPROCESSOR_STATUS_UNSPECIFIED = 0; // Unspecified or unknown status
-  MEDIA_PREPROCESSOR_STATUS_PREPROCESSING = 1; // Media is being preprocessing.
-  MEDIA_PREPROCESSOR_STATUS_ACTIVE = 2; // Preprocessor is active
-  MEDIA_PREPROCESSOR_STATUS_ERROR = 3; // Error with Preprocessor
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_UNSPECIFIED is used when the status of the media preprocessor is not specified or unknown.
+   */
+  MEDIA_PREPROCESSOR_STATUS_UNSPECIFIED = 0;
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_PREPROCESSING is used when media is in the process of being preprocessed.
+   */
+  MEDIA_PREPROCESSOR_STATUS_PREPROCESSING = 1;
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_ACTIVE indicates that the preprocessor is actively working.
+   */
+  MEDIA_PREPROCESSOR_STATUS_ACTIVE = 2;
+  /*
+   * MEDIA_PREPROCESSOR_STATUS_ERROR is used when an error has occurred in the preprocessing task.
+   */
+  MEDIA_PREPROCESSOR_STATUS_ERROR = 3;
 }
 
-// Media Preprocessor Events
+/*
+ * MediaPreprocessorEvents is an enumeration representing the possible events during media preprocessing.
+ */
 enum MediaPreprocessorEvents {
-  MEDIA_PREPROCESSOR_EVENTS_UNSPECIFIED = 0; // Unspecified or unknown event.
-  MEDIA_PREPROCESSOR_EVENTS_PREPROCESSED = 1; // Media has been preprocessed.
+  /*
+   * MEDIA_PREPROCESSOR_EVENTS_UNSPECIFIED is used when the specific event is not specified or unknown.
+   */
+  MEDIA_PREPROCESSOR_EVENTS_UNSPECIFIED = 0;
+  /*
+   * MEDIA_PREPROCESSOR_EVENTS_PREPROCESSED is used when the media has been successfully preprocessed.
+   */
+  MEDIA_PREPROCESSOR_EVENTS_PREPROCESSED = 1;
 }
 
-// Request to PreprocessMedia.
+/*
+ * PreprocessMediaRequest is a message that encapsulates the parameters for a request to preprocess media.
+ */
 message PreprocessMediaRequest {
-  // Boolean indicating to check media
+  /*
+   * Indication as to whether the media should be checked.
+   */
   bool check = 3;
 }
 
-// Response to PreprocessMedia
+/*
+ * PreprocessMediaResponse is a message that encapsulates the response returned from the PreprocessMedia method.
+ */
 message PreprocessMediaResponse {
-  // The media preprocessor.
+  /*
+   * The data related to the media preprocessor.
+   */
   MediaPreprocessor media_preprocessor = 1;
 }
 
-// Media Preprocessor data
+/*
+ * MediaPreprocessor is a message that encapsulates information about the preprocessor.
+ */
 message MediaPreprocessor {
+  /*
+   * The unique identifier of the media preprocessor.
+   */
   string id = 1;
-
-  // When this record was created
+  /*
+   * Timestamp indicating when this preprocessor was created.
+   */
   google.protobuf.Timestamp created_at = 2;
-
-  // Who created this record
+  /*
+   * Identifier of who created this preprocessor.
+   */
   string creator = 3;
-
-  // When was the last time this record was modified
+  /*
+   * Timestamp indicating the last time this preprocessor was updated.
+   */
   google.protobuf.Timestamp updated_at = 4;
-
-  // Who was the last modifier of this record
+  /*
+   * Identifier of who last updated this preprocessor.
+   */
   string modifier = 5;
 }

@@ -449,7 +449,7 @@ class OpenCDXIAMUserServiceImplTest {
                                         .setType(PhoneType.PHONE_TYPE_WORK)
                                         .setNumber("1234567890")
                                         .build()))
-                                .addAllEmail(List.of(EmailAddress.newBuilder()
+                                .addAllEmails(List.of(EmailAddress.newBuilder()
                                         .setType(EmailType.EMAIL_TYPE_WORK)
                                         .setEmail("ab@safehealth.me")
                                         .build()))

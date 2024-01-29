@@ -140,7 +140,7 @@ class IamOrganizationTest {
                                 .setFirstName("Contact")
                                 .setLastName("Name")
                                 .build())
-                        .addAllEmail(List.of(EmailAddress.newBuilder()
+                        .addAllEmails(List.of(EmailAddress.newBuilder()
                                 .setEmail("contact@organization")
                                 .setType(EmailType.EMAIL_TYPE_WORK)
                                 .build()))

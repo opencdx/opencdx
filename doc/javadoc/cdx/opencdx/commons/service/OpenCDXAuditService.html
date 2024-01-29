@@ -91,7 +91,14 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">OpenCDXAuditService</span></div>
-<div class="block">Integrated Audit service to use the Audit Aspect.</div>
+<div class="block">The OpenCDXAuditService interface provides methods for recording various audit events.
+ This interface defines methods to record user login, logout, access changes, password changes,
+ PII and PHI information accesses, creations, updates, and deletions, as well as user communications.</div>
+<dl class="notes">
+<dt>Implementation Requirements:</dt>
+<dd>Current implementation is based on <a href="OpenCDXMessageService.html" title="interface in cdx.opencdx.commons.service"><code>OpenCDXMessageService</code></a>. This can
+ be changed to other systems if desired. However, this will require that <a href="../../audit/package-summary.html"><code>cdx.opencdx.audit</code></a> be modified as well.</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">

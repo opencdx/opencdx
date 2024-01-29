@@ -1,186 +1,559 @@
+/*
+ * This Protocol Buffers (protobuf) definition is primarily focused on the management of user profiles.
+ * It provides the structure for storing and manipulating user-centric data efficiently.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.profile;
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-
-// User Profile message containing user-related information.
+/*
+ * A message representation of a user profile in the system.
+ * It contains comprehensive information relating to a user such as personal, contact, and health-related information.
+ * Note: Repeated fields represent multiple, optional occurrences of data type; Optional fields can appear zero or one times; Required fields must appear one or more times.
+ */
 message UserProfile {
-  string user_id = 1; // Unique identifier for the user
-  string national_health_id= 2; // National health identifier
-  cdx.opencdx.grpc.common.FullName full_name = 3; // Full name of the user
-  repeated cdx.opencdx.grpc.common.ContactInfo contacts = 4; // User's contact information
-  cdx.opencdx.grpc.common.Gender gender = 5; // Gender of the user
-  DateOfBirth date_of_birth = 6; // User's date of birth
-  PlaceOfBirth place_of_birth = 7; // User's place of birth
-  bytes photo = 8; // Photo represented as bytes (binary data)
-  Preferences communication = 9; // User's communication preferences
-  Demographics demographics = 10; // User's demographics information
-  Education education = 11; // User's education information
-  EmployeeIdentity employee_identity = 12; // User's employee identity information
-  cdx.opencdx.grpc.common.ContactInfo primary_contact_info = 13; // Additional contact information
-  EmergencyContact emergency_contact = 14; // User's emergency contact information
-  Pharmacy pharmacy_details = 15; // User's pharmacy details
-  repeated Vaccine vaccine_administered = 16; // Vaccines administered to the user
-  repeated string dependent_id = 17; // Identifiers for user's dependents
-  repeated KnownAllergy known_allergies = 18; // A list of known allergies for the user
-  repeated Medication current_medications = 19;  // A list of medications currently being taken by the user
-  bool is_active = 20; // Indicates whether the user is active
-  repeated cdx.opencdx.grpc.common.EmailAddress email=21; // Email addresses for the user
-  repeated cdx.opencdx.grpc.common.PhoneNumber phone=22; // Phone numbers for the user
-  repeated cdx.opencdx.grpc.common.Address address=23; // Addresses for the user
-  optional google.protobuf.Timestamp created = 24; // Timestamp when this event was created.
-  optional google.protobuf.Timestamp modified = 25; // Timestamp when this event was modified.
-  optional string creator = 26; // ID of the creator of this event.
-  optional string modifier = 27; // ID of the modifier of this event.
-}
+  /*
+   * The unique identifier for the user.
+   */
+  string user_id = 1;
 
-// Emergency contact information.
+  /*
+   * The national health identifier of the user.
+   */
+  string national_health_id = 2;
+
+  /*
+   * The full name details of the user.
+   */
+  cdx.opencdx.grpc.common.FullName full_name = 3;
+
+  /*
+   * A list of contact information for the user.
+   */
+  repeated cdx.opencdx.grpc.common.ContactInfo contacts = 4;
+
+  /*
+   * The gender of the user.
+   */
+  cdx.opencdx.grpc.common.Gender gender = 5;
+
+  /*
+   * The date of birth of the user.
+   */
+  DateOfBirth date_of_birth = 6;
+
+  /*
+   * The place of birth of the user.
+   */
+  PlaceOfBirth place_of_birth = 7;
+
+  /*
+   * The profile photo of the user, represented in bytes (binary data).
+   */
+  bytes photo = 8;
+
+  /*
+   * The user's communication preferences.
+   */
+  Preferences communication = 9;
+
+  /*
+   * The demographic information about the user.
+   */
+  Demographics demographics = 10;
+
+  /*
+   * The education qualification details about the user.
+   */
+  Education education = 11;
+
+  /*
+   * The user's employment identification details.
+   */
+  EmployeeIdentity employee_identity = 12;
+
+  /*
+   * The primary contact information for the user.
+   */
+  cdx.opencdx.grpc.common.ContactInfo primary_contact_info = 13;
+
+  /*
+   * The user's emergency contact information.
+   */
+  EmergencyContact emergency_contact = 14;
+
+  /*
+   * Details about the user's pharmacy of choice.
+   */
+  Pharmacy pharmacy_details = 15;
+
+  /*
+   * Information about vaccines administered to the user.
+   */
+  repeated Vaccine vaccine_administered = 16;
+
+  /*
+   * A list of identifiers for user's dependents.
+   */
+  repeated string dependent_id = 17;
+
+  /*
+   * A list of known allergies of the user.
+   */
+  repeated KnownAllergy known_allergies = 18;
+
+  /*
+   * A list of medications currently being taken by the user.
+   */
+  repeated Medication current_medications = 19;
+
+  /*
+   * Indicates the active/inactive status of the user.
+   */
+  bool is_active = 20;
+
+  /*
+   * A list of user's email addresses.
+   */
+  repeated cdx.opencdx.grpc.common.EmailAddress email = 21;
+
+  /*
+   * A list of user's phone numbers.
+   */
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 22;
+
+  /*
+   * A list of user's addresses.
+   */
+  repeated cdx.opencdx.grpc.common.Address address = 23;
+
+  /*
+   * The timestamp indicating when the user's profile was created.
+   */
+  optional google.protobuf.Timestamp created = 24;
+
+  /*
+   * The timestamp indicating the last modification of the user's profile.
+   */
+  optional google.protobuf.Timestamp modified = 25;
+
+  /*
+   * The identifier of the entity that created the user's profile.
+   */
+  optional string creator = 26;
+
+  /*
+   * The identifier of the entity that last modified the user's profile.
+   */
+  optional string modifier = 27;
+}
+/*
+ * Contains the emergency contact's relationship to the user and contact information.
+ */
 message EmergencyContact {
-  string relationship = 1; // Relationship to the user
-  cdx.opencdx.grpc.common.ContactInfo contact_info = 2; // Contact information for the emergency contact
+  /*
+   * Describes the emergency contact's relationship to the user
+   */
+  string relationship = 1;
+  /*
+   * Details of the emergency contact including phone number, email address, etc.
+   */
+  cdx.opencdx.grpc.common.ContactInfo contact_info = 2;
 }
-
-// Pharmacy information.
+/*
+ * Contains data related to a pharmacy including the name, address and contact information.
+ */
 message Pharmacy {
-  string pharmacy_name = 1; // Name of the pharmacy
-  cdx.opencdx.grpc.common.Address pharmacy_address = 2; // Address of the pharmacy
-  cdx.opencdx.grpc.common.ContactInfo pharmacy_contact = 3; // Contact information for the pharmacy
+  /*
+   * The name of the pharmacy
+   */
+  string pharmacy_name = 1;
+  /*
+   * Physical location of the pharmacy
+   */
+  cdx.opencdx.grpc.common.Address pharmacy_address = 2;
+  /*
+   * Pharmacy's contact details such as phone number or email address
+   */
+  cdx.opencdx.grpc.common.ContactInfo pharmacy_contact = 3;
 }
-
-
-// User's communication preferences.
+/*
+ * Describes the user's communication preferences including preferred language and time zone,
+ * and a boolean flag for preferred mode of communication.
+ */
 message Preferences {
-  string language = 1; // Preferred language
-  bool preferred = 2; // Whether the user prefers this mode of communication
-  string time_zone = 3; // User's preferred time zone
+  /*
+   * Preferred language for communication (e.g., English, Spanish, etc.)
+   */
+  string language = 1;
+  /*
+   * Flag indicating whether the user prefers this mode of communication
+   */
+  bool preferred = 2;
+  /*
+   * The user's preferred time zone (e.g., EST, PST, etc.)
+   */
+  string time_zone = 3;
 }
-
-// User's demographic information.
+/*
+ * Contains demographic information of the user such as ethnicity, race, nationality and gender.
+ */
 message Demographics {
-  string ethnicity = 1; // Ethnicity of the user
-  string race = 2; // Race of the user
-  string nationality = 3; // Nationality of the user
-  cdx.opencdx.grpc.common.Gender gender = 4; // Gender of the user (e.g., Male, Female, Non-binary, etc.)
+  /*
+   * The user's ethnicity
+   */
+  string ethnicity = 1;
+  /*
+   * The user's race
+   */
+  string race = 2;
+  /*
+   * The user's country of citizenship
+   */
+  string nationality = 3;
+  /*
+   * The user's gender
+   */
+  cdx.opencdx.grpc.common.Gender gender = 4;
 }
-
-// User's date of birth information.
+/*
+ * Represents the user's date of birth.
+ */
 message DateOfBirth {
-  string date = 1; // Date of birth in a suitable format
+  /*
+   * The user's birthday in a suitable format (e.g., "MM-dd-yyyy")
+   */
+  string date = 1;
 }
-
-// User's place of birth information.
+/*
+ * Contains information about the user's place of birth.
+ */
 message PlaceOfBirth {
-  string country = 1; // Country of birth
-  string state = 2; // State or region of birth
-  string city = 3; // City of birth
+  /*
+   * The country where the user was born
+   */
+  string country = 1;
+  /*
+   * The state or region where the user was born
+   */
+  string state = 2;
+  /*
+   * The city where the user was born
+   */
+  string city = 3;
 }
-
-// Vaccination information.
+/*
+ * Contains information about a vaccine including administration date, FIPS code and locality,
+ * health district, facility type, manufacturer, dose number, and vaccine type.
+ */
 message Vaccine {
-  string administration_date = 1; // Date when the vaccine dose is administered to a person (Date & Time)
-  string fips = 2; // 5-digit code (51XXX) for the locality (Plain Text)
-  string locality = 3; // Independent city or county in Virginia where the person lives (Plain Text)
-  string health_district = 4; // Health district name assigned by the Virginia Department of Health (Plain Text)
-  string facility_type = 5; // Facility type of the provider that performed the vaccine administration (Plain Text)
-  string manufacturer = 6; // Name of the manufacturing company that produced the vaccine (Plain Text)
-  int32 dose_number = 7; // Dose number for the person who is administered the vaccine (Number)
-  string vaccine_type = 8; // Type of vaccine
+  /*
+   * The date when the user was vaccinated
+   */
+  string administration_date = 1;
+  /*
+   * The 5-digit Federal Information Processing Standards (FIPS) code for the vaccination locality
+   */
+  string fips = 2;
+  /*
+   * The city or county where the user lives
+   */
+  string locality = 3;
+  /*
+   * The health district assigned by the Virginia Department of Health
+   */
+  string health_district = 4;
+  /*
+   * The type of facility where the vaccine was administered (e.g., Hospital, Clinic, etc.)
+   */
+  string facility_type = 5;
+  /*
+   * The pharmaceutical company that produced the vaccine
+   */
+  string manufacturer = 6;
+  /*
+   * The dose number of the vaccine
+   */
+  int32 dose_number = 7;
+  /*
+   * The type of vaccine (e.g., Pfizer, Moderna, J&J, etc.)
+   */
+  string vaccine_type = 8;
 }
-
-// User's education information.
+/*
+ * Contains the user's education history.
+ */
 message Education {
-  repeated EducationEntry entries = 1; // Education entries
+  /*
+   * A list of education entries each containing data about a degree, the educational institution and duration of study
+   */
+  repeated EducationEntry entries = 1;
 }
 
-// Education entry details.
+/*
+ * Represents a single educational institution where the user studied, the degree obtained there and the duration of study.
+ */
 message EducationEntry {
-  string degree = 1; // Degree obtained
-  string institution = 2; // Institution of education
-  string start_date = 3; // Start date of education
-  string completion_date = 4; // Completion date of education
+  /*
+   * The degree obtained (e.g., Bachelor's, Master's, etc.)
+   */
+  string degree = 1;
+  /*
+   * The name of the educational institution
+   */
+  string institution = 2;
+  /*
+   * The date when the user started studying at this institution
+   */
+  string start_date = 3;
+  /*
+   * The date when the user completed their studies at this institution
+   */
+  string completion_date = 4;
 }
 
-// Employee identity information.
+/*
+ * Contains identity related information about an employee.
+ */
 message EmployeeIdentity {
-  string organization_id = 1; // Organization ID
-  string workspace_id = 2; // Workspace ID
-  string employee_id = 3; // Employee ID
-  bool identity_verified = 4; // Whether employee identity is verified
-  string status = 5; // Employee status
+  /*
+   * Identifier for the employee's organization
+   */
+  string organization_id = 1;
+  /*
+   * Identifier for the employee's workspace
+   */
+  string workspace_id = 2;
+  /*
+   * Identifier for the employee
+   */
+  string employee_id = 3;
+  /*
+   * Flag indicating whether the employee's identity has been verified
+   */
+  bool identity_verified = 4;
+  /*
+   * Current employment status of the employee (e.g., Economically Active, Retired, etc.)
+   */
+  string status = 5;
 }
 
-// System settings information.
+/*
+ * Represents system settings for a user including identity verification,
+ * email verification, notifications settings, biometrics setting,
+ * registration date, multi-factor authentication settings,
+ * and last login information.
+ */
 message SystemSettings {
-  bool identity_verified = 1; // Indicates whether the user's identity is verified
-  bool email_verified = 2; // Indicates whether the user's email is verified
-  bool sms_notifications = 3; // Indicates whether SMS notifications are enabled
-  bool email_notifications = 4; // Indicates whether email notifications are enabled
-  bool biometrics = 5; // Indicates whether biometrics are enabled
-  bool user_since = 6; // Indicates the user's registration date
-  bool mfa = 7; // Indicates whether multi-factor authentication (MFA) is enabled
-  string last_successful_login = 8; // Last successful login date and time
-  string last_failed_login = 9; // Last failed login date and time
+  /*
+   * Flag indicating whether the user's identity has been verified
+   */
+  bool identity_verified = 1;
+  /*
+   * Flag indicating whether the user's email address has been verified
+   */
+  bool email_verified = 2;
+  /*
+   * Flag indicating whether SMS notifications are enabled for the user
+   */
+  bool sms_notifications = 3;
+  /*
+   * Flag indicating whether email notifications are enabled for the user
+   */
+  bool email_notifications = 4;
+  /*
+   * Flag indicating whether biometric authentication is enabled for the user
+   */
+  bool biometrics = 5;
+  /*
+   * The user's registration date
+   */
+  bool user_since = 6;
+  /*
+   * Flag indicating whether multi-factor authentication (MFA) is enabled for the user
+   */
+  bool mfa = 7;
+  /*
+   * Date and time of the user's last successful login
+   */
+  string last_successful_login = 8;
+  /*
+   * Date and time of the user's last failed login attempt
+   */
+  string last_failed_login = 9;
 }
 
+/*
+ * Represents information about a medication including its name,
+ * dosage, instructions, route of administration, frequency, start and end dates,
+ * prescribing doctor, pharmacy, and a boolean flag for prescription.
+ */
 message Medication {
-  string name = 1; // Name of the medication
-  string dosage = 2; // Dosage information (e.g., 500mg, twice daily)
-  string instructions = 3; // Medication usage instructions
-  string route_of_administration = 4; // Route of administration (e.g., oral, intravenous)
-  string frequency = 5; // Frequency of medication (e.g., daily, weekly)
-  string start_date = 6; // Start date for the medication
-  string end_date = 7; // End date for the medication
-  string prescribing_doctor = 8; // Name of the prescribing doctor
-  string pharmacy = 9; // Name of the pharmacy where the medication was obtained
-  bool is_prescription = 10; // Indicates if the medication requires a prescription
+  /*
+   * The name of the medication
+   */
+  string name = 1;
+  /*
+   * Details about the medication dosage
+   */
+  string dosage = 2;
+  /*
+   * Instructions for how to take the medication
+   */
+  string instructions = 3;
+  /*
+   * The way the medication is to be administered (e.g., orally, intravenously, etc.)
+   */
+  string route_of_administration = 4;
+  /*
+   * How often the medication is to be taken
+   */
+  string frequency = 5;
+  /*
+   * The date when the medication was first taken
+   */
+  string start_date = 6;
+  /*
+   * The date when the medication stopped being taken
+   */
+  string end_date = 7;
+  /*
+   * The name of the doctor who prescribed the medication
+   */
+  string prescribing_doctor = 8;
+  /*
+   * The pharmacy where the medication was obtained
+   */
+  string pharmacy = 9;
+  /*
+   * A flag indicating whether the medication requires a prescription
+   */
+  bool is_prescription = 10;
 }
 
+/*
+ * Represents information about a known allergy including the allergen,
+ * description of the reaction, a boolean flag for severity, date of onset,
+ * date of last occurrence, and additional notes.
+ */
 message KnownAllergy {
-  string allergen = 1; // The substance causing the allergy
-  string reaction = 2; // Description of the allergic reaction
-  bool is_severe = 3; // Indicates if the allergy is severe
-  string onset_date = 4; // Date of onset of the allergy
-  string last_occurrence = 5; // Date of the last occurrence of the allergic reaction
-  string notes = 6; // Additional notes or comments about the allergy
+  /*
+   * The substance that causes the allergic reaction
+   */
+  string allergen = 1;
+  /*
+   * Description of what happens when the user is exposed to the allergen
+   */
+  string reaction = 2;
+  /*
+   * A flag indicating the severity of the allergic reaction
+   */
+  bool is_severe = 3;
+  /*
+   * The date when the allergic reaction first occurred
+   */
+  string onset_date = 4;
+  /*
+   * The date of the most recent occurrence of the allergic reaction
+   */
+  string last_occurrence = 5;
+  /*
+   * Additional information about the allergy
+   */
+  string notes = 6;
 }
 
-// Define the service
+/*
+ * UserProfileService is the service definition for User Profile operations
+ */
 service UserProfileService {
+  /*
+   * GetUserProfile is an RPC method that retrieves a user profile based on the provided user ID in the UserProfileRequest
+   */
   rpc GetUserProfile(UserProfileRequest) returns (UserProfileResponse);
+
+  /*
+   * UpdateUserProfile is an RPC method that updates a user profile with the provided updated profile details in the UpdateUserProfileRequest
+   */
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+
+  /*
+   * DeleteUserProfile is an RPC method that deletes a user profile based on the provided user ID in the DeleteUserProfileRequest
+   */
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
 }
 
-// Request message for retrieving a user profile
+/*
+ * UserProfileRequest is the message format for the request to retrieve a user profile.
+ * It contains a unique user_id to identify the user whose profile needs to be retrieved.
+ */
 message UserProfileRequest {
-  string user_id = 1; // Unique identifier for the user
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
 }
 
-// Response message for retrieving a user profile
+/*
+ * UserProfileResponse is the message format for the response following a request to retrieve a user profile.
+ * It contains the user_profile, which contains the profile details of the requested user.
+ */
 message UserProfileResponse {
-  UserProfile user_profile = 1; // User's profile information
+  /*
+   * User's profile information
+   */
+  UserProfile user_profile = 1;
 }
 
-// Request message for updating a user profile
+/*
+ * UpdateUserProfileRequest is the message format for the request to update a user profile.
+ * It contains a user_id to identify the user whose profile needs to be updated,
+ * and updated_profile with the new profile details.
+ */
 message UpdateUserProfileRequest {
-  string user_id = 1; // Unique identifier for the user
-  UserProfile updated_profile = 2; // Updated user profile information
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
+
+  /*
+   * Updated user profile information
+   */
+  UserProfile updated_profile = 2;
 }
 
-// Response message for updating a user profile
+/*
+ * UpdateUserProfileResponse is the message format for the response following a request to update a user profile.
+ * It contains a boolean success which will be true if the update operation was successful.
+ */
 message UpdateUserProfileResponse {
-  bool success = 1; // Indicates whether the update was successful
+  /*
+   * Indicates whether the update was successful
+   */
+  bool success = 1;
 }
 
-// Request message for deleting a user profile
+/*
+ * DeleteUserProfileRequest is the message format for the request to delete a user profile.
+ * It contains a user_id to identify the user whose profile needs to be deleted.
+ */
 message DeleteUserProfileRequest {
-  string user_id = 1; // Unique identifier for the user
+  /*
+   * Unique identifier for the user
+   */
+  string user_id = 1;
 }
 
-// Response message for deleting a user profile
+/*
+ * DeleteUserProfileResponse is the message format for the response following a request to delete a user profile.
+ * It contains a boolean success which will be true if the delete operation was successful.
+ */
 message DeleteUserProfileResponse {
-  bool success = 1; // Indicates whether the delete was successful
+  /*
+   * Indicates whether the delete was successful
+   */
+  bool success = 1;
 }
 

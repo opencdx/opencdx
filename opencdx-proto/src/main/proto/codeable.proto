@@ -1,18 +1,60 @@
+/*
+ * This package is designated for managing Codeable Concepts
+ * within a GRPC infrastructure. It centralizes operations that
+ * involve encoding and decoding concepts for efficient data
+ * transmission.
+ */
 syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.codeable;
 
+/*
+ * Coding message: models a specific coding instance from a given terminology system.
+ */
 message Coding {
-  string id = 1;        // Unique id for inter-element referencing
-  string system = 2;    // Identity of the terminology system
-  string version = 3;   // Version of the system - if relevant
-  string code = 4;      // Symbol in syntax defined by the system
-  string display = 5;   // Representation defined by the system
+  /*
+   * Unique identifier used for inter-element referencing
+   */
+  string id = 1;
+
+  /*
+   * Identifier of the terminology system being used
+   */
+  string system = 2;
+
+  /*
+   * Specific version of the terminology system, if applicable
+   */
+  string version = 3;
+
+  /*
+   * The symbol, as defined by the terminology system
+   */
+  string code = 4;
+
+  /*
+   * The display textual representation as defined by the terminology system
+   */
+  string display = 5;
 }
 
-// Concept - reference to a terminology or just  text.
+/*
+ * CodeableConcept message: models a codeable concept that includes one or more codings from
+ * terminology systems, along with a plain text representation.
+ */
 message CodeableConcept {
-  string id = 1;                // Unique id for inter-element referencing
-  repeated Coding coding = 2;   // Code defined by a terminology system
-  string text = 3;              // Plain text representation of the concept
+  /*
+   * Unique identifier used for inter-element referencing
+   */
+  string id = 1;
+
+  /*
+   * Set of codes defined by various terminology systems
+   */
+  repeated Coding coding = 2;
+
+  /*
+   * Plain text representation of the codeable concept
+   */
+  string text = 3;
 }
