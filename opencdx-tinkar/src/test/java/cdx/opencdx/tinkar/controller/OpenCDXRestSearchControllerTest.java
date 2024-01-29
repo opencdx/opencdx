@@ -37,10 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
 class OpenCDXRestSearchControllerTest {
-    @Autowired
-    private WebApplicationContext context;
 
     @Mock
     OpenCDXTinkarService openCDXTinkarService;
@@ -49,8 +46,7 @@ class OpenCDXRestSearchControllerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new OpenCDXRestSearchController(openCDXTinkarService)).build();
     }
 
     @Test
@@ -60,7 +56,7 @@ class OpenCDXRestSearchControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .param("query", "chronic disease of respiratory")
                         .param("maxResults", "10"))
-                .andExpect(status().is(400))
+                .andExpect(status().is(200))
                 .andReturn();
     }
 
