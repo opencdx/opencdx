@@ -320,7 +320,7 @@ public class OpenCDXRestQuestionnaireController {
      * @return Questionnaires with the message.
      */
     @PostMapping(value = "/user/questionnaire/list")
-    public ResponseEntity<UserQUestionnaireDataResponse> getUserQuestionnaireDataList(
+    public ResponseEntity<UserQuestionnaireDataResponse> getUserQuestionnaireDataList(
             @RequestBody GetQuestionnaireListRequest request) {
         return new ResponseEntity<>(openCDXQuestionnaireService.getUserQuestionnaireDataList(request), HttpStatus.OK);
     }

@@ -695,10 +695,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             throw openCDXNotAcceptable;
         }
 
-        return UserQuestionnaireData.newBuilder()
-                .addQuestionnaireData(
-                        QuestionnaireData.newBuilder().setState(ACTIVE).build())
-                .build();
+        return data;
     }
 
     /**
@@ -708,7 +705,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     @SuppressWarnings("java:S3864")
-    public UserQUestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request) {
+    public UserQuestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request) {
         Pageable pageable;
         if (request.getPagination().hasSort()) {
             pageable = PageRequest.of(
@@ -753,7 +750,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 .map(OpenCDXUserQuestionnaireModel::getProtobufMessage)
                 .toList();
 
-        return UserQUestionnaireDataResponse.newBuilder()
+        return UserQuestionnaireDataResponse.newBuilder()
                 .addAllList(list)
                 .setPagination(Pagination.newBuilder(request.getPagination())
                         .setTotalPages(all.getTotalPages())

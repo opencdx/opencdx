@@ -156,5 +156,5 @@ public interface OpenCDXQuestionnaireService {
      * @param request request the process
      * @return Message generated for the user questionnaire requests.
      */
-    UserQUestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request);
+    UserQuestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request);
 }

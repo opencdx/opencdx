@@ -109,7 +109,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -133,7 +133,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
                 });
@@ -144,7 +144,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -601,7 +601,7 @@ class OpenCDXQuestionnaireServiceImplTest {
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
                         .setUserId(ObjectId.get().toHexString())
-                        .addAllQuestionnaireData(List.of(QuestionnaireData.getDefaultInstance()))
+                        .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
                         .build())
                 .build();
         SubmissionResponse response = this.questionnaireService.createUserQuestionnaireData(request);
@@ -625,7 +625,7 @@ class OpenCDXQuestionnaireServiceImplTest {
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .addQuestionnaireData(QuestionnaireData.getDefaultInstance())
+                        .addQuestionnaireData(Questionnaire.getDefaultInstance())
                         .setUserId(ObjectId.get().toHexString()))
                 .build();
         Assertions.assertThrows(
@@ -639,7 +639,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
                 .setId(ObjectId.get().toHexString())
                 .build();
-        UserQUestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
+        UserQuestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
 
         Assertions.assertEquals(1, response.getListList().size());
     }
@@ -672,7 +672,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
                 .setId(ObjectId.get().toHexString())
                 .build();
-        UserQUestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
+        UserQuestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
 
         Assertions.assertEquals(1, response.getListList().size());
     }

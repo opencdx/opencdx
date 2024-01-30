@@ -19,9 +19,9 @@ import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import dev.ikm.tinkar.common.service.*;
-import dev.ikm.tinkar.entity.Entity;
 import io.micrometer.observation.annotation.Observed;
 import java.io.File;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 @ExcludeFromJacocoGeneratedReport
+@Slf4j
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
+
+    private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
+
+    @Value("${data.path.parent}")
+    private String pathParent;
+
+    @Value("${data.path.child}")
+    private String pathChild;
 
     /**
      * Default Constructor
@@ -40,23 +49,10 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-    private static final String SASTOREOPENNAME = "Open SpinedArrayStore";
-
-    @Value("${data.path.parent}")
-    private String pathParent;
-
-    @Value("${data.path.child}")
-    private String pathChild;
-
     @Override
     public PrimitiveDataSearchResult[] search(String query, int maxResultSize) {
-        if (!PrimitiveData.running()) {
-            CachingService.clearAll();
-            ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
-            PrimitiveData.selectControllerByName(SASTOREOPENNAME);
-            PrimitiveData.start();
-        }
         try {
+            initializePrimitiveData(pathParent, pathChild);
             return PrimitiveData.get().search(query, maxResultSize);
         } catch (Exception e) {
             throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Search Failed", e);
@@ -65,14 +61,22 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
     @Override
     public String getEntity(int nid) {
+        try {
+            initializePrimitiveData(pathParent, pathChild);
+            PrimitiveDataSearchResult[] searchResult = PrimitiveData.get().search("nid=" + nid, 1);
+            return searchResult[0].toString();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Entity Get Failed", e);
+        }
+    }
 
+    private void initializePrimitiveData(String pathParent, String pathChild) {
         if (!PrimitiveData.running()) {
             CachingService.clearAll();
             ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, new File(pathParent, pathChild));
-            PrimitiveData.selectControllerByName(SASTOREOPENNAME);
+            PrimitiveData.selectControllerByName(ARRAY_STORE_TO_OPEN);
             PrimitiveData.start();
         }
-
-        return Entity.get(nid).toString();
     }
 }
