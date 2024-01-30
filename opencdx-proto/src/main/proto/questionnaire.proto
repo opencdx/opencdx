@@ -177,13 +177,18 @@ message QuestionnaireItem {
    */
   repeated QuestionnaireItemInitial initial = 13;
   /*
-   * The response provided by the user to the item.
-   */
-  optional google.protobuf.Any submission_user_response = 14;
-  /*
    * The ANF statement connector associated with this item.
    */
-  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 15;
+  repeated cdx.opencdx.grpc.anf.AnfStatementConnector anf_statement_connector = 14;
+  /*
+   * The response provided by the user to the item.
+   */
+  oneof submission_user_response {
+    int32 answer_integer = 15;
+    double answer_double = 16;
+    string answer_string = 17;
+    bool answer_boolean = 18;
+  }
 }
 
 /*
