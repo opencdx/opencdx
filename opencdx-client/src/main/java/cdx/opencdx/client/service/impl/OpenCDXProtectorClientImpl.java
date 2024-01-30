@@ -120,7 +120,7 @@ public class OpenCDXProtectorClientImpl implements OpenCDXProtectorClient {
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
                     OPEN_CDX_PROTECTOR_CLIENT_IMPL,
-                    1,
+                    2,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
@@ -147,7 +147,7 @@ public class OpenCDXProtectorClientImpl implements OpenCDXProtectorClient {
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
                     OPEN_CDX_PROTECTOR_CLIENT_IMPL,
-                    1,
+                    3,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
@@ -174,7 +174,7 @@ public class OpenCDXProtectorClientImpl implements OpenCDXProtectorClient {
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
                     OPEN_CDX_PROTECTOR_CLIENT_IMPL,
-                    1,
+                    4,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
@@ -201,7 +201,7 @@ public class OpenCDXProtectorClientImpl implements OpenCDXProtectorClient {
             throw new OpenCDXClientException(
                     Code.forNumber(status.getCode()),
                     OPEN_CDX_PROTECTOR_CLIENT_IMPL,
-                    1,
+                    5,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);
