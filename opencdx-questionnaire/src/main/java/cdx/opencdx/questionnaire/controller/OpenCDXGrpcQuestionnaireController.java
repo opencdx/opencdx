@@ -318,8 +318,8 @@ public class OpenCDXGrpcQuestionnaireController extends QuestionnaireServiceGrpc
     @Secured({})
     @Override
     public void getUserQuestionnaireDataList(
-            GetQuestionnaireListRequest request, StreamObserver<UserQUestionnaireDataResponse> responseObserver) {
-        UserQUestionnaireDataResponse reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
+            GetQuestionnaireListRequest request, StreamObserver<UserQuestionnaireDataResponse> responseObserver) {
+        UserQuestionnaireDataResponse reply = openCDXQuestionnaireService.getUserQuestionnaireDataList(request);
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();

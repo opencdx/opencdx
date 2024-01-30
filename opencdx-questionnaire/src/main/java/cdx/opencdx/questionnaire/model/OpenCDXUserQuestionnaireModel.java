@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.questionnaire.model;
 
-import cdx.opencdx.grpc.questionnaire.QuestionnaireData;
+import cdx.opencdx.grpc.questionnaire.Questionnaire;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class OpenCDXUserQuestionnaireModel {
 
     private ObjectId userId;
 
-    private List<QuestionnaireData> list;
+    private List<Questionnaire> list;
 
     /**
      * The OpenCDXUserQuestionnaireModel class represents a user questionnaire data model in the OpenCDX system.

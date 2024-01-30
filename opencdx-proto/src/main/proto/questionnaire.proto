@@ -441,9 +441,9 @@ message UserQuestionnaireData {
    */
   string user_id = 2;
   /*
-    * Contains a list of `QuestionnaireData` associated with a specific user.
+    * Contains a list of `Questionnaire` associated with a specific user.
     */
-  repeated QuestionnaireData questionnaire_data = 3;
+  repeated Questionnaire questionnaire_data = 3;
 }
 
 /*
@@ -592,7 +592,7 @@ service QuestionnaireService {
   /*
    * Fetches user-level questionnaire data by its unique Id.
    */
-  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQUestionnaireDataResponse);
+  rpc GetUserQuestionnaireDataList(GetQuestionnaireListRequest) returns (UserQuestionnaireDataResponse);
 }
 
 /*
@@ -701,7 +701,7 @@ message UserQuestionnaireDataRequest {
 
 
 /*
- * UserQUestionnaireDataResponse is a message type defined in Protocol Buffers,
+ * UserQuestionnaireDataResponse is a message type defined in Protocol Buffers,
  * a language-neutral, platform-neutral extensible mechanism for serializing structured data.
  * This message type is used to pass response data of a user questionnaire request.
  *
@@ -713,7 +713,7 @@ message UserQuestionnaireDataRequest {
  * navigating through large data sets by loading only a subset of the data at a time, thus
  * optimizing response time and system resources.
  */
-message UserQUestionnaireDataResponse {
+message UserQuestionnaireDataResponse {
   /*
    * An array of UserQuestionnaireData items
    */
