@@ -143,48 +143,50 @@ message Symptom {
  * Message to record user-provided test kit classification information.
  */
 message UserAnswer {
+  string user_id = 1;
+
   /*
    * Id of the selected test kit.
    */
-  string test_kit_id = 1;
+  string test_kit_id = 2;
   /*
    * Symptoms reported by the user.
    */
-  repeated Symptom symptoms = 2;
+  repeated Symptom symptoms = 3;
   oneof result {
     /*
-     * Image data for the test result.
+     * ID to a media image for the test result.
      */
-    bytes image_data = 3;
+    string media_id = 4;
     /*
      * Text description of the test result.
      */
-    string text_result = 9;
+    string text_result = 5;
   }
   /*
    * Age of the user.
    */
-  int32 age = 4;
+  int32 age = 6;
   /*
    * Gender of the user.
    */
-  cdx.opencdx.grpc.common.Gender gender = 5;
+  cdx.opencdx.grpc.common.Gender gender = 7;
   /*
    * Medical conditions of the user.
    */
-  string medical_conditions = 6;
+  string medical_conditions = 8;
   /*
    * Pregnancy status of the user.
    */
-  bool pregnancy_status = 7;
+  bool pregnancy_status = 9;
   /*
    * Language preference of the user.
    */
-  string language_preference = 8;
+  string language_preference = 10;
   /*
    * Location of the user.
    */
-  Location user_location = 10;
+  Location user_location = 11;
 }
 
 /*
