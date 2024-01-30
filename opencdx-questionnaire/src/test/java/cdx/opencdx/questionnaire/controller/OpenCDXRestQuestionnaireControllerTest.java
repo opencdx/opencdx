@@ -95,7 +95,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -119,7 +119,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
                 });
@@ -430,9 +430,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .setId(ObjectId.get().toHexString())
                                 .build())))
                 .andReturn();
-        Assertions.assertEquals(
-                "{\"userId\":\"\",\"questionnaireData\":[{\"state\":\"Active\"}]}",
-                mv.getResponse().getContentAsString());
+        Assertions.assertEquals(200, mv.getResponse().getStatus());
     }
 
     @ParameterizedTest

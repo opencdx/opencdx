@@ -149,7 +149,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
@@ -173,7 +173,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
                                 .userId(ObjectId.get())
-                                .list(List.of(QuestionnaireData.getDefaultInstance()))
+                                .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
                 });
@@ -1042,7 +1042,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .addQuestionnaireData(data)
+                        .addQuestionnaireData(Questionnaire.getDefaultInstance())
                         .setUserId(ObjectId.get().toHexString()))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
@@ -1075,7 +1075,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .addQuestionnaireData(data)
+                        .addQuestionnaireData(Questionnaire.getDefaultInstance())
                         .setUserId(ObjectId.get().toHexString()))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
@@ -1136,7 +1136,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
     @Test
     void getUserQuestionnaireDataList() {
-        StreamObserver<UserQUestionnaireDataResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQuestionnaireDataResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
                 .setPagination(
@@ -1146,7 +1146,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver);
 
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserQUestionnaireDataResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UserQuestionnaireDataResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
@@ -1165,7 +1165,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
 
-        StreamObserver<UserQUestionnaireDataResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        StreamObserver<UserQuestionnaireDataResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
                 .setPagination(

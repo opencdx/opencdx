@@ -731,6 +731,10 @@ cd ./certs
 # Move back to the original directory
 cd ..
 
+export version=$(generate_version_number)
+
+handle_info "Version: ${version}"
+
 sleep 2
 
 ./gradlew -stop all
@@ -747,8 +751,6 @@ if [ "$proto" = true ]; then
     fi
     exit 0
 fi
-
-export version=$(generate_version_number)
 
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
