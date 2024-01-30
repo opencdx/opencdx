@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,19 +45,25 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for OpenCDXClassificationServiceImpl
      * @param openCDXAuditService service for auditing
      * @param objectMapper object mapper for converting objects
      * @param openCDXCurrentUser service for getting current user
+     * @param openCDXDocumentValidator service for validating documents
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
-            OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXAuditService openCDXAuditService,
+            ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     /**
@@ -65,6 +73,14 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      */
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "users", new ObjectId(request.getUserAnswer().getUserId()));
+        if (request.getUserAnswer().hasMediaId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "media", new ObjectId(request.getUserAnswer().getMediaId()));
+        }
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {

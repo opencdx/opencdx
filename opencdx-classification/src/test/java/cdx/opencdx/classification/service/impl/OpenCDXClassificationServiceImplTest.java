@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Duration;
 import cdx.opencdx.grpc.common.DurationType;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
@@ -56,6 +57,9 @@ class OpenCDXClassificationServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -66,8 +70,8 @@ class OpenCDXClassificationServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -75,7 +79,13 @@ class OpenCDXClassificationServiceImplTest {
 
     @Test
     void testSubmitClassification() {
-        ClassificationRequest request = ClassificationRequest.newBuilder().build();
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         ClassificationResponse response = this.classificationService.classify(request);
 
         Assertions.assertEquals(
@@ -91,12 +101,14 @@ class OpenCDXClassificationServiceImplTest {
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
         // Create an instance of the OpenCDXClassificationServiceImpl with the mocked dependencies
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService, mapper, this.openCDXCurrentUser, openCDXDocumentValidator);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
                         .addSymptoms(
                                 Symptom.newBuilder()
                                         .setName("John Smith") // Simulating an invalid case with null symptom name

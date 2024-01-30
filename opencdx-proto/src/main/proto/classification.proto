@@ -146,9 +146,9 @@ message UserAnswer {
   string user_id = 1;
 
   /*
-   * Id of the selected test kit.
+   * Id of the connected test..
    */
-  string test_kit_id = 2;
+  string connected_test_id = 2;
   /*
    * Symptoms reported by the user.
    */

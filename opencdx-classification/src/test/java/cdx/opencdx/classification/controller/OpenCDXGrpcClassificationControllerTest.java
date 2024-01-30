@@ -19,6 +19,7 @@ import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
@@ -51,6 +52,9 @@ class OpenCDXGrpcClassificationControllerTest {
 
     OpenCDXGrpcClassificationController openCDXGrpcClassificationController;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -61,8 +65,8 @@ class OpenCDXGrpcClassificationControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXDocumentValidator);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 
