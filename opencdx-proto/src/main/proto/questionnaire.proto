@@ -662,8 +662,12 @@ message SubmissionResponse {
    * Supplementary message providing more details about the operation status.
    */
   string message = 2;
-}
 
+  /*
+   * Relevant ID associated with this submission.
+   */
+  string id = 3;
+}
 /*
  * Represents a request to submit a FHIR questionnaire.
  */

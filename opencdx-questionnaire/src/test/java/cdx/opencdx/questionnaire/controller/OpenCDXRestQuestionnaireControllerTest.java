@@ -274,7 +274,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed DeleteQuestionnaire operation.\"}",
+                "{\"success\":true,\"message\":\"Executed DeleteQuestionnaire operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -285,13 +285,12 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .perform(post("/system/questionnaire")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireDataRequest.newBuilder()
-                                .setQuestionnaireData(QuestionnaireData.newBuilder()
-                                        .setId("sys-can")
-                                        .build())
+                                .setQuestionnaireData(
+                                        QuestionnaireData.newBuilder().build())
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed CreateQuestionnaireData operation.\"}",
+                "{\"success\":true,\"message\":\"Executed CreateQuestionnaireData operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -302,12 +301,12 @@ class OpenCDXRestQuestionnaireControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(QuestionnaireDataRequest.newBuilder()
                                 .setQuestionnaireData(QuestionnaireData.newBuilder()
-                                        .setId("sys-can")
+                                        .setId(ObjectId.get().toHexString())
                                         .build())
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed UpdateQuestionnaireData operation.\"}",
+                "{\"success\":true,\"message\":\"Executed UpdateQuestionnaireData operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -325,14 +324,14 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteSystemQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/system/questionnaire/789")
+                .perform(delete("/system/questionnaire/" + ObjectId.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("789")
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed DeleteQuestionnaire operation.\"}",
+                "{\"success\":true,\"message\":\"Executed DeleteQuestionnaire operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -350,7 +349,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed CreateClientQuestionnaireData operation.\"}",
+                "{\"success\":true,\"message\":\"Executed CreateClientQuestionnaireData operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -367,7 +366,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed UpdateClientQuestionnaireData operation.\"}",
+                "{\"success\":true,\"message\":\"Executed UpdateClientQuestionnaireData operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -388,14 +387,14 @@ class OpenCDXRestQuestionnaireControllerTest {
     @Test
     void testDeleteClientQuestionnaire() throws Exception {
         MvcResult mv = this.mockMvc
-                .perform(delete("/client/questionnaire/789")
+                .perform(delete("/client/questionnaire/" + ObjectId.get().toHexString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeleteQuestionnaireRequest.newBuilder()
                                 .setId("789")
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed DeleteClientQuestionnaire operation.\"}",
+                "{\"success\":true,\"message\":\"Executed DeleteClientQuestionnaire operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 
@@ -412,7 +411,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed CreateUserQuestionnaireData operation.\"}",
+                "{\"success\":true,\"message\":\"Executed CreateUserQuestionnaireData operation.\",\"id\":\"\"}",
                 mv.getResponse().getContentAsString());
     }
 

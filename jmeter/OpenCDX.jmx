@@ -7739,7 +7739,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Media  ID" enabled="true">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Questionnaire ID" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">questionnaireId</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
@@ -8141,8 +8141,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Media  ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">questionnaireId</stringProp>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User Questionnaire ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">userQuestionnaireId</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
@@ -8218,7 +8218,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       },&#xd;
       &quot;additionalDetails&quot; : &quot;Fever 101&quot;&#xd;
     } ],&#xd;
-    &quot;textResult&quot; : &quot;Positive&quot;,&#xd;
+    &quot;mediaId&quot; : &quot;${mediaId}&quot;,&#xd;
     &quot;age&quot; : 25,&#xd;
     &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
     &quot;medicalConditions&quot; : &quot;Medical Conditions&quot;,&#xd;

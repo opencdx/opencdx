@@ -1,5 +1,7 @@
 opencdx:
   client:
+    tracing:
+      enabled: true
     audit:
       server: audit
       port: 9090

@@ -17,6 +17,8 @@ package cdx.opencdx.client.config;
 
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.client.service.impl.*;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
+import io.micrometer.observation.ObservationRegistry;
 import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +42,12 @@ public class ClientConfig {
      */
     public ClientConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.tracing", name = "enabled", havingValue = "true")
+    public ObservationGrpcClientInterceptor observationGrpcClientInterceptor(ObservationRegistry observationRegistry) {
+        return new ObservationGrpcClientInterceptor(observationRegistry);
     }
 
     @Bean
