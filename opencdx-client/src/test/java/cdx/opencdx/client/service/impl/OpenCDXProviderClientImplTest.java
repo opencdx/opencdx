@@ -72,8 +72,7 @@ class OpenCDXProviderClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXProviderClient.getProviderByNumber(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXProviderClient.getProviderByNumber(request, openCDXCallCredentials));
     }
 
     @Test
@@ -95,8 +94,7 @@ class OpenCDXProviderClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXProviderClient.deleteProvider(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXProviderClient.deleteProvider(request, openCDXCallCredentials));
     }
 
     @Test
@@ -118,8 +116,7 @@ class OpenCDXProviderClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXProviderClient.listProviders(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXProviderClient.listProviders(request, openCDXCallCredentials));
     }
 
     @Test
@@ -141,7 +138,6 @@ class OpenCDXProviderClientImplTest {
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXProviderClient.loadProvider(
-                        request, openCDXCallCredentials));
+                () -> this.openCDXProviderClient.loadProvider(request, openCDXCallCredentials));
     }
 }
