@@ -7510,6 +7510,646 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Questionnaire" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / CreateQuerstionnaire" enabled="false">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;user_answer&quot;: {
+    	   &quot;user_id&quot;: &quot;${user_id_g}&quot;,	
+        &quot;age&quot;: 66609670,
+        &quot;gender&quot;: 4,
+        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
+        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
+        &quot;pregnancy_status&quot;: false,
+        &quot;symptoms&quot;: [
+            {
+                &quot;duration&quot;: {
+                    &quot;duration&quot;: &quot;14424702&quot;,
+                    &quot;type&quot;: 5
+                },
+                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
+                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
+                &quot;severity&quot;: &quot;MEDIUM&quot;,
+                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
+            }
+        ],
+        &quot;connected_test_id&quot;: &quot;${connectedTestId}&quot;,
+        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
+        &quot;user_location&quot;: {
+            &quot;latitude&quot;: &quot;Infinity&quot;,
+            &quot;longitude&quot;: &quot;-Infinity&quot;
+        }
+    }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;questionnaire&quot; : {&#xd;
+  &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+  &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+  &quot;status&quot;: &quot;draft&quot;,&#xd;
+  &quot;item&quot;: [&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;integer&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+            &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+      &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;item&quot;: [&#xd;
+        {&#xd;
+          &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+          &quot;type&quot;: &quot;display&quot;,&#xd;
+          &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+          &quot;extension&quot;: [&#xd;
+            {&#xd;
+              &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+              &quot;valueCodeableConcept&quot;: {&#xd;
+                &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                &quot;coding&quot;: [&#xd;
+                  {&#xd;
+                    &quot;code&quot;: &quot;help&quot;,&#xd;
+                    &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                  }&#xd;
+                ]&#xd;
+              }&#xd;
+            }&#xd;
+          ]&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+      &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;choice&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+          &quot;valueCodeableConcept&quot;: {&#xd;
+            &quot;coding&quot;: [&#xd;
+              {&#xd;
+                &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                &quot;display&quot;: &quot;Drop down&quot;&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+      &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;answerOption&quot;: [&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Adult&quot;&#xd;
+          },&#xd;
+          &quot;initialSelected&quot;: true&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;choice&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+          &quot;valueCodeableConcept&quot;: {&#xd;
+            &quot;coding&quot;: [&#xd;
+              {&#xd;
+                &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                &quot;display&quot;: &quot;Drop down&quot;&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+      &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;answerOption&quot;: [&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Right&quot;&#xd;
+          },&#xd;
+          &quot;initialSelected&quot;: true&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Left&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+      &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+      &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    }&#xd;
+  ]&#xd;
+}&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Media  ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">questionnaireId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;questionnaire&quot; : {&#xd;
+  &quot;id&quot;:&quot;${questionnaireId}&quot;,	&#xd;
+  &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+  &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+  &quot;status&quot;: &quot;draft&quot;,&#xd;
+  &quot;item&quot;: [&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;integer&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+            &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+      &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;item&quot;: [&#xd;
+        {&#xd;
+          &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+          &quot;type&quot;: &quot;display&quot;,&#xd;
+          &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+          &quot;extension&quot;: [&#xd;
+            {&#xd;
+              &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+              &quot;valueCodeableConcept&quot;: {&#xd;
+                &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                &quot;coding&quot;: [&#xd;
+                  {&#xd;
+                    &quot;code&quot;: &quot;help&quot;,&#xd;
+                    &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                  }&#xd;
+                ]&#xd;
+              }&#xd;
+            }&#xd;
+          ]&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+      &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;choice&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+          &quot;valueCodeableConcept&quot;: {&#xd;
+            &quot;coding&quot;: [&#xd;
+              {&#xd;
+                &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                &quot;display&quot;: &quot;Drop down&quot;&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+      &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;answerOption&quot;: [&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Adult&quot;&#xd;
+          },&#xd;
+          &quot;initialSelected&quot;: true&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;choice&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+          &quot;valueCodeableConcept&quot;: {&#xd;
+            &quot;coding&quot;: [&#xd;
+              {&#xd;
+                &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                &quot;display&quot;: &quot;Drop down&quot;&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+      &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;answerOption&quot;: [&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Right&quot;&#xd;
+          },&#xd;
+          &quot;initialSelected&quot;: true&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Left&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+      &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+      &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    }&#xd;
+  ]&#xd;
+}&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/questionnaire/${questionnaireId}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/user/questionnaire [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;userQuestionnaireData&quot;: {&#xd;
+    &quot;userId&quot;: &quot;${user_id_g}&quot;,&#xd;
+    &quot;questionnaireData&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;:&quot;${questionnaireId}&quot;,	&#xd;
+        &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+        &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+        &quot;status&quot;: &quot;draft&quot;,&#xd;
+        &quot;item&quot;: [&#xd;
+          {&#xd;
+            &quot;type&quot;: &quot;integer&quot;,&#xd;
+            &quot;extension&quot;: [&#xd;
+              {&#xd;
+                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+                &quot;valueCoding&quot;: {&#xd;
+                  &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+                  &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+                }&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+            &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+            &quot;required&quot;: false,&#xd;
+            &quot;repeats&quot;: false,&#xd;
+            &quot;readOnly&quot;: false,&#xd;
+            &quot;item&quot;: [&#xd;
+              {&#xd;
+                &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+                &quot;type&quot;: &quot;display&quot;,&#xd;
+                &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+                &quot;extension&quot;: [&#xd;
+                  {&#xd;
+                    &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                    &quot;valueCodeableConcept&quot;: {&#xd;
+                      &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                      &quot;coding&quot;: [&#xd;
+                        {&#xd;
+                          &quot;code&quot;: &quot;help&quot;,&#xd;
+                          &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                          &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                        }&#xd;
+                      ]&#xd;
+                    }&#xd;
+                  }&#xd;
+                ]&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;answerInteger&quot;: 140&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;type&quot;: &quot;boolean&quot;,&#xd;
+            &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+            &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+            &quot;required&quot;: false,&#xd;
+            &quot;repeats&quot;: false,&#xd;
+            &quot;readOnly&quot;: false,&#xd;
+            &quot;initial&quot;: [&#xd;
+              {&#xd;
+                &quot;valueBoolean&quot;: true&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;answerBoolean&quot;: true&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;type&quot;: &quot;choice&quot;,&#xd;
+            &quot;extension&quot;: [&#xd;
+              {&#xd;
+                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                &quot;valueCodeableConcept&quot;: {&#xd;
+                  &quot;coding&quot;: [&#xd;
+                    {&#xd;
+                      &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                      &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                      &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                    }&#xd;
+                  ]&#xd;
+                }&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+            &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+            &quot;required&quot;: false,&#xd;
+            &quot;repeats&quot;: false,&#xd;
+            &quot;readOnly&quot;: false,&#xd;
+            &quot;answerOption&quot;: [&#xd;
+              {&#xd;
+                &quot;valueCoding&quot;: {&#xd;
+                  &quot;display&quot;: &quot;Adult&quot;&#xd;
+                },&#xd;
+                &quot;initialSelected&quot;: true&#xd;
+              },&#xd;
+              {&#xd;
+                &quot;valueCoding&quot;: {&#xd;
+                  &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+                }&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;answerString&quot;: &quot;Adult&quot;&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;type&quot;: &quot;choice&quot;,&#xd;
+            &quot;extension&quot;: [&#xd;
+              {&#xd;
+                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                &quot;valueCodeableConcept&quot;: {&#xd;
+                  &quot;coding&quot;: [&#xd;
+                    {&#xd;
+                      &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                      &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                      &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                    }&#xd;
+                  ]&#xd;
+                }&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+            &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+            &quot;required&quot;: false,&#xd;
+            &quot;repeats&quot;: false,&#xd;
+            &quot;readOnly&quot;: false,&#xd;
+            &quot;answerOption&quot;: [&#xd;
+              {&#xd;
+                &quot;valueCoding&quot;: {&#xd;
+                  &quot;display&quot;: &quot;Right&quot;&#xd;
+                },&#xd;
+                &quot;initialSelected&quot;: true&#xd;
+              },&#xd;
+              {&#xd;
+                &quot;valueCoding&quot;: {&#xd;
+                  &quot;display&quot;: &quot;Left&quot;&#xd;
+                }&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;answerString&quot;: &quot;Right&quot;&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;type&quot;: &quot;boolean&quot;,&#xd;
+            &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+            &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+            &quot;required&quot;: false,&#xd;
+            &quot;repeats&quot;: false,&#xd;
+            &quot;readOnly&quot;: false,&#xd;
+            &quot;initial&quot;: [&#xd;
+              {&#xd;
+                &quot;valueBoolean&quot;: true&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;answerBoolean&quot;: true&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;type&quot;: &quot;boolean&quot;,&#xd;
+            &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+            &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+            &quot;required&quot;: false,&#xd;
+            &quot;repeats&quot;: false,&#xd;
+            &quot;readOnly&quot;: false,&#xd;
+            &quot;initial&quot;: [&#xd;
+              {&#xd;
+                &quot;valueBoolean&quot;: true&#xd;
+              }&#xd;
+            ],&#xd;
+            &quot;answerBoolean&quot;: true&#xd;
+          }&#xd;
+        ]&#xd;
+      }&#xd;
+    ]&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/user/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Media  ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">questionnaireId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Classification" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
