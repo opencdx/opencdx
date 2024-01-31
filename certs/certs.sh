@@ -74,6 +74,7 @@ services=(  "Audit"
             "classification"
             "Dashboard"
             "GraphQl"
+            "Zipkin"
         )
 
 # Generate certificates for services
