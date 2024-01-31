@@ -17,6 +17,7 @@ package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -73,14 +74,24 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      */
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
+
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "users", new ObjectId(request.getUserAnswer().getUserId()));
+
         if (request.getUserAnswer().hasMediaId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "media", new ObjectId(request.getUserAnswer().getMediaId()));
         }
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
+
+        if (request.getUserAnswer().hasConnectedTestId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
+        } else if (request.getUserAnswer().hasUserQuestionnaireId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
+        } else {
+            throw new OpenCDXNotFound(this.getClass().getName(), 2, "No Connected Test & No User Questionnaire ");
+        }
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
@@ -95,7 +106,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 1, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
