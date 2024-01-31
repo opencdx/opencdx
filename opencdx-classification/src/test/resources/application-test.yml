@@ -38,3 +38,20 @@ spring:
 opencdx:
   classification:
     format: "%s!"
+  client:
+    audit:
+      server: audit
+      port: 9090
+    communications:
+      server: communications
+      port: 9090
+    connected-test:
+      server: connected-test
+      port: 9090
+    helloworld:
+      server: helloworld
+      port: 9090
+    media:
+      server: media
+      port: 9090
+      enabled: true

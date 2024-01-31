@@ -17,8 +17,11 @@ package cdx.opencdx.client.config;
 
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.client.service.impl.*;
+import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -46,5 +49,13 @@ public class ClientConfig {
         WebClient mediaUpDownWebClient =
                 WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
         return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.media", name = "enabled", havingValue = "true")
+    OpenCDXMediaClient openCDXMediaClient(
+            @Value("${opencdx.client.media.server}") String server, @Value("${opencdx.client.media.port}") Integer port)
+            throws SSLException {
+        return new OpenCDXMediaClientImpl(server, port);
     }
 }

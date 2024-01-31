@@ -15,7 +15,10 @@
  */
 package cdx.opencdx.classification.service.impl;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -23,6 +26,8 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.media.GetMediaRequest;
+import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,23 +53,28 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
+    private final OpenCDXMediaClient openCDXMediaClient;
+
     /**
      * Constructor for OpenCDXClassificationServiceImpl
      * @param openCDXAuditService service for auditing
      * @param objectMapper object mapper for converting objects
      * @param openCDXCurrentUser service for getting current user
      * @param openCDXDocumentValidator service for validating documents
+     * @param openCDXMediaClient service for media client
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
             OpenCDXAuditService openCDXAuditService,
             ObjectMapper objectMapper,
             OpenCDXCurrentUser openCDXCurrentUser,
-            OpenCDXDocumentValidator openCDXDocumentValidator) {
+            OpenCDXDocumentValidator openCDXDocumentValidator,
+            OpenCDXMediaClient openCDXMediaClient) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
+        this.openCDXMediaClient = openCDXMediaClient;
     }
 
     /**
@@ -75,12 +85,26 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
 
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setUserAnswer(request.getUserAnswer());
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "users", new ObjectId(request.getUserAnswer().getUserId()));
 
         if (request.getUserAnswer().hasMediaId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "media", new ObjectId(request.getUserAnswer().getMediaId()));
+
+            GetMediaResponse response = this.openCDXMediaClient.getMedia(
+                    GetMediaRequest.newBuilder()
+                            .setId(request.getUserAnswer().getMediaId())
+                            .build(),
+                    openCDXCallCredentials);
+            if (response.hasMedia()) {
+                model.setMedia(response.getMedia());
+            }
         }
 
         if (request.getUserAnswer().hasConnectedTestId()) {

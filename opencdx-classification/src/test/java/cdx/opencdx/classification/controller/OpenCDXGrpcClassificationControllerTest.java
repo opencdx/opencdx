@@ -16,6 +16,7 @@
 package cdx.opencdx.classification.controller;
 
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -58,6 +59,9 @@ class OpenCDXGrpcClassificationControllerTest {
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @Mock
+    OpenCDXMediaClient openCDXMediaClient;
+
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -66,7 +70,11 @@ class OpenCDXGrpcClassificationControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXDocumentValidator);
+                this.openCDXAuditService,
+                this.objectMapper,
+                openCDXCurrentUser,
+                openCDXDocumentValidator,
+                openCDXMediaClient);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 
