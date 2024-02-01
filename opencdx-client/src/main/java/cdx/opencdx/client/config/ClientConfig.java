@@ -25,10 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * Provides the Client configuration to create gRPC Clients to communicate with
@@ -37,7 +36,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Slf4j
 @AutoConfiguration
 @Configuration
+@EnableFeignClients
 public class ClientConfig {
+
     /**
      * Default Constructor
      */
@@ -49,15 +50,6 @@ public class ClientConfig {
     @ConditionalOnProperty(prefix = "opencdx.client.tracing", name = "enabled", havingValue = "true")
     public ObservationGrpcClientInterceptor observationGrpcClientInterceptor(ObservationRegistry observationRegistry) {
         return new ObservationGrpcClientInterceptor(observationRegistry);
-    }
-
-    @Bean
-    @Description("Web client for Media upload/download")
-    OpenCDXMediaUpDownClient mediaUpDown() {
-
-        WebClient mediaUpDownWebClient =
-                WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
-        return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
     }
 
     @Bean
