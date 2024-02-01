@@ -20,6 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.Gender;
+import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
+import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -56,6 +60,9 @@ class OpenCDXRestClassificationControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @BeforeEach
     public void setup() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -80,7 +87,15 @@ class OpenCDXRestClassificationControllerTest {
     @Test
     void testSubmitClassification() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/classify").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/classify")
+                        .content(this.objectMapper.writeValueAsString(ClassificationRequest.newBuilder()
+                                .setUserAnswer(UserAnswer.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                                        .setGender(Gender.GENDER_MALE)
+                                        .setAge(30))
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
 

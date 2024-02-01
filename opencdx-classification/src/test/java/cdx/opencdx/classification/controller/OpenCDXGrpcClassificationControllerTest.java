@@ -83,11 +83,12 @@ class OpenCDXGrpcClassificationControllerTest {
         StreamObserver<ClassificationResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
-                .setUserAnswer(
-                        UserAnswer.newBuilder().setGender(Gender.GENDER_MALE).setAge(30))
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .setGender(Gender.GENDER_MALE)
+                        .setAge(30))
                 .build();
-        ClassificationResponse response =
-                ClassificationResponse.newBuilder().setMessage("Executed").build();
 
         this.openCDXGrpcClassificationController.classify(request, responseObserver);
 

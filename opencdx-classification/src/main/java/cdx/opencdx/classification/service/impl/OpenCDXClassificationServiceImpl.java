@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Service;
 /**
  * Service for processing Classification Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationService {
@@ -106,6 +108,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                 model.setMedia(response.getMedia());
             }
         }
+        log.info("Validated ClassificationRequest");
 
         if (request.getUserAnswer().hasConnectedTestId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
