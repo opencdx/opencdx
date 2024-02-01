@@ -264,10 +264,10 @@ class OpenCDXQuestionnaireClientImplTest {
                 () -> this.openCDXQuestionnaireClient.getQuestionnaireData(request, openCDXCallCredentials));
     }
 
-
     @Test
     void getQuestionnaireDataList() {
-        Mockito.when(this.questionnaireServiceBlockingStub.getQuestionnaireDataList(Mockito.any(GetQuestionnaireListRequest.class)))
+        Mockito.when(this.questionnaireServiceBlockingStub.getQuestionnaireDataList(
+                        Mockito.any(GetQuestionnaireListRequest.class)))
                 .thenReturn(SystemQuestionnaireData.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -278,13 +278,14 @@ class OpenCDXQuestionnaireClientImplTest {
 
     @Test
     void getQuestionnaireDataListException() {
-        Mockito.when(this.questionnaireServiceBlockingStub.getQuestionnaireDataList(Mockito.any(GetQuestionnaireListRequest.class)))
-                    .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-            GetQuestionnaireListRequest request = GetQuestionnaireListRequest.getDefaultInstance();
-            OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-            Assertions.assertThrows(
-                    OpenCDXClientException.class,
-                    () -> this.openCDXQuestionnaireClient.getQuestionnaireDataList(request, openCDXCallCredentials));
+        Mockito.when(this.questionnaireServiceBlockingStub.getQuestionnaireDataList(
+                        Mockito.any(GetQuestionnaireListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXQuestionnaireClient.getQuestionnaireDataList(request, openCDXCallCredentials));
     }
 
     @Test
