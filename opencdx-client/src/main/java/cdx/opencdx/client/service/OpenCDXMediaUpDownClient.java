@@ -34,7 +34,7 @@ public interface OpenCDXMediaUpDownClient {
      * @param fileId ID for upload file.
      * @return FileUploadResponse
      */
-    @PostMapping( value = "/upload/{fileId}", consumes = "application/json")
+    @PostMapping(value = "/upload/{fileId}", consumes = "application/json")
     ResponseEntity<FileUploadResponse> uploadFile(
             @RequestParam(name = "file", required = false) MultipartFile file, @PathVariable String fileId);
 
@@ -44,6 +44,6 @@ public interface OpenCDXMediaUpDownClient {
      * @param ext Extension of file
      * @return downloaded Resource
      */
-    @GetMapping( value = "/download/{fileId}.{ext}")
+    @GetMapping(value = "/download/{fileId}.{ext}")
     ResponseEntity<Resource> download(@PathVariable String fileId, @PathVariable String ext);
 }

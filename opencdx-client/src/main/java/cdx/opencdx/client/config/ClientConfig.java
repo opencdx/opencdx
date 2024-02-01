@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @AutoConfiguration
 @Configuration
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"cdx.opencdx"})
 public class ClientConfig {
 
     /**
