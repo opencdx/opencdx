@@ -29,7 +29,6 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * OpenCDXMediaClient for talking to the Media Service.
@@ -51,9 +50,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
      * @param port Server port for the gRPC Service.
      * @throws SSLException creating Client
      */
-    public OpenCDXMediaClientImpl(
-            @Value("${opencdx.client.media.server}") String server, @Value("${opencdx.client.media.port}") Integer port)
-            throws SSLException {
+    public OpenCDXMediaClientImpl(String server, Integer port) throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
         if (certChain == null) {
             throw new SSLException("Could not load certificate chain");

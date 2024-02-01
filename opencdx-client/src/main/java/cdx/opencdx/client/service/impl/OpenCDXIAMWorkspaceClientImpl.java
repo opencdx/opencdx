@@ -25,21 +25,17 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the Workspace gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
 public class OpenCDXIAMWorkspaceClientImpl implements OpenCDXIAMWorkspaceClient {
 
     public static final String OPEN_CDX_WORKSPACE_CLIENT_IMPL = "OpenCDXIAMWorkspaceClientImpl";
@@ -52,13 +48,16 @@ public class OpenCDXIAMWorkspaceClientImpl implements OpenCDXIAMWorkspaceClient 
      * @throws SSLException creating Client
      */
     @Generated
-    public OpenCDXIAMWorkspaceClientImpl(
-            @Value("${opencdx.client.iam.server}") String server, @Value("${opencdx.client.iam.port}") Integer port)
-            throws SSLException {
+    public OpenCDXIAMWorkspaceClientImpl(String server, Integer port) throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.workspaceServiceBlockingStub = WorkspaceServiceGrpc.newBlockingStub(channel);
     }

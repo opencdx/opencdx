@@ -25,21 +25,18 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Open CDX gRPC Communications Client
  */
 @Slf4j
-@Service
 @Observed(name = "opencdx")
-@ConditionalOnProperty(prefix = "opencdx.client.communications", name = "enabled", havingValue = "true")
 public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClient {
 
     private static final String DOMAIN = "OpenCDXCommunicationClientImpl";
@@ -52,14 +49,16 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * @throws IOException creating Client
      */
     @Generated
-    public OpenCDXCommunicationClientImpl(
-            @Value("${opencdx.client.communications.server}") String server,
-            @Value("${opencdx.client.communications.port}") Integer port)
-            throws IOException {
+    public OpenCDXCommunicationClientImpl(String server, Integer port) throws IOException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
 
         this.blockingStub = CommunicationServiceGrpc.newBlockingStub(channel);

@@ -26,21 +26,17 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the ANF gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.anf", name = "enabled", havingValue = "true")
 public class OpenCDXANFClientImpl implements OpenCDXANFClient {
 
     public static final String OPEN_CDX_ANF_CLIENT_IMPL = "OpenCDXANFClientImpl";
@@ -53,13 +49,16 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * @throws SSLException creating Client
      */
     @Generated
-    public OpenCDXANFClientImpl(
-            @Value("${opencdx.client.anf.server}") String server, @Value("${opencdx.client.anf.port}") Integer port)
-            throws SSLException {
+    public OpenCDXANFClientImpl(String server, Integer port) throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.anfServiceBlockingStub = ANFServiceGrpc.newBlockingStub(channel);
     }
