@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.classification.controller;
 
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -57,6 +58,9 @@ class OpenCDXGrpcClassificationControllerTest {
     OpenCDXDocumentValidator openCDXDocumentValidator;
 
     @Mock
+    OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @Mock
@@ -74,7 +78,8 @@ class OpenCDXGrpcClassificationControllerTest {
                 this.objectMapper,
                 openCDXCurrentUser,
                 openCDXDocumentValidator,
-                openCDXMediaClient);
+                openCDXMediaClient,
+                this.openCDXClassifyProcessorService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 

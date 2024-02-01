@@ -16,6 +16,7 @@
 package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -74,6 +75,9 @@ class OpenCDXClassificationServiceImplTest {
     @MockBean
     OpenCDXMediaClient openCDXMediaClient;
 
+    @Mock
+    OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXMediaClient.getMedia(
@@ -100,7 +104,8 @@ class OpenCDXClassificationServiceImplTest {
                 this.objectMapper,
                 openCDXCurrentUser,
                 openCDXDocumentValidator,
-                openCDXMediaClient);
+                openCDXMediaClient,
+                this.openCDXClassifyProcessorService);
     }
 
     @AfterEach
@@ -135,7 +140,8 @@ class OpenCDXClassificationServiceImplTest {
                 mapper,
                 this.openCDXCurrentUser,
                 openCDXDocumentValidator,
-                openCDXMediaClient);
+                openCDXMediaClient,
+                this.openCDXClassifyProcessorService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()

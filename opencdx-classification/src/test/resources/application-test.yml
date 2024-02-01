@@ -15,6 +15,15 @@ logging:
     health:
       safe: DEBUG
 spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          media:
+            url: https://media:9090
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
   application:
     name: classification
   cloud:
@@ -55,3 +64,5 @@ opencdx:
       server: media
       port: 9090
       enabled: true
+
+s

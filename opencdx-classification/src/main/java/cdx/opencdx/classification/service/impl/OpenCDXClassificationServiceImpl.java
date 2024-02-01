@@ -17,6 +17,7 @@ package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -54,8 +55,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
-
     private final OpenCDXMediaClient openCDXMediaClient;
+    private final OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
 
     /**
      * Constructor for OpenCDXClassificationServiceImpl
@@ -64,6 +65,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXCurrentUser service for getting current user
      * @param openCDXDocumentValidator service for validating documents
      * @param openCDXMediaClient service for media client
+     * @param openCDXClassifyProcessorService service for classification processor
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -71,12 +73,13 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             ObjectMapper objectMapper,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXMediaClient openCDXMediaClient) {
+            OpenCDXMediaClient openCDXMediaClient, OpenCDXClassifyProcessorService openCDXClassifyProcessorService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXMediaClient = openCDXMediaClient;
+        this.openCDXClassifyProcessorService = openCDXClassifyProcessorService;
     }
 
     /**
@@ -119,6 +122,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         } else {
             throw new OpenCDXNotFound(this.getClass().getName(), 2, "No Connected Test & No User Questionnaire ");
         }
+
+        this.openCDXClassifyProcessorService.classify(model);
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
