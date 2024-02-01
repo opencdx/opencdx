@@ -15,14 +15,10 @@
  */
 package cdx.opencdx.client.config;
 
-import cdx.opencdx.client.service.*;
-import cdx.opencdx.client.service.impl.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * Provides the Client configuration to create gRPC Clients to communicate with
@@ -31,20 +27,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Slf4j
 @AutoConfiguration
 @Configuration
+@EnableFeignClients
 public class ClientConfig {
+
     /**
      * Default Constructor
      */
     public ClientConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    @Bean
-    @Description("Web client for Media upload/download")
-    OpenCDXMediaUpDownClient mediaUpDown() {
-
-        WebClient mediaUpDownWebClient =
-                WebClient.builder().baseUrl("$(opencdx.client.mediaUoDown").build();
-        return new OpenCDXMediaUpDownClientImpl(mediaUpDownWebClient);
     }
 }
