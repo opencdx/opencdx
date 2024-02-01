@@ -73,7 +73,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             ObjectMapper objectMapper,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXMediaClient openCDXMediaClient, OpenCDXClassifyProcessorService openCDXClassifyProcessorService) {
+            OpenCDXMediaClient openCDXMediaClient,
+            OpenCDXClassifyProcessorService openCDXClassifyProcessorService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
