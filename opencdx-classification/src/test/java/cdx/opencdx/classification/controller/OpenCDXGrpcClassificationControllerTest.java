@@ -15,10 +15,13 @@
  */
 package cdx.opencdx.classification.controller;
 
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
@@ -51,8 +54,17 @@ class OpenCDXGrpcClassificationControllerTest {
 
     OpenCDXGrpcClassificationController openCDXGrpcClassificationController;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
+    @Mock
+    OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Mock
+    OpenCDXMediaClient openCDXMediaClient;
 
     @BeforeEach
     void setUp() {
@@ -61,8 +73,13 @@ class OpenCDXGrpcClassificationControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService,
+                this.objectMapper,
+                openCDXCurrentUser,
+                openCDXDocumentValidator,
+                openCDXMediaClient,
+                this.openCDXClassifyProcessorService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 
@@ -71,11 +88,12 @@ class OpenCDXGrpcClassificationControllerTest {
         StreamObserver<ClassificationResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
-                .setUserAnswer(
-                        UserAnswer.newBuilder().setGender(Gender.GENDER_MALE).setAge(30))
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .setGender(Gender.GENDER_MALE)
+                        .setAge(30))
                 .build();
-        ClassificationResponse response =
-                ClassificationResponse.newBuilder().setMessage("Executed").build();
 
         this.openCDXGrpcClassificationController.classify(request, responseObserver);
 

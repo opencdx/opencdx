@@ -16,12 +16,19 @@
 package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Duration;
 import cdx.opencdx.grpc.common.DurationType;
+import cdx.opencdx.grpc.media.GetMediaRequest;
+import cdx.opencdx.grpc.media.GetMediaResponse;
+import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.SeverityLevel;
@@ -38,8 +45,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -56,18 +66,46 @@ class OpenCDXClassificationServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @MockBean
+    OpenCDXMediaClient openCDXMediaClient;
+
+    @Mock
+    OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+
     @BeforeEach
     void beforeEach() {
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<GetMediaResponse>() {
+                    @Override
+                    public GetMediaResponse answer(InvocationOnMock invocation) throws Throwable {
+                        GetMediaRequest argument = invocation.getArgument(0);
+                        return GetMediaResponse.newBuilder()
+                                .setMedia(Media.newBuilder()
+                                        .setId(argument.getId())
+                                        .setMimeType("image/jpeg")
+                                        .build())
+                                .build();
+                    }
+                });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService,
+                this.objectMapper,
+                openCDXCurrentUser,
+                openCDXDocumentValidator,
+                openCDXMediaClient,
+                this.openCDXClassifyProcessorService);
     }
 
     @AfterEach
@@ -75,7 +113,13 @@ class OpenCDXClassificationServiceImplTest {
 
     @Test
     void testSubmitClassification() {
-        ClassificationRequest request = ClassificationRequest.newBuilder().build();
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
         ClassificationResponse response = this.classificationService.classify(request);
 
         Assertions.assertEquals(
@@ -91,12 +135,19 @@ class OpenCDXClassificationServiceImplTest {
         Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
 
         // Create an instance of the OpenCDXClassificationServiceImpl with the mocked dependencies
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, mapper, this.openCDXCurrentUser);
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXDocumentValidator,
+                openCDXMediaClient,
+                this.openCDXClassifyProcessorService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
                         .addSymptoms(
                                 Symptom.newBuilder()
                                         .setName("John Smith") // Simulating an invalid case with null symptom name

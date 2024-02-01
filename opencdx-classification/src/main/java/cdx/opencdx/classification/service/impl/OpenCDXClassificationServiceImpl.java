@@ -15,24 +15,35 @@
  */
 package cdx.opencdx.classification.service.impl;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.media.GetMediaRequest;
+import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * Service for processing Classification Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationService {
@@ -43,19 +54,32 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
+    private final OpenCDXDocumentValidator openCDXDocumentValidator;
+    private final OpenCDXMediaClient openCDXMediaClient;
+    private final OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
 
     /**
      * Constructor for OpenCDXClassificationServiceImpl
      * @param openCDXAuditService service for auditing
      * @param objectMapper object mapper for converting objects
      * @param openCDXCurrentUser service for getting current user
+     * @param openCDXDocumentValidator service for validating documents
+     * @param openCDXMediaClient service for media client
+     * @param openCDXClassifyProcessorService service for classification processor
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
-            OpenCDXAuditService openCDXAuditService, ObjectMapper objectMapper, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXAuditService openCDXAuditService,
+            ObjectMapper objectMapper,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXDocumentValidator openCDXDocumentValidator,
+            OpenCDXMediaClient openCDXMediaClient, OpenCDXClassifyProcessorService openCDXClassifyProcessorService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXDocumentValidator = openCDXDocumentValidator;
+        this.openCDXMediaClient = openCDXMediaClient;
+        this.openCDXClassifyProcessorService = openCDXClassifyProcessorService;
     }
 
     /**
@@ -65,6 +89,41 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      */
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
+
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setUserAnswer(request.getUserAnswer());
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+
+        this.openCDXDocumentValidator.validateDocumentOrThrow(
+                "users", new ObjectId(request.getUserAnswer().getUserId()));
+
+        if (request.getUserAnswer().hasMediaId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "media", new ObjectId(request.getUserAnswer().getMediaId()));
+
+            GetMediaResponse response = this.openCDXMediaClient.getMedia(
+                    GetMediaRequest.newBuilder()
+                            .setId(request.getUserAnswer().getMediaId())
+                            .build(),
+                    openCDXCallCredentials);
+            if (response.hasMedia()) {
+                model.setMedia(response.getMedia());
+            }
+        }
+        log.info("Validated ClassificationRequest");
+
+        if (request.getUserAnswer().hasConnectedTestId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
+        } else if (request.getUserAnswer().hasUserQuestionnaireId()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
+        } else {
+            throw new OpenCDXNotFound(this.getClass().getName(), 2, "No Connected Test & No User Questionnaire ");
+        }
+
+        this.openCDXClassifyProcessorService.classify(model);
 
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
@@ -79,7 +138,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 1, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;

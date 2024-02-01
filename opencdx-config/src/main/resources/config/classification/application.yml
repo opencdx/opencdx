@@ -1,0 +1,9 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: classification
+
+opencdx:
+  client:
+    media:
+      enabled: true
