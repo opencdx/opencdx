@@ -48,6 +48,8 @@ opencdx:
 spring:
   cloud:
     openfeign:
+      httpclient:
+        disable-ssl-validation: true
       client:
         config:
           media:
