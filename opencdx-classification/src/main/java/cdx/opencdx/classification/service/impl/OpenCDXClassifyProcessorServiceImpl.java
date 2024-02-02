@@ -44,9 +44,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     @Override
     public void classify(OpenCDXClassificationModel model) {
-        if (model.getMedia() != null) {
+        if (model.getUserAnswer() != null) {
             log.info(
-                    "Downloading media for classification: {}", model.getMedia().getId());
+                    "Downloading media for classification: {}", model.getUserAnswer().getMediaId());
             ResponseEntity<Resource> downloaded =
                     this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
 
