@@ -65,3 +65,7 @@ opencdx:
       server: media
       port: 9090
       enabled: true
+    questionnaire:
+      server: questionnaire
+      port: 9090
+      enabled: true

@@ -22,6 +22,7 @@ import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -81,6 +82,9 @@ class OpenCDXClassificationServiceImplTest {
     @Mock
     OpenCDXConnectedTestClient openCDXConnectedTestClient;
 
+    @Mock
+    OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
     @Autowired
     OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
 
@@ -127,6 +131,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXDocumentValidator,
                 openCDXMediaClient,
                 this.openCDXConnectedTestClient,
+                this.openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository);
     }
@@ -166,6 +171,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXDocumentValidator,
                 openCDXMediaClient,
                 this.openCDXConnectedTestClient,
+                this.openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository);
 
