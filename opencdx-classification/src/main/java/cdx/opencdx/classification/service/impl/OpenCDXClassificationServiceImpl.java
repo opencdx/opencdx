@@ -187,7 +187,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             ClassificationRequest request,
             OpenCDXCallCredentials openCDXCallCredentials,
             OpenCDXClassificationModel model) {
-        log.info("Retrieving Media: {}",request.getUserAnswer().getMediaId();
+        log.info("Retrieving Media: {}",request.getUserAnswer().getMediaId());
         GetMediaResponse response = this.openCDXMediaClient.getMedia(
                 GetMediaRequest.newBuilder()
                         .setId(request.getUserAnswer().getMediaId())
