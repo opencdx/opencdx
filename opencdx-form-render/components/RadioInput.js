@@ -78,7 +78,6 @@ export const RadioInput = (props) => {
 
   if (!formContext || !name) {
     const msg = !formContext ? "TextInput must be wrapped by the FormProvider" : "Name must be defined"
-    console.error(msg)
     setFormError(true)
     return null
   }
