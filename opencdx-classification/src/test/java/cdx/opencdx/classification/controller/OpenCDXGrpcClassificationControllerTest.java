@@ -15,8 +15,11 @@
  */
 package cdx.opencdx.classification.controller;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -34,6 +37,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -57,7 +62,7 @@ class OpenCDXGrpcClassificationControllerTest {
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
 
-    @Mock
+    @Autowired
     OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
 
     @Mock
@@ -66,6 +71,12 @@ class OpenCDXGrpcClassificationControllerTest {
     @Mock
     OpenCDXMediaClient openCDXMediaClient;
 
+    @Mock
+    OpenCDXConnectedTestClient openCDXConnectedTestClient;
+
+    @Mock
+    OpenCDXClassificationRepository openCDXClassificationRepository;
+
     @BeforeEach
     void setUp() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -73,13 +84,27 @@ class OpenCDXGrpcClassificationControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+                    @Override
+                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
                 this.objectMapper,
                 openCDXCurrentUser,
                 openCDXDocumentValidator,
                 openCDXMediaClient,
-                this.openCDXClassifyProcessorService);
+                openCDXConnectedTestClient,
+                this.openCDXClassifyProcessorService,
+                openCDXClassificationRepository);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 

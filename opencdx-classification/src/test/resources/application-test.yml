@@ -57,6 +57,7 @@ opencdx:
     connected-test:
       server: connected-test
       port: 9090
+      enabled: true
     helloworld:
       server: helloworld
       port: 9090

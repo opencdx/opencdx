@@ -18,11 +18,10 @@ package cdx.opencdx.classification.service.impl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
+import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import io.micrometer.observation.annotation.Observed;
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,6 +30,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
+@SuppressWarnings({"java:S1068", "java:S125", "java:S1172"})
 public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProcessorService {
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
 
@@ -44,19 +44,32 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     @Override
     public void classify(OpenCDXClassificationModel model) {
-        if (model.getMedia() != null) {
-            log.info(
-                    "Downloading media for classification: {}", model.getMedia().getId());
-            ResponseEntity<Resource> downloaded =
-                    this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
-
-            try {
-                long numBytes = downloaded.getBody().contentLength();
-                log.info("File Size: {} bytes", numBytes);
-                log.info("File Name: {}", downloaded.getBody().getFilename());
-            } catch (IOException e) {
-                log.error("Error when trying to log file size and name", e);
-            }
+        Resource file = retrieveFile(model);
+        if (file != null) {
+            log.info("fileName: {}", file.getFilename());
         }
+        model.setClassificationResponse(ClassificationResponse.newBuilder()
+                .setMessage("Executed classify operation.")
+                .build());
+    }
+
+    private Resource retrieveFile(OpenCDXClassificationModel model) {
+        //        if (model.getMedia() != null) {
+        //            log.info(
+        //                    "Downloading media for classification: {}", model.getMedia().getId());
+        //            try {
+        //                ResponseEntity<Resource> downloaded =
+        //                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
+        //                return downloaded.getBody();
+        //            } catch (OpenCDXInternal e) {
+        //                log.error(
+        //                        "Failed to download media for classification: {}",
+        //                        model.getMedia().getId(),
+        //                        e);
+        //                throw e;
+        //            }
+        //        }
+
+        return null;
     }
 }

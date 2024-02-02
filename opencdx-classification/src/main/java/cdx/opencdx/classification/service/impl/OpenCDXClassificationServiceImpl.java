@@ -16,9 +16,11 @@
 package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -27,6 +29,8 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.connected.ConnectedTest;
+import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
@@ -48,15 +52,15 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationService {
 
-    // Constants for error handling
-    private static final String CONVERSION_ERROR = "Failed to convert Protector Request";
     private static final String OBJECT = "OBJECT";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXMediaClient openCDXMediaClient;
+    private final OpenCDXConnectedTestClient openCDXConnectedTestClient;
     private final OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+    private final OpenCDXClassificationRepository openCDXClassificationRepository;
 
     /**
      * Constructor for OpenCDXClassificationServiceImpl
@@ -66,6 +70,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXDocumentValidator service for validating documents
      * @param openCDXMediaClient service for media client
      * @param openCDXClassifyProcessorService service for classification processor
+     * @param openCDXConnectedTestClient service for connected test client
+     * @param openCDXClassificationRepository repository for classification
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -74,13 +80,17 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXDocumentValidator openCDXDocumentValidator,
             OpenCDXMediaClient openCDXMediaClient,
-            OpenCDXClassifyProcessorService openCDXClassifyProcessorService) {
+            OpenCDXConnectedTestClient openCDXConnectedTestClient,
+            OpenCDXClassifyProcessorService openCDXClassifyProcessorService,
+            OpenCDXClassificationRepository openCDXClassificationRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXMediaClient = openCDXMediaClient;
+        this.openCDXConnectedTestClient = openCDXConnectedTestClient;
         this.openCDXClassifyProcessorService = openCDXClassifyProcessorService;
+        this.openCDXClassificationRepository = openCDXClassificationRepository;
     }
 
     /**
@@ -103,20 +113,15 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "media", new ObjectId(request.getUserAnswer().getMediaId()));
 
-            GetMediaResponse response = this.openCDXMediaClient.getMedia(
-                    GetMediaRequest.newBuilder()
-                            .setId(request.getUserAnswer().getMediaId())
-                            .build(),
-                    openCDXCallCredentials);
-            if (response.hasMedia()) {
-                model.setMedia(response.getMedia());
-            }
+            retrieveMedia(request, openCDXCallCredentials, model);
         }
         log.info("Validated ClassificationRequest");
 
         if (request.getUserAnswer().hasConnectedTestId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
+
+            retrieveConnectedTest(request, openCDXCallCredentials, model);
         } else if (request.getUserAnswer().hasUserQuestionnaireId()) {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
@@ -126,26 +131,55 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         this.openCDXClassifyProcessorService.classify(model);
 
+        model = this.openCDXClassificationRepository.save(model);
+
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiCreated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "Authorization Control record",
+                    "Classification Record and Results",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
                     currentUser.getNationalHealthId(),
-                    "AUTHORIZATION_CONTROL: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
+                    "CLASSIFICATION: " + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 1, CONVERSION_ERROR, e);
+            OpenCDXNotAcceptable openCDXNotAcceptable = new OpenCDXNotAcceptable(
+                    this.getClass().getName(), 1, "Failed to convert OpenCDXClassificationModel", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
-        return ClassificationResponse.newBuilder()
-                .setMessage("Executed classify operation.")
-                .build();
+        return model.getClassificationResponse();
+    }
+
+    private void retrieveConnectedTest(
+            ClassificationRequest request,
+            OpenCDXCallCredentials openCDXCallCredentials,
+            OpenCDXClassificationModel model) {
+        ConnectedTest testDetailsById = this.openCDXConnectedTestClient.getTestDetailsById(
+                TestIdRequest.newBuilder()
+                        .setTestId(request.getUserAnswer().getConnectedTestId())
+                        .build(),
+                openCDXCallCredentials);
+
+        if (testDetailsById != null) {
+            model.setConnectedTest(testDetailsById);
+        }
+    }
+
+    private void retrieveMedia(
+            ClassificationRequest request,
+            OpenCDXCallCredentials openCDXCallCredentials,
+            OpenCDXClassificationModel model) {
+        GetMediaResponse response = this.openCDXMediaClient.getMedia(
+                GetMediaRequest.newBuilder()
+                        .setId(request.getUserAnswer().getMediaId())
+                        .build(),
+                openCDXCallCredentials);
+        if (response.hasMedia()) {
+            model.setMedia(response.getMedia());
+        }
     }
 }
