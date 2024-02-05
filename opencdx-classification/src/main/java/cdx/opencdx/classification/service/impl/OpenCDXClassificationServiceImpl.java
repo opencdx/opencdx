@@ -138,6 +138,9 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private OpenCDXClassificationModel validateAndLoad(ClassificationRequest request) {
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
         model.setUserAnswer(request.getUserAnswer());
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+
 
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "users", new ObjectId(request.getUserAnswer().getUserId()));
