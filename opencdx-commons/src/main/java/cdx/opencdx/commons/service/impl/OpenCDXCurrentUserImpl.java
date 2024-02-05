@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.iam.IamUserType;
 import io.micrometer.observation.annotation.Observed;
@@ -124,5 +125,10 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
             log.warn("Requiring Authentication");
         }
         this.allowBypassAuthentication = allowBypassAuthentication;
+    }
+
+    @Override
+    public String getCurrentUserAccessToken() {
+        return new JwtTokenUtil().generateAccessToken(getCurrentUser());
     }
 }

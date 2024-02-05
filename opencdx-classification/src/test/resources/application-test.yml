@@ -15,11 +15,20 @@ logging:
     health:
       safe: DEBUG
 spring:
-  application:
-    name: classification
   cloud:
+    openfeign:
+      client:
+        config:
+          media:
+            url: https://media:9090
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+
     config:
       enabled: false
+  application:
+    name: classification
 #  datasource:
 #    url: jdbc:h2:mem:opencdx
 #    driverClassName: org.h2.Driver
@@ -38,3 +47,25 @@ spring:
 opencdx:
   classification:
     format: "%s!"
+  client:
+    audit:
+      server: audit
+      port: 9090
+    communications:
+      server: communications
+      port: 9090
+    connected-test:
+      server: connected-test
+      port: 9090
+      enabled: true
+    helloworld:
+      server: helloworld
+      port: 9090
+    media:
+      server: media
+      port: 9090
+      enabled: true
+    questionnaire:
+      server: questionnaire
+      port: 9090
+      enabled: true

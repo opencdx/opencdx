@@ -662,6 +662,9 @@ for arg in "$@"; do
     esac
 done
 
+
+export version=$(generate_version_number)
+
 # Check for the required JDK version
 java_version=$(java -version 2>&1 | grep version | awk -F\" '{print $2}')
 if [[ "$java_version" == *"$required_jdk_version"* ]]; then
@@ -731,8 +734,6 @@ cd ./certs
 # Move back to the original directory
 cd ..
 
-export version=$(generate_version_number)
-
 handle_info "Version: ${version}"
 
 sleep 2
@@ -755,7 +756,7 @@ fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     git_info
-    if ./gradlew build publish -x test -x dependencyCheckAggregate; then
+    if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck ; then
         # Build Completed Successfully
         handle_info "Fast Build & Clean completed successfully"
     else

@@ -38,12 +38,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Observed(name = "opencdx")
 public class OpenCDXRestClassificationController {
 
+    private OpenCDXClassificationService classificationService;
+
     /**
      * Constructor that takes a ClassificationService
      * @param classificationService service for processing requests.
      */
     @Autowired
-    public OpenCDXRestClassificationController(OpenCDXClassificationService classificationService) {}
+    public OpenCDXRestClassificationController(OpenCDXClassificationService classificationService) {
+        this.classificationService = classificationService;
+    }
 
     /**
      * Post Classification Rest API
@@ -53,10 +57,6 @@ public class OpenCDXRestClassificationController {
     @PostMapping(value = "/classify", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClassificationResponse> submitClassification(@RequestBody ClassificationRequest request) {
 
-        return new ResponseEntity<>(
-                ClassificationResponse.newBuilder()
-                        .setMessage("Executed classify operation.")
-                        .build(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(this.classificationService.classify(request), HttpStatus.OK);
     }
 }

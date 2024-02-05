@@ -45,7 +45,7 @@ class ClassificationTest {
     void testClassificationRequest() throws JsonProcessingException {
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setTestKitId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
                         .addAllSymptoms(List.of(Symptom.newBuilder()
                                 .setName("Fever")
                                 .setSeverity(SeverityLevel.HIGH)
