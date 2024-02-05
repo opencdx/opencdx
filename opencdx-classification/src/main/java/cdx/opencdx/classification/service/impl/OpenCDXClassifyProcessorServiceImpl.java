@@ -18,10 +18,12 @@ package cdx.opencdx.classification.service.impl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
+import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -54,21 +56,21 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     }
 
     private Resource retrieveFile(OpenCDXClassificationModel model) {
-        //        if (model.getMedia() != null) {
-        //            log.info(
-        //                    "Downloading media for classification: {}", model.getMedia().getId());
-        //            try {
-        //                ResponseEntity<Resource> downloaded =
-        //                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
-        //                return downloaded.getBody();
-        //            } catch (OpenCDXInternal e) {
-        //                log.error(
-        //                        "Failed to download media for classification: {}",
-        //                        model.getMedia().getId(),
-        //                        e);
-        //                throw e;
-        //            }
-        //        }
+                if (model.getMedia() != null) {
+                    log.info(
+                            "Downloading media for classification: {}", model.getMedia().getId());
+                    try {
+                        ResponseEntity<Resource> downloaded =
+                                this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
+                        return downloaded.getBody();
+                    } catch (OpenCDXInternal e) {
+                        log.error(
+                                "Failed to download media for classification: {}",
+                                model.getMedia().getId(),
+                                e);
+                        throw e;
+                    }
+                }
 
         return null;
     }
