@@ -18,10 +18,15 @@ package cdx.opencdx.classification.service.impl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
+import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
+import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tika.mime.MimeType;
+import org.apache.tika.mime.MimeTypeException;
+import org.apache.tika.mime.MimeTypes;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -69,21 +74,33 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     }
 
     private Resource retrieveFile(OpenCDXClassificationModel model) {
-        //        if (model.getMedia() != null) {
-        //            log.info(
-        //                    "Downloading media for classification: {}", model.getMedia().getId());
-        //            try {
-        //                ResponseEntity<Resource> downloaded =
-        //                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
-        //                return downloaded.getBody();
-        //            } catch (OpenCDXInternal e) {
-        //                log.error(
-        //                        "Failed to download media for classification: {}",
-        //                        model.getMedia().getId(),
-        //                        e);
-        //                throw e;
-        //            }
-        //        }
+        if (model.getMedia() != null) {
+
+            try {
+                MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
+                MimeType type = allTypes.forName(model.getMedia().getMimeType());
+                String primaryExtension = type.getExtension();
+                log.info(
+                        "Downloading media for classification: {} as {}",
+                        model.getMedia().getId(),
+                        primaryExtension);
+                //                ResponseEntity<Resource> downloaded =
+                //                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
+                //                return downloaded.getBody();
+            } catch (OpenCDXInternal e) {
+                log.error(
+                        "Failed to download media for classification: {}",
+                        model.getMedia().getId(),
+                        e);
+                throw e;
+            } catch (MimeTypeException e) {
+                throw new OpenCDXDataLoss(
+                        "OpenCDXClassifyProcessorServiceImpl",
+                        1,
+                        "Failed to identify extension: " + model.getMedia().getMimeType(),
+                        e);
+            }
+        }
 
         return null;
     }
