@@ -20,6 +20,7 @@ import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -43,14 +44,28 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     }
 
     @Override
+    @SuppressWarnings("java:S2119")
     public void classify(OpenCDXClassificationModel model) {
         Resource file = retrieveFile(model);
         if (file != null) {
             log.info("fileName: {}", file.getFilename());
         }
-        model.setClassificationResponse(ClassificationResponse.newBuilder()
-                .setMessage("Executed classify operation.")
-                .build());
+        ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
+        builder.setMessage("Executed classify operation.");
+
+        builder.setConfidence(new Random().nextFloat());
+        builder.setPositiveProbability(new Random().nextFloat());
+        builder.setAvailability(new Random().nextFloat() < 0.5 ? "Not Available" : "Available");
+        builder.setCost(new Random().nextFloat(1000.00f));
+        builder.setFurtherActions(
+                new Random().nextFloat() < 0.5
+                        ? "Take plenty of fluids, and Tylenol as needed for fever."
+                        : "Grandma's Chicken Soup");
+        builder.setFurtherActions(
+                new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
+        builder.setUserId(model.getUserAnswer().getUserId());
+
+        model.setClassificationResponse(builder.build());
     }
 
     private Resource retrieveFile(OpenCDXClassificationModel model) {

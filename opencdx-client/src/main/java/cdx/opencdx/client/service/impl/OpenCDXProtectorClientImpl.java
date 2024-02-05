@@ -30,8 +30,6 @@ import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the Protector gRPC Client.

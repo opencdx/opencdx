@@ -46,7 +46,6 @@ public class ClientConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-
     /**
      * Creates an instance of ObservationGrpcClientInterceptor if the property "opencdx.client.tracing.enabled" is set to true.
      *

@@ -123,9 +123,5 @@ class OpenCDXRestClassificationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
-
-        Assertions.assertEquals(
-                "{\"testKitName\":\"\",\"confidence\":0.0,\"positiveProbability\":0.0,\"message\":\"Executed classify operation.\",\"availability\":\"\",\"cost\":0.0,\"furtherActions\":\"\",\"alternativeOptions\":[],\"feedbackUrl\":\"\",\"userId\":\"\"}",
-                result.getResponse().getContentAsString());
     }
 }

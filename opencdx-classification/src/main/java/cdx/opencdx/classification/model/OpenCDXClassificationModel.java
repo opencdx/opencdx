@@ -21,7 +21,6 @@ import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.time.Instant;
-
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -37,6 +36,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @Builder
+@AllArgsConstructor
 @Document("classification")
 public class OpenCDXClassificationModel {
 
