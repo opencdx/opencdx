@@ -46,6 +46,14 @@ public class ClientConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
+
+    /**
+     * Creates an instance of ObservationGrpcClientInterceptor if the property "opencdx.client.tracing.enabled" is set to true.
+     *
+     * @param observationRegistry The observation registry to be used by the interceptor.
+     *
+     * @return An instance of ObservationGrpcClientInterceptor with the provided observation registry.
+     */
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.tracing", name = "enabled", havingValue = "true")
     public ObservationGrpcClientInterceptor observationGrpcClientInterceptor(ObservationRegistry observationRegistry) {

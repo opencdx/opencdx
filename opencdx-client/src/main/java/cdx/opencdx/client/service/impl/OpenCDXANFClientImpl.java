@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXANFClientImpl implements OpenCDXANFClient {
 
-    public static final String OPEN_CDX_ANF_CLIENT_IMPL = "OpenCDXANFClientImpl";
+    private static final String OPEN_CDX_ANF_CLIENT_IMPL = "OpenCDXANFClientImpl";
     private final ANFServiceGrpc.ANFServiceBlockingStub anfServiceBlockingStub;
 
     /**

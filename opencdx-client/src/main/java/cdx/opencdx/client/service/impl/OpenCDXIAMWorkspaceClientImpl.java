@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXIAMWorkspaceClientImpl implements OpenCDXIAMWorkspaceClient {
 
-    public static final String OPEN_CDX_WORKSPACE_CLIENT_IMPL = "OpenCDXIAMWorkspaceClientImpl";
+    private static final String OPEN_CDX_WORKSPACE_CLIENT_IMPL = "OpenCDXIAMWorkspaceClientImpl";
     private final WorkspaceServiceGrpc.WorkspaceServiceBlockingStub workspaceServiceBlockingStub;
 
     /**

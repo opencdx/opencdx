@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXIAMUserClientImpl implements OpenCDXIAMUserClient {
 
-    public static final String OPEN_CDX_USER_CLIENT_IMPL = "OpenCDXIAMUserClientImpl";
+    private static final String OPEN_CDX_USER_CLIENT_IMPL = "OpenCDXIAMUserClientImpl";
     private final IamUserServiceGrpc.IamUserServiceBlockingStub iamUserServiceBlockingStub;
 
     /**

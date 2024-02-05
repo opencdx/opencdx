@@ -36,7 +36,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     /**
      * Constructor for OpenCDXClassifyProcessorServiceImpl
-     * @param openCDXMediaUpDownClient service for media upload &  download client
+     * @param openCDXMediaUpDownClient service for media upload and download client
      */
     public OpenCDXClassifyProcessorServiceImpl(OpenCDXMediaUpDownClient openCDXMediaUpDownClient) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;

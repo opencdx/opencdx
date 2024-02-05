@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXDeviceClientImpl implements OpenCDXDeviceClient {
 
-    public static final String OPEN_CDX_DEVICE_CLIENT_IMPL = "OpenCDXDeviceClientImpl";
+    private static final String OPEN_CDX_DEVICE_CLIENT_IMPL = "OpenCDXDeviceClientImpl";
     private final DeviceServiceGrpc.DeviceServiceBlockingStub deviceServiceBlockingStub;
 
     /**

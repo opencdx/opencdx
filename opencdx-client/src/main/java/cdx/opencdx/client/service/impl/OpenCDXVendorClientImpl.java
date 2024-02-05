@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
 
-    public static final String OPEN_CDX_VENDOR_CLIENT_IMPL = "OpenCDXVendorClientImpl";
+    private static final String OPEN_CDX_VENDOR_CLIENT_IMPL = "OpenCDXVendorClientImpl";
     private final VendorServiceGrpc.VendorServiceBlockingStub vendorServiceBlockingStub;
 
     /**

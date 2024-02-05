@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("java:S125")
 public class OpenCDXQuestionnaireClientImpl implements OpenCDXQuestionnaireClient {
 
-    public static final String OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL = "OpenCDXQuestionnaireClientImpl";
+    private static final String OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL = "OpenCDXQuestionnaireClientImpl";
     private final QuestionnaireServiceGrpc.QuestionnaireServiceBlockingStub questionnaireServiceBlockingStub;
 
     /**

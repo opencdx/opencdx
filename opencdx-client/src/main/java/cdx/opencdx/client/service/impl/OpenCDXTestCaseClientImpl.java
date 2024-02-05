@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseClientImpl implements OpenCDXTestCaseClient {
 
-    public static final String OPEN_CDX_TEST_CASE_CLIENT_IMPL = "OpenCDXTestCaseClientImpl";
+    private static final String OPEN_CDX_TEST_CASE_CLIENT_IMPL = "OpenCDXTestCaseClientImpl";
     private final TestCaseServiceGrpc.TestCaseServiceBlockingStub testCaseServiceBlockingStub;
 
     /**

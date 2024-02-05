@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXRoutineClientImpl implements OpenCDXRoutineClient {
 
-    public static final String OPEN_CDX_ROUTINE_CLIENT_IMPL = "OpenCDXRoutineClientImpl";
+    private static final String OPEN_CDX_ROUTINE_CLIENT_IMPL = "OpenCDXRoutineClientImpl";
     private final RoutineSystemServiceGrpc.RoutineSystemServiceBlockingStub routineSystemServiceBlockingStub;
 
     /**

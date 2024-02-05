@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXCountryClientImpl implements OpenCDXCountryClient {
 
-    public static final String OPEN_CDX_COUNTRY_CLIENT_IMPL = "OpenCDXCountryClientImpl";
+    private static final String OPEN_CDX_COUNTRY_CLIENT_IMPL = "OpenCDXCountryClientImpl";
     private final CountryServiceGrpc.CountryServiceBlockingStub countryServiceBlockingStub;
 
     /**
