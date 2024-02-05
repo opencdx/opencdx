@@ -38,7 +38,7 @@ management:
       type: b3
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: https://zipkin:9411/api/v2/spans
 
 logging:
   level:

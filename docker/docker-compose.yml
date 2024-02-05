@@ -483,7 +483,7 @@ services:
       - SELF_TRACING_ENABLED=true
       # Uncomment to enable debug logging
       #- JAVA_OPTS=-Dlogging.level.io.netty=DEBUG -Xms512m -Xmx1g
-      - JAVA_OPTS=-Xms512m -Xmx1g -Darmeria.ssl.key-store=/certs/opencdx-keystore.p12 -Darmeria.ssl.key-store-type=PKCS12 -Darmeria.ssl.key-store-password=opencdx -Darmeria.ssl.key-alias=zipkin  -Darmeria.ssl.enabled=true -Darmeria.ports[0].port=9411 -Darmeria.ports[0].protocols[0]=https
+      - JAVA_OPTS=-Xms512m -Xmx1g -Darmeria.ssl.key-store=/certs/opencdx-keystore.p12 -Darmeria.ssl.key-store-type=PKCS12 -Darmeria.ssl.key-store-password=opencdx -Darmeria.ssl.key-alias=zipkin  -Darmeria.ssl.enabled=true -Darmeria.ports[0].port=9411 -Darmeria.ports[0].protocols[0]=https -Darmeria.ssl.client-auth=none
       #- JAVA_OPTS=-Xms512m -Xmx1g
     healthcheck:
       test: "curl -k --fail --silent https://localhost:9411/actuator/health | grep UP || exit 1"
