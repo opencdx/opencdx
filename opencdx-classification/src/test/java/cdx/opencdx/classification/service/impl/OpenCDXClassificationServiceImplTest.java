@@ -15,10 +15,14 @@
  */
 package cdx.opencdx.classification.service.impl;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -76,10 +80,31 @@ class OpenCDXClassificationServiceImplTest {
     OpenCDXMediaClient openCDXMediaClient;
 
     @Mock
+    OpenCDXConnectedTestClient openCDXConnectedTestClient;
+
+    @Mock
+    OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
+    @Autowired
     OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+
+    @Mock
+    OpenCDXClassificationRepository openCDXClassificationRepository;
 
     @BeforeEach
     void beforeEach() {
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+                    @Override
+                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+
         Mockito.when(this.openCDXMediaClient.getMedia(
                         Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenAnswer(new Answer<GetMediaResponse>() {
@@ -105,7 +130,10 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXCurrentUser,
                 openCDXDocumentValidator,
                 openCDXMediaClient,
-                this.openCDXClassifyProcessorService);
+                this.openCDXConnectedTestClient,
+                this.openCDXQuestionnaireClient,
+                this.openCDXClassifyProcessorService,
+                openCDXClassificationRepository);
     }
 
     @AfterEach
@@ -132,7 +160,8 @@ class OpenCDXClassificationServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
 
         // Mock the ObjectMapper's behavior to throw JsonProcessingException
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenThrow(JsonProcessingException.class);
 
         // Create an instance of the OpenCDXClassificationServiceImpl with the mocked dependencies
         this.classificationService = new OpenCDXClassificationServiceImpl(
@@ -141,7 +170,10 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXCurrentUser,
                 openCDXDocumentValidator,
                 openCDXMediaClient,
-                this.openCDXClassifyProcessorService);
+                this.openCDXConnectedTestClient,
+                this.openCDXQuestionnaireClient,
+                this.openCDXClassifyProcessorService,
+                openCDXClassificationRepository);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()

@@ -7,3 +7,7 @@ opencdx:
   client:
     media:
       enabled: true
+    connected-test:
+      enabled: true
+    questionnaire:
+      enabled: true

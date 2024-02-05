@@ -120,7 +120,7 @@ public class OpenCDXRestMediaController {
      * @param fileId File ID for the Media file.
      * @return FileUploadResponse indicating if successful.
      */
-    @PostMapping(value = "/upload/{fileId}")
+    @PostMapping(value = "/upload/{fileId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileUploadResponse> uploadFile(
             @RequestParam(name = "file", required = false) MultipartFile file, @PathVariable String fileId) {
         return ResponseEntity.ok()

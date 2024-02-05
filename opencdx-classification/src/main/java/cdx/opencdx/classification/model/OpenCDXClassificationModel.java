@@ -15,9 +15,11 @@
  */
 package cdx.opencdx.classification.model;
 
+import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +45,8 @@ public class OpenCDXClassificationModel {
     private UserAnswer userAnswer;
     private ClassificationResponse classificationResponse;
     private Media media;
+    private ConnectedTest connectedTest;
+    private UserQuestionnaireData userQuestionnaireData;
 
     private Instant created;
     private Instant modified;
