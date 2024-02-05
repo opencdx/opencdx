@@ -38,8 +38,6 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.protector", name = "enabled", havingValue = "true")
 public class OpenCDXProtectorClientImpl implements OpenCDXProtectorClient {
 
     private static final String OPEN_CDX_PROTECTOR_CLIENT_IMPL = "OpenCDXProtectorClientImpl";
