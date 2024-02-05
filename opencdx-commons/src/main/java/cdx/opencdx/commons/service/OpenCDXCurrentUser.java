@@ -54,4 +54,10 @@ public interface OpenCDXCurrentUser {
      * @return Model for the current user.
      */
     OpenCDXIAMUserModel checkCurrentUser(OpenCDXIAMUserModel defaultUser);
+
+    /**
+     * Method to get the current user's access token.
+     * @return String containing the access token.
+     */
+    String getCurrentUserAccessToken();
 }

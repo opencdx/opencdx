@@ -17,6 +17,8 @@ package proto;
 
 import cdx.opencdx.grpc.questionnaire.ClientRulesRequest;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -59,6 +61,17 @@ class QuestionnaireTest {
 
         log.info(
                 "QuestionnaireRequest: {}",
+                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
+    }
+
+    @Test
+    void testUserQuestionnaireDataRequest() throws JsonProcessingException {
+        cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().build())
+                .build();
+
+        log.info(
+                "UserQuestionnaireDataRequest: {}",
                 this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
     }
 }

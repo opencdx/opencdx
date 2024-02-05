@@ -34,12 +34,15 @@ import org.springframework.security.access.annotation.Secured;
 @Observed(name = "opencdx")
 public class OpenCDXGrpcClassificationController extends ClassificationServiceGrpc.ClassificationServiceImplBase {
 
+    private OpenCDXClassificationService classificationService;
     /**
      * Constructor using the ClassificationService
      * @param classificationService service to use for processing
      */
     @Autowired
-    public OpenCDXGrpcClassificationController(OpenCDXClassificationService classificationService) {}
+    public OpenCDXGrpcClassificationController(OpenCDXClassificationService classificationService) {
+        this.classificationService = classificationService;
+    }
 
     /**
      * submitClassification gRPC Service Call
@@ -49,12 +52,7 @@ public class OpenCDXGrpcClassificationController extends ClassificationServiceGr
     @Secured({})
     @Override
     public void classify(ClassificationRequest request, StreamObserver<ClassificationResponse> responseObserver) {
-
-        ClassificationResponse response = ClassificationResponse.newBuilder()
-                .setMessage("Executed classify operation.")
-                .build();
-
-        responseObserver.onNext(response);
+        responseObserver.onNext(this.classificationService.classify(request));
         responseObserver.onCompleted();
     }
 }

@@ -26,21 +26,17 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the Country gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
 public class OpenCDXCountryClientImpl implements OpenCDXCountryClient {
 
     public static final String OPEN_CDX_COUNTRY_CLIENT_IMPL = "OpenCDXCountryClientImpl";
@@ -53,14 +49,16 @@ public class OpenCDXCountryClientImpl implements OpenCDXCountryClient {
      * @throws SSLException creating Client
      */
     @Generated
-    public OpenCDXCountryClientImpl(
-            @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
-            throws SSLException {
+    public OpenCDXCountryClientImpl(String server, Integer port) throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.countryServiceBlockingStub = CountryServiceGrpc.newBlockingStub(channel);
     }

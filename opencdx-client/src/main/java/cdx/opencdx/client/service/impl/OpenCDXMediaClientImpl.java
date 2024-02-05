@@ -25,21 +25,16 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
-import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * OpenCDXMediaClient for talking to the Media Service.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.media", name = "enabled", havingValue = "true")
 public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
     /**
@@ -55,14 +50,16 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
      * @param port Server port for the gRPC Service.
      * @throws SSLException creating Client
      */
-    @Generated
-    public OpenCDXMediaClientImpl(
-            @Value("${opencdx.client.media.server}") String server, @Value("${opencdx.client.media.port}") Integer port)
-            throws SSLException {
+    public OpenCDXMediaClientImpl(String server, Integer port) throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
 
         this.mediaServiceBlockingStub = MediaServiceGrpc.newBlockingStub(channel);

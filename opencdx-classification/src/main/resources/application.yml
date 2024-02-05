@@ -16,4 +16,4 @@ spring:
   application:
     name: classification
   profiles:
-    active: managed,mongo,nats,classification
+    active: managed,mongo,nats,client,classification

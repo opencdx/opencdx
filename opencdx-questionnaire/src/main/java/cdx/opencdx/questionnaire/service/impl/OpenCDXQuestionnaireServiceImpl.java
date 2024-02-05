@@ -278,6 +278,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             this.openCDXQuestionnaireRepository.save(model.get());
             return SubmissionResponse.newBuilder()
                     .setSuccess(true)
+                    .setId(model.get().getId().toHexString())
                     .setMessage("Status updated to retired.")
                     .build();
         }
@@ -658,6 +659,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("createUserQuestionnaireData Executed")
+                .setId(model.getId().toHexString())
                 .build();
     }
 

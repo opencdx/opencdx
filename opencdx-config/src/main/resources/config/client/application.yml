@@ -1,17 +1,60 @@
 opencdx:
   client:
+    tracing:
+      enabled: true
+    anf:
+      server: anf
+      port: 9090
     audit:
       server: audit
-      port: 8080
+      port: 9090
+    classification:
+      server: classification
+      port: 9090
     communications:
       server: communications
-      port: 8080
+      port: 9090
     connected-test:
       server: connected-test
-      port: 8080
+      port: 9090
     helloworld:
       server: helloworld
-      port: 8080
+      port: 9090
+    iam:
+      server: iam
+      port: 9090
     media:
       server: media
-      port: 8080
+      port: 9090
+    predictor:
+      server: predictor
+      port: 9090
+    protector:
+      server: protector
+      port: 9090
+    provider:
+      server: provider
+      port: 9090
+    questionnaire:
+      server: questionnaire
+      port: 9090
+    routine:
+      server: routine
+      port: 9090
+    tinkar:
+      server: tinkar
+      port: 9090
+
+spring:
+  cloud:
+    openfeign:
+      httpclient:
+        disable-ssl-validation: true
+      client:
+        config:
+          media:
+            url: https://media:9090
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+            micrometer.enabled: true

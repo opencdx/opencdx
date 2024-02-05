@@ -25,11 +25,11 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -52,14 +52,16 @@ public class OpenCDXProtectorClientImpl implements OpenCDXProtectorClient {
      * @throws SSLException creating Client
      */
     @Generated
-    public OpenCDXProtectorClientImpl(
-            @Value("${opencdx.client.protector.server}") String server,
-            @Value("${opencdx.client.protector.port}") Integer port)
-            throws SSLException {
+    public OpenCDXProtectorClientImpl(String server, Integer port) throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.neuralProtectorServiceBlockingStub = NeuralProtectorServiceGrpc.newBlockingStub(channel);
     }

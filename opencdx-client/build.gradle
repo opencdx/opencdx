@@ -7,10 +7,11 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    implementation "net.devh:grpc-client-spring-boot-starter:${grpcSpringVersion}"
+    implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 
     implementation "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
     implementation project(":opencdx-proto")
 
