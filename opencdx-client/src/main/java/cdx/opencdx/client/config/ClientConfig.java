@@ -54,7 +54,6 @@ public class ClientConfig {
      * @return An instance of ObservationGrpcClientInterceptor with the provided observation registry.
      */
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.tracing", name = "enabled", havingValue = "true")
     public ObservationGrpcClientInterceptor observationGrpcClientInterceptor(ObservationRegistry observationRegistry) {
         return new ObservationGrpcClientInterceptor(observationRegistry);
     }
@@ -62,191 +61,220 @@ public class ClientConfig {
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.media", name = "enabled", havingValue = "true")
     OpenCDXMediaClient openCDXMediaClient(
-            @Value("${opencdx.client.media.server}") String server, @Value("${opencdx.client.media.port}") Integer port)
+            @Value("${opencdx.client.media.server}") String server,
+            @Value("${opencdx.client.media.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXMediaClientImpl(server, port);
+        return new OpenCDXMediaClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.anf", name = "enabled", havingValue = "true")
     OpenCDXANFClient openCDXANFClient(
-            @Value("${opencdx.client.anf.server}") String server, @Value("${opencdx.client.anf.port}") Integer port)
+            @Value("${opencdx.client.anf.server}") String server,
+            @Value("${opencdx.client.anf.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXANFClientImpl(server, port);
+        return new OpenCDXANFClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.audit", name = "enabled", havingValue = "true")
     OpenCDXAuditClient openCDXAuditClient(
-            @Value("${opencdx.client.audit.server}") String server, @Value("${opencdx.client.audit.port}") Integer port)
+            @Value("${opencdx.client.audit.server}") String server,
+            @Value("${opencdx.client.audit.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXAuditClientImpl(server, port);
+        return new OpenCDXAuditClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.classification", name = "enabled", havingValue = "true")
     OpenCDXClassificationClient openCDXClassificationClient(
             @Value("${opencdx.client.classification.server}") String server,
-            @Value("${opencdx.client.classification.port}") Integer port)
+            @Value("${opencdx.client.classification.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXClassificationClientImpl(server, port);
+        return new OpenCDXClassificationClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.communications", name = "enabled", havingValue = "true")
     OpenCDXCommunicationClient openCDXCommunicationClient(
             @Value("${opencdx.client.communication.server}") String server,
-            @Value("${opencdx.client.communication.port}") Integer port)
+            @Value("${opencdx.client.communication.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws IOException {
-        return new OpenCDXCommunicationClientImpl(server, port);
+        return new OpenCDXCommunicationClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
     OpenCDXConnectedTestClient openCDXConnectedTestClient(
             @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            @Value("${opencdx.client.connected-test.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXConnectedTestClientImpl(server, port);
+        return new OpenCDXConnectedTestClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
     OpenCDXCountryClient openCDXCountryClient(
             @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            @Value("${opencdx.client.connected-test.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXCountryClientImpl(server, port);
+        return new OpenCDXCountryClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
     OpenCDXDeviceClient openCDXDeviceClient(
             @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            @Value("${opencdx.client.connected-test.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXDeviceClientImpl(server, port);
+        return new OpenCDXDeviceClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.helloworld", name = "enabled", havingValue = "true")
     OpenCDXHelloworldClient openCDXHelloworldClient(
             @Value("${opencdx.client.helloworld.server}") String server,
-            @Value("${opencdx.client.helloworld.port}") Integer port)
+            @Value("${opencdx.client.helloworld.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXHelloworldClientImpl(server, port);
+        return new OpenCDXHelloworldClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
     OpenCDXIAMOrganizationClient openCDXIAMOrganizationClient(
-            @Value("${opencdx.client.iam.server}") String server, @Value("${opencdx.client.iam.port}") Integer port)
+            @Value("${opencdx.client.iam.server}") String server,
+            @Value("${opencdx.client.iam.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMOrganizationClientImpl(server, port);
+        return new OpenCDXIAMOrganizationClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
     OpenCDXIAMProfileClient openCDXIAMProfileClient(
-            @Value("${opencdx.client.iam.server}") String server, @Value("${opencdx.client.iam.port}") Integer port)
+            @Value("${opencdx.client.iam.server}") String server,
+            @Value("${opencdx.client.iam.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMProfileClientImpl(server, port);
+        return new OpenCDXIAMProfileClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
     OpenCDXIAMUserClient openCDXIAMUserClient(
-            @Value("${opencdx.client.iam.server}") String server, @Value("${opencdx.client.iam.port}") Integer port)
+            @Value("${opencdx.client.iam.server}") String server,
+            @Value("${opencdx.client.iam.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMUserClientImpl(server, port);
+        return new OpenCDXIAMUserClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
     OpenCDXIAMWorkspaceClient openCDXIAMWorkspaceClient(
-            @Value("${opencdx.client.iam.server}") String server, @Value("${opencdx.client.iam.port}") Integer port)
+            @Value("${opencdx.client.iam.server}") String server,
+            @Value("${opencdx.client.iam.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMWorkspaceClientImpl(server, port);
+        return new OpenCDXIAMWorkspaceClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
     OpenCDXManufacturerClient openCDXManufacturerClient(
             @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            @Value("${opencdx.client.connected-test.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXManufacturerClientImpl(server, port);
+        return new OpenCDXManufacturerClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.predictor", name = "enabled", havingValue = "true")
     OpenCDXPredictorClient openCDXPredictorClient(
             @Value("${opencdx.client.predictor.server}") String server,
-            @Value("${opencdx.client.predictor.port}") Integer port)
+            @Value("${opencdx.client.predictor.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXPredictorClientImpl(server, port);
+        return new OpenCDXPredictorClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.protector", name = "enabled", havingValue = "true")
     OpenCDXProtectorClient openCDXProtectorClient(
             @Value("${opencdx.client.protector.server}") String server,
-            @Value("${opencdx.client.protector.port}") Integer port)
+            @Value("${opencdx.client.protector.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXProtectorClientImpl(server, port);
+        return new OpenCDXProtectorClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.provider", name = "enabled", havingValue = "true")
     OpenCDXProviderClient openCDXProviderClient(
             @Value("${opencdx.client.provider.server}") String server,
-            @Value("${opencdx.client.provider.port}") Integer port)
+            @Value("${opencdx.client.provider.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXProviderClientImpl(server, port);
+        return new OpenCDXProviderClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.questionnaire", name = "enabled", havingValue = "true")
     OpenCDXQuestionnaireClient openCDXQuestionnaireClient(
             @Value("${opencdx.client.questionnaire.server}") String server,
-            @Value("${opencdx.client.questionnaire.port}") Integer port)
+            @Value("${opencdx.client.questionnaire.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXQuestionnaireClientImpl(server, port);
+        return new OpenCDXQuestionnaireClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.routine", name = "enabled", havingValue = "true")
     OpenCDXRoutineClient openCDXRoutineClient(
             @Value("${opencdx.client.routine.server}") String server,
-            @Value("${opencdx.client.routine.port}") Integer port)
+            @Value("${opencdx.client.routine.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXRoutineClientImpl(server, port);
+        return new OpenCDXRoutineClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
     OpenCDXTestCaseClient openCDXTestCaseClient(
             @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            @Value("${opencdx.client.connected-test.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXTestCaseClientImpl(server, port);
+        return new OpenCDXTestCaseClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.tinkar", name = "enabled", havingValue = "true")
     OpenCDXTinkarClient openCDXTinkarClient(
             @Value("${opencdx.client.tinkar.server}") String server,
-            @Value("${opencdx.client.tinakr.port}") Integer port)
+            @Value("${opencdx.client.tinakr.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXTinkarClientImpl(server, port);
+        return new OpenCDXTinkarClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
     OpenCDXVendorClient openCDXVendorClient(
             @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            @Value("${opencdx.client.connected-test.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXVendorClientImpl(server, port);
+        return new OpenCDXVendorClientImpl(server, port, observationGrpcClientInterceptor);
     }
 }
