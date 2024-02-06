@@ -5,3 +5,12 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     isDefault: true
+  - name: Zipkin
+    type: zipkin
+    access: proxy
+    url: http://zipkin:9411
+    readOnly: true
+    isDefault: false
+    jsonData:
+      nodeGraph:
+        enabled: true

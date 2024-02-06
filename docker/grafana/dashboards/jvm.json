@@ -37,7 +37,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 4701,
   "graphTooltip": 1,
-  "id": 3,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -1933,12 +1933,14 @@
       },
       "description": "The percent of time spent on Garbage Collection over all CPUs assigned to the JVM process.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 6,
         "x": 0,
         "y": 28
       },
+      "hiddenSeries": false,
       "id": 138,
       "legend": {
         "avg": false,
@@ -1953,7 +1955,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.5.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1975,6 +1981,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "GC Pressure",
       "tooltip": {
         "shared": true,
@@ -2001,7 +2008,10 @@
           "logBase": 1,
           "show": true
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {
@@ -2021,6 +2031,7 @@
       "editable": true,
       "error": false,
       "fill": 1,
+      "fillGradient": 0,
       "grid": {
         "leftLogBase": 1,
         "rightLogBase": 1
@@ -2032,6 +2043,7 @@
         "y": 28
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 91,
       "legend": {
         "alignAsTable": false,
@@ -2050,7 +2062,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": true,
+      "pluginVersion": "9.5.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2084,6 +2100,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "Log Events",
       "tooltip": {
         "msResolution": false,
@@ -2116,7 +2133,10 @@
           "logBase": 1,
           "show": true
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "aliasColors": {},
@@ -2130,6 +2150,7 @@
       "editable": true,
       "error": false,
       "fill": 1,
+      "fillGradient": 0,
       "grid": {
         "leftLogBase": 1,
         "rightLogBase": 1
@@ -2140,6 +2161,7 @@
         "x": 18,
         "y": 28
       },
+      "hiddenSeries": false,
       "id": 61,
       "legend": {
         "avg": false,
@@ -2154,7 +2176,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "9.5.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2193,6 +2219,7 @@
         }
       ],
       "thresholds": [],
+      "timeRegions": [],
       "title": "File Descriptors",
       "tooltip": {
         "msResolution": false,
@@ -2225,7 +2252,10 @@
           "logBase": 1,
           "show": true
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false
+      }
     },
     {
       "collapsed": false,
@@ -3222,8 +3252,8 @@
         "allFormat": "glob",
         "current": {
           "selected": false,
-          "text": "850f24858eac",
-          "value": "850f24858eac"
+          "text": "17c5642d67d6",
+          "value": "17c5642d67d6"
         },
         "datasource": {
           "type": "prometheus",
@@ -3337,7 +3367,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
