@@ -1,0 +1,21 @@
+# A example scrape configuration for running Prometheus with Eureka.
+
+scrape_configs:
+
+  # Make Prometheus scrape itself for metrics.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Discover Eureka services to scrape.
+  - job_name: 'eureka'
+    scheme: https
+    metrics_path: "/actuator/prometheus"
+    tls_config:
+      insecure_skip_verify: true
+    # Scrape Eureka itself to discover new services.
+    eureka_sd_configs:
+      - server: https://discovery:8761/eureka
+        tls_config:
+          insecure_skip_verify: true
+
