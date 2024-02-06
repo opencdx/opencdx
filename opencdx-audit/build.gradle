@@ -45,6 +45,7 @@ dependencies {
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+    runtimeOnly "com.github.loki4j:loki-logback-appender:${lokiLogBackAppenderVersion}"
 
     testImplementation "io.nats:nats-spring:0.5.6"
 }
