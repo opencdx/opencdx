@@ -77,16 +77,15 @@ public class CommonsConfig {
     }
 
     @Bean
-    @Profile("actuator")
     @ExcludeFromJacocoGeneratedReport
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
         PathMatcher pathMatcher = new AntPathMatcher("/");
         return registry -> registry.observationConfig()
-                .observationPredicate((name, context) -> observationPrediciton(context, pathMatcher));
+                .observationPredicate((name, context) -> observationPrediction(context, pathMatcher));
     }
 
     @ExcludeFromJacocoGeneratedReport
-    private static boolean observationPrediciton(Observation.Context context, PathMatcher pathMatcher) {
+    private static boolean observationPrediction(Observation.Context context, PathMatcher pathMatcher) {
         if (context instanceof ServerRequestObservationContext observationContext) {
             return !pathMatcher.match(
                     "/actuator/**", observationContext.getCarrier().getRequestURI());
