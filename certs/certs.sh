@@ -63,8 +63,8 @@ generate_ca_certificate() {
 }
 
 check_ca_files_exist() {
-    CA_KEY_FILE="ca.key"
-    CA_CERT_FILE="ca.crt"
+    CA_KEY_FILE="ca-key.pem"
+    CA_CERT_FILE="ca-cert.pem"
 
     if [ ! -f "$CA_KEY_FILE" ] || [ ! -f "$CA_CERT_FILE" ]; then
         rm -rf ./*.pem
