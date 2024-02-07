@@ -28,6 +28,7 @@ import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -84,9 +85,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                         "Downloading media for classification: {} as {}",
                         model.getMedia().getId(),
                         primaryExtension);
-                //                ResponseEntity<Resource> downloaded =
-                //                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
-                //                return downloaded.getBody();
+                ResponseEntity<Resource> downloaded =
+                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), primaryExtension);
+                return downloaded.getBody();
             } catch (OpenCDXInternal e) {
                 log.error(
                         "Failed to download media for classification: {}",
