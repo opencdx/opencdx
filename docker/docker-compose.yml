@@ -492,3 +492,44 @@ services:
       # Uncomment to adjust memory used by the dependencies job
       - JAVA_OPTS=-verbose:gc -Xms512m -Xmx512m
     restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    command: --config.file=/etc/prometheus/prometheus.yml --log.level=debug
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../certs:/certs
+
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./grafana:/etc/grafana/provisioning
+
+  tempo:
+    image: grafana/tempo
+    extra_hosts: ['host.docker.internal:host-gateway']
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./tempo/tempo-local.yaml:/etc/tempo.yaml:ro
+      - ../data:/tmp/tempo
+    ports:
+      - "14268"  # jaeger ingest
+      - "9412:9411" # zipkin
+
+  loki:
+    image: grafana/loki
+    extra_hosts: ['host.docker.internal:host-gateway']
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    ports:
+      - "3100:3100"                                   # loki needs to be exposed so it receives logs
+    environment:
+      - JAEGER_AGENT_HOST=tempo
+      - JAEGER_ENDPOINT=http://tempo:14268/api/traces # send traces to Tempo
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1

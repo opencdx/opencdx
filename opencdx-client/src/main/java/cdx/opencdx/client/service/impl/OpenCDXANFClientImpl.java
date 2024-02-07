@@ -47,6 +47,7 @@ public class OpenCDXANFClientImpl implements OpenCDXANFClient {
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor Micrometer Interceptor for gRPC.
      * @throws SSLException creating Client
      */
     @Generated

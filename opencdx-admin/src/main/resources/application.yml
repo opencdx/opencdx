@@ -27,8 +27,15 @@ spring:
             url: "https://localhost:8761/"
           - label: "NATS"
             url: "http://localhost:8222/"
-          - label: "Zipkin"
-            url: "http://localhost:9411/zipkin"
+          - label: "Monitoring"
+            url: "http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
+            children:
+              - label: "Zipkin"
+                url: "http://localhost:9411/zipkin"
+              - label: "Grafana"
+                url: "http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
+              - label: "Prometheus"
+                url: "http://localhost:9090"
           - label: "Swagger"
             url: "https://localhost:8080/iam/swagger-ui/index.html"
             children:
