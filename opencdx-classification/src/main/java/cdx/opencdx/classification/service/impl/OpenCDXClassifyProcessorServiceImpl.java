@@ -56,21 +56,21 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     }
 
     private Resource retrieveFile(OpenCDXClassificationModel model) {
-                if (model.getMedia() != null) {
-                    log.info(
-                            "Downloading media for classification: {}", model.getMedia().getId());
-                    try {
-                        ResponseEntity<Resource> downloaded =
-                                this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
-                        return downloaded.getBody();
-                    } catch (OpenCDXInternal e) {
-                        log.error(
-                                "Failed to download media for classification: {}",
-                                model.getMedia().getId(),
-                                e);
-                        throw e;
-                    }
-                }
+        if (model.getMedia() != null) {
+            log.info(
+                    "Downloading media for classification: {}", model.getMedia().getId());
+            try {
+                ResponseEntity<Resource> downloaded =
+                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
+                return downloaded.getBody();
+            } catch (OpenCDXInternal e) {
+                log.error(
+                        "Failed to download media for classification: {}",
+                        model.getMedia().getId(),
+                        e);
+                throw e;
+            }
+        }
 
         return null;
     }
