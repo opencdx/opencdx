@@ -16,6 +16,7 @@
 package cdx.opencdx.questionnaire.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -610,6 +611,39 @@ class OpenCDXQuestionnaireServiceImplTest {
     }
 
     @Test
+    void testCreateUserQuestionnaireDataHasId() {
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setId("65bb9634ab091e2343ff7ef7")
+                        .setUserId(ObjectId.get().toHexString())
+                        .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
+                        .build())
+                .build();
+        SubmissionResponse response = this.questionnaireService.createUserQuestionnaireData(request);
+
+        Assertions.assertEquals(true, response.getSuccess());
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.createUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testCreateUserQuestionnaireDataException() {
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setId("65bb9634ab091e2343ff7ef7")
+                        .setUserId(ObjectId.get().toHexString())
+                        .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
+                        .build())
+                .build();
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.createUserQuestionnaireData(request));
+    }
+
+    @Test
     void testCreateUserQuestionnaireDataFail() throws JsonProcessingException {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
 
@@ -666,6 +700,52 @@ class OpenCDXQuestionnaireServiceImplTest {
     }
 
     @Test
+    void testGetUserQuestionnaireDataExceptionUser() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXIAMUserRepository);
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataExceptionQuestionnaire() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXIAMUserRepository);
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Mockito.when(this.openCDXUserQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireData(request));
+    }
+
+    @Test
     void testGetUserQuestionnaireDataList() {
         GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
                 .setPagination(
@@ -675,6 +755,42 @@ class OpenCDXQuestionnaireServiceImplTest {
         UserQuestionnaireDataResponse response = this.questionnaireService.getUserQuestionnaireDataList(request);
 
         Assertions.assertEquals(1, response.getListList().size());
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataListHasSortFalseAndException() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("id")
+                        .build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireDataList(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataListHasSortTrueAndException() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("id")
+                        .build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireDataList(request));
     }
 
     @Test

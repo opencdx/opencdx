@@ -21,24 +21,32 @@ import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import java.time.Instant;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Model for OpecCDXClassification in Mongo.  Features conversions
- * to Protobuf messages.
+ * Model class for OpenCDX Classification Model.
+ * This class represents a classification model used in OpenCDX.
+ * It contains various properties such as user answer, classification response, media, connected test,
+ * user questionnaire data, creation timestamp, modification timestamp, creator, and modifier.
+ *
+ * This class is used for conversions to Protobuf messages.
  */
 @Data
 @Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Document("classification")
 public class OpenCDXClassificationModel {
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXClassificationModel() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
     @Id
     private ObjectId id;
 

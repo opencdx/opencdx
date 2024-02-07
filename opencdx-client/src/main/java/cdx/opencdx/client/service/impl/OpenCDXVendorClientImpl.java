@@ -24,6 +24,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
@@ -38,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
 
-    public static final String OPEN_CDX_VENDOR_CLIENT_IMPL = "OpenCDXVendorClientImpl";
+    private static final String OPEN_CDX_VENDOR_CLIENT_IMPL = "OpenCDXVendorClientImpl";
     private final VendorServiceGrpc.VendorServiceBlockingStub vendorServiceBlockingStub;
 
     /**
@@ -48,12 +49,15 @@ public class OpenCDXVendorClientImpl implements OpenCDXVendorClient {
      * @throws SSLException creating Client
      */
     @Generated
-    public OpenCDXVendorClientImpl(String server, Integer port) throws SSLException {
+    public OpenCDXVendorClientImpl(
+            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
         if (certChain == null) {
             throw new SSLException("Could not load certificate chain");
         }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
+                .intercept(observationGrpcClientInterceptor)
                 .useTransportSecurity()
                 .sslContext(GrpcSslContexts.forClient()
                         .trustManager(InsecureTrustManagerFactory.INSTANCE)
