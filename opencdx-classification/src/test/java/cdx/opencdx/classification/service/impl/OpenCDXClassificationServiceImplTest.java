@@ -62,7 +62,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
@@ -134,7 +133,7 @@ class OpenCDXClassificationServiceImplTest {
                 .contentType(MediaType.parseMediaType(MediaType.APPLICATION_JSON_VALUE))
                 .body(new ByteArrayResource("{}".getBytes()));
         Mockito.when(this.openCDXMediaUpDownClient.download(Mockito.anyString(), Mockito.anyString()))
-                        .thenReturn(resource);
+                .thenReturn(resource);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
