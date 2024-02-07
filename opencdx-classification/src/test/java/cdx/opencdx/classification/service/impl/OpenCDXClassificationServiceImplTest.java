@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.classification.service.impl;
 
+import static org.mockito.Mockito.when;
+
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
@@ -26,6 +28,7 @@ import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -42,6 +45,7 @@ import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -59,6 +63,10 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -87,6 +95,9 @@ class OpenCDXClassificationServiceImplTest {
     @MockBean
     OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
 
+    @MockBean
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
     @Mock
     OpenCDXConnectedTestClient openCDXConnectedTestClient;
 
@@ -101,6 +112,19 @@ class OpenCDXClassificationServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
+        when(this.openCDXIAMUserRepository.findByUsername(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.of(OpenCDXIAMUserModel.builder()
+                                .id(ObjectId.get())
+                                .password("{noop}pass")
+                                .username("ab@safehealth.me")
+                                .emailVerified(true)
+                                .build());
+                    }
+                });
+
         Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXClassificationModel>() {
                     @Override
@@ -132,7 +156,8 @@ class OpenCDXClassificationServiceImplTest {
                 .contentLength(2)
                 .contentType(MediaType.parseMediaType(MediaType.APPLICATION_JSON_VALUE))
                 .body(new ByteArrayResource("{}".getBytes()));
-        Mockito.when(this.openCDXMediaUpDownClient.download(Mockito.anyString(), Mockito.anyString()))
+        Mockito.when(this.openCDXMediaUpDownClient.download(
+                        Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                 .thenReturn(resource);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
@@ -156,6 +181,12 @@ class OpenCDXClassificationServiceImplTest {
 
     @Test
     void testSubmitClassification() {
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
                         .setUserId(ObjectId.get().toHexString())
