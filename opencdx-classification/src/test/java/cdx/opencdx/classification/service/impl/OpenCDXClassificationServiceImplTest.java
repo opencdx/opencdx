@@ -22,6 +22,7 @@ import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
+import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -54,8 +55,13 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -78,6 +84,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @MockBean
     OpenCDXMediaClient openCDXMediaClient;
+
+    @MockBean
+    OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
 
     @Mock
     OpenCDXConnectedTestClient openCDXConnectedTestClient;
@@ -119,6 +128,13 @@ class OpenCDXClassificationServiceImplTest {
                                 .build();
                     }
                 });
+
+        ResponseEntity<Resource> resource = ResponseEntity.ok()
+                .contentLength(2)
+                .contentType(MediaType.parseMediaType(MediaType.APPLICATION_JSON_VALUE))
+                .body(new ByteArrayResource("{}".getBytes()));
+        Mockito.when(this.openCDXMediaUpDownClient.download(Mockito.anyString(), Mockito.anyString()))
+                        .thenReturn(resource);
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
