@@ -20,13 +20,21 @@ import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
+import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import io.micrometer.observation.annotation.Observed;
+
+import java.io.IOException;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.evrete.KnowledgeService;
+import org.evrete.api.Knowledge;
+import org.evrete.dsl.annotation.Fact;
+import org.evrete.dsl.annotation.Rule;
+import org.evrete.dsl.annotation.Where;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -62,13 +70,15 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         builder.setPositiveProbability(new Random().nextFloat());
         builder.setAvailability(new Random().nextFloat() < 0.5 ? "Not Available" : "Available");
         builder.setCost(new Random().nextFloat(1000.00f));
-        builder.setFurtherActions(
-                new Random().nextFloat() < 0.5
-                        ? "Take plenty of fluids, and Tylenol as needed for fever."
-                        : "Grandma's Chicken Soup");
-        builder.setFurtherActions(
-                new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
         builder.setUserId(model.getUserAnswer().getUserId());
+
+        KnowledgeService knowledgeService = new KnowledgeService();
+        try {
+            Knowledge knowledge = knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRuleSet.class);
+            knowledge.newStatelessSession().insertAndFire(getSystolicResponse(model), builder);
+        } catch (IOException e) {
+            throw new OpenCDXInternalServerError(OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
+        }
 
         model.setClassificationResponse(builder.build());
     }
@@ -103,5 +113,31 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         }
 
         return null;
+    }
+
+    private int getSystolicResponse(OpenCDXClassificationModel model) {
+        // TODO: Get systolic value from questionnaire response
+        return 120;
+    }
+
+    private static class BloodPressureRuleSet {
+
+        @Rule
+        @Where("$s < 120")
+        public void normalBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
+            builder.setFurtherActions("Normal blood pressure. No further actions needed");
+        }
+
+        @Rule
+        @Where("$p.systolic >= 120 && $p.systolic <= 129")
+        public void elevatedBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
+            builder.setFurtherActions("Elevated blood pressure. Please continue monitoring.");
+        }
+
+        @Rule
+        @Where("$s.systolic > 129")
+        public void highBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
+            builder.setFurtherActions("High blood pressure. Please seek additional assistance.");
+        }
     }
 }
