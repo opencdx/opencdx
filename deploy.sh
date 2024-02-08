@@ -338,34 +338,86 @@ print_usage() {
 
 # Function to build Docker image
 build_docker_image() {
+    handle_info "Building Docker image for $1..."
     docker build -t "$1:latest" -t "$1:$version" "$2" || handle_error "Docker $1 build failed."
 }
 build_docker() {
-    handle_info "Building Docker images..."
-    build_docker_image opencdx/mongodb ./opencdx-mongodb
-    # build_docker_image opencdx/helloworld ./opencdx-helloworld
-    build_docker_image opencdx/admin ./opencdx-admin
-    build_docker_image opencdx/config ./opencdx-config
-    build_docker_image opencdx/tinkar ./opencdx-tinkar
-    build_docker_image opencdx/audit ./opencdx-audit
-    build_docker_image opencdx/communications ./opencdx-communications
-    build_docker_image opencdx/media ./opencdx-media
-    build_docker_image opencdx/connected-test ./opencdx-connected-test
-    build_docker_image opencdx/iam ./opencdx-iam
-	  build_docker_image opencdx/routine ./opencdx-routine
-    build_docker_image opencdx/protector ./opencdx-protector
-    build_docker_image opencdx/predictor ./opencdx-predictor
-    build_docker_image opencdx/questionnaire ./opencdx-questionnaire
-    build_docker_image opencdx/classification ./opencdx-classification
-    build_docker_image opencdx/gateway ./opencdx-gateway
-    build_docker_image opencdx/discovery ./opencdx-discovery
-    build_docker_image opencdx/anf ./opencdx-anf
-    if [ "$no_ui" = false ]; then
-      build_docker_image opencdx/dashboard ./opencdx-dashboard
-      build_docker_image opencdx/graphql ./opencdx-graphql
+  local auto_select_all=$1
+
+  components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
+    "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/connected-test"
+    "opencdx/iam" "opencdx/routine" "opencdx/protector" "opencdx/predictor"
+    "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway"
+    "opencdx/discovery" "opencdx/anf" "opencdx/dashboard" "opencdx/graphql")
+
+  selected_components=()
+
+    # Preselect all components if auto_select_all is true
+    if [[ $auto_select_all == true ]]; then
+      selected_components=("${components[@]}")
     fi
+
+display_components() {
+  clear
+  echo "All components:"
+  for ((i = 0; i < ${#components[@]}; i+=2)); do
+    comp1="${components[$i]}"
+    padded_comp1=$(printf "%-25s" "$comp1")
+    indicator1="[ ]"
+    if [[ " ${selected_components[@]} " =~ " $comp1 " ]]; then
+      indicator1="[x]"
+    fi
+
+    # if there is a component following current one
+    if [[ $i -lt $((${#components[@]}-1)) ]]; then
+      comp2="${components[$i+1]}"
+      padded_comp2=$(printf "%-25s" "$comp2")
+      indicator2="[ ]"
+      if [[ " ${selected_components[@]} " =~ " $comp2 " ]]; then
+        indicator2="[x]"
+      fi
+      echo -e "$((i+1)). $padded_comp1 $indicator1\t$((i+2)). $padded_comp2 $indicator2"
+    else
+      echo -e "$((i+1)). $padded_comp1 $indicator1"
+    fi
+  done
 }
 
+  toggle_component() {
+    local index="$REPLY"
+    if [[ $index -ge 1 && $index -le ${#components[@]} ]]; then
+      local component="${components[$index-1]}"
+      if [[ " ${selected_components[@]} " =~ " $component " ]]; then
+        selected_components=("${selected_components[@]/$component}")
+      else
+        selected_components+=("$component")
+      fi
+    else
+      echo "Invalid input. Please enter a valid component number."
+    fi
+  }
+
+  display_components
+
+  while true; do
+    read -p "Enter component number to toggle selection (or 'x' to build docker images): " -r
+    echo
+    if [[ $REPLY =~ ^[0-9]+$ ]]; then
+      toggle_component
+      display_components
+    elif [[ $REPLY == "x" ]]; then
+      break
+    else
+      echo "Invalid input. Please enter a component number or 'x'."
+    fi
+  done
+
+  for component in "${selected_components[@]}"; do
+    if [[ ! -z "$component" ]]; then
+      build_docker_image "$component" "./${component//\//-}"
+    fi
+  done
+}
 # Function to start Docker services
 # Parameters: $1 - Docker Compose filename
 start_docker() {
@@ -396,7 +448,7 @@ generate_docker_compose() {
   compose_file="docker/docker-compose.yml"
 
   # Define services to always include
-  always_include=("discovery" "config" "database" "nats" "trace_storage" "gateway" "iam" "zipkin")
+  always_include=("discovery" "config" "database" "nats" "trace_storage" "gateway" "iam" "zipkin" "tempo" "loki")
 
   # Extract service names from the original Docker Compose file using yq
   services=($(yq e '.services | keys | .[]' "$compose_file"))
@@ -561,9 +613,9 @@ menu() {
         read -r -p "Enter your choice (x to Exit): " menu_choice
 
         case $menu_choice in
-            1) build_docker ;;
-            2) build_docker; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
-            3) build_docker; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
+            1) build_docker false;;
+            2) build_docker true; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
+            3) build_docker false; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
             6) run_jmeter_tests; open_url "build/reports/jmeter/index.html" ;;
@@ -811,7 +863,7 @@ echo
 if [ "$no_menu" = false ]; then
 
     if [ "$deploy" = true ]; then
-        build_docker;
+        build_docker true;
         start_docker "docker-compose.yml";
         DEPLOYED="ALL"
         open_reports "admin";
