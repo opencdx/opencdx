@@ -620,9 +620,9 @@ menu() {
         read -r -p "Enter your choice (x to Exit): " menu_choice
 
         case $menu_choice in
-            1) build_docker false;;
-            2) build_docker true; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
-            3) build_docker false; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
+            1) build_docker false false;;
+            2) build_docker true false; DEPLOYED="ALL"; start_docker "docker-compose.yml" ;;
+            3) build_docker false false; generate_docker_compose;DEPLOYED="Custom"; start_docker "generated-docker-compose.yaml" ;;
             4) stop_docker ;;
             5) open_reports "admin" ;;
             6) run_jmeter_tests; open_url "build/reports/jmeter/index.html" ;;
@@ -870,7 +870,7 @@ echo
 if [ "$no_menu" = false ]; then
 
     if [ "$deploy" = true ]; then
-        build_docker true;
+        build_docker true true;
         start_docker "docker-compose.yml";
         DEPLOYED="ALL"
         open_reports "admin";
