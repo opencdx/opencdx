@@ -62,7 +62,8 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} sm={3} lg={3}>
                         <FormControlLabel
-                            control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" />}
+                            control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" id='show-report'
+                            />}
                             label={'Show Report'}
                         />
                     </Grid>

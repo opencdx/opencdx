@@ -199,6 +199,7 @@ const FormBuilder = () => {
                     <IconButton
                         aria-label="close"
                         onClick={handleClose}
+                        id="close-dialog"
                         sx={{
                             position: 'absolute',
                             right: 8,
@@ -285,12 +286,12 @@ const FormBuilder = () => {
                 <DrawerHeader />
                 <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
                     {uploadJson && uploadJson.item && (
-                        <Button sx={{ m: 1 }} variant="outlined" onClick={handleClickOpen}>
+                        <Button sx={{ m: 1 }} variant="outlined" onClick={handleClickOpen} id="user-form-json">
                             User Form JSON
                         </Button>
                     )}
                     {files && files.item && (
-                        <Button sx={{ m: 1 }} variant="outlined" onClick={handleClickOpenAnfDialog}>
+                        <Button sx={{ m: 1 }} variant="outlined" onClick={handleClickOpenAnfDialog} id="anf-statement-json">
                             ANF Statement JSON
                         </Button>
                     )}
@@ -325,9 +326,11 @@ const FormBuilder = () => {
                                 defaultValue={localStorage.getItem('anf-form') ? JSON.parse(localStorage.getItem('anf-form')).rulesets?.ruleId : ''}
                                 render={({ field }) => (
                                     <Select {...field} id={`test.rulesets`}
+                                        name='rulesets-select'
                                         fullWidth
                                         variant="outlined"
                                         size="small"
+                                        value={field.value || ''}
                                         onChange={(e) => {
                                             field.onChange(e.target.value);
                                             const storedJson = localStorage.getItem('anf-form');
