@@ -20,6 +20,7 @@ import cdx.opencdx.grpc.profile.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import java.util.UUID;
@@ -75,8 +76,8 @@ class ProfileTest {
                                                         .build()))
                                                 .build()))
                                         .setGender(Gender.GENDER_MALE)
-                                        .setDateOfBirth(DateOfBirth.newBuilder()
-                                                .setDate("1900/01/01")
+                                        .setDateOfBirth(Timestamp.newBuilder()
+                                                .setSeconds(1696733104)
                                                 .build())
                                         .setPlaceOfBirth(PlaceOfBirth.newBuilder()
                                                 .setState("CA")
