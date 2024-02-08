@@ -19,14 +19,8 @@ import {
     DialogContent,
     DialogActions,
     IconButton,
-    Select,
-    MenuItem,
-    FormControl,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-
-import { InputLabel } from './components/ui-components/InputLabel';
-import { Controller } from 'react-hook-form';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled, useTheme } from '@mui/material/styles';
 
@@ -117,7 +111,6 @@ const VisuallyHiddenInput = styled('input')({
 
 const FormBuilder = () => {
     const theme = useTheme();
-    const { control } = useForm();
     const [open, setOpen] = React.useState(true);
 
     const handleDrawerOpen = () => {
@@ -131,29 +124,7 @@ const FormBuilder = () => {
     const [openAnfDialog, setOpenAnfDialog] = React.useState(false);
     const [files, setFiles] = useLocalStorage('anf-form');
     const [uploadJson, setUploadedJson] = useLocalStorage('uploaded-form');
-    const [rulesets, setRulesets] = React.useState([
-        {
-            "ruleId": "1",
-            "type": "Business Rule",
-            "category": "Validation",
-            "description": "Validate user responses"
-        },
-        {
-            "ruleId": "2",
-            "type": "Authorization Rule",
-            "category": "Access Control",
-            "description": "Control access based on user responses"
-        }
-    ]);
-    //TODO: get rulesets from backend
-    // React.useEffect(() => {
-    //     axios.get('https://localhost:8080/questionnaire/getrulesets').then((response) => {
-    //         console.log(response);
-    //         setRulesets(response.data.ruleSets);
-    //     });
-    // }, []);
-
-
+  
     const handleChange = (e) => {
         const fileReader = new FileReader();
         fileReader.readAsText(e.target.files[0], 'UTF-8');
@@ -307,49 +278,7 @@ const FormBuilder = () => {
                         <JsonView data={files} shouldExpandNode={allExpanded} style={defaultStyles} />
                     </DialogWrapper>
                     <StatementTypesReport />
-                    <Grid container item xs={12} lg={12}  padding={3} alignItems="center"  sx={{
-                    border: '1px solid',
-                    borderColor: theme.palette.mode === 'dark' ? theme.palette.dark.light + 15 : theme.palette.grey[200],
-                    ':hover': {
-                        boxShadow: theme.palette.mode === 'dark' ? '0 2px 14px 0 rgb(33 150 243 / 10%)' : '0 2px 14px 0 rgb(32 40 45 / 8%)'
-                    },
-                }}>
-                    <Grid item xs={12} sm={3} lg={2} >
-                        <InputLabel horizontal>Select a rule</InputLabel>
-                    </Grid>
-                    <Grid item xs={12} sm={9} lg={10}>
-                        <FormControl fullWidth>
-                            <Controller
-                                name={`test.rulesets`}
-                                control={control}
-                                defaultValue={localStorage.getItem('anf-form') ? JSON.parse(localStorage.getItem('anf-form')).rulesets?.ruleId : ''}
-                                render={({ field }) => (
-                                    <Select {...field} id={`test.rulesets`}
-                                        fullWidth
-                                        variant="outlined"
-                                        size="small"
-                                        onChange={(e) => {
-                                            field.onChange(e.target.value);
-                                            const storedJson = localStorage.getItem('anf-form');
-                                            const questionnaireData = storedJson ? JSON.parse(storedJson) : null;
-                                            const ruleset = rulesets.find((ruleset) => ruleset.ruleId === e.target.value);
-                                            questionnaireData.rulesets = ruleset;
-                                            localStorage.setItem('anf-form', JSON.stringify(questionnaireData));
-                                        }
-                                        }
-                                    >
-                                        {rulesets.map((ruleset) => (
-                                            <MenuItem key={ruleset.ruleId} value={ruleset.ruleId}>
-                                                {ruleset.type} - {ruleset.category} - {ruleset.description}
-                                            </MenuItem>
-                                        ))
-                                        }
-                                    </Select>
-                                )}
-                            />
-                        </FormControl>
-                    </Grid>
-                    </Grid>
+                    
                     {files && files.item && <MainWrapper key={files} uploadedFile={files} />}
                 </Box>
             </Main>
