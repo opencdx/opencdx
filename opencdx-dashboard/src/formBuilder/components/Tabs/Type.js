@@ -17,13 +17,13 @@ const Type = React.forwardRef(({ register, index, currentIndex }, ref) => {
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
                         <Grid container spacing={2} alignItems="center">
-                            <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
+                            <Grid item xs={12} sm={3} lg={4} >
                                 <InputLabel horizontal>Type</InputLabel>
                             </Grid>
-                            <Grid item xs={12} sm={9} lg={6}>
+                            <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.type`)}
+                                    {...register(`test.${index}.item.${currentIndex}.typeValue`)}
                                     fullWidth
                                     placeholder="Enter Type Information"
                                     value={JSON.stringify(systemVariables['status'])}
@@ -31,7 +31,7 @@ const Type = React.forwardRef(({ register, index, currentIndex }, ref) => {
                                 />
                                 ) : (
                                     <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.type`)}
+                                    {...register(`test.${index}.item.${currentIndex}.typeValue`)}
                                     fullWidth
                                     placeholder="Enter Type Information"
                                 />
