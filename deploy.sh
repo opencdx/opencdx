@@ -343,6 +343,7 @@ build_docker_image() {
 }
 build_docker() {
   local auto_select_all=$1
+  local auto_confirm_all=$2
 
   components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/connected-test"
@@ -397,26 +398,32 @@ display_components() {
     fi
   }
 
-  display_components
-
-  while true; do
-    read -p "Enter component number to toggle selection (or 'x' to build docker images): " -r
-    echo
-    if [[ $REPLY =~ ^[0-9]+$ ]]; then
-      toggle_component
+  if [[ $auto_confirm_all == true ]]; then
+      for component in "${selected_components[@]}"; do
+        if [[ ! -z "$component" ]]; then
+          build_docker_image "$component" "./${component//\//-}"
+        fi
+      done
+    else  # Existing logic wrapped in else condition
       display_components
-    elif [[ $REPLY == "x" ]]; then
-      break
-    else
-      echo "Invalid input. Please enter a component number or 'x'."
+      while true; do
+        read -p "Enter component number to toggle selection (or 'x' to build docker images): " -r
+        echo
+        if [[ $REPLY =~ ^[0-9]+$ ]]; then
+          toggle_component
+          display_components
+        elif [[ $REPLY == "x" ]]; then
+          break
+        else
+          echo "Invalid input. Please enter a component number or 'x'."
+        fi
+      done
+      for component in "${selected_components[@]}"; do
+        if [[ ! -z "$component" ]]; then
+          build_docker_image "$component" "./${component//\//-}"
+        fi
+      done
     fi
-  done
-
-  for component in "${selected_components[@]}"; do
-    if [[ ! -z "$component" ]]; then
-      build_docker_image "$component" "./${component//\//-}"
-    fi
-  done
 }
 # Function to start Docker services
 # Parameters: $1 - Docker Compose filename
