@@ -37,6 +37,8 @@ public interface OpenCDXMessageService {
      */
     String NOTIFICATION_MESSAGE_SUBJECT = "opencdx.communication.notification.message";
 
+    String CLASSIFICATION_MESSAGE_SUBJECT = "opencdx.classification.message";
+
     /**
      * OpenCDXMessage Subject for CDC Payload messages
      */
