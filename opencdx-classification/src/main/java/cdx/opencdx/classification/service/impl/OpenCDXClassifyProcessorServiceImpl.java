@@ -129,13 +129,13 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         }
 
         @Rule
-        @Where("$p.systolic >= 120 && $p.systolic <= 129")
+        @Where("$s >= 120 && $s <= 129")
         public void elevatedBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
             builder.setFurtherActions("Elevated blood pressure. Please continue monitoring.");
         }
 
         @Rule
-        @Where("$s.systolic > 129")
+        @Where("$s > 129")
         public void highBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
             builder.setFurtherActions("High blood pressure. Please seek additional assistance.");
         }
