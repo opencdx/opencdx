@@ -42,7 +42,7 @@ message UserProfile {
   /*
    * The date of birth of the user.
    */
-  DateOfBirth date_of_birth = 6;
+  google.protobuf.Timestamp date_of_birth = 6;
 
   /*
    * The place of birth of the user.
@@ -217,15 +217,6 @@ message Demographics {
    * The user's gender
    */
   cdx.opencdx.grpc.common.Gender gender = 4;
-}
-/*
- * Represents the user's date of birth.
- */
-message DateOfBirth {
-  /*
-   * The user's birthday in a suitable format (e.g., "MM-dd-yyyy")
-   */
-  string date = 1;
 }
 /*
  * Contains information about the user's place of birth.

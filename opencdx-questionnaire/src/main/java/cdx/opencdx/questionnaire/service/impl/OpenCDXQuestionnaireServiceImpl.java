@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
@@ -61,6 +62,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository;
     private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
     /**
      * This class represents the implementation of the OpenCDXQuestionnaireService interface.
@@ -72,6 +74,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param openCDXQuestionnaireRepository   the OpenCDXQuestionnaireRepository instance used for interacting with questionnaire data
      * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
      * @param openCDXIAMUserRepository this OpenCDXIAMUserRepository instance used for interacting with the user data.
+     * @param openCDXClassificationMessageService the OpenCDXClassificationMessageService instance used for interacting with the classification message service.
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(
@@ -80,13 +83,15 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
             OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXClassificationMessageService openCDXClassificationMessageService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXQuestionnaireRepository = openCDXQuestionnaireRepository;
         this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXClassificationMessageService = openCDXClassificationMessageService;
     }
 
     /**
@@ -656,6 +661,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
+        this.openCDXClassificationMessageService.submitQuestionnaire(user.getId(), model.getId(), null);
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("createUserQuestionnaireData Executed")
