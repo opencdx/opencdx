@@ -36,6 +36,7 @@ public class OpenCDXClassificationMessageHandler implements OpenCDXMessageHandle
             OpenCDXMessageService openCDXMessageService) {
         this.objectMapper = objectMapper;
         this.openCDXClassificationService = openCDXClassificationService;
+        log.info("Instantiating OpenCDXClassificationMessageHandler.");
 
         openCDXMessageService.subscribe(OpenCDXMessageService.CLASSIFICATION_MESSAGE_SUBJECT, this);
     }
