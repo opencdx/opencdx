@@ -51,27 +51,27 @@ export const JWTProvider = ({ children }) => {
 
     useEffect(() => {
         const init = async () => {
-             try {
-                 const serviceToken = window.localStorage.getItem('serviceToken');
-                 if (serviceToken && verifyToken(serviceToken)) {
-                     setSession(serviceToken);
-                     dispatch({
-                         type: LOGIN,
-                         payload: {
-                             isLoggedIn: true,    
-                         }
-                     });
-                 } else {
-                     dispatch({
-                         type: LOGOUT
-                     });
-                 }
-             } catch (err) {
-                 console.error(err);
-                 dispatch({
-                     type: LOGOUT
-                 });
-             }
+            try {
+                const serviceToken = window.localStorage.getItem('serviceToken');
+                if (serviceToken && verifyToken(serviceToken)) {
+                    setSession(serviceToken);
+                    dispatch({
+                        type: LOGIN,
+                        payload: {
+                            isLoggedIn: true
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: LOGOUT
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+                dispatch({
+                    type: LOGOUT
+                });
+            }
             dispatch({
                 type: LOGOUT
             });
@@ -105,7 +105,6 @@ export const JWTProvider = ({ children }) => {
             password: 'password'
         });
         let users = response.data;
-        console.log(users);
         if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
             const localUsers = window.localStorage.getItem('users');
             users = [

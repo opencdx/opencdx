@@ -15,11 +15,9 @@ import {
     OutlinedInput,
     ListItemText,
     Chip,
-    Box,
-
+    Box
 } from '@mui/material';
 
-import { TextArea } from '../ui-components/TextArea';
 import { MainCard } from '../ui-components/MainCard';
 import RestoreIcon from '@mui/icons-material/Restore';
 import Typography from '@mui/material/Typography';
@@ -173,16 +171,8 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = ({ index, currentIndex, tab }) => {
-    const { register, getValues } = useForm();
-    const [value, setValue] = useState('');
-    // const [selectedTopics, setSelectedTopics] = useState([]); //TODO: Remove this code if not needed
-
-    // const handleInputChange = (event) => {
-    //   setValue(event.target.value);
-    // };
-  
-   
+export const ObservationId = ({ currentIndex }) => {
+    const { register } = useForm();
 
     const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -205,9 +195,9 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
         const attributeLabel = event.target.value;
         const selectedOption = document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
         if (event.target.checked && selectedOption && selectedOption.trim() !== '') {
-            const textArea = document.getElementById('calculated-topic-textarea');
-            handleChipAdd(selectedOption + '-' + attributeLabel)
-            textArea.value += selectedOption + '-' + attributeLabel + '\n';
+            // const textArea = document.getElementById('calculated-topic-textarea');
+            // handleChipAdd(selectedOption + '-' + attributeLabel)
+            //textArea.value += selectedOption + '-' + attributeLabel + '\n';
         }
     };
 
@@ -261,7 +251,7 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={1} lg={1}>
-                        <Button aria-label="Reset" label="Reset" variant="outlined" size="small">
+                        <Button aria-label="Reset" label="Reset" variant="contained" size="small">
                             <RestoreIcon stroke={1.5} size="20px" />
                             Reset
                         </Button>
@@ -270,7 +260,6 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
             ))}
         </>
     );
-   
 
     const filteredAttributes = observationAttributes.filter((attr) => selectedCategories.includes(attr.observationCategory));
 
@@ -304,8 +293,6 @@ export const ObservationId = ({ index, currentIndex, tab }) => {
                                 ))}
                             </Select>
                         </FormControl>
-
-                       
                     </Grid>
                 </Grid>
             </MainCard>

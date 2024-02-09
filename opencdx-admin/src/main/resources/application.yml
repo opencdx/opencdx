@@ -8,7 +8,7 @@ spring:
       context-path: /admin
       ui:
         title: OpenCDX Admin
-        brand: <img src="Open.png" style="object-fit:contain; width:125px; height:50px;"><span> Admin</span>
+        brand: <img src="opencdx.png" style="object-fit:contain; width:125px; height:50px;"><span> Admin</span>
         theme:
           color: "#E5E6E4"
           palette:

@@ -13,36 +13,45 @@ import GenderChart from './Chart/GenderChart';
 import RaceChart from './Chart/RaceChart';
 import { gridSpacing } from 'utils/store/constant';
 
-
 const Dashboard = () => {
     const theme = useTheme();
 
     return (
         <Grid container spacing={gridSpacing} alignItems="center">
-        <Grid item xs={12} lg={2}>
+            <Grid item xs={12} lg={2}>
                 <DataCard primary="Total users" secondary="24" color={theme.palette.primary.main} iconPrimary={AccountCircleTwoToneIcon} />
             </Grid>
             <Grid item xs={12} lg={2}>
                 <DataCard primary="Active users" secondary="4" color={theme.palette.orange.dark} iconPrimary={EmojiEmotionsTwoToneIcon} />
             </Grid>
             <Grid item xs={12} lg={2}>
-                <DataCard primary="Inactive users" secondary="20" color={theme.palette.warning.dark} iconPrimary={RemoveRedEyeTwoToneIcon} />
+                <DataCard
+                    primary="Inactive users"
+                    secondary="20"
+                    color={theme.palette.warning.dark}
+                    iconPrimary={RemoveRedEyeTwoToneIcon}
+                />
             </Grid>
             <Grid item xs={12} lg={2}>
-                <DataCard primary="Test types" secondary="2" color={theme.palette.secondary.main} iconPrimary={MonetizationOnTwoToneIcon} />
+                <DataCard primary="Test types" secondary="2" color={theme.palette.primary.main} iconPrimary={MonetizationOnTwoToneIcon} />
             </Grid>
             <Grid item xs={12} lg={2}>
                 <DataCard primary="Organizations" secondary="2" color={theme.palette.success.main} iconPrimary={ShoppingCartTwoToneIcon} />
             </Grid>
             <Grid item xs={12} lg={2}>
-                <DataCard primary="Transactions" secondary="2" color={theme.palette.orange.main} iconPrimary={AccountBalanceWalletTwoToneIcon} />
+                <DataCard
+                    primary="Transactions"
+                    secondary="2"
+                    color={theme.palette.orange.main}
+                    iconPrimary={AccountBalanceWalletTwoToneIcon}
+                />
             </Grid>
             <Grid item xs={12} lg={6}>
                 <GenderChart />
             </Grid>
             <Grid item xs={12} lg={12}>
                 <RaceChart />
-                </Grid>
+            </Grid>
         </Grid>
     );
 };

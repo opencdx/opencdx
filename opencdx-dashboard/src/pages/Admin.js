@@ -7,7 +7,7 @@ import ErrorPage from 'pages/ErrorPage';
 const Admin = () => {
     const [isValidPage, setIsValidPage] = useState(false);
 
-    const url = process.env.REACT_APP_API_URL_SECURED?'https://localhost:8861/admin/wallboard':'http://localhost:8861/admin/wallboard'   
+    const url = process.env.REACT_APP_API_URL_SECURED ? 'https://localhost:8861/admin/wallboard' : 'http://localhost:8861/admin/wallboard';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,7 +16,6 @@ const Admin = () => {
                 setIsValidPage(true);
             } catch (error) {
                 setIsValidPage(false);
-                console.log(error.message);
             }
         };
 
@@ -28,8 +27,6 @@ const Admin = () => {
         if (newWindow) newWindow.opener = null;
     };
 
-    return (
-        <div>{isValidPage ? openInNewTab(url) : <ErrorPage />}</div>
-    );
+    return <div>{isValidPage ? openInNewTab(url) : <ErrorPage />}</div>;
 };
 export default Admin;
