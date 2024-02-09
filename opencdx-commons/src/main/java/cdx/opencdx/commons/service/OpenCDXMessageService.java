@@ -38,6 +38,9 @@ public interface OpenCDXMessageService {
      */
     String NOTIFICATION_MESSAGE_SUBJECT = "opencdx.communication.notification.message";
 
+    /**
+     * OpenCDXMessage Subject for Classification messages
+     */
     String CLASSIFICATION_MESSAGE_SUBJECT = "opencdx.classification.message";
 
     /**
@@ -45,6 +48,9 @@ public interface OpenCDXMessageService {
      */
     String CDC_MESSAGE_SUBJECT = "opencdx.communication.cdc.notification.message";
 
+    /**
+     * List of all the subjects.
+     */
     List<String> SUBJECTS = List.of(
             AUDIT_MESSAGE_SUBJECT, NOTIFICATION_MESSAGE_SUBJECT, CLASSIFICATION_MESSAGE_SUBJECT, CDC_MESSAGE_SUBJECT);
     /**

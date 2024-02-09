@@ -23,6 +23,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
+
+/**
+ * The OpenCDXClassificationMessageHandler class is responsible for handling classification messages
+ * received from the OpenCDXMessageService. It implements the OpenCDXMessageHandler interface.
+ */
 @Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXClassificationMessageHandler implements OpenCDXMessageHandler {
@@ -30,6 +35,13 @@ public class OpenCDXClassificationMessageHandler implements OpenCDXMessageHandle
 
     private final OpenCDXClassificationService openCDXClassificationService;
 
+    /**
+     * Instantiates a new OpenCDXClassificationMessageHandler.
+     *
+     * @param objectMapper the object mapper
+     * @param openCDXClassificationService the open cdx classification service
+     * @param openCDXMessageService the open cdx message service
+     */
     public OpenCDXClassificationMessageHandler(
             ObjectMapper objectMapper,
             OpenCDXClassificationService openCDXClassificationService,
