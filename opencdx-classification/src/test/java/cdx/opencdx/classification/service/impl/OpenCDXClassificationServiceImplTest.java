@@ -38,6 +38,7 @@ import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.SeverityLevel;
 import cdx.opencdx.grpc.neural.classification.Symptom;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import cdx.opencdx.grpc.questionnaire.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
@@ -201,5 +202,34 @@ class OpenCDXClassificationServiceImplTest {
         // OpenCDXNotAcceptable exception
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> classificationService.classify(classificationRequest));
+    }
+
+    @Test
+    void testSubmitClassificationBloodPressure() throws JsonProcessingException {
+        String ruleQuestionId = ObjectId.get().toHexString();
+        int bloodPressure = 120;
+
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .addQuestionnaireData(Questionnaire.newBuilder()
+                                .addRuleQuestionId(ruleQuestionId)
+                                .addItem(QuestionnaireItem.newBuilder()
+                                        .setLinkId(ruleQuestionId)
+                                        .setAnswerInteger(bloodPressure))
+                                .build())
+                        .build());
+
+        ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        // Verify that the rules executed and set the correct further actions
+        Assertions.assertEquals(
+                "Elevated blood pressure. Please continue monitoring.",
+                classificationService.classify(classificationRequest).getFurtherActions());
     }
 }

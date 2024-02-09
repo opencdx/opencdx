@@ -22,9 +22,10 @@ import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
-
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
@@ -115,12 +116,29 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         return null;
     }
 
-    private int getSystolicResponse(OpenCDXClassificationModel model) {
-        // TODO: Get systolic value from questionnaire response
-        return 120;
+    private Integer getSystolicResponse(OpenCDXClassificationModel model) {
+        if (model.getUserQuestionnaireData() != null
+                && model.getUserQuestionnaireData().getQuestionnaireDataCount() > 0
+                && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
+            String questionId =
+                    model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionId(0);
+
+            if (!questionId.isBlank() && !questionId.isEmpty()) {
+                Optional<QuestionnaireItem> question =
+                        model.getUserQuestionnaireData().getQuestionnaireData(0).getItemList().stream()
+                                .filter(questionItem -> questionId.equals(questionItem.getLinkId()))
+                                .findFirst();
+
+                if (question.isPresent()) {
+                    return question.get().getAnswerInteger();
+                }
+            }
+        }
+
+        return -1;
     }
 
-    private static class BloodPressureRuleSet {
+    public static class BloodPressureRuleSet {
 
         @Rule
         @Where("$s < 120")

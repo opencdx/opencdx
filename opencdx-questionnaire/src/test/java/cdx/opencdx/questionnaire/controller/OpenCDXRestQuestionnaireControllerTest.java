@@ -246,7 +246,8 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .perform(get("/questionnaire/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
         Assertions.assertEquals(
-                "{\"id\":\"" + id + "\",\"item\":[]}", mv.getResponse().getContentAsString());
+                "{\"id\":\"" + id + "\",\"item\":[],\"ruleQuestionId\":[]}",
+                mv.getResponse().getContentAsString());
     }
 
     @Test
