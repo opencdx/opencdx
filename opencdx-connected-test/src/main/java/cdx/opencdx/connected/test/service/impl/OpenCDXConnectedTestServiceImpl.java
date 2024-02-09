@@ -20,10 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.service.*;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
@@ -65,6 +62,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     private final OpenCDXCommunicationService openCDXCommunicationService;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
+    private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
     /**
      * Constructore with OpenCDXAuditService
@@ -76,6 +74,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * @param openCDXCommunicationService    Communication Service for informing user test received.
      * @param openCDXIAMUserRepository       Repository to look up patient.
      * @param openCDXDocumentValidator       Validator for documents
+     * @param openCDXClassificationMessageService Service for submitting connected tests for classification
      */
     public OpenCDXConnectedTestServiceImpl(
             OpenCDXAuditService openCDXAuditService,
@@ -84,7 +83,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             ObjectMapper objectMapper,
             OpenCDXCommunicationService openCDXCommunicationService,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
-            OpenCDXDocumentValidator openCDXDocumentValidator) {
+            OpenCDXDocumentValidator openCDXDocumentValidator,
+            OpenCDXClassificationMessageService openCDXClassificationMessageService) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -92,6 +92,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         this.openCDXCommunicationService = openCDXCommunicationService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
+        this.openCDXClassificationMessageService = openCDXClassificationMessageService;
     }
 
     @Override
@@ -172,6 +173,9 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
             this.openCDXCommunicationService.sendNotification(builder.build());
         }
+
+        this.openCDXClassificationMessageService.submitConnectedTest(
+                patientID, new ObjectId(submittedTest.getBasicInfo().getId()), null);
         return TestSubmissionResponse.newBuilder()
                 .setSubmissionId(submittedTest.getBasicInfo().getId())
                 .build();

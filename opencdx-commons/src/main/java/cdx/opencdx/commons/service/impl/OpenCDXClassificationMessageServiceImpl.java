@@ -66,8 +66,9 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
         UserAnswer.Builder builder = getUserPreparedAnswer(userId);
 
         builder.setUserQuestionnaireId(questionnaireUserId.toHexString());
-        builder.setMediaId(mediaId.toHexString());
-
+        if (mediaId != null) {
+            builder.setMediaId(mediaId.toHexString());
+        }
         this.messageService.send(
                 OpenCDXMessageService.CLASSIFICATION_MESSAGE_SUBJECT,
                 ClassificationRequest.newBuilder()
@@ -82,8 +83,9 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
         UserAnswer.Builder builder = getUserPreparedAnswer(userId);
 
         builder.setConnectedTestId(connectedTestId.toHexString());
-        builder.setMediaId(mediaId.toHexString());
-
+        if (mediaId != null) {
+            builder.setMediaId(mediaId.toHexString());
+        }
         this.messageService.send(
                 OpenCDXMessageService.CLASSIFICATION_MESSAGE_SUBJECT,
                 ClassificationRequest.newBuilder()
@@ -97,8 +99,11 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
                 .orElseThrow(() -> new OpenCDXNotFound(
                         "OpenCDXClassificationMessageServiceImpl", 1, "User " + userId + " does not found "));
 
-        UserAnswer.Builder builder =
-                UserAnswer.newBuilder().setGender(user.getGender()).setUserId(userId.toHexString());
+        UserAnswer.Builder builder = UserAnswer.newBuilder().setUserId(userId.toHexString());
+
+        if (user.getGender() != null) {
+            builder.setGender(user.getGender());
+        }
 
         if (user.getDateOfBirth() != null) {
             Instant dobInstant = user.getDateOfBirth();
