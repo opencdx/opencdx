@@ -18,9 +18,8 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    IconButton,
+    IconButton
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled, useTheme } from '@mui/material/styles';
 
@@ -124,7 +123,7 @@ const FormBuilder = () => {
     const [openAnfDialog, setOpenAnfDialog] = React.useState(false);
     const [files, setFiles] = useLocalStorage('anf-form');
     const [uploadJson, setUploadedJson] = useLocalStorage('uploaded-form');
-  
+
     const handleChange = (e) => {
         const fileReader = new FileReader();
         fileReader.readAsText(e.target.files[0], 'UTF-8');
@@ -196,7 +195,7 @@ const FormBuilder = () => {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} style={{ backgroundColor: 'white' }}>
                 <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <IconButton
                         color="inherit"
@@ -207,7 +206,7 @@ const FormBuilder = () => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography variant="h3" component="div">
                         ANF Statement
                     </Typography>
                     <Grid item style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -256,12 +255,12 @@ const FormBuilder = () => {
                 <DrawerHeader />
                 <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
                     {uploadJson && uploadJson.item && (
-                        <Button sx={{ m: 1 }} variant="outlined" onClick={handleClickOpen}>
+                        <Button sx={{ m: 1 }} variant="contained" onClick={handleClickOpen}>
                             User Form JSON
                         </Button>
                     )}
                     {files && files.item && (
-                        <Button sx={{ m: 1 }} variant="outlined" onClick={handleClickOpenAnfDialog}>
+                        <Button sx={{ m: 1 }} variant="contained" onClick={handleClickOpenAnfDialog}>
                             ANF Statement JSON
                         </Button>
                     )}
@@ -278,7 +277,7 @@ const FormBuilder = () => {
                         <JsonView data={files} shouldExpandNode={allExpanded} style={defaultStyles} />
                     </DialogWrapper>
                     <StatementTypesReport />
-                    
+
                     {files && files.item && <MainWrapper key={files} uploadedFile={files} />}
                 </Box>
             </Main>

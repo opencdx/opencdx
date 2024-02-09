@@ -34,9 +34,9 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
     };
     return (
         <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2} alignItems="center" sx={{ pl: 2 }}>
                 <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2 }}>
-                    <Typography variant="subtitle2">Operator</Typography>
+                    <Typography variant="subtitle1">Operator</Typography>
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
                             fullWidth
@@ -55,7 +55,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2 }}>
-                    <Typography variant="subtitle2">Answer</Typography>
+                    <Typography variant="subtitle1">Answer</Typography>
 
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
@@ -88,7 +88,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
 
                 {showValueField && (
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2 }}>
-                        <Typography variant="subtitle2">Value</Typography>
+                        <Typography variant="subtitle1">Value</Typography>
 
                         <FormControl fullWidth>
                             <Controller
@@ -128,9 +128,9 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
 
             {fields.map(({ id }, i) => (
                 <div style={{ display: 'flex', flexDirection: 'column' }} key={id}>
-                    <Grid container>
+                    <Grid container sx={{ pl: 2 }}>
                         <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2, pr: 2 }}>
-                            <Typography variant="subtitle2">Operator</Typography>
+                            <Typography variant="subtitle1">Operator</Typography>
                             <FormControl fullWidth sx={{ pt: 2 }}>
                                 <Controller
                                     fullWidth
@@ -150,7 +150,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                         </Grid>
 
                         <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2 }}>
-                            <Typography variant="subtitle2">Answer</Typography>
+                            <Typography variant="subtitle1">Answer</Typography>
 
                             <FormControl fullWidth sx={{ pt: 2 }}>
                                 <Controller
@@ -177,20 +177,20 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                         </Grid>
                     </Grid>
                     <Grid style={{ display: 'flex', alignItems: 'baseline' }}>
-                        <Grid item xs={12} lg={4} sx={{ p: 2 }}>
+                        <Grid item xs={12} lg={4} sx={{ pt: 2, pr: 2 }}>
                             <AccordianWrapper title="Anf Statement">
                                 <CustomTabs currentIndex={i + 1} {...{ control, register, index, item, getValues }} />
                             </AccordianWrapper>
                         </Grid>
-                        <Button variant="outlined" type="button" onClick={() => remove(index)}>
+                        <Button variant="contained" type="button" onClick={() => remove(index)} size="small">
                             Remove
                         </Button>
                     </Grid>
                 </div>
             ))}
             {item.type !== 'integer' && (
-                <Grid sx={{ pt: 2, textAlign: 'center' }}>
-                    <Button disableElevation color="primary" size="large" type="button" onClick={() => append({})} variant="outlined">
+                <Grid sx={{ pt: 2, textAlign: 'right' }}>
+                    <Button disableElevation variant="contained" color="primary" size="small" type="button" onClick={() => append({})}>
                         + Add ANF Statement
                     </Button>
                 </Grid>
