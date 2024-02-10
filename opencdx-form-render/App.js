@@ -40,6 +40,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });
 
