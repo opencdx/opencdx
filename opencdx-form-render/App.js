@@ -18,17 +18,26 @@ const App = () => {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={LoginScreen} 
             options={{
-              headerShown: false,
+              headerShown: false,  
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
             }}
           />
           <Stack.Screen name="List" component={ListScreen} 
             options={{
               headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
             }}
           />
           <Stack.Screen name="Home" component={HomeScreen}
             options={{
               headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
             }}
            />
         </Stack.Navigator>
