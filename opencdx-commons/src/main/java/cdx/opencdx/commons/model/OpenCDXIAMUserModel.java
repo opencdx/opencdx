@@ -74,7 +74,7 @@ public class OpenCDXIAMUserModel {
 
     private List<ContactInfo> contactInfo;
     private Gender gender;
-    private DateOfBirth dateOfBirth;
+    private Instant dateOfBirth;
     private PlaceOfBirth placeOfBirth;
     private List<Address> addresses;
     private byte[] photo;
@@ -119,7 +119,13 @@ public class OpenCDXIAMUserModel {
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
         this.gender = userProfile.getGender();
-        this.dateOfBirth = userProfile.getDateOfBirth();
+
+        if (userProfile.hasDateOfBirth()) {
+            this.dateOfBirth = Instant.ofEpochSecond(
+                    userProfile.getDateOfBirth().getSeconds(),
+                    userProfile.getDateOfBirth().getNanos());
+        }
+
         this.addresses = userProfile.getAddressList();
         this.photo = userProfile.getPhoto().toByteArray();
         this.communication = userProfile.getCommunication();
@@ -277,7 +283,11 @@ public class OpenCDXIAMUserModel {
             builder.setGender(this.gender);
         }
         if (this.dateOfBirth != null) {
-            builder.setDateOfBirth(this.dateOfBirth);
+
+            builder.setDateOfBirth(Timestamp.newBuilder()
+                    .setSeconds(this.dateOfBirth.getEpochSecond())
+                    .setNanos(this.dateOfBirth.getNano())
+                    .build());
         }
         if (this.placeOfBirth != null) {
             builder.setPlaceOfBirth(this.placeOfBirth);

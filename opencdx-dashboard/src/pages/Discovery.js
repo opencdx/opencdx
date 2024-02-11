@@ -6,7 +6,7 @@ import ErrorPage from 'pages/ErrorPage';
 
 const Discovery = () => {
     const [isValidPage, setIsValidPage] = useState(false);
-    const url = process.env.REACT_APP_API_URL_SECURED?'https://localhost:8761/':'http://localhost:8761/'   
+    const url = process.env.REACT_APP_API_URL_SECURED ? 'https://localhost:8761/' : 'http://localhost:8761/';
 
     useEffect(() => {
         axios

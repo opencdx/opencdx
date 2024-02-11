@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, Radio, RadioGroup, Divider, Grid, TextField, FormControlLabel } from '@mui/material';
 import { Controller } from 'react-hook-form';
@@ -12,6 +12,19 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
     const componentType =
         ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType) &&
         !['timingMeasure', 'rangeMeasure', 'result'].includes(tab);
+const lowerBound = formData.item[index].item[currentIndex][tab]?.lowerBound;
+const upperBound = formData.item[index].item[currentIndex][tab]?.upperBound;
+const resolution = formData.item[index].item[currentIndex][tab]?.resolution;
+const semantic = formData.item[index].item[currentIndex][tab]?.semantic;
+const lowerBoundOptions = formData.item[index].item[currentIndex][tab]?.lowerBoundOptions;
+const upperBoundOptions = formData.item[index].item[currentIndex][tab]?.upperBoundOptions;
+
+const [lowerBoundState, setLowerBound]  = useState(lowerBound?lowerBound:systemVariables[tab].lowerBound);
+const [upperBoundState, setUpperBound]  = useState(upperBound?upperBound:systemVariables[tab].upperBound);
+const [resolutionState, setResolution]  = useState(resolution?resolution:systemVariables[tab].resolution);
+const [semanticState, setSemantic]  = useState(semantic?semantic:systemVariables[tab].semantic);
+const [lowerBoundOptionsState, setLowerBoundOptions]  = useState(lowerBoundOptions?lowerBoundOptions:systemVariables[tab].lowerBoundOptions);
+const [upperBoundOptionsState, setUpperBoundOptions]  = useState(upperBoundOptions?upperBoundOptions:systemVariables[tab].upperBoundOptions);
 
     return (
         <Grid item xs={12} lg={12} ref={ref}>
@@ -28,8 +41,12 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                         {...register(`test.${index}.item.${currentIndex}.${tab}.lowerBound`)}
                                         fullWidth
                                         type="text"
-                                        value={systemVariables[tab].lowerBound}
+                                        value={lowerBoundState}
                                         placeholder="Enter Lower Bound Value"
+                                        onChange={(e) => {
+                                            setLowerBound(e.target.value);
+                                        }
+                                        }
                                     />
                                 ) : (
                                     <TextField
@@ -60,8 +77,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                     {...field}
                                                     onChange={(e) => {
                                                         field.onChange(e.target.value);
+                                                        setLowerBoundOptions(e.target.value);
                                                     }}
-                                                    value={systemVariables[tab].lowerBoundOptions}
+                                                    value={lowerBoundOptionsState}
                                                 >
                                                     <FormControlLabel value="yes" control={<Radio />} label="Yes" />
                                                     <FormControlLabel value="no" control={<Radio />} label="No" />
@@ -94,7 +112,11 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     <TextField
                                         {...register(`test.${index}.item.${currentIndex}.${tab}.sematic`)}
                                         fullWidth
-                                        value={systemVariables[tab].semantic}
+                                        value={semanticState}
+                                        onChange={(e) => {
+                                            setSemantic(e.target.value);
+                                        }
+                                        }
                                         placeholder="Enter Semantic Value"
                                     />
                                 ) : (
@@ -116,7 +138,11 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <TextField
                                 {...register(`test.${index}.item.${currentIndex}.${tab}.resolution`)}
                                 fullWidth
-                                value={systemVariables[tab].resolution}
+                                value={resolutionState}
+                                onChange={(e) => {
+                                    setResolution(e.target.value);
+                                }
+                                }
                                 placeholder="Enter Resolution"
                             />
                         ) : (
@@ -140,7 +166,11 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 type={'text'}
                                 {...register(`test.${index}.item.${currentIndex}.${tab}.upperBound`)}
                                 fullWidth
-                                value={systemVariables[tab].upperBound}
+                                value={upperBoundState}
+                                onChange={(e) => {
+                                    setUpperBound(e.target.value);
+                                }
+                                }
                                 placeholder="Enter Upper Bound Value"
                             />
                         ) : (
@@ -172,8 +202,10 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                             {...field}
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
+                                                setUpperBoundOptions(e.target.value);
                                             }}
-                                            value={systemVariables[tab].upperBoundOptions}
+                                            value={upperBoundOptionsState}
+
                                         >
                                             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
                                             <FormControlLabel value="no" control={<Radio />} label="No" />

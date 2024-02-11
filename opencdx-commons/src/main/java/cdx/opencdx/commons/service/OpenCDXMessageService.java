@@ -16,6 +16,7 @@
 package cdx.opencdx.commons.service;
 
 import cdx.opencdx.commons.handlers.OpenCDXMessageHandler;
+import java.util.List;
 
 /**
  * The OpenCDXMessageService interface provides methods for subscribing to message subjects,
@@ -38,10 +39,20 @@ public interface OpenCDXMessageService {
     String NOTIFICATION_MESSAGE_SUBJECT = "opencdx.communication.notification.message";
 
     /**
+     * OpenCDXMessage Subject for Classification messages
+     */
+    String CLASSIFICATION_MESSAGE_SUBJECT = "opencdx.classification.message";
+
+    /**
      * OpenCDXMessage Subject for CDC Payload messages
      */
     String CDC_MESSAGE_SUBJECT = "opencdx.communication.cdc.notification.message";
 
+    /**
+     * List of all the subjects.
+     */
+    List<String> SUBJECTS = List.of(
+            AUDIT_MESSAGE_SUBJECT, NOTIFICATION_MESSAGE_SUBJECT, CLASSIFICATION_MESSAGE_SUBJECT, CDC_MESSAGE_SUBJECT);
     /**
      * Subscribe to a message subject and the handlers for received those messages
      * for processing.

@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { Share, Monitor, DeviceHub } from '@mui/icons-material';
+import { Share, Monitor, DeviceHub, Map } from '@mui/icons-material';
 
 // constant
 
@@ -35,6 +35,13 @@ const pages = {
                     url: '/pages/sms'
                 }
             ]
+        },
+        {
+            id: 'maps',
+            title: <FormattedMessage id="maps" />,
+            icon: Map,
+            type: 'item',
+            url: '/dashboard/maps'
         }
     ]
 };

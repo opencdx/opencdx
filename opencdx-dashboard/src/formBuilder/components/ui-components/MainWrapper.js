@@ -45,7 +45,7 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
             markedMainANFStatement: markedMainANFStatement
         }));
 
-       setAnfFormLocal({ item: updatedItem, ruleset: data.test.rulesets });
+        setAnfFormLocal({ item: updatedItem, ruleset: data.test.rulesets });
 
         setShowAlert(true);
     };
@@ -55,7 +55,7 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ChildWrapper {...{ control, register, getValues, setValue, errors, defaultValues }} />
                 <Grid sx={{ pt: 2 }}>
-                    <Button disableElevation color="primary" size="large" type="submit" variant="outlined">
+                    <Button disableElevation color="primary" size="large" type="submit" variant="contained">
                         Save
                     </Button>
                 </Grid>

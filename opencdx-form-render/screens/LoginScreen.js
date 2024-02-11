@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
                     resizeMode="contain"
                     alt="OpenCDX logo"
                     style={styles.image}
-                    source={require('../assets/Open.png')}
+                    source={require('../assets/opencdx.png')}
                 />
                 <Input
                     onChangeText={setUsername}
