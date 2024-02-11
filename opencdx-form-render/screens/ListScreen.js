@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Heading, ButtonText } from '@gluestack-ui/themed';
+import { Button, Heading, ButtonText,ButtonIcon, ArrowRightIcon } from '@gluestack-ui/themed';
 
 const ListScreen = ({ navigation }) => {
     const [buttonTitles, setButtonTitles] = useState([]);
@@ -29,6 +29,7 @@ const ListScreen = ({ navigation }) => {
                 );
                 const { questionnaires } = response.data;
                 setButtonTitles(questionnaires);
+                
             } catch (error) {
                 console.error(error);
             }
@@ -39,15 +40,23 @@ const ListScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Heading>Select a questionnaire:</Heading>
+            <Heading size="lg" >Select a questionnaire:</Heading>
             {buttonTitles.map((questionnaire, index) => (
                 <Button
                     style={styles.input}
                     key={index}
                     title={questionnaire.title}
                     onPress={() => navigation.navigate('Home', { questionnaire })}
+                    size="md"
+                    variant="contained"
+                    action="primary"
+                    isDisabled={false}
                 >
                     <ButtonText>{questionnaire.title}</ButtonText>
+                    <ButtonIcon as={ArrowRightIcon} 
+                        color="primary" 
+                        size="md"
+                    />
                 </Button>
             ))}
         </View>
@@ -73,7 +82,12 @@ const styles = StyleSheet.create({
     },
     input: {
         margin: 5,
-        textAlign: 'right'
+        textAlign: 'right',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: 68,
+
+        
     },
 });
 

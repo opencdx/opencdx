@@ -5,6 +5,7 @@ import { StyleSheet} from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ListScreen from './screens/ListScreen';
+import SuccessScreen from './screens/SuccessScreen';
 
 import { GluestackUIProvider} from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
@@ -40,6 +41,14 @@ const App = () => {
               }
             }}
            />
+           <Stack.Screen name="Success" component={SuccessScreen}
+            options={{
+              headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
+            }}
+            />
         </Stack.Navigator>
       </NavigationContainer>
     </GluestackUIProvider>

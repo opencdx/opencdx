@@ -4,17 +4,17 @@ import Constants from 'expo-constants';
 import FormRender from '../components/FormRender';
 import { Center, ScrollView } from '@gluestack-ui/themed';
 
-const HomeScreen = ({route}) => {
+const HomeScreen = ({route,navigation}) => {
     const { questionnaire } = route.params;
     return (
         <View style={styles.container}>
             { Platform.OS === "web" ? (
                 <Center>
-                    <FormRender questionnaire={questionnaire}/>
+                    <FormRender questionnaire={questionnaire} navigation={navigation}/>
                 </Center>
             ) : (
                 <ScrollView h="$80" w="$100">
-                    <FormRender questionnaire={questionnaire}/>
+                    <FormRender questionnaire={questionnaire} navigation={navigation}/>
                 </ScrollView>
             )}
         </View>
