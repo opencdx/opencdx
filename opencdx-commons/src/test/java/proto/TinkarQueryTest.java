@@ -39,7 +39,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-class TinkarTest {
+class TinkarQueryTest {
     ObjectMapper mapper;
 
     @BeforeEach
@@ -50,16 +50,27 @@ class TinkarTest {
     }
 
     @Test
-    void testTinkarRequest() throws JsonProcessingException {
-        TinkarRequest tinkarRequest =
-                TinkarRequest.newBuilder().setName("nameT").build();
-        log.info("TinkarRequest: {}", this.mapper.writeValueAsString(tinkarRequest));
+    void testTinkarQueryRequest() throws JsonProcessingException {
+        TinkarQueryRequest tinkarRequest = TinkarQueryRequest.newBuilder()
+                .setQuery("chronic disease")
+                .setMaxResults(10)
+                .build();
+        log.info("TinkarQueryRequest: {}", this.mapper.writeValueAsString(tinkarRequest));
     }
 
     @Test
     void testTinkarReply() throws JsonProcessingException {
-        TinkarResponse tinkarReply =
-                TinkarResponse.newBuilder().setMessage("messageT").build();
+        TinkarQueryResult result = TinkarQueryResult.newBuilder()
+                .setNid(-2144684618)
+                .setRcNid(-2147393046)
+                .setPatternNid(-2147483638)
+                .setFieldIndex(1)
+                .setScore(13.158955f)
+                .setHighlightedString("<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>")
+                .build();
+
+        TinkarQueryResponse tinkarReply =
+                TinkarQueryResponse.newBuilder().addResults(result).build();
         log.info("TinkarReply: {}", this.mapper.writeValueAsString(tinkarReply));
     }
 }
