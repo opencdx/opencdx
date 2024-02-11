@@ -17,8 +17,8 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.tinkar.TinkarRequest;
-import cdx.opencdx.grpc.tinkar.TinkarResponse;
+import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
 
 /**
  * Interface for communicating with the Tinkar microservice.
@@ -30,6 +30,6 @@ public interface OpenCDXTinkarClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Classification Response.
      */
-    TinkarResponse sayTinkar(TinkarRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    TinkarQueryResponse searchTinkar(TinkarQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

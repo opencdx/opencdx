@@ -19,8 +19,8 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.grpc.tinkar.TinkarGrpc;
-import cdx.opencdx.grpc.tinkar.TinkarRequest;
-import cdx.opencdx.grpc.tinkar.TinkarResponse;
+import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
@@ -84,12 +84,12 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
      * @return Classification Response.
      */
     @Override
-    public TinkarResponse sayTinkar(TinkarRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public TinkarQueryResponse searchTinkar(TinkarQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return tinkarBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .sayTinkar(request);
+                    .searchTinkar(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(
