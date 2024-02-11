@@ -35,6 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,11 +56,12 @@ class TinkarQueryTest {
                 .setQuery("chronic disease")
                 .setMaxResults(10)
                 .build();
-        log.info("TinkarQueryRequest: {}", this.mapper.writeValueAsString(tinkarRequest));
+        Assertions.assertEquals(
+                "{\"query\":\"chronic disease\",\"maxresults\":10}", this.mapper.writeValueAsString(tinkarRequest));
     }
 
     @Test
-    void testTinkarReply() throws JsonProcessingException {
+    void testTinkarQueryResponse() throws JsonProcessingException {
         TinkarQueryResult result = TinkarQueryResult.newBuilder()
                 .setNid(-2144684618)
                 .setRcNid(-2147393046)
@@ -71,6 +73,9 @@ class TinkarQueryTest {
 
         TinkarQueryResponse tinkarReply =
                 TinkarQueryResponse.newBuilder().addResults(result).build();
-        log.info("TinkarReply: {}", this.mapper.writeValueAsString(tinkarReply));
+
+        Assertions.assertEquals(
+                "{\"results\":[{\"nid\":-2144684618,\"rcNid\":-2147393046,\"patternNid\":-2147483638,\"fieldIndex\":1,\"score\":13.158955,\"highlightedString\":\"<B>Chronic</B> <B>disease</B> <B>of</B> <B>respiratory</B> <B>system</B>\"}]}",
+                this.mapper.writeValueAsString(tinkarReply));
     }
 }
