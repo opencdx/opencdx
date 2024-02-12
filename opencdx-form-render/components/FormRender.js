@@ -56,9 +56,6 @@ export default function App({ questionnaire, navigation}) {
                     },
                 });
                 navigation.navigate('Success');
-
-                alert('Saved successfully!');
-
             } catch (error) {
                 console.log(error);
                 alert( error);

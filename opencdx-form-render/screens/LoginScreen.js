@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }) => {
             await AsyncStorage.setItem('jwtToken', response.data.token);
             navigation.navigate('List');
         } catch (error) {
-            alert('Invalid credentials');
+            alert(error);
         }
     };
     const [rememberMe, setRememberMe] = useState(false);
