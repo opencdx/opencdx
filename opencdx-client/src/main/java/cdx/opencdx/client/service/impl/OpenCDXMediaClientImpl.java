@@ -29,6 +29,7 @@ import io.micrometer.observation.annotation.Observed;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -49,8 +50,10 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor client interceptor.
      * @throws SSLException creating Client
      */
+    @Generated
     public OpenCDXMediaClientImpl(
             String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {

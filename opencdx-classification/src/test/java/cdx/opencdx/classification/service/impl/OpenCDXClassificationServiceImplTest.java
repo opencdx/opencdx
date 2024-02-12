@@ -26,6 +26,7 @@ import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
+import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
@@ -34,6 +35,8 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Duration;
 import cdx.opencdx.grpc.common.DurationType;
+import cdx.opencdx.grpc.connected.ConnectedTest;
+import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.media.Media;
@@ -42,6 +45,7 @@ import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.SeverityLevel;
 import cdx.opencdx.grpc.neural.classification.Symptom;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
@@ -177,7 +181,11 @@ class OpenCDXClassificationServiceImplTest {
     }
 
     @AfterEach
-    void tearDown() {}
+    void tearDown() {
+        Mockito.reset(this.openCDXIAMUserRepository);
+        Mockito.reset(this.openCDXClassificationRepository);
+        Mockito.reset(this.openCDXMediaClient);
+    }
 
     @Test
     void testSubmitClassification() {
@@ -198,6 +206,165 @@ class OpenCDXClassificationServiceImplTest {
 
         Assertions.assertEquals(
                 "Executed classify operation.", response.getMessage().toString());
+    }
+
+    @Test
+    void testSubmitClassificationException() {
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<GetMediaResponse>() {
+                    @Override
+                    public GetMediaResponse answer(InvocationOnMock invocation) throws Throwable {
+                        GetMediaRequest argument = invocation.getArgument(0);
+                        return GetMediaResponse.newBuilder()
+                                .setMedia(Media.newBuilder()
+                                        .setId(argument.getId())
+                                        .setMimeType("imabc")
+                                        .build())
+                                .build();
+                    }
+                });
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        Assertions.assertThrows(OpenCDXDataLoss.class, () -> this.classificationService.classify(request));
+    }
+
+    @Test
+    void testSubmitClassificationNoQuestionnaireID() {
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<GetMediaResponse>() {
+                    @Override
+                    public GetMediaResponse answer(InvocationOnMock invocation) throws Throwable {
+                        GetMediaRequest argument = invocation.getArgument(0);
+                        return GetMediaResponse.newBuilder()
+                                .setMedia(Media.newBuilder()
+                                        .setId(argument.getId())
+                                        .setMimeType("imabc")
+                                        .build())
+                                .build();
+                    }
+                });
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        // .setConnectedTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        Assertions.assertThrows(OpenCDXDataLoss.class, () -> this.classificationService.classify(request));
+    }
+
+    @Test
+    void testSubmitClassificationRetrieveQuestionnaireNull() {
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(null);
+
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        ClassificationResponse response = this.classificationService.classify(request);
+
+        Assertions.assertEquals(
+                "Executed classify operation.", response.getMessage().toString());
+    }
+
+    @Test
+    void testSubmitClassificationMediaNull() {
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(null);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        ClassificationResponse response = this.classificationService.classify(request);
+
+        Assertions.assertEquals(
+                "Executed classify operation.", response.getMessage().toString());
+    }
+
+    @Test
+    void testSubmitClassificationConnectedTestIdNull() {
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<GetMediaResponse>() {
+                    @Override
+                    public GetMediaResponse answer(InvocationOnMock invocation) throws Throwable {
+                        GetMediaRequest argument = invocation.getArgument(0);
+                        return GetMediaResponse.newBuilder()
+                                .setMedia(Media.newBuilder()
+                                        .setId(argument.getId())
+                                        .setMimeType("imabc")
+                                        .build())
+                                .build();
+                    }
+                });
+        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<ConnectedTest>() {
+                    @Override
+                    public ConnectedTest answer(InvocationOnMock invocation) throws Throwable {
+                        TestIdRequest argument = invocation.getArgument(0);
+                        return ConnectedTest.newBuilder().getDefaultInstanceForType();
+                    }
+                });
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        Assertions.assertThrows(OpenCDXDataLoss.class, () -> this.classificationService.classify(request));
     }
 
     @Test

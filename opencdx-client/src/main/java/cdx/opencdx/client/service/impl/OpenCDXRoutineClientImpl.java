@@ -46,6 +46,7 @@ public class OpenCDXRoutineClientImpl implements OpenCDXRoutineClient {
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor client interceptor.
      * @throws SSLException creating Client
      */
     @Generated
