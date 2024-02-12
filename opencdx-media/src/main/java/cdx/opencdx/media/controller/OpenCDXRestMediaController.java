@@ -137,6 +137,7 @@ public class OpenCDXRestMediaController {
      */
     @GetMapping(value = "/download/{fileId}.{ext}")
     public ResponseEntity<Resource> download(@PathVariable String fileId, @PathVariable String ext) {
+        log.info("Downloading file: {}", fileId + "." + ext);
         return this.openCDXFileStorageService.readFile(fileId, ext);
     }
 }

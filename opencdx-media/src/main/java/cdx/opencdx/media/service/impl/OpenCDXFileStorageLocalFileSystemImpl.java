@@ -119,6 +119,7 @@ public class OpenCDXFileStorageLocalFileSystemImpl implements OpenCDXFileStorage
 
     public ResponseEntity<Resource> readFile(String fileId, String extension) {
 
+        log.info("Reading file: {}", fileId + "." + extension);
         OpenCDXMediaModel media = this.openCDXMediaRepository
                 .findById(new ObjectId(fileId))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 4, "Failed to find media: " + fileId));

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
-
 /**
  * The OpenCDXClassificationMessageHandler class is responsible for handling classification messages
  * received from the OpenCDXMessageService. It implements the OpenCDXMessageHandler interface.

@@ -30,20 +30,27 @@ public interface OpenCDXMediaUpDownClient {
 
     /**
      * Method to upload files to Media
+     * @param authorizationToken Token for authorization
      * @param file path to file to upload
      * @param fileId ID for upload file.
      * @return FileUploadResponse
      */
     @PostMapping(value = "/upload/{fileId}", consumes = "application/json")
     ResponseEntity<FileUploadResponse> uploadFile(
-            @RequestParam(name = "file", required = false) MultipartFile file, @PathVariable String fileId);
+            @RequestHeader("Authorization") String authorizationToken,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            @PathVariable String fileId);
 
     /**
      * Method to download files from Media
+     * @param authorizationToken Token for authorization
      * @param fileId ID of file to download
      * @param ext Extension of file
      * @return downloaded Resource
      */
     @GetMapping(value = "/download/{fileId}.{ext}")
-    ResponseEntity<Resource> download(@PathVariable String fileId, @PathVariable String ext);
+    ResponseEntity<Resource> download(
+            @RequestHeader("Authorization") String authorizationToken,
+            @PathVariable String fileId,
+            @PathVariable String ext);
 }
