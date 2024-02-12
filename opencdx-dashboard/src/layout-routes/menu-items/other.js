@@ -3,10 +3,8 @@ import { FormattedMessage } from 'react-intl';
 
 // assets
 
-import { SupervisedUserCircle, VerifiedUser, Login, LoginSharp } from '@mui/icons-material';
-
+import { Login, PersonAdd, AccountCircle, PersonSearch, ManageAccounts } from '@mui/icons-material';
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
-
 const other = {
     id: 'other',
     title: <FormattedMessage id="profile" />,
@@ -24,21 +22,21 @@ const other = {
             id: 'register',
             title: <FormattedMessage id="register" />,
             type: 'item',
-            icon: LoginSharp,
+            icon: PersonAdd,
             target: true,
             url: '/register'
         },
         {
             id: 'profile',
             title: <FormattedMessage id="profile" />,
-            icon: SupervisedUserCircle,
+            icon: AccountCircle,
             type: 'collapse',
             children: [
                 {
                     id: 'view',
                     title: <FormattedMessage id="view-profile" />,
                     type: 'item',
-                    icon: VerifiedUser,
+                    icon: PersonSearch,
                     url: '/user/view-profile'
                 },
 
@@ -46,7 +44,7 @@ const other = {
                     id: 'edit',
                     title: <FormattedMessage id="edit-profile" />,
                     type: 'item',
-                    icon: VerifiedUser,
+                    icon: ManageAccounts,
                     url: '/user/edit-profile'
                 }
             ]

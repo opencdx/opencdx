@@ -1,22 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
-import Constants from 'expo-constants';
-import FormRender from '../components/FormRender';
-import { Center, ScrollView } from '@gluestack-ui/themed';
 
-const HomeScreen = ({route}) => {
-    const { questionnaire } = route.params;
+
+const SuccessScreen = ({}) => {
     return (
         <View style={styles.container}>
-            { Platform.OS === "web" ? (
-                <Center>
-                    <FormRender questionnaire={questionnaire}/>
-                </Center>
-            ) : (
-                <ScrollView h="$80" w="$100">
-                    <FormRender questionnaire={questionnaire}/>
-                </ScrollView>
-            )}
+            Questionnaire Data Saved
         </View>
     );
 };
@@ -25,17 +14,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingTop: Constants.statusBarHeight,
         padding: 8,
-        ...Platform.select({
+        shadowColor: "#000",
+        margin: 'auto',
+        ...(Platform.select({
             web: {
-
+                minWidth: 500,
             },
             default: {
-                maxWidth: 500,
-            }
-        })
+                margin:20,
+                shadowColor: "#000",   
+            },
+        })),
     },
 });
 
-export default HomeScreen;
+export default SuccessScreen;

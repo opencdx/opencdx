@@ -1,8 +1,8 @@
 export default function componentStyleOverrides(theme, borderRadius, outlinedFilled) {
     const mode = theme.palette.mode;
     const bgColor = mode === 'dark' ? theme.palette.dark[800] : theme.palette.grey[50];
-    const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main + 15 : theme.palette.secondary.light;
-    const menuSelected = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark;
+    const menuSelectedBack = mode === 'dark' ? theme.palette.primary.main + 15 : theme.palette.primary.light;
+    const menuSelected = mode === 'dark' ? theme.palette.primary.main : theme.palette.primary.dark;
 
     return {
         MuiButton: {
@@ -168,11 +168,11 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
             styleOverrides: {
                 root: {
                     '& .MuiAutocomplete-tag': {
-                        background: mode === 'dark' ? theme.palette.text.primary + 20 : theme.palette.secondary.light,
+                        background: mode === 'dark' ? theme.palette.text.primary + 20 : theme.palette.primary.light,
                         borderRadius: 4,
                         color: theme.palette.text.dark,
                         '.MuiChip-deleteIcon': {
-                            color: mode === 'dark' ? theme.palette.text.primary + 80 : theme.palette.secondary[200]
+                            color: mode === 'dark' ? theme.palette.text.primary + 80 : theme.palette.primary[200]
                         }
                     }
                 },

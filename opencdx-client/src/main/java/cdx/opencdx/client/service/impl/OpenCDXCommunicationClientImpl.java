@@ -47,7 +47,7 @@ public class OpenCDXCommunicationClientImpl implements OpenCDXCommunicationClien
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
-     * @param observationGrpcClientInterceptor client interceptor.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws IOException creating Client
      */
     @Generated

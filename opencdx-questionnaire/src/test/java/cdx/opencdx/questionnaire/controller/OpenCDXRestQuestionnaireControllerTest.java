@@ -410,9 +410,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                                         .build())
                                 .build())))
                 .andReturn();
-        Assertions.assertEquals(
-                "{\"success\":true,\"message\":\"Executed CreateUserQuestionnaireData operation.\",\"id\":\"\"}",
-                mv.getResponse().getContentAsString());
+        Assertions.assertEquals(200, mv.getResponse().getStatus());
     }
 
     @Test

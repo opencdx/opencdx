@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.service.impl;
 
+import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.annotations.RetryAnnotation;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -82,10 +83,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
             JetStreamManagement jetStreamManagement = this.natsConnection.jetStreamManagement();
             StreamConfiguration configuration = StreamConfiguration.builder()
                     .name(OPENCDX)
-                    .subjects(
-                            OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT,
-                            OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT,
-                            OpenCDXMessageService.CDC_MESSAGE_SUBJECT)
+                    .subjects(OpenCDXMessageService.SUBJECTS)
                     .maxAge(Duration.ofDays(7))
                     .maxConsumers(10)
                     .storageType(StorageType.File)
@@ -142,6 +140,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     @Override
     @RetryAnnotation
+    @ExcludeFromJacocoGeneratedReport
     public void send(String subject, Object object) {
 
         Span span = this.tracer
@@ -163,7 +162,9 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             context.traceId(),
                             context.parentId(),
                             this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)));
+            log.info("Sending Message: {}", subject);
             natsConnection.jetStream().publishAsync(subject, json.getBytes());
+            log.info("Message Sent: {}", subject);
         } catch (IOException e) {
             span.error(e);
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -216,6 +217,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
         @SuppressWarnings("java:S1141")
         public void onMessage(Message msg) {
             this.openCDXCurrentUser.configureAuthentication("SYSTEM");
+            log.info("Received Message: {}", msg.getSubject());
 
             try {
                 String json = new String(msg.getData());
@@ -244,9 +246,11 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                 try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
                     processMessage(natsMessage);
                 } catch (Throwable e) {
+                    log.error("Failed to process message", e);
                     span.error(e);
                     throw e;
                 } finally {
+                    log.info("Message Processed");
                     span.end();
                 }
 
@@ -262,11 +266,14 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
             span.name(this.getClass().getCanonicalName());
             span.start();
             try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
+                log.info("Received Message: \n{}", natsMessage.json);
                 handler.receivedMessage(natsMessage.json().getBytes());
             } catch (Throwable e) {
+                log.error("Failed to process message", e);
                 span.error(e);
                 throw e;
             } finally {
+                log.info("Message Processed");
                 span.end();
             }
         }

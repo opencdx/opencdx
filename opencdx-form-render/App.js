@@ -5,6 +5,7 @@ import { StyleSheet} from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ListScreen from './screens/ListScreen';
+import SuccessScreen from './screens/SuccessScreen';
 
 import { GluestackUIProvider} from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
@@ -18,19 +19,36 @@ const App = () => {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={LoginScreen} 
             options={{
-              headerShown: false,
+              headerShown: false,  
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
             }}
           />
           <Stack.Screen name="List" component={ListScreen} 
             options={{
               headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
             }}
           />
           <Stack.Screen name="Home" component={HomeScreen}
             options={{
               headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
             }}
            />
+           <Stack.Screen name="Success" component={SuccessScreen}
+            options={{
+              headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
+            }}
+            />
         </Stack.Navigator>
       </NavigationContainer>
     </GluestackUIProvider>
@@ -40,6 +58,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });
 

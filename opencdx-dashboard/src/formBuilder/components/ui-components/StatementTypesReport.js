@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Checkbox } from '@mui/material';
 import { MainCard } from './MainCard';
 
-import { Table, TableBody, TableCell, TableRow, FormControlLabel } from '@mui/material';
+import { Table, TableBody, TableCell, TableRow, FormControlLabel, TableContainer } from '@mui/material';
 
 import { capitalizeANFTitle } from '../../utils/StringManulpations';
 
@@ -29,12 +29,12 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
             });
 
             return (
-                <div>
-                    <Table>
+                <TableContainer>
+                    <Table style={{ width: '100%', border: '1px solid #e0e0e0', borderCollapse: 'collapse' }}>
                         <TableBody>
                             {Object.entries(groupedItems).map(([type, items], index) => (
                                 <React.Fragment key={index}>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell>
                                             List of components [<b>{capitalizeANFTitle(type.replace(/_/g, ' '))}</b>]
                                         </TableCell>
@@ -50,7 +50,7 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
                             ))}
                         </TableBody>
                     </Table>
-                </div>
+                </TableContainer>
             );
         }
         return null;
@@ -64,6 +64,7 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
                         <FormControlLabel
                             control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" />}
                             label={'Show Report'}
+                            sx={{ color: 'primary.main', fontWeight: 600 }}
                         />
                     </Grid>
                 </Grid>

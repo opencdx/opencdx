@@ -41,29 +41,30 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     </Grid>
                     <Grid item xs={12} sm={9} lg={6}>
                         {componentType ? (
-                             <TextField
-                             {...register(`test.${index}.item.${currentIndex}.choice`)}
-                             fullWidth
-                             placeholder="Enter Type Information"
-                             value={JSON.stringify(systemVariables['status'])}
-
-                         />) : (
-                        <FormControl fullWidth>
-                            <Controller
-                                name={`test.${index}.item.${currentIndex}.status`}
-                                control={control}
-                                render={({ field }) => (
-                                    <Select {...field} id={`test.${index}.item.${currentIndex}.status`}>
-                                        <MenuItem value={10}>On Hold</MenuItem>
-                                        <MenuItem value={20}>Completed</MenuItem>
-                                        <MenuItem value={30}>Needed</MenuItem>
-                                        <MenuItem value={40}>Rejected</MenuItem>
-                                    </Select>
-                                )}
+                            <TextField
+                                {...register(`test.${index}.item.${currentIndex}.choice`)}
+                                fullWidth
+                                placeholder="Enter Type Information"
+                                defaultValue={JSON.stringify(systemVariables['status'])}
                             />
-                        </FormControl>)}
+                        ) : (
+                            <FormControl fullWidth>
+                                <Controller
+                                    name={`test.${index}.item.${currentIndex}.status`}
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select {...field} id={`test.${index}.item.${currentIndex}.status`}>
+                                            <MenuItem value={10}>On Hold</MenuItem>
+                                            <MenuItem value={20}>Completed</MenuItem>
+                                            <MenuItem value={30}>Needed</MenuItem>
+                                            <MenuItem value={40}>Rejected</MenuItem>
+                                        </Select>
+                                    )}
+                                />
+                            </FormControl>
+                        )}
                     </Grid>
-                   
+
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Result</InputLabel>
                     </Grid>
@@ -78,7 +79,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                                     {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
                                     fullWidth
                                     placeholder="Enter Health Risk Information"
-                                    value={systemVariables['circumstanceChoice'][0].healthRisk.replace('XXXXX', '')}
+                                    defaultValue={systemVariables['circumstanceChoice'][0].healthRisk.replace('XXXXX', '')}
                                 />
                             ) : (
                                 <TextField

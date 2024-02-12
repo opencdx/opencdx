@@ -46,7 +46,7 @@ public class OpenCDXIAMWorkspaceClientImpl implements OpenCDXIAMWorkspaceClient 
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
-     * @param observationGrpcClientInterceptor client interceptor.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws SSLException creating Client
      */
     @Generated

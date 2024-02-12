@@ -96,8 +96,6 @@ const Profile2 = () => {
         fetchEmailList();
     }, []);
 
-    console.log(user);
-
     const { borderRadius } = useConfig();
     const [value, setValue] = React.useState(0);
 
