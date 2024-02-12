@@ -57,7 +57,7 @@ class TinkarQueryTest {
                 .setMaxResults(10)
                 .build();
         Assertions.assertEquals(
-                "{\"query\":\"chronic disease\",\"maxresults\":10}", this.mapper.writeValueAsString(tinkarRequest));
+                "{\"query\":\"chronic disease\",\"maxResults\":10}", this.mapper.writeValueAsString(tinkarRequest));
     }
 
     @Test

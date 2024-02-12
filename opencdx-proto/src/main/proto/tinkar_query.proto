@@ -8,13 +8,18 @@ package cdx.opencdx.grpc.tinkar;
 import "google/protobuf/wrappers.proto";
 
 /*
- * Tinkar Service: Provides a gRPC endpoint for the `sayTinkar` RPC method.
+ * Tinkar Service: Provides a gRPC endpoints for the querying the Tinkar DB
  */
 service Tinkar {
   /*
-   * `sayTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
    */
   rpc searchTinkar(TinkarQueryRequest) returns (TinkarQueryResponse) {}
+  /*
+   * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   */
+  rpc getTinkarEntity(TinkarQueryRequest) returns (TinkarQueryResult) {}
+
 }
 /*
  * TinkarQueryRequest Message: Represents the user's request to search the tinkar db.
@@ -27,7 +32,7 @@ message TinkarQueryRequest {
   /*
    * The maximum number of results to be returned.
    */
-  int32 maxResults = 2;
+  int32 max_results = 2;
 }
 /*
  * TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.
