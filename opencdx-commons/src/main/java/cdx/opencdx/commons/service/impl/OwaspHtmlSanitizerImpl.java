@@ -17,6 +17,7 @@ package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.service.OpenCDXHtmlSanitizer;
 import io.micrometer.observation.annotation.Observed;
+import lombok.extern.slf4j.Slf4j;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 /**
  * OwaspHtmlSanitizerImpl class serves to encapsulate OWASP HTML sanitizer methods.
  */
+@Slf4j
 @Component
 @Observed(name = "opencdx")
 public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
@@ -35,6 +37,7 @@ public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
      * Constructs an instance of OWASP HTML Sanitizer.
      */
     public OwaspHtmlSanitizerImpl() {
+        log.info("Creating OWASP HTML Sanitizer");
         this.defaultPolicy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
     }
 
@@ -45,6 +48,7 @@ public class OwaspHtmlSanitizerImpl implements OpenCDXHtmlSanitizer {
      */
     @Override
     public String sanitize(String untrustedHtml) {
+        log.info("Sanitizing HTML");
         return defaultPolicy.sanitize(untrustedHtml);
     }
 }

@@ -21,12 +21,15 @@ import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.iam.IamUserType;
 import io.micrometer.observation.annotation.Observed;
 import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * The OpenCDXNationalHealthIdentifierImpl class implements the OpenCDXNationalHealthIdentifier interface
  * to generate the ID from a user's email.
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealthIdentifier {
@@ -35,8 +38,7 @@ public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealt
      * The default constructor is declared explicitly to prevent inadvertent instantiation of this class.
      */
     public OpenCDXNationalHealthIdentifierImpl() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-
+        log.info("OpenCDXNationalHealthIdentifierImpl instantiated");
     }
 
     /**
@@ -50,6 +52,7 @@ public class OpenCDXNationalHealthIdentifierImpl implements OpenCDXNationalHealt
     @Override
     public String generateNationalHealthId(OpenCDXIAMUserModel userModel) {
         if (userModel.getType().equals(IamUserType.IAM_USER_TYPE_REGULAR)) {
+            log.info("OpenCDXNationalHealthIdentifierImpl: Generating National Health ID");
             return UUID.nameUUIDFromBytes(userModel.getUsername().getBytes()).toString();
         }
 

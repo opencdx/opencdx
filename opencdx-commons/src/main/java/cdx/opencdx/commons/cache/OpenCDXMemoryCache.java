@@ -138,6 +138,7 @@ public class OpenCDXMemoryCache extends AbstractValueAdaptingCache {
             int maxEntries) {
 
         super(allowNullValues);
+        log.info("Creating cache: {}", name);
         Assert.notNull(name, "Name must not be null");
         Assert.notNull(store, "Store must not be null");
         this.name = name;

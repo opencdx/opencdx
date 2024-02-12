@@ -63,12 +63,14 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     public OpenCDXCurrentUserImpl(
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
             @Value("${spring.application.name}") String applicationName) {
+        log.info("OpenCDXCurrentUserImpl created");
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.applicationName = applicationName;
     }
 
     @Override
     public OpenCDXIAMUserModel getCurrentUser() {
+        log.info("Getting current user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null && this.allowBypassAuthentication) {
             log.warn(BYPASSING_AUTHENTICATION);
@@ -88,6 +90,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     }
 
     public OpenCDXIAMUserModel checkCurrentUser(OpenCDXIAMUserModel defaultUser) {
+        log.info("Checking current user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null
                 && !(authentication instanceof AnonymousAuthenticationToken)
@@ -100,6 +103,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     @Override
     public OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser) {
+        log.info("Getting current user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
@@ -112,13 +116,14 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     @Override
     public void configureAuthentication(String role) {
+        log.info("Configuring Authentication");
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 this.applicationName, role, List.of(new SimpleGrantedAuthority(role)));
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Override
-    public void allowBypassAuthentication(boolean allowBypassAuthentication) {
+    public void allowBypassAuthentication(boolean allowBypassAuthentication) {;
         if (allowBypassAuthentication) {
             log.warn(BYPASSING_AUTHENTICATION);
         } else {
@@ -129,6 +134,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     @Override
     public String getCurrentUserAccessToken() {
+        log.info("Getting current user access token");
         return new JwtTokenUtil().generateAccessToken(getCurrentUser());
     }
 }

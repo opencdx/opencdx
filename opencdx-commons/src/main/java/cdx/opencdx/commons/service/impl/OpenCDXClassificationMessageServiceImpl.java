@@ -104,6 +104,7 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     }
 
     private UserAnswer.Builder getUserPreparedAnswer(ObjectId userId) {
+        log.info("Validating User");
         OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
                 .findById(userId)
                 .orElseThrow(() -> new OpenCDXNotFound(

@@ -106,6 +106,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      */
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
+        log.info("Processing ClassificationRequest");
 
         OpenCDXClassificationModel model = validateAndLoad(request);
 
@@ -135,32 +136,39 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     }
 
     private OpenCDXClassificationModel validateAndLoad(ClassificationRequest request) {
+        log.info("Validating ClassificationRequest");
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
         model.setUserAnswer(request.getUserAnswer());
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
+        log.info("Validating User");
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "users", new ObjectId(request.getUserAnswer().getUserId()));
 
         if (request.getUserAnswer().hasMediaId()) {
+            log.info("Validating Media");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "media", new ObjectId(request.getUserAnswer().getMediaId()));
 
             retrieveMedia(request, openCDXCallCredentials, model);
         }
-        log.info("Validated ClassificationRequest");
 
         if (request.getUserAnswer().hasConnectedTestId()) {
+            log.info("Validating ConnectedTest");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
 
             retrieveConnectedTest(request, openCDXCallCredentials, model);
-        } else if (request.getUserAnswer().hasUserQuestionnaireId()) {
+        }
+
+        if (request.getUserAnswer().hasUserQuestionnaireId()) {
+            log.info("Validating UserQuestionnaire");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
             retrieveQuestionnaire(request, openCDXCallCredentials, model);
         }
+        log.info("Validated ClassificationRequest");
         return model;
     }
 

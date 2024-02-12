@@ -48,6 +48,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
     @Override
     public void createANFStatement(
             AnfStatement.ANFStatement request, StreamObserver<AnfStatement.Identifier> responseObserver) {
+        log.info("Received request to create ANF Statement");
         responseObserver.onNext(this.openCDXANFService.createANFStatement(request));
         responseObserver.onCompleted();
     }
@@ -56,6 +57,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
     @Override
     public void getANFStatement(
             AnfStatement.Identifier request, StreamObserver<AnfStatement.ANFStatement> responseObserver) {
+        log.info("Received request to get ANF Statement");
         responseObserver.onNext(this.openCDXANFService.getANFStatement(request));
         responseObserver.onCompleted();
     }
@@ -64,6 +66,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
     @Override
     public void updateANFStatement(
             AnfStatement.ANFStatement request, StreamObserver<AnfStatement.Identifier> responseObserver) {
+        log.info("Received request to update ANF Statement");
         responseObserver.onNext(this.openCDXANFService.updateANFStatement(request));
         responseObserver.onCompleted();
     }
@@ -72,6 +75,7 @@ public class OpenCDXGrpcANFController extends ANFServiceGrpc.ANFServiceImplBase 
     @Override
     public void deleteANFStatement(
             AnfStatement.Identifier request, StreamObserver<AnfStatement.Identifier> responseObserver) {
+        log.info("Received request to delete ANF Statement");
         responseObserver.onNext(this.openCDXANFService.deleteANFStatement(request));
         responseObserver.onCompleted();
     }
