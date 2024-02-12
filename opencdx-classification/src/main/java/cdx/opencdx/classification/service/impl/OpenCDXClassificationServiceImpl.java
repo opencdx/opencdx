@@ -106,6 +106,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      */
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
+        log.info("Processing ClassificationRequest");
 
         OpenCDXClassificationModel model = validateAndLoad(request);
 
@@ -131,6 +132,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
+        log.info("Processed ClassificationRequest");
         return model.getClassificationResponse();
     }
 

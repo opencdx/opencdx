@@ -80,12 +80,21 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         builder.setCost(new Random().nextFloat(1000.00f));
         builder.setUserId(model.getUserAnswer().getUserId());
 
-        KnowledgeService knowledgeService = new KnowledgeService();
-        try {
-            Knowledge knowledge = knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRuleSet.class);
-            knowledge.newStatelessSession().insertAndFire(getSystolicResponse(model), builder);
-        } catch (IOException e) {
-            throw new OpenCDXInternalServerError(OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
+        if (model.getConnectedTest() != null) {
+            builder.setFurtherActions(
+                    new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
+        }
+
+        if (model.getUserQuestionnaireData() != null) {
+
+            KnowledgeService knowledgeService = new KnowledgeService();
+            try {
+                Knowledge knowledge = knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRuleSet.class);
+                knowledge.newStatelessSession().insertAndFire(getSystolicResponse(model), builder);
+            } catch (IOException e) {
+                throw new OpenCDXInternalServerError(
+                        OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
+            }
         }
 
         model.setClassificationResponse(builder.build());
@@ -93,7 +102,6 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     private Resource retrieveFile(OpenCDXClassificationModel model) {
         if (model.getMedia() != null) {
-
             try {
                 MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
                 MimeType type = allTypes.forName(model.getMedia().getMimeType());
