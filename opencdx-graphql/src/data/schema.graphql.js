@@ -46,6 +46,10 @@ export const typeDefs = gql`
     deviceStatus: String
     associatedSoftwareVersion: String
   }
+  
+  type Audit {
+    purposeOfUse: String
+  }
 
   type Query {
     getManufacturers: [Manufacturer]
@@ -56,5 +60,7 @@ export const typeDefs = gql`
 
     getPatients: [Patient]
     findAPatient(id: String): Patient
+
+    getAudit: [Audit]
   }
 `;
