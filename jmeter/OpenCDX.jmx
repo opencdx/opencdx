@@ -5842,9 +5842,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       } ]
     } ],
     &quot;gender&quot; : &quot;GENDER_MALE&quot;,
-    &quot;dateOfBirth&quot; : {
-      &quot;date&quot; : &quot;1900/01/01&quot;
-    },
+    &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,
     &quot;placeOfBirth&quot; : {
       &quot;country&quot; : &quot;${countryId}&quot;,
       &quot;state&quot; : &quot;CA&quot;,
@@ -6057,9 +6055,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       } ]&#xd;
     } ],&#xd;
     &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
-    &quot;dateOfBirth&quot; : {&#xd;
-      &quot;date&quot; : &quot;1900/01/01&quot;&#xd;
-    },&#xd;
+    &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
     &quot;placeOfBirth&quot; : {&#xd;
       &quot;country&quot; : &quot;${countryId}&quot;,&#xd;
       &quot;state&quot; : &quot;CA&quot;,&#xd;

@@ -30,7 +30,7 @@ export const SubCard = React.forwardRef(
                     <CardHeader sx={{ p: 2 }} title={<Typography variant="subtitle2">{title}</Typography>} action={secondary} />
                 )}
                 {darkTitle && title && (
-                    <CardHeader sx={{ p: 2.5 }} title={<Typography variant="h4">{title}</Typography>} action={secondary} />
+                    <CardHeader sx={{ p: 2.5 }} title={<Typography variant="h5">{title}</Typography>} action={secondary} />
                 )}
 
                 {/* content & header divider */}

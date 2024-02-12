@@ -21,6 +21,7 @@ import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
@@ -37,6 +38,7 @@ import org.evrete.dsl.annotation.Fact;
 import org.evrete.dsl.annotation.Rule;
 import org.evrete.dsl.annotation.Where;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,12 +51,17 @@ import org.springframework.stereotype.Service;
 public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProcessorService {
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
 
+    private final OpenCDXCurrentUser openCDXCurrentUser;
+
     /**
      * Constructor for OpenCDXClassifyProcessorServiceImpl
      * @param openCDXMediaUpDownClient service for media upload and download client
+     * @param openCDXCurrentUser service for current user
      */
-    public OpenCDXClassifyProcessorServiceImpl(OpenCDXMediaUpDownClient openCDXMediaUpDownClient) {
+    public OpenCDXClassifyProcessorServiceImpl(
+            OpenCDXMediaUpDownClient openCDXMediaUpDownClient, OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     @Override
@@ -90,14 +97,16 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
             try {
                 MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
                 MimeType type = allTypes.forName(model.getMedia().getMimeType());
-                String primaryExtension = type.getExtension();
+                String primaryExtension = type.getExtension().replace(".", "");
                 log.info(
                         "Downloading media for classification: {} as {}",
                         model.getMedia().getId(),
                         primaryExtension);
-                //                ResponseEntity<Resource> downloaded =
-                //                        this.openCDXMediaUpDownClient.download(model.getMedia().getId(), "tmp");
-                //                return downloaded.getBody();
+                ResponseEntity<Resource> downloaded = this.openCDXMediaUpDownClient.download(
+                        "Bearer " + this.openCDXCurrentUser.getCurrentUserAccessToken(),
+                        model.getMedia().getId(),
+                        primaryExtension);
+                return downloaded.getBody();
             } catch (OpenCDXInternal e) {
                 log.error(
                         "Failed to download media for classification: {}",

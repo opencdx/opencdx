@@ -3,13 +3,12 @@ import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
 import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-    Button, Heading, Input, ButtonText, InputField, Image, Link, LinkText, Text,
+    Button, Input, ButtonText, InputField, Image, Link, LinkText, Text,
     InputSlot,
     InputIcon,
     EyeIcon,
     EyeOffIcon,
     Switch,
-
 } from '@gluestack-ui/themed';
 
 const LoginScreen = ({ navigation }) => {
@@ -21,22 +20,19 @@ const LoginScreen = ({ navigation }) => {
             return !showState
         })
     }
-
     const handleLogin = async () => {
         try {
             const response = await axios.post('/iam/user/login', { userName: username, password: password });
             await AsyncStorage.setItem('jwtToken', response.data.token);
             navigation.navigate('List');
         } catch (error) {
-            alert('Invalid credentials');
+            alert(error);
         }
     };
     const [rememberMe, setRememberMe] = useState(false);
     const toggleRememberMe = (value) => {
         setRememberMe(value);
     };
-
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.body}>
@@ -45,22 +41,21 @@ const LoginScreen = ({ navigation }) => {
                     resizeMode="contain"
                     alt="OpenCDX logo"
                     style={styles.image}
-                    source={require('../assets/Open.png')}
+                    source={require('../assets/opencdx.png')}
                 />
                 <Input
                     onChangeText={setUsername}
                     style={styles.input}
-                    variant="underlined"
+                    variant="outlined"
                     size="md"
                 >
-                    <InputField placeholder="Username" defaultValue={username} />
+                    <InputField placeholder="Email  " defaultValue={username} />
                 </Input>
                 <Input
                     onChangeText={setPassword}
                     style={styles.input}
-                    variant="underlined"
+                    variant="outlined"
                     size="md"
-
                 >
                     <InputField type={showPassword ? "text" : "password"} placeholder="Password" defaultValue={password} />
                     <InputSlot pr="$3" onPress={handleState}>
@@ -70,17 +65,18 @@ const LoginScreen = ({ navigation }) => {
                         />
                     </InputSlot>
                 </Input>
-                <View style={styles.switch}>
+                <View style={styles.switchWrapper}>
+                    <View style={styles.switch}>
                     <Switch
                         value={rememberMe}
                         onValueChange={(value) => toggleRememberMe(value)}
 
                     /><Text style={{ marginLeft: 10 }}
-                    >Remember Me</Text>
+                    >Remember Me</Text></View>
+                     
+                    <Text style={styles.forget}>
+                    Forget Password </Text>
                 </View>
-                <Link href="" style={styles.forget}>
-                    <LinkText>Forget Password?</LinkText>
-                </Link>
             </View>
             <View style={styles.footer}>
                 <Button title="Sign In" onPress={handleLogin} style={styles.button}>
@@ -88,9 +84,9 @@ const LoginScreen = ({ navigation }) => {
                 </Button>
                 <View style={styles.center}>
                     <Text style={styles.centerText}>Don't have an account?</Text>
-                    <Link href="" style={styles.centerLink}>
-                        <LinkText>Sign Up</LinkText>
-                    </Link>
+                    <Text  style={styles.signup}>
+                       Sign Up
+                    </Text>
                 </View>
             </View>
         </SafeAreaView>
@@ -101,10 +97,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         shadowColor: "#000",
-        margin: 'auto',
+        backgroundColor: '#fff',
         ...Platform.select({
             web: {
-                minWidth: 500,
+                maxWidth: 500,
+                margin: 'auto',
                 justifyContent: 'center',
             },
             default: {
@@ -112,32 +109,35 @@ const styles = StyleSheet.create({
             }
         })
     },
-    switch: {
+    switchWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10,
+        justifyContent: 'space-between',
+    },
+    switch: {
+        flexDirection: 'row',
     },
     center: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop:24,
     },
     centerText: {
         marginRight: 5,
     },
     input: {
-        marginBottom: 10,
+        marginBottom: 24,
     },
     button: {
         marginBottom: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 20,
-        padding: 8,
-        backgroundColor: '#007bff',
+        borderRadius: 68,
+        backgroundColor: '#0066FF',
         ...Platform.select({
             web: {
-                width: 500,
+                width: '90%',
             },
             default: {
                 width: '90%',
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     image: {
-        marginBottom: 5,
+        marginBottom: 48,
         justifyContent: 'center',
         width: 500,
     },
@@ -159,24 +159,25 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         flexDirection: "row",
         justifyContent: "flex-end",
+        color: '#0066FF',
+        fontWeight: 500,
     },
     signup: {
-        marginBottom: 10,
         textAlign: 'right',
         flexDirection: "row",
         justifyContent: "center",
+        color: '#0066FF',
+        fontWeight: 500,
     },
     body: {
-        padding: 8,
         ...Platform.select({
             web: {
-
+                padding: 24,
             },
             default: {
                 flex: 1,
                 justifyContent: 'center',
-                margin:20,
-                shadowColor: "#000",   
+                padding: 24,
             }
         })
     },
@@ -184,11 +185,10 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 8,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 4,
-        padding: 8,
+        paddingTop: 24,
     },
 });
 

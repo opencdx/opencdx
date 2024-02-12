@@ -24,7 +24,6 @@ import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -161,8 +160,6 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
             retrieveQuestionnaire(request, openCDXCallCredentials, model);
-        } else {
-            throw new OpenCDXNotFound(this.getClass().getName(), 2, "No Connected Test & No User Questionnaire ");
         }
         return model;
     }

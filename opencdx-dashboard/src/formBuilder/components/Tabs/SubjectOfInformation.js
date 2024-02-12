@@ -24,7 +24,7 @@ const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, 
                                     <TextField
                                         {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
                                         fullWidth
-                                        value={systemVariables['subject_of_information'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
+                                        defaultValue={systemVariables['subject_of_information'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
                                         placeholder="Enter Subject Of Information"
                                     />
                                 ) : (

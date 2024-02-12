@@ -2,15 +2,68 @@ import React, { useState, useEffect } from 'react';
 import { TextInput } from './TextInput'
 import { RadioInput } from './RadioInput'
 import { SelectInputComp } from './SelectInputComp'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Platform, SafeAreaView } from 'react-native';
 import { Button, ButtonText, FormControlLabel, FormControlLabelText, Heading } from '@gluestack-ui/themed';
 import { useForm, FormProvider } from 'react-hook-form';
-import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from '../utils/axios';
 
-export default function App({ questionnaire }) {
+
+export default function App({ questionnaire, navigation}) {
     const { ...methods } = useForm({ mode: 'onChange' });
 
-    const onSubmit = (data) => console.log({ data });
+    const onSubmit = (data) => {
+        questionnaire.item.forEach((field, index) => {
+            switch (field.type) {
+                case 'integer':
+                    field.answerInteger = data[field.linkId];
+                    break;
+                case 'string':
+                    field.answerString = data[field.linkId];
+                    break;
+                case 'text':
+                    field.answerText = data[field.linkId];
+                    break;
+                case 'boolean':
+                    field.answerBoolean = data[field.linkId] === 'yes';
+                    break;
+                case 'choice':
+                    field.answerString = data[field.linkId];
+                    break;
+                default:
+                    break;
+            }
+        });
+        const userQuestionnaireData = {
+            "userQuestionnaireData": {
+                "userId": "65c103b2c444da00ae4332e5",
+                "questionnaireData": [
+                    questionnaire
+
+                ]
+            }
+        };
+        const handleSave = async () => {
+            console.log(userQuestionnaireData)
+            const data=JSON.stringify(userQuestionnaireData);
+            try {
+                const jwtToken = await AsyncStorage.getItem('jwtToken');
+
+                const response = await axios.post('/questionnaire/user/questionnaire', data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                });
+                navigation.navigate('Success');
+            } catch (error) {
+                console.log(error);
+                alert( error);
+            }
+        };
+        handleSave();
+    };
+
 
     const [formError, setError] = useState(false)
 
@@ -23,70 +76,85 @@ export default function App({ questionnaire }) {
             ) : (
                 <>
                     <FormProvider {...methods}>
-                        <Heading>{questionnaire?.title}</Heading>
+                        <Text style={styles.heading} >{questionnaire?.title}</Text>
                         {questionnaire?.item?.map((field, index) => {
                             let inputComponent;
 
                             switch (field.type) {
                                 case "integer":
                                     inputComponent = (
-                                        <TextInput
-                                            key={index}
-                                            name={field.linkId}
-                                            label={field.text}
-                                            rules={{ required: 'This field is required!' }}
-                                            setFormError={setError}
-                                            type="number"
-                                        />
+                                        <>
+                                            <TextInput
+                                                key={index}
+                                                name={field.linkId}
+                                                label={field.text}
+                                                rules={{ required: 'This field is required!' }}
+                                                setFormError={setError}
+                                                type="number"
+                                            />
+                                            <View style={styles.divider} />
+                                        </>
                                     );
                                     break;
                                 case "string":
                                     inputComponent = (
-                                        <TextInput
-                                            key={index}
-                                            name={field.linkId}
-                                            label={field.text}
-                                            rules={{ required: 'This field is required!' }}
-                                            setFormError={setError}
-                                            type="text"
-                                        />
+                                        <>
+                                            <TextInput
+                                                key={index}
+                                                name={field.linkId}
+                                                label={field.text}
+                                                rules={{ required: 'This field is required!' }}
+                                                setFormError={setError}
+                                                type="text"
+                                            />
+                                            <View style={styles.divider} />
+                                        </>
                                     );
                                     break;
                                 case "text":
                                     inputComponent = (
-                                        <TextInput
-                                            key={index}
-                                            name={field.linkId}
-                                            label={field.text}
-                                            rules={{ required: 'This field is required!' }}
-                                            setFormError={setError}
-                                            type="text"
-                                        />
+                                        <>
+                                            <TextInput
+                                                key={index}
+                                                name={field.linkId}
+                                                label={field.text}
+                                                rules={{ required: 'This field is required!' }}
+                                                setFormError={setError}
+                                                type="text"
+                                            />
+                                            <View style={styles.divider} />
+                                        </>
                                     );
                                     break;
                                 case "boolean":
                                     inputComponent = (
-                                        <RadioInput
-                                            key={index}
-                                            name={field.linkId}
-                                            label={field.text}
-                                            rules={{ required: 'This field is required!' }}
-                                            setFormError={setError}
-                                            type="radio"
-                                        />
+                                        <>
+                                            <RadioInput
+                                                key={index}
+                                                name={field.linkId}
+                                                label={field.text}
+                                                rules={{ required: 'This field is required!' }}
+                                                setFormError={setError}
+                                                type="radio"
+                                            />
+                                            <View style={styles.divider} />
+                                        </>
                                     );
                                     break;
                                 case "choice":
                                     inputComponent = (
-                                        <SelectInputComp
-                                            key={index}
-                                            name={field.linkId}
-                                            label={field.text}
-                                            rules={{ required: 'This field is required!' }}
-                                            setFormError={setError}
-                                            type="select"
-                                            answerOption={field.answerOption}
-                                        />
+                                        <>
+                                            <SelectInputComp
+                                                key={index}
+                                                name={field.linkId}
+                                                label={field.text}
+                                                rules={{ required: 'This field is required!' }}
+                                                setFormError={setError}
+                                                type="select"
+                                                answerOption={field.answerOption}
+                                            />
+                                            <View style={styles.divider} />
+                                        </>
                                     );
                                     break;
                                 default:
@@ -102,13 +170,15 @@ export default function App({ questionnaire }) {
                                 </View>
                             );
                         })}
+
                     </FormProvider>
                 </>
             )}
-            <View style={styles.button}>
+            <View style={styles.footer}>
                 <Button
                     title="Submit"
                     onPress={methods.handleSubmit(onSubmit)}
+                    style={styles.button}
                 >
                     <ButtonText>Submit</ButtonText>
                 </Button>
@@ -118,18 +188,59 @@ export default function App({ questionnaire }) {
 }
 
 const styles = StyleSheet.create({
-    button: {
-        marginTop: 40,
-        color: 'white',
+    heading: {
+        fontSize: 36,
+        fontWeight: 'bold',
+        marginBottom: 24,
+    },
+    radio: {
+
+    },
+    footer: {
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
         borderRadius: 4,
+        paddingTop: 24,
+    },
+    button: {
+        marginBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 68,
+        backgroundColor: '#0066FF',
+        ...Platform.select({
+            web: {
+                width: '90%',
+            },
+            default: {
+                width: '90%',
+            }
+        })
+    },
+    divider: {
+        borderBottomColor: '#DBDBDB',
+        borderBottomWidth: 1,
+        marginTop: 16,
+        marginBottom: 16,
+
     },
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingTop: Constants.statusBarHeight,
+
+        ...Platform.select({
+            web: {
+                maxWidth: 500,
+                margin: 'auto',
+                justifyContent: 'center',
+            },
+            default: {
+                justifyContent: 'space-between',
+            }
+        })
     },
-    margin: {
-        margin: 5,
-        marginLeft: 0,
-    },
+
 });

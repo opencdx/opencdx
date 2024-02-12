@@ -49,11 +49,11 @@ const Header = () => {
                             ...theme.typography.mediumAvatar,
                             overflow: 'hidden',
                             transition: 'all .2s ease-in-out',
-                            background: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.secondary.light,
-                            color: theme.palette.mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark,
+                            background: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.primary.light,
+                            color: theme.palette.mode === 'dark' ? theme.palette.primary.main : theme.palette.primary.dark,
                             '&:hover': {
-                                background: theme.palette.mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark,
-                                color: theme.palette.mode === 'dark' ? theme.palette.secondary.light : theme.palette.secondary.light
+                                background: theme.palette.mode === 'dark' ? theme.palette.primary.main : theme.palette.primary.dark,
+                                color: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.light
                             }
                         }}
                         onClick={() => dispatch(openDrawer(!drawerOpen))}

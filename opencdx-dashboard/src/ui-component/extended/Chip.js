@@ -33,22 +33,22 @@ const Chip = ({ chipcolor, disabled, sx = {}, variant, ...others }) => {
         case 'secondary':
             if (variant === 'outlined')
                 outlineSX = {
-                    color: theme.palette.secondary.main,
+                    color: theme.palette.primary.main,
                     bgcolor: 'transparent',
                     border: '1px solid',
-                    borderColor: theme.palette.secondary.main,
+                    borderColor: theme.palette.primary.main,
                     ':hover': {
-                        color: theme.palette.mode === 'dark' ? theme.palette.secondary.light : theme.palette.secondary.main,
-                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.secondary.dark : theme.palette.secondary.light
+                        color: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.main,
+                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light
                     }
                 };
             else
                 defaultSX = {
-                    color: theme.palette.mode === 'dark' ? theme.palette.secondary.light : theme.palette.secondary.main,
-                    bgcolor: theme.palette.mode === 'dark' ? theme.palette.secondary.dark : theme.palette.secondary.light,
+                    color: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.main,
+                    bgcolor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
                     ':hover': {
-                        color: theme.palette.secondary.light,
-                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.secondary.dark + 90 : theme.palette.secondary.main
+                        color: theme.palette.primary.light,
+                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.primary.dark + 90 : theme.palette.primary.main
                     }
                 };
             break;

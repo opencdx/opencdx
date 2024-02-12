@@ -15,7 +15,11 @@
  */
 package cdx.opencdx.classification.config;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import cdx.opencdx.classification.handlers.OpenCDXClassificationMessageHandler;
+import cdx.opencdx.classification.service.OpenCDXClassificationService;
+import cdx.opencdx.commons.service.OpenCDXMessageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -23,8 +27,8 @@ import org.springframework.context.annotation.Description;
 /**
  * Applicaiton Configuration
  */
+@Slf4j
 @Configuration
-@EnableConfigurationProperties(AppProperties.class)
 public class AppConfig {
     /**
      * Default Constructor
@@ -33,14 +37,15 @@ public class AppConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-    /**
-     * Bean indicating the format of the message string
-     * @param appProperties properties that contain the message format.
-     * @return String providing the format.
-     */
     @Bean
-    @Description("Demonstration on how to document a bean.")
-    public String format(AppProperties appProperties) {
-        return appProperties.getFormat();
+    @Description(
+            "OpenCDXClassificationMessageHandler that is specific for handling Classification messages being received over messaging.")
+    OpenCDXClassificationMessageHandler openCDXClassificationMessageHandler(
+            ObjectMapper objectMapper,
+            OpenCDXClassificationService openCDXClassificationService,
+            OpenCDXMessageService openCDXMessageService) {
+        log.info("Instantiating OpenCDXClassificationMessageHandler.");
+        return new OpenCDXClassificationMessageHandler(
+                objectMapper, openCDXClassificationService, openCDXMessageService);
     }
 }

@@ -179,12 +179,12 @@ const NavCollapse = ({ menu, level, parentId }) => {
         <Icon
             strokeWidth={1.5}
             size={drawerOpen ? '20px' : '24px'}
-            style={{ color: isSelected ? theme.palette.secondary.main : theme.palette.text.primary }}
+            style={{ color: isSelected ? theme.palette.primary.main : theme.palette.text.primary }}
         />
     ) : (
         <FiberManualRecordIcon
             sx={{
-                color: isSelected ? theme.palette.secondary.main : theme.palette.text.primary,
+                color: isSelected ? theme.palette.primary.main : theme.palette.text.primary,
                 width: isSelected ? 8 : 6,
                 height: isSelected ? 8 : 6
             }}
@@ -217,14 +217,14 @@ const NavCollapse = ({ menu, level, parentId }) => {
                                 level === 1 &&
                                 theme.palette.mode !== 'dark' && {
                                     '&:hover': {
-                                        background: theme.palette.secondary.light
+                                        background: theme.palette.primary.light
                                     },
                                     '&.Mui-selected': {
-                                        background: theme.palette.secondary.light,
+                                        background: theme.palette.primary.light,
                                         color: iconSelectedColor,
                                         '&:hover': {
                                             color: iconSelectedColor,
-                                            background: theme.palette.secondary.light
+                                            background: theme.palette.primary.light
                                         }
                                     }
                                 }),
@@ -258,17 +258,14 @@ const NavCollapse = ({ menu, level, parentId }) => {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             '&:hover': {
-                                                bgcolor:
-                                                    theme.palette.mode === 'dark' ? theme.palette.secondary.main + 25 : 'secondary.light'
+                                                bgcolor: theme.palette.mode === 'dark' ? theme.palette.primary.main + 25 : 'secondary.light'
                                             },
                                             ...(isSelected && {
                                                 bgcolor:
-                                                    theme.palette.mode === 'dark' ? theme.palette.secondary.main + 25 : 'secondary.light',
+                                                    theme.palette.mode === 'dark' ? theme.palette.primary.main + 25 : 'secondary.light',
                                                 '&:hover': {
                                                     bgcolor:
-                                                        theme.palette.mode === 'dark'
-                                                            ? theme.palette.secondary.main + 30
-                                                            : 'secondary.light'
+                                                        theme.palette.mode === 'dark' ? theme.palette.primary.main + 30 : 'secondary.light'
                                                 }
                                             })
                                         })
