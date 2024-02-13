@@ -21,7 +21,6 @@ import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.iam.IamUserType;
 import io.micrometer.observation.annotation.Observed;
 import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -26,10 +26,9 @@ import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import cdx.opencdx.grpc.communication.*;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import io.micrometer.observation.annotation.Observed;
 import java.util.Collections;
 import java.util.List;
-
-import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
