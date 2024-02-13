@@ -802,7 +802,7 @@ sleep 2
 if [ "$proto" = true ]; then
     handle_info "Wiping Proto generated files"
     rm -rf ./opencdx-proto/build
-    if ./gradlew opencdx-proto:build opencdx-proto:publish; then
+    if ./gradlew opencdx-proto:build opencdx-proto:publish --parallel; then
         # Build Completed Successfully
         handle_info "Proto files generated successfully"
     else
@@ -815,7 +815,7 @@ fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     git_info
-    if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck ; then
+    if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck --parallel; then
         # Build Completed Successfully
         handle_info "Fast Build & Clean completed successfully"
     else
@@ -823,10 +823,10 @@ if [ "$fast_build" = true ]; then
         handle_error "Build failed. Please review output to determine the issue."
     fi
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
-    ./gradlew clean || handle_error "Failed to clean the project."
+    ./gradlew clean --parallel || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew clean spotlessApply build publish; then
+    if ./gradlew clean spotlessApply build publish --parallel; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
@@ -835,7 +835,7 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew spotlessApply build publish; then
+    if ./gradlew spotlessApply build publish --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
@@ -861,7 +861,7 @@ fi
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
     handle_info "TODO: Fix dependencyCheckAggregate"
-    ./gradlew  versionUpToDateReport versionReport allJavadoc || handle_error "Failed to generate the JavaDoc."
+    ./gradlew  versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
     echo
     handle_info "Project Passes all checks"
 fi
