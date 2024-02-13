@@ -18,7 +18,7 @@ service Tinkar {
   /*
    * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
    */
-  rpc getTinkarEntity(TinkarQueryRequest) returns (TinkarQueryResult) {}
+  rpc getTinkarEntity(TinkarGetRequest) returns (TinkarQueryResult) {}
 
 }
 /*
@@ -33,6 +33,15 @@ message TinkarQueryRequest {
    * The maximum number of results to be returned.
    */
   int32 max_results = 2;
+}
+/*
+ * TinkarGetRequest Message: Represents the tinkar concept ID
+ */
+message TinkarGetRequest {
+  /*
+   * The Tinkar concept ID
+   */
+  int32 nid = 1;
 }
 /*
  * TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.
