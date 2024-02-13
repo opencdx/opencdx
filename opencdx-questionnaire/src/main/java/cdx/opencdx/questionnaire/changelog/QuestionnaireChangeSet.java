@@ -56,34 +56,30 @@ public class QuestionnaireChangeSet {
                 .description("Categorize blood pressure")
                 .rule(
                         """
-package cdx.opencdx.evrete.rules;
+package cdx.opencdx.classification.service;
 
+import cdx.opencdx.classification.model.RuleResult;
 import org.evrete.dsl.annotation.Fact;
 import org.evrete.dsl.annotation.Rule;
 import org.evrete.dsl.annotation.Where;
-
-import cdx.opencdx.evrete.domain.BloodPressure;
 
 public class BloodPressureRules {
 
     @Rule
     @Where("$s < 120")
-    public void normalBloodPressure(@Fact("$s") int systolic, BloodPressure bp) {
-        bp.setStatus("Normal");
+    public void normalBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
+        ruleResult.setResult("Normal blood pressure. No further actions needed.");
     }
-
     @Rule
     @Where("$s >= 120 && $s <= 129")
-    public void elevatedBloodPressure(@Fact("$s") int systolic, BloodPressure bp) {
-        bp.setStatus("Elevated");
+    public void elevatedBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
+        ruleResult.setResult("Elevated blood pressure. Please continue monitoring.");
     }
-
     @Rule
     @Where("$s > 129")
-    public void highBloodPressure(@Fact("$s") int systolic, BloodPressure bp) {
-        bp.setStatus("High");
+    public void highBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
+        ruleResult.setResult("High blood pressure. Please seek additional assistance.");
     }
-
 }
 """)
                 .build());

@@ -429,6 +429,7 @@ class OpenCDXClassificationServiceImplTest {
                                 .addRuleQuestionId(ruleQuestionId)
                                 .addItem(QuestionnaireItem.newBuilder()
                                         .setLinkId(ruleQuestionId)
+                                        .setType("integer")
                                         .setAnswerInteger(bloodPressure))
                                 .build())
                         .build());

@@ -16,6 +16,7 @@
 package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.model.RuleResult;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
@@ -25,7 +26,6 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,9 +37,6 @@ import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 import org.evrete.KnowledgeService;
 import org.evrete.api.Knowledge;
-import org.evrete.dsl.annotation.Fact;
-import org.evrete.dsl.annotation.Rule;
-import org.evrete.dsl.annotation.Where;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -133,7 +130,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
             KnowledgeService knowledgeService = new KnowledgeService();
             try {
                 Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
-                knowledge.newStatelessSession().insertAndFire(getResponse(model), builder);
+                RuleResult ruleResult = new RuleResult();
+                knowledge.newStatelessSession().insertAndFire(getResponse(model), ruleResult);
+                builder.setFurtherActions(ruleResult.getResult());
             } catch (IOException e) {
                 throw new OpenCDXInternalServerError(
                         OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
@@ -142,8 +141,35 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     }
 
     private InputStream getRulesClass(OpenCDXClassificationModel model) {
-        // TODO: Get rules class string
-        return new ByteArrayInputStream("".getBytes());
+        // TODO: Get rules string from DB
+        String ruleSet =
+                """
+                package cdx.opencdx.classification.service;
+                import cdx.opencdx.classification.model.RuleResult;
+                import org.evrete.dsl.annotation.Fact;
+                import org.evrete.dsl.annotation.Rule;
+                import org.evrete.dsl.annotation.Where;
+
+                public class BloodPressureRules {
+
+                    @Rule
+                    @Where("$s < 120")
+                    public void normalBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
+                        ruleResult.setResult("Normal blood pressure. No further actions needed.");
+                    }
+                    @Rule
+                    @Where("$s >= 120 && $s <= 129")
+                    public void elevatedBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
+                        ruleResult.setResult("Elevated blood pressure. Please continue monitoring.");
+                    }
+                    @Rule
+                    @Where("$s > 129")
+                    public void highBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
+                        ruleResult.setResult("High blood pressure. Please seek additional assistance.");
+                    }
+                }""";
+
+        return new ByteArrayInputStream(ruleSet.getBytes());
     }
 
     private Object getResponse(OpenCDXClassificationModel model) {
@@ -163,10 +189,10 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                     switch (question.get().getType()) {
                         case "integer":
                             return question.get().getAnswerInteger();
-                        case "choice", "string":
-                            return question.get().getAnswerString();
                         case "boolean":
                             return question.get().getAnswerBoolean();
+                        default:
+                            return question.get().getAnswerString();
                     }
                 }
             }
@@ -174,5 +200,4 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
         return null;
     }
-
 }
