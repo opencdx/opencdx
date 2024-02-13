@@ -459,19 +459,24 @@ message RuleSet {
   /*
    * Unique identifier for the rule.
    */
-  optional string rule_id = 1;
+  string rule_id = 1;
   /*
    * Indicates the type of the rule (e.g., business rule, validation rule etc.).
    */
-  optional string type = 2;
+  string type = 2;
   /*
    * Indicates the category of the rule.
    */
-  optional string category = 3;
+  string category = 3;
   /*
    * Description or any remarks regarding the rule.
    */
-  optional string description = 4;
+  string description = 4;
+
+  /*
+   * The rule itself.
+   */
+  optional string rule = 5;
 }
 
 /*
