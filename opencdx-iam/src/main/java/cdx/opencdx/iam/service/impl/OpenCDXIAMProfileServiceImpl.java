@@ -36,7 +36,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing IAM Profile Requests
  */
 @Slf4j
 @Service

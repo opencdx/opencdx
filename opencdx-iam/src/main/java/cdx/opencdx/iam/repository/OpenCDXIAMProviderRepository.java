@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the Database workspace model.
+ * Interface for the Database provider model.
  */
 @Repository
 @Observed(name = "opencdx")

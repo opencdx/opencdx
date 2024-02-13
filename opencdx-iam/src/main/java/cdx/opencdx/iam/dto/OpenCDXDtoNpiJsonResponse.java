@@ -20,7 +20,7 @@ import java.util.List;
 import lombok.Data;
 
 /**
- * DTO for NPI Result
+ * DTO for NPI JSON Response
  */
 @Data
 public class OpenCDXDtoNpiJsonResponse {

@@ -53,7 +53,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing IAM User Requests
  */
 @Slf4j
 @Service

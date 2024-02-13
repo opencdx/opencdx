@@ -46,7 +46,6 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     /**
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
-     * @param observationGrpcClientInterceptor client interceptor.
      * @param port Server port for the gRPC Service.
      * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws SSLException creating Client
