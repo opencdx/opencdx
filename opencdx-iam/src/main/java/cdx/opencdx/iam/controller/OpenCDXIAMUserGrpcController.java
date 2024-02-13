@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 /**
- * gRPC Controller for Hello World
+ * gRPC Controller for IAM User
  */
 @Slf4j
 @GRpcService
