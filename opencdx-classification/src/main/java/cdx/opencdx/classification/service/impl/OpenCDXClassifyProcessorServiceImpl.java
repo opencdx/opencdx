@@ -25,7 +25,10 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
@@ -85,17 +88,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                     new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
         }
 
-        if (model.getUserQuestionnaireData() != null) {
-
-            KnowledgeService knowledgeService = new KnowledgeService();
-            try {
-                Knowledge knowledge = knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRuleSet.class);
-                knowledge.newStatelessSession().insertAndFire(getSystolicResponse(model), builder);
-            } catch (IOException e) {
-                throw new OpenCDXInternalServerError(
-                        OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
-            }
-        }
+        runRules(model, builder);
 
         model.setClassificationResponse(builder.build());
     }
@@ -133,7 +126,27 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         return null;
     }
 
-    private Integer getSystolicResponse(OpenCDXClassificationModel model) {
+    private void runRules(OpenCDXClassificationModel model, ClassificationResponse.Builder builder) {
+        if (model.getUserQuestionnaireData() != null
+                && model.getUserQuestionnaireData().getQuestionnaireDataCount() > 0
+                && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
+            KnowledgeService knowledgeService = new KnowledgeService();
+            try {
+                Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
+                knowledge.newStatelessSession().insertAndFire(getResponse(model), builder);
+            } catch (IOException e) {
+                throw new OpenCDXInternalServerError(
+                        OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
+            }
+        }
+    }
+
+    private InputStream getRulesClass(OpenCDXClassificationModel model) {
+        // TODO: Get rules class string
+        return new ByteArrayInputStream("".getBytes());
+    }
+
+    private Object getResponse(OpenCDXClassificationModel model) {
         if (model.getUserQuestionnaireData() != null
                 && model.getUserQuestionnaireData().getQuestionnaireDataCount() > 0
                 && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
@@ -147,32 +160,19 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                                 .findFirst();
 
                 if (question.isPresent()) {
-                    return question.get().getAnswerInteger();
+                    switch (question.get().getType()) {
+                        case "integer":
+                            return question.get().getAnswerInteger();
+                        case "choice", "string":
+                            return question.get().getAnswerString();
+                        case "boolean":
+                            return question.get().getAnswerBoolean();
+                    }
                 }
             }
         }
 
-        return -1;
+        return null;
     }
 
-    public static class BloodPressureRuleSet {
-
-        @Rule
-        @Where("$s < 120")
-        public void normalBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
-            builder.setFurtherActions("Normal blood pressure. No further actions needed");
-        }
-
-        @Rule
-        @Where("$s >= 120 && $s <= 129")
-        public void elevatedBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
-            builder.setFurtherActions("Elevated blood pressure. Please continue monitoring.");
-        }
-
-        @Rule
-        @Where("$s > 129")
-        public void highBloodPressure(@Fact("$s") int systolic, ClassificationResponse.Builder builder) {
-            builder.setFurtherActions("High blood pressure. Please seek additional assistance.");
-        }
-    }
 }
