@@ -30,7 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller for the /greeting api's
+ * Controller for the Country
  */
 @Slf4j
 @RestController

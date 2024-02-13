@@ -24,7 +24,7 @@ import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.security.access.annotation.Secured;
 
 /**
- * GRPC Controller for GRPC services
+ * GRPC Manufacturer Controller for GRPC services
  */
 @Slf4j
 @GRpcService
