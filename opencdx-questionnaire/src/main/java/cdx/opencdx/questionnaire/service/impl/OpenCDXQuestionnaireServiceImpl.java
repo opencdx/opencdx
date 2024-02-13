@@ -26,8 +26,10 @@ import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
+import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
+import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
 import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -63,6 +65,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
+    private final OpenCDXRuleSetRepository openCDXRuleSetRepository;
 
     /**
      * This class represents the implementation of the OpenCDXQuestionnaireService interface.
@@ -75,6 +78,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
      * @param openCDXIAMUserRepository this OpenCDXIAMUserRepository instance used for interacting with the user data.
      * @param openCDXClassificationMessageService the OpenCDXClassificationMessageService instance used for interacting with the classification message service.
+     * @param openCDXRuleSetRepository the OpenCDXRuleSetRepository instance used for interacting with the ruleset data.
      */
     @Autowired
     public OpenCDXQuestionnaireServiceImpl(
@@ -84,7 +88,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
             OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
-            OpenCDXClassificationMessageService openCDXClassificationMessageService) {
+            OpenCDXClassificationMessageService openCDXClassificationMessageService,
+            OpenCDXRuleSetRepository openCDXRuleSetRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -92,6 +97,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
+        this.openCDXRuleSetRepository = openCDXRuleSetRepository;
     }
 
     /**
@@ -102,46 +108,12 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      */
     @Override
     public RuleSetsResponse getRuleSets(ClientRulesRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiAccessed(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Get RuleSets Request",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    AUTHORIZATION_CONTROL,
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
-        // fetch rulesets from Evrete engine
-        List<RuleSet> rulesets = fetchRuleSetsFromEvrete();
+        List<RuleSet> rulesets = this.openCDXRuleSetRepository.findAll().stream()
+                .map(OpenCDXRuleSet::getProtobufMessage)
+                .toList();
 
         return RuleSetsResponse.newBuilder().addAllRuleSets(rulesets).build();
-    }
-
-    // Placeholder for now to be replaced with the evrete interface
-    private List<RuleSet> fetchRuleSetsFromEvrete() {
-        return List.of(
-                RuleSet.newBuilder()
-                        .setRuleId("1")
-                        .setType("Business Rule")
-                        .setCategory("Validation")
-                        .setDescription("Validate user responses")
-                        .build(),
-                RuleSet.newBuilder()
-                        .setRuleId("2")
-                        .setType("Authorization Rule")
-                        .setCategory("Access Control")
-                        .setDescription("Control access based on user responses")
-                        .build());
     }
 
     // Submiited Questionnaire
