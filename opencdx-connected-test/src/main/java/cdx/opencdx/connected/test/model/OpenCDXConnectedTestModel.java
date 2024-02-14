@@ -28,7 +28,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Model for Connected in Mongo.  Features conversions
+ * Model for Connected Test in Mongo.  Features conversions
  * to Protobuf messages.
  */
 @Slf4j

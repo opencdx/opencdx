@@ -3,8 +3,8 @@ import { useCallback, useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, Tooltip } from '@mui/material';
-import IconArrowsMaximize from '@mui/icons-material/Maximize';
-import IconArrowsMinimize from '@mui/icons-material/Minimize';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 // ==============================|| HEADER CONTENT - FULLSCREEN ||============================== //
 
@@ -50,7 +50,7 @@ const FullScreen = () => {
                     onClick={handleToggle}
                     color="inherit"
                 >
-                    {open ? <IconArrowsMinimize /> : <IconArrowsMaximize />}
+                    {open ? <FullscreenExitIcon /> : <FullscreenIcon />}
                 </Avatar>
             </Tooltip>
         </Box>

@@ -9,7 +9,6 @@ import axios from 'axios';
 const RaceChart = () => {
     const [race, setRace] = useState([0, 0, 0, 0, 0, 0]);
 
-
     const fetchData = useCallback(async () => {
         try {
             const response = await axios.post('http://localhost:8632/graphql', {
@@ -26,7 +25,6 @@ const RaceChart = () => {
             let hispanicCount = 0;
             let asianCount = 0;
 
-
             response.data.data?.getPatients.forEach((item) => {
                 if (item.race === 'black') {
                     blackCount++;
@@ -34,8 +32,7 @@ const RaceChart = () => {
                     whiteCount++;
                 } else if (item.race === 'Hispanic') {
                     hispanicCount++;
-                }
-                else if (item.race === 'Asian') {
+                } else if (item.race === 'Asian') {
                     asianCount++;
                 }
             });
@@ -50,12 +47,13 @@ const RaceChart = () => {
         fetchData();
     }, [fetchData]);
 
-    const series = [{
-        name: 'Race',
-        data: race
-    }]
-    const options =
-    {
+    const series = [
+        {
+            name: 'Race',
+            data: race
+        }
+    ];
+    const options = {
         chart: {
             type: 'bar',
             height: 350
@@ -65,7 +63,7 @@ const RaceChart = () => {
                 horizontal: false,
                 columnWidth: '55%',
                 endingShape: 'rounded'
-            },
+            }
         },
         dataLabels: {
             enabled: false
@@ -76,7 +74,7 @@ const RaceChart = () => {
             colors: ['transparent']
         },
         xaxis: {
-            categories: ['American Indian ', 'Asian', 'Black or African American', 'Hispanic or Latino', ' Hawaiian ', 'White'],
+            categories: ['American Indian ', 'Asian', 'Black or African American', 'Hispanic or Latino', ' Hawaiian ', 'White']
         },
         yaxis: {
             title: {
@@ -89,11 +87,11 @@ const RaceChart = () => {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return val
+                    return val;
                 }
             }
         }
-    }
+    };
     return (
         <MainCard title="Race ">
             <Chart series={series} options={options} type="bar" height={350} />

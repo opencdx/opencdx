@@ -100,6 +100,7 @@ class OpenCDXRestConnectedTestControllerTest {
                                         .setLastName("bob")
                                         .build())
                                 .username("ab@safehealth.me")
+                                .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllEmails(List.of(EmailAddress.newBuilder()
                                                 .setType(EmailType.EMAIL_TYPE_WORK)
@@ -147,6 +148,7 @@ class OpenCDXRestConnectedTestControllerTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

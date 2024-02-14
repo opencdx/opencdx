@@ -24,7 +24,6 @@ import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXMediaClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -43,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,8 +148,16 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "media", new ObjectId(request.getUserAnswer().getMediaId()));
 
-            retrieveMedia(request, openCDXCallCredentials, model);
+            GetMediaResponse response = this.openCDXMediaClient.getMedia(
+                    GetMediaRequest.newBuilder()
+                            .setId(request.getUserAnswer().getMediaId())
+                            .build(),
+                    openCDXCallCredentials);
+            if (response.hasMedia()) {
+                model.setMedia(response.getMedia());
+            }
         }
+
         log.info("Validated ClassificationRequest");
 
         if (request.getUserAnswer().hasConnectedTestId()) {
@@ -161,8 +169,6 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
             retrieveQuestionnaire(request, openCDXCallCredentials, model);
-        } else {
-            throw new OpenCDXNotFound(this.getClass().getName(), 2, "No Connected Test & No User Questionnaire ");
         }
         return model;
     }
@@ -180,21 +186,17 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         if (testDetailsById != null) {
             model.setConnectedTest(testDetailsById);
-        }
-    }
-
-    private void retrieveMedia(
-            ClassificationRequest request,
-            OpenCDXCallCredentials openCDXCallCredentials,
-            OpenCDXClassificationModel model) {
-        log.info("Retrieving Media: {}", request.getUserAnswer().getMediaId());
-        GetMediaResponse response = this.openCDXMediaClient.getMedia(
-                GetMediaRequest.newBuilder()
-                        .setId(request.getUserAnswer().getMediaId())
-                        .build(),
-                openCDXCallCredentials);
-        if (response.hasMedia()) {
-            model.setMedia(response.getMedia());
+            if (testDetailsById.hasTestDetails()
+                    && StringUtils.isNotEmpty(testDetailsById.getTestDetails().getMediaId())) {
+                GetMediaResponse response = this.openCDXMediaClient.getMedia(
+                        GetMediaRequest.newBuilder()
+                                .setId(testDetailsById.getTestDetails().getMediaId())
+                                .build(),
+                        openCDXCallCredentials);
+                if (response.hasMedia()) {
+                    model.setTestDetailsMedia(response.getMedia());
+                }
+            }
         }
     }
 

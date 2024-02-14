@@ -1,7 +1,7 @@
-// third-party
 import { FormattedMessage } from 'react-intl';
-
-// assets
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import LinkIcon from '@mui/icons-material/Link';
 
 // ==============================|| DOCUMENTATION MENU ITEMS ||============================== //
 
@@ -14,10 +14,12 @@ const reports = {
             id: 'audit-records',
             title: <FormattedMessage id="audit-records" />,
             type: 'collapse',
+            icon: VerifiedUserIcon,
             children: [
                 {
                     id: 'audit-log',
                     title: <FormattedMessage id="audit-log" />,
+                    icon: FactCheckIcon,
                     type: 'item',
                     url: '/pages/audit-log'
                 }
@@ -27,11 +29,13 @@ const reports = {
             id: 'external',
             title: <FormattedMessage id="external-interfaces" />,
             type: 'collapse',
+            icon: LinkIcon,
             children: [
                 {
                     id: 'external-interfaces',
                     title: <FormattedMessage id="external-interfaces" />,
                     type: 'item',
+                    icon: LinkIcon,
                     url: '/pages/external-interfaces'
                 }
             ]

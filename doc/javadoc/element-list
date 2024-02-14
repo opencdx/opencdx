@@ -18,6 +18,9 @@ cdx.opencdx.audit.security
 cdx.opencdx.classification
 cdx.opencdx.classification.config
 cdx.opencdx.classification.controller
+cdx.opencdx.classification.handlers
+cdx.opencdx.classification.model
+cdx.opencdx.classification.repository
 cdx.opencdx.classification.security
 cdx.opencdx.classification.service
 cdx.opencdx.classification.service.impl

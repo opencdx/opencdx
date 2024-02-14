@@ -252,7 +252,7 @@ open_reports() {
         ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
-        ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
+        ./gradlew jacocoRootReport -x bootBuildInfo -x generateGitProperties || handle_error "Failed to generate the JaCoCo report."
         open_url "build/reports/jacoco/jacocoRootReport/html/index.html"
         ;;
     check)
@@ -877,7 +877,7 @@ if [ "$no_menu" = false ]; then
         open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            countdown 120
+            countdown 150
             run_jmeter_tests $jmeter_test
             open_url "build/reports/jmeter/index.html"
         fi

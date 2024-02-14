@@ -45,6 +45,10 @@ opencdx:
       server: tinkar
       port: 9090
 
+feign:
+  httpclient:
+    disableSslValidation: true
+
 spring:
   cloud:
     openfeign:
@@ -53,7 +57,7 @@ spring:
       client:
         config:
           media:
-            url: https://media:9090
+            url: https://media:8080
             connectTimeout: 5000
             readTimeout: 5000
             loggerLevel: full

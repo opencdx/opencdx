@@ -11,15 +11,37 @@ const AccordianWrapper = React.forwardRef(({ title, children }, ref) => {
         <Accordion ref={ref}>
             <AccordionSummary
                 sx={{
-                    backgroundColor: 'lightgray'
+                    backgroundColor: 'lightgray',
+                    border: '1px solid lightgray',
+                    minHeight: '20px',
+                    '&.Mui-expanded': {
+                        minHeight: '48px'
+                    },
+                    '&:hover': {
+                        backgroundColor: 'lightgray',
+                        cursor: 'pointer'
+                    }
                 }}
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
             >
-                <Typography>{title}</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 500 }}>
+                    {title}
+                </Typography>
             </AccordionSummary>
-            <AccordionDetails>{children}</AccordionDetails>
+            <AccordionDetails
+                sx={{
+                    backgroundColor: '#f5f5f5',
+                    border: '1px solid lightgray',
+                    minHeight: '20px',
+                    '&.Mui-expanded': {
+                        minHeight: '48px'
+                    }
+                }}
+            >
+                {children}
+            </AccordionDetails>
         </Accordion>
     );
 });

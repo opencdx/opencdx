@@ -456,21 +456,6 @@ class OpenCDXQuestionnaireClientImplTest {
                 () -> this.openCDXQuestionnaireClient.createUserQuestionnaireData(request, openCDXCallCredentials));
     }
 
-    //    @Test
-    //    void updateUserQuestionnaireData() {
-    //        Mockito.when(this.questionnaireServiceBlockingStub.getRuleSets(Mockito.any(ClientRulesRequest.class)))
-    //                .thenReturn(RuleSetsResponse.getDefaultInstance());
-    //        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-    //        Assertions.assertEquals(
-    //                RuleSetsResponse.getDefaultInstance(),
-    //                this.openCDXQuestionnaireClient.getRuleSets(
-    //                        ClientRulesRequest.getDefaultInstance(), openCDXCallCredentials));
-    //    }
-    //
-    //    @Test
-    //    void updateUserQuestionnaireDataException() {
-    //    }
-
     @Test
     void getUserQuestionnaireData() {
         Mockito.when(this.questionnaireServiceBlockingStub.getUserQuestionnaireData(
@@ -495,33 +480,87 @@ class OpenCDXQuestionnaireClientImplTest {
                 () -> this.openCDXQuestionnaireClient.getUserQuestionnaireData(request, openCDXCallCredentials));
     }
 
-    //    @Test
-    //    void getUserQuestionnaireDataList() {
-    //        Mockito.when(this.questionnaireServiceBlockingStub.getRuleSets(Mockito.any(ClientRulesRequest.class)))
-    //                .thenReturn(RuleSetsResponse.getDefaultInstance());
-    //        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-    //        Assertions.assertEquals(
-    //                RuleSetsResponse.getDefaultInstance(),
-    //                this.openCDXQuestionnaireClient.getRuleSets(
-    //                        ClientRulesRequest.getDefaultInstance(), openCDXCallCredentials));
-    //    }
-    //
-    //    @Test
-    //    void getUserQuestionnaireDataListException() {
-    //    }
+    @Test
+    void createRuleSetFail() {
+        Mockito.when(this.questionnaireServiceBlockingStub.createRuleSet(Mockito.any(CreateRuleSetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        RuleSet ruleSet = RuleSet.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXQuestionnaireClient.createRuleSet(ruleSet, openCDXCallCredentials));
+    }
 
-    //    @Test
-    //    void deleteUserQuestionnaireData() {
-    //        Mockito.when(this.questionnaireServiceBlockingStub.getRuleSets(Mockito.any(ClientRulesRequest.class)))
-    //                .thenReturn(RuleSetsResponse.getDefaultInstance());
-    //        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-    //        Assertions.assertEquals(
-    //                RuleSetsResponse.getDefaultInstance(),
-    //                this.openCDXQuestionnaireClient.getRuleSets(
-    //                        ClientRulesRequest.getDefaultInstance(), openCDXCallCredentials));
-    //    }
-    //
-    //    @Test
-    //    void deleteUserQuestionnaireDataException() {
-    //    }
+    @Test
+    void updateRuleSetFail() {
+        Mockito.when(this.questionnaireServiceBlockingStub.updateRuleSet(Mockito.any(UpdateRuleSetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        RuleSet ruleSet = RuleSet.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXQuestionnaireClient.updateRuleSet(ruleSet, openCDXCallCredentials));
+    }
+
+    @Test
+    void getRuleSetFail() {
+        Mockito.when(this.questionnaireServiceBlockingStub.getRuleSet(Mockito.any(GetRuleSetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXQuestionnaireClient.getRuleSet("id", openCDXCallCredentials));
+    }
+
+    @Test
+    void deleteRuleSetFail() {
+        Mockito.when(this.questionnaireServiceBlockingStub.deleteRuleSet(Mockito.any(DeleteRuleSetRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXQuestionnaireClient.deleteRuleSet("id", openCDXCallCredentials));
+    }
+
+    @Test
+    void createRuleset() {
+        Mockito.when(this.questionnaireServiceBlockingStub.createRuleSet(Mockito.any(CreateRuleSetRequest.class)))
+                .thenReturn(CreateRuleSetResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                CreateRuleSetResponse.getDefaultInstance(),
+                this.openCDXQuestionnaireClient.createRuleSet(RuleSet.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void updateRuleset() {
+        Mockito.when(this.questionnaireServiceBlockingStub.updateRuleSet(Mockito.any(UpdateRuleSetRequest.class)))
+                .thenReturn(UpdateRuleSetResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                UpdateRuleSetResponse.getDefaultInstance(),
+                this.openCDXQuestionnaireClient.updateRuleSet(RuleSet.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void getRuleSet() {
+        Mockito.when(this.questionnaireServiceBlockingStub.getRuleSet(Mockito.any(GetRuleSetRequest.class)))
+                .thenReturn(GetRuleSetResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                GetRuleSetResponse.getDefaultInstance(),
+                this.openCDXQuestionnaireClient.getRuleSet("id", openCDXCallCredentials));
+    }
+
+    @Test
+    void deleteRuleSet() {
+        Mockito.when(this.questionnaireServiceBlockingStub.deleteRuleSet(Mockito.any(DeleteRuleSetRequest.class)))
+                .thenReturn(DeleteRuleSetResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                DeleteRuleSetResponse.getDefaultInstance(),
+                this.openCDXQuestionnaireClient.deleteRuleSet("id", openCDXCallCredentials));
+    }
 }

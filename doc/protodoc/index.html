@@ -793,10 +793,6 @@
             <ul>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.profile.DateOfBirth"><span class="badge">M</span>DateOfBirth</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.profile.DeleteUserProfileRequest"><span class="badge">M</span>DeleteUserProfileRequest</a>
                 </li>
               
@@ -1445,15 +1441,15 @@
                 </li>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.questionnaire.UserQUestionnaireDataResponse"><span class="badge">M</span>UserQUestionnaireDataResponse</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData"><span class="badge">M</span>UserQuestionnaireData</a>
                 </li>
               
                 <li>
                   <a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest"><span class="badge">M</span>UserQuestionnaireDataRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataResponse"><span class="badge">M</span>UserQuestionnaireDataResponse</a>
                 </li>
               
                 <li>
@@ -3526,10 +3522,24 @@ Essentially, this line is defining a LogicalExpression object named &#34;semanti
             <tbody>
               
                 <tr>
-                  <td>test_kit_id</td>
+                  <td>user_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Id of the selected test kit. </p></td>
+                  <td><p>ID of the user. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>connected_test_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Id of the connected test.. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_questionnaire_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Id of the user questionnaire. </p></td>
                 </tr>
               
                 <tr>
@@ -3540,10 +3550,10 @@ Essentially, this line is defining a LogicalExpression object named &#34;semanti
                 </tr>
               
                 <tr>
-                  <td>image_data</td>
-                  <td><a href="#bytes">bytes</a></td>
+                  <td>media_id</td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>Image data for the test result. </p></td>
+                  <td><p>ID to a media image for the test result. </p></td>
                 </tr>
               
                 <tr>
@@ -7691,30 +7701,6 @@ by its specific ID.</p></td>
       <p>This Protocol Buffers (protobuf) definition is primarily focused on the management of user profiles.</p><p>It provides the structure for storing and manipulating user-centric data efficiently.</p>
 
       
-        <h3 id="cdx.opencdx.grpc.profile.DateOfBirth">DateOfBirth</h3>
-        <p>Represents the user's date of birth.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>date</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The user&#39;s birthday in a suitable format (e.g., &#34;MM-dd-yyyy&#34;) </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="cdx.opencdx.grpc.profile.DeleteUserProfileRequest">DeleteUserProfileRequest</h3>
         <p>DeleteUserProfileRequest is the message format for the request to delete a user profile.</p><p>It contains a user_id to identify the user whose profile needs to be deleted.</p>
 
@@ -8402,7 +8388,7 @@ by its specific ID.</p></td>
               
                 <tr>
                   <td>date_of_birth</td>
-                  <td><a href="#cdx.opencdx.grpc.profile.DateOfBirth">DateOfBirth</a></td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
                   <td><p>The date of birth of the user. </p></td>
                 </tr>
@@ -13632,17 +13618,38 @@ for possible values. </p></td>
                 </tr>
               
                 <tr>
-                  <td>submission_user_response</td>
-                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
-                  <td>optional</td>
-                  <td><p>The response provided by the user to the item. </p></td>
-                </tr>
-              
-                <tr>
                   <td>anf_statement_connector</td>
                   <td><a href="#cdx.opencdx.grpc.anf.AnfStatementConnector">cdx.opencdx.grpc.anf.AnfStatementConnector</a></td>
                   <td>repeated</td>
                   <td><p>The ANF statement connector associated with this item. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>answer_integer</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>answer_double</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>answer_string</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>answer_boolean</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -13928,6 +13935,13 @@ for possible values. </p></td>
                   <td><p>Supplementary message providing more details about the operation status. </p></td>
                 </tr>
               
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Relevant ID associated with this submission. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -13950,37 +13964,6 @@ for possible values. </p></td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireData">QuestionnaireData</a></td>
                   <td>repeated</td>
                   <td><p>Contains a list of `QuestionnaireData`. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.questionnaire.UserQUestionnaireDataResponse">UserQUestionnaireDataResponse</h3>
-        <p>UserQUestionnaireDataResponse is a message type defined in Protocol Buffers,</p><p>a language-neutral, platform-neutral extensible mechanism for serializing structured data.</p><p>This message type is used to pass response data of a user questionnaire request.</p><p>list: An array of 'UserQuestionnaireData' items. Each item in the list represents</p><p>individual user's response to the questionnaire.</p><p>pagination: This field contains pagination information and sorting details to handle large</p><p>data sets. The Pagination object is defined in 'cdx.opencdx.grpc.common' and it enables</p><p>navigating through large data sets by loading only a subset of the data at a time, thus</p><p>optimizing response time and system resources.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>list</td>
-                  <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
-                  <td>repeated</td>
-                  <td><p>An array of UserQuestionnaireData items </p></td>
-                </tr>
-              
-                <tr>
-                  <td>pagination</td>
-                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
-                  <td></td>
-                  <td><p>Contains pagination information for large data sets </p></td>
                 </tr>
               
             </tbody>
@@ -14016,9 +13999,9 @@ for possible values. </p></td>
               
                 <tr>
                   <td>questionnaire_data</td>
-                  <td><a href="#cdx.opencdx.grpc.questionnaire.QuestionnaireData">QuestionnaireData</a></td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.Questionnaire">Questionnaire</a></td>
                   <td>repeated</td>
-                  <td><p>Contains a list of `QuestionnaireData` associated with a specific user. </p></td>
+                  <td><p>Contains a list of `Questionnaire` associated with a specific user. </p></td>
                 </tr>
               
             </tbody>
@@ -14043,6 +14026,37 @@ for possible values. </p></td>
                   <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
                   <td></td>
                   <td><p>Field that holds user-level FHIR questionnaire data. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataResponse">UserQuestionnaireDataResponse</h3>
+        <p>UserQuestionnaireDataResponse is a message type defined in Protocol Buffers,</p><p>a language-neutral, platform-neutral extensible mechanism for serializing structured data.</p><p>This message type is used to pass response data of a user questionnaire request.</p><p>list: An array of 'UserQuestionnaireData' items. Each item in the list represents</p><p>individual user's response to the questionnaire.</p><p>pagination: This field contains pagination information and sorting details to handle large</p><p>data sets. The Pagination object is defined in 'cdx.opencdx.grpc.common' and it enables</p><p>navigating through large data sets by loading only a subset of the data at a time, thus</p><p>optimizing response time and system resources.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>list</td>
+                  <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireData">UserQuestionnaireData</a></td>
+                  <td>repeated</td>
+                  <td><p>An array of UserQuestionnaireData items </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>Contains pagination information for large data sets </p></td>
                 </tr>
               
             </tbody>
@@ -14261,7 +14275,7 @@ for possible values. </p></td>
               <tr>
                 <td>GetUserQuestionnaireDataList</td>
                 <td><a href="#cdx.opencdx.grpc.questionnaire.GetQuestionnaireListRequest">GetQuestionnaireListRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.questionnaire.UserQUestionnaireDataResponse">UserQUestionnaireDataResponse</a></td>
+                <td><a href="#cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataResponse">UserQuestionnaireDataResponse</a></td>
                 <td><p>Fetches user-level questionnaire data by its unique Id.</p></td>
               </tr>
             

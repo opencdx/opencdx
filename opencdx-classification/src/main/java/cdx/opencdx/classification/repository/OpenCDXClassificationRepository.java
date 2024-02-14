@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for protobuf ConnectedTest and OpenCDXConnectedTest.
+ * Repository for protobuf Classification and OpenCDXClassificationModel.
  */
 @Repository
 @Observed(name = "opencdx")

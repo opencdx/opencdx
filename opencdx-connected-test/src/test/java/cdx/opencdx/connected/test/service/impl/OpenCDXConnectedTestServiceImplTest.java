@@ -20,10 +20,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.service.*;
+import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
 import cdx.opencdx.connected.test.service.OpenCDXConnectedTestService;
@@ -80,6 +78,11 @@ class OpenCDXConnectedTestServiceImplTest {
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
 
+    @Autowired
+    OpenCDXMessageService openCDXMessageService;
+
+    OpenCDXClassificationMessageService openCDXClassificationMessageService;
+
     @BeforeEach
     void beforeEach() {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
@@ -100,6 +103,7 @@ class OpenCDXConnectedTestServiceImplTest {
                                         .setLastName("bob")
                                         .build())
                                 .username("ab@safehealth.me")
+                                .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllEmails(List.of(EmailAddress.newBuilder()
                                                 .setType(EmailType.EMAIL_TYPE_WORK)
@@ -115,6 +119,9 @@ class OpenCDXConnectedTestServiceImplTest {
                     }
                 });
 
+        this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
+                this.openCDXMessageService, this.openCDXDocumentValidator, this.openCDXIAMUserRepository);
+
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService,
                 openCDXConnectedTestRepository,
@@ -122,7 +129,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 objectMapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXClassificationMessageService);
     }
 
     @AfterEach
@@ -142,6 +150,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertEquals(
@@ -167,6 +176,7 @@ class OpenCDXConnectedTestServiceImplTest {
                                         .setLastName("bob")
                                         .build())
                                 .username("ab@safehealth.me")
+                                .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
                                                 .setType(PhoneType.PHONE_TYPE_MOBILE)
@@ -189,6 +199,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertEquals(
@@ -232,6 +243,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -243,7 +255,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 mapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXClassificationMessageService);
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
@@ -262,6 +275,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -283,7 +297,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 mapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXClassificationMessageService);
         Assertions.assertThrows(OpenCDXNotFound.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
 
@@ -301,6 +316,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -330,7 +346,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 objectMapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXClassificationMessageService);
         Assertions.assertDoesNotThrow(() -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
 
@@ -348,6 +365,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -382,7 +400,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 objectMapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXClassificationMessageService);
         Assertions.assertDoesNotThrow(() -> testOpenCDXConnectedTestService.submitTest(connectedTest));
     }
 
@@ -395,6 +414,8 @@ class OpenCDXConnectedTestServiceImplTest {
                                 .setNationalHealthId(UUID.randomUUID().toString())
                                 .setUserId(ObjectId.get().toHexString())
                                 .build())
+                        .setTestDetails(TestDetails.newBuilder()
+                                .setMediaId(ObjectId.get().toHexString()))
                         .build());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
@@ -429,7 +450,8 @@ class OpenCDXConnectedTestServiceImplTest {
                 mapper,
                 openCDXCommunicationService,
                 openCDXIAMUserRepository,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXClassificationMessageService);
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()
                 .setTestId(openCDXConnectedTestModel.getId().toHexString())
                 .build();

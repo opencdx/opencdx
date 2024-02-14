@@ -61,12 +61,15 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
             case 'associated_anf_statement':
                 return (
                     <Grid item xs={12} lg={12}>
-                        <Typography variant="subtitle2">Select Main Statement for the Associated Statement</Typography>
+                        <Typography variant="subtitle2" sx={{ width: '300px' }}>
+                            Select Main Statement for the Associated Statement
+                        </Typography>
                         <Grid item xs={12} lg={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                             {item?.markedMainANFStatement &&
                                 item?.markedMainANFStatement.map((item, indexItem) => (
                                     <FormControlLabel
                                         key={indexItem}
+                                        sx={{ width: '300px' }}
                                         control={
                                             <Checkbox
                                                 {...register(`test.${index}.componentTypeAssociated.${indexItem}`)}
@@ -75,6 +78,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
                                                 }
                                                 onChange={(event) => handleChangeAssociatedOption(event.target.checked, indexItem)}
                                                 color="primary"
+                                                size="small"
                                             />
                                         }
                                         label={item}
@@ -86,7 +90,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
             case 'main_statement_questions':
                 return (
                     <Grid item xs={12} lg={12}>
-                        <Typography variant="subtitle2" sx={{ color: 'red' }}>
+                        <Typography variant="h6" sx={{ color: 'red', width: '300px' }}>
                             Pending: Select Main Statement for the Associated Question
                         </Typography>
                         <Grid item xs={12} lg={12} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -94,12 +98,14 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
                                 item?.markedMainANFStatement.map((item, indexItem) => (
                                     <FormControlLabel
                                         key={indexItem}
+                                        sx={{ width: '300px' }}
                                         control={
                                             <Checkbox
                                                 {...register(`test.${index}.componentTypeMain.${indexItem}`)}
                                                 checked={!item.componentType && selectedMainOption && selectedMainOption[indexItem]}
                                                 onChange={(event) => handleChangeMainOption(event.target.checked, indexItem)}
                                                 color="primary"
+                                                size="small"
                                             />
                                         }
                                         label={item}
@@ -111,7 +117,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
             case 'not_applicable':
                 return (
                     <Grid item xs={12} lg={12}>
-                        <div>Component marked as non ANF type.</div>
+                        <Typography variant="subtitle2"> Component marked as non ANF type.</Typography>
                     </Grid>
                 );
             default:
@@ -139,11 +145,12 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
         <Grid item xs={12} lg={12} sx={{ pt: 2 }} ref={ref}>
             <SubCard
                 title="Component Type"
+                darkTitle
                 secondary={
                     <Button
                         aria-label="Reset"
                         label="Reset"
-                        variant="outlined"
+                        variant="contained"
                         size="small"
                         onClick={() => {
                             handleRadioChange('');
@@ -174,12 +181,12 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
                                     }}
                                     value={selectedOption || ''}
                                 >
-                                    <Grid item xs={12} sm={2} lg={2}>
+                                    <Grid item xs={12} sm={2} lg={2} sx={{ pl: 3 }}>
                                         <FormControlLabel value="main_anf_statement" control={<Radio />} label="Main ANF Statement" />
 
                                         {selectedOption === 'main_anf_statement' && renderListItem()}
                                     </Grid>
-                                    <Grid item xs={12} sm={2} lg={4}>
+                                    <Grid item xs={12} sm={2} lg={4} sx={{ pl: 3 }}>
                                         <FormControlLabel
                                             value="associated_anf_statement"
                                             control={<Radio />}
@@ -188,7 +195,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
 
                                         {selectedOption === 'associated_anf_statement' && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
-                                    <Grid item xs={12} sm={2} lg={4}>
+                                    <Grid item xs={12} sm={2} lg={4} sx={{ pl: 3 }}>
                                         <FormControlLabel
                                             value="main_statement_questions"
                                             control={<Radio />}
@@ -197,7 +204,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
 
                                         {selectedOption === 'main_statement_questions' && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
-                                    <Grid item xs={12} sm={2} lg={2}>
+                                    <Grid item xs={12} sm={2} lg={2} sx={{ pl: 3 }}>
                                         <FormControlLabel value="not_applicable" control={<Radio />} label="Not Applicable" />
 
                                         {selectedOption === 'not_applicable' && renderListItem()}
