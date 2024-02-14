@@ -49,14 +49,14 @@ public class OpenCDXRuleSet {
      * @param ruleSet the rule set
      */
     public OpenCDXRuleSet(RuleSet ruleSet) {
-        if(ruleSet.hasRuleId()) {
+        if (ruleSet.hasRuleId()) {
             this.id = new ObjectId(ruleSet.getRuleId());
         }
         this.type = ruleSet.getType();
         this.category = ruleSet.getCategory();
         this.description = ruleSet.getDescription();
         this.rule = ruleSet.getRule();
-        if(ruleSet.hasStatus()) {
+        if (ruleSet.hasStatus()) {
             this.status = ruleSet.getStatus();
         } else {
             this.status = QuestionnaireStatus.draft;

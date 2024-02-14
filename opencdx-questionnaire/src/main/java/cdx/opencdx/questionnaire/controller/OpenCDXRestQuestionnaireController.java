@@ -50,7 +50,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request ClientRulesRequest indicating organization and workspace
      * @return RuleSetsResponse with the message.
      */
-    @PostMapping(value = "/list")
+    @PostMapping(value = "/ruleset/list")
     public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody ClientRulesRequest request) {
         RuleSetsResponse ruleSets = openCDXQuestionnaireService.getRuleSets(request);
         return new ResponseEntity<>(ruleSets, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class OpenCDXRestQuestionnaireController {
      * @param request CreateRuleSetRequest indicating ruleSet realted data
      * @return CreateRuleSetResponse with the message.
      */
-    @PostMapping
+    @PostMapping("/ruleset")
     public ResponseEntity<CreateRuleSetResponse> createRuleSet(@RequestBody CreateRuleSetRequest request) {
         CreateRuleSetResponse ruleSet = openCDXQuestionnaireService.createRuleSet(request);
         return new ResponseEntity<>(ruleSet, HttpStatus.OK);
@@ -71,19 +71,20 @@ public class OpenCDXRestQuestionnaireController {
      * @param request UpdateRuleSetRequest indicating ruleSet realted data
      * @return UpdateRuleSetResponse with the message.
      */
-    @PutMapping
+    @PutMapping("/ruleset")
     public ResponseEntity<UpdateRuleSetResponse> updateRuleSet(@RequestBody UpdateRuleSetRequest request) {
         UpdateRuleSetResponse ruleSet = openCDXQuestionnaireService.updateRuleSet(request);
         return new ResponseEntity<>(ruleSet, HttpStatus.OK);
     }
     /**
      * Get RuleSet Rest API
-     * @param request GetRuleSetRequest indicating ruleSet realted data
+     * @param ruleSetId Identifier of ruleSet to get.
      * @return GetRuleSetResponse with the message.
      */
-    @GetMapping
-    public ResponseEntity<GetRuleSetResponse> getRuleSet(@RequestBody GetRuleSetRequest request) {
-        GetRuleSetResponse ruleSet = openCDXQuestionnaireService.getRuleSet(request);
+    @GetMapping(value = "/ruleset/{Id}")
+    public ResponseEntity<GetRuleSetResponse> getRuleSet(@PathVariable(value = "Id") String ruleSetId) {
+        GetRuleSetResponse ruleSet = openCDXQuestionnaireService.getRuleSet(
+                GetRuleSetRequest.newBuilder().setId(ruleSetId).build());
         return new ResponseEntity<>(ruleSet, HttpStatus.OK);
     }
     /**

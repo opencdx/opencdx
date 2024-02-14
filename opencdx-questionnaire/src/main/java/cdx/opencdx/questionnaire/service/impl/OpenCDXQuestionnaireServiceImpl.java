@@ -58,6 +58,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
+    public static final String FAILED_TO_CONVERT_OPEN_CDX_RULE_SET = "Failed to convert OpenCDXRuleSet";
+    public static final String RULESET = "RULESET";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -749,16 +751,18 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "Creating RuleSet",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "RULESET" + ruleset.getId().toHexString(),
+                    RULESET + ruleset.getId().toHexString(),
                     this.objectMapper.writeValueAsString(ruleset));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 18, "Failed to convert OpenCDXCountryModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 18, FAILED_TO_CONVERT_OPEN_CDX_RULE_SET, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", ruleset.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, ruleset.toString());
             throw openCDXNotAcceptable;
         }
-        return CreateRuleSetResponse.newBuilder().setRuleSet(ruleset.getProtobufMessage()).build();
+        return CreateRuleSetResponse.newBuilder()
+                .setRuleSet(ruleset.getProtobufMessage())
+                .build();
     }
 
     @Override
@@ -771,28 +775,35 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "Updating RuleSet",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "RULESET" + ruleset.getId().toHexString(),
+                    RULESET + ruleset.getId().toHexString(),
                     this.objectMapper.writeValueAsString(ruleset));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 19, "Failed to convert OpenCDXCountryModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 19, FAILED_TO_CONVERT_OPEN_CDX_RULE_SET, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", ruleset.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, ruleset.toString());
             throw openCDXNotAcceptable;
         }
-        return UpdateRuleSetResponse.newBuilder().setRuleSet(ruleset.getProtobufMessage()).build();
+        return UpdateRuleSetResponse.newBuilder()
+                .setRuleSet(ruleset.getProtobufMessage())
+                .build();
     }
 
     @Override
     public GetRuleSetResponse getRuleSet(GetRuleSetRequest request) {
-        return GetRuleSetResponse.newBuilder().setRuleSet(this.openCDXRuleSetRepository.findById(new ObjectId(request.getId()))
-                .map(OpenCDXRuleSet::getProtobufMessage)
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find RuleSet: " + request.getId()))).build();
+        return GetRuleSetResponse.newBuilder()
+                .setRuleSet(this.openCDXRuleSetRepository
+                        .findById(new ObjectId(request.getId()))
+                        .map(OpenCDXRuleSet::getProtobufMessage)
+                        .orElseThrow(
+                                () -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find RuleSet: " + request.getId())))
+                .build();
     }
 
     @Override
     public DeleteRuleSetResponse deleteRuleSet(DeleteRuleSetRequest request) {
-        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository.findById(new ObjectId(request.getId()))
+        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository
+                .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 20, "Failed to find RuleSet: " + request.getId()));
         ruleset.setStatus(QuestionnaireStatus.retired);
         this.openCDXRuleSetRepository.save(ruleset);
@@ -804,16 +815,18 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "Deleting RuleSet",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
-                    "RULESET" + ruleset.getId().toHexString(),
+                    RULESET + ruleset.getId().toHexString(),
                     this.objectMapper.writeValueAsString(ruleset));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXCountryModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_RULE_SET, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", ruleset.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, ruleset.toString());
             throw openCDXNotAcceptable;
         }
 
-        return DeleteRuleSetResponse.newBuilder().setRuleSet(ruleset.getProtobufMessage()).build();
+        return DeleteRuleSetResponse.newBuilder()
+                .setRuleSet(ruleset.getProtobufMessage())
+                .build();
     }
 }

@@ -16,8 +16,6 @@
 package cdx.opencdx.questionnaire.service;
 
 import cdx.opencdx.grpc.questionnaire.*;
-import io.grpc.stub.StreamObserver;
-import org.springframework.security.access.annotation.Secured;
 
 /**
  * Interface for the QuestionnaireService
