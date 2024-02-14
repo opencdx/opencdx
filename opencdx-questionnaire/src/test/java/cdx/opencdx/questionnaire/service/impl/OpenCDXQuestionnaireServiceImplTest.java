@@ -26,6 +26,7 @@ import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
+import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
 import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -77,6 +78,9 @@ class OpenCDXQuestionnaireServiceImplTest {
 
     @Mock
     OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
+
+    @Mock
+    OpenCDXRuleSetRepository openCDXRuleSetRepository;
 
     @Autowired
     OpenCDXMessageService openCDXMessageService;
@@ -199,7 +203,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
     }
 
     @AfterEach
@@ -228,7 +233,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.createQuestionnaire(request));
@@ -286,7 +292,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -318,7 +325,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -346,7 +354,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -375,7 +384,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.getQuestionnaireData(request));
@@ -403,7 +413,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         GetQuestionnaireListRequest request =
                 GetQuestionnaireListRequest.newBuilder().build();
@@ -439,7 +450,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -472,7 +484,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         ClientQuestionnaireDataRequest request =
                 ClientQuestionnaireDataRequest.newBuilder().build();
@@ -502,7 +515,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         ClientQuestionnaireDataRequest request =
                 ClientQuestionnaireDataRequest.newBuilder().build();
@@ -532,7 +546,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -561,7 +576,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireListRequest request =
                 GetQuestionnaireListRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -588,7 +604,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -612,7 +629,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -681,7 +699,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
@@ -716,7 +735,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
@@ -738,7 +758,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
@@ -762,7 +783,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
@@ -834,7 +856,8 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
                 this.openCDXIAMUserRepository,
-                this.openCDXClassificationMessageService);
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
