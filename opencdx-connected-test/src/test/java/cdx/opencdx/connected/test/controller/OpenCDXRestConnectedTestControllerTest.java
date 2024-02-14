@@ -148,6 +148,7 @@ class OpenCDXRestConnectedTestControllerTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

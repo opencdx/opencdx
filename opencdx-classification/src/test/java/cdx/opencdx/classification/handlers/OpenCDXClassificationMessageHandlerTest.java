@@ -22,8 +22,10 @@ import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 /**
  * This class tests the OpenCDXClassificationMessageHandler class, specifically the `receivedMessage` method.
@@ -32,6 +34,10 @@ import org.junit.jupiter.api.Test;
  * method of `OpenCDXClassificationService` with the `ClassificationRequest` object.
  */
 class OpenCDXClassificationMessageHandlerTest {
+
+    ObjectMapper objectMapper;
+    OpenCDXClassificationService openCDXClassificationService;
+    OpenCDXMessageService openCDXMessageService;
 
     @Test
     void testReceivedMessage_validBytePayload_successProcessing() throws IOException {
@@ -76,5 +82,32 @@ class OpenCDXClassificationMessageHandlerTest {
 
         // assert
         verify(openCDXClassificationService, never()).classify(any());
+    }
+
+    @Test
+    void receivedMessage() throws JsonProcessingException {
+        openCDXMessageService = Mockito.mock(OpenCDXMessageService.class);
+        objectMapper = Mockito.mock(ObjectMapper.class);
+        OpenCDXClassificationMessageHandler openCDXClassificationMessageHandler =
+                new OpenCDXClassificationMessageHandler(
+                        objectMapper, openCDXClassificationService, openCDXMessageService);
+        byte[] msg = "Success".getBytes();
+        Mockito.verify(objectMapper, Mockito.times(0)).readValue("test", String.class);
+        openCDXClassificationMessageHandler.receivedMessage(msg);
+    }
+
+    @Test
+    void recievedTest() throws JsonProcessingException {
+        openCDXMessageService = Mockito.mock(OpenCDXMessageService.class);
+        objectMapper = Mockito.mock(ObjectMapper.class);
+        openCDXClassificationService = Mockito.mock(OpenCDXClassificationService.class);
+        OpenCDXClassificationMessageHandler openCDXClassificationMessageHandler =
+                new OpenCDXClassificationMessageHandler(
+                        objectMapper, openCDXClassificationService, openCDXMessageService);
+        byte[] msg = "Success".getBytes();
+        ClassificationRequest request = Mockito.mock(ClassificationRequest.class);
+
+        openCDXClassificationMessageHandler.receivedMessage(msg);
+        Mockito.verify(objectMapper, Mockito.times(0)).readValue("test", String.class);
     }
 }

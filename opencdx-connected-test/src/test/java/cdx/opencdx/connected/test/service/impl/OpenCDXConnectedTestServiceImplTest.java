@@ -150,6 +150,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertEquals(
@@ -198,6 +199,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertEquals(
@@ -241,6 +243,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -272,6 +275,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -312,6 +316,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -360,6 +365,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -408,6 +414,8 @@ class OpenCDXConnectedTestServiceImplTest {
                                 .setNationalHealthId(UUID.randomUUID().toString())
                                 .setUserId(ObjectId.get().toHexString())
                                 .build())
+                        .setTestDetails(TestDetails.newBuilder()
+                                .setMediaId(ObjectId.get().toHexString()))
                         .build());
 
         Mockito.when(this.openCDXConnectedTestRepository.findById(Mockito.any(ObjectId.class)))
