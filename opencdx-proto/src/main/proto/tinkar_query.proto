@@ -1,0 +1,62 @@
+/*
+ * An interface that allows retrieval of TINKAR codes using non-TINKAR codes from various coding systems, and vice versa.
+ * It facilitates a two-way conversion between TINKAR codes and other coding systems.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.tinkar;
+import "google/protobuf/wrappers.proto";
+
+/*
+ * Tinkar Service: Provides a gRPC endpoints for the querying the Tinkar DB
+ */
+service Tinkar {
+  /*
+   * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   */
+  rpc searchTinkar(TinkarQueryRequest) returns (TinkarQueryResponse) {}
+  /*
+   * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
+   */
+  rpc getTinkarEntity(TinkarGetRequest) returns (TinkarQueryResult) {}
+
+}
+/*
+ * TinkarQueryRequest Message: Represents the user's request to search the tinkar db.
+ */
+message TinkarQueryRequest {
+  /*
+   * The search string required for the request.
+   */
+  string query = 1;
+  /*
+   * The maximum number of results to be returned.
+   */
+  int32 max_results = 2;
+}
+/*
+ * TinkarGetRequest Message: Represents the tinkar concept ID
+ */
+message TinkarGetRequest {
+  /*
+   * The Tinkar concept ID
+   */
+  int32 nid = 1;
+}
+/*
+ * TinkarQueryResult Message: Represents the result structure returned by `Tinkar` service.
+ */
+message TinkarQueryResult {
+  int32 nid = 1;
+  int32 rc_nid = 2;
+  int32 pattern_nid = 3;
+  int32 field_index = 4;
+  float score = 5;
+  string highlighted_string = 6;
+}
+/*
+ * TinkarResponse Message: Represents the response that `Tinkar` service returns.
+ */
+message TinkarQueryResponse {
+  repeated TinkarQueryResult results = 1;
+}
