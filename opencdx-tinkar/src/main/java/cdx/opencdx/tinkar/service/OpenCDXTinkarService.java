@@ -15,7 +15,10 @@
  */
 package cdx.opencdx.tinkar.service;
 
-import dev.ikm.tinkar.common.service.PrimitiveDataSearchResult;
+import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
 
 /**
  * Interface to search TINKAR Repository
@@ -24,16 +27,17 @@ public interface OpenCDXTinkarService {
 
     /**
      * Method to search for a term
-     * @param query String containing the term to search
-     * @param maxResultSize Integer with the maximum number of results.
-     * @return Array of the found data.
+     *
+     * @param request TinkarQueryRequest containing the terms to search
+     * @return TinkarQueryResponse
      */
-    PrimitiveDataSearchResult[] search(String query, int maxResultSize);
+    TinkarQueryResponse search(TinkarQueryRequest request);
 
     /**
      * Method to search for an NID
-     * @param nid The NID to search for on the entity.
-     * @return String representing the entity.
+     *
+     * @param request TinkarGetRequest containing the terms to search
+     * @return TinkarQueryResult
      */
-    String getEntity(int nid);
+    TinkarQueryResult getEntity(TinkarGetRequest request);
 }
