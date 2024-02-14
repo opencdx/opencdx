@@ -36,7 +36,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of the Workspace Service
+ * Implementation of the IAM Workspace Service
  */
 @Slf4j
 @Service

@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for the /greeting api's
+ * Controller for the /classify api's
  */
 @Slf4j
 @RestController

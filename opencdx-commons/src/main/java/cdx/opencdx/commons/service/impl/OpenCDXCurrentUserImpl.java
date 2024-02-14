@@ -124,7 +124,6 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     @Override
     public void allowBypassAuthentication(boolean allowBypassAuthentication) {
-        ;
         if (allowBypassAuthentication) {
             log.warn(BYPASSING_AUTHENTICATION);
         } else {

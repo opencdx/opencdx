@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.repository;
+package cdx.opencdx.questionnaire.repository;
 
-import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import io.micrometer.observation.annotation.Observed;
+import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the Database provider model.
+ * The OpenCDXRuleSetRepository interface is responsible for managing and accessing
+ * OpenCDXRuleSet objects. It extends the MongoRepository interface, which provides
+ * basic CRUD operations for MongoDB.
+ * <p>
+ * This interface does not define any additional methods as it inherits all the necessary
+ * methods from the MongoRepository interface. The OpenCDXRuleSetRepository interface
+ * uses the OpenCDXRuleSet class as the entity type and ObjectId as the identifier
+ * type for MongoDB.
  */
-@Repository
-@Observed(name = "opencdx")
-public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {}
+public interface OpenCDXRuleSetRepository extends MongoRepository<OpenCDXRuleSet, ObjectId> {}

@@ -32,7 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing Media Service Requests
  */
 @Slf4j
 @Service

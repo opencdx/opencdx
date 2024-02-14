@@ -1,0 +1,9 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: questionnaire
+
+mongock:
+  change-logs-scan-package: cdx.opencdx.questionnaire.changelog
+  max-waiting-for-lock-minutes: 5
+  lock-acquired-for-minutes: 3
