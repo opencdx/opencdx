@@ -459,7 +459,7 @@ message RuleSet {
   /*
    * Unique identifier for the rule.
    */
-  string rule_id = 1;
+  optional string rule_id = 1;
   /*
    * Indicates the type of the rule (e.g., business rule, validation rule etc.).
    */
@@ -477,6 +477,11 @@ message RuleSet {
    * The rule itself.
    */
   optional string rule = 5;
+
+  /**
+   * The rule set status.
+   */
+  optional QuestionnaireStatus status = 6;
 }
 
 /*
@@ -503,6 +508,80 @@ message RuleSetsResponse {
   repeated RuleSet rule_sets = 1;
 }
 
+/**
+ * Represents the request to create a rule set.
+ */
+message CreateRuleSetRequest {
+  /*
+   * The rule set to be created.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the response retrieved from the CreateRuleSet operation.
+ */
+message CreateRuleSetResponse {
+  /**
+   * The rule set that was created.
+   */
+  RuleSet rule_set = 1;
+}
+
+/**
+ * Represents the request to update a rule set.
+ */
+message UpdateRuleSetRequest {
+  /*
+   * The rule set to be updated.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the response retrieved from the UpdateRuleSet operation.
+ */
+message UpdateRuleSetResponse {
+  /**
+   * The rule set that was updated.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the request to delete a rule set.
+ */
+message GetRuleSetRequest {
+  /*
+   * The unique identifier of the rule set.
+   */
+  optional string id = 1;
+}
+/**
+ * Represents the response retrieved from the GetRuleSet operation.
+ */
+message GetRuleSetResponse {
+  /*
+   * The rule set that was retrieved.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the request to delete a rule set.
+ */
+message DeleteRuleSetRequest {
+  /*
+   * The unique identifier of the rule set.
+   */
+  optional string id = 1;
+}
+/**
+ * Represents the response retrieved from the DeleteRuleSet operation.
+ */
+message DeleteRuleSetResponse {
+  /*
+   * The rule set that was deleted.
+   */
+  RuleSet rule_set = 1;
+}
+
 /*
  * Defines a service for managing FHIR questionnaires.
  * TODO: Expand information on FHIR.
@@ -513,6 +592,26 @@ service QuestionnaireService {
    * Defines operations for FHIR questionnaires
    */
   rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);
+
+  /**
+   * Create a rule set.
+   */
+  rpc CreateRuleSet(CreateRuleSetRequest) returns (CreateRuleSetResponse);
+
+  /**
+   * Update a rule set.
+   */
+  rpc UpdateRuleSet(UpdateRuleSetRequest) returns (UpdateRuleSetResponse);
+
+  /**
+   * Get a rule set.
+   */
+  rpc GetRuleSet(GetRuleSetRequest) returns (GetRuleSetResponse);
+
+  /**
+   * Delete a rule set.
+   */
+  rpc DeleteRuleSet(DeleteRuleSetRequest) returns (DeleteRuleSetResponse);
 
   /*
    * Handling operations for Questionnaires

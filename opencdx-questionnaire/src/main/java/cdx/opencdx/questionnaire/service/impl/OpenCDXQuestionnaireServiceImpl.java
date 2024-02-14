@@ -156,7 +156,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                 new ObjectId(request.getQuestionnaire().getId()))) {
             throw new OpenCDXNotFound(
                     DOMAIN,
-                    3,
+                    2,
                     "FAILED_TO_FIND_ORGANIZATION" + request.getQuestionnaire().getId());
         }
         OpenCDXQuestionnaireModel model =
@@ -172,7 +172,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXQuestionnaireModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXQuestionnaireModel", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put("Object", request.toString());
             throw openCDXNotAcceptable;
@@ -242,7 +242,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert DeleteQuestionnaireRequest", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 4, "Failed to convert DeleteQuestionnaireRequest", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -286,7 +286,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 5, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -318,7 +318,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 6, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -349,7 +349,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 7, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -383,7 +383,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 8, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -421,7 +421,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 9, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -453,7 +453,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 10, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -484,7 +484,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 11, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -515,7 +515,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 12, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -549,7 +549,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 13, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -587,7 +587,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(request.toString()));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 14, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -628,7 +628,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 37, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 15, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -669,7 +669,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     this.objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                    new OpenCDXNotAcceptable(this.getClass().getName(), 16, CONVERSION_ERROR, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -721,7 +721,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                                 this.objectMapper.writeValueAsString(model));
                     } catch (JsonProcessingException e) {
                         OpenCDXNotAcceptable openCDXNotAcceptable =
-                                new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
+                                new OpenCDXNotAcceptable(this.getClass().getName(), 17, CONVERSION_ERROR, e);
                         openCDXNotAcceptable.setMetaData(new HashMap<>());
                         openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
                         throw openCDXNotAcceptable;
@@ -737,5 +737,83 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                         .setTotalRecords(all.getTotalElements())
                         .build())
                 .build();
+    }
+
+    @Override
+    public CreateRuleSetResponse createRuleSet(CreateRuleSetRequest request) {
+        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository.save(new OpenCDXRuleSet(request.getRuleSet()));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Creating RuleSet",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    "RULESET" + ruleset.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(ruleset));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 18, "Failed to convert OpenCDXCountryModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", ruleset.toString());
+            throw openCDXNotAcceptable;
+        }
+        return CreateRuleSetResponse.newBuilder().setRuleSet(ruleset.getProtobufMessage()).build();
+    }
+
+    @Override
+    public UpdateRuleSetResponse updateRuleSet(UpdateRuleSetRequest request) {
+        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository.save(new OpenCDXRuleSet(request.getRuleSet()));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Updating RuleSet",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    "RULESET" + ruleset.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(ruleset));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 19, "Failed to convert OpenCDXCountryModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", ruleset.toString());
+            throw openCDXNotAcceptable;
+        }
+        return UpdateRuleSetResponse.newBuilder().setRuleSet(ruleset.getProtobufMessage()).build();
+    }
+
+    @Override
+    public GetRuleSetResponse getRuleSet(GetRuleSetRequest request) {
+        return GetRuleSetResponse.newBuilder().setRuleSet(this.openCDXRuleSetRepository.findById(new ObjectId(request.getId()))
+                .map(OpenCDXRuleSet::getProtobufMessage)
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find RuleSet: " + request.getId()))).build();
+    }
+
+    @Override
+    public DeleteRuleSetResponse deleteRuleSet(DeleteRuleSetRequest request) {
+        OpenCDXRuleSet ruleset = this.openCDXRuleSetRepository.findById(new ObjectId(request.getId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 20, "Failed to find RuleSet: " + request.getId()));
+        ruleset.setStatus(QuestionnaireStatus.retired);
+        this.openCDXRuleSetRepository.save(ruleset);
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting RuleSet",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    "RULESET" + ruleset.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(ruleset));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXCountryModel", e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put("OBJECT", ruleset.toString());
+            throw openCDXNotAcceptable;
+        }
+
+        return DeleteRuleSetResponse.newBuilder().setRuleSet(ruleset.getProtobufMessage()).build();
     }
 }

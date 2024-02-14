@@ -7533,6 +7533,30 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.requestJson">{}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / CreateRuleSet" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/CreateRuleSet</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;rule_set&quot;:{
+    &quot;type&quot;: &quot;User Rule&quot;,
+    &quot;category&quot;: &quot;Process user response&quot;,
+    &quot;description&quot;: &quot;Categorize blood pressure&quot;,
+    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,
+    &quot;status&quot;: &quot;draft&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [POST]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -7934,7 +7958,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/questionnaire/getrulesets</stringProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

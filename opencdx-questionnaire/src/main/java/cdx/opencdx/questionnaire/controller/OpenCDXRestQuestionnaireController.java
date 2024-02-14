@@ -50,10 +50,51 @@ public class OpenCDXRestQuestionnaireController {
      * @param request ClientRulesRequest indicating organization and workspace
      * @return RuleSetsResponse with the message.
      */
-    @PostMapping(value = "/getrulesets")
+    @PostMapping(value = "/list")
     public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody ClientRulesRequest request) {
         RuleSetsResponse ruleSets = openCDXQuestionnaireService.getRuleSets(request);
         return new ResponseEntity<>(ruleSets, HttpStatus.OK);
+    }
+    /**
+     * Create RuleSet Rest API
+     * @param request CreateRuleSetRequest indicating ruleSet realted data
+     * @return CreateRuleSetResponse with the message.
+     */
+    @PostMapping
+    public ResponseEntity<CreateRuleSetResponse> createRuleSet(@RequestBody CreateRuleSetRequest request) {
+        CreateRuleSetResponse ruleSet = openCDXQuestionnaireService.createRuleSet(request);
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
+    }
+
+    /**
+     * Update RuleSet Rest API
+     * @param request UpdateRuleSetRequest indicating ruleSet realted data
+     * @return UpdateRuleSetResponse with the message.
+     */
+    @PutMapping
+    public ResponseEntity<UpdateRuleSetResponse> updateRuleSet(@RequestBody UpdateRuleSetRequest request) {
+        UpdateRuleSetResponse ruleSet = openCDXQuestionnaireService.updateRuleSet(request);
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
+    }
+    /**
+     * Get RuleSet Rest API
+     * @param request GetRuleSetRequest indicating ruleSet realted data
+     * @return GetRuleSetResponse with the message.
+     */
+    @GetMapping
+    public ResponseEntity<GetRuleSetResponse> getRuleSet(@RequestBody GetRuleSetRequest request) {
+        GetRuleSetResponse ruleSet = openCDXQuestionnaireService.getRuleSet(request);
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
+    }
+    /**
+     * Delete RuleSet Rest API
+     * @param request DeleteRuleSetRequest indicating ruleSet realted data
+     * @return DeleteRuleSetResponse with the message.
+     */
+    @DeleteMapping
+    public ResponseEntity<DeleteRuleSetResponse> deleteRuleSet(@RequestBody DeleteRuleSetRequest request) {
+        DeleteRuleSetResponse ruleSet = openCDXQuestionnaireService.deleteRuleSet(request);
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
     }
 
     /**

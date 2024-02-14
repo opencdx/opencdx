@@ -97,13 +97,13 @@ class OpenCDXRestQuestionnaireControllerTest {
         Mockito.when(this.openCDXRuleSetRepository.findAll())
                 .thenReturn(List.of(
                         new OpenCDXRuleSet(
-                                ObjectId.get(), "Business Rule", "Validation", "Validate user responses", null),
+                                ObjectId.get(), "Business Rule", "Validation", "Validate user responses", null, QuestionnaireStatus.active),
                         new OpenCDXRuleSet(
                                 ObjectId.get(),
                                 "Authorization Rule",
                                 "Access Control",
                                 "Control access based on user responses",
-                                null)));
+                                null, QuestionnaireStatus.active)));
         Mockito.when(this.openCDXUserQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()

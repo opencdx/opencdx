@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.model;
 
+import cdx.opencdx.grpc.questionnaire.QuestionnaireStatus;
 import cdx.opencdx.grpc.questionnaire.RuleSet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,7 @@ public class OpenCDXRuleSet {
     private String category;
     private String description;
     private String rule;
+    private QuestionnaireStatus status;
 
     /**
      * Instantiates a new OpenCDXRuleSet.
@@ -47,11 +49,18 @@ public class OpenCDXRuleSet {
      * @param ruleSet the rule set
      */
     public OpenCDXRuleSet(RuleSet ruleSet) {
-        this.id = new ObjectId(ruleSet.getRuleId());
+        if(ruleSet.hasRuleId()) {
+            this.id = new ObjectId(ruleSet.getRuleId());
+        }
         this.type = ruleSet.getType();
         this.category = ruleSet.getCategory();
         this.description = ruleSet.getDescription();
         this.rule = ruleSet.getRule();
+        if(ruleSet.hasStatus()) {
+            this.status = ruleSet.getStatus();
+        } else {
+            this.status = QuestionnaireStatus.draft;
+        }
     }
 
     /**
@@ -64,6 +73,7 @@ public class OpenCDXRuleSet {
                 .setRuleId(id.toHexString())
                 .setType(type)
                 .setCategory(category)
+                .setStatus(this.status)
                 .setDescription(description);
 
         if (rule != null) {
