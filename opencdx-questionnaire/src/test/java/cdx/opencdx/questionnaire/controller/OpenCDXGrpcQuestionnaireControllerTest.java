@@ -24,6 +24,7 @@ import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
+import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
 import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
@@ -191,6 +192,34 @@ class OpenCDXGrpcQuestionnaireControllerTest {
 
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
                 openCDXMessageService, openCDXDocumentValidator, openCDXIAMUserRepository);
+
+        Mockito.when(openCDXRuleSetRepository.save(Mockito.any(OpenCDXRuleSet.class)))
+                .thenAnswer(new Answer<OpenCDXRuleSet>() {
+                    @Override
+                    public OpenCDXRuleSet answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXRuleSet argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+
+        Mockito.when(this.openCDXRuleSetRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXRuleSet>>() {
+                    @Override
+                    public Optional<OpenCDXRuleSet> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXRuleSet.builder()
+                                .id(argument)
+                                .category("category")
+                                .type("type")
+                                .description("description")
+                                .rule("rule")
+                                .status(QuestionnaireStatus.draft)
+                                .build());
+                    }
+                });
 
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
                 this.openCDXAuditService,
@@ -1201,5 +1230,233 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
                 () -> this.openCDXGrpcQuestionnaireController.getUserQuestionnaireDataList(request, responseObserver));
+    }
+
+    @Test
+    void createRuleSetTest() {
+        StreamObserver<CreateRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        CreateRuleSetRequest request = CreateRuleSetRequest.newBuilder()
+                .setRuleSet(RuleSet.newBuilder()
+                        .setType("type")
+                        .setCategory("category")
+                        .setRule("rule")
+                        .build())
+                .build();
+        this.openCDXGrpcQuestionnaireController.createRuleSet(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateRuleSetResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void updateRuleSetTest() {
+        StreamObserver<UpdateRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        UpdateRuleSetRequest request = UpdateRuleSetRequest.newBuilder()
+                .setRuleSet(RuleSet.newBuilder()
+                        .setRuleId(ObjectId.get().toHexString())
+                        .setType("type")
+                        .setCategory("category")
+                        .setRule("rule")
+                        .build())
+                .build();
+        this.openCDXGrpcQuestionnaireController.updateRuleSet(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(UpdateRuleSetResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void getRuleSetTest() {
+        StreamObserver<GetRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetRuleSetRequest request = GetRuleSetRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXGrpcQuestionnaireController.getRuleSet(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(GetRuleSetResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void deleteRuleSetTest() {
+        StreamObserver<DeleteRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteRuleSetRequest request = DeleteRuleSetRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXGrpcQuestionnaireController.deleteRuleSet(request, responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeleteRuleSetResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void createRuleSetTestFail() throws JsonProcessingException {
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository,
+                openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+
+        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
+
+        StreamObserver<CreateRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        CreateRuleSetRequest request = CreateRuleSetRequest.newBuilder()
+                .setRuleSet(RuleSet.newBuilder()
+                        .setType("type")
+                        .setCategory("category")
+                        .setRule("rule")
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcQuestionnaireController.createRuleSet(request, responseObserver));
+    }
+
+    @Test
+    void updateRuleSetTestFail() throws JsonProcessingException {
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository,
+                openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+
+        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
+
+        StreamObserver<UpdateRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        UpdateRuleSetRequest request = UpdateRuleSetRequest.newBuilder()
+                .setRuleSet(RuleSet.newBuilder()
+                        .setRuleId(ObjectId.get().toHexString())
+                        .setType("type")
+                        .setCategory("category")
+                        .setRule("rule")
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcQuestionnaireController.updateRuleSet(request, responseObserver));
+    }
+
+    @Test
+    void deleteRuleSetTestFail() throws JsonProcessingException {
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository,
+                openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+
+        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
+
+        StreamObserver<DeleteRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteRuleSetRequest request = DeleteRuleSetRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXGrpcQuestionnaireController.deleteRuleSet(request, responseObserver));
+    }
+
+    @Test
+    void deleteRuleSetTestFail2() throws JsonProcessingException {
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXRuleSetRepository = Mockito.mock(OpenCDXRuleSetRepository.class);
+        Mockito.when(this.openCDXRuleSetRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXRuleSet>>() {
+                    @Override
+                    public Optional<OpenCDXRuleSet> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.empty();
+                    }
+                });
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository,
+                openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+
+        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
+
+        StreamObserver<DeleteRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        DeleteRuleSetRequest request = DeleteRuleSetRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.openCDXGrpcQuestionnaireController.deleteRuleSet(request, responseObserver));
+    }
+
+    @Test
+    void getRuleSetTestFail2() throws JsonProcessingException {
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXRuleSetRepository = Mockito.mock(OpenCDXRuleSetRepository.class);
+        Mockito.when(this.openCDXRuleSetRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXRuleSet>>() {
+                    @Override
+                    public Optional<OpenCDXRuleSet> answer(InvocationOnMock invocation) throws Throwable {
+                        return Optional.empty();
+                    }
+                });
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                openCDXQuestionnaireRepository,
+                openCDXUserQuestionnaireRepository,
+                openCDXIAMUserRepository,
+                openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+
+        this.openCDXGrpcQuestionnaireController = new OpenCDXGrpcQuestionnaireController(this.questionnaireService);
+
+        StreamObserver<GetRuleSetResponse> responseObserver = Mockito.mock(StreamObserver.class);
+
+        GetRuleSetRequest request = GetRuleSetRequest.newBuilder()
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotFound.class,
+                () -> this.openCDXGrpcQuestionnaireController.getRuleSet(request, responseObserver));
     }
 }

@@ -89,12 +89,13 @@ public class OpenCDXRestQuestionnaireController {
     }
     /**
      * Delete RuleSet Rest API
-     * @param request DeleteRuleSetRequest indicating ruleSet realted data
+     * @param ruleSetId Identifier of ruleSet to get.
      * @return DeleteRuleSetResponse with the message.
      */
-    @DeleteMapping
-    public ResponseEntity<DeleteRuleSetResponse> deleteRuleSet(@RequestBody DeleteRuleSetRequest request) {
-        DeleteRuleSetResponse ruleSet = openCDXQuestionnaireService.deleteRuleSet(request);
+    @DeleteMapping(value = "/ruleset/{Id}")
+    public ResponseEntity<DeleteRuleSetResponse> deleteRuleSet(@PathVariable(value = "Id") String ruleSetId) {
+        DeleteRuleSetResponse ruleSet = openCDXQuestionnaireService.deleteRuleSet(
+                DeleteRuleSetRequest.newBuilder().setId(ruleSetId).build());
         return new ResponseEntity<>(ruleSet, HttpStatus.OK);
     }
 
