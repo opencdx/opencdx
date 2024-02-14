@@ -60,4 +60,5 @@ public class OpenCDXClassificationModel {
     private Instant modified;
     private ObjectId creator;
     private ObjectId modifier;
+    private Media testDetailsMedia;
 }
