@@ -56,7 +56,7 @@ public class OpenCDXRestClassificationController {
      */
     @PostMapping(value = "/classify", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClassificationResponse> submitClassification(@RequestBody ClassificationRequest request) {
-
+        log.info("Received classify request");
         return new ResponseEntity<>(this.classificationService.classify(request), HttpStatus.OK);
     }
 }

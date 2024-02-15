@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,6 +30,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Model for AuditEvent in Mongo.  Features conversions
  * to Protobuf messages.
  */
+@Slf4j
 @Data
 @Builder
 @AllArgsConstructor
@@ -54,6 +56,7 @@ public class AuditEventModel {
      * @param auditEvent Protobuf message to use for creation.
      */
     public AuditEventModel(AuditEvent auditEvent) {
+        log.info("Creating AuditEventModel from protobuf message");
         if (auditEvent.hasCreated()) {
             this.created = Instant.ofEpochSecond(
                     auditEvent.getCreated().getSeconds(),

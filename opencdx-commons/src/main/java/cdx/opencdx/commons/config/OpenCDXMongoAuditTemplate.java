@@ -48,10 +48,12 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
      */
     public OpenCDXMongoAuditTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
         super(mongoDbFactory, mongoConverter);
+        log.info("OpenCDXMongoAuditTemplate created");
     }
 
     @Override
     protected <T> T maybeCallBeforeSave(T object, Document document, String collection) {
+        log.info("OpenCDXMongoAuditTemplate maybeCallBeforeSave");
         ObjectId identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
         Instant date = Instant.now();
@@ -72,23 +74,27 @@ public class OpenCDXMongoAuditTemplate extends MongoTemplate {
 
     @Override
     public <T> T findAndRemove(Query query, Class<T> entityClass, String collectionName) {
+        log.info("OpenCDXMongoAuditTemplate findAndRemove");
         updateRemovalQuery(collectionName, query);
         return super.findAndRemove(query, entityClass, collectionName);
     }
 
     @Override
     public <T> List<T> findAllAndRemove(Query query, Class<T> entityClass, String collectionName) {
+        log.info("OpenCDXMongoAuditTemplate findAllAndRemove");
         updateRemovalQuery(collectionName, query);
         return super.findAllAndRemove(query, entityClass, collectionName);
     }
 
     @Override
     protected <T> DeleteResult doRemove(String collectionName, Query query, Class<T> entityClass, boolean multi) {
+        log.info("OpenCDXMongoAuditTemplate doRemove");
         updateRemovalQuery(collectionName, query);
         return super.doRemove(collectionName, query, entityClass, multi);
     }
 
     private void updateRemovalQuery(String collectionName, Query query) {
+        log.info("OpenCDXMongoAuditTemplate updateRemovalQuery");
         ObjectId identityID =
                 CurrentUserHelper.getOpenCDXCurrentUser().getCurrentUser().getId();
         Instant date = Instant.now();

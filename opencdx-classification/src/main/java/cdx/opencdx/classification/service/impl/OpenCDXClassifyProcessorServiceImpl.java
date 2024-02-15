@@ -59,6 +59,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     @Override
     @SuppressWarnings("java:S2119")
     public void classify(OpenCDXClassificationModel model) {
+        log.info("Executing classify operation.");
         Resource file = retrieveFile(model.getMedia());
         if (file != null) {
             log.info("fileName: {}", file.getFilename());
@@ -87,6 +88,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     private Resource retrieveFile(Media model) {
         if (model != null) {
+            log.info("Retrieving file for classification.");
 
             try {
                 MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();

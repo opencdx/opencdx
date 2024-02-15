@@ -50,6 +50,7 @@ public class OpenCDXUserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Cacheable(value = "user-details", key = "#username")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("Loading User");
         Optional<OpenCDXIAMUserModel> model = this.openCDXIAMUserRepository.findByUsername(username);
 
         if (model.isPresent()) {

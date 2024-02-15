@@ -42,6 +42,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
      */
     public OpenCDXCommunicationServiceImpl(
             OpenCDXMessageService messageService, OpenCDXDocumentValidator openCDXDocumentValidator) {
+        log.info("OpenCDXCommunicationServiceImpl created");
         this.messageService = messageService;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
@@ -49,6 +50,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     @Override
     public void sendNotification(Notification notification) {
         openCDXDocumentValidator.validateDocumentOrThrow("notification-event", new ObjectId(notification.getEventId()));
+        log.info("Sending notification");
         this.messageService.send(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, notification);
     }
 }
