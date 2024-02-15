@@ -154,6 +154,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                             "OpenCDX received a new test for you: "
                                     + submittedTest.getTestDetails().getTestName()));
 
+            builder.addAllPatientIds(List.of(patient.getId().toHexString()));
+
             EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
                     .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
                     .findFirst()

@@ -18,6 +18,7 @@ package cdx.opencdx.communications.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -95,6 +96,9 @@ class OpenCDXNotificationServiceImplTest {
     OpenCDXNotificationService openCDXNotificationService;
 
     @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
@@ -103,7 +107,11 @@ class OpenCDXNotificationServiceImplTest {
         this.openCDXNotificationEventRepository = Mockito.mock(OpenCDXNotificationEventRepository.class);
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
         this.openCDXNotificaitonRepository = Mockito.mock(OpenCDXNotificaitonRepository.class);
-
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .nationalHealthId(UUID.randomUUID().toString())
+                        .build()));
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
@@ -139,7 +147,8 @@ class OpenCDXNotificationServiceImplTest {
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
                 objectMapper,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                this.openCDXIAMUserRepository);
     }
 
     @AfterEach
@@ -211,6 +220,8 @@ class OpenCDXNotificationServiceImplTest {
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
 
         Notification notification = Notification.newBuilder()
+                .addAllPatientIds(
+                        List.of(ObjectId.get().toHexString(), ObjectId.get().toHexString()))
                 .setEventId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
@@ -636,6 +647,7 @@ class OpenCDXNotificationServiceImplTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
+                .patients(List.of(ObjectId.get(), ObjectId.get()))
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())
@@ -704,6 +716,7 @@ class OpenCDXNotificationServiceImplTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
+                .patients(List.of(ObjectId.get(), ObjectId.get()))
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())
@@ -726,7 +739,8 @@ class OpenCDXNotificationServiceImplTest {
                 this.openCDXCommunicationSmsService,
                 this.openCDXCommunicationEmailService,
                 this.objectMapper,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                this.openCDXIAMUserRepository);
 
         Assertions.assertDoesNotThrow(() -> {
             openCDXNotificationService.processOpenCDXNotification(notification);

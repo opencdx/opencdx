@@ -16,6 +16,7 @@
 package cdx.opencdx.communications.tasks;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -98,6 +99,9 @@ class OpenCDXNotificationProcessorTasksTest {
     OpenCDXNotificationProcessorTasks openCDXNotificationProcessorTasks;
 
     @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
@@ -114,6 +118,13 @@ class OpenCDXNotificationProcessorTasksTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
+                        .id(ObjectId.get())
+                        .nationalHealthId(UUID.randomUUID().toString())
+                        .build()));
+
         Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXNotificationModel>() {
                     @Override
@@ -142,7 +153,8 @@ class OpenCDXNotificationProcessorTasksTest {
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
                 objectMapper,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                this.openCDXIAMUserRepository);
 
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 
@@ -183,6 +195,7 @@ class OpenCDXNotificationProcessorTasksTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
+                .patients(List.of(ObjectId.get(), ObjectId.get()))
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())

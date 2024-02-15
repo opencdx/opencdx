@@ -102,6 +102,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
