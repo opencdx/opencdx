@@ -29,7 +29,7 @@ import org.springframework.security.access.annotation.Secured;
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
-public class OpenCDXGrpcTinkarSearchController extends TinkarGrpc.TinkarImplBase {
+public class OpenCDXGrpcTinkarSearchController extends TinkarQueryServiceGrpc.TinkarQueryServiceImplBase {
 
     private final OpenCDXTinkarService openCDXTinkarService;
 

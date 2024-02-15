@@ -8,9 +8,9 @@ package cdx.opencdx.grpc.tinkar;
 import "google/protobuf/wrappers.proto";
 
 /*
- * Tinkar Service: Provides a gRPC endpoints for the querying the Tinkar DB
+ * TinkarQueryService: Provides a gRPC endpoints for the querying the Tinkar DB
  */
-service Tinkar {
+service TinkarQueryService {
   /*
    * `searchTinkar` RPC method, which expects a `TinkarQueryRequest` and returns a `TinkarQueryResponse`.
    */
