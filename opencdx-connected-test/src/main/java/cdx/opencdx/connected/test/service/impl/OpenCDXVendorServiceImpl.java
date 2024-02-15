@@ -50,9 +50,9 @@ import org.springframework.stereotype.Service;
 public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     private static final String VENDOR = "VENDOR: ";
-    public static final String DOMAIN = "OpenCDXVendorServiceImpl";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_VENDOR_MODEL = "Failed to convert OpenCDXVendorModel";
-    public static final String OBJECT = "OBJECT";
+    private static final String DOMAIN = "OpenCDXVendorServiceImpl";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_VENDOR_MODEL = "Failed to convert OpenCDXVendorModel";
+    private static final String OBJECT = "OBJECT";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;

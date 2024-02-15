@@ -50,8 +50,8 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     private static final String DOMAIN = "OpenCDXCountryServiceImpl";
     private static final String COUNTRY = "COUNTRY: ";
-    public static final String OBJECT = "OBJECT";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL = "Failed to convert OpenCDXCountryModel";
+    private static final String OBJECT = "OBJECT";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL = "Failed to convert OpenCDXCountryModel";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;

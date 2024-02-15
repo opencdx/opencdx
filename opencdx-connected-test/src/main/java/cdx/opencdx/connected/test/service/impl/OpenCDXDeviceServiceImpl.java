@@ -45,9 +45,9 @@ import org.springframework.stereotype.Service;
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private static final String COUNTRY = "country";
     private static final String DEVICE = "DEVICE: ";
-    public static final String DOMAIN = "OpenCDXDeviceServiceImpl";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_DEVICE_MODEL = "Failed to convert OpenCDXDeviceModel";
-    public static final String OBJECT = "OBJECT";
+    private static final String DOMAIN = "OpenCDXDeviceServiceImpl";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_DEVICE_MODEL = "Failed to convert OpenCDXDeviceModel";
+    private static final String OBJECT = "OBJECT";
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
