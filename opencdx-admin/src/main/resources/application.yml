@@ -27,6 +27,17 @@ spring:
             url: "https://localhost:8761/"
           - label: "NATS"
             url: "http://localhost:8222/"
+          - label: "Documentation"
+            url: "https://localhost:8861//javadoc/index.html"
+            children:
+              - label: "Javadoc"
+                url: "https://localhost:8861/javadoc/index.html"
+              - label: "Protodoc"
+                url: "https://localhost:8861/protodoc/index.html"
+              - label: "Dependencies"
+                url: "https://localhost:8861/dependency/dependency-check-report.html"
+              - label: "JMeter Smoke"
+                url: "https://localhost:8861/jmeter/index.html"
           - label: "Monitoring"
             url: "http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
             children:
