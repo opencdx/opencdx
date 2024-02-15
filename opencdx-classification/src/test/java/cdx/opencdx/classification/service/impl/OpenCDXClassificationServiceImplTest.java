@@ -200,6 +200,7 @@ class OpenCDXClassificationServiceImplTest {
         Mockito.reset(this.openCDXIAMUserRepository);
         Mockito.reset(this.openCDXClassificationRepository);
         Mockito.reset(this.openCDXMediaClient);
+        Mockito.reset(this.openCDXQuestionnaireClient);
     }
 
     @Test
@@ -537,7 +538,7 @@ class OpenCDXClassificationServiceImplTest {
         SecurityContextHolder.setContext(securityContext);
 
         Mockito.when(this.openCDXQuestionnaireClient.getRuleSet(
-                        Mockito.any(String.class), Mockito.any(OpenCDXCallCredentials.class)))
+                        Mockito.anyString(), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(GetRuleSetResponse.newBuilder()
                         .setRuleSet(RuleSet.newBuilder()
                                 .setRuleId(ruleId)
