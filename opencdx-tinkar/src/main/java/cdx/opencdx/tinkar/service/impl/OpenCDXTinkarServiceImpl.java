@@ -45,6 +45,8 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
     /**
      * Default Constructor
+     * @param pathParent Parent path
+     * @param pathChild Child path
      */
     public OpenCDXTinkarServiceImpl(
             @Value("${data.path.parent}") String pathParent, @Value("${data.path.child}") String pathChild) {

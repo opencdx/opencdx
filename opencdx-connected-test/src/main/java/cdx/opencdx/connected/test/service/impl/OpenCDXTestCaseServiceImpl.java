@@ -44,9 +44,9 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
     private static final String TESTCASE = "TESTCASE: ";
-    public static final String DOMAIN = "OpenCDXTestCaseServiceImpl";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_TEST_CASE_MODEL = "Failed to convert OpenCDXTestCaseModel";
-    public static final String OBJECT = "OBJECT";
+    private static final String DOMAIN = "OpenCDXTestCaseServiceImpl";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_TEST_CASE_MODEL = "Failed to convert OpenCDXTestCaseModel";
+    private static final String OBJECT = "OBJECT";
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;

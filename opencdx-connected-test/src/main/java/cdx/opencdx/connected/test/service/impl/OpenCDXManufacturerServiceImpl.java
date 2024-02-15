@@ -51,9 +51,9 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
 
     private static final String DOMAIN = "OpenCDXManufacturerServiceImpl";
     private static final String MANUFACTURER = "MANUFACTURER: ";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL =
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL =
             "Failed to convert OpenCDXManufacturerModel";
-    public static final String OBJECT = "OBJECT";
+    private static final String OBJECT = "OBJECT";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
