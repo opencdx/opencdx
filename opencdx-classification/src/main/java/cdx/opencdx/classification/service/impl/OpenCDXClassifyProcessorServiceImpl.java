@@ -18,13 +18,16 @@ package cdx.opencdx.classification.service.impl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.model.RuleResult;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.questionnaire.GetRuleSetResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
 import java.io.ByteArrayInputStream;
@@ -54,15 +57,20 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
+    private final OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
     /**
      * Constructor for OpenCDXClassifyProcessorServiceImpl
      * @param openCDXMediaUpDownClient service for media upload and download client
      * @param openCDXCurrentUser service for current user
      */
     public OpenCDXClassifyProcessorServiceImpl(
-            OpenCDXMediaUpDownClient openCDXMediaUpDownClient, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXQuestionnaireClient openCDXQuestionnaireClient) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXQuestionnaireClient = openCDXQuestionnaireClient;
     }
 
     @Override
@@ -126,6 +134,14 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     private void runRules(OpenCDXClassificationModel model, ClassificationResponse.Builder builder) {
         if (model.getUserQuestionnaireData() != null
                 && model.getUserQuestionnaireData().getQuestionnaireDataCount() > 0
+                && !model.getUserQuestionnaireData()
+                        .getQuestionnaireData(0)
+                        .getRuleId()
+                        .isEmpty()
+                && !model.getUserQuestionnaireData()
+                        .getQuestionnaireData(0)
+                        .getRuleId()
+                        .isBlank()
                 && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
             KnowledgeService knowledgeService = new KnowledgeService();
             try {
@@ -141,35 +157,12 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     }
 
     private InputStream getRulesClass(OpenCDXClassificationModel model) {
-        // TODO: Get rules string from DB
-        String ruleSet =
-                """
-                package cdx.opencdx.classification.service;
-                import cdx.opencdx.classification.model.RuleResult;
-                import org.evrete.dsl.annotation.Fact;
-                import org.evrete.dsl.annotation.Rule;
-                import org.evrete.dsl.annotation.Where;
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+        GetRuleSetResponse ruleSetResponse = openCDXQuestionnaireClient.getRuleSet(
+                model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleId(), openCDXCallCredentials);
 
-                public class BloodPressureRules {
-
-                    @Rule
-                    @Where("$s < 120")
-                    public void normalBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
-                        ruleResult.setResult("Normal blood pressure. No further actions needed.");
-                    }
-                    @Rule
-                    @Where("$s >= 120 && $s <= 129")
-                    public void elevatedBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
-                        ruleResult.setResult("Elevated blood pressure. Please continue monitoring.");
-                    }
-                    @Rule
-                    @Where("$s > 129")
-                    public void highBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
-                        ruleResult.setResult("High blood pressure. Please seek additional assistance.");
-                    }
-                }""";
-
-        return new ByteArrayInputStream(ruleSet.getBytes());
+        return new ByteArrayInputStream(ruleSetResponse.getRuleSet().getRule().getBytes());
     }
 
     private Object getResponse(OpenCDXClassificationModel model) {
