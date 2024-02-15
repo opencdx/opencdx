@@ -75,14 +75,14 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         this.openCDXANFStatementRepository = openCDXANFStatementRepository;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
-        log.info("OpenCDXANFServiceImpl created");
+        log.trace("OpenCDXANFServiceImpl created");
     }
 
     @Override
     public AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request) {
-        log.info("Creating ANF Statement");
+        log.trace("Creating ANF Statement");
         if (!request.getAuthorList().isEmpty()) {
-            log.info("Validating authors");
+            log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     USERS,
                     request.getAuthorList().stream()
@@ -91,7 +91,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
-            log.info("Validating subject of record");
+            log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     USERS, new ObjectId(request.getSubjectOfRecord().getId()));
         }
@@ -120,7 +120,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request) {
-        log.info("Getting ANF Statement");
+        log.trace("Getting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
@@ -147,9 +147,9 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request) {
-        log.info("Updating ANF Statement");
+        log.trace("Updating ANF Statement");
         if (!request.getAuthorList().isEmpty()) {
-            log.info("Validating authors");
+            log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     USERS,
                     request.getAuthorList().stream()
@@ -158,7 +158,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
-            log.info("Validating subject of record");
+            log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     USERS, new ObjectId(request.getSubjectOfRecord().getId()));
         }
@@ -187,7 +187,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request) {
-        log.info("Deleting ANF Statement");
+        log.trace("Deleting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));

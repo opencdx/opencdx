@@ -53,7 +53,7 @@ public class OpenCDXCountryModel {
      * @param country Protobuf message to create from
      */
     public OpenCDXCountryModel(Country country) {
-        log.info("Creating OpenCDXCountryModel from protobuf message");
+        log.trace("Creating OpenCDXCountryModel from protobuf message");
         if (country.hasId()) {
             this.id = new ObjectId(country.getId());
         }
@@ -80,7 +80,7 @@ public class OpenCDXCountryModel {
      * @return Country protobuf message
      */
     public Country getProtobufMessage() {
-        log.info("Creating protobuf message from OpenCDXCountryModel");
+        log.trace("Creating protobuf message from OpenCDXCountryModel");
         Country.Builder builder = Country.newBuilder();
         if (this.id != null) {
             builder.setId(this.id.toHexString());

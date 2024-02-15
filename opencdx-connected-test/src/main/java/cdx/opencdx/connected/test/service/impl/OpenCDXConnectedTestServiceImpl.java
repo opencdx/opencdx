@@ -218,7 +218,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         ObjectId objectId = new ObjectId(request.getUserId());
 
-        log.info("Searching Database");
+        log.trace("Searching Database");
 
         Pageable pageable;
         if (request.getPagination().hasSort()) {
@@ -234,7 +234,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         }
 
         Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(objectId, pageable);
-        log.info("found database results");
+        log.trace("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
             try {
@@ -279,7 +279,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
 
         String nationalHealthId = request.getNationalHealthId();
 
-        log.info("Searching Database");
+        log.trace("Searching Database");
         Pageable pageable;
         if (request.getPagination().hasSort()) {
             pageable = PageRequest.of(
@@ -294,7 +294,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         }
         Page<OpenCDXConnectedTestModel> all =
                 this.openCDXConnectedTestRepository.findAllByNationalHealthId(nationalHealthId, pageable);
-        log.info("found database results");
+        log.trace("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
             try {

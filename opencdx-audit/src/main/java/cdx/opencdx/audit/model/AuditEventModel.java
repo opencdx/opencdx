@@ -56,7 +56,7 @@ public class AuditEventModel {
      * @param auditEvent Protobuf message to use for creation.
      */
     public AuditEventModel(AuditEvent auditEvent) {
-        log.info("Creating AuditEventModel from protobuf message");
+        log.trace("Creating AuditEventModel from protobuf message");
         if (auditEvent.hasCreated()) {
             this.created = Instant.ofEpochSecond(
                     auditEvent.getCreated().getSeconds(),

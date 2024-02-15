@@ -109,7 +109,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
         }
         OpenCDXSMSTemplateModel model =
                 this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
-        log.info("Created SMS template: {}", model.getId());
+        log.trace("Created SMS template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -152,7 +152,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
         OpenCDXSMSTemplateModel model =
                 this.openCDXSMSTemplateRespository.save(new OpenCDXSMSTemplateModel(smsTemplate));
 
-        log.info("Updated SMS Template: {}", model.getId());
+        log.trace("Updated SMS Template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -180,7 +180,7 @@ public class OpenCDXCommunicationSmsServiceImpl implements OpenCDXCommunicationS
             throw openCDXNotAcceptable;
         }
         this.openCDXSMSTemplateRespository.deleteById(new ObjectId(templateRequest.getTemplateId()));
-        log.info("Deleted SMS Template: {}", templateRequest.getTemplateId());
+        log.trace("Deleted SMS Template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 

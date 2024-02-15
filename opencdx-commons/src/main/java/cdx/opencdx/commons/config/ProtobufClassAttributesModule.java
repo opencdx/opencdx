@@ -54,24 +54,24 @@ public class ProtobufClassAttributesModule extends Module {
      * Default Constructor
      */
     public ProtobufClassAttributesModule() {
-        log.info("ProtobufClassAttributesModule created");
+        log.trace("ProtobufClassAttributesModule created");
     }
 
     @Override
     public String getModuleName() {
-        log.info("ProtobufClassAttributesModule getModuleName");
+        log.trace("ProtobufClassAttributesModule getModuleName");
         return "ProtobufClassAttributesModule";
     }
 
     @Override
     public Version version() {
-        log.info("ProtobufClassAttributesModule version");
+        log.trace("ProtobufClassAttributesModule version");
         return VersionUtil.versionFor(getClass());
     }
 
     @Override
     public void setupModule(SetupContext context) {
-        log.info("ProtobufClassAttributesModule setupModule");
+        log.trace("ProtobufClassAttributesModule setupModule");
 
         context.setClassIntrospector(new ProtobufClassIntrospector());
 
@@ -83,7 +83,7 @@ public class ProtobufClassAttributesModule extends Module {
         @Override
         @ExcludeFromJacocoGeneratedReport
         public VisibilityChecker<?> findAutoDetectVisibility(AnnotatedClass ac, VisibilityChecker<?> checker) {
-            log.info("ProtobufClassAttributesModule findAutoDetectVisibility");
+            log.trace("ProtobufClassAttributesModule findAutoDetectVisibility");
             if (Message.class.isAssignableFrom(ac.getRawType())) {
                 return checker.withGetterVisibility(Visibility.PUBLIC_ONLY).withFieldVisibility(Visibility.ANY);
             }
@@ -93,7 +93,7 @@ public class ProtobufClassAttributesModule extends Module {
         @Override
         @ExcludeFromJacocoGeneratedReport
         public Object findNamingStrategy(AnnotatedClass ac) {
-            log.info("ProtobufClassAttributesModule findNamingStrategy");
+            log.trace("ProtobufClassAttributesModule findNamingStrategy");
             if (!Message.class.isAssignableFrom(ac.getRawType())) {
                 return super.findNamingStrategy(ac);
             }
@@ -115,7 +115,7 @@ public class ProtobufClassAttributesModule extends Module {
 
         @Override
         public BasicBeanDescription forDeserialization(DeserializationConfig cfg, JavaType type, MixInResolver r) {
-            log.info("ProtobufClassAttributesModule forDeserialization");
+            log.trace("ProtobufClassAttributesModule forDeserialization");
             BasicBeanDescription desc = super.forDeserialization(cfg, type, r);
             if (Message.class.isAssignableFrom(type.getRawClass())) {
                 return protobufBeanDescription(cfg, type, r, desc);
@@ -125,7 +125,7 @@ public class ProtobufClassAttributesModule extends Module {
 
         @Override
         public BasicBeanDescription forSerialization(SerializationConfig cfg, JavaType type, MixInResolver r) {
-            log.info("ProtobufClassAttributesModule forSerialization");
+            log.trace("ProtobufClassAttributesModule forSerialization");
             BasicBeanDescription desc = super.forSerialization(cfg, type, r);
             if (Message.class.isAssignableFrom(type.getRawClass())) {
                 return protobufBeanDescription(cfg, type, r, desc);
@@ -135,7 +135,7 @@ public class ProtobufClassAttributesModule extends Module {
 
         private BasicBeanDescription protobufBeanDescription(
                 MapperConfig<?> cfg, JavaType type, MixInResolver r, BasicBeanDescription baseDesc) {
-            log.info("ProtobufClassAttributesModule protobufBeanDescription");
+            log.trace("ProtobufClassAttributesModule protobufBeanDescription");
             Map<String, FieldDescriptor> types = cache.computeIfAbsent(type.getRawClass(), this::getTypeDescriptor);
 
             AnnotatedClass ac = AnnotatedClassResolver.resolve(cfg, type, r);
@@ -164,13 +164,13 @@ public class ProtobufClassAttributesModule extends Module {
         static class AnnotationHelper {}
 
         private void addStringFormatAnnotation(BeanPropertyDefinition p) {
-            log.info("ProtobufClassAttributesModule addStringFormatAnnotation");
+            log.trace("ProtobufClassAttributesModule addStringFormatAnnotation");
             JsonFormat jsonFormatAnnotation = AnnotationHelper.class.getAnnotation(JsonFormat.class);
             p.getField().getAllAnnotations().addIfNotPresent(jsonFormatAnnotation);
         }
 
         private Map<String, FieldDescriptor> getTypeDescriptor(Class<?> type) {
-            log.info("ProtobufClassAttributesModule getTypeDescriptor");
+            log.trace("ProtobufClassAttributesModule getTypeDescriptor");
             try {
                 Descriptor descriptor =
                         (Descriptor) type.getMethod("getDescriptor").invoke(null);

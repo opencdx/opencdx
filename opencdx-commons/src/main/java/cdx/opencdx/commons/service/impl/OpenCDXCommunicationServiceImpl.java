@@ -50,7 +50,7 @@ public class OpenCDXCommunicationServiceImpl implements OpenCDXCommunicationServ
     @Override
     public void sendNotification(Notification notification) {
         openCDXDocumentValidator.validateDocumentOrThrow("notification-event", new ObjectId(notification.getEventId()));
-        log.info("Sending notification");
+        log.trace("Sending notification");
         this.messageService.send(OpenCDXMessageService.NOTIFICATION_MESSAGE_SUBJECT, notification);
     }
 }

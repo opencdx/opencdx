@@ -43,7 +43,7 @@ public class AppConfig {
      * Default Constructor
      */
     public AppConfig() {
-        log.info("Creating AppConfig");
+        log.trace("Creating AppConfig");
     }
 
     /**

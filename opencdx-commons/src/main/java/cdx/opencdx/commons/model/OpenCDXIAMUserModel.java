@@ -117,7 +117,7 @@ public class OpenCDXIAMUserModel {
      * @return reference to itself.
      */
     public OpenCDXIAMUserModel update(UserProfile userProfile) {
-        log.info("Updating user profile for user");
+        log.trace("Updating user profile for user");
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
@@ -149,7 +149,7 @@ public class OpenCDXIAMUserModel {
      * @param request SingUpRequest to create from.
      */
     public OpenCDXIAMUserModel(SignUpRequest request) {
-        log.info("Creating user from sign up request");
+        log.trace("Creating user from sign up request");
 
         this.fullName = FullName.newBuilder()
                 .setFirstName(request.getFirstName())
@@ -165,7 +165,7 @@ public class OpenCDXIAMUserModel {
      * @param iamUser IamUser to read in.
      */
     public OpenCDXIAMUserModel(IamUser iamUser) {
-        log.info("Creating user from IAM User");
+        log.trace("Creating user from IAM User");
         if (iamUser.hasId()) {
             this.id = new ObjectId(iamUser.getId());
         }
@@ -208,7 +208,7 @@ public class OpenCDXIAMUserModel {
      * @return gRPC IamUser Message
      */
     public IamUser getIamUserProtobufMessage() {
-        log.info("Creating IAM User from user");
+        log.trace("Creating IAM User from user");
         IamUser.Builder builder = IamUser.newBuilder();
 
         if (this.id != null) {
@@ -269,7 +269,7 @@ public class OpenCDXIAMUserModel {
      */
     @SuppressWarnings("java:S3776")
     public UserProfile getUserProfileProtobufMessage() {
-        log.info("Creating user profile from user");
+        log.trace("Creating user profile from user");
         UserProfile.Builder builder = UserProfile.newBuilder();
 
         builder.setUserId(this.id.toHexString());

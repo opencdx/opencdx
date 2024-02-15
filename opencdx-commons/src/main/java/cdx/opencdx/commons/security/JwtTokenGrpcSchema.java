@@ -43,7 +43,7 @@ public class JwtTokenGrpcSchema implements AuthenticationSchemeSelector {
     public JwtTokenGrpcSchema(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
-        log.info("Created JwtTokenGrpcSchema");
+        log.trace("Created JwtTokenGrpcSchema");
     }
 
     @Override

@@ -52,7 +52,7 @@ public class OpenCDXGrpcClassificationController extends ClassificationServiceGr
     @Secured({})
     @Override
     public void classify(ClassificationRequest request, StreamObserver<ClassificationResponse> responseObserver) {
-        log.info("Received classify request");
+        log.trace("Received classify request");
         responseObserver.onNext(this.classificationService.classify(request));
         responseObserver.onCompleted();
     }

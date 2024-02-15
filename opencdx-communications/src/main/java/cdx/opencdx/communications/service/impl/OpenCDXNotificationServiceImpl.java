@@ -143,7 +143,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         OpenCDXNotificationEventModel model =
                 this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
-        log.info("Created Notification Event: {}", model.getId());
+        log.trace("Created Notification Event: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -183,7 +183,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         OpenCDXNotificationEventModel model =
                 this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
-        log.info("Updated Notification Event: {}", model.getId());
+        log.trace("Updated Notification Event: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -210,7 +210,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             throw openCDXNotAcceptable;
         }
         this.openCDXNotificationEventRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
-        log.info("Deleted Notification Event: {}", templateRequest);
+        log.trace("Deleted Notification Event: {}", templateRequest);
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 

@@ -51,7 +51,7 @@ public class OpenCDXRestANFController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<AnfStatement.ANFStatement> getANFStatement(@PathVariable("id") String id) {
-        log.info("Getting ANF Statement");
+        log.trace("Getting ANF Statement");
         return new ResponseEntity<>(
                 this.openCDXANFService.getANFStatement(
                         AnfStatement.Identifier.newBuilder().setId(id).build()),
@@ -65,7 +65,7 @@ public class OpenCDXRestANFController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AnfStatement.Identifier> createANFStatement(
             @RequestBody AnfStatement.ANFStatement anfStatement) {
-        log.info("Creating ANF Statement");
+        log.trace("Creating ANF Statement");
         return new ResponseEntity<>(this.openCDXANFService.createANFStatement(anfStatement), HttpStatus.OK);
     }
     /**
@@ -76,7 +76,7 @@ public class OpenCDXRestANFController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AnfStatement.Identifier> updateANFStatement(
             @RequestBody AnfStatement.ANFStatement anfStatement) {
-        log.info("Updating ANF Statement");
+        log.trace("Updating ANF Statement");
         return new ResponseEntity<>(this.openCDXANFService.updateANFStatement(anfStatement), HttpStatus.OK);
     }
     /**
@@ -86,7 +86,7 @@ public class OpenCDXRestANFController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<AnfStatement.Identifier> deleteANFStatement(@PathVariable String id) {
-        log.info("Deleting ANF Statement");
+        log.trace("Deleting ANF Statement");
         return new ResponseEntity<>(
                 this.openCDXANFService.deleteANFStatement(
                         AnfStatement.Identifier.newBuilder().setId(id).build()),

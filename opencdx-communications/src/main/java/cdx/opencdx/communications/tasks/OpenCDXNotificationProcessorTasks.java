@@ -49,7 +49,7 @@ public class OpenCDXNotificationProcessorTasks {
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXNotificaitonRepository openCDXNotificaitonRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating OpenCDXNotificationProcessorTasks");
+        log.trace("Creating OpenCDXNotificationProcessorTasks");
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -63,7 +63,7 @@ public class OpenCDXNotificationProcessorTasks {
     @Scheduled(cron = "${queue.priority.high}")
     @SchedulerLock(name = "highPriorityNotifications")
     public void highPriorityNotifications() {
-        log.info("Starting High Priority Notifications Processing");
+        log.trace("Starting High Priority Notifications Processing");
         this.openCDXCurrentUser.configureAuthentication(SYSTEM_ROLE);
 
         this.openCDXNotificaitonRepository

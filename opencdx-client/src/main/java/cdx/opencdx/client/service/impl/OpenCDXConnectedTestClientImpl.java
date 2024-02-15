@@ -81,7 +81,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     public TestSubmissionResponse submitTest(
             ConnectedTest connectedTest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing submit test: {}", connectedTest);
+            log.trace("Processing submit test: {}", connectedTest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .submitTest(connectedTest);
@@ -97,7 +97,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     public ConnectedTest getTestDetailsById(
             TestIdRequest testIdRequest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing test details by Id: {}", testIdRequest);
+            log.trace("Processing test details by Id: {}", testIdRequest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .getTestDetailsById(testIdRequest);
@@ -113,7 +113,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     public ConnectedTestListResponse listConnectedTests(
             ConnectedTestListRequest connectedTestListRequest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing listConnectedTests: {}", connectedTestListRequest);
+            log.trace("Processing listConnectedTests: {}", connectedTestListRequest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .listConnectedTests(connectedTestListRequest);
@@ -130,7 +130,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
             ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest,
             OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing listConnectedTestsByNHID: {}", connectedTestListByNHIDRequest);
+            log.trace("Processing listConnectedTestsByNHID: {}", connectedTestListByNHIDRequest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .listConnectedTestsByNHID(connectedTestListByNHIDRequest);

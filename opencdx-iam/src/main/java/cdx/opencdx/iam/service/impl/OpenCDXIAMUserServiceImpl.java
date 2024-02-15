@@ -358,7 +358,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
 
         userModel = this.openCDXIAMUserRepository.save(userModel);
-        log.info("Deleted User: {}", request.getId());
+        log.trace("Deleted User: {}", request.getId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(userModel);

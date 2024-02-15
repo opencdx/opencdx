@@ -172,9 +172,9 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     request.getPagination().getPageNumber(),
                     request.getPagination().getPageSize());
         }
-        log.info("Searching Database");
+        log.trace("Searching Database");
         Page<OpenCDXCountryModel> all = this.openCDXCountryRepository.findAll(pageable);
-        log.info("found database results");
+        log.trace("found database results");
 
         return CountryListResponse.newBuilder()
                 .setPagination(Pagination.newBuilder(request.getPagination())

@@ -50,7 +50,7 @@ public class CommunicationsChangeSet {
      * Default Consructor
      */
     public CommunicationsChangeSet() {
-        log.info("Creating CommunicationsChangeSet");
+        log.trace("Creating CommunicationsChangeSet");
     }
 
     /**
@@ -67,7 +67,7 @@ public class CommunicationsChangeSet {
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Welcome Templates");
+        log.trace("Creating Welcome Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
 
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
@@ -120,7 +120,7 @@ public class CommunicationsChangeSet {
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Newsletter Templates");
+        log.trace("Creating Newsletter Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3741"))
@@ -158,7 +158,7 @@ public class CommunicationsChangeSet {
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Alert Templates");
+        log.trace("Creating Alert Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3744"))
@@ -210,7 +210,7 @@ public class CommunicationsChangeSet {
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Reminder Templates");
+        log.trace("Creating Reminder Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3747"))
@@ -262,7 +262,7 @@ public class CommunicationsChangeSet {
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Confirmation Templates");
+        log.trace("Creating Confirmation Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374a"))
@@ -316,7 +316,7 @@ public class CommunicationsChangeSet {
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Notification Templates");
+        log.trace("Creating Notification Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374e"))
@@ -365,7 +365,7 @@ public class CommunicationsChangeSet {
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
-        log.info("Creating Email Verify Templates");
+        log.trace("Creating Email Verify Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d375f"))
