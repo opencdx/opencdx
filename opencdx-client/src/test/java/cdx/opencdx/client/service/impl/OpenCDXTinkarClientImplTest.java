@@ -54,7 +54,7 @@ class OpenCDXTinkarClientImplTest {
     }
 
     @Test
-    void sayTinkar() {
+    void searchTinkar() {
         Mockito.when(this.tinkarQueryServiceBlockingStub.searchTinkar(Mockito.any(TinkarQueryRequest.class)))
                 .thenReturn(TinkarQueryResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
@@ -64,7 +64,7 @@ class OpenCDXTinkarClientImplTest {
     }
 
     @Test
-    void sayTinkarException() {
+    void searchTinkarException() {
         Mockito.when(this.tinkarQueryServiceBlockingStub.searchTinkar(Mockito.any(TinkarQueryRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         TinkarQueryRequest request = TinkarQueryRequest.getDefaultInstance();

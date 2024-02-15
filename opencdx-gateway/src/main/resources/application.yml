@@ -179,7 +179,7 @@ spring:
         - id: grpc-tinkar
           uri: https://tinkar:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.tinkar.Tinkar/**
+            - Path=/cdx.opencdx.grpc.tinkar.TinkarQueryService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: admin-dashboard
