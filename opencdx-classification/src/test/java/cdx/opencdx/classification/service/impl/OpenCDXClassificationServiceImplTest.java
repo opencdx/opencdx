@@ -530,6 +530,12 @@ class OpenCDXClassificationServiceImplTest {
         String ruleQuestionId = ObjectId.get().toHexString();
         int bloodPressure = 120;
 
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
         Mockito.when(this.openCDXQuestionnaireClient.getRuleSet(
                         Mockito.any(String.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(GetRuleSetResponse.newBuilder()
