@@ -58,8 +58,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_RULE_SET = "Failed to convert OpenCDXRuleSet";
-    public static final String RULESET = "RULESET";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_RULE_SET = "Failed to convert OpenCDXRuleSet";
+    private static final String RULESET = "RULESET";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;

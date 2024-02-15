@@ -73,7 +73,6 @@ public class OpenCDXGrpcCountryController extends CountryServiceGrpc.CountryServ
     @Secured({})
     @Override
     public void listCountries(CountryListRequest request, StreamObserver<CountryListResponse> responseObserver) {
-        log.info("Received: {}", request.toString());
         responseObserver.onNext(this.openCDXCountryService.listCountries(request));
         responseObserver.onCompleted();
     }

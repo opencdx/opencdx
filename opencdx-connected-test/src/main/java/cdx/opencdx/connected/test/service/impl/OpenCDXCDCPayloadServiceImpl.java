@@ -110,7 +110,6 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
         // Create Bundle
         Bundle bundle = createBundle(patient, device, observation, diagnosticReport);
-        log.debug(bundle.toString());
 
         // Send to CDC
         sendMessage(bundle);

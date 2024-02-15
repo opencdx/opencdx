@@ -95,6 +95,7 @@ class OpenCDXRestConnectedTestControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
+                                .nationalHealthId(UUID.randomUUID().toString())
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")

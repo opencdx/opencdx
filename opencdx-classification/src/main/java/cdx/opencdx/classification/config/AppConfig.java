@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 
 /**
- * Applicaiton Configuration
+ * Application Configuration
  */
 @Slf4j
 @Configuration
@@ -44,7 +44,7 @@ public class AppConfig {
             ObjectMapper objectMapper,
             OpenCDXClassificationService openCDXClassificationService,
             OpenCDXMessageService openCDXMessageService) {
-        log.info("Instantiating OpenCDXClassificationMessageHandler.");
+        log.trace("Instantiating OpenCDXClassificationMessageHandler.");
         return new OpenCDXClassificationMessageHandler(
                 objectMapper, openCDXClassificationService, openCDXMessageService);
     }

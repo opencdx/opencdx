@@ -31,7 +31,7 @@ public class OpenCDXPerformanceHandler implements ObservationHandler<Observation
      * Default Constructor
      */
     public OpenCDXPerformanceHandler() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
+        log.info("Enable Trace logging for OpenCDX Performance logging");
     }
 
     @Override

@@ -53,6 +53,7 @@ public class OpenCDXRestCommunicationsController {
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService) {
+        log.info("OpenCDXRestCommunicationsController created");
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
@@ -66,6 +67,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @PostMapping(value = "/email", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmailTemplate> createEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
+        log.trace("Creating EmailTemplate");
         return new ResponseEntity<>(
                 this.openCDXCommunicationEmailService.createEmailTemplate(emailTemplate), HttpStatus.OK);
     }
@@ -78,6 +80,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @GetMapping("/email/{id}")
     public ResponseEntity<EmailTemplate> getEmailTemplate(@PathVariable String id) {
+        log.trace("Getting EmailTemplate");
         return new ResponseEntity<>(
                 this.openCDXCommunicationEmailService.getEmailTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
@@ -92,6 +95,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @PutMapping(value = "/email", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmailTemplate> updateEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
+        log.trace("Updating EmailTemplate");
         return new ResponseEntity<>(
                 this.openCDXCommunicationEmailService.updateEmailTemplate(emailTemplate), HttpStatus.OK);
     }
@@ -104,6 +108,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @DeleteMapping("/email/{id}")
     public ResponseEntity<SuccessResponse> deleteEmailTemplate(@PathVariable String id) {
+        log.trace("Deleting EmailTemplate");
         return new ResponseEntity<>(
                 this.openCDXCommunicationEmailService.deleteEmailTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
@@ -118,6 +123,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @PostMapping(value = "/sms", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplate> createSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
+        log.trace("Creating SMSTemplate");
         return new ResponseEntity<>(this.openCDXCommunicationSmsService.createSMSTemplate(smsTemplate), HttpStatus.OK);
     }
 
@@ -129,6 +135,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @GetMapping("/sms/{id}")
     public ResponseEntity<SMSTemplate> getSMSTemplate(@PathVariable String id) {
+        log.trace("Getting SMSTemplate");
         return new ResponseEntity<>(
                 this.openCDXCommunicationSmsService.getSMSTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),
@@ -143,6 +150,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @PutMapping(value = "/sms", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SMSTemplate> updateSMSTemplate(@RequestBody SMSTemplate smsTemplate) {
+        log.trace("Updating SMSTemplate");
         return new ResponseEntity<>(this.openCDXCommunicationSmsService.updateSMSTemplate(smsTemplate), HttpStatus.OK);
     }
 
@@ -154,6 +162,7 @@ public class OpenCDXRestCommunicationsController {
      */
     @DeleteMapping("/sms/{id}")
     public ResponseEntity<SuccessResponse> deleteSMSTemplate(@PathVariable String id) {
+        log.trace("Deleting SMSTemplate");
         return new ResponseEntity<>(
                 this.openCDXCommunicationSmsService.deleteSMSTemplate(
                         TemplateRequest.newBuilder().setTemplateId(id).build()),

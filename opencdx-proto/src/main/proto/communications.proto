@@ -293,24 +293,29 @@ message Notification {
   string event_id = 2;
 
   /*
+   * The unique identifier for the patient(s) that this notification is intended for.
+   */
+  repeated string patient_ids = 3;
+
+  /*
    * The status of the SMS notification which could be 'pending', 'sent', or 'failed'.
    */
-  optional NotificationStatus sms_status = 3;
+  optional NotificationStatus sms_status = 4;
 
   /*
    * The status of the EMAIL notification which could also be 'pending', 'sent', or 'failed'.
    */
-  optional NotificationStatus email_status = 4;
+  optional NotificationStatus email_status = 5;
 
   /*
    * The timestamp when the notification was added to the queue.
    */
-  optional google.protobuf.Timestamp timestamp = 5;
+  optional google.protobuf.Timestamp timestamp = 6;
 
   /*
    * Custom data associated with the notification. The purpose of this data varies based on the specific use case.
    */
-  map<string, string> custom_data = 6;
+  map<string, string> custom_data = 7;
 
   /*
    * Email-specific attributes.
@@ -318,22 +323,22 @@ message Notification {
   /*
    * The email addresses of the primary recipients.
    */
-  repeated string to_email = 7;
+  repeated string to_email = 8;
 
   /*
    * The email addresses to which the notification should be carbon copied(Cc).
    */
-  repeated string cc_email = 8;
+  repeated string cc_email = 9;
 
   /*
    * The email addresses to which the notification should be blind carbon copied(Bcc).
    */
-  repeated string bcc_email = 9;
+  repeated string bcc_email = 10;
 
   /*
    * Any files that need to be attached to the email notification.
    */
-  repeated Attachment email_attachments = 10;
+  repeated Attachment email_attachments = 11;
 
   /*
    * SMS-specific attributes.
@@ -341,37 +346,37 @@ message Notification {
   /*
    * The phone numbers to which the SMS notification should be sent.
    */
-  repeated string to_phone_number = 11;
+  repeated string to_phone_number = 12;
 
   /*
    * Variables or placeholders that can be replaced in the notification's content.
    */
-  map<string, string> variables = 12;
+  map<string, string> variables = 13;
 
   /*
    * The list of unique identifiers(UUIDs) for each recipient. This includes both email and phone number recipients.
    */
-  repeated string recipients_id = 13;
+  repeated string recipients_id = 14;
 
   /*
    * The timestamp at which this event was created.
    */
-  optional google.protobuf.Timestamp created = 14;
+  optional google.protobuf.Timestamp created = 15;
 
   /*
    * The timestamp at which this event was last modified.
    */
-  optional google.protobuf.Timestamp modified = 15;
+  optional google.protobuf.Timestamp modified = 16;
 
   /*
    * The unique identifier of the user or system that created this event.
    */
-  optional string creator = 16;
+  optional string creator = 17;
 
   /*
    * The unique identifier of the user or system that last modified this event.
    */
-  optional string modifier = 17;
+  optional string modifier = 18;
 }
 /*
  * Defines the required parameters for a template request.

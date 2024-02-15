@@ -2,6 +2,7 @@
 
 # Define global variables
 GIT_BRANCH=""
+
 LAST_COMMIT=""
 DEPLOYED="NONE"
 
@@ -267,24 +268,24 @@ open_reports() {
     publish)
         read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
         handle_info "Cleaning doc folder"
-        rm -rf ./doc
-        mkdir doc
+        rm -rf ./opencdx-admin/src/main/resources/public
+        mkdir opencdx-admin/src/main/resources/public
         handle_info "Creating JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
-        mv build/docs/javadoc-all ./doc/javadoc
+        mv build/docs/javadoc-all ./opencdx-admin/src/main/resources/public/javadoc
 
         handle_info "Creating ProtoDoc..."
-        mkdir -p doc/protodoc
-        protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+        mkdir -p opencdx-admin/src/main/resources/public/protodoc/protodoc
+        protoc -Iopencdx-proto/src/main/proto --doc_out=./opencdx-admin/src/main/resources/public/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
         handle_info "Creating Dependency Check Report..."
-        mkdir -p doc/dependency
-        cp build/reports/dependency-check-report.html ./doc/dependency
+        mkdir -p ./opencdx-admin/src/main/resources/public/dependency
+        cp build/reports/dependency-check-report.html ./opencdx-admin/src/main/resources/public/dependency
         handle_info "Running Smoke Test...."
         mkdir -p doc/jmeter
 
         run_jmeter_tests smoke
 
-        mv build/reports/jmeter ./doc
+        mv build/reports/jmeter ./opencdx-admin/src/main/resources/public
 
         ;;
     proto)
