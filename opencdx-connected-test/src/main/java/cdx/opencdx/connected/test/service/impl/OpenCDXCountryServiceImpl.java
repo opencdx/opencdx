@@ -50,6 +50,8 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
 
     private static final String DOMAIN = "OpenCDXCountryServiceImpl";
     private static final String COUNTRY = "COUNTRY: ";
+    public static final String OBJECT = "OBJECT";
+    public static final String FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL = "Failed to convert OpenCDXCountryModel";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
@@ -108,9 +110,9 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     this.objectMapper.writeValueAsString(openCDXCountryModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXCountryModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXCountryModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXCountryModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXCountryModel.getProtobufMessage();
@@ -130,9 +132,9 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     this.objectMapper.writeValueAsString(openCDXCountryModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXCountryModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXCountryModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXCountryModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXCountryModel.getProtobufMessage();
@@ -151,6 +153,25 @@ public class OpenCDXCountryServiceImpl implements OpenCDXCountryService {
                     .build();
         }
 
+        OpenCDXCountryModel openCDXCountryModel = this.openCDXCountryRepository
+                .findById(countryId)
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find country: " + request.getCountryId()));
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting Country",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    COUNTRY + countryId.toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXCountryModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_COUNTRY_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXCountryModel.toString());
+            throw openCDXNotAcceptable;
+        }
         this.openCDXCountryRepository.deleteById(new ObjectId(request.getCountryId()));
         return DeleteResponse.newBuilder()
                 .setSuccess(true)

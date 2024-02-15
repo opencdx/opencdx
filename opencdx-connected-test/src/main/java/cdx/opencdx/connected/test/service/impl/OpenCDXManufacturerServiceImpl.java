@@ -51,6 +51,9 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
 
     private static final String DOMAIN = "OpenCDXManufacturerServiceImpl";
     private static final String MANUFACTURER = "MANUFACTURER: ";
+    public static final String FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL =
+            "Failed to convert OpenCDXManufacturerModel";
+    public static final String OBJECT = "OBJECT";
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
@@ -116,9 +119,9 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
                     this.objectMapper.writeValueAsString(openCDXManufacturerModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 3, "Failed to convert OpenCDXManufacturerModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXManufacturerModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXManufacturerModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXManufacturerModel.getProtobufMessage();
@@ -143,9 +146,9 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
                     this.objectMapper.writeValueAsString(openCDXManufacturerModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 2, "Failed to convert OpenCDXManufacturerModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXManufacturerModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXManufacturerModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXManufacturerModel.getProtobufMessage();
@@ -160,7 +163,31 @@ public class OpenCDXManufacturerServiceImpl implements OpenCDXManufacturerServic
                     .setMessage("Manufacturer: " + request.getManufacturerId() + " is in use.")
                     .build();
         }
-        this.openCDXManufacturerRepository.deleteById(new ObjectId(request.getManufacturerId()));
+
+        ObjectId objectId = new ObjectId(request.getManufacturerId());
+        OpenCDXManufacturerModel openCDXManufacturerModel = this.openCDXManufacturerRepository
+                .findById(objectId)
+                .orElseThrow(() ->
+                        new OpenCDXNotFound(DOMAIN, 1, "Failed to find manufacturer: " + request.getManufacturerId()));
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting Manufacturer",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    MANUFACTURER + openCDXManufacturerModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXManufacturerModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_MANUFACTURER_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXManufacturerModel.toString());
+            throw openCDXNotAcceptable;
+        }
+
+        this.openCDXManufacturerRepository.deleteById(objectId);
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Manufacturer: " + request.getManufacturerId() + " is deleted.")
