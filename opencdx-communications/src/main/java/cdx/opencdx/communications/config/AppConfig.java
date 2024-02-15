@@ -43,7 +43,7 @@ public class AppConfig {
      * Default Constructor
      */
     public AppConfig() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
+        log.trace("Creating AppConfig");
     }
 
     /**
@@ -84,6 +84,7 @@ public class AppConfig {
     @Bean
     @Description("Bean for the LockProvider for service synchronization.")
     public LockProvider lockProvider(MongoClient mongo, @Value("${spring.application.name}") String applicationName) {
+        log.info("Creating LockProvider");
         return new MongoLockProvider(mongo.getDatabase("opencdx").getCollection("lock-" + applicationName));
     }
 
@@ -102,6 +103,7 @@ public class AppConfig {
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXMessageService openCDXMessageService,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.info("Creating OpenCDXCommunicationNotificationMessageHandler");
         return new OpenCDXCommunicationNotificationMessageHandler(
                 objectMapper, openCDXNotificationService, openCDXMessageService, openCDXCurrentUser);
     }
@@ -118,6 +120,7 @@ public class AppConfig {
             OpenCDXCDCMessageService openCDXCDCMessageService,
             OpenCDXMessageService openCDXMessageService,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.info("Creating OpenCDXCDCMessageHandler");
         return new OpenCDXCDCMessageHandler(openCDXCDCMessageService, openCDXMessageService, openCDXCurrentUser);
     }
 }

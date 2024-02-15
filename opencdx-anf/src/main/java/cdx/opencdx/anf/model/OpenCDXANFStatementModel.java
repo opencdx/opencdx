@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,6 +31,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Represents a model for an ANF statement in OpenCDX.
  */
+@Slf4j
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -65,6 +67,7 @@ public class OpenCDXANFStatementModel {
      * @param anfStatement the AnfStatement instance to create the OpenCDXANFStatementModel from
      */
     public OpenCDXANFStatementModel(AnfStatement.ANFStatement anfStatement) {
+        log.trace("Creating OpenCDXANFStatementModel from ANFStatement");
         if (anfStatement.hasId()) {
             this.id = new ObjectId(anfStatement.getId().getId());
         }
@@ -106,6 +109,7 @@ public class OpenCDXANFStatementModel {
      * @return The Protobuf message representation
      */
     public AnfStatement.ANFStatement getProtobufMessage() {
+        log.trace("Creating ANFStatement from OpenCDXANFStatementModel");
         AnfStatement.ANFStatement.Builder builder = AnfStatement.ANFStatement.newBuilder();
 
         builder.setId(AnfStatement.Identifier.newBuilder()

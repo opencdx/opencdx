@@ -60,6 +60,7 @@ public class OpenCDXRestExceptionHandler {
      */
     @ExceptionHandler(OpenCDXException.class)
     public final ResponseEntity<StatusMessage> handleOpenCDXException(OpenCDXException exception, WebRequest request) {
+        log.error("OpenCDXException: {}", exception.getMessage(), exception);
         return new ResponseEntity<>(exception.getRestStatus(request), exception.getStatus());
     }
 
@@ -71,6 +72,7 @@ public class OpenCDXRestExceptionHandler {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class, TypeMismatchException.class})
     public final ResponseEntity<StatusMessage> handleBadRequestExceptions(Exception exception, WebRequest request) {
+        log.error("MethodArgumentNotValidException: {}", exception.getMessage(), exception);
         OpenCDXException cdxException = new OpenCDXBadRequest(DOMAIN, 4, UN_CAUGHT_EXCEPTION, exception);
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }
@@ -83,6 +85,7 @@ public class OpenCDXRestExceptionHandler {
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public final ResponseEntity<StatusMessage> handleHttpMediaTypeNotSupportedExceptions(
             HttpMediaTypeNotSupportedException exception, WebRequest request) {
+        log.error("HttpMediaTypeNotSupportedException: {}", exception.getMessage(), exception);
         OpenCDXException cdxException = new OpenCDXUnsupportedMediaType(DOMAIN, 3, UN_CAUGHT_EXCEPTION, exception);
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }
@@ -104,6 +107,7 @@ public class OpenCDXRestExceptionHandler {
         HttpRequestMethodNotSupportedException.class
     })
     public final ResponseEntity<StatusMessage> handleNotAcceptableExceptions(Exception exception, WebRequest request) {
+        log.error("HttpMediaTypeNotAcceptableException: {}", exception.getMessage(), exception);
         OpenCDXException cdxException = new OpenCDXNotAcceptable(DOMAIN, 2, UN_CAUGHT_EXCEPTION, exception);
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }
@@ -117,6 +121,7 @@ public class OpenCDXRestExceptionHandler {
     @ExceptionHandler(OpenCDXClientException.class)
     public final ResponseEntity<StatusMessage> handleOpenCDXClientException(
             OpenCDXClientException exception, WebRequest request) {
+        log.error("OpenCDXClientException: {}", exception.getMessage(), exception);
         OpenCDXException cdxException = new OpenCDXInternal(DOMAIN, 1, exception.getMessage(), exception);
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }
@@ -128,6 +133,7 @@ public class OpenCDXRestExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<StatusMessage> handleAllException(Exception exception, WebRequest request) {
+        log.error("Exception: {}", exception.getMessage(), exception);
         OpenCDXException cdxException = new OpenCDXInternal(DOMAIN, 1, UN_CAUGHT_EXCEPTION, exception);
         return new ResponseEntity<>(cdxException.getRestStatus(request), cdxException.getStatus());
     }

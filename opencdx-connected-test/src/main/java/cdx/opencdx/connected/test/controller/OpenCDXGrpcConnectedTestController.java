@@ -51,6 +51,7 @@ public class OpenCDXGrpcConnectedTestController extends HealthcareServiceGrpc.He
     @Secured({})
     @Override
     public void submitTest(ConnectedTest request, StreamObserver<TestSubmissionResponse> responseObserver) {
+        log.trace("Received submitTest");
         responseObserver.onNext(this.openCDXConnectedTestService.submitTest(request));
         responseObserver.onCompleted();
     }
@@ -71,7 +72,6 @@ public class OpenCDXGrpcConnectedTestController extends HealthcareServiceGrpc.He
     @Override
     public void listConnectedTests(
             ConnectedTestListRequest request, StreamObserver<ConnectedTestListResponse> responseObserver) {
-        log.info("Received: {}", request.toString());
         responseObserver.onNext(this.openCDXConnectedTestService.listConnectedTests(request));
         responseObserver.onCompleted();
     }
@@ -80,7 +80,6 @@ public class OpenCDXGrpcConnectedTestController extends HealthcareServiceGrpc.He
     @Override
     public void listConnectedTestsByNHID(
             ConnectedTestListByNHIDRequest request, StreamObserver<ConnectedTestListByNHIDResponse> responseObserver) {
-        log.info("Received: {}", request.toString());
         responseObserver.onNext(this.openCDXConnectedTestService.listConnectedTestsByNHID(request));
         responseObserver.onCompleted();
     }
