@@ -366,6 +366,10 @@ message TestDetails {
    * LOINC code associated with the test.
    */
   cdx.opencdx.grpc.codeable.Coding loinc_code = 26;
+  /*
+  * Media ID
+   */
+  optional string media_id = 27;
 }
 
 /*

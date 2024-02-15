@@ -94,16 +94,50 @@ class OpenCDXRestQuestionnaireControllerTest {
 
     @BeforeEach
     public void setup() {
+        Mockito.when(openCDXRuleSetRepository.save(Mockito.any(OpenCDXRuleSet.class)))
+                .thenAnswer(new Answer<OpenCDXRuleSet>() {
+                    @Override
+                    public OpenCDXRuleSet answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXRuleSet argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+
+        Mockito.when(this.openCDXRuleSetRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXRuleSet>>() {
+                    @Override
+                    public Optional<OpenCDXRuleSet> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXRuleSet.builder()
+                                .id(argument)
+                                .category("category")
+                                .type("type")
+                                .description("description")
+                                .rule("rule")
+                                .status(QuestionnaireStatus.draft)
+                                .build());
+                    }
+                });
+
         Mockito.when(this.openCDXRuleSetRepository.findAll())
                 .thenReturn(List.of(
                         new OpenCDXRuleSet(
-                                ObjectId.get(), "Business Rule", "Validation", "Validate user responses", null),
+                                ObjectId.get(),
+                                "Business Rule",
+                                "Validation",
+                                "Validate user responses",
+                                null,
+                                QuestionnaireStatus.active),
                         new OpenCDXRuleSet(
                                 ObjectId.get(),
                                 "Authorization Rule",
                                 "Access Control",
                                 "Control access based on user responses",
-                                null)));
+                                null,
+                                QuestionnaireStatus.active)));
         Mockito.when(this.openCDXUserQuestionnaireRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
@@ -458,5 +492,78 @@ class OpenCDXRestQuestionnaireControllerTest {
                                 .build())))
                 .andReturn();
         Assertions.assertFalse(mv.getResponse().getContentAsString().contains("cause"));
+    }
+
+    @Test
+    void createRuleSet() throws Exception {
+
+        CreateRuleSetRequest request = CreateRuleSetRequest.newBuilder()
+                .setRuleSet(RuleSet.newBuilder()
+                        .setCategory("category")
+                        .setType("type")
+                        .setDescription("description")
+                        .setRule("rule")
+                        .setStatus(QuestionnaireStatus.draft)
+                        .build())
+                .build();
+
+        MvcResult result = this.mockMvc
+                .perform(post("/ruleset")
+                        .content(this.objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void updateRuleSet() throws Exception {
+
+        UpdateRuleSetRequest request = UpdateRuleSetRequest.newBuilder()
+                .setRuleSet(RuleSet.newBuilder()
+                        .setRuleId(ObjectId.get().toHexString())
+                        .setCategory("category")
+                        .setType("type")
+                        .setDescription("description")
+                        .setRule("rule")
+                        .setStatus(QuestionnaireStatus.draft)
+                        .build())
+                .build();
+
+        MvcResult result = this.mockMvc
+                .perform(put("/ruleset")
+                        .content(this.objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void getRuleSet() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/ruleset/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void deleteRuleSet() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(delete("/ruleset/" + ObjectId.get().toHexString())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void getRuleSets() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/ruleset/list").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200, result.getResponse().getStatus());
     }
 }

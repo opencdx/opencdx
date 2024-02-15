@@ -262,7 +262,7 @@ public class ClientConfig {
     @ConditionalOnProperty(prefix = "opencdx.client.tinkar", name = "enabled", havingValue = "true")
     OpenCDXTinkarClient openCDXTinkarClient(
             @Value("${opencdx.client.tinkar.server}") String server,
-            @Value("${opencdx.client.tinakr.port}") Integer port,
+            @Value("${opencdx.client.tinkar.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXTinkarClientImpl(server, port, observationGrpcClientInterceptor);

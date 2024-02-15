@@ -23,6 +23,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
@@ -67,9 +68,13 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     @Override
     @SuppressWarnings("java:S2119")
     public void classify(OpenCDXClassificationModel model) {
-        Resource file = retrieveFile(model);
+        Resource file = retrieveFile(model.getMedia());
         if (file != null) {
             log.info("fileName: {}", file.getFilename());
+        }
+        Resource connectedFile = retrieveFile(model.getTestDetailsMedia());
+        if (connectedFile != null) {
+            log.info("fileName: {}", connectedFile.getFilename());
         }
         ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
         builder.setMessage("Executed classify operation.");
@@ -90,32 +95,27 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         model.setClassificationResponse(builder.build());
     }
 
-    private Resource retrieveFile(OpenCDXClassificationModel model) {
-        if (model.getMedia() != null) {
+    private Resource retrieveFile(Media model) {
+        if (model != null) {
+
             try {
                 MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
-                MimeType type = allTypes.forName(model.getMedia().getMimeType());
+                MimeType type = allTypes.forName(model.getMimeType());
                 String primaryExtension = type.getExtension().replace(".", "");
-                log.info(
-                        "Downloading media for classification: {} as {}",
-                        model.getMedia().getId(),
-                        primaryExtension);
+                log.info("Downloading media for classification: {} as {}", model.getId(), primaryExtension);
                 ResponseEntity<Resource> downloaded = this.openCDXMediaUpDownClient.download(
                         "Bearer " + this.openCDXCurrentUser.getCurrentUserAccessToken(),
-                        model.getMedia().getId(),
+                        model.getId(),
                         primaryExtension);
                 return downloaded.getBody();
             } catch (OpenCDXInternal e) {
-                log.error(
-                        "Failed to download media for classification: {}",
-                        model.getMedia().getId(),
-                        e);
+                log.error("Failed to download media for classification: {}", model.getId(), e);
                 throw e;
             } catch (MimeTypeException e) {
                 throw new OpenCDXDataLoss(
                         "OpenCDXClassifyProcessorServiceImpl",
                         1,
-                        "Failed to identify extension: " + model.getMedia().getMimeType(),
+                        "Failed to identify extension: " + model.getMimeType(),
                         e);
             }
         }

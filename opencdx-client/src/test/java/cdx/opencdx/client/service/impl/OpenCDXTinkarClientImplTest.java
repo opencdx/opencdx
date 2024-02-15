@@ -21,8 +21,8 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
 import cdx.opencdx.grpc.tinkar.TinkarGrpc;
-import cdx.opencdx.grpc.tinkar.TinkarRequest;
-import cdx.opencdx.grpc.tinkar.TinkarResponse;
+import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
@@ -55,23 +55,23 @@ class OpenCDXTinkarClientImplTest {
     }
 
     @Test
-    void sayTinkar() {
-        Mockito.when(this.tinkarBlockingStub.sayTinkar(Mockito.any(TinkarRequest.class)))
-                .thenReturn(TinkarResponse.getDefaultInstance());
+    void searchTinkar() {
+        Mockito.when(this.tinkarBlockingStub.searchTinkar(Mockito.any(TinkarQueryRequest.class)))
+                .thenReturn(TinkarQueryResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
-                TinkarResponse.getDefaultInstance(),
-                this.openCDXTinkarClient.sayTinkar(TinkarRequest.getDefaultInstance(), openCDXCallCredentials));
+                TinkarQueryResponse.getDefaultInstance(),
+                this.openCDXTinkarClient.searchTinkar(TinkarQueryRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
     @Test
-    void sayTinkarException() {
-        Mockito.when(this.tinkarBlockingStub.sayTinkar(Mockito.any(TinkarRequest.class)))
+    void searchTinkarException() {
+        Mockito.when(this.tinkarBlockingStub.searchTinkar(Mockito.any(TinkarQueryRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        TinkarRequest request = TinkarRequest.getDefaultInstance();
+        TinkarQueryRequest request = TinkarQueryRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXTinkarClient.sayTinkar(request, openCDXCallCredentials));
+                () -> this.openCDXTinkarClient.searchTinkar(request, openCDXCallCredentials));
     }
 }

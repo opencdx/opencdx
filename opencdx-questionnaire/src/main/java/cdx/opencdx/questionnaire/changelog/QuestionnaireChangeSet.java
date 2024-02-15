@@ -17,6 +17,7 @@ package cdx.opencdx.questionnaire.changelog;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.questionnaire.QuestionnaireStatus;
 import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
 import com.github.cloudyrock.mongock.ChangeLog;
@@ -54,6 +55,7 @@ public class QuestionnaireChangeSet {
                 .category("Process user response")
                 .type("User Rule")
                 .description("Categorize blood pressure")
+                .status(QuestionnaireStatus.active)
                 .rule(
                         """
 package cdx.opencdx.classification.service;
