@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.tinkar.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +32,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(MockitoExtension.class)
-class OpenCDXRestSearchControllerTest {
+class OpenCDXRestTinkarSearchControllerTest {
 
     @Mock
     OpenCDXTinkarService openCDXTinkarService;
@@ -42,7 +41,7 @@ class OpenCDXRestSearchControllerTest {
 
     @BeforeEach
     void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new OpenCDXRestSearchController(openCDXTinkarService))
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new OpenCDXRestTinkarSearchController(openCDXTinkarService))
                 .build();
     }
 
