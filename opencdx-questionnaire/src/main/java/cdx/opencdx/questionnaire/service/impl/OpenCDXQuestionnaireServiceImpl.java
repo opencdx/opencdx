@@ -596,6 +596,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         }
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
+                .setId(request.getId())
                 .setMessage("deleteClientQuestionnaireData Executed")
                 .build();
     }

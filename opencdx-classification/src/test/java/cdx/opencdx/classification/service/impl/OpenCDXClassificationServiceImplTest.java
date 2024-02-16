@@ -182,7 +182,8 @@ class OpenCDXClassificationServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.openCDXClassifyProcessorService = new OpenCDXClassifyProcessorServiceImpl(this.openCDXMediaUpDownClient, this.openCDXCurrentUser,this.openCDXQuestionnaireClient);
+        this.openCDXClassifyProcessorService = new OpenCDXClassifyProcessorServiceImpl(
+                this.openCDXMediaUpDownClient, this.openCDXCurrentUser, this.openCDXQuestionnaireClient);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
