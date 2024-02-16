@@ -53,7 +53,7 @@ const AuditEventTable = ({ auditEventList }) => {
             '& .MuiDataGrid-row:hover': {
               backgroundColor: 'primary.light',
             },
-            height: 600,
+            height: '100%',
           }}
           initialState={{
             pagination: {
@@ -79,7 +79,7 @@ const AuditEventTable = ({ auditEventList }) => {
 
       <Paper style={{ paddingLeft: '10px', width: '30%' }}>
         {selectedEvent && (
-          <Box sx={{ height: 600, overflow: 'auto' }}>
+          <Box sx={{ height: '100%', overflow: 'auto' }}>
             <Typography variant="h4" style={{ margin: '10px 0' }}>
               Audit Log Details
             </Typography>
