@@ -30,14 +30,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
-import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing ANF Requests
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXANFServiceImpl implements OpenCDXANFService {
@@ -74,12 +75,14 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         this.openCDXANFStatementRepository = openCDXANFStatementRepository;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
+        log.trace("OpenCDXANFServiceImpl created");
     }
 
     @Override
     public AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request) {
-
+        log.trace("Creating ANF Statement");
         if (!request.getAuthorList().isEmpty()) {
+            log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     USERS,
                     request.getAuthorList().stream()
@@ -88,6 +91,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
+            log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     USERS, new ObjectId(request.getSubjectOfRecord().getId()));
         }
@@ -101,7 +105,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Creating ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    UUID.randomUUID().toString(),
+                    currentUser.getNationalHealthId(),
                     ANF_STATEMENT + openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -116,6 +120,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.ANFStatement getANFStatement(AnfStatement.Identifier request) {
+        log.trace("Getting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
@@ -127,7 +132,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Accessed ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    ANF_STATEMENT + UUID.randomUUID(),
+                    currentUser.getNationalHealthId(),
                     openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -142,7 +147,9 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request) {
+        log.trace("Updating ANF Statement");
         if (!request.getAuthorList().isEmpty()) {
+            log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     USERS,
                     request.getAuthorList().stream()
@@ -151,6 +158,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
+            log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     USERS, new ObjectId(request.getSubjectOfRecord().getId()));
         }
@@ -164,7 +172,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Updating ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    UUID.randomUUID().toString(),
+                    currentUser.getNationalHealthId(),
                     ANF_STATEMENT + openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {
@@ -179,6 +187,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
 
     @Override
     public AnfStatement.Identifier deleteANFStatement(AnfStatement.Identifier request) {
+        log.trace("Deleting ANF Statement");
         OpenCDXANFStatementModel openCDXANFStatementModel = this.openCDXANFStatementRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find ANF Statement: " + request.getId()));
@@ -190,7 +199,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
                     "Deleting ANF Statement",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     currentUser.getId().toHexString(),
-                    UUID.randomUUID().toString(),
+                    currentUser.getNationalHealthId(),
                     ANF_STATEMENT + openCDXANFStatementModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXANFStatementModel));
         } catch (JsonProcessingException e) {

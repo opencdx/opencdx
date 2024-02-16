@@ -17,6 +17,8 @@ package proto;
 
 import cdx.opencdx.grpc.questionnaire.ClientRulesRequest;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -35,6 +37,34 @@ class QuestionnaireTest {
         this.mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
+    }
+
+    @Test
+    void testCreateRuleSetRequest() throws JsonProcessingException {
+        cdx.opencdx.grpc.questionnaire.CreateRuleSetRequest request =
+                cdx.opencdx.grpc.questionnaire.CreateRuleSetRequest.newBuilder()
+                        .setRuleSet(cdx.opencdx.grpc.questionnaire.RuleSet.newBuilder()
+                                .setRuleId(ObjectId.get().toHexString())
+                                .setType("User Rule")
+                                .setCategory("Process user response")
+                                .setDescription("Categorize blood pressure")
+                                .setRule(
+                                        """
+                                if (bloodPressure > 140) {
+                                    return "High Blood Pressure";
+                                } else if (bloodPressure < 90) {
+                                    return "Low Blood Pressure";
+                                } else {
+                                    return "Normal Blood Pressure";
+                                }
+                                """)
+                                .setStatus(cdx.opencdx.grpc.questionnaire.QuestionnaireStatus.active)
+                                .build())
+                        .build();
+
+        log.info(
+                "CreateRuleSetRequest: {}",
+                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
     }
 
     @Test
@@ -59,6 +89,17 @@ class QuestionnaireTest {
 
         log.info(
                 "QuestionnaireRequest: {}",
+                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
+    }
+
+    @Test
+    void testUserQuestionnaireDataRequest() throws JsonProcessingException {
+        cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder().build())
+                .build();
+
+        log.info(
+                "UserQuestionnaireDataRequest: {}",
                 this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
     }
 }

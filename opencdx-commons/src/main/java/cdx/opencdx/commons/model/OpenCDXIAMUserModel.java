@@ -33,6 +33,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -40,6 +41,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * User Record for IAM
  */
+@Slf4j
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -74,7 +76,7 @@ public class OpenCDXIAMUserModel {
 
     private List<ContactInfo> contactInfo;
     private Gender gender;
-    private DateOfBirth dateOfBirth;
+    private Instant dateOfBirth;
     private PlaceOfBirth placeOfBirth;
     private List<Address> addresses;
     private byte[] photo;
@@ -115,11 +117,18 @@ public class OpenCDXIAMUserModel {
      * @return reference to itself.
      */
     public OpenCDXIAMUserModel update(UserProfile userProfile) {
+        log.trace("Updating user profile for user");
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
         this.gender = userProfile.getGender();
-        this.dateOfBirth = userProfile.getDateOfBirth();
+
+        if (userProfile.hasDateOfBirth()) {
+            this.dateOfBirth = Instant.ofEpochSecond(
+                    userProfile.getDateOfBirth().getSeconds(),
+                    userProfile.getDateOfBirth().getNanos());
+        }
+
         this.addresses = userProfile.getAddressList();
         this.photo = userProfile.getPhoto().toByteArray();
         this.communication = userProfile.getCommunication();
@@ -140,6 +149,7 @@ public class OpenCDXIAMUserModel {
      * @param request SingUpRequest to create from.
      */
     public OpenCDXIAMUserModel(SignUpRequest request) {
+        log.trace("Creating user from sign up request");
 
         this.fullName = FullName.newBuilder()
                 .setFirstName(request.getFirstName())
@@ -155,6 +165,7 @@ public class OpenCDXIAMUserModel {
      * @param iamUser IamUser to read in.
      */
     public OpenCDXIAMUserModel(IamUser iamUser) {
+        log.trace("Creating user from IAM User");
         if (iamUser.hasId()) {
             this.id = new ObjectId(iamUser.getId());
         }
@@ -197,6 +208,7 @@ public class OpenCDXIAMUserModel {
      * @return gRPC IamUser Message
      */
     public IamUser getIamUserProtobufMessage() {
+        log.trace("Creating IAM User from user");
         IamUser.Builder builder = IamUser.newBuilder();
 
         if (this.id != null) {
@@ -257,6 +269,7 @@ public class OpenCDXIAMUserModel {
      */
     @SuppressWarnings("java:S3776")
     public UserProfile getUserProfileProtobufMessage() {
+        log.trace("Creating user profile from user");
         UserProfile.Builder builder = UserProfile.newBuilder();
 
         builder.setUserId(this.id.toHexString());
@@ -277,7 +290,11 @@ public class OpenCDXIAMUserModel {
             builder.setGender(this.gender);
         }
         if (this.dateOfBirth != null) {
-            builder.setDateOfBirth(this.dateOfBirth);
+
+            builder.setDateOfBirth(Timestamp.newBuilder()
+                    .setSeconds(this.dateOfBirth.getEpochSecond())
+                    .setNanos(this.dateOfBirth.getNano())
+                    .build());
         }
         if (this.placeOfBirth != null) {
             builder.setPlaceOfBirth(this.placeOfBirth);

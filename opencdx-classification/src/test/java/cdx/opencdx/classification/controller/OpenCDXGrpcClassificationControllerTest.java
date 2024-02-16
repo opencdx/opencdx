@@ -15,10 +15,17 @@
  */
 package cdx.opencdx.classification.controller;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
+import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
+import cdx.opencdx.client.service.OpenCDXMediaClient;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
@@ -31,6 +38,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -51,8 +60,26 @@ class OpenCDXGrpcClassificationControllerTest {
 
     OpenCDXGrpcClassificationController openCDXGrpcClassificationController;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
+    @Autowired
+    OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Mock
+    OpenCDXMediaClient openCDXMediaClient;
+
+    @Mock
+    OpenCDXConnectedTestClient openCDXConnectedTestClient;
+
+    @Mock
+    OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
+    @Mock
+    OpenCDXClassificationRepository openCDXClassificationRepository;
 
     @BeforeEach
     void setUp() {
@@ -61,8 +88,28 @@ class OpenCDXGrpcClassificationControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.classificationService =
-                new OpenCDXClassificationServiceImpl(this.openCDXAuditService, this.objectMapper, openCDXCurrentUser);
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+                    @Override
+                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
+
+        this.classificationService = new OpenCDXClassificationServiceImpl(
+                this.openCDXAuditService,
+                this.objectMapper,
+                openCDXCurrentUser,
+                openCDXDocumentValidator,
+                openCDXMediaClient,
+                openCDXConnectedTestClient,
+                openCDXQuestionnaireClient,
+                this.openCDXClassifyProcessorService,
+                openCDXClassificationRepository);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 
@@ -71,11 +118,12 @@ class OpenCDXGrpcClassificationControllerTest {
         StreamObserver<ClassificationResponse> responseObserver = Mockito.mock(StreamObserver.class);
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
-                .setUserAnswer(
-                        UserAnswer.newBuilder().setGender(Gender.GENDER_MALE).setAge(30))
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .setGender(Gender.GENDER_MALE)
+                        .setAge(30))
                 .build();
-        ClassificationResponse response =
-                ClassificationResponse.newBuilder().setMessage("Executed").build();
 
         this.openCDXGrpcClassificationController.classify(request, responseObserver);
 

@@ -16,29 +16,41 @@
 package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.FileUploadResponse;
-import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Interface for the Media Uploading and Downloading client
  */
+@FeignClient("media")
 public interface OpenCDXMediaUpDownClient {
 
     /**
      * Method to upload files to Media
+     * @param authorizationToken Token for authorization
      * @param file path to file to upload
      * @param fileId ID for upload file.
-     * @return Response if successful
-     * @throws OpenCDXClientException Exception in the client.
+     * @return FileUploadResponse
      */
-    FileUploadResponse upload(String file, String fileId) throws OpenCDXClientException;
+    @PostMapping(value = "/upload/{fileId}", consumes = "application/json")
+    ResponseEntity<FileUploadResponse> uploadFile(
+            @RequestHeader("Authorization") String authorizationToken,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            @PathVariable String fileId);
 
     /**
      * Method to download files from Media
+     * @param authorizationToken Token for authorization
      * @param fileId ID of file to download
      * @param ext Extension of file
-     * @return downloaded resource
-     * @throws OpenCDXClientException Error on download.
+     * @return downloaded Resource
      */
-    Resource download(String fileId, String ext) throws OpenCDXClientException;
+    @GetMapping(value = "/download/{fileId}.{ext}")
+    ResponseEntity<Resource> download(
+            @RequestHeader("Authorization") String authorizationToken,
+            @PathVariable String fileId,
+            @PathVariable String ext);
 }

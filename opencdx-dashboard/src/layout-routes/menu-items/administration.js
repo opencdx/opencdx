@@ -1,6 +1,6 @@
 // third-party
 import { FormattedMessage } from 'react-intl';
-import {  PeopleAlt, StackedBarChart } from '@mui/icons-material';
+import { AdminPanelSettings, StackedBarChart } from '@mui/icons-material';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
@@ -24,7 +24,7 @@ const documentation = {
             id: 'admin',
             title: <FormattedMessage id="admin" />,
             type: 'item',
-            icon: PeopleAlt,
+            icon: AdminPanelSettings,
             target: true,
             external: true,
             url: '/pages/admin'

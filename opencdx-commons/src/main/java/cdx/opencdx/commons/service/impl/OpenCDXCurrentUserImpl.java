@@ -20,6 +20,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.iam.IamUserType;
 import io.micrometer.observation.annotation.Observed;
@@ -62,12 +63,14 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     public OpenCDXCurrentUserImpl(
             OpenCDXIAMUserRepository openCDXIAMUserRepository,
             @Value("${spring.application.name}") String applicationName) {
+        log.info("OpenCDXCurrentUserImpl created");
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.applicationName = applicationName;
     }
 
     @Override
     public OpenCDXIAMUserModel getCurrentUser() {
+        log.trace("Getting current user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null && this.allowBypassAuthentication) {
             log.warn(BYPASSING_AUTHENTICATION);
@@ -87,6 +90,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
     }
 
     public OpenCDXIAMUserModel checkCurrentUser(OpenCDXIAMUserModel defaultUser) {
+        log.trace("Checking current user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null
                 && !(authentication instanceof AnonymousAuthenticationToken)
@@ -99,6 +103,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     @Override
     public OpenCDXIAMUserModel getCurrentUser(OpenCDXIAMUserModel defaultUser) {
+        log.trace("Getting current user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return this.openCDXIAMUserRepository
@@ -111,6 +116,7 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
 
     @Override
     public void configureAuthentication(String role) {
+        log.trace("Configuring Authentication");
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 this.applicationName, role, List.of(new SimpleGrantedAuthority(role)));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -124,5 +130,11 @@ public class OpenCDXCurrentUserImpl implements OpenCDXCurrentUser {
             log.warn("Requiring Authentication");
         }
         this.allowBypassAuthentication = allowBypassAuthentication;
+    }
+
+    @Override
+    public String getCurrentUserAccessToken() {
+        log.trace("Getting current user access token");
+        return new JwtTokenUtil().generateAccessToken(getCurrentUser());
     }
 }

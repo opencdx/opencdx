@@ -24,22 +24,19 @@ import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Open CDX gRPC Connected Test Client
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
 public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClient {
 
     private static final String DOMAIN = "OpenCDXConnectedTestClientImpl";
@@ -50,17 +47,23 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Client.
      * @throws SSLException creating Client
      */
     @Generated
     public OpenCDXConnectedTestClientImpl(
-            @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
+                .intercept(observationGrpcClientInterceptor)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
 
         this.healthcareServiceBlockingStub = HealthcareServiceGrpc.newBlockingStub(channel);
@@ -79,7 +82,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     public TestSubmissionResponse submitTest(
             ConnectedTest connectedTest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing submit test: {}", connectedTest);
+            log.trace("Processing submit test: {}", connectedTest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .submitTest(connectedTest);
@@ -95,7 +98,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     public ConnectedTest getTestDetailsById(
             TestIdRequest testIdRequest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing test details by Id: {}", testIdRequest);
+            log.trace("Processing test details by Id: {}", testIdRequest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .getTestDetailsById(testIdRequest);
@@ -111,7 +114,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
     public ConnectedTestListResponse listConnectedTests(
             ConnectedTestListRequest connectedTestListRequest, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing listConnectedTests: {}", connectedTestListRequest);
+            log.trace("Processing listConnectedTests: {}", connectedTestListRequest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .listConnectedTests(connectedTestListRequest);
@@ -128,7 +131,7 @@ public class OpenCDXConnectedTestClientImpl implements OpenCDXConnectedTestClien
             ConnectedTestListByNHIDRequest connectedTestListByNHIDRequest,
             OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing listConnectedTestsByNHID: {}", connectedTestListByNHIDRequest);
+            log.trace("Processing listConnectedTestsByNHID: {}", connectedTestListByNHIDRequest);
             return healthcareServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .listConnectedTestsByNHID(connectedTestListByNHIDRequest);

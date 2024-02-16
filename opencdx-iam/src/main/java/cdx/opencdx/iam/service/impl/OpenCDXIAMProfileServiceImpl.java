@@ -36,7 +36,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing IAM Profile Requests
  */
 @Slf4j
 @Service
@@ -188,7 +188,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
 
         userModel = this.openCDXIAMUserRepository.save(userModel);
-        log.info("Deleted User: {}", request.getUserId());
+        log.trace("Deleted User: {}", request.getUserId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

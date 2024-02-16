@@ -11,18 +11,18 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Setup Details" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">1</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Properties Details" enabled="true">
@@ -33,18 +33,18 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Integration Test" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,1)}</stringProp>
+        <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <stringProp name="LoopController.loops">${__P(lCount,1)}</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,1)}</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
-        <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
       <hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Thread Setup" enabled="true">
@@ -4702,7 +4702,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract TestCase Template ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">testcaseId</stringProp>
+              <stringProp name="JSONPostProcessor.referenceNames">testcaseId_g</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
@@ -4723,7 +4723,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-	&quot;test_case_id&quot;:&quot;${testcaseId}&quot;
+	&quot;test_case_id&quot;:&quot;${testcaseId_g}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -4740,11 +4740,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId}&quot; ]}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;10&quot;,&quot;serialNumber&quot;:&quot;2&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId_g}&quot; ]}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract DeviceId Template ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">deviceId</stringProp>
+              <stringProp name="JSONPostProcessor.referenceNames">deviceId_g</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
@@ -4764,7 +4764,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${testcaseId}&quot;,&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;batchNumber&quot;:&quot;21&quot;,&quot;deviceIds&quot; : [ &quot;${deviceId}&quot; ]}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{&quot;id&quot;:&quot;${testcaseId_g}&quot;,&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;batchNumber&quot;:&quot;21&quot;,&quot;deviceIds&quot; : [ &quot;${deviceId_g}&quot; ]}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Update Device" enabled="true">
@@ -4780,7 +4780,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId}&quot; ]}</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{&quot;manufacturerId&quot;:&quot;${manufacturerId}&quot;,&quot;manufacturerCountryId&quot; : &quot;${countryId}&quot;,&quot;vendorId&quot;:&quot;${vendorId}&quot;,&quot;vendorCountryId&quot; : &quot;${countryId}&quot;,&quot;testTypeId&quot;:&quot;TEST-ID-001&quot;,&quot;batchNumber&quot;:&quot;20&quot;,&quot;serialNumber&quot;:&quot;5&quot;,&quot;testCaseIds&quot; : [ &quot;${testcaseId_g}&quot; ]}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  Get Device" enabled="true">
@@ -4797,7 +4797,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-	&quot;device_id&quot;:&quot;${deviceId}&quot;
+	&quot;device_id&quot;:&quot;${deviceId_g}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -5151,296 +5151,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Connected Test - Connected Tests" enabled="true">
-          <boolProp name="TransactionController.includeTimers">false</boolProp>
-          <boolProp name="TransactionController.parent">false</boolProp>
-        </TransactionController>
-        <hashTree>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  SubmitTest" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/SubmitTest</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-    &quot;basicInfo&quot;: {
-        &quot;healthServiceId&quot;: &quot;amet minim culpa sed&quot;,
-        &quot;nationalHealthId&quot;: 677453581,
-        &quot;source&quot;: &quot;ea&quot;,
-        &quot;organizationId&quot; : &quot;${organization_g}&quot;,
-        &quot;workspaceId&quot; : &quot;${workspace_g}&quot;,
-        &quot;type&quot;: &quot;aliqua culpa aute enim&quot;,
-        &quot;userId&quot;: &quot;${user_id_g}&quot;,
-        &quot;vendorLabTestId&quot;: &quot;ut Ut velit non&quot;
-    },
-    &quot;orderInfo&quot;: {
-        &quot;encounterId&quot;: &quot;laboris fugiat&quot;,
-        &quot;isSyncedWithEHR&quot;: true,
-        &quot;orderId&quot;: &quot;cupidatat occaecat mollit sit ad&quot;,
-        &quot;questionnaireId&quot;: &quot;proident sit eu dolor&quot;,
-        &quot;result&quot;: &quot;officia anim sed&quot;,
-        &quot;status&quot;: &quot;adipisicing&quot;,
-        &quot;statusMessage&quot;: &quot;irure ut officia&quot;,
-        &quot;statusMessageActions&quot;: [
-            {
-                &quot;id&quot;: &quot;deserunt enim qui&quot;,
-                &quot;Value&quot;: &quot;ex esse&quot;,
-                &quot;Description&quot;: &quot;incididunt&quot;
-            },
-            {
-                &quot;Value&quot;: &quot;eu non occaecat elit&quot;,
-                &quot;id&quot;: &quot;ipsum nisi&quot;,
-                &quot;Description&quot;: &quot;officia quis&quot;
-            },
-            {
-                &quot;id&quot;: &quot;nulla est ut fugiat&quot;,
-                &quot;Description&quot;: &quot;exercitation dolore irure ipsum Excepteur&quot;,
-                &quot;Value&quot;: &quot;Duis aliqua amet&quot;
-            },
-            {
-                &quot;Value&quot;: &quot;sed est adipisicing ullamco&quot;,
-                &quot;id&quot;: &quot;in aliqua minim quis consectetur&quot;,
-                &quot;Description&quot;: &quot;adipisicing ipsum et esse&quot;
-            }
-        ]
-    },
-    &quot;paymentDetails&quot;: {
-        &quot;insuranceInfoId&quot;: &quot;Duis Ut exercitation cillum&quot;,
-        &quot;paymentDetails&quot;: &quot;in&quot;,
-        &quot;paymentMode&quot;: &quot;commodo in deserunt sunt Lorem&quot;,
-        &quot;paymentTransactionId&quot;: &quot;nisi eiusmod&quot;
-    },
-    &quot;providerInfo&quot;: {
-        &quot;assignedProviderID&quot;: -44602025,
-        &quot;orderingProviderId&quot;: &quot;dolore et tempor&quot;,
-        &quot;orderingProviderNPI&quot;: -211209566
-    },
-    &quot;testDetails&quot;: {
-        &quot;deviceIdentifier&quot;: &quot;${deviceId}&quot;,
-        &quot;deviceSerialNumber&quot;: &quot;sunt quis irure enim&quot;,
-        &quot;diagnostics&quot;: &quot;consequat amet ut&quot;,
-        &quot;internalTestId&quot;: &quot;ullamco in&quot;,
-        &quot;isAutoGenerated&quot;: false,
-        &quot;isOnsiteTest&quot;: true,
-        &quot;labTestType&quot;: &quot;quis deserunt eu commodo adipisicing&quot;,
-        &quot;labVendorConfirmationId&quot;: &quot;ad tempor incididunt ipsum quis&quot;,
-        &quot;medicalCode&quot;: &quot;pariatur non sit exercitation&quot;,
-        &quot;medications&quot;: &quot;sit sed Ut ut&quot;,
-        &quot;metadata&quot;: {
-            &quot;cassetteExpirationDate&quot;: &quot;sint consequat reprehenderit ut&quot;,
-            &quot;cassetteLotNumber&quot;: &quot;sed est non qui&quot;,
-            &quot;cassetteVerification&quot;: &quot;ad cillum&quot;,
-            &quot;imageType&quot;: &quot;cupidatat&quot;,
-            &quot;kitUploadID&quot;: &quot;Lorem deserunt&quot;,
-            &quot;labTestOrderableId&quot;: &quot;et sit nostrud ex cupidatat&quot;,
-            &quot;manufacturer&quot;: &quot;quis cillum&quot;,
-            &quot;outcome&quot;: &quot;reprehenderit veniam ut Ut&quot;,
-            &quot;outcomeIgG&quot;: true,
-            &quot;outcomeIgM&quot;: true,
-            &quot;qrData&quot;: &quot;incididunt pariatur&quot;,
-            &quot;responseCode&quot;: 1699231156,
-            &quot;responseMessage&quot;: &quot;commodo mollit culpa quis consectetur&quot;,
-            &quot;responseTitle&quot;: &quot;Ut laboris sint nisi non&quot;,
-            &quot;selfAssessmentOutcome&quot;: &quot;dolore officia&quot;,
-            &quot;selfAssessmentOutcomeIgG&quot;: false,
-            &quot;selfAssessmentOutcomeIgM&quot;: true,
-            &quot;skuId&quot;: &quot;cupidatat anim officia&quot;,
-            &quot;type&quot;: &quot;fugiat incididunt nisi dolor sunt&quot;
-        },
-        &quot;notificationFlag&quot;: &quot;ut nulla sint&quot;,
-        &quot;orderableTestIds&quot;: [
-            &quot;est enim cupidatat dolore&quot;
-        ],
-        &quot;orderableTestResults&quot;: [
-            {
-                &quot;responseMessage&quot;: &quot;ipsum reprehenderit&quot;,
-                &quot;responseTitle&quot;: &quot;voluptate Duis et&quot;,
-                &quot;outcome&quot;: &quot;velit sit Ut&quot;,
-                &quot;orderableTestId&quot;: &quot;cillum&quot;,
-                &quot;collectionDate&quot;: &quot;ut&quot;,
-                &quot;testResult&quot;: &quot;aliquip tempor cillum reprehenderit officia&quot;,
-                &quot;responseCode&quot;: 1582878818
-            }
-        ],
-        &quot;orderableTests&quot;: [
-            {
-                &quot;orderableTestId&quot;: &quot;irure&quot;
-            },
-            {
-                &quot;orderableTestId&quot;: &quot;aute elit aliqua ea&quot;
-            },
-            {
-                &quot;orderableTestId&quot;: &quot;nostrud laborum Lorem eu&quot;
-            },
-            {
-                &quot;orderableTestId&quot;: &quot;deserunt veniam voluptate&quot;
-            },
-            {
-                &quot;orderableTestId&quot;: &quot;minim occaecat sint ut cupidatat&quot;
-            }
-        ],
-        &quot;orderReceiptPath&quot;: &quot;deserunt&quot;,
-        &quot;orderStatusFlag&quot;: &quot;ullamco et ad eu&quot;,
-        &quot;referrals&quot;: &quot;id ut est elit eiusmod&quot;,
-        &quot;reportingFlag&quot;: &quot;commodo in incididunt fugiat laborum&quot;,
-        &quot;requisitionBase64&quot;: &quot;amet dolor&quot;,
-        &quot;specimenType&quot;: &quot;sed exercitation&quot;,
-        &quot;specimenId&quot;: &quot;sint eu voluptate cupidatat&quot;,
-        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;
-    },
-    &quot;testNotes&quot;: {
-        &quot;diagnosticNotes&quot;: &quot;qui ullamco&quot;,
-        &quot;medicationNotes&quot;: &quot;non aute consectetur qui cupidatat&quot;,
-        &quot;notes&quot;: &quot;non Duis cupidatat dolor&quot;,
-        &quot;referralNotes&quot;: &quot;aliquip ullamco minim&quot;
-    }
-}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.submission_id</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  GetTestDetailsById" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/GetTestDetailsById</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-	&quot;test_id&quot;:&quot;${connectedTestId}&quot;
-}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  ListConnectedTests" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/ListConnectedTests</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-	&quot;pagination&quot;:{
-		&quot;page_number&quot;:1,
-		&quot;page_size&quot;:10,
-		&quot;sort_ascending&quot;:true,
-		&quot;sort&quot;:&quot;lastname&quot;
-	},
-    &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
-}
-</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;basicInfo&quot;:{&quot;userId&quot;:&quot;${user_id_r}&quot;,&quot;vendorLabTestId&quot;:&quot;vendorLabTestId&quot;,&quot;type&quot;:&quot;type&quot;,&quot;nationalHealthId&quot;:1,&quot;healthServiceId&quot;:&quot;hea;thServiceId&quot;,&quot;organizationId&quot;:&quot;${organization_r}&quot;,&quot;workspaceId&quot;:&quot;${workspace_r}&quot;,&quot;source&quot;:&quot;source&quot;},&quot;orderInfo&quot;:{&quot;orderId&quot;:&quot;orderId&quot;,&quot;status&quot;:&quot;statusId&quot;,&quot;statusMessage&quot;:&quot;statusMessage&quot;,&quot;statusMessageActions&quot;:[{&quot;id&quot;:&quot;id&quot;,&quot;value&quot;:&quot;value&quot;,&quot;description&quot;:&quot;description&quot;}],&quot;encounterId&quot;:&quot;encounterId&quot;,&quot;isSyncedWithEhr&quot;:true,&quot;result&quot;:&quot;result&quot;,&quot;questionnaireId&quot;:&quot;questionnaireId&quot;},&quot;testNotes&quot;:{&quot;notes&quot;:&quot;notes&quot;,&quot;medicationNotes&quot;:&quot;medicationNotes&quot;,&quot;referralNotes&quot;:&quot;referralNotes&quot;,&quot;diagnosticNotes&quot;:&quot;diagnosticNotes&quot;},&quot;paymentDetails&quot;:{&quot;paymentMode&quot;:&quot;paymentMode&quot;,&quot;insuranceInfoId&quot;:&quot;insuranceInfoId&quot;,&quot;paymentTransactionId&quot;:&quot;paymentTransactionId&quot;,&quot;paymentDetails&quot;:&quot;paymentDetails&quot;},&quot;providerInfo&quot;:{&quot;orderingProviderId&quot;:&quot;orderingProviderId&quot;,&quot;assignedProviderId&quot;:1,&quot;orderingProviderNpi&quot;:1},&quot;testDetails&quot;:{&quot;metadata&quot;:{&quot;qrData&quot;:&quot;qrdata&quot;,&quot;kitUploadId&quot;:&quot;kitUploadID&quot;,&quot;responseMessage&quot;:&quot;responseMessage&quot;,&quot;responseTitle&quot;:&quot;responseTitle&quot;,&quot;responseCode&quot;:200,&quot;imageType&quot;:&quot;imageType&quot;,&quot;type&quot;:&quot;type&quot;,&quot;manufacturer&quot;:&quot;manufacturer&quot;,&quot;cassetteLotNumber&quot;:&quot;cassetteLotNumber&quot;,&quot;outcomeIgm&quot;:true,&quot;outcomeIgg&quot;:true,&quot;outcome&quot;:&quot;outcome&quot;,&quot;selfAssessmentOutcomeIgm&quot;:true,&quot;selfAssessmentOutcomeIgg&quot;:true,&quot;selfAssessmentOutcome&quot;:&quot;selfAssessmentOutcome&quot;,&quot;cassetteExpirationDate&quot;:&quot;expDate&quot;,&quot;labTestOrderableId&quot;:&quot;labTestOrderableId&quot;,&quot;skuId&quot;:&quot;skuID&quot;,&quot;cassetteVerification&quot;:&quot;verification&quot;},&quot;requisitionBase64&quot;:&quot;requisitionBase64&quot;,&quot;internalTestId&quot;:&quot;internalTestId&quot;,&quot;medications&quot;:&quot;medications&quot;,&quot;referrals&quot;:&quot;referrals&quot;,&quot;diagnostics&quot;:&quot;diagnostics&quot;,&quot;orderableTestIds&quot;:[&quot;orderableTestIds&quot;],&quot;orderableTests&quot;:[{&quot;orderableTestId&quot;:&quot;orderableTestId&quot;}],&quot;orderableTestResults&quot;:[{&quot;orderableTestId&quot;:&quot;orderableTestId&quot;,&quot;collectionDate&quot;:&quot;collectionDate&quot;,&quot;testResult&quot;:&quot;testResult&quot;,&quot;outcome&quot;:&quot;outcome&quot;,&quot;responseMessage&quot;:&quot;responseMessage&quot;,&quot;responseTitle&quot;:&quot;responseTitle&quot;,&quot;responseCode&quot;:200}],&quot;testClassification&quot;:&quot;TEST_CLASSIFICATION_GENERAL&quot;,&quot;isOnsiteTest&quot;:true,&quot;specimenId&quot;:&quot;specimenId&quot;,&quot;labVendorConfirmationId&quot;:&quot;labVendorConfirmationId&quot;,&quot;deviceIdentifier&quot;:&quot;${deviceId}&quot;,&quot;deviceSerialNumber&quot;:&quot;deviceSerialNumber&quot;,&quot;isAutoGenerated&quot;:true,&quot;reportingFlag&quot;:&quot;reportingFlag&quot;,&quot;notificationFlag&quot;:&quot;notificationFlag&quot;,&quot;orderStatusFlag&quot;:&quot;orderStatusFlag&quot;,&quot;orderReceiptPath&quot;:&quot;orderReceiptPath&quot;,&quot;labTestType&quot;:&quot;labTestType&quot;,&quot;specimenType&quot;:&quot;specimanType&quot;,&quot;medicalCode&quot;:&quot;medicalCode&quot;,&quot;testName&quot;:&quot;&quot;,&quot;testFormat&quot;:&quot;TEST_FORMAT_UNSPECIFIED&quot;}}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-test</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.submissionId</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [GET]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-test/${connectedTestId}</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/list [POST]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-	&quot;pagination&quot;:{&#xd;
-		&quot;pageNumber&quot;:1,&#xd;
-		&quot;pageSize&quot;:10,&#xd;
-		&quot;sortAscending&quot;:true,&#xd;
-		&quot;sort&quot;:&quot;lastname&quot;&#xd;
-	},&#xd;
-	&quot;userId&quot;:&quot;6512d485f7f8935ea3994013&quot;&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-test/list</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-        </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
@@ -5606,24 +5316,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 		&quot;sort_ascending&quot;:true,
 		&quot;sort&quot;:&quot;lastname&quot;
 	}
-}</stringProp>
-          </vn.zalopay.benchmark.GRPCSampler>
-          <hashTree/>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / DeleteMedia" enabled="true">
-            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-            <stringProp name="GRPCSampler.libFolder"></stringProp>
-            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-            <stringProp name="GRPCSampler.host">localhost</stringProp>
-            <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/DeleteMedia</stringProp>
-            <stringProp name="GRPCSampler.deadline">1000</stringProp>
-            <boolProp name="GRPCSampler.tls">true</boolProp>
-            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-            <stringProp name="GRPCSampler.requestJson">{
-    &quot;id&quot;: &quot;${mediaId}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -5809,13 +5501,393 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media  [DELETE]]" enabled="true">
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Connected Test - Connected Tests" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  SubmitTest" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/SubmitTest</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;basicInfo&quot;: {
+        &quot;healthServiceId&quot;: &quot;amet minim culpa sed&quot;,
+        &quot;nationalHealthId&quot;: 677453581,
+        &quot;source&quot;: &quot;ea&quot;,
+        &quot;organizationId&quot; : &quot;${organization_g}&quot;,
+        &quot;workspaceId&quot; : &quot;${workspace_g}&quot;,
+        &quot;type&quot;: &quot;aliqua culpa aute enim&quot;,
+        &quot;userId&quot;: &quot;${user_id_g}&quot;,
+        &quot;vendorLabTestId&quot;: &quot;ut Ut velit non&quot;
+    },
+    &quot;orderInfo&quot;: {
+        &quot;encounterId&quot;: &quot;laboris fugiat&quot;,
+        &quot;isSyncedWithEHR&quot;: true,
+        &quot;orderId&quot;: &quot;cupidatat occaecat mollit sit ad&quot;,
+        &quot;questionnaireId&quot;: &quot;proident sit eu dolor&quot;,
+        &quot;result&quot;: &quot;officia anim sed&quot;,
+        &quot;status&quot;: &quot;adipisicing&quot;,
+        &quot;statusMessage&quot;: &quot;irure ut officia&quot;,
+        &quot;statusMessageActions&quot;: [
+            {
+                &quot;id&quot;: &quot;deserunt enim qui&quot;,
+                &quot;Value&quot;: &quot;ex esse&quot;,
+                &quot;Description&quot;: &quot;incididunt&quot;
+            },
+            {
+                &quot;Value&quot;: &quot;eu non occaecat elit&quot;,
+                &quot;id&quot;: &quot;ipsum nisi&quot;,
+                &quot;Description&quot;: &quot;officia quis&quot;
+            },
+            {
+                &quot;id&quot;: &quot;nulla est ut fugiat&quot;,
+                &quot;Description&quot;: &quot;exercitation dolore irure ipsum Excepteur&quot;,
+                &quot;Value&quot;: &quot;Duis aliqua amet&quot;
+            },
+            {
+                &quot;Value&quot;: &quot;sed est adipisicing ullamco&quot;,
+                &quot;id&quot;: &quot;in aliqua minim quis consectetur&quot;,
+                &quot;Description&quot;: &quot;adipisicing ipsum et esse&quot;
+            }
+        ]
+    },
+    &quot;paymentDetails&quot;: {
+        &quot;insuranceInfoId&quot;: &quot;Duis Ut exercitation cillum&quot;,
+        &quot;paymentDetails&quot;: &quot;in&quot;,
+        &quot;paymentMode&quot;: &quot;commodo in deserunt sunt Lorem&quot;,
+        &quot;paymentTransactionId&quot;: &quot;nisi eiusmod&quot;
+    },
+    &quot;providerInfo&quot;: {
+        &quot;assignedProviderID&quot;: -44602025,
+        &quot;orderingProviderId&quot;: &quot;dolore et tempor&quot;,
+        &quot;orderingProviderNPI&quot;: -211209566
+    },
+    &quot;testDetails&quot;: {
+    	   &quot;mediaId&quot;: &quot;${mediaId}&quot;,	
+        &quot;deviceIdentifier&quot;: &quot;${deviceId}&quot;,
+        &quot;deviceSerialNumber&quot;: &quot;sunt quis irure enim&quot;,
+        &quot;diagnostics&quot;: &quot;consequat amet ut&quot;,
+        &quot;internalTestId&quot;: &quot;ullamco in&quot;,
+        &quot;isAutoGenerated&quot;: false,
+        &quot;isOnsiteTest&quot;: true,
+        &quot;labTestType&quot;: &quot;quis deserunt eu commodo adipisicing&quot;,
+        &quot;labVendorConfirmationId&quot;: &quot;ad tempor incididunt ipsum quis&quot;,
+        &quot;medicalCode&quot;: &quot;pariatur non sit exercitation&quot;,
+        &quot;medications&quot;: &quot;sit sed Ut ut&quot;,
+        &quot;metadata&quot;: {
+            &quot;cassetteExpirationDate&quot;: &quot;sint consequat reprehenderit ut&quot;,
+            &quot;cassetteLotNumber&quot;: &quot;sed est non qui&quot;,
+            &quot;cassetteVerification&quot;: &quot;ad cillum&quot;,
+            &quot;imageType&quot;: &quot;cupidatat&quot;,
+            &quot;kitUploadID&quot;: &quot;Lorem deserunt&quot;,
+            &quot;labTestOrderableId&quot;: &quot;et sit nostrud ex cupidatat&quot;,
+            &quot;manufacturer&quot;: &quot;quis cillum&quot;,
+            &quot;outcome&quot;: &quot;reprehenderit veniam ut Ut&quot;,
+            &quot;outcomeIgG&quot;: true,
+            &quot;outcomeIgM&quot;: true,
+            &quot;qrData&quot;: &quot;incididunt pariatur&quot;,
+            &quot;responseCode&quot;: 1699231156,
+            &quot;responseMessage&quot;: &quot;commodo mollit culpa quis consectetur&quot;,
+            &quot;responseTitle&quot;: &quot;Ut laboris sint nisi non&quot;,
+            &quot;selfAssessmentOutcome&quot;: &quot;dolore officia&quot;,
+            &quot;selfAssessmentOutcomeIgG&quot;: false,
+            &quot;selfAssessmentOutcomeIgM&quot;: true,
+            &quot;skuId&quot;: &quot;cupidatat anim officia&quot;,
+            &quot;type&quot;: &quot;fugiat incididunt nisi dolor sunt&quot;
+        },
+        &quot;notificationFlag&quot;: &quot;ut nulla sint&quot;,
+        &quot;orderableTestIds&quot;: [
+            &quot;est enim cupidatat dolore&quot;
+        ],
+        &quot;orderableTestResults&quot;: [
+            {
+                &quot;responseMessage&quot;: &quot;ipsum reprehenderit&quot;,
+                &quot;responseTitle&quot;: &quot;voluptate Duis et&quot;,
+                &quot;outcome&quot;: &quot;velit sit Ut&quot;,
+                &quot;orderableTestId&quot;: &quot;cillum&quot;,
+                &quot;collectionDate&quot;: &quot;ut&quot;,
+                &quot;testResult&quot;: &quot;aliquip tempor cillum reprehenderit officia&quot;,
+                &quot;responseCode&quot;: 1582878818
+            }
+        ],
+        &quot;orderableTests&quot;: [
+            {
+                &quot;orderableTestId&quot;: &quot;irure&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;aute elit aliqua ea&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;nostrud laborum Lorem eu&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;deserunt veniam voluptate&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;minim occaecat sint ut cupidatat&quot;
+            }
+        ],
+        &quot;orderReceiptPath&quot;: &quot;deserunt&quot;,
+        &quot;orderStatusFlag&quot;: &quot;ullamco et ad eu&quot;,
+        &quot;referrals&quot;: &quot;id ut est elit eiusmod&quot;,
+        &quot;reportingFlag&quot;: &quot;commodo in incididunt fugiat laborum&quot;,
+        &quot;requisitionBase64&quot;: &quot;amet dolor&quot;,
+        &quot;specimenType&quot;: &quot;sed exercitation&quot;,
+        &quot;specimenId&quot;: &quot;sint eu voluptate cupidatat&quot;,
+        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;
+    },
+    &quot;testNotes&quot;: {
+        &quot;diagnosticNotes&quot;: &quot;qui ullamco&quot;,
+        &quot;medicationNotes&quot;: &quot;non aute consectetur qui cupidatat&quot;,
+        &quot;notes&quot;: &quot;non Duis cupidatat dolor&quot;,
+        &quot;referralNotes&quot;: &quot;aliquip ullamco minim&quot;
+    }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.submission_id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  GetTestDetailsById" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/GetTestDetailsById</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;test_id&quot;:&quot;${connectedTestId}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  ListConnectedTests" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/ListConnectedTests</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:1,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true,
+		&quot;sort&quot;:&quot;lastname&quot;
+	},
+    &quot;userId&quot;: &quot;6512d485f7f8935ea3994013&quot;
+}
+</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;basicInfo&quot;: {&#xd;
+    &quot;userId&quot;: &quot;${user_id_r}&quot;,&#xd;
+    &quot;vendorLabTestId&quot;: &quot;vendorLabTestId&quot;,&#xd;
+    &quot;type&quot;: &quot;type&quot;,&#xd;
+    &quot;nationalHealthId&quot;: 1,&#xd;
+    &quot;healthServiceId&quot;: &quot;hea;thServiceId&quot;,&#xd;
+    &quot;organizationId&quot;: &quot;${organization_r}&quot;,&#xd;
+    &quot;workspaceId&quot;: &quot;${workspace_r}&quot;,&#xd;
+    &quot;source&quot;: &quot;source&quot;&#xd;
+  },&#xd;
+  &quot;orderInfo&quot;: {&#xd;
+    &quot;orderId&quot;: &quot;orderId&quot;,&#xd;
+    &quot;status&quot;: &quot;statusId&quot;,&#xd;
+    &quot;statusMessage&quot;: &quot;statusMessage&quot;,&#xd;
+    &quot;statusMessageActions&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;id&quot;,&#xd;
+        &quot;value&quot;: &quot;value&quot;,&#xd;
+        &quot;description&quot;: &quot;description&quot;&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;encounterId&quot;: &quot;encounterId&quot;,&#xd;
+    &quot;isSyncedWithEhr&quot;: true,&#xd;
+    &quot;result&quot;: &quot;result&quot;,&#xd;
+    &quot;questionnaireId&quot;: &quot;questionnaireId&quot;&#xd;
+  },&#xd;
+  &quot;testNotes&quot;: {&#xd;
+    &quot;notes&quot;: &quot;notes&quot;,&#xd;
+    &quot;medicationNotes&quot;: &quot;medicationNotes&quot;,&#xd;
+    &quot;referralNotes&quot;: &quot;referralNotes&quot;,&#xd;
+    &quot;diagnosticNotes&quot;: &quot;diagnosticNotes&quot;&#xd;
+  },&#xd;
+  &quot;paymentDetails&quot;: {&#xd;
+    &quot;paymentMode&quot;: &quot;paymentMode&quot;,&#xd;
+    &quot;insuranceInfoId&quot;: &quot;insuranceInfoId&quot;,&#xd;
+    &quot;paymentTransactionId&quot;: &quot;paymentTransactionId&quot;,&#xd;
+    &quot;paymentDetails&quot;: &quot;paymentDetails&quot;&#xd;
+  },&#xd;
+  &quot;providerInfo&quot;: {&#xd;
+    &quot;orderingProviderId&quot;: &quot;orderingProviderId&quot;,&#xd;
+    &quot;assignedProviderId&quot;: 1,&#xd;
+    &quot;orderingProviderNpi&quot;: 1&#xd;
+  },&#xd;
+  &quot;testDetails&quot;: {&#xd;
+    &quot;mediaId&quot;: &quot;${mediaId}&quot;,	&#xd;
+    &quot;metadata&quot;: {&#xd;
+      &quot;qrData&quot;: &quot;qrdata&quot;,&#xd;
+      &quot;kitUploadId&quot;: &quot;kitUploadID&quot;,&#xd;
+      &quot;responseMessage&quot;: &quot;responseMessage&quot;,&#xd;
+      &quot;responseTitle&quot;: &quot;responseTitle&quot;,&#xd;
+      &quot;responseCode&quot;: 200,&#xd;
+      &quot;imageType&quot;: &quot;imageType&quot;,&#xd;
+      &quot;type&quot;: &quot;type&quot;,&#xd;
+      &quot;manufacturer&quot;: &quot;manufacturer&quot;,&#xd;
+      &quot;cassetteLotNumber&quot;: &quot;cassetteLotNumber&quot;,&#xd;
+      &quot;outcomeIgm&quot;: true,&#xd;
+      &quot;outcomeIgg&quot;: true,&#xd;
+      &quot;outcome&quot;: &quot;outcome&quot;,&#xd;
+      &quot;selfAssessmentOutcomeIgm&quot;: true,&#xd;
+      &quot;selfAssessmentOutcomeIgg&quot;: true,&#xd;
+      &quot;selfAssessmentOutcome&quot;: &quot;selfAssessmentOutcome&quot;,&#xd;
+      &quot;cassetteExpirationDate&quot;: &quot;expDate&quot;,&#xd;
+      &quot;labTestOrderableId&quot;: &quot;labTestOrderableId&quot;,&#xd;
+      &quot;skuId&quot;: &quot;skuID&quot;,&#xd;
+      &quot;cassetteVerification&quot;: &quot;verification&quot;&#xd;
+    },&#xd;
+    &quot;requisitionBase64&quot;: &quot;requisitionBase64&quot;,&#xd;
+    &quot;internalTestId&quot;: &quot;internalTestId&quot;,&#xd;
+    &quot;medications&quot;: &quot;medications&quot;,&#xd;
+    &quot;referrals&quot;: &quot;referrals&quot;,&#xd;
+    &quot;diagnostics&quot;: &quot;diagnostics&quot;,&#xd;
+    &quot;orderableTestIds&quot;: [&#xd;
+      &quot;orderableTestIds&quot;&#xd;
+    ],&#xd;
+    &quot;orderableTests&quot;: [&#xd;
+      {&#xd;
+        &quot;orderableTestId&quot;: &quot;orderableTestId&quot;&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;orderableTestResults&quot;: [&#xd;
+      {&#xd;
+        &quot;orderableTestId&quot;: &quot;orderableTestId&quot;,&#xd;
+        &quot;collectionDate&quot;: &quot;collectionDate&quot;,&#xd;
+        &quot;testResult&quot;: &quot;testResult&quot;,&#xd;
+        &quot;outcome&quot;: &quot;outcome&quot;,&#xd;
+        &quot;responseMessage&quot;: &quot;responseMessage&quot;,&#xd;
+        &quot;responseTitle&quot;: &quot;responseTitle&quot;,&#xd;
+        &quot;responseCode&quot;: 200&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;testClassification&quot;: &quot;TEST_CLASSIFICATION_GENERAL&quot;,&#xd;
+    &quot;isOnsiteTest&quot;: true,&#xd;
+    &quot;specimenId&quot;: &quot;specimenId&quot;,&#xd;
+    &quot;labVendorConfirmationId&quot;: &quot;labVendorConfirmationId&quot;,&#xd;
+    &quot;deviceIdentifier&quot;: &quot;${deviceId}&quot;,&#xd;
+    &quot;deviceSerialNumber&quot;: &quot;deviceSerialNumber&quot;,&#xd;
+    &quot;isAutoGenerated&quot;: true,&#xd;
+    &quot;reportingFlag&quot;: &quot;reportingFlag&quot;,&#xd;
+    &quot;notificationFlag&quot;: &quot;notificationFlag&quot;,&#xd;
+    &quot;orderStatusFlag&quot;: &quot;orderStatusFlag&quot;,&#xd;
+    &quot;orderReceiptPath&quot;: &quot;orderReceiptPath&quot;,&#xd;
+    &quot;labTestType&quot;: &quot;labTestType&quot;,&#xd;
+    &quot;specimenType&quot;: &quot;specimanType&quot;,&#xd;
+    &quot;medicalCode&quot;: &quot;medicalCode&quot;,&#xd;
+    &quot;testName&quot;: &quot;&quot;,&#xd;
+    &quot;testFormat&quot;: &quot;TEST_FORMAT_UNSPECIFIED&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-test</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.submissionId</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [GET]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/media/${mediaId}</stringProp>
-            <stringProp name="HTTPSampler.method">DELETE</stringProp>
+            <stringProp name="HTTPSampler.path">/connected-test/${connectedTestId}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test/list [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;pagination&quot;:{&#xd;
+		&quot;pageNumber&quot;:1,&#xd;
+		&quot;pageSize&quot;:10,&#xd;
+		&quot;sortAscending&quot;:true,&#xd;
+		&quot;sort&quot;:&quot;lastname&quot;&#xd;
+	},&#xd;
+	&quot;userId&quot;:&quot;6512d485f7f8935ea3994013&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-test/list</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -5879,9 +5951,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       } ]
     } ],
     &quot;gender&quot; : &quot;GENDER_MALE&quot;,
-    &quot;dateOfBirth&quot; : {
-      &quot;date&quot; : &quot;1900/01/01&quot;
-    },
+    &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,
     &quot;placeOfBirth&quot; : {
       &quot;country&quot; : &quot;${countryId}&quot;,
       &quot;state&quot; : &quot;CA&quot;,
@@ -6094,9 +6164,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       } ]&#xd;
     } ],&#xd;
     &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
-    &quot;dateOfBirth&quot; : {&#xd;
-      &quot;date&quot; : &quot;1900/01/01&quot;&#xd;
-    },&#xd;
+    &quot;dateOfBirth&quot; : &quot;2023-10-08T02:45:04Z&quot;,&#xd;
     &quot;placeOfBirth&quot; : {&#xd;
       &quot;country&quot; : &quot;${countryId}&quot;,&#xd;
       &quot;state&quot; : &quot;CA&quot;,&#xd;
@@ -7510,6 +7578,1160 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Questionnaire" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / CreateQuerstionnaire" enabled="false">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;user_answer&quot;: {
+    	   &quot;user_id&quot;: &quot;${user_id_g}&quot;,	
+        &quot;age&quot;: 66609670,
+        &quot;gender&quot;: 4,
+        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
+        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
+        &quot;pregnancy_status&quot;: false,
+        &quot;symptoms&quot;: [
+            {
+                &quot;duration&quot;: {
+                    &quot;duration&quot;: &quot;14424702&quot;,
+                    &quot;type&quot;: 5
+                },
+                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
+                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
+                &quot;severity&quot;: &quot;MEDIUM&quot;,
+                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
+            }
+        ],
+        &quot;connected_test_id&quot;: &quot;${connectedTestId}&quot;,
+        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
+        &quot;user_location&quot;: {
+            &quot;latitude&quot;: &quot;Infinity&quot;,
+            &quot;longitude&quot;: &quot;-Infinity&quot;
+        }
+    }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / CreateRuleSet" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/CreateRuleSet</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;rule_set&quot;:{
+    &quot;type&quot;: &quot;User Rule&quot;,
+    &quot;category&quot;: &quot;Process user response&quot;,
+    &quot;description&quot;: &quot;Categorize blood pressure&quot;,
+    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,
+    &quot;status&quot;: &quot;draft&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet  ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">rulesetId_g</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.rule_set.rule_id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / UpdateRuleSet" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/UpdateRuleSet</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+  &quot;rule_set&quot;: {
+    &quot;rule_id&quot;: &quot;${rulesetId_g}&quot;,
+    &quot;type&quot;: &quot;User Rule&quot;,
+    &quot;category&quot;: &quot;Process user response&quot;,
+    &quot;description&quot;: &quot;Monitor blood pressure&quot;,
+    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,
+    &quot;status&quot;: &quot;draft&quot;
+  }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / GetRuleSet" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/GetRuleSet</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${rulesetId_g}&quot;
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / GetRuleSets" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/GetRuleSets</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;ruleSet&quot; : {&#xd;
+    &quot;type&quot; : &quot;User Rule&quot;,&#xd;
+    &quot;category&quot; : &quot;Process user response&quot;,&#xd;
+    &quot;description&quot; : &quot;Categorize blood pressure&quot;,&#xd;
+    &quot;rule&quot; : &quot;if (bloodPressure &gt; 140) {\n    return \&quot;High Blood Pressure\&quot;;\n} else if (bloodPressure &lt; 90) {\n    return \&quot;Low Blood Pressure\&quot;;\n} else {\n    return \&quot;Normal Blood Pressure\&quot;;\n}\n&quot;,&#xd;
+    &quot;status&quot; : &quot;active&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/ruleset</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">rulesetId_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.ruleSet.ruleId</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;ruleSet&quot; : {&#xd;
+    &quot;ruleId&quot; : &quot;${rulesetId_r}&quot;,&#xd;
+    &quot;type&quot; : &quot;User Rule&quot;,&#xd;
+    &quot;category&quot; : &quot;Process user response&quot;,&#xd;
+    &quot;description&quot; : &quot;Categorize blood pressure&quot;,&#xd;
+    &quot;rule&quot; : &quot;if (bloodPressure &gt; 140) {\n    return \&quot;High Blood Pressure\&quot;;\n} else if (bloodPressure &lt; 90) {\n    return \&quot;Low Blood Pressure\&quot;;\n} else {\n    return \&quot;Normal Blood Pressure\&quot;;\n}\n&quot;,&#xd;
+    &quot;status&quot; : &quot;active&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/ruleset</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset [GET]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/ruleset/${rulesetId_r}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset/list[GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/ruleset/list</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;questionnaire&quot;: {&#xd;
+        &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+        &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+        &quot;status&quot;: &quot;draft&quot;,&#xd;
+        &quot;item&quot;: [&#xd;
+            {&#xd;
+                &quot;type&quot;: &quot;integer&quot;,&#xd;
+                &quot;extension&quot;: [&#xd;
+                    {&#xd;
+                        &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+                        &quot;valueCoding&quot;: {&#xd;
+                            &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+                            &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+                        }&#xd;
+                    }&#xd;
+                ],&#xd;
+                &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+                &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+                &quot;required&quot;: false,&#xd;
+                &quot;repeats&quot;: false,&#xd;
+                &quot;readOnly&quot;: false,&#xd;
+                &quot;item&quot;: [&#xd;
+                    {&#xd;
+                        &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+                        &quot;type&quot;: &quot;display&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                &quot;valueCodeableConcept&quot;: {&#xd;
+                                    &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                                    &quot;coding&quot;: [&#xd;
+                                        {&#xd;
+                                            &quot;code&quot;: &quot;help&quot;,&#xd;
+                                            &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                                            &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                                        }&#xd;
+                                    ]&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ]&#xd;
+                    }&#xd;
+                ]&#xd;
+            },&#xd;
+            {&#xd;
+                &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+                &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+                &quot;required&quot;: false,&#xd;
+                &quot;repeats&quot;: false,&#xd;
+                &quot;readOnly&quot;: false,&#xd;
+                &quot;initial&quot;: [&#xd;
+                    {&#xd;
+                        &quot;valueBoolean&quot;: true&#xd;
+                    }&#xd;
+                ]&#xd;
+            },&#xd;
+            {&#xd;
+                &quot;type&quot;: &quot;choice&quot;,&#xd;
+                &quot;extension&quot;: [&#xd;
+                    {&#xd;
+                        &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                        &quot;valueCodeableConcept&quot;: {&#xd;
+                            &quot;coding&quot;: [&#xd;
+                                {&#xd;
+                                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                                    &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                                    &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                                }&#xd;
+                            ]&#xd;
+                        }&#xd;
+                    }&#xd;
+                ],&#xd;
+                &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+                &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+                &quot;required&quot;: false,&#xd;
+                &quot;repeats&quot;: false,&#xd;
+                &quot;readOnly&quot;: false,&#xd;
+                &quot;answerOption&quot;: [&#xd;
+                    {&#xd;
+                        &quot;valueCoding&quot;: {&#xd;
+                            &quot;display&quot;: &quot;Adult&quot;&#xd;
+                        },&#xd;
+                        &quot;initialSelected&quot;: true&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;valueCoding&quot;: {&#xd;
+                            &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+                        }&#xd;
+                    }&#xd;
+                ]&#xd;
+            },&#xd;
+            {&#xd;
+                &quot;type&quot;: &quot;choice&quot;,&#xd;
+                &quot;extension&quot;: [&#xd;
+                    {&#xd;
+                        &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                        &quot;valueCodeableConcept&quot;: {&#xd;
+                            &quot;coding&quot;: [&#xd;
+                                {&#xd;
+                                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                                    &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                                    &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                                }&#xd;
+                            ]&#xd;
+                        }&#xd;
+                    }&#xd;
+                ],&#xd;
+                &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+                &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+                &quot;required&quot;: false,&#xd;
+                &quot;repeats&quot;: false,&#xd;
+                &quot;readOnly&quot;: false,&#xd;
+                &quot;answerOption&quot;: [&#xd;
+                    {&#xd;
+                        &quot;valueCoding&quot;: {&#xd;
+                            &quot;display&quot;: &quot;Right&quot;&#xd;
+                        },&#xd;
+                        &quot;initialSelected&quot;: true&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;valueCoding&quot;: {&#xd;
+                            &quot;display&quot;: &quot;Left&quot;&#xd;
+                        }&#xd;
+                    }&#xd;
+                ]&#xd;
+            },&#xd;
+            {&#xd;
+                &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+                &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+                &quot;required&quot;: false,&#xd;
+                &quot;repeats&quot;: false,&#xd;
+                &quot;readOnly&quot;: false,&#xd;
+                &quot;initial&quot;: [&#xd;
+                    {&#xd;
+                        &quot;valueBoolean&quot;: true&#xd;
+                    }&#xd;
+                ]&#xd;
+            },&#xd;
+            {&#xd;
+                &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+                &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+                &quot;required&quot;: false,&#xd;
+                &quot;repeats&quot;: false,&#xd;
+                &quot;readOnly&quot;: false,&#xd;
+                &quot;initial&quot;: [&#xd;
+                    {&#xd;
+                        &quot;valueBoolean&quot;: true&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;ruleId&quot;: &quot;60f1e6b1f075a367a94d3760&quot;,&#xd;
+        &quot;ruleQuestionId&quot;: [&#xd;
+            &quot;3079919224534&quot;&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Questionnaire ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">questionnaireId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;questionnaire&quot; : {&#xd;
+  &quot;id&quot;:&quot;${questionnaireId}&quot;,	&#xd;
+  &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+  &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+  &quot;status&quot;: &quot;draft&quot;,&#xd;
+  &quot;item&quot;: [&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;integer&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+            &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+      &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;item&quot;: [&#xd;
+        {&#xd;
+          &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+          &quot;type&quot;: &quot;display&quot;,&#xd;
+          &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+          &quot;extension&quot;: [&#xd;
+            {&#xd;
+              &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+              &quot;valueCodeableConcept&quot;: {&#xd;
+                &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                &quot;coding&quot;: [&#xd;
+                  {&#xd;
+                    &quot;code&quot;: &quot;help&quot;,&#xd;
+                    &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                  }&#xd;
+                ]&#xd;
+              }&#xd;
+            }&#xd;
+          ]&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+      &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;choice&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+          &quot;valueCodeableConcept&quot;: {&#xd;
+            &quot;coding&quot;: [&#xd;
+              {&#xd;
+                &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                &quot;display&quot;: &quot;Drop down&quot;&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+      &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;answerOption&quot;: [&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Adult&quot;&#xd;
+          },&#xd;
+          &quot;initialSelected&quot;: true&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;choice&quot;,&#xd;
+      &quot;extension&quot;: [&#xd;
+        {&#xd;
+          &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+          &quot;valueCodeableConcept&quot;: {&#xd;
+            &quot;coding&quot;: [&#xd;
+              {&#xd;
+                &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                &quot;display&quot;: &quot;Drop down&quot;&#xd;
+              }&#xd;
+            ]&#xd;
+          }&#xd;
+        }&#xd;
+      ],&#xd;
+      &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+      &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;answerOption&quot;: [&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Right&quot;&#xd;
+          },&#xd;
+          &quot;initialSelected&quot;: true&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;valueCoding&quot;: {&#xd;
+            &quot;display&quot;: &quot;Left&quot;&#xd;
+          }&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+      &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;type&quot;: &quot;boolean&quot;,&#xd;
+      &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+      &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+      &quot;required&quot;: false,&#xd;
+      &quot;repeats&quot;: false,&#xd;
+      &quot;readOnly&quot;: false,&#xd;
+      &quot;initial&quot;: [&#xd;
+        {&#xd;
+          &quot;valueBoolean&quot;: true&#xd;
+        }&#xd;
+      ]&#xd;
+    }&#xd;
+  ]&#xd;
+}&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/questionnaire/${questionnaireId}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/user/questionnaire [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;userQuestionnaireData&quot;: {&#xd;
+        &quot;userId&quot;: &quot;${user_id_g}&quot;,&#xd;
+        &quot;questionnaireData&quot;: [&#xd;
+            {&#xd;
+            	&quot;id&quot;: &quot;${questionnaireId}&quot;,&#xd;
+                &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+                &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+                &quot;status&quot;: &quot;draft&quot;,&#xd;
+                &quot;item&quot;: [&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;integer&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+                                    &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+                        &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;item&quot;: [&#xd;
+                            {&#xd;
+                                &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+                                &quot;type&quot;: &quot;display&quot;,&#xd;
+                                &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+                                &quot;extension&quot;: [&#xd;
+                                    {&#xd;
+                                        &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                        &quot;valueCodeableConcept&quot;: {&#xd;
+                                            &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                                            &quot;coding&quot;: [&#xd;
+                                                {&#xd;
+                                                    &quot;code&quot;: &quot;help&quot;,&#xd;
+                                                    &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                                                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                                                }&#xd;
+                                            ]&#xd;
+                                        }&#xd;
+                                    }&#xd;
+                                ]&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerInteger&quot;: 140&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+                        &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;initial&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerBoolean&quot;: true&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;choice&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                &quot;valueCodeableConcept&quot;: {&#xd;
+                                    &quot;coding&quot;: [&#xd;
+                                        {&#xd;
+                                            &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                                            &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                                            &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                                        }&#xd;
+                                    ]&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+                        &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;answerOption&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Adult&quot;&#xd;
+                                },&#xd;
+                                &quot;initialSelected&quot;: true&#xd;
+                            },&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerString&quot;: &quot;Adult&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;choice&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                &quot;valueCodeableConcept&quot;: {&#xd;
+                                    &quot;coding&quot;: [&#xd;
+                                        {&#xd;
+                                            &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                                            &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                                            &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                                        }&#xd;
+                                    ]&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+                        &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;answerOption&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Right&quot;&#xd;
+                                },&#xd;
+                                &quot;initialSelected&quot;: true&#xd;
+                            },&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Left&quot;&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerString&quot;: &quot;Right&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+                        &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;initial&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerBoolean&quot;: true&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+                        &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;initial&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerBoolean&quot;: true&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/user/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User Questionnaire ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">userQuestionnaireId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/user/questionnaire [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;userQuestionnaireData&quot;: {&#xd;
+        &quot;userId&quot;: &quot;${user_id_r}&quot;,&#xd;
+        &quot;questionnaireData&quot;: [&#xd;
+            {&#xd;
+            	&quot;id&quot;: &quot;${questionnaireId}&quot;,&#xd;
+                &quot;resourceType&quot;: &quot;Questionnaire&quot;,&#xd;
+                &quot;title&quot;: &quot;BP-POC&quot;,&#xd;
+                &quot;status&quot;: &quot;draft&quot;,&#xd;
+                &quot;item&quot;: [&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;integer&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-unit&quot;,&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;code&quot;: &quot;millimeter of mercury&quot;,&#xd;
+                                    &quot;display&quot;: &quot;millimeter of mercury&quot;&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;linkId&quot;: &quot;3079919224534&quot;,&#xd;
+                        &quot;text&quot;: &quot;Upper Range (SYSTOLIC)&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;item&quot;: [&#xd;
+                            {&#xd;
+                                &quot;text&quot;: &quot;ANF Main Statement&quot;,&#xd;
+                                &quot;type&quot;: &quot;display&quot;,&#xd;
+                                &quot;linkId&quot;: &quot;3079919224534_helpText&quot;,&#xd;
+                                &quot;extension&quot;: [&#xd;
+                                    {&#xd;
+                                        &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                        &quot;valueCodeableConcept&quot;: {&#xd;
+                                            &quot;text&quot;: &quot;Help-Button&quot;,&#xd;
+                                            &quot;coding&quot;: [&#xd;
+                                                {&#xd;
+                                                    &quot;code&quot;: &quot;help&quot;,&#xd;
+                                                    &quot;display&quot;: &quot;Help-Button&quot;,&#xd;
+                                                    &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;&#xd;
+                                                }&#xd;
+                                            ]&#xd;
+                                        }&#xd;
+                                    }&#xd;
+                                ]&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerInteger&quot;: 140&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;7048556169730&quot;,&#xd;
+                        &quot;text&quot;: &quot;Measurement taken using cuff&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;initial&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerBoolean&quot;: true&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;choice&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                &quot;valueCodeableConcept&quot;: {&#xd;
+                                    &quot;coding&quot;: [&#xd;
+                                        {&#xd;
+                                            &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                                            &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                                            &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                                        }&#xd;
+                                    ]&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;linkId&quot;: &quot;8501933950742&quot;,&#xd;
+                        &quot;text&quot;: &quot;Cuff Size&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;answerOption&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Adult&quot;&#xd;
+                                },&#xd;
+                                &quot;initialSelected&quot;: true&#xd;
+                            },&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Pediatric&quot;&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerString&quot;: &quot;Adult&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;choice&quot;,&#xd;
+                        &quot;extension&quot;: [&#xd;
+                            {&#xd;
+                                &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl&quot;,&#xd;
+                                &quot;valueCodeableConcept&quot;: {&#xd;
+                                    &quot;coding&quot;: [&#xd;
+                                        {&#xd;
+                                            &quot;system&quot;: &quot;http://hl7.org/fhir/questionnaire-item-control&quot;,&#xd;
+                                            &quot;code&quot;: &quot;drop-down&quot;,&#xd;
+                                            &quot;display&quot;: &quot;Drop down&quot;&#xd;
+                                        }&#xd;
+                                    ]&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;linkId&quot;: &quot;1451784149570&quot;,&#xd;
+                        &quot;text&quot;: &quot;Arm Used&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;answerOption&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Right&quot;&#xd;
+                                },&#xd;
+                                &quot;initialSelected&quot;: true&#xd;
+                            },&#xd;
+                            {&#xd;
+                                &quot;valueCoding&quot;: {&#xd;
+                                    &quot;display&quot;: &quot;Left&quot;&#xd;
+                                }&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerString&quot;: &quot;Right&quot;&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;4051866307723&quot;,&#xd;
+                        &quot;text&quot;: &quot;Please confirm you have not urinated more than 30 minutes prior to taking the measurement.&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;initial&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerBoolean&quot;: true&#xd;
+                    },&#xd;
+                    {&#xd;
+                        &quot;type&quot;: &quot;boolean&quot;,&#xd;
+                        &quot;linkId&quot;: &quot;2602220218173&quot;,&#xd;
+                        &quot;text&quot;: &quot;Please confirm you have been in sitting position before taking the measurement for at least 5 minutes.&quot;,&#xd;
+                        &quot;required&quot;: false,&#xd;
+                        &quot;repeats&quot;: false,&#xd;
+                        &quot;readOnly&quot;: false,&#xd;
+                        &quot;initial&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ],&#xd;
+                        &quot;answerBoolean&quot;: true&#xd;
+                    }&#xd;
+                ]&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/questionnaire/user/questionnaire</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User Questionnaire ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">userQuestionnaireId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Classification" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / Classify" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;user_answer&quot;: {
+    	   &quot;user_id&quot;: &quot;${user_id_g}&quot;,	
+        &quot;age&quot;: 66609670,
+        &quot;gender&quot;: 4,
+        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
+        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
+        &quot;pregnancy_status&quot;: false,
+        &quot;symptoms&quot;: [
+            {
+                &quot;duration&quot;: {
+                    &quot;duration&quot;: &quot;14424702&quot;,
+                    &quot;type&quot;: 5
+                },
+                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
+                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
+                &quot;severity&quot;: &quot;MEDIUM&quot;,
+                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
+            }
+        ],
+        &quot;connected_test_id&quot;: &quot;${connectedTestId}&quot;,
+        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
+        &quot;user_location&quot;: {
+            &quot;latitude&quot;: &quot;Infinity&quot;,
+            &quot;longitude&quot;: &quot;-Infinity&quot;
+        }
+    }
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/classify [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;userAnswer&quot; : {&#xd;
+    &quot;userId&quot; : &quot;${user_id_r}&quot;,&#xd;
+    &quot;connectedTestId&quot; : &quot;${connectedTestId}&quot;,&#xd;
+    &quot;symptoms&quot; : [ {&#xd;
+      &quot;name&quot; : &quot;Fever&quot;,&#xd;
+      &quot;severity&quot; : &quot;HIGH&quot;,&#xd;
+      &quot;onsetDate&quot; : &quot;2023-10-08T02:28:24Z&quot;,&#xd;
+      &quot;duration&quot; : {&#xd;
+        &quot;duration&quot; : 4,&#xd;
+        &quot;type&quot; : &quot;DURATION_TYPE_DAYS&quot;&#xd;
+      },&#xd;
+      &quot;additionalDetails&quot; : &quot;Fever 101&quot;&#xd;
+    } ],&#xd;
+    &quot;mediaId&quot; : &quot;${mediaId}&quot;,&#xd;
+    &quot;age&quot; : 25,&#xd;
+    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
+    &quot;medicalConditions&quot; : &quot;Medical Conditions&quot;,&#xd;
+    &quot;pregnancyStatus&quot; : false,&#xd;
+    &quot;languagePreference&quot; : &quot;english&quot;,&#xd;
+    &quot;userLocation&quot; : {&#xd;
+      &quot;latitude&quot; : 0.1,&#xd;
+      &quot;longitude&quot; : 0.1&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/classification/classify</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Connected Test - Delete" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
@@ -7624,7 +8846,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-	&quot;device_id&quot;:&quot;${deviceId}&quot;
+	&quot;device_id&quot;:&quot;${deviceId_g}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -7642,7 +8864,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-	&quot;test_case_id&quot;:&quot;${testcaseId}&quot;
+	&quot;test_case_id&quot;:&quot;${testcaseId_g}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
@@ -7701,18 +8923,18 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
         </hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Classification" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media - Delete" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / Classify" enabled="true">
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Media / DeleteMedia" enabled="true">
             <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
             <stringProp name="GRPCSampler.libFolder"></stringProp>
             <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
             <stringProp name="GRPCSampler.host">localhost</stringProp>
             <stringProp name="GRPCSampler.port">8080</stringProp>
-            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.media.MediaService/DeleteMedia</stringProp>
             <stringProp name="GRPCSampler.deadline">1000</stringProp>
             <boolProp name="GRPCSampler.tls">true</boolProp>
             <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -7720,71 +8942,17 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
-    &quot;user_answer&quot;: {
-        &quot;age&quot;: 66609670,
-        &quot;gender&quot;: 4,
-        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
-        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
-        &quot;pregnancy_status&quot;: false,
-        &quot;symptoms&quot;: [
-            {
-                &quot;duration&quot;: {
-                    &quot;duration&quot;: &quot;14424702&quot;,
-                    &quot;type&quot;: 5
-                },
-                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
-                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
-                &quot;severity&quot;: &quot;MEDIUM&quot;,
-                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
-            }
-        ],
-        &quot;test_kit_id&quot;: &quot;65a59bebb652711b434294e1&quot;,
-        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
-        &quot;user_location&quot;: {
-            &quot;latitude&quot;: &quot;Infinity&quot;,
-            &quot;longitude&quot;: &quot;-Infinity&quot;
-        }
-    }
+    &quot;id&quot;: &quot;${mediaId}&quot;
 }</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/classify [POST]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;userAnswer&quot; : {&#xd;
-    &quot;testKitId&quot; : &quot;65a59bebb652711b434294e1&quot;,&#xd;
-    &quot;symptoms&quot; : [ {&#xd;
-      &quot;name&quot; : &quot;Fever&quot;,&#xd;
-      &quot;severity&quot; : &quot;HIGH&quot;,&#xd;
-      &quot;onsetDate&quot; : &quot;2023-10-08T02:28:24Z&quot;,&#xd;
-      &quot;duration&quot; : {&#xd;
-        &quot;duration&quot; : 4,&#xd;
-        &quot;type&quot; : &quot;DURATION_TYPE_DAYS&quot;&#xd;
-      },&#xd;
-      &quot;additionalDetails&quot; : &quot;Fever 101&quot;&#xd;
-    } ],&#xd;
-    &quot;textResult&quot; : &quot;Positive&quot;,&#xd;
-    &quot;age&quot; : 25,&#xd;
-    &quot;gender&quot; : &quot;GENDER_MALE&quot;,&#xd;
-    &quot;medicalConditions&quot; : &quot;Medical Conditions&quot;,&#xd;
-    &quot;pregnancyStatus&quot; : false,&#xd;
-    &quot;languagePreference&quot; : &quot;english&quot;,&#xd;
-    &quot;userLocation&quot; : {&#xd;
-      &quot;latitude&quot; : 0.1,&#xd;
-      &quot;longitude&quot; : 0.1&#xd;
-    }&#xd;
-  }&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/media  [DELETE]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/classification/classify</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <stringProp name="HTTPSampler.path">/media/${mediaId}</stringProp>
+            <stringProp name="HTTPSampler.method">DELETE</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -7796,6 +8964,49 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <boolProp name="HTTPSampler.md5">false</boolProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Tinkar" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="TinkarQueryService / SearchTinkar" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.tinkar.TinkarQueryService/searchTinkar</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+    &quot;query&quot;: &quot;chronic disease of respiratory system&quot;,
+    &quot;max_results&quot;: 10
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
+          <hashTree/>
+          <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="TinkarQueryService / GetEntity" enabled="true">
+            <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+            <stringProp name="GRPCSampler.libFolder"></stringProp>
+            <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+            <stringProp name="GRPCSampler.host">localhost</stringProp>
+            <stringProp name="GRPCSampler.port">8080</stringProp>
+            <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.tinkar.TinkarQueryService/getTinkarEntity</stringProp>
+            <stringProp name="GRPCSampler.deadline">1000</stringProp>
+            <boolProp name="GRPCSampler.tls">true</boolProp>
+            <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+            <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+            <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+            <stringProp name="GRPCSampler.requestJson">{
+	&quot;nid&quot;:-2144684618
+}</stringProp>
+          </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
         </hashTree>
       </hashTree>

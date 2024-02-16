@@ -16,15 +16,17 @@
 package cdx.opencdx.questionnaire.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.commons.service.*;
+import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import cdx.opencdx.questionnaire.model.OpenCDXUserQuestionnaireModel;
 import cdx.opencdx.questionnaire.repository.OpenCDXQuestionnaireRepository;
+import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
 import cdx.opencdx.questionnaire.repository.OpenCDXUserQuestionnaireRepository;
 import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -62,6 +64,9 @@ class OpenCDXQuestionnaireServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
+    @Autowired
+    OpenCDXDocumentValidator openCDXDocumentValidator;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -73,6 +78,14 @@ class OpenCDXQuestionnaireServiceImplTest {
 
     @Mock
     OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
+
+    @Mock
+    OpenCDXRuleSetRepository openCDXRuleSetRepository;
+
+    @Autowired
+    OpenCDXMessageService openCDXMessageService;
+
+    OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
     @BeforeEach
     void beforeEach() {
@@ -89,6 +102,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                                         .setLastName("bob")
                                         .build())
                                 .username("ab@safehealth.me")
+                                .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllEmails(List.of(EmailAddress.newBuilder()
                                                 .setType(EmailType.EMAIL_TYPE_WORK)
@@ -180,13 +194,17 @@ class OpenCDXQuestionnaireServiceImplTest {
                                 .build()),
                         PageRequest.of(1, 10),
                         1));
+        this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
+                openCDXMessageService, openCDXDocumentValidator, openCDXIAMUserRepository);
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
                 this.openCDXAuditService,
                 this.objectMapper,
                 openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
     }
 
     @AfterEach
@@ -214,7 +232,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         QuestionnaireRequest request = QuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.createQuestionnaire(request));
@@ -271,7 +291,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -302,7 +324,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -329,7 +353,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -357,7 +383,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> questionnaireService.getQuestionnaireData(request));
@@ -384,7 +412,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         GetQuestionnaireListRequest request =
                 GetQuestionnaireListRequest.newBuilder().build();
@@ -419,7 +449,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -451,7 +483,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         ClientQuestionnaireDataRequest request =
                 ClientQuestionnaireDataRequest.newBuilder().build();
@@ -480,7 +514,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         ClientQuestionnaireDataRequest request =
                 ClientQuestionnaireDataRequest.newBuilder().build();
@@ -509,7 +545,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -537,7 +575,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireListRequest request =
                 GetQuestionnaireListRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -563,7 +603,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -586,7 +628,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -610,6 +654,39 @@ class OpenCDXQuestionnaireServiceImplTest {
     }
 
     @Test
+    void testCreateUserQuestionnaireDataHasId() {
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setId("65bb9634ab091e2343ff7ef7")
+                        .setUserId(ObjectId.get().toHexString())
+                        .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
+                        .build())
+                .build();
+        SubmissionResponse response = this.questionnaireService.createUserQuestionnaireData(request);
+
+        Assertions.assertEquals(true, response.getSuccess());
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.createUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testCreateUserQuestionnaireDataException() {
+        UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
+                .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                        .setId("65bb9634ab091e2343ff7ef7")
+                        .setUserId(ObjectId.get().toHexString())
+                        .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
+                        .build())
+                .build();
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.createUserQuestionnaireData(request));
+    }
+
+    @Test
     void testCreateUserQuestionnaireDataFail() throws JsonProcessingException {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
 
@@ -621,7 +698,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
 
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
@@ -655,7 +734,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
@@ -663,6 +744,56 @@ class OpenCDXQuestionnaireServiceImplTest {
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> questionnaireService.getUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataExceptionUser() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireData(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataExceptionQuestionnaire() throws JsonProcessingException {
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
+                this.openCDXAuditService,
+                mapper,
+                this.openCDXCurrentUser,
+                this.openCDXQuestionnaireRepository,
+                this.openCDXUserQuestionnaireRepository,
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
+        GetQuestionnaireRequest request = GetQuestionnaireRequest.newBuilder()
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+        Mockito.when(this.openCDXUserQuestionnaireRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireData(request));
     }
 
     @Test
@@ -678,6 +809,42 @@ class OpenCDXQuestionnaireServiceImplTest {
     }
 
     @Test
+    void testGetUserQuestionnaireDataListHasSortFalseAndException() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .setSort("id")
+                        .build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireDataList(request));
+    }
+
+    @Test
+    void testGetUserQuestionnaireDataListHasSortTrueAndException() {
+        GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(0)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .setSort("id")
+                        .build())
+                .setId(ObjectId.get().toHexString())
+                .build();
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.questionnaireService.getUserQuestionnaireDataList(request));
+    }
+
+    @Test
     void testGetUserQuestionnaireDataListFail() throws JsonProcessingException {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
@@ -688,7 +855,9 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository);
+                this.openCDXIAMUserRepository,
+                this.openCDXClassificationMessageService,
+                this.openCDXRuleSetRepository);
         GetQuestionnaireListRequest request = GetQuestionnaireListRequest.newBuilder()
                 .setPagination(
                         Pagination.newBuilder().setPageNumber(0).setPageSize(10).build())

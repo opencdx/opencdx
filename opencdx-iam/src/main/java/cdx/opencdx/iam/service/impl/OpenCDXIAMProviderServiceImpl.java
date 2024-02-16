@@ -42,7 +42,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of the Provider Service.
+ * Implementation of the IAM Provider Service.
  */
 @Slf4j
 @Service

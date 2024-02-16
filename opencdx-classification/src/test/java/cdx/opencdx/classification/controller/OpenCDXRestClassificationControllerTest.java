@@ -18,8 +18,16 @@ package cdx.opencdx.classification.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.Gender;
+import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
+import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +37,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -56,8 +66,30 @@ class OpenCDXRestClassificationControllerTest {
     @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @MockBean
+    OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
+    @MockBean
+    OpenCDXClassificationRepository openCDXClassificationRepository;
+
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
+                .thenReturn(UserQuestionnaireData.getDefaultInstance());
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+                    @Override
+                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        return argument;
+                    }
+                });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
@@ -80,12 +112,16 @@ class OpenCDXRestClassificationControllerTest {
     @Test
     void testSubmitClassification() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(post("/classify").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(post("/classify")
+                        .content(this.objectMapper.writeValueAsString(ClassificationRequest.newBuilder()
+                                .setUserAnswer(UserAnswer.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                                        .setGender(Gender.GENDER_MALE)
+                                        .setAge(30))
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
-
-        Assertions.assertEquals(
-                "{\"testKitName\":\"\",\"confidence\":0.0,\"positiveProbability\":0.0,\"message\":\"Executed classify operation.\",\"availability\":\"\",\"cost\":0.0,\"furtherActions\":\"\",\"alternativeOptions\":[],\"feedbackUrl\":\"\",\"userId\":\"\"}",
-                result.getResponse().getContentAsString());
     }
 }

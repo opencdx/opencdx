@@ -1,0 +1,55 @@
+# A example scrape configuration for running Prometheus with Eureka.
+
+scrape_configs:
+
+  # Make Prometheus scrape itself for metrics.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Discover Eureka services to scrape.
+  - job_name: 'eureka'
+    scheme: https
+    metrics_path: "/actuator/prometheus"
+    tls_config:
+      insecure_skip_verify: true
+    # Scrape Eureka itself to discover new services.
+    eureka_sd_configs:
+      - server: https://discovery:8761/eureka
+        tls_config:
+          insecure_skip_verify: true
+        refresh_interval: 30s
+    relabel_configs:
+      - source_labels: [__meta_eureka_app_name]
+        target_label: application
+      - source_labels: [__meta_eureka_app_instance_hostname]
+        target_label: instance
+
+  - job_name: 'zipkin'
+    scrape_interval: 5s
+    metrics_path: '/prometheus'
+    static_configs:
+      - targets: ['zipkin:9411']
+    metric_relabel_configs:
+      # Response code count
+      - source_labels: [__name__]
+        regex: '^status_(\d+)_(.*)$'
+        replacement: '${1}'
+        target_label: status
+      - source_labels: [__name__]
+        regex: '^status_(\d+)_(.*)$'
+        replacement: '${2}'
+        target_label: path
+      - source_labels: [__name__]
+        regex: '^status_(\d+)_(.*)$'
+        replacement: 'http_requests_total'
+        target_label: __name__
+      # Response time, pending histogram from https://github.com/openzipkin/zipkin/pull/1609
+      - source_labels: [__name__]
+        regex: '^response_(.*)$'
+        replacement: '${1}'
+        target_label: path
+      - source_labels: [__name__]
+        regex: '^response_(.*)$'
+        replacement: 'http_request_duration_milliseconds'
+        target_label: __name__

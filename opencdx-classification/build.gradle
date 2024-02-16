@@ -22,6 +22,15 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
 
+    // Apache
+    implementation "org.apache.tika:tika-core:${apacheTikaVersion}"
+
+
+    // https://mvnrepository.com/artifact/io.github.openfeign/feign-httpclient
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.1'
+    // https://mvnrepository.com/artifact/io.github.openfeign/feign-hc5
+    implementation group: 'io.github.openfeign', name: 'feign-hc5', version: '13.1'
+
     //Database
     implementation "com.github.cloudyrock.mongock:mongock-spring-v5:${mongoData}"
     implementation "com.github.cloudyrock.mongock:mongodb-springdata-v3-driver:${mongoData}"
@@ -29,6 +38,10 @@ dependencies {
 
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
+
+    // Evrete
+    implementation "org.evrete:evrete-core:${evreteVersion}"
+    implementation "org.evrete:evrete-dsl-java:${evreteVersion}"
 
     //GRPC - To enable the GRPC uncomment the following two lines
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
@@ -38,8 +51,10 @@ dependencies {
     implementation 'io.micrometer:micrometer-observation'
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     testImplementation "io.nats:nats-spring:${natsSpringVersion}"
+    runtimeOnly "com.github.loki4j:loki-logback-appender:${lokiLogBackAppenderVersion}"
 }
 
 sourceSets {

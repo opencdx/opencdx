@@ -43,17 +43,19 @@ const styles = StyleSheet.create({
     label: {
         margin: 20,
         marginLeft: 0,
+        fontSize: 16,
     },
     container: {
         flex: -1,
         justifyContent: 'center',
-        padding: 8,
     },
     input: {
         borderColor: 'gray',
         borderWidth: 1,
         padding: 10,
         borderRadius: 5,
+        fontSize: 16,
+        height: 42,
     },
     errorContainer: {
         flex: -1,

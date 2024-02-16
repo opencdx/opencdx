@@ -132,6 +132,30 @@ public class IAMChangeSet {
                 .password(SCRAMBLED_PASSWORD)
                 .emailVerified(true)
                 .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("classification")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Classification")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("predictor")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Predictor")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
+        openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
+                .username("questionnaire")
+                .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
+                .systemName("OpenCDX-Questionnaire")
+                .type(IamUserType.IAM_USER_TYPE_SYSTEM)
+                .password(SCRAMBLED_PASSWORD)
+                .emailVerified(true)
+                .build());
     }
 
     /**

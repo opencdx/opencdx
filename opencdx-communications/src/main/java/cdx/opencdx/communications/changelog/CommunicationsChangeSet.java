@@ -26,13 +26,16 @@ import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import cdx.opencdx.grpc.communication.*;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import io.micrometer.observation.annotation.Observed;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
 /**
  * Change set to load up default templates used by OpenCDX.
  */
+@Slf4j
 @ChangeLog(order = "002")
 @ExcludeFromJacocoGeneratedReport
 public class CommunicationsChangeSet {
@@ -47,7 +50,7 @@ public class CommunicationsChangeSet {
      * Default Consructor
      */
     public CommunicationsChangeSet() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
+        log.trace("Creating CommunicationsChangeSet");
     }
 
     /**
@@ -57,12 +60,14 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "001", id = "Create Welcome Template", author = "Gaurav Mishra")
     public void generateWelcomeTemplates(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Welcome Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
 
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
@@ -108,12 +113,14 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "002", id = "Create Newsletter Template", author = "Gaurav Mishra")
     public void generateNewsletterTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Newsletter Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3741"))
@@ -144,12 +151,14 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "003", id = "Create Alert Template", author = "Gaurav Mishra")
     public void generateAlertTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Alert Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3744"))
@@ -194,12 +203,14 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "004", id = "Create Reminder Template", author = "Gaurav Mishra")
     public void generateReminderTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Reminder Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3747"))
@@ -244,12 +255,14 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "005", id = "Create Confirmation Template", author = "Gaurav Mishra")
     public void generateConfirmationTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Confirmation Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374a"))
@@ -296,12 +309,14 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "006", id = "Create Notification Template", author = "Gaurav Mishra")
     public void generateNotificationTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Notification Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374e"))
@@ -344,11 +359,13 @@ public class CommunicationsChangeSet {
      * @param openCDXNotificationEventRepository Notification Event Repository
      * @param openCDXCurrentUser Current User to use for authentication.
      */
+    @Observed
     @ChangeSet(order = "007", id = "Create Email Verify Template", author = "Gaurav Mishra")
     public void generateEmailVerifyTemplate(
             OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
             OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Email Verify Templates");
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d375f"))

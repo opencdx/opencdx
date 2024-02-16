@@ -50,8 +50,8 @@ const ControlledInput = (props) => {
             }}
           >
             {answerOption?.map((option) => (
-              <Radio key={option.id} value={option.value}>
-                <RadioIndicator _checked={{ bg: 'primary.500' }} margin={2}>
+              <Radio key={option.id} value={option.value} >
+                <RadioIndicator _checked={{ bg: 'primary.500' }} >
                   <RadioIcon as={CircleIcon} />
                 </RadioIndicator>
                 <RadioLabel style={styles.label}>{option.label}</RadioLabel>
@@ -87,15 +87,15 @@ export const RadioInput = (props) => {
 };
 
 const styles = StyleSheet.create({
-  label: {},
+  
   container: {
     flex: -1,
     justifyContent: 'center',
   },
   input: {
-    margin: 10,
     borderRadius: 5,
   },
+  
   errorContainer: {
     flex: -1,
     height: 25
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     color: 'red'
   },
   label: {
-    marginRight: 5,
-  },
+marginRight: 24,
+marginLeft:8,
+  }
 });

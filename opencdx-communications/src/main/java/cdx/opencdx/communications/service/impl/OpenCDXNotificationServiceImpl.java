@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -72,6 +73,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
+    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     /**
      * Constructor taking some repositoroes
      *
@@ -86,6 +88,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      * @param openCDXDocumentValidator           Document Validator for validating documents.
+     * @param openCDXIAMUserRepository           Repository for accessing IAM Users.
      */
     @Autowired
     public OpenCDXNotificationServiceImpl(
@@ -99,7 +102,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
-            OpenCDXDocumentValidator openCDXDocumentValidator) {
+            OpenCDXDocumentValidator openCDXDocumentValidator,
+            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
@@ -111,6 +115,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
+        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
     }
 
     @Override
@@ -143,7 +148,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         OpenCDXNotificationEventModel model =
                 this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
-        log.info("Created Notification Event: {}", model.getId());
+        log.trace("Created Notification Event: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -183,7 +188,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         OpenCDXNotificationEventModel model =
                 this.openCDXNotificationEventRepository.save(new OpenCDXNotificationEventModel(notificationEvent));
 
-        log.info("Updated Notification Event: {}", model.getId());
+        log.trace("Updated Notification Event: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -210,11 +215,12 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             throw openCDXNotAcceptable;
         }
         this.openCDXNotificationEventRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
-        log.info("Deleted Notification Event: {}", templateRequest);
+        log.trace("Deleted Notification Event: {}", templateRequest);
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 
     public void processOpenCDXNotification(OpenCDXNotificationModel openCDXNotificationModel) {
+
         CommunicationAuditRecord.Builder auditBuilder = CommunicationAuditRecord.newBuilder();
         auditBuilder.setNotification(openCDXNotificationModel.getProtobufMessage());
 
@@ -235,8 +241,11 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         }
 
         openCDXNotificaitonRepository.save(openCDXNotificationModel);
+        CommunicationAuditRecord auditRecord = auditBuilder.build();
 
-        this.recordAudit(auditBuilder.build(), notificationEvent);
+        openCDXNotificationModel
+                .getPatients()
+                .forEach(patientId -> recordAudit(auditRecord, notificationEvent, patientId));
     }
 
     private void sendSMS(
@@ -304,8 +313,11 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         }
     }
 
-    private void recordAudit(CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent) {
-
+    private void recordAudit(
+            CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, ObjectId patientId) {
+        OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
+                .findById(patientId)
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Patient Not Found"));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.communication(
@@ -313,8 +325,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
+                    patientId.toHexString(),
+                    patient.getNationalHealthId(),
                     NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {
@@ -340,11 +352,15 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         if (notificationEvent.getPriority().equals(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE)) {
             this.processOpenCDXNotification(openCDXNotificationModel);
         } else {
-            this.recordAudit(
-                    CommunicationAuditRecord.newBuilder()
-                            .setNotification(openCDXNotificationModel.getProtobufMessage())
-                            .build(),
-                    notificationEvent);
+            Notification protobufMessage = openCDXNotificationModel.getProtobufMessage();
+            openCDXNotificationModel
+                    .getPatients()
+                    .forEach(patientId -> this.recordAudit(
+                            CommunicationAuditRecord.newBuilder()
+                                    .setNotification(protobufMessage)
+                                    .build(),
+                            notificationEvent,
+                            patientId));
         }
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }

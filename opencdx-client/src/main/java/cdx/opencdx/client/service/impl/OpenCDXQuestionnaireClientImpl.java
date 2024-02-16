@@ -24,43 +24,46 @@ import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the Questionnaire gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.questionnaire", name = "enabled", havingValue = "true")
 @SuppressWarnings("java:S125")
 public class OpenCDXQuestionnaireClientImpl implements OpenCDXQuestionnaireClient {
 
-    public static final String OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL = "OpenCDXQuestionnaireClientImpl";
+    private static final String OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL = "OpenCDXQuestionnaireClientImpl";
     private final QuestionnaireServiceGrpc.QuestionnaireServiceBlockingStub questionnaireServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws SSLException creating Client
      */
     @Generated
     public OpenCDXQuestionnaireClientImpl(
-            @Value("${opencdx.client.questionnaire.server}") String server,
-            @Value("${opencdx.client.questionnaire.port}") Integer port)
+            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
+                .intercept(observationGrpcClientInterceptor)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.questionnaireServiceBlockingStub = QuestionnaireServiceGrpc.newBlockingStub(channel);
     }
@@ -551,6 +554,84 @@ public class OpenCDXQuestionnaireClientImpl implements OpenCDXQuestionnaireClien
                     Code.forNumber(status.getCode()),
                     OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
                     18,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    @Override
+    public CreateRuleSetResponse createRuleSet(RuleSet ruleSet, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return questionnaireServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .createRuleSet(CreateRuleSetRequest.newBuilder()
+                            .setRuleSet(ruleSet)
+                            .build());
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
+                    19,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    @Override
+    public UpdateRuleSetResponse updateRuleSet(RuleSet ruleSet, OpenCDXCallCredentials openCDXCallCredentials) {
+        try {
+            return questionnaireServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .updateRuleSet(UpdateRuleSetRequest.newBuilder()
+                            .setRuleSet(ruleSet)
+                            .build());
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
+                    20,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    @Override
+    public GetRuleSetResponse getRuleSet(String ruleSetId, OpenCDXCallCredentials openCDXCallCredentials) {
+        try {
+            return questionnaireServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getRuleSet(GetRuleSetRequest.newBuilder().setId(ruleSetId).build());
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
+                    19,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    @Override
+    public DeleteRuleSetResponse deleteRuleSet(String ruleSetId, OpenCDXCallCredentials openCDXCallCredentials) {
+        try {
+            return questionnaireServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .deleteRuleSet(
+                            DeleteRuleSetRequest.newBuilder().setId(ruleSetId).build());
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_QUESTIONNAIRE_CLIENT_IMPL,
+                    19,
                     status.getMessage(),
                     status.getDetailsList(),
                     e);

@@ -50,10 +50,53 @@ public class OpenCDXRestQuestionnaireController {
      * @param request ClientRulesRequest indicating organization and workspace
      * @return RuleSetsResponse with the message.
      */
-    @PostMapping(value = "/getrulesets")
+    @PostMapping(value = "/ruleset/list")
     public ResponseEntity<RuleSetsResponse> getRuleSets(@RequestBody ClientRulesRequest request) {
         RuleSetsResponse ruleSets = openCDXQuestionnaireService.getRuleSets(request);
         return new ResponseEntity<>(ruleSets, HttpStatus.OK);
+    }
+    /**
+     * Create RuleSet Rest API
+     * @param request CreateRuleSetRequest indicating ruleSet realted data
+     * @return CreateRuleSetResponse with the message.
+     */
+    @PostMapping("/ruleset")
+    public ResponseEntity<CreateRuleSetResponse> createRuleSet(@RequestBody CreateRuleSetRequest request) {
+        CreateRuleSetResponse ruleSet = openCDXQuestionnaireService.createRuleSet(request);
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
+    }
+
+    /**
+     * Update RuleSet Rest API
+     * @param request UpdateRuleSetRequest indicating ruleSet realted data
+     * @return UpdateRuleSetResponse with the message.
+     */
+    @PutMapping("/ruleset")
+    public ResponseEntity<UpdateRuleSetResponse> updateRuleSet(@RequestBody UpdateRuleSetRequest request) {
+        UpdateRuleSetResponse ruleSet = openCDXQuestionnaireService.updateRuleSet(request);
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
+    }
+    /**
+     * Get RuleSet Rest API
+     * @param ruleSetId Identifier of ruleSet to get.
+     * @return GetRuleSetResponse with the message.
+     */
+    @GetMapping(value = "/ruleset/{Id}")
+    public ResponseEntity<GetRuleSetResponse> getRuleSet(@PathVariable(value = "Id") String ruleSetId) {
+        GetRuleSetResponse ruleSet = openCDXQuestionnaireService.getRuleSet(
+                GetRuleSetRequest.newBuilder().setId(ruleSetId).build());
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
+    }
+    /**
+     * Delete RuleSet Rest API
+     * @param ruleSetId Identifier of ruleSet to get.
+     * @return DeleteRuleSetResponse with the message.
+     */
+    @DeleteMapping(value = "/ruleset/{Id}")
+    public ResponseEntity<DeleteRuleSetResponse> deleteRuleSet(@PathVariable(value = "Id") String ruleSetId) {
+        DeleteRuleSetResponse ruleSet = openCDXQuestionnaireService.deleteRuleSet(
+                DeleteRuleSetRequest.newBuilder().setId(ruleSetId).build());
+        return new ResponseEntity<>(ruleSet, HttpStatus.OK);
     }
 
     /**
@@ -270,14 +313,8 @@ public class OpenCDXRestQuestionnaireController {
     @DeleteMapping(value = "/client/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteClientQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .deleteClientQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
-                                        .setId(id)
-                                        .build())
-                                .getSuccess())
-                        .setMessage("Executed DeleteClientQuestionnaire operation.")
-                        .build(),
+                openCDXQuestionnaireService.deleteClientQuestionnaireData(
+                        DeleteQuestionnaireRequest.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
 
@@ -291,14 +328,7 @@ public class OpenCDXRestQuestionnaireController {
     public ResponseEntity<SubmissionResponse> createUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
-        return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .createUserQuestionnaireData(request)
-                                .getSuccess())
-                        .setMessage("Executed CreateUserQuestionnaireData operation.")
-                        .build(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(openCDXQuestionnaireService.createUserQuestionnaireData(request), HttpStatus.OK);
     }
 
     /**

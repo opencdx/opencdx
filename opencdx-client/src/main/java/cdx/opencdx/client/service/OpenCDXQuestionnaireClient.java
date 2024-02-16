@@ -199,4 +199,35 @@ public interface OpenCDXQuestionnaireClient {
     UserQuestionnaireData getUserQuestionnaireData(
             GetQuestionnaireRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call createRuleSet api.
+     * @param ruleSet RuleSet to create.
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    CreateRuleSetResponse createRuleSet(RuleSet ruleSet, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
+    /**
+     * Method to gRPC Call updateRuleSet api.
+     * @param ruleSet RuleSet to update.
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    UpdateRuleSetResponse updateRuleSet(RuleSet ruleSet, OpenCDXCallCredentials openCDXCallCredentials);
+
+    /**
+     * Method to gRPC Call getRuleSet api.
+     * @param ruleSetId RuleSet to get.
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    GetRuleSetResponse getRuleSet(String ruleSetId, OpenCDXCallCredentials openCDXCallCredentials);
+    /**
+     * Method to gRPC Call deleteRuleSet api.
+     * @param ruleSetId RuleSet to delete.
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    DeleteRuleSetResponse deleteRuleSet(String ruleSetId, OpenCDXCallCredentials openCDXCallCredentials);
 }

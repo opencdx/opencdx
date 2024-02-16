@@ -18,6 +18,7 @@ package cdx.opencdx.client.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Generated;
 
 /**
  * indicates if the file upload was successful.
@@ -27,6 +28,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
+@Generated
 public class FileUploadResponse {
     /**
      * Default Constructor

@@ -18,8 +18,8 @@ const Time = React.forwardRef(({ control, register, index, currentIndex, getValu
     return (
         <>
             <Grid container>
-                <Grid item xs={12} lg={12} ref={ref} justifyContent="flex-end" sx={{ display: 'flex' }}>
-                    <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                <Grid item xs={12} lg={12} ref={ref} justifyContent="flex-end" sx={{ display: 'flex', pb: 2 }}>
+                    <Button variant="contained" color="primary" size="small" onClick={handleClickOpen}>
                         <SettingsIcon /> System Variables
                     </Button>
                 </Grid>

@@ -53,7 +53,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing IAM User Requests
  */
 @Slf4j
 @Service
@@ -134,6 +134,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                .addAllPatientIds(List.of(model.getId().toHexString()))
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(
                         FIRST_NAME,
@@ -322,6 +323,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.CHANGE_PASSWORD)
+                .addAllPatientIds(List.of(model.getId().toHexString()))
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(
                         FIRST_NAME,
@@ -358,7 +360,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
 
         userModel = this.openCDXIAMUserRepository.save(userModel);
-        log.info("Deleted User: {}", request.getId());
+        log.trace("Deleted User: {}", request.getId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(userModel);
@@ -453,6 +455,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.WELCOME_EMAIL_USER)
+                .addAllPatientIds(List.of(model.getId().toHexString()))
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(
                         FIRST_NAME,

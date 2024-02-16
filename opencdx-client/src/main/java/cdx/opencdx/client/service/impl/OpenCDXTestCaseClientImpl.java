@@ -24,42 +24,45 @@ import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the Test Case gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
 public class OpenCDXTestCaseClientImpl implements OpenCDXTestCaseClient {
 
-    public static final String OPEN_CDX_TEST_CASE_CLIENT_IMPL = "OpenCDXTestCaseClientImpl";
+    private static final String OPEN_CDX_TEST_CASE_CLIENT_IMPL = "OpenCDXTestCaseClientImpl";
     private final TestCaseServiceGrpc.TestCaseServiceBlockingStub testCaseServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws SSLException creating Client
      */
     @Generated
     public OpenCDXTestCaseClientImpl(
-            @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port)
+            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
+                .intercept(observationGrpcClientInterceptor)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.testCaseServiceBlockingStub = TestCaseServiceGrpc.newBlockingStub(channel);
     }

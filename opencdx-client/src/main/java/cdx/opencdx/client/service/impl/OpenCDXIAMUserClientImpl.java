@@ -24,41 +24,45 @@ import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the User gRPC Client.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
 public class OpenCDXIAMUserClientImpl implements OpenCDXIAMUserClient {
 
-    public static final String OPEN_CDX_USER_CLIENT_IMPL = "OpenCDXIAMUserClientImpl";
+    private static final String OPEN_CDX_USER_CLIENT_IMPL = "OpenCDXIAMUserClientImpl";
     private final IamUserServiceGrpc.IamUserServiceBlockingStub iamUserServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws SSLException creating Client
      */
     @Generated
     public OpenCDXIAMUserClientImpl(
-            @Value("${opencdx.client.iam.server}") String server, @Value("${opencdx.client.iam.port}") Integer port)
+            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
+                .intercept(observationGrpcClientInterceptor)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
         this.iamUserServiceBlockingStub = IamUserServiceGrpc.newBlockingStub(channel);
     }

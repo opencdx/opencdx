@@ -24,22 +24,19 @@ import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 
 /**
  * OpenCDXMediaClient for talking to the Media Service.
  */
 @Slf4j
 @Observed(name = "opencdx")
-@Service
-@ConditionalOnProperty(prefix = "opencdx.client.media", name = "enabled", havingValue = "true")
 public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
 
     /**
@@ -53,16 +50,23 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
      * Default Constructor used for normal operation.
      * @param server Server address for the gRPC Service.
      * @param port Server port for the gRPC Service.
+     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
      * @throws SSLException creating Client
      */
     @Generated
     public OpenCDXMediaClientImpl(
-            @Value("${opencdx.client.media.server}") String server, @Value("${opencdx.client.media.port}") Integer port)
+            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
+        if (certChain == null) {
+            throw new SSLException("Could not load certificate chain");
+        }
         ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
+                .intercept(observationGrpcClientInterceptor)
                 .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient().trustManager(certChain).build())
+                .sslContext(GrpcSslContexts.forClient()
+                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                        .build())
                 .build();
 
         this.mediaServiceBlockingStub = MediaServiceGrpc.newBlockingStub(channel);
@@ -79,7 +83,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     @Override
     public CreateMediaResponse createMedia(CreateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing Create Media: {}", request);
+            log.trace("Processing Create Media: {}", request);
             return mediaServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .createMedia(request);
@@ -94,7 +98,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     @Override
     public DeleteMediaResponse deleteMedia(DeleteMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing Delete Media: {}", request);
+            log.trace("Processing Delete Media: {}", request);
             return mediaServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .deleteMedia(request);
@@ -108,7 +112,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     @Override
     public GetMediaResponse getMedia(GetMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing Get Media: {}", request);
+            log.trace("Processing Get Media: {}", request);
             return mediaServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .getMedia(request);
@@ -122,7 +126,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     @Override
     public UpdateMediaResponse updateMedia(UpdateMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing Update Media: {}", request);
+            log.trace("Processing Update Media: {}", request);
             return mediaServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .updateMedia(request);
@@ -136,7 +140,7 @@ public class OpenCDXMediaClientImpl implements OpenCDXMediaClient {
     @Override
     public ListMediaResponse listMedia(ListMediaRequest request, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Processing List Media: {}", request);
+            log.trace("Processing List Media: {}", request);
             return mediaServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .listMedia(request);
