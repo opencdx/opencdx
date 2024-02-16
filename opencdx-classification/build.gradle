@@ -39,6 +39,10 @@ dependencies {
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
 
+    // Evrete
+    implementation "org.evrete:evrete-core:${evreteVersion}"
+    implementation "org.evrete:evrete-dsl-java:${evreteVersion}"
+
     //GRPC - To enable the GRPC uncomment the following two lines
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation project(":opencdx-proto")

@@ -133,6 +133,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             openCDXNotAcceptable.getMetaData().put(OBJECT, model.toString());
             throw openCDXNotAcceptable;
         }
+        log.info("Processed ClassificationRequest");
         return model.getClassificationResponse();
     }
 

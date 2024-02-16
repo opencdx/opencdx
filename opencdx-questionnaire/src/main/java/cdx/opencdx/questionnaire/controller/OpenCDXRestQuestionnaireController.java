@@ -313,14 +313,8 @@ public class OpenCDXRestQuestionnaireController {
     @DeleteMapping(value = "/client/questionnaire/{Id}")
     public ResponseEntity<SubmissionResponse> deleteClientQuestionnaire(@PathVariable(value = "Id") String id) {
         return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .deleteClientQuestionnaireData(DeleteQuestionnaireRequest.newBuilder()
-                                        .setId(id)
-                                        .build())
-                                .getSuccess())
-                        .setMessage("Executed DeleteClientQuestionnaire operation.")
-                        .build(),
+                openCDXQuestionnaireService.deleteClientQuestionnaireData(
+                        DeleteQuestionnaireRequest.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
 
@@ -334,14 +328,7 @@ public class OpenCDXRestQuestionnaireController {
     public ResponseEntity<SubmissionResponse> createUserQuestionnaireData(
             @RequestBody UserQuestionnaireDataRequest request) {
 
-        return new ResponseEntity<>(
-                SubmissionResponse.newBuilder()
-                        .setSuccess(openCDXQuestionnaireService
-                                .createUserQuestionnaireData(request)
-                                .getSuccess())
-                        .setMessage("Executed CreateUserQuestionnaireData operation.")
-                        .build(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(openCDXQuestionnaireService.createUserQuestionnaireData(request), HttpStatus.OK);
     }
 
     /**

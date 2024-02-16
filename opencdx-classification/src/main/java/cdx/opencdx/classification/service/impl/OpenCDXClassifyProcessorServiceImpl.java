@@ -16,19 +16,31 @@
 package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.classification.model.RuleResult;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
+import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
+import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.questionnaire.GetRuleSetResponse;
+import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.evrete.KnowledgeService;
+import org.evrete.api.Knowledge;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,15 +57,20 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
+    private final OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
     /**
      * Constructor for OpenCDXClassifyProcessorServiceImpl
      * @param openCDXMediaUpDownClient service for media upload and download client
      * @param openCDXCurrentUser service for current user
      */
     public OpenCDXClassifyProcessorServiceImpl(
-            OpenCDXMediaUpDownClient openCDXMediaUpDownClient, OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXQuestionnaireClient openCDXQuestionnaireClient) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXQuestionnaireClient = openCDXQuestionnaireClient;
     }
 
     @Override
@@ -75,13 +92,14 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         builder.setPositiveProbability(new Random().nextFloat());
         builder.setAvailability(new Random().nextFloat() < 0.5 ? "Not Available" : "Available");
         builder.setCost(new Random().nextFloat(1000.00f));
-        builder.setFurtherActions(
-                new Random().nextFloat() < 0.5
-                        ? "Take plenty of fluids, and Tylenol as needed for fever."
-                        : "Grandma's Chicken Soup");
-        builder.setFurtherActions(
-                new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
         builder.setUserId(model.getUserAnswer().getUserId());
+
+        if (model.getConnectedTest() != null) {
+            builder.setFurtherActions(
+                    new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
+        }
+
+        runRules(model, builder);
 
         model.setClassificationResponse(builder.build());
     }
@@ -109,6 +127,69 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                         1,
                         "Failed to identify extension: " + model.getMimeType(),
                         e);
+            }
+        }
+
+        return null;
+    }
+
+    private void runRules(OpenCDXClassificationModel model, ClassificationResponse.Builder builder) {
+        if (model.getUserQuestionnaireData() != null
+                && model.getUserQuestionnaireData().getQuestionnaireDataCount() > 0
+                && !model.getUserQuestionnaireData()
+                        .getQuestionnaireData(0)
+                        .getRuleId()
+                        .isEmpty()
+                && !model.getUserQuestionnaireData()
+                        .getQuestionnaireData(0)
+                        .getRuleId()
+                        .isBlank()
+                && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
+            KnowledgeService knowledgeService = new KnowledgeService();
+            try {
+                Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
+                RuleResult ruleResult = new RuleResult();
+                knowledge.newStatelessSession().insertAndFire(getResponse(model), ruleResult);
+                builder.setFurtherActions(ruleResult.getResult());
+            } catch (IOException e) {
+                throw new OpenCDXInternalServerError(
+                        OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
+            }
+        }
+    }
+
+    private InputStream getRulesClass(OpenCDXClassificationModel model) {
+        OpenCDXCallCredentials openCDXCallCredentials =
+                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
+        GetRuleSetResponse ruleSetResponse = openCDXQuestionnaireClient.getRuleSet(
+                model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleId(), openCDXCallCredentials);
+
+        return new ByteArrayInputStream(ruleSetResponse.getRuleSet().getRule().getBytes());
+    }
+
+    private Object getResponse(OpenCDXClassificationModel model) {
+        if (model.getUserQuestionnaireData() != null
+                && model.getUserQuestionnaireData().getQuestionnaireDataCount() > 0
+                && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
+            String questionId =
+                    model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionId(0);
+
+            if (!questionId.isBlank() && !questionId.isEmpty()) {
+                Optional<QuestionnaireItem> question =
+                        model.getUserQuestionnaireData().getQuestionnaireData(0).getItemList().stream()
+                                .filter(questionItem -> questionId.equals(questionItem.getLinkId()))
+                                .findFirst();
+
+                if (question.isPresent()) {
+                    switch (question.get().getType()) {
+                        case "integer":
+                            return question.get().getAnswerInteger();
+                        case "boolean":
+                            return question.get().getAnswerBoolean();
+                        default:
+                            return question.get().getAnswerString();
+                    }
+                }
             }
         }
 
