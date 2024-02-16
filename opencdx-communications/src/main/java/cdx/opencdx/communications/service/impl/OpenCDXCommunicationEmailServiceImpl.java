@@ -110,7 +110,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         OpenCDXEmailTemplateModel model =
                 this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
-        log.info("Created Email Template: {}", model.getId());
+        log.trace("Created Email Template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -153,7 +153,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         OpenCDXEmailTemplateModel model =
                 this.openCDXEmailTemplateRepository.save(new OpenCDXEmailTemplateModel(emailTemplate));
 
-        log.info("Updated Email Template: {}", model.getId());
+        log.trace("Updated Email Template: {}", model.getId());
         return model.getProtobufMessage();
     }
 
@@ -184,7 +184,7 @@ public class OpenCDXCommunicationEmailServiceImpl implements OpenCDXCommunicatio
         }
 
         this.openCDXEmailTemplateRepository.deleteById(new ObjectId(templateRequest.getTemplateId()));
-        log.info("Deleted email template: {}", templateRequest.getTemplateId());
+        log.trace("Deleted email template: {}", templateRequest.getTemplateId());
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }
 

@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
 
-    private final TinkarGrpc.TinkarBlockingStub tinkarBlockingStub;
+    private final TinkarQueryServiceGrpc.TinkarQueryServiceBlockingStub tinkarQueryServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
@@ -63,15 +63,16 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
                         .trustManager(InsecureTrustManagerFactory.INSTANCE)
                         .build())
                 .build();
-        this.tinkarBlockingStub = TinkarGrpc.newBlockingStub(channel);
+        this.tinkarQueryServiceBlockingStub = TinkarQueryServiceGrpc.newBlockingStub(channel);
     }
 
     /**
      * Constructor for creating the Tinkar client implementation.
-     * @param tinkarBlockingStub gRPC Blocking Stub for Tinkar.
+     * @param tinkarQueryServiceBlockingStub gRPC Blocking Stub for Tinkar.
      */
-    public OpenCDXTinkarClientImpl(TinkarGrpc.TinkarBlockingStub tinkarBlockingStub) {
-        this.tinkarBlockingStub = tinkarBlockingStub;
+    public OpenCDXTinkarClientImpl(
+            TinkarQueryServiceGrpc.TinkarQueryServiceBlockingStub tinkarQueryServiceBlockingStub) {
+        this.tinkarQueryServiceBlockingStub = tinkarQueryServiceBlockingStub;
     }
 
     /**
@@ -84,7 +85,7 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
     public TinkarQueryResponse searchTinkar(TinkarQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
-            return tinkarBlockingStub
+            return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .searchTinkar(request);
         } catch (StatusRuntimeException e) {
@@ -109,7 +110,7 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
     public TinkarQueryResult getTinkarEntity(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
-            return tinkarBlockingStub
+            return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .getTinkarEntity(request);
         } catch (StatusRuntimeException e) {

@@ -50,6 +50,9 @@ import org.springframework.stereotype.Service;
 public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     private static final String VENDOR = "VENDOR: ";
+    private static final String DOMAIN = "OpenCDXVendorServiceImpl";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_VENDOR_MODEL = "Failed to convert OpenCDXVendorModel";
+    private static final String OBJECT = "OBJECT";
     private final OpenCDXVendorRepository openCDXVendorRepository;
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXTestCaseRepository openCDXTestCaseRepository;
@@ -113,9 +116,9 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
                     this.objectMapper.writeValueAsString(openCDXVendorModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("OpenCDXVendorServiceImpl", 2, "Failed to convert OpenCDXVendorModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_VENDOR_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXVendorModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXVendorModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXVendorModel.getProtobufMessage();
@@ -139,9 +142,9 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
                     this.objectMapper.writeValueAsString(openCDXVendorModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("OpenCDXVendorServiceImpl", 3, "Failed to convert OpenCDXVendorModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_VENDOR_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXVendorModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXVendorModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXVendorModel.getProtobufMessage();
@@ -149,14 +152,41 @@ public class OpenCDXVendorServiceImpl implements OpenCDXVendorService {
 
     @Override
     public DeleteResponse deleteVendor(VendorIdRequest request) {
-        if (this.openCDXDeviceRepository.existsByVendorId(new ObjectId(request.getVendorId()))
-                || this.openCDXTestCaseRepository.existsByVendorId(new ObjectId(request.getVendorId()))) {
+
+        ObjectId objectId = new ObjectId(request.getVendorId());
+
+        if (this.openCDXDeviceRepository.existsByVendorId(objectId)
+                || this.openCDXTestCaseRepository.existsByVendorId(objectId)) {
             return DeleteResponse.newBuilder()
                     .setSuccess(false)
                     .setMessage("Vendor: " + request.getVendorId() + " is in use.")
                     .build();
         }
+
+        OpenCDXVendorModel openCDXVendorModel = this.openCDXVendorRepository
+                .findById(objectId)
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find vendor: " + request.getVendorId()));
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting Vendor",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    VENDOR + openCDXVendorModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXVendorModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_VENDOR_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXVendorModel.toString());
+            throw openCDXNotAcceptable;
+        }
+
         this.openCDXVendorRepository.deleteById(new ObjectId(request.getVendorId()));
+
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Vendor: " + request.getVendorId() + " is deleted.")

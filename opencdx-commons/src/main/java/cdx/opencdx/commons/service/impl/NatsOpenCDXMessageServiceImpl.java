@@ -72,6 +72,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
             @Value("${spring.application.name}") String applicationName,
             OpenCDXCurrentUser openCDXCurrentUser,
             Tracer tracer) {
+        log.info("Creating NATS OpenCDXMessageService");
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.subscriptionMap = new HashMap<>();
         this.applicationName = applicationName;
@@ -131,6 +132,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
     @Override
     @RetryAnnotation
     public void unSubscribe(String subject) {
+        log.info("Unsubscribing from: {}", subject);
         Dispatcher dispatcher = this.subscriptionMap.get(subject);
         if (dispatcher != null) {
             dispatcher.unsubscribe(subject);
@@ -207,6 +209,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                 OpenCDXCurrentUser openCDXCurrentUser,
                 ObjectMapper objectMapper,
                 Tracer tracer) {
+            log.info("Creating NATS Message Handler");
             this.handler = handler;
             this.openCDXCurrentUser = openCDXCurrentUser;
             this.objectMapper = objectMapper;

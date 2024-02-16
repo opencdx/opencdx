@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI TINKAR",
+        "title": "OpenAPI definition",
         "version": "v0"
     },
     "servers": [
@@ -19,7 +19,7 @@
         "/nid": {
             "get": {
                 "tags": [
-                    "open-cdx-rest-search-controller"
+                    "open-cdx-rest-tinkar-search-controller"
                 ],
                 "operationId": "getEntity",
                 "parameters": [
@@ -39,7 +39,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "type": "string"
+                                    "$ref": "#/components/schemas/TinkarQueryResult"
                                 }
                             }
                         }
@@ -50,7 +50,7 @@
         "/": {
             "get": {
                 "tags": [
-                    "open-cdx-rest-search-controller"
+                    "open-cdx-rest-tinkar-search-controller"
                 ],
                 "operationId": "search_1",
                 "parameters": [
@@ -78,10 +78,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PrimitiveDataSearchResult"
-                                    }
+                                    "$ref": "#/components/schemas/TinkarQueryResponse"
                                 }
                             }
                         }
@@ -92,7 +89,7 @@
     },
     "components": {
         "schemas": {
-            "PrimitiveDataSearchResult": {
+            "TinkarQueryResult": {
                 "type": "object",
                 "properties": {
                     "nid": {
@@ -117,6 +114,17 @@
                     },
                     "highlightedString": {
                         "type": "string"
+                    }
+                }
+            },
+            "TinkarQueryResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TinkarQueryResult"
+                        }
                     }
                 }
             }

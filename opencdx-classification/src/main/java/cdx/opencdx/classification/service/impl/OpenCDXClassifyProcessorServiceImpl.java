@@ -76,13 +76,14 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     @Override
     @SuppressWarnings("java:S2119")
     public void classify(OpenCDXClassificationModel model) {
+        log.trace("Executing classify operation.");
         Resource file = retrieveFile(model.getMedia());
         if (file != null) {
-            log.info("fileName: {}", file.getFilename());
+            log.trace("fileName: {}", file.getFilename());
         }
         Resource connectedFile = retrieveFile(model.getTestDetailsMedia());
         if (connectedFile != null) {
-            log.info("fileName: {}", connectedFile.getFilename());
+            log.trace("fileName: {}", connectedFile.getFilename());
         }
         ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
         builder.setMessage("Executed classify operation.");
@@ -105,12 +106,13 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     private Resource retrieveFile(Media model) {
         if (model != null) {
+            log.trace("Retrieving file for classification.");
 
             try {
                 MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
                 MimeType type = allTypes.forName(model.getMimeType());
                 String primaryExtension = type.getExtension().replace(".", "");
-                log.info("Downloading media for classification: {} as {}", model.getId(), primaryExtension);
+                log.trace("Downloading media for classification: {} as {}", model.getId(), primaryExtension);
                 ResponseEntity<Resource> downloaded = this.openCDXMediaUpDownClient.download(
                         "Bearer " + this.openCDXCurrentUser.getCurrentUserAccessToken(),
                         model.getId(),

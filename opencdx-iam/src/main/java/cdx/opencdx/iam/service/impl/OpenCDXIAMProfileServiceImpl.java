@@ -188,7 +188,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
 
         userModel = this.openCDXIAMUserRepository.save(userModel);
-        log.info("Deleted User: {}", request.getUserId());
+        log.trace("Deleted User: {}", request.getUserId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

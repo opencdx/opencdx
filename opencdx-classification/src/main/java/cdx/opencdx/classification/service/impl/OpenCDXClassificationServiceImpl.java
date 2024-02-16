@@ -107,7 +107,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      */
     @Override
     public ClassificationResponse classify(ClassificationRequest request) {
-        log.info("Processing ClassificationRequest");
+        log.trace("Processing ClassificationRequest");
 
         OpenCDXClassificationModel model = validateAndLoad(request);
 
@@ -138,15 +138,18 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     }
 
     private OpenCDXClassificationModel validateAndLoad(ClassificationRequest request) {
+        log.trace("Validating ClassificationRequest");
         OpenCDXClassificationModel model = new OpenCDXClassificationModel();
         model.setUserAnswer(request.getUserAnswer());
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
+        log.trace("Validating User");
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "users", new ObjectId(request.getUserAnswer().getUserId()));
 
         if (request.getUserAnswer().hasMediaId()) {
+            log.trace("Validating Media");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "media", new ObjectId(request.getUserAnswer().getMediaId()));
 
@@ -160,18 +163,23 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             }
         }
 
-        log.info("Validated ClassificationRequest");
+        log.trace("Validated ClassificationRequest");
 
         if (request.getUserAnswer().hasConnectedTestId()) {
+            log.trace("Validating ConnectedTest");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "connected-test", new ObjectId(request.getUserAnswer().getConnectedTestId()));
 
             retrieveConnectedTest(request, openCDXCallCredentials, model);
-        } else if (request.getUserAnswer().hasUserQuestionnaireId()) {
+        }
+
+        if (request.getUserAnswer().hasUserQuestionnaireId()) {
+            log.trace("Validating UserQuestionnaire");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "questionnaire-user", new ObjectId(request.getUserAnswer().getUserQuestionnaireId()));
             retrieveQuestionnaire(request, openCDXCallCredentials, model);
         }
+        log.trace("Validated ClassificationRequest");
         return model;
     }
 
@@ -179,7 +187,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             ClassificationRequest request,
             OpenCDXCallCredentials openCDXCallCredentials,
             OpenCDXClassificationModel model) {
-        log.info("Retrieving ConnectedTest: {}", request.getUserAnswer().getConnectedTestId());
+        log.trace("Retrieving ConnectedTest: {}", request.getUserAnswer().getConnectedTestId());
         ConnectedTest testDetailsById = this.openCDXConnectedTestClient.getTestDetailsById(
                 TestIdRequest.newBuilder()
                         .setTestId(request.getUserAnswer().getConnectedTestId())
@@ -206,7 +214,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             ClassificationRequest request,
             OpenCDXCallCredentials openCDXCallCredentials,
             OpenCDXClassificationModel model) {
-        log.info("Retrieving UserQuestionnaireData: {}", request.getUserAnswer().getUserQuestionnaireId());
+        log.trace(
+                "Retrieving UserQuestionnaireData: {}", request.getUserAnswer().getUserQuestionnaireId());
         UserQuestionnaireData userQuestionnaireData = this.openCDXQuestionnaireClient.getUserQuestionnaireData(
                 GetQuestionnaireRequest.newBuilder()
                         .setId(request.getUserAnswer().getUserQuestionnaireId())
