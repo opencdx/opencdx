@@ -1,11 +1,15 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native'; // Added import statement for StyleSheet module
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ListScreen from './screens/ListScreen';
 import SuccessScreen from './screens/SuccessScreen';
+import TestListScreen from './screens/Flow/TestListScreen';
+import OrderPlacedScreen from './screens/Flow/OrderPlacedScreen';
+import TestDetailsScreen from './screens/Flow/TestDetailsScreen';
+import CartScreen from './screens/Flow/CartScreen';
 
 import { GluestackUIProvider} from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
@@ -42,6 +46,39 @@ const App = () => {
             }}
            />
            <Stack.Screen name="Success" component={SuccessScreen}
+            options={{
+              headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
+            }}
+            />
+             <Stack.Screen name="TestList" component={TestListScreen}
+            options={{
+              headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
+            }}
+            />
+           
+            <Stack.Screen name="TestDetails" component={TestDetailsScreen}
+            options={{
+              headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
+            }}
+            />
+            <Stack.Screen name="Cart" component={CartScreen}
+            options={{
+              headerShown: false,
+              cardStyle:{
+                backgroundColor:'#FFFFFF'
+              }
+            }}
+            />
+            <Stack.Screen name="OrderPlaced" component={OrderPlacedScreen}
             options={{
               headerShown: false,
               cardStyle:{

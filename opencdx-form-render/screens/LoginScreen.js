@@ -22,8 +22,8 @@ const LoginScreen = ({ navigation }) => {
     }
     const handleLogin = async () => {
         try {
-            const response = await axios.post('/iam/user/login', { userName: username, password: password });
-            await AsyncStorage.setItem('jwtToken', response.data.token);
+            // const response = await axios.post('/iam/user/login', { userName: username, password: password });
+            // await AsyncStorage.setItem('jwtToken', response.data.token);
             navigation.navigate('List');
         } catch (error) {
             alert(error);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Heading, ButtonText,ButtonIcon, ArrowRightIcon } from '@gluestack-ui/themed';
+import { Button, Heading, ButtonText, ButtonIcon, ArrowRightIcon } from '@gluestack-ui/themed';
 
 const ListScreen = ({ navigation }) => {
     const [buttonTitles, setButtonTitles] = useState([]);
@@ -29,7 +29,7 @@ const ListScreen = ({ navigation }) => {
                 );
                 const { questionnaires } = response.data;
                 setButtonTitles(questionnaires);
-                
+
             } catch (error) {
                 console.error(error);
             }
@@ -53,12 +53,27 @@ const ListScreen = ({ navigation }) => {
                     isDisabled={false}
                 >
                     <ButtonText>{questionnaire.title}</ButtonText>
-                    <ButtonIcon as={ArrowRightIcon} 
-                        color="primary" 
+                    <ButtonIcon as={ArrowRightIcon}
+                        color="primary"
                         size="md"
                     />
                 </Button>
             ))}
+            <Heading size="lg" >Flow:</Heading>
+            <Button
+                style={styles.input}
+                size="md"
+                variant="contained"
+                action="primary"
+                isDisabled={false}
+                onPress={() => navigation.navigate('TestList')}
+            >
+                <ButtonText>Flow</ButtonText>
+                <ButtonIcon as={ArrowRightIcon}
+                    color="primary"
+                    size="md"
+                />
+            </Button>
         </View>
     );
 };
@@ -75,8 +90,8 @@ const styles = StyleSheet.create({
                 minWidth: 500,
             },
             default: {
-                margin:20,
-                shadowColor: "#000",   
+                margin: 20,
+                shadowColor: "#000",
             },
         })),
     },
@@ -87,7 +102,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 68,
 
-        
+
     },
 });
 
