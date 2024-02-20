@@ -3,32 +3,21 @@ import { View, Text, FlatList, TextInput, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native';
 import { Platform } from 'react-native';
 
-import { Ionicons , Entypo, AntDesign} from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const TestListScreen = () => {
+const AddressSection = () => {
     const navigation = useNavigation();
-    const [searchText, setSearchText] = useState('');
     const [testList, setTestList] = useState([
-        { id: 1, name: 'COVID-19 Antigen Home Test' , description: 'This is an Antigen Home test for COVID-19' , price: 45},
-        { id: 2, name: 'COVID-19 Nasal Swab Test' , description: 'This is a nasal swab test for COVID-19' , price: 38},
-        { id: 3  , name: 'HEP Antibody Test' , description: 'This is an antibody test for HEP' , price: 50},
-        { id: 4  , name: 'HEP Antigen Test' , description: 'This is an antigen test for HEP' , price: 60},
-        { id: 5  , name: 'HELIX Genetic Test' , description: 'This is a genetic test for HELIX' , price: 100},
-        { id: 6  , name: 'HELIX Covid-19 Test' , description: 'This is a COVID-19 test for HELIX' , price: 150},
-        { id: 7  , name: 'ACCON FLOWFLEX Test' , description: 'This is a FLOWFLEX test for ACCON' , price: 200},
-        
+        { id: 1, name: 'Home', description: '743 El Camino Real, Sunnyvale, CA 94087' },
+        { id: 2, name: 'Work', description: '123 Main Street, San Jose, CA 95131' },
+
         // Add more test items here
     ]);
 
-    const handleSearch = (text) => {
-        setSearchText(text);
-        const filteredList = testList.filter((test) =>
-            test.name.toLowerCase().includes(text.toLowerCase())
-        );
-        setTestList(filteredList);
-    };
+
 
     const handleBack = () => {
         navigation.goBack();
@@ -41,41 +30,39 @@ const TestListScreen = () => {
                     <TouchableOpacity onPress={handleBack}>
                         <Ionicons name="arrow-back" size={24} color="black" />
                     </TouchableOpacity>
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search for Test"
-                        value={searchText}
-                        onChangeText={handleSearch}
-                    />
-                </View>
-                <View style={styles.popularTest}>
-                <Entypo name="lab-flask" size={24} color="green" />
-                                <Text style={styles.popularText}>
 
-                    Popular Tests
-                </Text>
                 </View>
+
                 <FlatList
                     data={testList}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <View style={styles.sectionWrapper}>
                             <View style={styles.leftSection}>
-                            <Text style={styles.description}
-                            >{item.name}</Text>
-                            <Text style={styles.subText}
-                            >{item.description}</Text>
+                                <Text style={styles.description}
+                                >{item.name}</Text>
+                                <Text style={styles.subText}
+                                >{item.description}</Text>
                             </View>
                             <View style={styles.rightSection}>
-                            <Text>${item.price}</Text>
-                            <TouchableOpacity  style={{marginLeft: 10, paddingTop: 2}}
-                            onPress={() => navigation.navigate('TestDetails', { test: item })}>
-                            <AntDesign name="right" size={16} color="green" />
-                            </TouchableOpacity>
+
+                                <TouchableOpacity style={{ marginLeft: 10, paddingTop: 2 }}
+                                    onPress={() => navigation.navigate('TestDetails', { test: item })}>
+                                    {item.name === 'Home' ? <AntDesign name="home" size={24} color="black" /> : <MaterialCommunityIcons name="office-building" size={24} color="black" />}
+                                </TouchableOpacity>
                             </View>
                         </View>
                     )}
                 />
+                <View style={styles.sectionWrapper}>
+                    <View style={styles.leftSection}>
+                        <Text style={styles.description}
+                        >Add an Address</Text>
+                        <Text style={styles.subText}
+                        >Save your favorite places</Text>
+                    </View>
+
+                </View>
             </SafeAreaView>
         </View>
     );
@@ -107,7 +94,7 @@ const styles = {
         paddingVertical: 15,
     },
     popularText: {
-       
+
         fontWeight: 'bold',
         ...Platform.select({
             web: {
@@ -163,9 +150,9 @@ const styles = {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        
 
-      
+
+
     },
     searchContainer: {
         flexDirection: 'row',
@@ -199,4 +186,4 @@ const styles = {
     },
 };
 
-export default TestListScreen;
+export default AddressSection;

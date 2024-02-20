@@ -32,7 +32,7 @@ const TestDetailsScreen = ({route}) => {
             <View style={styles.header}>
                 {/* Back Arrow */}
                 <View style={styles.leftSection}>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={{marginLeft: 10,paddingTop: 5}}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={{paddingTop: 5}}>
                         <Ionicons name="arrow-back" size={16} color="black" />
                     </TouchableOpacity>
 
@@ -55,32 +55,38 @@ const TestDetailsScreen = ({route}) => {
             <View style={styles.testDetails}>
                 <Image
                     source={imageS}
-                    style={{width: 200, height: 200, borderRadius: 10, resizeMode: 'cover'}}
+                    style={{width:230, height: 200}}
                 />
-                <View >
-                    <Text style={styles.checklist} > <Feather name="check" size={12} color="green" />  1  Test Cassette</Text>
-                    <Text style={styles.checklist}> <Feather name="check" size={12} color="green" />  1  Disposable Swab</Text>
-                    <Text style={styles.checklist}> <Feather name="check" size={12} color="green" />  1  Extraction Buffer Tube</Text>
-                    <Text style={styles.checklist}> <Feather name="check" size={12} color="green" />  1  Package Insert</Text>
-                    <Text style={styles.checklist}> <Feather name="check" size={12} color="green" />  Quick Reference Instructions</Text>
-                </View>
+                
             </View>
-            <View style={styles.testDescription}>
-                <Text style={{fontWeight: 'bold', marginTop: 10}}>{route.params.test.name}</Text>
-                <Text style={{color: 'gray', fontSize: 12, marginTop: 5}}>{route.params.test.description}</Text>
+                <Text style={{fontWeight: 'bold', marginTop: 10, fontSize:20}}>Test Kit Contents</Text>
                 <View style={{borderBottomWidth: 1, borderBottomColor: '#E5E5E5', marginTop: 10}}></View>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop: 10}}>
-                    <View style={styles.card}>
-                        <Text style={{fontWeight: 'bold', marginTop: 5, fontSize: 12}}>FASTING</Text>
-                        <Text style={{color: 'gray', fontSize: 12, marginTop: 5, alignItems:'center', padding: 5, borderRadius: 5, justifyContent: 'center', alignItems: 'center'}}>No</Text>
-                    </View>
-                    <View style={styles.card}>
-                        <Text style={{fontWeight: 'bold', marginTop: 5, fontSize: 12}}>SAMPLE</Text>
-                        <Text style={{color: 'gray', fontSize: 12, marginTop: 5, alignItems:'center', padding: 5, borderRadius: 5, justifyContent: 'center', alignItems: 'center'}}>Blood</Text>
-                    </View>
+
+            <View style={styles.testDescription}>
+                    <Text style={styles.checklist} > <Feather name="check" size={16} color="green" />  1  Test Cassette</Text>
+                    <Text style={styles.checklist}> <Feather name="check" size={16} color="green" />  1  Disposable Swab</Text>
+                    <Text style={styles.checklist}> <Feather name="check" size={16} color="green" />  1  Extraction Buffer Tube</Text>
+                    <Text style={styles.checklist}> <Feather name="check" size={16} color="green" />  1  Package Insert</Text>
+                    <Text style={styles.checklist}> <Feather name="check" size={16} color="green" />  Quick Reference Instructions</Text>
                 </View>
-            </View>
-            <View style={styles.countWrapper}>
+                <Text style={{fontWeight: 'bold', marginTop: 10, fontSize:20}}>Product Details</Text>
+                <View style={{borderBottomWidth: 1, borderBottomColor: '#E5E5E5', marginTop: 10}}></View>
+
+
+            <View style={styles.testDescription}>
+                <Text style={{fontWeight: 'bold', fontSize:18, marginTop: 10}}>{route.params.test.name}</Text>
+                <Text style={{color: 'gray', fontSize: 18, marginTop: 5}}>{route.params.test.description}</Text>
+                <View style={{borderBottomWidth: 1, borderBottomColor: '#E5E5E5', marginTop: 10}}></View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
+                    <View style={styles.card}>
+                        <Text style={{fontWeight: 'bold', marginTop: 5, fontSize: 16}}>FASTING</Text>
+                        <Text style={{color: 'gray', fontSize: 16, marginTop: 5, alignItems:'center', padding: 5, borderRadius: 5, justifyContent: 'center', alignItems: 'center'}}>No</Text>
+                    </View>
+                    <View style={styles.card}>
+                        <Text style={{fontWeight: 'bold', marginTop: 5, fontSize: 16}}>SAMPLE</Text>
+                        <Text style={{color: 'gray', fontSize: 16, marginTop: 5, alignItems:'center', padding: 5, borderRadius: 5, justifyContent: 'center', alignItems: 'center'}}>Blood</Text>
+                    </View>
+                    <View style={styles.countWrapper}>
                 <TouchableOpacity onPress={decrementCount} style={styles.countButton}>
                     <Text style={styles.countButtonText}>-</Text>
                 </TouchableOpacity>
@@ -92,6 +98,10 @@ const TestDetailsScreen = ({route}) => {
                     Price: ${price * count}
                 </Text>
             </View>
+                </View>
+                
+            </View>
+           
             <View style={styles.stickyBottom}>
                 <View style={styles.leftSection}>
                             <Feather name="shopping-cart" size={16} color="black" />
@@ -115,7 +125,7 @@ const styles = {
         padding: 10,
         ...Platform.select({
             web: {
-                maxWidth: 500,
+                width: 500,
                 margin: 'auto',
                 
             },
@@ -140,12 +150,12 @@ const styles = {
     },
     title: {
         marginLeft: 10,
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     subText:
     {
-        fontSize: 12,
+        fontSize: 16,
         color: 'gray',
         marginLeft: 10,
     },
@@ -154,15 +164,14 @@ const styles = {
         alignItems: 'center',
     },
     testDetails: {
-        paddingHorizontal: 16,
-        flexDirection:'row',
-        justifyContent: 'space-between',
+        flexDirection: 'row',
         alignItems: 'center',
-
+        justifyContent: 'center',
+        
         
     },
     checklist: {
-        fontSize: 12,
+        fontSize: 18,
         color: 'gray',
     },
     testDescription: {
@@ -191,8 +200,7 @@ const styles = {
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#E5E5E5',
-        justifyContent: 'space-between',
-        
+        justifyContent: 'flex-end',
         paddingHorizontal: 16,
         paddingVertical: 12,
         backgroundColor: '#fff',
@@ -205,17 +213,19 @@ const styles = {
         backgroundColor: '#E5E5E5',
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 10,
+        marginRight: 10,
     },
     countButtonText: {
-        fontSize: 12,
+        fontSize: 16,
         fontWeight: 'bold',
     },
     count: {
-        fontSize: 12,
+        fontSize: 16,
         fontWeight: 'bold',
     },
     price: {
-        fontSize: 12,
+        fontSize: 16,
         fontWeight: 'bold',
     },
 };

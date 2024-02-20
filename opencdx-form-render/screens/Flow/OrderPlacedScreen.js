@@ -18,7 +18,7 @@ const styles = {
         padding: 10,
         ...Platform.select({
             web: {
-                maxWidth: 500,
+                width: 500,
                 margin: 'auto',
                 justifyContent: 'center',
                 alignItems: 'center',
