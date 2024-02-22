@@ -10,9 +10,8 @@
 2. Run the command "yarn start"
 
 # Run Cypress 
-npm install cypress --save-dev
-npm run cypress:open
-
+yarn add cypress --dev
+yarn run cypress open
 
 
 
