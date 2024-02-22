@@ -63,8 +63,7 @@ class OpenCDXPredictorServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXDocumentValidator);
+        this.predictorService = new OpenCDXPredictorServiceImpl(this.openCDXDocumentValidator);
     }
 
     @AfterEach

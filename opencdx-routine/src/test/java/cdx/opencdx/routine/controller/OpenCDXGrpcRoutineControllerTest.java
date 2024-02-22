@@ -86,8 +86,7 @@ class OpenCDXGrpcRoutineControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService = new OpenCDXRoutineServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXDocumentValidator);
+        this.routineService = new OpenCDXRoutineServiceImpl(openCDXCurrentUser, openCDXDocumentValidator);
         this.openCDXGrpcRoutineController = new OpenCDXGrpcRoutineController(this.routineService);
     }
 

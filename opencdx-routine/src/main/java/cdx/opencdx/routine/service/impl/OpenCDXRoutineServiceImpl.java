@@ -16,12 +16,10 @@
 package cdx.opencdx.routine.service.impl;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.routine.service.OpenCDXRoutineService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -35,12 +33,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
-
-    private static final String CONVERSION_ERROR = "Failed to convert Routine Request";
-    private static final String OBJECT = "OBJECT";
-
-    private final OpenCDXAuditService openCDXAuditService;
-    private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator opencdxDocumentValidator;
 
@@ -54,12 +46,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Autowired
     public OpenCDXRoutineServiceImpl(
-            OpenCDXAuditService openCDXAuditService,
-            ObjectMapper objectMapper,
-            OpenCDXCurrentUser openCDXCurrentUser,
-            OpenCDXDocumentValidator opencdxDocumentValidator) {
-        this.openCDXAuditService = openCDXAuditService;
-        this.objectMapper = objectMapper;
+            OpenCDXCurrentUser openCDXCurrentUser, OpenCDXDocumentValidator opencdxDocumentValidator) {
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.opencdxDocumentValidator = opencdxDocumentValidator;
     }

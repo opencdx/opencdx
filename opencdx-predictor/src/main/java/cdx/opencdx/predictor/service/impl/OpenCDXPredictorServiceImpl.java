@@ -15,14 +15,11 @@
  */
 package cdx.opencdx.predictor.service.impl;
 
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.predictor.PredictorOutput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.OpenCDXPredictorService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -44,8 +41,7 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
      * @param openCDXDocumentValidator Document Validator Service.
      */
     @Autowired
-    public OpenCDXPredictorServiceImpl(
-            OpenCDXDocumentValidator openCDXDocumentValidator) {
+    public OpenCDXPredictorServiceImpl(OpenCDXDocumentValidator openCDXDocumentValidator) {
 
         this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
