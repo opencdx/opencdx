@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Platform, TextInput, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
+import Colors from '../../utils/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const CartScreen = ({ route }) => {
@@ -123,16 +123,16 @@ const CartScreen = ({ route }) => {
                   
                 </View>
             </View>
-            <View style={styles.stickyBottom}>
-                <View style={styles.leftSection}>
 
-                        {/* Test Details */}
-                        <Text style={styles.subText}>$ {total} </Text>
-                    </View>
-                <TouchableOpacity onPress={() => navigation.navigate('OrderPlaced')} style={{backgroundColor: 'green', padding: 10, borderRadius: 10, marginLeft:5}}>
-                    <Text style={{color: '#fff', fontWeight: 'bold'}}>Proceed</Text>
-                </TouchableOpacity>
-                </View>
+            <View style={styles.footer}>
+            <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#fff' }}>
+              <TouchableOpacity style={styles.fullButton} onPress={() => navigation.navigate('OrderPlaced')} >
+                <Text style={styles.footerText}>Proceed</Text>
+                <Text style={styles.basketTotal}>${price * count}</Text>
+              </TouchableOpacity>
+          </SafeAreaView>
+        </View>
+           
         </View>
     );
 };
@@ -254,6 +254,48 @@ const styles = StyleSheet.create({
 
       
     },
+    footer: {
+        position: 'absolute',
+        backgroundColor: '#fff',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        padding: 10,
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -10 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+      },
+      fullButton: {
+        backgroundColor: 'rgb(0, 102, 255)',
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'space-between',
+        height: 50,
+        padding: 8,
+
+      },
+      footerText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+      },
+      basket: {
+        color: '#fff',
+        backgroundColor: 'rgb(0, 102, 255)',
+        fontWeight: 'bold',
+        padding: 8,
+        borderRadius: 2,
+      },
+      basketTotal: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+      },
 });
 
 export default CartScreen;
