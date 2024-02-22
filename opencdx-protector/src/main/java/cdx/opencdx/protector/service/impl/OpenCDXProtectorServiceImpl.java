@@ -36,35 +36,18 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
 
-    // Constants for error handling
-    private static final String CONVERSION_ERROR = "Failed to convert Protector Request";
-    private static final String OBJECT = "OBJECT";
     private static final String USERS = "users";
-
-    // Dependencies injected via constructor
-    private final OpenCDXAuditService openCDXAuditService;
-    private final ObjectMapper objectMapper;
-    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for OpenCDXProtectorServiceImpl.
      *
-     * @param openCDXAuditService Audit Service for recording
-     * @param objectMapper        Object mapper for JSON processing
-     * @param openCDXCurrentUser  Current user system
      * @param openCDXDocumentValidator Document validator
      */
     @Autowired
     public OpenCDXProtectorServiceImpl(
-            OpenCDXAuditService openCDXAuditService,
-            ObjectMapper objectMapper,
-            OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXDocumentValidator openCDXDocumentValidator) {
-        this.openCDXAuditService = openCDXAuditService;
-        this.objectMapper = objectMapper;
-        this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
@@ -72,7 +55,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     public SecurityResponse detectAnomalies(AnomalyDetectionDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 USERS, new ObjectId(request.getAnomalyDetectionData().getUserId()));
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
 
         // Placeholder implementation for detecting anomalies
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -123,7 +105,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     public SecurityResponse analyzeUserBehavior(UserBehaviorAnalysisDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 USERS, new ObjectId(request.getUserBehaviorAnalysisData().getUserId()));
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
 
         // Placeholder implementation for analyzing user behavior
         // Actual implementation should analyze the request and provide a SecurityResponse
