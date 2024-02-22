@@ -30,7 +30,19 @@ handle_error() {
     fi
     exit 1
 }
-
+# Parameters: $1 - Information message
+handle_warn() {
+    if [ -t 1 ]; then
+        # Check if stdout is a terminal
+        echo -e "${RED}$1${NC}"
+        echo -e "${GREEN}Press any key to continue...${NC}"
+        read -n 1  # waits for one character of input
+    else
+        echo "$1"
+        echo "Press any key to continue..."
+        read -n 1  # waits for one character of input
+    fi
+}
 # Function to handle information messages
 # Parameters: $1 - Information message
 handle_info() {
@@ -71,7 +83,33 @@ if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
   LAST_COMMIT=$(git rev-parse --short HEAD)
 fi
 
+delete_except() {
+  dir=$1
+  shift
+  excludes=("$@")
 
+  for file in "$dir"/*; do
+    delete=true
+    for exclude in "${excludes[@]}"; do
+      if [[ $(basename "$file") == "$exclude" ]]; then
+        delete=false
+        break
+      fi
+    done
+
+    if $delete; then
+      handle_info "Deleting $file"
+      rm -rf "$file"
+    fi
+  done
+}
+
+check_tinkar_directory() {
+  dir="./data/solor-us-tinkar.sa"
+  if [[ ! -d "$dir" ]]; then
+    handle_warn "Error: Directory $dir does not exist. Please copy solor-us-tinkar.sa to the data directory, for opencdx-tinkar to function."
+  fi
+}
 
 generate_version_number() {
   # Check if $skip variable is set to true
@@ -732,6 +770,8 @@ if [[ "$java_version" == *"$required_jdk_version"* ]]; then
 else
     handle_error "JDK $required_jdk_version is required. Please install the required JDK version."
 fi
+# Check for Tinkar Directory
+check_tinkar_directory
 
 # Check for Docker
 if ! command -v docker &> /dev/null; then
@@ -775,7 +815,7 @@ if [ "$skip" = false ]; then
 fi
 if [ "$wipe" = true ]; then
     handle_info "Wiping Data"
-    rm -rf ./data
+    delete_except ./data solor-us-tinkar.sa
 fi
 if [ "$cert" = true ]; then
     handle_info "Wiping Certificates"
