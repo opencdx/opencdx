@@ -9,5 +9,10 @@
 1. Run the command "yarn install" in the "opencdx-dashboard" directory.
 2. Run the command "yarn start"
 
+# Run Cypress 
+npm install cypress --save-dev
+npm run cypress:open
+
+
 
 
