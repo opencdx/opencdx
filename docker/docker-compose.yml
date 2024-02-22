@@ -460,6 +460,8 @@ services:
     restart: unless-stopped
   zipkin:
     image: openzipkin/zipkin:2
+    volumes:
+      - ../certs:/certs
     environment:
       - STORAGE_TYPE=mysql
       # Point the zipkin at the storage backend
@@ -472,9 +474,9 @@ services:
       - SELF_TRACING_ENABLED=true
       # Uncomment to enable debug logging
       #- JAVA_OPTS=-Dlogging.level.zipkin=DEBUG -Xms512m -Xmx1g
-      - JAVA_OPTS=-Xms512m -Xmx1g
+      - JAVA_OPTS=-Xms512m -Xmx1g -Darmeria.ssl.key-store=/certs/opencdx-keystore.p12 -Darmeria.ssl.key-store-type=PKCS12 -Darmeria.ssl.key-store-password=opencdx -Darmeria.ssl.key-alias=zipkin  -Darmeria.ssl.enabled=true -Darmeria.ssl.trust-store=/certs/opencdx-keystore.p12 -Darmeria.ssl.trust-store-type=PKCS12 -Darmeria.ssl.trust-store-password=opencdx -Darmeria.ports[0].port=9411 -Darmeria.ports[0].protocols[0]=https
     healthcheck:
-      test: "curl --fail --silent localhost:9411/actuator/health | grep UP || exit 1"
+      test: "curl -k --fail --silent https://localhost:9411/actuator/health | grep UP || exit 1"
       interval: 5s
       timeout: 5s
       retries: 5
