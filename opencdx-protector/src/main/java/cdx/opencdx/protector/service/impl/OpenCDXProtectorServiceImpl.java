@@ -15,18 +15,14 @@
  */
 package cdx.opencdx.protector.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.neural.protector.*;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,23 +73,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 USERS, new ObjectId(request.getAnomalyDetectionData().getUserId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Anomaly Detection record",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "ANOMALY_DETECTION: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         // Placeholder implementation for detecting anomalies
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -107,24 +86,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     public SecurityResponse enforceAuthorizationControl(AuthorizationControlDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 USERS, new ObjectId(request.getAuthorizationControlData().getUserId()));
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Authorization Control record",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "AUTHORIZATION_CONTROL: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         // Placeholder implementation for enforcing authorization control
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -136,24 +97,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
 
     @Override
     public SecurityResponse protectPrivacy(PrivacyProtectionDataRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Privacy Protection record",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "PRIVACY_PROTECTION: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         // Placeholder implementation for privacy protection
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -167,24 +110,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
     public SecurityResponse monitorRealTimeActivity(RealTimeMonitoringDataRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 USERS, new ObjectId(request.getRealTimeMonitoringData().getMonitoredEntity()));
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Real-time Monitoring record",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "REAL_TIME_MONITORING: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         // Placeholder implementation for monitoring real-time activity
         // Actual implementation should analyze the request and provide a SecurityResponse
@@ -199,23 +124,6 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 USERS, new ObjectId(request.getUserBehaviorAnalysisData().getUserId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "User Behavior Analysis record",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "USER_BEHAVIOR_ANALYSIS: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         // Placeholder implementation for analyzing user behavior
         // Actual implementation should analyze the request and provide a SecurityResponse

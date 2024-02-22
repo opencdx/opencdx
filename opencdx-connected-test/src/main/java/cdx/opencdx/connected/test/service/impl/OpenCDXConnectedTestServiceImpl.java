@@ -19,7 +19,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
@@ -60,7 +61,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXCommunicationService openCDXCommunicationService;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
@@ -72,7 +73,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * @param openCDXCurrentUser             Current User Service
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      * @param openCDXCommunicationService    Communication Service for informing user test received.
-     * @param openCDXIAMUserRepository       Repository to look up patient.
+     * @param openCDXProfileRepository        Repository for profiles
      * @param openCDXDocumentValidator       Validator for documents
      * @param openCDXClassificationMessageService Service for submitting connected tests for classification
      */
@@ -82,7 +83,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
             OpenCDXCommunicationService openCDXCommunicationService,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXDocumentValidator openCDXDocumentValidator,
             OpenCDXClassificationMessageService openCDXClassificationMessageService) {
         this.openCDXAuditService = openCDXAuditService;
@@ -90,7 +91,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXCommunicationService = openCDXCommunicationService;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
     }
@@ -114,7 +115,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "media", new ObjectId(connectedTest.getTestDetails().getMediaId()));
 
-        OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(patientID)
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find patient"));
 

@@ -16,8 +16,8 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
@@ -42,7 +42,7 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
 
     private final OpenCDXMessageService messageService;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
 
     /**
      * Constructor to use the OpenCDXMessageService to send the notificaiton.
@@ -53,10 +53,10 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     public OpenCDXClassificationMessageServiceImpl(
             OpenCDXMessageService messageService,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository) {
         this.messageService = messageService;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
     }
 
     @Override
@@ -105,19 +105,19 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
 
     private UserAnswer.Builder getUserPreparedAnswer(ObjectId userId) {
         log.trace("Validating User");
-        OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(userId)
                 .orElseThrow(() -> new OpenCDXNotFound(
                         "OpenCDXClassificationMessageServiceImpl", 1, "User " + userId + " does not found "));
 
         UserAnswer.Builder builder = UserAnswer.newBuilder().setUserId(userId.toHexString());
 
-        if (user.getGender() != null) {
-            builder.setGender(user.getGender());
+        if (patient.getGender() != null) {
+            builder.setGender(patient.getGender());
         }
 
-        if (user.getDateOfBirth() != null) {
-            Instant dobInstant = user.getDateOfBirth();
+        if (patient.getDateOfBirth() != null) {
+            Instant dobInstant = patient.getDateOfBirth();
             ZonedDateTime dobZoned = dobInstant.atZone(ZoneId.systemDefault());
             Period age =
                     Period.between(dobZoned.toLocalDate(), ZonedDateTime.now().toLocalDate());

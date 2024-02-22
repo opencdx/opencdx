@@ -18,7 +18,8 @@ package cdx.opencdx.connected.test.controller;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
@@ -75,7 +76,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     OpenCDXGrpcConnectedTestController openCDXGrpcConnectedTestController;
 
     @Mock
-    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    OpenCDXProfileRepository openCDXProfileRepository;
 
     @Autowired
     OpenCDXCommunicationService openCDXCommunicationService;
@@ -95,20 +96,18 @@ class OpenCDXGrpcConnectedTestControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMUserModel.builder()
+                        return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
-                                .username("ab@safehealth.me")
                                 .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllEmails(List.of(EmailAddress.newBuilder()
@@ -120,13 +119,12 @@ class OpenCDXGrpcConnectedTestControllerTest {
                                                 .setNumber("1234567890")
                                                 .build()))
                                         .build())
-                                .emailVerified(true)
                                 .build());
                     }
                 });
 
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
-                this.openCDXMessageService, this.openCDXDocumentValidator, this.openCDXIAMUserRepository);
+                this.openCDXMessageService, this.openCDXDocumentValidator, this.openCDXProfileRepository);
 
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService,
@@ -134,7 +132,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 objectMapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         this.openCDXGrpcConnectedTestController =
@@ -261,7 +259,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         this.openCDXGrpcConnectedTestController =
@@ -374,7 +372,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         this.openCDXGrpcConnectedTestController =

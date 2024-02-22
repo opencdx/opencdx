@@ -15,20 +15,15 @@
  */
 package cdx.opencdx.predictor.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.neural.predictor.PredictorOutput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.OpenCDXPredictorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,24 +77,6 @@ public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
     public PredictorResponse predict(PredictorRequest request) {
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "connected-test", new ObjectId(request.getPredictorInput().getTestId()));
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Prediction request",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "PREDICTOR: 131",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         return PredictorResponse.newBuilder()
                 .setPredictorOutput(PredictorOutput.newBuilder()

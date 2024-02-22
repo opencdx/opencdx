@@ -18,13 +18,13 @@ package cdx.opencdx.iam.service.impl;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,7 +51,7 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
     private static final String COUNTRY = "country";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
@@ -60,26 +60,26 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
      *
      * @param objectMapper             Jackson Objectmapper to use
      * @param openCDXAuditService      Audit service to record events
-     * @param openCDXIAMUserRepository User Repository
+     * @param openCDXProfileRepository Profile repository
      * @param openCDXCurrentUser Service to get Current user.
      * @param openCDXDocumentValidator Document validator
      */
     public OpenCDXIAMProfileServiceImpl(
             ObjectMapper objectMapper,
             OpenCDXAuditService openCDXAuditService,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 
     @Override
     public UserProfileResponse getUserProfile(UserProfileRequest request) {
-        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+        OpenCDXProfileModel model = this.openCDXProfileRepository
                 .findById(new ObjectId(request.getUserId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed t" + "o find user: " + request.getUserId()));
 
@@ -151,11 +151,11 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                             request.getUpdatedProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
-        OpenCDXIAMUserModel model = this.openCDXIAMUserRepository
+        OpenCDXProfileModel model = this.openCDXProfileRepository
                 .findById(new ObjectId(request.getUserId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_USER + request.getUserId()));
 
-        model = this.openCDXIAMUserRepository.save(model.update(request.getUpdatedProfile()));
+        model = this.openCDXProfileRepository.save(model.update(request.getUpdatedProfile()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -181,13 +181,13 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
 
     @Override
     public DeleteUserProfileResponse deleteUserProfile(DeleteUserProfileRequest request) {
-        OpenCDXIAMUserModel userModel = this.openCDXIAMUserRepository
+        OpenCDXProfileModel userModel = this.openCDXProfileRepository
                 .findById(new ObjectId(request.getUserId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, FAILED_TO_FIND_USER + request.getUserId()));
 
-        userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
+        userModel.setActive(false);
 
-        userModel = this.openCDXIAMUserRepository.save(userModel);
+        userModel = this.openCDXProfileRepository.save(userModel);
         log.trace("Deleted User: {}", request.getUserId());
 
         try {

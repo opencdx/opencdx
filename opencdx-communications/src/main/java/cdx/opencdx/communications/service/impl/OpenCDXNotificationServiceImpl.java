@@ -19,7 +19,9 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -74,6 +76,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final ObjectMapper objectMapper;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
     /**
      * Constructor taking some repositoroes
      *
@@ -89,6 +92,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      * @param openCDXDocumentValidator           Document Validator for validating documents.
      * @param openCDXIAMUserRepository           Repository for accessing IAM Users.
+     * @param openCDXProfileRepository           Repository for accessing Profiles.
      */
     @Autowired
     public OpenCDXNotificationServiceImpl(
@@ -103,7 +107,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXProfileRepository openCDXProfileRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
@@ -116,6 +121,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
     }
 
     @Override
@@ -315,8 +321,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
     private void recordAudit(
             CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, ObjectId patientId) {
-        OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
-                .findById(patientId)
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
+                .findByUserId(patientId)
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Patient Not Found"));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

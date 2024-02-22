@@ -15,18 +15,14 @@
  */
 package cdx.opencdx.routine.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.routine.service.OpenCDXRoutineService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,25 +72,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public RoutineResponse createRoutine(RoutineRequest request) {
 
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Routine record create",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "ROUTINE: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
-
         return RoutineResponse.newBuilder().setRoutine(request.getRoutine()).build();
     }
 
@@ -106,48 +83,12 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public RoutineResponse getRoutine(RoutineRequest request) {
 
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Routine record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "ROUTINE: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
-
         return RoutineResponse.newBuilder().setRoutine(request.getRoutine()).build();
     }
 
     @Override
     public DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Delivery Tracking record create",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "DELIVERY_TRACKING: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return DeliveryTrackingResponse.newBuilder()
                 .setDeliveryTracking(request.getDeliveryTracking())
                 .build();
@@ -161,23 +102,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Delivery Tracking record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "DELIVERY_TRACKING: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
 
         return DeliveryTrackingResponse.newBuilder()
                 .setDeliveryTracking(request.getDeliveryTracking())
@@ -192,23 +116,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
     @Override
     public ClinicalProtocolExecutionResponse createClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Clinical Protocol Execution record create",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "CLINICAL_PROTOCOL_EXECUTION: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return ClinicalProtocolExecutionResponse.newBuilder()
                 .setClinicalProtocolExecution(request.getClinicalProtocolExecution())
                 .build();
@@ -221,24 +129,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public ClinicalProtocolExecutionResponse getClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Clinical Protocol Execution record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "CLINICAL_PROTOCOL_EXECUTION: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return ClinicalProtocolExecutionResponse.newBuilder()
                 .setClinicalProtocolExecution(request.getClinicalProtocolExecution())
                 .build();
@@ -254,24 +145,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getLabOrder().getRelatedEntitiesList().stream()
                 .map(ObjectId::new)
                 .toList());
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Lab Order record trigger",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "LAB_ORDER: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return LabOrderResponse.newBuilder().setLabOrder(request.getLabOrder()).build();
     }
 
@@ -282,24 +156,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public LabOrderResponse getLabOrder(LabOrderRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Lab Order record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "LAB_ORDER: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return LabOrderResponse.newBuilder().setLabOrder(request.getLabOrder()).build();
     }
 
@@ -313,24 +170,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getDiagnosis().getRelatedEntitiesList().stream()
                 .map(ObjectId::new)
                 .toList());
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Diagnosis record trigger",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "DIAGNOSIS: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return DiagnosisResponse.newBuilder()
                 .setDiagnosis(request.getDiagnosis())
                 .build();
@@ -343,24 +183,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public DiagnosisResponse getDiagnosis(DiagnosisRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Diagnosis record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "DIAGNOSIS: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return DiagnosisResponse.newBuilder()
                 .setDiagnosis(request.getDiagnosis())
                 .build();
@@ -377,24 +200,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                 request.getSuspectedDiagnosis().getRelatedEntitiesList().stream()
                         .map(ObjectId::new)
                         .toList());
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Suspected Diagnosis record trigger",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "SUSPECTED_DIAGNOSIS: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return SuspectedDiagnosisResponse.newBuilder()
                 .setSuspectedDiagnosis(request.getSuspectedDiagnosis())
                 .build();
@@ -407,24 +213,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public SuspectedDiagnosisResponse getSuspectedDiagnosis(SuspectedDiagnosisRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Suspected Diagnosis record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "SUSPECTED_DIAGNOSIS: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return SuspectedDiagnosisResponse.newBuilder()
                 .setSuspectedDiagnosis(request.getSuspectedDiagnosis())
                 .build();
@@ -440,24 +229,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getLabResult().getRelatedEntitiesList().stream()
                 .map(ObjectId::new)
                 .toList());
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Lab Result record trigger",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "LAB_RESULT: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return LabResultResponse.newBuilder()
                 .setLabResult(request.getLabResult())
                 .build();
@@ -470,24 +242,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public LabResultResponse getLabResult(LabResultRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Lab Result record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "LAB_RESULT: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return LabResultResponse.newBuilder()
                 .setLabResult(request.getLabResult())
                 .build();
@@ -503,24 +258,7 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
         this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getMedication().getRelatedEntitiesList().stream()
                 .map(ObjectId::new)
                 .toList());
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Medication record trigger",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "MEDICATION: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
+
         return MedicationResponse.newBuilder()
                 .setMedication(request.getMedication())
                 .build();
@@ -533,24 +271,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public MedicationResponse getMedication(MedicationRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
-        try {
-            this.openCDXAuditService.phiCreated(
-                    currentUser.getId().toHexString(),
-                    currentUser.getAgentType(),
-                    "Medication record requested",
-                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
-                    "MEDICATION: 145",
-                    this.objectMapper.writeValueAsString(request.toString()));
-        } catch (JsonProcessingException e) {
-            OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(this.getClass().getName(), 2, CONVERSION_ERROR, e);
-            openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
-            throw openCDXNotAcceptable;
-        }
         return MedicationResponse.newBuilder()
                 .setMedication(request.getMedication())
                 .build();
