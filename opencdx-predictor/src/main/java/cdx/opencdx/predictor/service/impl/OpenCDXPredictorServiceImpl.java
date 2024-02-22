@@ -36,34 +36,17 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXPredictorServiceImpl implements OpenCDXPredictorService {
-
-    // Constants for error handling
-    private static final String CONVERSION_ERROR = "Failed to convert Predictor Request";
-    private static final String OBJECT = "OBJECT";
-
-    // Dependencies injected via constructor
-    private final OpenCDXAuditService openCDXAuditService;
-    private final ObjectMapper objectMapper;
-    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
 
     /**
      * Constructor for OpenCDXPredictorServiceImpl.
      *
-     * @param openCDXAuditService Audit service for tracking FDA requirements
-     * @param objectMapper        Object mapper for JSON processing
-     * @param openCDXCurrentUser  Current User Service.
      * @param openCDXDocumentValidator Document Validator Service.
      */
     @Autowired
     public OpenCDXPredictorServiceImpl(
-            OpenCDXAuditService openCDXAuditService,
-            ObjectMapper objectMapper,
-            OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXDocumentValidator openCDXDocumentValidator) {
-        this.openCDXAuditService = openCDXAuditService;
-        this.objectMapper = objectMapper;
-        this.openCDXCurrentUser = openCDXCurrentUser;
+
         this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 

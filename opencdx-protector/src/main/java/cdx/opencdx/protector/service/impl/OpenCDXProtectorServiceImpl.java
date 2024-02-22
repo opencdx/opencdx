@@ -15,13 +15,9 @@
  */
 package cdx.opencdx.protector.service.impl;
 
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.neural.protector.*;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -46,8 +42,7 @@ public class OpenCDXProtectorServiceImpl implements OpenCDXProtectorService {
      * @param openCDXDocumentValidator Document validator
      */
     @Autowired
-    public OpenCDXProtectorServiceImpl(
-            OpenCDXDocumentValidator openCDXDocumentValidator) {
+    public OpenCDXProtectorServiceImpl(OpenCDXDocumentValidator openCDXDocumentValidator) {
         this.openCDXDocumentValidator = openCDXDocumentValidator;
     }
 

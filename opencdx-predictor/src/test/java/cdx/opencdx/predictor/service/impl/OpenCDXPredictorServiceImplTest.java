@@ -64,7 +64,7 @@ class OpenCDXPredictorServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator);
     }
 
     @AfterEach

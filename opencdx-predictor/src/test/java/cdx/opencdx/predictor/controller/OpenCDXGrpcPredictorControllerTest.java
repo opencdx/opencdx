@@ -66,7 +66,7 @@ class OpenCDXGrpcPredictorControllerTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
+               this.openCDXDocumentValidator);
         this.grpcPredictorController = new OpenCDXGrpcPredictorController(this.predictorService);
     }
 

@@ -70,7 +70,7 @@ class OpenCDXProtectorServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.protectorService = new OpenCDXProtectorServiceImpl( this.openCDXDocumentValidator);
+        this.protectorService = new OpenCDXProtectorServiceImpl(this.openCDXDocumentValidator);
     }
 
     @AfterEach
