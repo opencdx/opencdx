@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -171,7 +172,8 @@ class OpenCDXGrpcANFControllerTest {
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
                 .setId(openCDXANFStatementModel.getId().toString())
                 .build();
-        this.openCDXGrpcANFController.getANFStatement(identifier, responseObserver);
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcANFController.getANFStatement(identifier, responseObserver));
     }
 
     @Test
@@ -212,6 +214,7 @@ class OpenCDXGrpcANFControllerTest {
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
                 .setId(openCDXANFStatementModel.getId().toString())
                 .build();
-        this.openCDXGrpcANFController.deleteANFStatement(identifier, responseObserver);
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcANFController.deleteANFStatement(identifier, responseObserver));
     }
 }

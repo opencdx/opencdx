@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.routine.service.impl;
 
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.*;
 import cdx.opencdx.routine.service.OpenCDXRoutineService;
@@ -33,21 +31,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
-    private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXDocumentValidator opencdxDocumentValidator;
 
     /**
      * Constructor for OpenCDXRoutineServiceImpl.
      *
-     * @param openCDXAuditService Audit Service for recording
-     * @param objectMapper        Object mapper for JSON processing
-     * @param openCDXCurrentUser  Current user system
      * @param opencdxDocumentValidator Document validator
      */
     @Autowired
-    public OpenCDXRoutineServiceImpl(
-            OpenCDXCurrentUser openCDXCurrentUser, OpenCDXDocumentValidator opencdxDocumentValidator) {
-        this.openCDXCurrentUser = openCDXCurrentUser;
+    public OpenCDXRoutineServiceImpl(OpenCDXDocumentValidator opencdxDocumentValidator) {
         this.opencdxDocumentValidator = opencdxDocumentValidator;
     }
 
@@ -88,7 +80,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
 
         return DeliveryTrackingResponse.newBuilder()
                 .setDeliveryTracking(request.getDeliveryTracking())
@@ -102,7 +93,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
      */
     @Override
     public ClinicalProtocolExecutionResponse createClinicalProtocolExecution(ClinicalProtocolExecutionRequest request) {
-        OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
 
         return ClinicalProtocolExecutionResponse.newBuilder()
                 .setClinicalProtocolExecution(request.getClinicalProtocolExecution())

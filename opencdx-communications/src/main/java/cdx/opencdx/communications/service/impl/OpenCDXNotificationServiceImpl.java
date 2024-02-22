@@ -20,7 +20,6 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -75,7 +74,6 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
     /**
      * Constructor taking some repositoroes
@@ -91,7 +89,6 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      * @param openCDXDocumentValidator           Document Validator for validating documents.
-     * @param openCDXIAMUserRepository           Repository for accessing IAM Users.
      * @param openCDXProfileRepository           Repository for accessing Profiles.
      */
     @Autowired
@@ -107,7 +104,6 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository,
             OpenCDXProfileRepository openCDXProfileRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
@@ -120,7 +116,6 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
     }
 

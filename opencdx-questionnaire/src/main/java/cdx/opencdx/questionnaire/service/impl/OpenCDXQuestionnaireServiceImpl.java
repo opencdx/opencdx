@@ -19,7 +19,6 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
@@ -55,7 +54,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     // Constants for error handling
     private static final String CONVERSION_ERROR = "Failed to convert Questionnaire Request";
     private static final String OBJECT = "OBJECT";
-    private static final String AUTHORIZATION_CONTROL = "AUTHORIZATION_CONTROL: 131";
     private static final String ACTIVE = "Active";
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
@@ -67,7 +65,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository;
     private final OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
     private final OpenCDXRuleSetRepository openCDXRuleSetRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
@@ -81,7 +78,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
      * @param openCDXCurrentUser         the OpenCDXCurrentUser instance used for managing user information
      * @param openCDXQuestionnaireRepository   the OpenCDXQuestionnaireRepository instance used for interacting with questionnaire data
      * @param openCDXUserQuestionnaireRepository the OpenCDXUserQuestionnaireRepository instance used for interacting with the questionnaire-user data
-     * @param openCDXIAMUserRepository this OpenCDXIAMUserRepository instance used for interacting with the user data.
      * @param openCDXClassificationMessageService the OpenCDXClassificationMessageService instance used for interacting with the classification message service.
      * @param openCDXRuleSetRepository the OpenCDXRuleSetRepository instance used for interacting with the ruleset data.
      * @param openCDXProfileRepository the OpenCDXProfileRepository instance used for interacting with the profile data.
@@ -93,7 +89,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXQuestionnaireRepository openCDXQuestionnaireRepository,
             OpenCDXUserQuestionnaireRepository openCDXUserQuestionnaireRepository,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository,
             OpenCDXClassificationMessageService openCDXClassificationMessageService,
             OpenCDXRuleSetRepository openCDXRuleSetRepository,
             OpenCDXProfileRepository openCDXProfileRepository) {
@@ -102,7 +97,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXQuestionnaireRepository = openCDXQuestionnaireRepository;
         this.openCDXUserQuestionnaireRepository = openCDXUserQuestionnaireRepository;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
         this.openCDXRuleSetRepository = openCDXRuleSetRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;

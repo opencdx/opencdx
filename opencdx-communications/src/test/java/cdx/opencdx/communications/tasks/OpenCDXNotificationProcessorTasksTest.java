@@ -196,7 +196,6 @@ class OpenCDXNotificationProcessorTasksTest {
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,
-                this.openCDXIAMUserRepository,
                 openCDXProfileRepository);
 
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");

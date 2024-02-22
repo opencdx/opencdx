@@ -189,7 +189,6 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 openCDXCommunicationEmailService,
                 objectMapper,
                 this.openCDXDocumentValidator,
-                this.openCDXIAMUserRepository,
                 openCDXProfileRepository);
         this.openCDXGrpcCommunicationsController = new OpenCDXGrpcCommunicationsController(
                 this.openCDXNotificationService, openCDXCommunicationEmailService, openCDXCommunicationSmsService);

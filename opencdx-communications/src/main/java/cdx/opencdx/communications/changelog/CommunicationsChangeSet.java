@@ -45,6 +45,7 @@ public class CommunicationsChangeSet {
     private static final String LAST_NAME = "lastName";
 
     private static final String SYSTEM = "SYSTEM";
+    public static final String USER_NAME = "userName";
 
     /**
      * Default Consructor
@@ -82,14 +83,14 @@ public class CommunicationsChangeSet {
 
                         Thank you!
                         """)
-                .variables(List.of("userName"))
+                .variables(List.of(USER_NAME))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373c"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
                 .message(
                         "Welcome [[${userName}]]  to OpenCDX. Your account has been setup with your username: [[${userName}]].")
-                .variables(List.of("userName"))
+                .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373e"))
@@ -381,7 +382,7 @@ public class CommunicationsChangeSet {
 
                         Thank you!
                         """)
-                .variables(List.of("userName", "verification_server", "user_id"))
+                .variables(List.of(USER_NAME, "verification_server", "user_id"))
                 .build();
 
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -424,13 +425,13 @@ public class CommunicationsChangeSet {
 
                         Thank you!
                         """)
-                .variables(List.of("userName"))
+                .variables(List.of(USER_NAME))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3753"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("your password has changed for account: ${userName}")
-                .variables(List.of("userName"))
+                .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3750"))

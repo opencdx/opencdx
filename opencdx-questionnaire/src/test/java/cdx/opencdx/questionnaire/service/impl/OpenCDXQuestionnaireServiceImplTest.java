@@ -243,7 +243,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -274,7 +273,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -334,7 +332,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -476,7 +473,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -513,7 +509,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -537,7 +532,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -575,7 +569,6 @@ class OpenCDXQuestionnaireServiceImplTest {
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireRepository,
                 this.openCDXUserQuestionnaireRepository,
-                this.openCDXIAMUserRepository,
                 this.openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);

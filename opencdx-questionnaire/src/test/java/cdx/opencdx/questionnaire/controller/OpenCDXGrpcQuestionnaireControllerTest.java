@@ -269,7 +269,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -360,7 +359,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -394,7 +392,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -434,7 +431,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -490,7 +486,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -609,7 +604,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -643,7 +637,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -861,7 +854,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -913,7 +905,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -961,7 +952,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -1054,7 +1044,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -1087,7 +1076,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -1121,7 +1109,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -1159,7 +1146,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);
@@ -1197,7 +1183,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 this.openCDXCurrentUser,
                 openCDXQuestionnaireRepository,
                 openCDXUserQuestionnaireRepository,
-                openCDXIAMUserRepository,
                 openCDXClassificationMessageService,
                 this.openCDXRuleSetRepository,
                 this.openCDXProfileRepository);

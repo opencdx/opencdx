@@ -190,7 +190,6 @@ class OpenCDXNotificationServiceImplTest {
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,
-                this.openCDXIAMUserRepository,
                 openCDXProfileRepository);
     }
 
@@ -783,7 +782,6 @@ class OpenCDXNotificationServiceImplTest {
                 this.openCDXCommunicationEmailService,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
-                this.openCDXIAMUserRepository,
                 openCDXProfileRepository);
 
         Assertions.assertDoesNotThrow(() -> {
