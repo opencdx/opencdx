@@ -55,7 +55,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -113,7 +112,6 @@ class OpenCDXClassificationServiceImplTest {
 
     @Mock
     OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
-
 
     OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
 

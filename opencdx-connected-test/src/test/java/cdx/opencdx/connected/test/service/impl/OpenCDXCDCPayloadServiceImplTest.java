@@ -19,9 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
@@ -36,8 +34,6 @@ import cdx.opencdx.grpc.connected.BasicInfo;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.OrderableTestResult;
 import cdx.opencdx.grpc.connected.TestDetails;
-import cdx.opencdx.grpc.iam.IamUser;
-import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import com.google.protobuf.Timestamp;
@@ -334,8 +330,7 @@ class OpenCDXCDCPayloadServiceImplTest {
     }
 
     private OpenCDXProfileModel createUser1(String userId) {
-        OpenCDXProfileModel openCDXProfileModel =
-                new OpenCDXProfileModel();
+        OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")
@@ -383,8 +378,7 @@ class OpenCDXCDCPayloadServiceImplTest {
     }
 
     private OpenCDXProfileModel createUser2(String userId) {
-        OpenCDXProfileModel openCDXProfileModel =
-                new OpenCDXProfileModel();
+        OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")
@@ -432,8 +426,7 @@ class OpenCDXCDCPayloadServiceImplTest {
     }
 
     private OpenCDXProfileModel createUser3(String userId) {
-        OpenCDXProfileModel openCDXProfileModel =
-                new OpenCDXProfileModel();
+        OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")
@@ -474,8 +467,7 @@ class OpenCDXCDCPayloadServiceImplTest {
     }
 
     private OpenCDXProfileModel createUser4(String userId) {
-        OpenCDXProfileModel openCDXProfileModel =
-                new OpenCDXProfileModel();
+        OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
         openCDXProfileModel.setUserId(new ObjectId(userId));
         openCDXProfileModel.setId(new ObjectId(userId));
         openCDXProfileModel.setFullName(FullName.newBuilder()

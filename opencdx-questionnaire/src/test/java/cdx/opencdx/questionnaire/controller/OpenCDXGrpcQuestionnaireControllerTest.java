@@ -39,7 +39,6 @@ import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -686,7 +685,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
-
     @Test
     void updateQuestionnaireData() {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -731,7 +729,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
-
     @Test
     void deleteQuestionnaireData() {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -748,7 +745,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
-
 
     // Client Level Questionnaire
     @Test
@@ -768,7 +764,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
-
 
     @Test
     void updateClientQuestionnaireData() {
@@ -817,7 +812,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
-
     @Test
     void deleteClientQuestionnaireData() {
         StreamObserver<SubmissionResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -834,7 +828,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(SubmissionResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
-
 
     // User Level Questionnaire
     @Test

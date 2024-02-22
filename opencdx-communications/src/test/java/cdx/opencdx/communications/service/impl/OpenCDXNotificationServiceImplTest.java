@@ -113,7 +113,6 @@ class OpenCDXNotificationServiceImplTest {
         this.openCDXSMSTemplateRespository = Mockito.mock(OpenCDXSMSTemplateRespository.class);
         this.openCDXNotificaitonRepository = Mockito.mock(OpenCDXNotificaitonRepository.class);
 
-
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
@@ -153,9 +152,8 @@ class OpenCDXNotificationServiceImplTest {
                 });
 
         Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
-                        .build()));
+                .thenReturn(Optional.of(
+                        OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
@@ -785,7 +783,8 @@ class OpenCDXNotificationServiceImplTest {
                 this.openCDXCommunicationEmailService,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
-                this.openCDXIAMUserRepository,openCDXProfileRepository);
+                this.openCDXIAMUserRepository,
+                openCDXProfileRepository);
 
         Assertions.assertDoesNotThrow(() -> {
             openCDXNotificationService.processOpenCDXNotification(notification);

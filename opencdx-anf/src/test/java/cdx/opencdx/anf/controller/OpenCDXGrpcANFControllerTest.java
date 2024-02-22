@@ -16,7 +16,6 @@
 package cdx.opencdx.anf.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
 import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
@@ -33,7 +32,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,7 +143,9 @@ class OpenCDXGrpcANFControllerTest {
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .build())
-                .setSubjectOfRecord(AnfStatement.Participant.newBuilder().setId(ObjectId.get().toHexString()).build())
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
                 .build();
         this.openCDXGrpcANFController.createANFStatement(anfStatement, responseObserver);
 
@@ -162,7 +162,12 @@ class OpenCDXGrpcANFControllerTest {
         Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(OpenCDXANFStatementModel.builder().id(ObjectId.get()).subjectOfRecord(AnfStatement.Participant.newBuilder().setId(ObjectId.get().toHexString()).build()).build()));
+                .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
+                        .id(ObjectId.get())
+                        .subjectOfRecord(AnfStatement.Participant.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build())
+                        .build()));
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
                 .setId(openCDXANFStatementModel.getId().toString())
                 .build();
@@ -178,7 +183,9 @@ class OpenCDXGrpcANFControllerTest {
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .build())
-                .setSubjectOfRecord(AnfStatement.Participant.newBuilder().setId(ObjectId.get().toHexString()).build())
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setId(ObjectId.get().toHexString())
+                        .build())
                 .build();
 
         this.openCDXGrpcANFController.updateANFStatement(anfStatement, responseObserver);
@@ -196,7 +203,12 @@ class OpenCDXGrpcANFControllerTest {
         Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(OpenCDXANFStatementModel.builder().id(ObjectId.get()).subjectOfRecord(AnfStatement.Participant.newBuilder().setId(ObjectId.get().toHexString()).build()).build()));
+                .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
+                        .id(ObjectId.get())
+                        .subjectOfRecord(AnfStatement.Participant.newBuilder()
+                                .setId(ObjectId.get().toHexString())
+                                .build())
+                        .build()));
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
                 .setId(openCDXANFStatementModel.getId().toString())
                 .build();

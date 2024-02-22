@@ -118,7 +118,6 @@ class OpenCDXNotificationProcessorTasksTest {
         this.openCDXCommunicationEmailService = Mockito.mock(OpenCDXCommunicationEmailService.class);
         this.openCDXCommunicationSmsService = Mockito.mock(OpenCDXCommunicationSmsService.class);
 
-
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
@@ -165,9 +164,8 @@ class OpenCDXNotificationProcessorTasksTest {
                 .then(AdditionalAnswers.returnsFirstArg());
 
         Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
-                        .id(ObjectId.get())
-                        .build()));
+                .thenReturn(Optional.of(
+                        OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
 
         Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXNotificationModel>() {

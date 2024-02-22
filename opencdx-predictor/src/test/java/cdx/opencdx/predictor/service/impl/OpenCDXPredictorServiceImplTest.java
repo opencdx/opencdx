@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.predictor.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -24,7 +23,6 @@ import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.OpenCDXPredictorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;

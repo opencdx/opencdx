@@ -34,6 +34,8 @@ import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.Optional;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,9 +48,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -87,7 +86,7 @@ class OpenCDXGrpcClassificationControllerTest {
     OpenCDXClassificationRepository openCDXClassificationRepository;
 
     @Mock
-    OpenCDXProfileRepository  openCDXProfileRepository;
+    OpenCDXProfileRepository openCDXProfileRepository;
 
     @BeforeEach
     void setUp() {

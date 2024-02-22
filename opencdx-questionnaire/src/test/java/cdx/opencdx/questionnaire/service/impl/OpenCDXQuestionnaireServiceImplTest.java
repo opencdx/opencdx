@@ -36,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -357,7 +356,6 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertEquals(true, response.getSuccess());
     }
 
-
     @Test
     void testUpdateQuestionnaireData() {
         QuestionnaireDataRequest request = QuestionnaireDataRequest.newBuilder().build();
@@ -384,7 +382,6 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
-
     @Test
     void testDeleteQuestionnaireData() {
         DeleteQuestionnaireRequest request =
@@ -404,7 +401,6 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertEquals(true, response.getSuccess());
     }
 
-
     @Test
     void testUpdateClientQuestionnaireData() {
         ClientQuestionnaireDataRequest request =
@@ -413,7 +409,6 @@ class OpenCDXQuestionnaireServiceImplTest {
 
         Assertions.assertEquals(true, response.getSuccess());
     }
-
 
     @Test
     void testGetClientQuestionnaireData() {
@@ -433,7 +428,6 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertEquals(2, response.getQuestionnaireDataCount());
     }
 
-
     void testDeleteClientQuestionnaireData() {
         DeleteQuestionnaireRequest request =
                 DeleteQuestionnaireRequest.newBuilder().build();
@@ -441,7 +435,6 @@ class OpenCDXQuestionnaireServiceImplTest {
 
         Assertions.assertEquals(true, response.getSuccess());
     }
-
 
     // Unit tests for - User Questionnaire
     @Test
@@ -532,7 +525,6 @@ class OpenCDXQuestionnaireServiceImplTest {
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> questionnaireService.getUserQuestionnaireData(request));
     }
-
 
     @Test
     void testGetUserQuestionnaireDataExceptionQuestionnaire() throws JsonProcessingException {

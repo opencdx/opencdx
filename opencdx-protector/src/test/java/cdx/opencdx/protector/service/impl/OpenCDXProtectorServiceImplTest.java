@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.protector.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -24,7 +23,6 @@ import cdx.opencdx.grpc.neural.protector.AnomalyDetectionData;
 import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlData;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;
-import cdx.opencdx.grpc.neural.protector.PrivacyProtectionData;
 import cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringData;
 import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
@@ -32,7 +30,6 @@ import cdx.opencdx.grpc.neural.protector.SecurityResponse;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;

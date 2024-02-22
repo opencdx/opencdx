@@ -17,13 +17,10 @@ package cdx.opencdx.iam.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -31,7 +28,6 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.profile.*;
 import cdx.opencdx.iam.config.AppProperties;
 import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
@@ -40,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -62,7 +57,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXIAMProfileServiceImplTest {
-
 
     OpenCDXIAMProfileService openCDXIAMProfileService;
 
@@ -163,7 +157,7 @@ class OpenCDXIAMProfileServiceImplTest {
 
     @AfterEach
     void tearDown() {
-        Mockito.reset( this.objectMapper);
+        Mockito.reset(this.objectMapper);
     }
 
     @Test
@@ -179,7 +173,8 @@ class OpenCDXIAMProfileServiceImplTest {
         UserProfileRequest request = UserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.getUserProfile(request));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.getUserProfile(request));
     }
 
     @Test
@@ -213,7 +208,8 @@ class OpenCDXIAMProfileServiceImplTest {
         UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
     }
 
     @Test
@@ -247,7 +243,8 @@ class OpenCDXIAMProfileServiceImplTest {
         DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
                 .setUserId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.deleteUserProfile(request));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.deleteUserProfile(request));
     }
 
     @Test
