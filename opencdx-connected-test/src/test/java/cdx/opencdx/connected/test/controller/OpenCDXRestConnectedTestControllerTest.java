@@ -20,7 +20,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
@@ -85,8 +87,50 @@ class OpenCDXRestConnectedTestControllerTest {
     @MockBean
     OpenCDXIAMUserRepository openCDXIAMUserRepository;
 
+    @MockBean
+    OpenCDXProfileRepository openCDXProfileRepository;
+
     @BeforeEach
     public void setup() {
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
         Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
@@ -95,23 +139,7 @@ class OpenCDXRestConnectedTestControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
-                                .nationalHealthId(UUID.randomUUID().toString())
-                                .fullName(FullName.newBuilder()
-                                        .setFirstName("bob")
-                                        .setLastName("bob")
-                                        .build())
                                 .username("ab@safehealth.me")
-                                .gender(Gender.GENDER_FEMALE)
-                                .primaryContactInfo(ContactInfo.newBuilder()
-                                        .addAllEmails(List.of(EmailAddress.newBuilder()
-                                                .setType(EmailType.EMAIL_TYPE_WORK)
-                                                .setEmail("ab@safehealth.me")
-                                                .build()))
-                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
-                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
-                                                .setNumber("1234567890")
-                                                .build()))
-                                        .build())
                                 .emailVerified(true)
                                 .build());
                     }

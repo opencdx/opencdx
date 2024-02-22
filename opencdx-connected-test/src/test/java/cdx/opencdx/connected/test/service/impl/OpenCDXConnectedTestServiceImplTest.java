@@ -21,7 +21,6 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
-import cdx.opencdx.commons.repository.openCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
@@ -275,7 +274,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
-        this.openCDXProfileRepository = Mockito.mock(openCDXProfileRepository.class);
+        this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
