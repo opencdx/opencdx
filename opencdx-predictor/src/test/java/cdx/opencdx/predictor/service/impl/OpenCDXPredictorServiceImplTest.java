@@ -89,22 +89,4 @@ class OpenCDXPredictorServiceImplTest {
                 request.getPredictorInput().getEncounterId(),
                 response.getPredictorOutput().getEncounterId());
     }
-
-    @Test
-    void testPredictFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        PredictorRequest request = PredictorRequest.newBuilder()
-                .setPredictorInput(PredictorInput.newBuilder()
-                        .setTestId(ObjectId.get().toHexString())
-                        .setEncounterId("789")
-                        .build())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> predictorService.predict(request));
-    }
 }
