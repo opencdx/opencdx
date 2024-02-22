@@ -26,6 +26,8 @@ import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import cdx.opencdx.grpc.communication.*;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.mongodb.client.model.Indexes;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +47,9 @@ public class CommunicationsChangeSet {
     private static final String LAST_NAME = "lastName";
 
     private static final String SYSTEM = "SYSTEM";
+    public static final String USER_ID = "userId";
+    public static final String NOTIFICATION_EVENT = "notification-event";
+    public static final String NOTIFICATIONS = "notifications";
 
     /**
      * Default Consructor
@@ -393,5 +398,19 @@ public class CommunicationsChangeSet {
                 .build();
         openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
         openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
+    }
+
+    /**
+     * Create an index based on the system name
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @ChangeSet(order = "008", id = "Setup Communications Index", author = "Gaurav Mishra")
+    public void setupIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        mongockTemplate.getCollection(NOTIFICATION_EVENT).createIndex(Indexes.ascending(List.of("emailTemplateId")));
+        mongockTemplate.getCollection(NOTIFICATION_EVENT).createIndex(Indexes.ascending(List.of("smsTemplateId")));
+        mongockTemplate.getCollection(NOTIFICATIONS).createIndex(Indexes.ascending(List.of("emailStatus")));
+        mongockTemplate.getCollection(NOTIFICATIONS).createIndex(Indexes.ascending(List.of("smsStatus")));
     }
 }

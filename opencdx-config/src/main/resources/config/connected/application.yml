@@ -3,3 +3,7 @@ spring:
   application:
     name: connected-test
 
+mongock:
+  change-logs-scan-package: cdx.opencdx.connected.test.changelog
+  max-waiting-for-lock-minutes: 5
+  lock-acquired-for-minutes: 3

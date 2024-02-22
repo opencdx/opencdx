@@ -6,3 +6,8 @@ spring:
 opencdx:
   helloworld:
     format: "Hello %s!"
+
+mongock:
+  change-logs-scan-package: cdx.opencdx.anf.changelog
+  max-waiting-for-lock-minutes: 5
+  lock-acquired-for-minutes: 3
