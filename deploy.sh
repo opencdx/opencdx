@@ -306,7 +306,7 @@ open_reports() {
         ;;
     micrometer_tracing)
         handle_info "Opening Zipkin Microservice Tracing Dashboard..."
-        open_url "http://localhost:9411/zipkin"
+        open_url "https://localhost:9411/zipkin"
         ;;
 
     status)

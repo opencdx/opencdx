@@ -42,7 +42,7 @@ spring:
             url: "http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
             children:
               - label: "Zipkin"
-                url: "http://localhost:9411/zipkin"
+                url: "https://localhost:9411/zipkin"
               - label: "Grafana"
                 url: "http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
               - label: "Prometheus"
