@@ -49,7 +49,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             "Failed to convert OpenCDXANFStatementModel";
     private static final String OBJECT = "OBJECT";
     private static final String ANF_STATEMENT = "ANF-STATEMENT: ";
-    private static final String USERS = "users";
+    private static final String PATIENTS = "patient";
     public static final String FAILED_TO_FIND_PATIENT = "Failed to find patient: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -91,28 +91,28 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         if (!request.getAuthorList().isEmpty()) {
             log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
-                    USERS,
+                    "provider",
                     request.getAuthorList().stream()
-                            .map(AnfStatement.Practitioner::getId)
+                            .map(AnfStatement.Practitioner::getProviderId)
                             .map(ObjectId::new)
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
             log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    USERS, new ObjectId(request.getSubjectOfRecord().getId()));
+                    PATIENTS, new ObjectId(request.getSubjectOfRecord().getPatientId()));
         }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(request.getSubjectOfRecord().getId()))
+                    .findById(new ObjectId(request.getSubjectOfRecord().getPatientId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
                             1,
                             FAILED_TO_FIND_PATIENT
-                                    + request.getSubjectOfRecord().getId()));
+                                    + request.getSubjectOfRecord().getPatientId()));
 
             this.openCDXAuditService.phiCreated(
                     currentUser.getId().toHexString(),
@@ -143,14 +143,14 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
                     .findById(new ObjectId(
-                            openCDXANFStatementModel.getSubjectOfRecord().getId()))
+                            openCDXANFStatementModel.getSubjectOfRecord().getPatientId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
                             1,
                             FAILED_TO_FIND_PATIENT
                                     + openCDXANFStatementModel
                                             .getSubjectOfRecord()
-                                            .getId()));
+                                            .getPatientId()));
             this.openCDXAuditService.phiAccessed(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
@@ -176,28 +176,28 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         if (!request.getAuthorList().isEmpty()) {
             log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
-                    USERS,
+                    "provider",
                     request.getAuthorList().stream()
-                            .map(AnfStatement.Practitioner::getId)
+                            .map(AnfStatement.Practitioner::getProviderId)
                             .map(ObjectId::new)
                             .toList());
         }
         if (request.hasSubjectOfRecord()) {
             log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    USERS, new ObjectId(request.getSubjectOfRecord().getId()));
+                    PATIENTS, new ObjectId(request.getSubjectOfRecord().getPatientId()));
         }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
-                    .findById(new ObjectId(request.getSubjectOfRecord().getId()))
+                    .findById(new ObjectId(request.getSubjectOfRecord().getPatientId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
                             1,
                             FAILED_TO_FIND_PATIENT
-                                    + request.getSubjectOfRecord().getId()));
+                                    + request.getSubjectOfRecord().getPatientId()));
             this.openCDXAuditService.phiUpdated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
@@ -227,14 +227,14 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             OpenCDXProfileModel patient = this.openCDXProfileRepository
                     .findById(new ObjectId(
-                            openCDXANFStatementModel.getSubjectOfRecord().getId()))
+                            openCDXANFStatementModel.getSubjectOfRecord().getPatientId()))
                     .orElseThrow(() -> new OpenCDXNotFound(
                             DOMAIN,
                             1,
                             FAILED_TO_FIND_PATIENT
                                     + openCDXANFStatementModel
                                             .getSubjectOfRecord()
-                                            .getId()));
+                                            .getPatientId()));
             this.openCDXAuditService.phiDeleted(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),

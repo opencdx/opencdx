@@ -133,7 +133,7 @@ class OpenCDXRestANFControllerTest {
                         return Optional.of(OpenCDXANFStatementModel.builder()
                                 .id(argument)
                                 .subjectOfRecord(AnfStatement.Participant.newBuilder()
-                                        .setId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .build())
                                 .build());
                     }
@@ -163,7 +163,7 @@ class OpenCDXRestANFControllerTest {
                 .setModified(Timestamp.newBuilder().setSeconds(1696733104))
                 .setModifier(ObjectId.get().toHexString())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .build();
 
@@ -183,7 +183,7 @@ class OpenCDXRestANFControllerTest {
                         .setId(ObjectId.get().toHexString())
                         .build())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

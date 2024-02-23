@@ -217,7 +217,7 @@ message Participant {
   /*
    * Unique identifier for the participant
    */
-  string id = 1;
+  string patient_id = 1;
 }
 
 /*
@@ -242,7 +242,7 @@ message Practitioner {
   /*
    * Unique identifier for the practitioner
    */
-  string id = 1;
+  string provider_id = 1;
 
   /*
    * Reference to the participating practitioner
