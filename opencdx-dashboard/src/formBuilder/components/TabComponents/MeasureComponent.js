@@ -141,7 +141,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <TextField
                                 {...register(`test.${index}.item.${currentIndex}.${tab}.resolution`)}
                                 fullWidth
-                                type="number"
+                                type="text"
                                 InputProps={{
                                     inputProps: { min: 0 }
                                 }}
