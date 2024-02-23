@@ -165,7 +165,7 @@ public class IAMChangeSet {
     @ChangeSet(order = "002", id = "Setup Users Email Index", author = "Gaurav Mishra")
     public void setupIndexes(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
-        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
+        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("username")));
     }
 
     /**
@@ -196,5 +196,15 @@ public class IAMChangeSet {
     public void setupSystemIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));
+    }
+
+    /**
+     * Create an index based on the id
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @ChangeSet(order = "005", id = "Setup IAM Index", author = "Gaurav Mishra")
+    public void setupIAMIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
     }
 }
