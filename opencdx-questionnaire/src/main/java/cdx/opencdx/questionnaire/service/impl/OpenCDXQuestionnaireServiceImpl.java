@@ -432,7 +432,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     @Override
     public SubmissionResponse createUserQuestionnaireData(UserQuestionnaireDataRequest request) {
         OpenCDXUserQuestionnaireModel model = new OpenCDXUserQuestionnaireModel(request.getUserQuestionnaireData());
-        OpenCDXProfileModel user = this.openCDXProfileRepository
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findByUserId(model.getUserId())
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN,
@@ -448,8 +448,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                     currentUser.getAgentType(),
                     "CreateUserQuestionnaireData [User Level]",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    user.getId().toHexString(),
-                    user.getNationalHealthId(),
+                    patient.getId().toHexString(),
+                    patient.getNationalHealthId(),
                     "QUESTIONNAIR-USER: " + model.getId(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -459,7 +459,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
         }
-        this.openCDXClassificationMessageService.submitQuestionnaire(user.getId(), model.getId(), null);
+        this.openCDXClassificationMessageService.submitQuestionnaire(patient.getId(), model.getId(), null);
         return SubmissionResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("createUserQuestionnaireData Executed")

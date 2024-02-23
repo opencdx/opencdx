@@ -160,7 +160,7 @@ class OpenCDXRestClassificationControllerTest {
                 .perform(post("/classify")
                         .content(this.objectMapper.writeValueAsString(ClassificationRequest.newBuilder()
                                 .setUserAnswer(UserAnswer.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                                         .setGender(Gender.GENDER_MALE)
                                         .setAge(30))

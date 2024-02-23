@@ -60,15 +60,15 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     }
 
     @Override
-    public void submitQuestionnaire(ObjectId userId, ObjectId questionnaireUserId, ObjectId mediaId) {
+    public void submitQuestionnaire(ObjectId patientId, ObjectId questionnaireUserId, ObjectId mediaId) {
         log.info(
                 "Submitting questionnaire for user: {}, Questionnaire: {}, Media: {}",
-                userId.toHexString(),
+                patientId.toHexString(),
                 questionnaireUserId.toHexString(),
                 mediaId == null ? "NULL" : mediaId.toHexString());
         this.openCDXDocumentValidator.validateDocumentOrThrow("questionnaire-user", questionnaireUserId);
 
-        UserAnswer.Builder builder = getUserPreparedAnswer(userId);
+        UserAnswer.Builder builder = getUserPreparedAnswer(patientId);
 
         builder.setUserQuestionnaireId(questionnaireUserId.toHexString());
         if (mediaId != null) {
@@ -82,15 +82,15 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     }
 
     @Override
-    public void submitConnectedTest(ObjectId userId, ObjectId connectedTestId, ObjectId mediaId) {
+    public void submitConnectedTest(ObjectId patientId, ObjectId connectedTestId, ObjectId mediaId) {
         log.info(
-                "Submitting Connected Test for user: {}, Connected Test: {}, Media: {}",
-                userId.toHexString(),
+                "Submitting Connected Test for patient: {}, Connected Test: {}, Media: {}",
+                patientId.toHexString(),
                 connectedTestId.toHexString(),
                 mediaId == null ? "NULL" : mediaId.toHexString());
         this.openCDXDocumentValidator.validateDocumentOrThrow("connected-test", connectedTestId);
 
-        UserAnswer.Builder builder = getUserPreparedAnswer(userId);
+        UserAnswer.Builder builder = getUserPreparedAnswer(patientId);
 
         builder.setConnectedTestId(connectedTestId.toHexString());
         if (mediaId != null) {
@@ -103,14 +103,14 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
                         .build());
     }
 
-    private UserAnswer.Builder getUserPreparedAnswer(ObjectId userId) {
+    private UserAnswer.Builder getUserPreparedAnswer(ObjectId patientId) {
         log.trace("Validating User");
         OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findById(userId)
+                .findById(patientId)
                 .orElseThrow(() -> new OpenCDXNotFound(
-                        "OpenCDXClassificationMessageServiceImpl", 1, "User " + userId + " does not found "));
+                        "OpenCDXClassificationMessageServiceImpl", 1, "User " + patientId + " does not found "));
 
-        UserAnswer.Builder builder = UserAnswer.newBuilder().setUserId(userId.toHexString());
+        UserAnswer.Builder builder = UserAnswer.newBuilder().setPatientId(patientId.toHexString());
 
         if (patient.getGender() != null) {
             builder.setGender(patient.getGender());

@@ -92,7 +92,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         builder.setPositiveProbability(new Random().nextFloat());
         builder.setAvailability(new Random().nextFloat() < 0.5 ? "Not Available" : "Available");
         builder.setCost(new Random().nextFloat(1000.00f));
-        builder.setUserId(model.getUserAnswer().getUserId());
+        builder.setPatientId(model.getUserAnswer().getPatientId());
 
         if (model.getConnectedTest() != null) {
             builder.setFurtherActions(

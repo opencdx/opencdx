@@ -166,7 +166,7 @@ class OpenCDXGrpcClassificationControllerTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .setGender(Gender.GENDER_MALE)
                         .setAge(30))

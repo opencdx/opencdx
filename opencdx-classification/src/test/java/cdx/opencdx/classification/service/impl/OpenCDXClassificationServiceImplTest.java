@@ -260,7 +260,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -295,7 +295,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -328,7 +328,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         // .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -351,7 +351,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                         .build())
@@ -376,7 +376,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                         .build())
@@ -424,7 +424,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -463,7 +463,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -514,7 +514,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -548,7 +548,7 @@ class OpenCDXClassificationServiceImplTest {
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .addSymptoms(
                                 Symptom.newBuilder()
@@ -636,7 +636,7 @@ public class BloodPressureRules {
 
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                         .build())
                 .build();

@@ -117,11 +117,11 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         log.trace("Processing ClassificationRequest");
 
         OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getUserAnswer().getUserId()))
+                .findById(new ObjectId(request.getUserAnswer().getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
                         this.getClass().getName(),
                         1,
-                        "Failed to find patient: " + request.getUserAnswer().getUserId()));
+                        "Failed to find patient: " + request.getUserAnswer().getPatientId()));
 
         OpenCDXClassificationModel model = validateAndLoad(request);
 
@@ -163,7 +163,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         log.trace("Validating User");
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "users", new ObjectId(request.getUserAnswer().getUserId()));
+                "patient", new ObjectId(request.getUserAnswer().getPatientId()));
 
         if (request.getUserAnswer().hasMediaId()) {
             log.trace("Validating Media");
