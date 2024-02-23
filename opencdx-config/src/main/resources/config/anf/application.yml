@@ -9,5 +9,7 @@ opencdx:
 
 mongock:
   change-logs-scan-package: cdx.opencdx.anf.changelog
-  max-waiting-for-lock-minutes: 5
-  lock-acquired-for-minutes: 3
+  max-waiting-for-lock-minutes: 3
+  lock-acquired-for-minutes: 2
+  max-tries: 5
+  service-identifier: ${spring.application.name}
