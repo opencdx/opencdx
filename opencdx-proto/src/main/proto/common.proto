@@ -321,9 +321,9 @@ message ContactInfo {
   FullName name = 1;
 
   /*
-   * Identity of the user.
+   * Identity of the patient.
    */
-  optional string user_id = 2;
+  optional string patient_id = 2;
 
   /*
    * Collection of addresses linked with the user.
