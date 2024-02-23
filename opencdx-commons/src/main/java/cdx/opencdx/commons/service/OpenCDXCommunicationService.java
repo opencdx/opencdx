@@ -37,7 +37,7 @@ public interface OpenCDXCommunicationService {
     /**
      * ID of the Change password Notification Event.
      */
-    String CHANGE_PASSWORD = "60f1e6b1f075a361a94d3752";
+    String CHANGE_PASSWORD = "60f1e6b1f075a361a94d3750";
     /**
      * ID of the welcome email notification event.
      */
