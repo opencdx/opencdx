@@ -22,7 +22,6 @@ import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import cdx.opencdx.questionnaire.repository.OpenCDXRuleSetRepository;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import org.bson.types.ObjectId;
 
 /**
@@ -86,15 +85,5 @@ public class BloodPressureRules {
 }
 """)
                 .build());
-    }
-
-    /**
-     * Create an index based on the id
-     * @param mongockTemplate MongockTemplate to modify MongoDB.
-     * @param openCDXCurrentUser Current User to use for authentication.
-     */
-    @ChangeSet(order = "001", id = "Setup Questionnaire Index", author = "Gaurav Mishra")
-    public void setupQuestionnaireIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
-        openCDXCurrentUser.configureAuthentication(SYSTEM);
     }
 }
