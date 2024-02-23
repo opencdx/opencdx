@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
 import IconRestore from '@mui/icons-material/Restore';
 
-const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
+const StatementTypes = forwardRef(({ register, index, control, item, handleStatementTypeChange }, ref) => {
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -44,7 +44,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
                 formData.item[index].componentType = value;
             }
         });
-
+        handleStatementTypeChange(value)
         localStorage.setItem('anf-form', JSON.stringify({ item: formData.item }));
 
         setSelectedOption(value);
@@ -90,28 +90,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
             case 'main_statement_questions':
                 return (
                     <Grid item xs={12} lg={12}>
-                        <Typography variant="h6" sx={{ color: 'red', width: '300px' }}>
-                            Pending: Select Main Statement for the Associated Question
-                        </Typography>
-                        <Grid item xs={12} lg={12} sx={{ display: 'flex', flexDirection: 'column' }}>
-                            {item?.markedMainANFStatement &&
-                                item?.markedMainANFStatement.map((item, indexItem) => (
-                                    <FormControlLabel
-                                        key={indexItem}
-                                        sx={{ width: '300px' }}
-                                        control={
-                                            <Checkbox
-                                                {...register(`test.${index}.componentTypeMain.${indexItem}`)}
-                                                checked={!item.componentType && selectedMainOption && selectedMainOption[indexItem]}
-                                                onChange={(event) => handleChangeMainOption(event.target.checked, indexItem)}
-                                                color="primary"
-                                                size="small"
-                                            />
-                                        }
-                                        label={item}
-                                    />
-                                ))}
-                        </Grid>
+                        <Typography variant="subtitle2"> User Provided Data</Typography>
                     </Grid>
                 );
             case 'not_applicable':
@@ -199,7 +178,7 @@ const StatementTypes = forwardRef(({ register, index, control, item }, ref) => {
                                         <FormControlLabel
                                             value="main_statement_questions"
                                             control={<Radio />}
-                                            label="Main Statement Questions"
+                                            label="User Question"
                                         />
 
                                         {selectedOption === 'main_statement_questions' && item?.markedMainANFStatement && renderListItem()}
