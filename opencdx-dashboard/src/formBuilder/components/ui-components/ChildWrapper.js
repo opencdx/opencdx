@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { Controller } from 'react-hook-form';
 
 const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
+    const [hideOptions, setHideOptions] = React.useState(true);
     const { fields, remove } = useFieldArray({
         control,
         name: 'test'
@@ -29,14 +30,15 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
         }
     ]);
     const theme = useTheme();
+    const handleStatementTypeChange = (value) => setHideOptions(value !== 'main_statement_questions');
     return (
         <div className="wrapper" ref={ref}>
             {fields.map((item, index) => {
                 return (
                     <AccordianWrapper key={index} title={index + 1 + '. ' + item.text + ' - ' + item.linkId} remove={() => remove(index)}>
                         <ComponentID {...{ control, register, index }} />
-                        <StatementTypes {...{ control, register, index, item }} />
-                        <OptionWrapper {...{ control, register, index, item }} />
+                        <StatementTypes {...{ control, register, index, item }} handleStatementTypeChange={handleStatementTypeChange}/>
+                        {hideOptions && <OptionWrapper {...{ control, register, index, item }} />}
                     </AccordianWrapper>
                 );
             })}

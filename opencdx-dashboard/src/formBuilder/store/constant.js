@@ -166,10 +166,10 @@ export const systemVariables = {
     },
     authors: [
         {
-            id: '${{paractitioner[0].uuid}}',
+            id: '${{paractitioner[n].uuid}}',
             practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[0].id}}", "role": "Practitioner/${{paractitioner[0].role}}"',
-            code: '${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}'
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
         },
         {
             id: '{{paractitioner[1].uuid}}',
@@ -228,16 +228,16 @@ export const systemVariables = {
     },
     rangeParticipant: [
         {
-            id: '${{paractitioner[0].uuid}}',
+            id: '${{paractitioner[n].uuid}}',
             practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[0].id}}", "role": "Practitioner/${{paractitioner[0].role}}"',
-            code: '${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}'
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
         },
         {
-            id: '{{paractitioner[1].uuid}}',
+            id: '{{paractitioner[n].uuid}}',
             practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[1].id}}", "role": "Practitioner/${{paractitioner[1].role}}"',
-            code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
         }
     ],
     timingMeasure: {

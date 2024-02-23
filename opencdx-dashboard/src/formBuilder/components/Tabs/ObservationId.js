@@ -15,8 +15,13 @@ import {
     OutlinedInput,
     ListItemText,
     Chip,
-    Box
+    Box,
+    TextField
 } from '@mui/material';
+
+import { Controller } from 'react-hook-form';
+
+
 
 import { MainCard } from '../ui-components/MainCard';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -171,7 +176,7 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = ({ currentIndex }) => {
+export const ObservationId = ({ currentIndex, index, control }) => {
     const { register } = useForm();
 
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -216,19 +221,11 @@ export const ObservationId = ({ currentIndex }) => {
                         <FormControl fullWidth>
                             <InputLabel>{typeof attribute === 'object' ? attribute.label : attribute}</InputLabel>
                             {typeof attribute === 'object' && attribute.options ? (
-                                <Select
-                                    id={`calculated-topic-textarea.${attribute.label}`}
-                                    {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
-                                    label={attribute.label}
-                                    input={<OutlinedInput id="select-multiple-chip-1" label="Chip" />}
-                                    MenuProps={MenuProps}
-                                >
-                                    {Object.entries(attribute.options).map(([key, value]) => (
-                                        <MenuItem key={key} value={key}>
-                                            {value}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
+                                <TextField
+                                {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
+                                fullWidth
+                                placeholder= {attribute.label}
+                            />   
                             ) : (
                                 <Input />
                             )}
@@ -267,7 +264,23 @@ export const ObservationId = ({ currentIndex }) => {
         <Grid item xs={12} lg={12}>
             <MainCard>
                 <Grid container spacing={2} alignItems="center">
+                 <Grid item xs={12} sm={12} lg={12}>
+                        <FormControl fullWidth>
+                            <Controller
+                                name={`test.${index}.item.${currentIndex}.observationType`}
+                                control={control}
+                                defaultValue={10}
+                                render={({ field }) => (
+                                    <Select {...field} id={`test.${index}.item.${currentIndex}.type`} >
+                                        <MenuItem value={10}>Observation procedure</MenuItem>
+                                    </Select>
+                                )}
+                            />
+                        </FormControl>
+                    </Grid>
                     <Grid item xs={12}>
+
+                        {/* //TODO Make text box */}
                         <FormControl sx={{ width: '100%' }}>
                             <InputLabel id="demo-multiple-checkbox-label">Select Observation Categories</InputLabel>
                             <Select
@@ -299,33 +312,6 @@ export const ObservationId = ({ currentIndex }) => {
 
             {/* Display filtered attributes based on the selected categories */}
             <ObservationAttributes filteredAttributes={filteredAttributes} />
-
-            {/* <MainCard>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12}>
-                        <Grid container spacing={2} alignItems="center">
-                            <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
-                                <InputLabel horizontal>Calculated Topic</InputLabel>
-                            </Grid>
-                            <Grid item xs={12} sm={9} lg={8}>
-                                <TextArea
-                                    minRows={3}
-                                    id="calculated-topic-textarea"
-                                    maxRows={10}
-                                    placeholder="Calculated Topic"
-                                    style={{ width: '100%' }}
-                                    {...register(`test.${index}.item.${currentIndex}.${tab}.topic`)}
-                                    fullWidth
-                                    value={getValues(`test.${index}.item.${currentIndex}.${tab}.topic`) || ''}
-                                    
-                                >
-                                </TextArea>
-                               
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </MainCard> */}
         </Grid>
     );
 };
