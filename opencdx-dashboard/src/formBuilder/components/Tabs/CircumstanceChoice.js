@@ -24,11 +24,12 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={9} lg={6}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`test.${index}.item.${currentIndex}.type`}
+                                name={`test.${index}.item.${currentIndex}.circumstanceType`}
                                 control={control}
+                                defaultValue={10}
                                 render={({ field }) => (
-                                    <Select {...field} id={`test.${index}.item.${currentIndex}.type`}>
-                                        <MenuItem value={10}>Performance Circumstance</MenuItem>
+                                    <Select {...field}  >
+                                        <MenuItem value={10}  defaultValue={10}>Performance Circumstance</MenuItem>
                                         <MenuItem value={20}>Request Circumstance</MenuItem>
                                         <MenuItem value={30}>Narrative Circumstance</MenuItem>
                                     </Select>

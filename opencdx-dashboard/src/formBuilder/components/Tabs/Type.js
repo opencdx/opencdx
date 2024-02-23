@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, TextField, InputLabel } from '@mui/material';
+import { Grid, InputLabel } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
-import { systemVariables } from '../../store/constant';
+import { Controller } from 'react-hook-form';
+import { FormControl, MenuItem, Select } from '@mui/material';
 
-const Type = React.forwardRef(({ register, index, currentIndex }, ref) => {
-    const formData = JSON.parse(localStorage.getItem('anf-form'));
-    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
+
+const Type = React.forwardRef(({  index, currentIndex, control }, ref) => {
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
@@ -17,22 +17,21 @@ const Type = React.forwardRef(({ register, index, currentIndex }, ref) => {
                             <Grid item xs={12} sm={3} lg={4}>
                                 <InputLabel horizontal>Type</InputLabel>
                             </Grid>
-                            <Grid item xs={12} sm={9} lg={8}>
-                                {componentType ? (
-                                    <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.typeValue`)}
-                                        fullWidth
-                                        placeholder="Enter Type Information"
-                                        defaultValue={JSON.stringify(systemVariables['status'])}
-                                    />
-                                ) : (
-                                    <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.typeValue`)}
-                                        fullWidth
-                                        placeholder="Enter Type Information"
-                                    />
+                            <Grid item xs={12} sm={9} lg={6}>
+                        <FormControl fullWidth>
+                            <Controller
+                                name={`test.${index}.item.${currentIndex}.typeValue`}
+                                control={control}
+                                defaultValue={10}
+                                render={({ field }) => (
+                                    <Select {...field}  >
+                                        <MenuItem value={10}  defaultValue={10}>Performance </MenuItem>
+                                        <MenuItem value={20}>Request</MenuItem>
+                                    </Select>
                                 )}
-                            </Grid>
+                            />
+                        </FormControl>
+                    </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
