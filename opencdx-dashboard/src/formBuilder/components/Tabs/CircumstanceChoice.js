@@ -9,19 +9,21 @@ import { InputLabel } from '../ui-components/InputLabel';
 import { Controller } from 'react-hook-form';
 
 import { systemVariables } from '../../store/constant';
+import { SystemVariables } from '../ui-components/SystemVariables';
 
-export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex }, ref) => {
+export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex , getValues}, ref) => {
     const formData = JSON.parse(localStorage.getItem('anf-form'));
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
 
     return (
         <Grid item xs={12} lg={12} ref={ref}>
+            <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab="circumstanceChoice" />
             <MainCard>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Circumstance Type</InputLabel>
                     </Grid>
-                    <Grid item xs={12} sm={9} lg={6}>
+                    <Grid item xs={12} sm={9} lg={8}>
                         <FormControl fullWidth>
                             <Controller
                                 name={`test.${index}.item.${currentIndex}.circumstanceType`}
@@ -40,7 +42,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Status</InputLabel>
                     </Grid>
-                    <Grid item xs={12} sm={9} lg={6}>
+                    <Grid item xs={12} sm={9} lg={8}>
                         {componentType ? (
                             <TextField
                                 {...register(`test.${index}.item.${currentIndex}.choice`)}
@@ -73,7 +75,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Health Risks</InputLabel>
                     </Grid>
-                    <Grid item xs={12} sm={9} lg={6}>
+                    <Grid item xs={12} sm={9} lg={8}>
                         <FormControl fullWidth>
                             {componentType ? (
                                 <TextField
@@ -95,16 +97,16 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         <InputLabel horizontal>Normal Range</InputLabel>
                     </Grid>
                     {<MeasureComponent {...{ control, register, index, currentIndex }} tab="rangeMeasure" />}
-                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important',marginTop:10 } }}>
                         <InputLabel horizontal>Circumstance</InputLabel>
                     </Grid>
                     {<ParticipantComponent {...{ control, register, index, currentIndex }} tab="rangeParticipant" />}
 
-                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important',marginTop:10 } }}>
                         <InputLabel horizontal>Timing</InputLabel>
                     </Grid>
                     {<MeasureComponent {...{ control, register, index, currentIndex }} tab="timingMeasure" />}
-                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important',marginTop:10 } }}>
                         <InputLabel horizontal>Participant</InputLabel>
                     </Grid>
                     {<ParticipantComponent {...{ control, register, index, currentIndex }} tab={'rangeParticipant'} />}

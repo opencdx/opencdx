@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import { Grid, TextField } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
+import { SystemVariables } from '../ui-components/SystemVariables';
+
 import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables } from '../../store/constant';
 
-const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
+
+const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab, getValues }, ref) => {
+  
     const formData = JSON.parse(localStorage.getItem('anf-form'));
 
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
+            <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab={'subjectOfInformation'} />
             <MainCard border>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>

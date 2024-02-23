@@ -44,7 +44,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     <TextField
                                         {...register(`test.${index}.item.${currentIndex}.${tab}.lowerBound`)}
                                         fullWidth
-                                        type={'number'}
+                                        type="text"
                                         InputProps={{
                                             inputProps: { min: 0 }
                                         }}
@@ -99,7 +99,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                                 <InputLabel horizontal>Semantic</InputLabel>
                             </Grid>
-                            <Grid item xs={12} sm={9} lg={6}>
+                            <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
                                         {...register(`test.${index}.item.${currentIndex}.${tab}.sematic`)}
@@ -141,7 +141,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <TextField
                                 {...register(`test.${index}.item.${currentIndex}.${tab}.resolution`)}
                                 fullWidth
-                                type={'number'}
+                                type="number"
                                 InputProps={{
                                     inputProps: { min: 0 }
                                 }}
@@ -172,7 +172,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 InputProps={{
                                     inputProps: { min: 0 }
                                 }}
-                                type={'number'}
+                                type="text"
                                 placeholder="Enter Upper Bound Value"
                             />
                         )}

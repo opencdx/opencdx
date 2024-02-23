@@ -20,8 +20,7 @@ import {
 } from '@mui/material';
 
 import { Controller } from 'react-hook-form';
-
-
+import { SystemVariables } from '../ui-components/SystemVariables';
 
 import { MainCard } from '../ui-components/MainCard';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -176,7 +175,7 @@ const MenuProps = {
     }
 };
 
-export const ObservationId = ({ currentIndex, index, control }) => {
+export const ObservationId = ({ currentIndex, index, control ,getValues}) => {
     const { register } = useForm();
 
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -196,15 +195,6 @@ export const ObservationId = ({ currentIndex, index, control }) => {
         } = event;
         setSelectedCategories(typeof value === 'string' ? value.split(',') : value);
     };
-    const handleCheckboxChange = (event) => {
-        const attributeLabel = event.target.value;
-        const selectedOption = document.getElementById(`calculated-topic-textarea.${attributeLabel}`).innerText;
-        if (event.target.checked && selectedOption && selectedOption.trim() !== '') {
-            // const textArea = document.getElementById('calculated-topic-textarea');
-            // handleChipAdd(selectedOption + '-' + attributeLabel)
-            //textArea.value += selectedOption + '-' + attributeLabel + '\n';
-        }
-    };
 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
@@ -222,10 +212,10 @@ export const ObservationId = ({ currentIndex, index, control }) => {
                             <InputLabel>{typeof attribute === 'object' ? attribute.label : attribute}</InputLabel>
                             {typeof attribute === 'object' && attribute.options ? (
                                 <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
-                                fullWidth
-                                placeholder= {attribute.label}
-                            />   
+                                    {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
+                                    fullWidth
+                                    placeholder={attribute.label}
+                                />
                             ) : (
                                 <Input />
                             )}
@@ -262,9 +252,15 @@ export const ObservationId = ({ currentIndex, index, control }) => {
 
     return (
         <Grid item xs={12} lg={12}>
+            <SystemVariables index={index} currentIndex={currentIndex} tab="observation" getValues={getValues} />
             <MainCard>
+                <Grid item xs={12} sm={12} lg={12} sx={{ paddingBottom: 2 }}>
+                    <InputLabel style={{ fontWeight: 'bold' }}
+                        horizontal>Observation Type</InputLabel>
+                </Grid>
                 <Grid container spacing={2} alignItems="center">
-                 <Grid item xs={12} sm={12} lg={12}>
+
+                    <Grid item xs={12} sm={12} lg={12}>
                         <FormControl fullWidth>
                             <Controller
                                 name={`test.${index}.item.${currentIndex}.observationType`}
@@ -280,7 +276,6 @@ export const ObservationId = ({ currentIndex, index, control }) => {
                     </Grid>
                     <Grid item xs={12}>
 
-                        {/* //TODO Make text box */}
                         <FormControl sx={{ width: '100%' }}>
                             <InputLabel id="demo-multiple-checkbox-label">Select Observation Categories</InputLabel>
                             <Select
@@ -310,7 +305,6 @@ export const ObservationId = ({ currentIndex, index, control }) => {
                 </Grid>
             </MainCard>
 
-            {/* Display filtered attributes based on the selected categories */}
             <ObservationAttributes filteredAttributes={filteredAttributes} />
         </Grid>
     );
