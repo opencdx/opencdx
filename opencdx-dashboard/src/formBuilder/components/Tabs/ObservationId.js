@@ -86,7 +86,6 @@ export const ObservationId = ({ currentIndex, index, control, getValues }) => {
                                 control={
                                     <Checkbox
                                         key={index} // Add key prop to avoid rendering error
-                                        onChange={(event) => handleCheckboxChange(event)}
                                         name={attribute.label}
                                         color="primary"
                                         value={attribute.label}
