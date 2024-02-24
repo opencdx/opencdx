@@ -21,6 +21,10 @@ const SystemVariables = React.forwardRef(({  index, currentIndex, getValues, tab
                     <Button variant="contained" color="primary" size="small" onClick={handleClickOpen}>
                         <SettingsIcon /> System Variables
                     </Button>
+
+                    <Button variant="contained" color="primary" size="small" onClick={handleClickOpen} sx={{ ml: 2 }}>
+                        <SettingsIcon /> LookUp
+                    </Button>
                 </Grid>
             </Grid>
             <Dialog open={open} onClose={handleCloseDialog} fullWidth>
