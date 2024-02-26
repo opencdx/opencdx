@@ -103,7 +103,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Connected Test does not have basic info");
         }
 
-        ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getUserId());
+        ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getPatientId());
 
         this.openCDXDocumentValidator.validateOrganizationWorkspaceOrThrow(
                 new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
@@ -202,7 +202,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     currentUser.getAgentType(),
                     CONNECTED_TEST_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    connectedTest.getBasicInfo().getUserId(),
+                    connectedTest.getBasicInfo().getPatientId(),
                     connectedTest.getBasicInfo().getNationalHealthId(),
                     CONNECTED_TEST + connectedTest.getBasicInfo().getId(),
                     this.objectMapper.writeValueAsString(connectedTest));
@@ -219,7 +219,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request) {
 
-        ObjectId objectId = new ObjectId(request.getUserId());
+        ObjectId objectId = new ObjectId(request.getPatientId());
 
         log.trace("Searching Database");
 
@@ -236,7 +236,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     request.getPagination().getPageSize());
         }
 
-        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(objectId, pageable);
+        Page<OpenCDXConnectedTestModel> all =
+                this.openCDXConnectedTestRepository.findAllByPatientId(objectId, pageable);
         log.trace("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
@@ -247,7 +248,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                         currentUser.getAgentType(),
                         CONNECTED_TEST_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXConnectedTestModel.getBasicInfo().getUserId(),
+                        openCDXConnectedTestModel.getBasicInfo().getPatientId(),
                         openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
                         CONNECTED_TEST + openCDXConnectedTestModel.getId(),
                         this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));
@@ -307,7 +308,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                         currentUser.getAgentType(),
                         CONNECTED_TEST_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXConnectedTestModel.getBasicInfo().getUserId(),
+                        openCDXConnectedTestModel.getBasicInfo().getPatientId(),
                         openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
                         CONNECTED_TEST + openCDXConnectedTestModel.getId(),
                         this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));

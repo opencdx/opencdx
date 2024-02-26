@@ -138,11 +138,11 @@ message BasicInfo {
    */
   string type = 7;
   /*
-   * ID of the user associated with the test.
+   * ID of the patient associated with the test.
    */
-  string user_id = 8;
+  string patient_id = 8;
   /*
-   * National health ID of the user associated with the test.
+   * National health ID of the patient associated with the test.
    */
   string national_health_id = 9;
   /*
@@ -671,9 +671,9 @@ message ConnectedTestListRequest{
    */
   cdx.opencdx.grpc.common.Pagination pagination = 1;
   /*
-   * Unique identifier for the user, used to fetch the tests related to this user.
+   * Unique identifier for the patient, used to fetch the tests related to this patient.
    */
-  string user_id = 2;
+  string patient_id = 2;
 }
 
 /*

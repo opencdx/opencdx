@@ -318,7 +318,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId(testId)
                         .setNationalHealthId(UUID.randomUUID().toString())
-                        .setUserId(userId)
+                        .setPatientId(userId)
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(deviceId)

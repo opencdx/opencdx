@@ -173,7 +173,7 @@ class OpenCDXRestConnectedTestControllerTest {
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
@@ -198,7 +198,7 @@ class OpenCDXRestConnectedTestControllerTest {
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(UUID.randomUUID().toString())
-                                .setUserId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -231,7 +231,7 @@ class OpenCDXRestConnectedTestControllerTest {
 
     @Test
     void listConnectedTests() throws Exception {
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -244,7 +244,7 @@ class OpenCDXRestConnectedTestControllerTest {
                                         .setPageSize(10)
                                         .setSortAscending(true)
                                         .build())
-                                .setUserId(new ObjectId().toHexString())
+                                .setPatientId(new ObjectId().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -256,15 +256,15 @@ class OpenCDXRestConnectedTestControllerTest {
 
     @Test
     void listConnectedTests_2() throws Exception {
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .id(ObjectId.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),
@@ -280,7 +280,7 @@ class OpenCDXRestConnectedTestControllerTest {
                                         .setPageSize(10)
                                         .setSortAscending(true)
                                         .build())
-                                .setUserId(new ObjectId().toHexString())
+                                .setPatientId(new ObjectId().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -324,10 +324,10 @@ class OpenCDXRestConnectedTestControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .id(ObjectId.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),

@@ -151,7 +151,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
@@ -180,7 +180,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(UUID.randomUUID().toString())
-                                .setUserId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -215,7 +215,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -226,7 +226,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -237,15 +237,15 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests_2() throws JsonProcessingException {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .id(ObjectId.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),
@@ -272,7 +272,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -282,7 +282,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests_3() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -294,7 +294,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setSortAscending(true)
                         .setSort("nationalHealthId")
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -305,7 +305,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests_4() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -317,7 +317,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setSortAscending(false)
                         .setSort("nationalHealthId")
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -355,10 +355,10 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .id(ObjectId.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),

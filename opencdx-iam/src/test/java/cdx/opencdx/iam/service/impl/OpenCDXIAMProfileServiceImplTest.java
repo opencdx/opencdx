@@ -484,7 +484,7 @@ class OpenCDXIAMProfileServiceImplTest {
                 Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
         builder.setEmergencyContact(EmergencyContact.newBuilder()
                 .setContactInfo(ContactInfo.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .addAllAddresses(List.of(Address.newBuilder()
                                 .setCity("City")
                                 .setCountryId(ObjectId.get().toHexString())

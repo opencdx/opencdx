@@ -95,7 +95,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testId));
 
         // Retrieve Patient
-        String patientId = connectedTestModel.getBasicInfo().getUserId();
+        String patientId = connectedTestModel.getBasicInfo().getPatientId();
         Patient patient = getPatientInfo(patientId);
 
         // Create Device
