@@ -85,8 +85,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     @Override
     public GetProviderResponse getProviderByNumber(GetProviderRequest request) {
         OpenCDXIAMProviderModel model = this.openCDXIAMProviderRepository
-                .findById(new ObjectId(request.getUserId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_ORGANIZATION" + request.getUserId()));
+                .findById(new ObjectId(request.getProviderNumber()))
+                .orElseThrow(
+                        () -> new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_PROVIDER" + request.getProviderNumber()));
         return GetProviderResponse.newBuilder()
                 .setProvider(model.getProtobufMessage())
                 .build();

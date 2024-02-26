@@ -149,7 +149,7 @@ message Provider {
   /*
    * Associated User ID of the healthcare provider.
    */
-  string user_id = 2;
+  optional string user_id = 2;
 
   /*
    * Timestamp (in epoch time) of the provider's creation.
@@ -232,9 +232,9 @@ message Provider {
  */
 message GetProviderRequest {
   /*
-   * User ID (or Provider Number) as the unique lookup key.
+   * Provider Number as the unique lookup key.
    */
-  string user_id = 1;
+  string provider_number = 1;
 }
 
 /*
@@ -279,7 +279,7 @@ message LoadProviderRequest{
   /*
    * User ID of the healthcare provider.
    */
-  string user_id = 1;
+  optional string user_id = 1;
 
   /*
    * Provider number used to fetch the details of a healthcare provider.
