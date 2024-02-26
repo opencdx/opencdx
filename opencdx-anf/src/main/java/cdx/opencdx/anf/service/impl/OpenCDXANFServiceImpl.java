@@ -49,7 +49,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             "Failed to convert OpenCDXANFStatementModel";
     private static final String OBJECT = "OBJECT";
     private static final String ANF_STATEMENT = "ANF-STATEMENT: ";
-    private static final String PATIENTS = "patient";
+    private static final String PROFILES = "profiles";
     public static final String FAILED_TO_FIND_PATIENT = "Failed to find patient: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -93,6 +93,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     "provider",
                     request.getAuthorList().stream()
+                            .filter(AnfStatement.Practitioner::hasProviderId)
                             .map(AnfStatement.Practitioner::getProviderId)
                             .map(ObjectId::new)
                             .toList());
@@ -100,7 +101,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         if (request.hasSubjectOfRecord()) {
             log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    PATIENTS, new ObjectId(request.getSubjectOfRecord().getPatientId()));
+                    PROFILES, new ObjectId(request.getSubjectOfRecord().getPatientId()));
         }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));
@@ -178,6 +179,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     "provider",
                     request.getAuthorList().stream()
+                            .filter(AnfStatement.Practitioner::hasProviderId)
                             .map(AnfStatement.Practitioner::getProviderId)
                             .map(ObjectId::new)
                             .toList());
@@ -185,7 +187,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
         if (request.hasSubjectOfRecord()) {
             log.trace("Validating subject of record");
             this.openCDXDocumentValidator.validateDocumentOrThrow(
-                    PATIENTS, new ObjectId(request.getSubjectOfRecord().getPatientId()));
+                    PROFILES, new ObjectId(request.getSubjectOfRecord().getPatientId()));
         }
         OpenCDXANFStatementModel openCDXANFStatementModel =
                 this.openCDXANFStatementRepository.save(new OpenCDXANFStatementModel(request));

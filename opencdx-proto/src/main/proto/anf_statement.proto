@@ -242,7 +242,7 @@ message Practitioner {
   /*
    * Unique identifier for the practitioner
    */
-  string provider_id = 1;
+  optional string provider_id = 1;
 
   /*
    * Reference to the participating practitioner

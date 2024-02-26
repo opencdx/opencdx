@@ -229,8 +229,12 @@ class IamTest {
     void testCreateProfileRequest() throws JsonProcessingException {
         log.info(
                 "CreateUserProfileRequest: {}",
-                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(CreateUserProfileRequest.newBuilder()
-                                .setUserProfile(UserProfile.newBuilder(UserProfile.getDefaultInstance()).setUserId(ObjectId.get().toHexString()).build())
-                        .build()));
+                this.mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(CreateUserProfileRequest.newBuilder()
+                                .setUserProfile(UserProfile.newBuilder(UserProfile.getDefaultInstance())
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()));
     }
 }
