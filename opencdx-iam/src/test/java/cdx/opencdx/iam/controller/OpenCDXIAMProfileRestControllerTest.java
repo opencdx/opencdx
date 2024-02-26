@@ -27,6 +27,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.iam.IamUserType;
+import cdx.opencdx.grpc.profile.CreateUserProfileRequest;
 import cdx.opencdx.grpc.profile.UpdateUserProfileRequest;
 import cdx.opencdx.grpc.profile.UserProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,6 +53,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -191,6 +193,22 @@ class OpenCDXIAMProfileRestControllerTest {
                                 .setUserId(ObjectId.get().toHexString())
                                 .setUpdatedProfile(UserProfile.newBuilder()
                                         .setGender(Gender.GENDER_MALE)
+                                        .build())))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertNotNull(content);
+    }
+
+    @Test
+    void createUserProfile() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(MockMvcRequestBuilders.post("/profile")
+                        .content(this.objectMapper.writeValueAsString(CreateUserProfileRequest.newBuilder()
+                                .setUserProfile(UserProfile.newBuilder()
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .setNationalHealthId(ObjectId.get().toHexString())
                                         .build())))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

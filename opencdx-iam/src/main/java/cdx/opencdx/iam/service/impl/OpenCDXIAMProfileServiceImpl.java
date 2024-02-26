@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.iam.service.impl;
 
+import cdx.opencdx.commons.exceptions.OpenCDXConflict;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -177,6 +178,87 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
         }
 
         return UpdateUserProfileResponse.newBuilder().setSuccess(true).build();
+    }
+
+    /**
+     * Method to create a user Profile
+     *
+     * @param request Request containing the user profile.
+     * @return Response with user profile.
+     */
+    @Override
+    public CreateUserProfileResponse createUserProfile(CreateUserProfileRequest request) {
+        this.openCDXDocumentValidator.validateDocumentsOrThrow(
+                "users",
+                request.getUserProfile().getDependentIdList().stream()
+                        .map(ObjectId::new)
+                        .toList());
+        for (Address address : request.getUserProfile().getAddressList()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
+        }
+
+        if (request.getUserProfile().hasEmergencyContact()) {
+            for (Address address : request.getUserProfile()
+                    .getEmergencyContact()
+                    .getContactInfo()
+                    .getAddressesList()) {
+                this.openCDXDocumentValidator.validateDocumentOrThrow(COUNTRY, new ObjectId(address.getCountryId()));
+            }
+        }
+        if (request.getUserProfile().hasPharmacyDetails()
+                && request.getUserProfile().getPharmacyDetails().hasPharmacyAddress()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    COUNTRY,
+                    new ObjectId(request.getUserProfile()
+                            .getPharmacyDetails()
+                            .getPharmacyAddress()
+                            .getCountryId()));
+        }
+        if (request.getUserProfile().hasPlaceOfBirth()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    COUNTRY,
+                    new ObjectId(request.getUserProfile().getPlaceOfBirth().getCountry()));
+        }
+        if (request.getUserProfile().hasEmployeeIdentity()) {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "organization",
+                    new ObjectId(request.getUserProfile().getEmployeeIdentity().getOrganizationId()));
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "workspace",
+                    new ObjectId(request.getUserProfile().getEmployeeIdentity().getWorkspaceId()));
+        }
+
+        if (this.openCDXProfileRepository.existsById(
+                        new ObjectId(request.getUserProfile().getUserId()))
+                && this.openCDXProfileRepository.existsByNationalHealthId(
+                        request.getUserProfile().getNationalHealthId())) {
+            throw new OpenCDXConflict(DOMAIN, 3, "User Profile exist" + request.getUserProfile());
+        }
+
+        OpenCDXProfileModel model = this.openCDXProfileRepository.save(new OpenCDXProfileModel());
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.piiUpdated(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "User record updated",
+                    SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
+                    model.getId().toHexString(),
+                    model.getNationalHealthId(),
+                    IAM_USER + model.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(model));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
+            throw openCDXNotAcceptable;
+        }
+
+        return CreateUserProfileResponse.newBuilder()
+                .setUserProfile(model.getUserProfileProtobufMessage())
+                .build();
     }
 
     @Override

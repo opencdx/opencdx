@@ -18,7 +18,9 @@ package cdx.opencdx.iam.service.impl;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
+import cdx.opencdx.commons.exceptions.OpenCDXConflict;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -196,6 +198,44 @@ class OpenCDXIAMProfileServiceImplTest {
     }
 
     @Test
+    void getUserProfile_OpenCDXNotFound() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
+                .setUserId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProfileService.deleteUserProfile(request));
+    }
+
+    @Test
+    void deleteUserProfile_OpenCDXNotFound() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        DeleteUserProfileRequest request = DeleteUserProfileRequest.newBuilder()
+                .setUserId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProfileService.deleteUserProfile(request));
+    }
+
+    @Test
     void updateUserProfile_1() throws JsonProcessingException {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
@@ -228,6 +268,46 @@ class OpenCDXIAMProfileServiceImplTest {
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_1() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(UserProfile.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .setNationalHealthId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.createUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_2() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenThrow(JsonProcessingException.class);
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(UserProfile.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProfileService.createUserProfile(request));
     }
 
     @Test
@@ -358,5 +438,203 @@ class OpenCDXIAMProfileServiceImplTest {
                 .setUpdatedProfile(builder.build())
                 .build();
         Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.updateUserProfile(request));
+    }
+
+    @Test
+    void updateUserProfile_5() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+
+        UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
+                .setUserId(ObjectId.get().toHexString())
+                .build();
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_3() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setUserId(ObjectId.get().toHexString());
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
+        builder.setEmergencyContact(EmergencyContact.newBuilder()
+                .setContactInfo(ContactInfo.newBuilder()
+                        .setUserId(ObjectId.get().toHexString())
+                        .addAllAddresses(List.of(Address.newBuilder()
+                                .setCity("City")
+                                .setCountryId(ObjectId.get().toHexString())
+                                .setState("CA")
+                                .setPostalCode("12345")
+                                .setAddress1("101 Main Street")
+                                .build()))
+                        .addAllEmails(List.of(EmailAddress.newBuilder()
+                                .setEmail("email@email.com")
+                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                .build()))
+                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                .setNumber("1234567890")
+                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                .build()))
+                        .build())
+                .build());
+        builder.setPharmacyDetails(Pharmacy.newBuilder()
+                .setPharmacyAddress(Address.newBuilder()
+                        .setCountryId(ObjectId.get().toHexString())
+                        .build())
+                .build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(ObjectId.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build());
+
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(builder.build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.createUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_4() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setUserId(ObjectId.get().toHexString());
+        builder.setNationalHealthId(ObjectId.get().toHexString());
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
+        builder.setPharmacyDetails(Pharmacy.newBuilder()).build();
+        builder.setEmergencyContact(EmergencyContact.newBuilder().build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(ObjectId.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build());
+
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(builder.build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.createUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_5() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setUserId(ObjectId.get().toHexString());
+        builder.setNationalHealthId(ObjectId.get().toHexString());
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
+        builder.setEmergencyContact(EmergencyContact.newBuilder().build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(ObjectId.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build());
+
+        Mockito.when(this.openCDXProfileRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
+        Mockito.when(this.openCDXProfileRepository.existsByNationalHealthId(Mockito.any(String.class)))
+                .thenReturn(true);
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(builder.build())
+                .build();
+        Assertions.assertThrows(OpenCDXConflict.class, () -> this.openCDXIAMProfileService.createUserProfile(request));
+    }
+
+    @Test
+    void createUserProfile_6() throws JsonProcessingException {
+        this.objectMapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
+
+        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
+                this.objectMapper,
+                this.openCDXAuditService,
+                this.openCDXProfileRepository,
+                this.openCDXCurrentUser,
+                this.openCDXDocumentValidator);
+
+        UserProfile.Builder builder = UserProfile.newBuilder();
+        builder.setUserId(ObjectId.get().toHexString());
+        builder.setNationalHealthId(ObjectId.get().toHexString());
+        builder.setFullName(
+                FullName.newBuilder().setFirstName("bob").setLastName("bob").build());
+        builder.addAllAddress(List.of(
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build(),
+                Address.newBuilder().setCountryId(ObjectId.get().toHexString()).build()));
+        builder.setEmergencyContact(EmergencyContact.newBuilder().build());
+        builder.setPlaceOfBirth(PlaceOfBirth.newBuilder()
+                .setCountry(ObjectId.get().toHexString())
+                .build());
+        builder.setEmployeeIdentity(EmployeeIdentity.newBuilder()
+                .setOrganizationId(ObjectId.get().toHexString())
+                .setWorkspaceId(ObjectId.get().toHexString())
+                .build());
+
+        Mockito.when(this.openCDXProfileRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(true);
+        Mockito.when(this.openCDXProfileRepository.existsByNationalHealthId(Mockito.any(String.class)))
+                .thenReturn(false);
+        CreateUserProfileRequest request = CreateUserProfileRequest.newBuilder()
+                .setUserProfile(builder.build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> this.openCDXIAMProfileService.createUserProfile(request));
     }
 }
