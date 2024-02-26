@@ -5,11 +5,12 @@ import { Grid, InputLabel } from '@mui/material';
 import { MainCard } from '../ui-components/MainCard';
 import { Controller } from 'react-hook-form';
 import { FormControl, MenuItem, Select } from '@mui/material';
+import { SystemVariables } from '../ui-components/SystemVariables';
 
-
-const Type = React.forwardRef(({  index, currentIndex, control }, ref) => {
+const Type = React.forwardRef(({  index, currentIndex, control,getValues }, ref) => {
     return (
         <Grid item xs={12} lg={12} ref={ref}>
+            <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab="type" />
             <MainCard border>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
