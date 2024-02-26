@@ -79,8 +79,11 @@ public class OpenCDXProfileModel {
      * @param userProfile UserProfile to update data from
      * @return reference to itself.
      */
-    public OpenCDXProfileModel update(UserProfile userProfile) {
+    public OpenCDXProfileModel(UserProfile userProfile) {
         log.trace("Updating user profile for user");
+        if (userProfile.hasId()) {
+            this.id = new ObjectId(userProfile.getId());
+        }
         this.nationalHealthId = userProfile.getNationalHealthId();
         this.fullName = userProfile.getFullName();
         this.contactInfo = userProfile.getContactsList();
@@ -125,8 +128,6 @@ public class OpenCDXProfileModel {
         if (userProfile.hasModifier()) {
             this.modifier = new ObjectId(userProfile.getModifier());
         }
-
-        return this;
     }
 
     /**
@@ -138,7 +139,7 @@ public class OpenCDXProfileModel {
         log.trace("Creating user profile from user");
         UserProfile.Builder builder = UserProfile.newBuilder();
 
-        builder.setUserId(this.id.toHexString());
+        builder.setId(this.id.toHexString());
 
         if (this.userId != null) {
             builder.setUserId(this.userId.toHexString());

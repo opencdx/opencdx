@@ -152,11 +152,8 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                             request.getUpdatedProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
-        OpenCDXProfileModel model = this.openCDXProfileRepository
-                .findById(new ObjectId(request.getUserId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_USER + request.getUserId()));
-
-        model = this.openCDXProfileRepository.save(model.update(request.getUpdatedProfile()));
+        OpenCDXProfileModel model =
+                this.openCDXProfileRepository.save(new OpenCDXProfileModel(request.getUpdatedProfile()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
@@ -228,14 +225,16 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
                     new ObjectId(request.getUserProfile().getEmployeeIdentity().getWorkspaceId()));
         }
 
-        if (this.openCDXProfileRepository.existsById(
+        if (request.getUserProfile().hasUserId()
+                && this.openCDXProfileRepository.existsById(
                         new ObjectId(request.getUserProfile().getUserId()))
                 && this.openCDXProfileRepository.existsByNationalHealthId(
                         request.getUserProfile().getNationalHealthId())) {
             throw new OpenCDXConflict(DOMAIN, 3, "User Profile exist" + request.getUserProfile());
         }
 
-        OpenCDXProfileModel model = this.openCDXProfileRepository.save(new OpenCDXProfileModel());
+        OpenCDXProfileModel model =
+                this.openCDXProfileRepository.save(new OpenCDXProfileModel(request.getUserProfile()));
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

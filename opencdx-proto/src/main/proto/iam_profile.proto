@@ -14,7 +14,10 @@ import "google/protobuf/timestamp.proto";
  * Note: Repeated fields represent multiple, optional occurrences of data type; Optional fields can appear zero or one times; Required fields must appear one or more times.
  */
 message UserProfile {
-  string id = 1;
+  /*
+   * The unique identifier for the user profile.
+   */
+  optional string id = 1;
   /*
    * The unique identifier for the user.
    */

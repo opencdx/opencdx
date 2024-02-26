@@ -441,28 +441,6 @@ class OpenCDXIAMProfileServiceImplTest {
     }
 
     @Test
-    void updateUserProfile_5() throws JsonProcessingException {
-        this.objectMapper = Mockito.mock(ObjectMapper.class);
-        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
-
-        this.openCDXIAMProfileService = new OpenCDXIAMProfileServiceImpl(
-                this.objectMapper,
-                this.openCDXAuditService,
-                this.openCDXProfileRepository,
-                this.openCDXCurrentUser,
-                this.openCDXDocumentValidator);
-
-        UserProfile.Builder builder = UserProfile.newBuilder();
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.empty());
-
-        UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
-                .setUserId(ObjectId.get().toHexString())
-                .build();
-        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProfileService.updateUserProfile(request));
-    }
-
-    @Test
     void createUserProfile_3() throws JsonProcessingException {
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{}");
