@@ -317,7 +317,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private void recordAudit(
             CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, ObjectId patientId) {
         OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findByUserId(patientId)
+                .findById(patientId)
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Patient Not Found"));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();

@@ -163,7 +163,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         log.trace("Validating User");
         this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "patient", new ObjectId(request.getUserAnswer().getPatientId()));
+                "profiles", new ObjectId(request.getUserAnswer().getPatientId()));
 
         if (request.getUserAnswer().hasMediaId()) {
             log.trace("Validating Media");
