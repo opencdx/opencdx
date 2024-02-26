@@ -472,6 +472,11 @@ service UserProfileService {
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
 
   /*
+  * CreateUserProfile is an RPC method that creates a user profile based on UserProfileRequest
+  */
+  rpc CreateUserProfile(CreateUserProfileRequest) returns (CreateUserProfileResponse);
+
+  /*
    * DeleteUserProfile is an RPC method that deletes a user profile based on the provided user ID in the DeleteUserProfileRequest
    */
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
@@ -525,6 +530,26 @@ message UpdateUserProfileResponse {
    * Indicates whether the update was successful
    */
   bool success = 1;
+}
+
+/*
+ * This message contains the details required for creating a User Profile.
+ */
+message CreateUserProfileRequest {
+  /*
+   * The UserProfile object with the details for the user profile that will be created.
+   */
+  optional UserProfile userProfile = 1;
+}
+
+/*
+ * This message contains the details of the User Profile that has been created.
+ */
+message CreateUserProfileResponse {
+  /*
+   * The created User Profile object.
+   */
+  optional UserProfile userProfile = 1;
 }
 
 /*

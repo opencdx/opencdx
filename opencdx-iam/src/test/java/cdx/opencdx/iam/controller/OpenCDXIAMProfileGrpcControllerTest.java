@@ -232,6 +232,20 @@ class OpenCDXIAMProfileGrpcControllerTest {
     }
 
     @Test
+    void createUserProfile() {
+        StreamObserver<CreateUserProfileResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXIAMProfileGrpcController.createUserProfile(
+                CreateUserProfileRequest.newBuilder(CreateUserProfileRequest.getDefaultInstance())
+                        .setUserProfile(UserProfile.newBuilder()
+                                .setUserId(ObjectId.get().toHexString()))
+                        .build(),
+                responseObserver);
+
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(CreateUserProfileResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
     void deleteUserProfile() {
         StreamObserver<DeleteUserProfileResponse> responseObserver = Mockito.mock(StreamObserver.class);
         this.openCDXIAMProfileGrpcController.deleteUserProfile(
