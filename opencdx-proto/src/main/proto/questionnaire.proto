@@ -449,7 +449,7 @@ message UserQuestionnaireData {
   /*
    * Represents the user identifier associated with these questionnaires.
    */
-  string user_id = 2;
+  string patient_id = 2;
   /*
     * Contains a list of `Questionnaire` associated with a specific user.
     */

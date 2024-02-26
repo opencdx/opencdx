@@ -200,7 +200,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
@@ -224,7 +224,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
@@ -830,7 +830,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
                         .addQuestionnaireData(Questionnaire.getDefaultInstance())
-                        .setUserId(ObjectId.get().toHexString()))
+                        .setPatientId(ObjectId.get().toHexString()))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)
@@ -865,7 +865,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
                         .addQuestionnaireData(Questionnaire.getDefaultInstance())
-                        .setUserId(ObjectId.get().toHexString()))
+                        .setPatientId(ObjectId.get().toHexString()))
                 .build();
         SubmissionResponse response = SubmissionResponse.newBuilder()
                 .setSuccess(true)

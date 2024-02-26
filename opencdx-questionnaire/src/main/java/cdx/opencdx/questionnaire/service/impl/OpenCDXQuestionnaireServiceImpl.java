@@ -433,11 +433,11 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     public SubmissionResponse createUserQuestionnaireData(UserQuestionnaireDataRequest request) {
         OpenCDXUserQuestionnaireModel model = new OpenCDXUserQuestionnaireModel(request.getUserQuestionnaireData());
         OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findByUserId(model.getUserId())
+                .findByUserId(model.getPatientId())
                 .orElseThrow(() -> new OpenCDXNotFound(
                         DOMAIN,
                         5,
-                        FAILED_TO_FIND_USER + request.getUserQuestionnaireData().getUserId()));
+                        FAILED_TO_FIND_USER + request.getUserQuestionnaireData().getPatientId()));
 
         model = this.openCDXUserQuestionnaireRepository.save(model);
 
@@ -480,8 +480,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
                         () -> new OpenCDXNotFound(DOMAIN, 6, "Failed to find user questionnaire: " + request.getId()))
                 .getProtobufMessage();
         OpenCDXProfileModel user = this.openCDXProfileRepository
-                .findByUserId(new ObjectId(data.getUserId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + data.getUserId()));
+                .findByUserId(new ObjectId(data.getPatientId()))
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 6, FAILED_TO_FIND_USER + data.getPatientId()));
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
             this.openCDXAuditService.phiAccessed(
@@ -530,11 +530,11 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         List<UserQuestionnaireData> list = all.get()
                 .peek(model -> {
                     OpenCDXProfileModel user = this.openCDXProfileRepository
-                            .findByUserId(model.getUserId())
+                            .findByUserId(model.getPatientId())
                             .orElseThrow(() -> new OpenCDXNotFound(
                                     DOMAIN,
                                     6,
-                                    FAILED_TO_FIND_USER + model.getUserId().toHexString()));
+                                    FAILED_TO_FIND_USER + model.getPatientId().toHexString()));
                     try {
                         this.openCDXAuditService.phiAccessed(
                                 currentUser.getId().toHexString(),

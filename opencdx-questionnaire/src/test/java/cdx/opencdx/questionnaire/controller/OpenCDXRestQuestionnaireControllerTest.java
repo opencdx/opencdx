@@ -199,7 +199,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
@@ -223,7 +223,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
@@ -486,7 +486,7 @@ class OpenCDXRestQuestionnaireControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(UserQuestionnaireDataRequest.newBuilder()
                                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .build())
                                 .build())))
                 .andReturn();

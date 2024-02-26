@@ -163,7 +163,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
@@ -187,7 +187,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(argument)
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build());
                     }
@@ -198,7 +198,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXUserQuestionnaireModel.builder()
                                 .id(ObjectId.get())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .list(List.of(Questionnaire.getDefaultInstance()))
                                 .build()),
                         PageRequest.of(1, 10),
@@ -438,7 +438,7 @@ class OpenCDXQuestionnaireServiceImplTest {
     void testCreateUserQuestionnaireData() {
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
                         .build())
                 .build();
@@ -452,7 +452,7 @@ class OpenCDXQuestionnaireServiceImplTest {
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
                         .setId("65bb9634ab091e2343ff7ef7")
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .addAllQuestionnaireData(List.of(Questionnaire.getDefaultInstance()))
                         .build())
                 .build();
@@ -480,7 +480,7 @@ class OpenCDXQuestionnaireServiceImplTest {
         UserQuestionnaireDataRequest request = UserQuestionnaireDataRequest.newBuilder()
                 .setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
                         .addQuestionnaireData(Questionnaire.getDefaultInstance())
-                        .setUserId(ObjectId.get().toHexString()))
+                        .setPatientId(ObjectId.get().toHexString()))
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> questionnaireService.createUserQuestionnaireData(request));
