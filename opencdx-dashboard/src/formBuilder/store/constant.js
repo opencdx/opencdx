@@ -3,17 +3,36 @@ export const gridSpacing = 3;
 export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 export const categories = [
-    { key: 0, label: 'General', selected: false },
-    { key: 1, label: 'Timing', selected: false },
-    { key: 2, label: 'Context', selected: false },
-    { key: 3, label: 'Value and Interpretation', selected: false },
-    { key: 4, label: 'Additional Information', selected: false },
-    { key: 5, label: 'Reference Range', selected: false },
-    { key: 6, label: 'Relationship', selected: false },
+    { key: 0, label: 'ANF Topic', selected: false },
+    { key: 1, label: 'General', selected: false },
+    { key: 2, label: 'Timing', selected: false },
+    { key: 3, label: 'Context', selected: false },
+    { key: 4, label: 'Value and Interpretation', selected: false },
+    { key: 5, label: 'Additional Information', selected: false },
+    { key: 6, label: 'Reference Range', selected: false },
+    { key: 7, label: 'Relationship', selected: false },
 ];
 
 
 export const observationAttributes = [
+    // ANF Topic Attributes
+    { observationCategory: 'ANF Topic', label: 'method', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
+    {
+        observationCategory: 'ANF Topic',
+        label: 'focus',
+        options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
+    },
+    {
+        observationCategory: 'ANF Topic',
+        label: 'bodySite',
+        options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
+    },  
+    {
+
+        observationCategory: 'ANF Topic',
+        label: 'device',
+        options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
+    },
     // General Attributes
     { observationCategory: 'General', label: 'identifier', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
     { observationCategory: 'General', label: 'code', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
