@@ -59,7 +59,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXRestManufacturerControllerTest {
 
     @Autowired

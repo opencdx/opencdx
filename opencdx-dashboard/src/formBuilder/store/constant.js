@@ -3,16 +3,36 @@ export const gridSpacing = 3;
 export const drawerWidth = 260;
 export const appDrawerWidth = 320;
 export const categories = [
-    'General',
-    'Timing',
-    'Context',
-    'Value and Interpretation',
-    'Additional Information',
-    'Reference Range',
-    'Relationship'
+    { key: 0, label: 'ANF Topic', selected: false },
+    { key: 1, label: 'General', selected: false },
+    { key: 2, label: 'Timing', selected: false },
+    { key: 3, label: 'Context', selected: false },
+    { key: 4, label: 'Value and Interpretation', selected: false },
+    { key: 5, label: 'Additional Information', selected: false },
+    { key: 6, label: 'Reference Range', selected: false },
+    { key: 7, label: 'Relationship', selected: false },
 ];
 
+
 export const observationAttributes = [
+    // ANF Topic Attributes
+    { observationCategory: 'ANF Topic', label: 'method', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
+    {
+        observationCategory: 'ANF Topic',
+        label: 'focus',
+        options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
+    },
+    {
+        observationCategory: 'ANF Topic',
+        label: 'bodySite',
+        options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
+    },  
+    {
+
+        observationCategory: 'ANF Topic',
+        label: 'device',
+        options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
+    },
     // General Attributes
     { observationCategory: 'General', label: 'identifier', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
     { observationCategory: 'General', label: 'code', options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' } },
@@ -166,10 +186,10 @@ export const systemVariables = {
     },
     authors: [
         {
-            id: '${{paractitioner[0].uuid}}',
+            id: '${{paractitioner[n].uuid}}',
             practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[0].id}}", "role": "Practitioner/${{paractitioner[0].role}}"',
-            code: '${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}'
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
         },
         {
             id: '{{paractitioner[1].uuid}}',
@@ -228,16 +248,16 @@ export const systemVariables = {
     },
     rangeParticipant: [
         {
-            id: '${{paractitioner[0].uuid}}',
+            id: '${{paractitioner[n].uuid}}',
             practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[0].id}}", "role": "Practitioner/${{paractitioner[0].role}}"',
-            code: '${{paractitioner[0].role[0].code}}, ${{paractitioner[0].role[1].code}}'
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
         },
         {
-            id: '{{paractitioner[1].uuid}}',
+            id: '{{paractitioner[n].uuid}}',
             practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[1].id}}", "role": "Practitioner/${{paractitioner[1].role}}"',
-            code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
+                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
         }
     ],
     timingMeasure: {

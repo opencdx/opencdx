@@ -236,7 +236,7 @@ management:
       type: b3
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: https://zipkin:9411/api/v2/spans
 logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
 server:
   port: 8080

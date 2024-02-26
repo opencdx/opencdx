@@ -168,6 +168,7 @@ const FormBuilder = () => {
                     {title}
                     <IconButton
                         aria-label="close"
+                        id="close-dialog"
                         onClick={handleClose}
                         sx={{
                             position: 'absolute',
@@ -255,12 +256,12 @@ const FormBuilder = () => {
                 <DrawerHeader />
                 <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
                     {uploadJson && uploadJson.item && (
-                        <Button sx={{ m: 1 }} variant="contained" onClick={handleClickOpen}>
+                        <Button sx={{ m: 1 }} variant="contained" id="user-form-json" onClick={handleClickOpen}>
                             User Form JSON
                         </Button>
                     )}
                     {files && files.item && (
-                        <Button sx={{ m: 1 }} variant="contained" onClick={handleClickOpenAnfDialog}>
+                        <Button sx={{ m: 1 }} variant="contained" id="anf-statement-json" onClick={handleClickOpenAnfDialog}>
                             ANF Statement JSON
                         </Button>
                     )}

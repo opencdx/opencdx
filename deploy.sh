@@ -344,7 +344,7 @@ open_reports() {
         ;;
     micrometer_tracing)
         handle_info "Opening Zipkin Microservice Tracing Dashboard..."
-        open_url "http://localhost:9411/zipkin"
+        open_url "https://localhost:9411/zipkin"
         ;;
 
     status)
@@ -946,7 +946,7 @@ if [ "$no_menu" = false ]; then
         open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            countdown 150
+            countdown 300
             run_jmeter_tests $jmeter_test
             open_url "build/reports/jmeter/index.html"
         fi

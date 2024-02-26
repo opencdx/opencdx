@@ -83,6 +83,8 @@
         "@babel/core": "^7.22.10",
         "@babel/eslint-parser": "^7.22.10",
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "@cypress/code-coverage": "^3.12.24",
+        "cypress": "^13.6.5",
         "eslint": "^8.47.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-config-react-app": "^7.0.1",

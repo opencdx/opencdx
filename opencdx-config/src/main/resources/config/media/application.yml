@@ -3,3 +3,9 @@ spring:
   application:
     name: media
 
+mongock:
+  change-logs-scan-package: cdx.opencdx.media.changelog
+  max-waiting-for-lock-minutes: 3
+  lock-acquired-for-minutes: 2
+  max-tries: 5
+  service-identifier: ${spring.application.name}
