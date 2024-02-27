@@ -147,12 +147,12 @@ class OpenCDXRestRoutineControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeliveryTrackingRequest.newBuilder()
                                 .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                        .setDeliveryId("789")
+                                        .setTrackingId("789")
                                         .build())
                                 .build())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.deliveryTracking.deliveryId").value("789"));
+                .andExpect(jsonPath("$.deliveryTracking.trackingId").value("789"));
     }
 
     // Test cases for getDeliveryTracking
@@ -162,7 +162,7 @@ class OpenCDXRestRoutineControllerTest {
                 .perform(get("/deliveryTracking/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.deliveryTracking.deliveryId").value("789"));
+                .andExpect(jsonPath("$.deliveryTracking.trackingId").value("789"));
     }
 
     // Test cases for createClinicalProtocolExecution

@@ -30,6 +30,7 @@ package proto; /*
                 */
 
 import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.connected.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

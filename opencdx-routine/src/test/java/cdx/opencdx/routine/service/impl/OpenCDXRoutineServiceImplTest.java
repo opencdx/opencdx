@@ -95,24 +95,24 @@ class OpenCDXRoutineServiceImplTest {
     void createDeliveryTracking() {
         DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(
-                        DeliveryTracking.newBuilder().setDeliveryId("789").build())
+                        DeliveryTracking.newBuilder().setTrackingId("789").build())
                 .build();
 
         DeliveryTrackingResponse response = routineService.createDeliveryTracking(deliveryTrackingRequest);
 
-        Assertions.assertEquals("789", response.getDeliveryTracking().getDeliveryId());
+        Assertions.assertEquals("789", response.getDeliveryTracking().getTrackingId());
     }
 
     @Test
     void getDeliveryTracking() {
         DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(
-                        DeliveryTracking.newBuilder().setDeliveryId("789").build())
+                        DeliveryTracking.newBuilder().setTrackingId("789").build())
                 .build();
 
         DeliveryTrackingResponse response = routineService.getDeliveryTracking(deliveryTrackingRequest);
 
-        Assertions.assertEquals("789", response.getDeliveryTracking().getDeliveryId());
+        Assertions.assertEquals("789", response.getDeliveryTracking().getTrackingId());
     }
 
     @Test
