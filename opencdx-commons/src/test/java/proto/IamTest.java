@@ -17,12 +17,15 @@ package proto;
 
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.iam.*;
+import cdx.opencdx.grpc.profile.CreateUserProfileRequest;
+import cdx.opencdx.grpc.profile.UserProfile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -220,5 +223,18 @@ class IamTest {
                                 .setType(IamUserType.IAM_USER_TYPE_REGULAR)
                                 .build())
                         .build()));
+    }
+
+    @Test
+    void testCreateProfileRequest() throws JsonProcessingException {
+        log.info(
+                "CreateUserProfileRequest: {}",
+                this.mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(CreateUserProfileRequest.newBuilder()
+                                .setUserProfile(UserProfile.newBuilder(UserProfile.getDefaultInstance())
+                                        .setUserId(ObjectId.get().toHexString())
+                                        .build())
+                                .build()));
     }
 }

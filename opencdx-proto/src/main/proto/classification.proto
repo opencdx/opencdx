@@ -146,7 +146,7 @@ message UserAnswer {
   /*
    * ID of the user.
    */
-  string user_id = 1;
+  string patient_id = 1;
 
   /*
    * Id of the connected test..
@@ -242,9 +242,9 @@ message ClassificationResponse {
    */
   google.protobuf.Timestamp timestamp = 10;
   /*
-   * Identifier for the user.
+   * Identifier for the patient.
    */
-  string user_id = 11;
+  string patient_id = 11;
 }
 
 /*

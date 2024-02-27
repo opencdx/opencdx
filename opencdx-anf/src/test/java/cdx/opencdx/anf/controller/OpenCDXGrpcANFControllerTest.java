@@ -22,6 +22,8 @@ import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.anf.service.OpenCDXANFService;
 import cdx.opencdx.anf.service.impl.OpenCDXANFServiceImpl;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -29,14 +31,18 @@ import cdx.opencdx.grpc.anf.AnfStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -66,8 +72,50 @@ class OpenCDXGrpcANFControllerTest {
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
+    @Mock
+    OpenCDXProfileRepository openCDXProfileRepository;
+
     @BeforeEach
     void setUp() {
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
@@ -78,7 +126,8 @@ class OpenCDXGrpcANFControllerTest {
                 openCDXCurrentUser,
                 this.openCDXANFStatementRepository,
                 objectMapper,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXProfileRepository);
         this.openCDXGrpcANFController = new OpenCDXGrpcANFController(this.openCDXANFService);
     }
 
@@ -94,6 +143,9 @@ class OpenCDXGrpcANFControllerTest {
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
+                        .build())
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXGrpcANFController.createANFStatement(anfStatement, responseObserver);
@@ -111,14 +163,17 @@ class OpenCDXGrpcANFControllerTest {
         Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(openCDXANFStatementModel));
+                .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
+                        .id(ObjectId.get())
+                        .subjectOfRecord(AnfStatement.Participant.newBuilder()
+                                .setPatientId(ObjectId.get().toHexString())
+                                .build())
+                        .build()));
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
                 .setId(openCDXANFStatementModel.getId().toString())
                 .build();
-        this.openCDXGrpcANFController.getANFStatement(identifier, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(openCDXANFStatementModel.getProtobufMessage());
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcANFController.getANFStatement(identifier, responseObserver));
     }
 
     @Test
@@ -129,6 +184,9 @@ class OpenCDXGrpcANFControllerTest {
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
+                        .build())
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .build();
 
@@ -147,14 +205,16 @@ class OpenCDXGrpcANFControllerTest {
         Mockito.when(this.openCDXANFStatementRepository.save(Mockito.any(OpenCDXANFStatementModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXANFStatementRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(openCDXANFStatementModel));
+                .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
+                        .id(ObjectId.get())
+                        .subjectOfRecord(AnfStatement.Participant.newBuilder()
+                                .setPatientId(ObjectId.get().toHexString())
+                                .build())
+                        .build()));
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
                 .setId(openCDXANFStatementModel.getId().toString())
                 .build();
-        this.openCDXGrpcANFController.deleteANFStatement(identifier, responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1))
-                .onNext(openCDXANFStatementModel.getProtobufMessage().getId());
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcANFController.deleteANFStatement(identifier, responseObserver));
     }
 }

@@ -135,7 +135,7 @@ class OpenCDXIAMProviderRestControllerTest {
         MvcResult result = this.mockMvc
                 .perform(get("/provider/" + ObjectId.get().toHexString())
                         .content(this.objectMapper.writeValueAsString(GetProviderRequest.newBuilder()
-                                .setUserId(ObjectId.get().toHexString())
+                                .setProviderNumber(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

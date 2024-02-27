@@ -43,7 +43,7 @@ public class OpenCDXConnectedTestModel {
     @Id
     private ObjectId id;
 
-    private ObjectId userId;
+    private ObjectId patientId;
     private String nationalHealthId;
 
     private BasicInfo basicInfo;
@@ -66,7 +66,7 @@ public class OpenCDXConnectedTestModel {
         if (connectedTest.getBasicInfo().hasId()) {
             this.id = new ObjectId(connectedTest.getBasicInfo().getId());
         }
-        this.userId = new ObjectId(connectedTest.getBasicInfo().getUserId());
+        this.patientId = new ObjectId(connectedTest.getBasicInfo().getPatientId());
         this.nationalHealthId = connectedTest.getBasicInfo().getNationalHealthId();
         this.basicInfo = connectedTest.getBasicInfo();
         this.orderInfo = connectedTest.getOrderInfo();
@@ -101,7 +101,7 @@ public class OpenCDXConnectedTestModel {
         if (this.basicInfo != null) {
             builder.setBasicInfo(BasicInfo.newBuilder(this.basicInfo)
                     .setId(this.id.toHexString())
-                    .setUserId(this.userId.toHexString())
+                    .setPatientId(this.patientId.toHexString())
                     .setNationalHealthId(this.nationalHealthId)
                     .build());
         }
