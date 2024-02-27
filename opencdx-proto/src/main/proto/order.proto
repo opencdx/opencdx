@@ -1,0 +1,80 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.shipping;
+import "common.proto";
+import "inventory.proto";
+import "google/protobuf/timestamp.proto";
+
+message Order {
+  optional string id = 1;
+
+  optional string patient_id = 2;
+
+  cdx.opencdx.grpc.common.Address shipping_address = 3;
+
+  cdx.opencdx.grpc.inventory.TestCase test_case = 4;
+
+  /*
+   * The timestamp capturing when this particular Manufacturer instance was created.
+   * This is optional, and might not be present at all.
+   */
+  optional google.protobuf.Timestamp created = 5;
+
+  /*
+   * The timestamp capturing any modifications to the Manufacturer instance.
+   * Similar to 'created', this too is optional.
+   */
+  optional google.protobuf.Timestamp modified = 6;
+
+  /*
+   * The ID of the user who initially created this Manufacturer instance.
+   * Another optional field.
+   */
+  optional string creator = 7;
+
+  /*
+   * The ID of the user who made the most recent modifications to this Manufacturer instance.
+   * This field is also optional.
+   */
+  optional string modifier = 8;
+}
+
+message CreateOrderRequest {
+  Order order = 1;
+}
+message CreateOrderResponse {
+  Order order = 1;
+}
+message GetOrderRequest {
+  string id = 1;
+}
+message GetOrderResponse {
+  Order order = 1;
+}
+message UpdateOrderRequest {
+  Order order = 1;
+}
+message UpdateOrderResponse {
+  Order order = 1;
+}
+message CancelOrderRequest {
+  string id = 1;
+}
+message CancelOrderResponse {
+  Order order = 1;
+}
+message ListOrdersRequest {
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  optional string patient_id = 2;
+}
+message ListOrdersResponse {
+  repeated Order orders = 1;
+}
+
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {}
+  rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse) {}
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse) {}
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse) {}
+}

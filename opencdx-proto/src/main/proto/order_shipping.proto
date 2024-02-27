@@ -1,0 +1,58 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.shipping;
+import "common.proto";
+import "inventory.proto";
+import "order.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message ShippingRequest {
+  cdx.opencdx.grpc.common.Address sender_address = 1;
+  cdx.opencdx.grpc.common.Address recipient_address = 2;
+  cdx.opencdx.grpc.shipping.Order package_details = 3;
+  bool require_signature = 5;
+  double declared_value = 6;
+}
+
+message Shipping {
+  cdx.opencdx.grpc.common.Address sender_address = 1;
+  cdx.opencdx.grpc.common.Address recipient_address = 2;
+  cdx.opencdx.grpc.shipping.Order package_details = 3;
+  ServiceLevel service_level = 4;
+  repeated AdditionalService additional_services = 5;
+  bool require_signature = 6;
+  double declared_value = 7;
+  string shipping_vendor_id = 8;
+  cdx.opencdx.grpc.common.PaymentDetails payment_details = 9;
+}
+
+message ShippingResponse {
+  string tracking_number = 1;
+  cdx.opencdx.grpc.common.ShippingStatus status = 2;
+  string estimated_delivery_date = 3;
+  double total_cost = 4;
+}
+
+message AdditionalService {
+  string code = 1;
+  string short_description = 2;
+  string long_description = 3;
+}
+
+message ServiceLevel {
+  string code = 1;
+  string short_description = 2;
+  string long_description = 3;
+}
+
+message ShippingVendorResponse {
+  repeated Shipping options = 1;
+}
+
+service ShippingService {
+  rpc GetShippingVendors(ShippingRequest) returns (ShippingVendorResponse);
+  rpc ShipPackage(Shipping) returns (ShippingResponse);
+
+}
+
