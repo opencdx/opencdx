@@ -428,7 +428,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
     }
 
     private AuditEntity getAuditEntity(String auditEntity) {
-        return AuditEntity.newBuilder().setPatientIdentifier(auditEntity).build();
+        return AuditEntity.newBuilder().setPatientId(auditEntity).build();
     }
 
     private DataObject getDataObject(String jsonRecord, String resource, SensitivityLevel sensitivityLevel) {

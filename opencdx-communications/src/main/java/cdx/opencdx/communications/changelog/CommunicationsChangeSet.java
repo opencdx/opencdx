@@ -47,9 +47,9 @@ public class CommunicationsChangeSet {
     private static final String LAST_NAME = "lastName";
 
     private static final String SYSTEM = "SYSTEM";
-    public static final String USER_ID = "userId";
-    public static final String NOTIFICATION_EVENT = "notification-event";
-    public static final String NOTIFICATIONS = "notifications";
+    private static final String NOTIFICATION_EVENT = "notification-event";
+    private static final String NOTIFICATIONS = "notifications";
+    private static final String USER_NAME = "userName";
 
     /**
      * Default Consructor
@@ -81,19 +81,20 @@ public class CommunicationsChangeSet {
                 .subject("Welcome to OpenCDX")
                 .content(
                         """
-                        Welcome [[${firstName}]] [[${lastName}]],
+                        Welcome [[${userName}]],
 
-                        Welcome to OpenCDX. Your account has been setup with your username: [[${email}]].
+                        Welcome to OpenCDX. Your account has been setup with your username: [[${userName}]].
 
                         Thank you!
                         """)
-                .variables(List.of(FIRST_NAME, LAST_NAME, "email"))
+                .variables(List.of(USER_NAME))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373c"))
                 .templateType(TemplateType.TEMPLATE_TYPE_WELCOME)
-                .message("Welcome [[${firstName}]] [[${lastName}]] to OpenCDX.  Your username is: [[${email}]].")
-                .variables(List.of(FIRST_NAME, LAST_NAME, "email"))
+                .message(
+                        "Welcome [[${userName}]]  to OpenCDX. Your account has been setup with your username: [[${userName}]].")
+                .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d373e"))
@@ -378,14 +379,14 @@ public class CommunicationsChangeSet {
                 .subject("OpenCDX Notification")
                 .content(
                         """
-                        Dear [[${firstName}]] [[${lastName}]],
+                        Dear [[${userName}]],
 
                         To verify your email : [[${email}]] click the link below :
                         <a th:href="@{|${verification_server}/${user_id}|}" target="_blank">[[${verification_server}]]/[[${user_id}]]</a>
 
                         Thank you!
                         """)
-                .variables(List.of(FIRST_NAME, LAST_NAME, "verification_server", "user_id"))
+                .variables(List.of(USER_NAME, "verification_server", "user_id"))
                 .build();
 
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -412,5 +413,56 @@ public class CommunicationsChangeSet {
         mongockTemplate.getCollection(NOTIFICATION_EVENT).createIndex(Indexes.ascending(List.of("smsTemplateId")));
         mongockTemplate.getCollection(NOTIFICATIONS).createIndex(Indexes.ascending(List.of("emailStatus")));
         mongockTemplate.getCollection(NOTIFICATIONS).createIndex(Indexes.ascending(List.of("smsStatus")));
+    }
+
+    /**
+     * Notification Template
+     * @param openCDXEmailTemplateRepository Email Template Repository
+     * @param openCDXSMSTemplateRespository SMS Template Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @Observed
+    @ChangeSet(order = "009", id = "Create Change Password Template", author = "Jeff Miller")
+    public void generateChangePasswoard(
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Notification Templates");
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3751"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .subject("OpenCDX Change Password")
+                .content(
+                        """
+                        Dear [[${userName}]],
+
+                        This is to notify your password has changed for account [[${userName}]].
+
+                        Thank you!
+                        """)
+                .variables(List.of(USER_NAME))
+                .build();
+        OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3753"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .message("your password has changed for account: ${userName}")
+                .variables(List.of(USER_NAME))
+                .build();
+        OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3750"))
+                .eventName("Change Password Notification to user")
+                .eventDescription("Change Password Notification to user.")
+                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3751"))
+                .emailRetry(4)
+                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3752"))
+                .smsRetry(4)
+                .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
+                .build();
+        openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
+        openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
+        openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
     }
 }

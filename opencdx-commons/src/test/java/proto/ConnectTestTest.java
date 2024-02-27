@@ -66,7 +66,7 @@ class ConnectTestTest {
                         .setModifier("modifier")
                         .setVendorLabTestId("vendorLabTestId")
                         .setType("type")
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setHealthServiceId("hea;thServiceId")
                         .setWorkspaceId(ObjectId.get().toHexString())
@@ -174,7 +174,7 @@ class ConnectTestTest {
                         .setPageNumber(2)
                         .setSortAscending(true)
                         .build())
-                .setUserId("userId")
+                .setPatientId("userId")
                 .build();
         log.info("ConnectedTestListRequest: {}", this.mapper.writeValueAsString(connectedTestListRequest));
     }

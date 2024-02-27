@@ -30,10 +30,17 @@ import java.util.List;
 @ExcludeFromJacocoGeneratedReport
 public class ConnectedTestChangeSet {
 
-    public static final String USER_ID = "userId";
-    public static final String DEVICES = "devices";
-    public static final String TESTCASES = "testcases";
+    private static final String USER_ID = "userId";
+    private static final String DEVICES = "devices";
+    private static final String TESTCASES = "testcases";
     private static final String SYSTEM = "SYSTEM";
+
+    /**
+     * Default Constructor
+     */
+    public ConnectedTestChangeSet() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     /**
      * Create an index based on the user id

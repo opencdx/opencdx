@@ -29,7 +29,9 @@ import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -52,6 +54,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import java.util.Optional;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -115,8 +118,49 @@ class OpenCDXClassificationServiceImplTest {
     @Mock
     OpenCDXClassificationRepository openCDXClassificationRepository;
 
+    @Mock
+    OpenCDXProfileRepository openCDXProfileRepository;
+
     @BeforeEach
     void beforeEach() {
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
         when(this.openCDXIAMUserRepository.findByUsername(Mockito.any(String.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
@@ -194,7 +238,8 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXConnectedTestClient,
                 this.openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
-                openCDXClassificationRepository);
+                openCDXClassificationRepository,
+                openCDXProfileRepository);
     }
 
     @AfterEach
@@ -215,7 +260,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -250,7 +295,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -283,7 +328,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         // .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -306,7 +351,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                         .build())
@@ -331,7 +376,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                         .build())
@@ -379,7 +424,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -418,7 +463,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -469,7 +514,7 @@ class OpenCDXClassificationServiceImplTest {
 
         ClassificationRequest request = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
@@ -497,12 +542,13 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXConnectedTestClient,
                 this.openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
-                openCDXClassificationRepository);
+                openCDXClassificationRepository,
+                openCDXProfileRepository);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setConnectedTestId(ObjectId.get().toHexString())
                         .addSymptoms(
                                 Symptom.newBuilder()
@@ -590,7 +636,7 @@ public class BloodPressureRules {
 
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
                 .setUserAnswer(UserAnswer.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                         .build())
                 .build();

@@ -18,8 +18,8 @@ package cdx.opencdx.connected.test.service.impl;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
@@ -29,7 +29,6 @@ import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
 import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.iam.IamUserStatus;
 import io.micrometer.observation.annotation.Observed;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,11 +55,11 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
     private final OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
 
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
-
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
 
     private final OpenCDXManufacturerRepository openCDXManufacturerRepository;
+
+    private final OpenCDXProfileRepository openCDXProfileRepository;
 
     private final OpenCDXMessageService openCDXMessageService;
 
@@ -68,21 +67,21 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
      * Constructor with OpenCDXCDCPayloadServiceImpl
      *
      * @param openCDXConnectedTestRepository Mongo Repository for OpenCDXConnectedTest
-     * @param openCDXIAMUserRepository       Mongo repository to look up patient info
      * @param openCDXDeviceRepository        Mongo repository to look up device info
      * @param openCDXManufacturerRepository  Mongo repository to look up manufacturer info
      * @param openCDXMessageService          Message Service for sending CDC message
+     * @param openCDXProfileRepository       Mongo repository to look up profile info
      */
     public OpenCDXCDCPayloadServiceImpl(
             OpenCDXConnectedTestRepository openCDXConnectedTestRepository,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXDeviceRepository openCDXDeviceRepository,
             OpenCDXManufacturerRepository openCDXManufacturerRepository,
             OpenCDXMessageService openCDXMessageService) {
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
         this.openCDXConnectedTestRepository = openCDXConnectedTestRepository;
         this.openCDXDeviceRepository = openCDXDeviceRepository;
         this.openCDXManufacturerRepository = openCDXManufacturerRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXMessageService = openCDXMessageService;
     }
 
@@ -96,7 +95,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find connected test: " + testId));
 
         // Retrieve Patient
-        String patientId = connectedTestModel.getBasicInfo().getUserId();
+        String patientId = connectedTestModel.getBasicInfo().getPatientId();
         Patient patient = getPatientInfo(patientId);
 
         // Create Device
@@ -288,14 +287,14 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
     private Patient getPatientInfo(String patientId) {
 
         // Retrieve the patient Info from the database
-        OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
+        OpenCDXProfileModel user = this.openCDXProfileRepository
                 .findById(new ObjectId(patientId))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, "Failed to find patient: " + patientId));
 
         Patient patient = new Patient();
 
         patient.setId(user.getId().toHexString());
-        patient.setActive(user.getStatus() == IamUserStatus.IAM_USER_STATUS_ACTIVE);
+        patient.setActive(user.isActive());
 
         FullName fullName = user.getFullName();
         if (fullName != null) {
