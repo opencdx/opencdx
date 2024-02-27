@@ -125,7 +125,7 @@ class OpenCDXGrpcRoutineControllerTest {
         this.openCDXGrpcRoutineController.createDeliveryTracking(
                 DeliveryTrackingRequest.newBuilder(DeliveryTrackingRequest.getDefaultInstance())
                         .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setDeliveryId("789")
+                                .setTrackingId("789")
                                 .build())
                         .build(),
                 responseObserver);
@@ -139,7 +139,7 @@ class OpenCDXGrpcRoutineControllerTest {
         this.openCDXGrpcRoutineController.getDeliveryTracking(
                 DeliveryTrackingRequest.newBuilder()
                         .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setDeliveryId("789")
+                                .setTrackingId("789")
                                 .build())
                         .build(),
                 responseObserver);
