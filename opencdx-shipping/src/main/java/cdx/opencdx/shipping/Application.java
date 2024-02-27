@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.helloworld;
+package cdx.opencdx.shipping;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import org.springframework.boot.SpringApplication;

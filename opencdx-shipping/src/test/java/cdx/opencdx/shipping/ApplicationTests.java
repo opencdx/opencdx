@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.helloworld;
+package cdx.opencdx.shipping;
 
-import cdx.opencdx.helloworld.config.AppConfig;
+import cdx.opencdx.shipping.config.AppConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

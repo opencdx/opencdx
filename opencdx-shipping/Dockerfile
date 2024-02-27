@@ -6,5 +6,5 @@ curl
 
 RUN apt-get clean
 
-COPY build/libs/opencdx-helloworld-*.jar app.jar
+COPY build/libs/opencdx-shipping-*.jar app.jar
 ENTRYPOINT ["sh", "-c", "java -jar /app.jar "]

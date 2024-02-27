@@ -1,8 +1,8 @@
-# OpenCDX HelloWorld
+# OpenCDX Shipping
 > Template Module for an OpenCDX Service. Used to quickly setup new services.
 
 ## Docker Image
-opencdx/helloworld
+opencdx/shipping
 
 ## Docker Port
 - RestAPI > Host 8080 : Container 8080

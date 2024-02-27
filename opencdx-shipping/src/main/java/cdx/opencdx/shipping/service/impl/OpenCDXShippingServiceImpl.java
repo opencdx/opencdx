@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.shipping.service.impl;
 
-import cdx.opencdx.grpc.helloworld.*;
 import cdx.opencdx.grpc.shipping.*;
 import cdx.opencdx.shipping.service.OpenCDXShippingService;
 import io.micrometer.observation.annotation.Observed;
