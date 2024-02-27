@@ -26,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller for the /greeting api's
+ * REST Controller for OpenCDX Shipping
  */
 @Slf4j
 @RestController
@@ -45,6 +45,11 @@ public class OpenCDXRestShippingController {
         this.openCDXShippingService = openCDXShippingService;
     }
 
+    /**
+     * Get an order by its ID
+     * @param id ID of the order to get
+     * @return Response with the order
+     */
     @GetMapping("/{id}")
     public ResponseEntity<GetOrderResponse> getOrder(@PathVariable("id") String id) {
         return new ResponseEntity<>(
@@ -53,16 +58,31 @@ public class OpenCDXRestShippingController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Create a new order
+     * @param request Request to create the order
+     * @return Response with the created order
+     */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
         return new ResponseEntity<>(this.openCDXShippingService.createOrder(request), HttpStatus.OK);
     }
 
+    /**
+     * Update an existing order
+     * @param request Request to update the order
+     * @return Response with the updated order
+     */
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateOrderResponse> updateOrder(@RequestBody UpdateOrderRequest request) {
         return new ResponseEntity<>(this.openCDXShippingService.updateOrder(request), HttpStatus.OK);
     }
 
+    /**
+     * Cancel an existing order
+     * @param id ID of the order to cancel
+     * @return Response with the cancelled order
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<CancelOrderResponse> cancelOrder(@PathVariable String id) {
         return new ResponseEntity<>(
@@ -70,7 +90,11 @@ public class OpenCDXRestShippingController {
                         CancelOrderRequest.newBuilder().setId(id).build()),
                 HttpStatus.OK);
     }
-
+    /**
+     * List orders
+     * @param request Request to list orders
+     * @return Response with the list of orders
+     */
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListOrdersResponse> listOrders(@RequestBody ListOrdersRequest request) {
         return new ResponseEntity<>(this.openCDXShippingService.listOrders(request), HttpStatus.OK);

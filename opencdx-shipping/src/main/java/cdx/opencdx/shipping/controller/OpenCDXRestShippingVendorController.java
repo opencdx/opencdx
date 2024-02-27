@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rest Controller for Shipping Vendor
+ */
 @Slf4j
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,15 +37,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class OpenCDXRestShippingVendorController {
     private final OpenCDXShippingVendorService openCDXShippingVendorService;
 
+    /**
+     * Constructor
+     * @param openCDXShippingVendorService Service for shipping vendor
+     */
     public OpenCDXRestShippingVendorController(OpenCDXShippingVendorService openCDXShippingVendorService) {
         this.openCDXShippingVendorService = openCDXShippingVendorService;
     }
 
+    /**
+     * Get shipping vendors
+     * @param request Shipping request
+     * @return Shipping vendor response
+     */
     @PostMapping(value = "/vendors", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ShippingVendorResponse> getShippingVendors(@RequestBody ShippingRequest request) {
         return new ResponseEntity<>(this.openCDXShippingVendorService.getShippingVendors(request), HttpStatus.OK);
     }
 
+    /**
+     * Ship package
+     * @param request Shipping request
+     * @return Shipping response
+     */
     @PostMapping(value = "/ship", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ShippingResponse> shipPackage(@RequestBody Shipping request) {
         return new ResponseEntity<>(this.openCDXShippingVendorService.shipPackage(request), HttpStatus.OK);

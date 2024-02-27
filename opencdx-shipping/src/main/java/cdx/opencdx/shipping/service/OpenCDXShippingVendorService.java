@@ -20,9 +20,22 @@ import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
 import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
 
+/**
+ * Service for processing Shipping Vendor Requests
+ */
 public interface OpenCDXShippingVendorService {
 
+    /**
+     * Get shipping vendors
+     * @param request Shipping request
+     * @return Shipping vendor response
+     */
     ShippingVendorResponse getShippingVendors(ShippingRequest request);
 
+    /**
+     * Ship a package
+     * @param request Shipping request
+     * @return Shipping response
+     */
     ShippingResponse shipPackage(Shipping request);
 }

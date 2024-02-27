@@ -18,16 +18,42 @@ package cdx.opencdx.shipping.service;
 import cdx.opencdx.grpc.shipping.*;
 
 /**
- * Interface for the HelloWorldService
+ * Service for processing Order Requests
  */
 public interface OpenCDXShippingService {
+
+    /**
+     * Create an order
+     * @param request CreateOrderRequest
+     * @return CreateOrderResponse
+     */
     CreateOrderResponse createOrder(CreateOrderRequest request);
 
+    /**
+     * Get an order
+     * @param request GetOrderRequest
+     * @return GetOrderResponse
+     */
     GetOrderResponse getOrder(GetOrderRequest request);
 
+    /**
+     * Update an order
+     * @param request UpdateOrderRequest
+     * @return UpdateOrderResponse
+     */
     UpdateOrderResponse updateOrder(UpdateOrderRequest request);
 
+    /**
+     * Cancel an order
+     * @param request CancelOrderRequest
+     * @return CancelOrderResponse
+     */
     CancelOrderResponse cancelOrder(CancelOrderRequest request);
 
+    /**
+     * List orders
+     * @param request ListOrdersRequest
+     * @return ListOrdersResponse
+     */
     ListOrdersResponse listOrders(ListOrdersRequest request);
 }

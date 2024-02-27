@@ -22,6 +22,9 @@ import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 
+/**
+ * Controller for processing Shipping Requests
+ */
 @Slf4j
 @GRpcService
 @Observed(name = "opencdx")
@@ -29,6 +32,10 @@ public class OpenCDXGrpcShippingVendorController extends ShippingServiceGrpc.Shi
 
     private final OpenCDXShippingVendorService openCDXShippingVendorService;
 
+    /**
+     * Constructor for OpenCDXGrpcShippingVendorController
+     * @param openCDXShippingVendorService Service for processing Shipping Requests
+     */
     public OpenCDXGrpcShippingVendorController(OpenCDXShippingVendorService openCDXShippingVendorService) {
         this.openCDXShippingVendorService = openCDXShippingVendorService;
     }

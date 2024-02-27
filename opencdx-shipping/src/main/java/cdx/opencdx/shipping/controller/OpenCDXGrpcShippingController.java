@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 /**
- * gRPC Controller for Hello World
+ * gRPC Controller for Order Service
  */
 @Slf4j
 @GRpcService
@@ -34,6 +34,10 @@ public class OpenCDXGrpcShippingController extends OrderServiceGrpc.OrderService
 
     private final OpenCDXShippingService openCDXShippingService;
 
+    /**
+     * Constructor
+     * @param openCDXShippingService Service to use
+     */
     @Autowired
     public OpenCDXGrpcShippingController(OpenCDXShippingService openCDXShippingService) {
         this.openCDXShippingService = openCDXShippingService;
