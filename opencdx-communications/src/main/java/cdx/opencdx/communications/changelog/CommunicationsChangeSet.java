@@ -47,10 +47,10 @@ public class CommunicationsChangeSet {
     private static final String LAST_NAME = "lastName";
 
     private static final String SYSTEM = "SYSTEM";
-    public static final String USER_ID = "userId";
-    public static final String NOTIFICATION_EVENT = "notification-event";
-    public static final String NOTIFICATIONS = "notifications";
-    public static final String USER_NAME = "userName";
+    private static final String USER_ID = "userId";
+    private static final String NOTIFICATION_EVENT = "notification-event";
+    private static final String NOTIFICATIONS = "notifications";
+    private static final String USER_NAME = "userName";
 
     /**
      * Default Consructor

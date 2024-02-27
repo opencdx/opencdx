@@ -17,8 +17,17 @@ package cdx.opencdx.classification.model;
 
 import lombok.Data;
 
+/**
+ * Model for Rule Result
+ */
 @Data
 public class RuleResult {
+    /**
+     * Constructor for RuleResult
+     */
+    public RuleResult() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     private String result;
 }

@@ -33,6 +33,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Model for OpenCDX Profile
+ */
 @Slf4j
 @Data
 @AllArgsConstructor
@@ -77,7 +80,6 @@ public class OpenCDXProfileModel {
     /**
      * Method to update the data with a protobuf UserProfile
      * @param userProfile UserProfile to update data from
-     * @return reference to itself.
      */
     public OpenCDXProfileModel(UserProfile userProfile) {
         log.trace("Updating user profile for user");

@@ -28,10 +28,24 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import reactor.netty.http.client.HttpClient;
 
+/**
+ * Configuration for WebClient
+ */
 @Configuration
 @Slf4j
 public class WebClientConfig {
 
+    /**
+     * Customizer for WebClient
+     */
+    public WebClientConfig() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Customizer for WebClient
+     * @return ZipkinWebClientBuilderCustomizer
+     */
     @Bean
     ZipkinWebClientBuilderCustomizer myCustomizer() {
         return webClientBuilder -> {

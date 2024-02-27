@@ -50,7 +50,7 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     private static final String OBJECT = "OBJECT";
     private static final String ANF_STATEMENT = "ANF-STATEMENT: ";
     private static final String PROFILES = "profiles";
-    public static final String FAILED_TO_FIND_PATIENT = "Failed to find patient: ";
+    private static final String FAILED_TO_FIND_PATIENT = "Failed to find patient: ";
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXANFStatementRepository openCDXANFStatementRepository;
