@@ -127,7 +127,8 @@ def exportedProjects = [
         ":opencdx-protector",
         ":opencdx-questionnaire",
         ":opencdx-routine",
-        ":opencdx-tinkar"
+        ":opencdx-tinkar",
+        ":opencdx-shipping"
 ]
 
 tasks.register('allJavadoc', Javadoc) {
