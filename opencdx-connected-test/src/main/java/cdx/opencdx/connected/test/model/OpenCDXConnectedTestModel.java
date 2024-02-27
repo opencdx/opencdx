@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.test.model;
 
+import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.connected.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;

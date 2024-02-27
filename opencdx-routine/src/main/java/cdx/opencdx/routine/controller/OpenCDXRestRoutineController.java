@@ -94,7 +94,7 @@ public class OpenCDXRestRoutineController {
             @PathVariable(value = "deliveryId") String deliveryId) {
         DeliveryTrackingRequest request = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(
-                        DeliveryTracking.newBuilder().setDeliveryId(deliveryId).build())
+                        DeliveryTracking.newBuilder().setTrackingId(deliveryId).build())
                 .build();
         DeliveryTrackingResponse response = openCDXRoutineService.getDeliveryTracking(request);
         return new ResponseEntity<>(response, HttpStatus.OK);

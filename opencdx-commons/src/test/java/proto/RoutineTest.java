@@ -15,6 +15,7 @@
  */
 package proto;
 
+import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.routine.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,9 +62,9 @@ class RoutineTest {
     void testDeliveryTrackingRequest() throws JsonProcessingException {
         DeliveryTrackingRequest item = DeliveryTrackingRequest.newBuilder()
                 .setDeliveryTracking(DeliveryTracking.newBuilder()
-                        .setDeliveryId(ObjectId.get().toHexString())
+                        .setTrackingId(ObjectId.get().toHexString())
                         .setOrderId(ObjectId.get().toHexString())
-                        .setStatus(DeliveryTracking.Status.DELAYED)
+                        .setStatus(ShippingStatus.DELAYED)
                         .setStartDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setEndDatetime(Timestamp.newBuilder().setSeconds(1696435104))
                         .setCurrentLocation("Current Location")
