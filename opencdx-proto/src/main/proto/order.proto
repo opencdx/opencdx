@@ -18,7 +18,7 @@ message Order {
   optional string id = 1;
 
   /**
-   * The unique identifier for the patient who placed the order.
+   * The unique identifier for the patient who placed the order or for whom the order was placed.
    */
   optional string patient_id = 2;
 
