@@ -10,9 +10,11 @@ import { Controller } from 'react-hook-form';
 
 import { systemVariables } from '../../store/constant';
 import { SystemVariables } from '../ui-components/SystemVariables';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
+
 
 export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex , getValues}, ref) => {
-    const formData = JSON.parse(localStorage.getItem('anf-form'));
+    const {formData} = useAnfFormStore();
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
 
     return (
@@ -26,7 +28,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={9} lg={8}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`test.${index}.item.${currentIndex}.circumstanceType`}
+                                name={`item.${index}.item.${currentIndex}.circumstanceType`}
                                 control={control}
                                 defaultValue={10}
                                 render={({ field }) => (
@@ -45,7 +47,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={9} lg={8}>
                         {componentType ? (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.choice`)}
+                                {...register(`item.${index}.item.${currentIndex}.choice`)}
                                 fullWidth
                                 placeholder="Enter Type Information"
                                 defaultValue={JSON.stringify(systemVariables['status'])}
@@ -53,10 +55,10 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         ) : (
                             <FormControl fullWidth>
                                 <Controller
-                                    name={`test.${index}.item.${currentIndex}.status`}
+                                    name={`item.${index}.item.${currentIndex}.status`}
                                     control={control}
                                     render={({ field }) => (
-                                        <Select {...field} id={`test.${index}.item.${currentIndex}.status`}>
+                                        <Select {...field} id={`item.${index}.item.${currentIndex}.status`}>
                                             <MenuItem value={10}>On Hold</MenuItem>
                                             <MenuItem value={20}>Completed</MenuItem>
                                             <MenuItem value={30}>Needed</MenuItem>
@@ -79,14 +81,14 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         <FormControl fullWidth>
                             {componentType ? (
                                 <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
+                                    {...register(`item.${index}.item.${currentIndex}.healthRisk`)}
                                     fullWidth
                                     placeholder="Enter Health Risk Information"
                                     defaultValue={systemVariables['circumstanceChoice'][0].healthRisk.replace('XXXXX', '')}
                                 />
                             ) : (
                                 <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.healthRisk`)}
+                                    {...register(`item.${index}.item.${currentIndex}.healthRisk`)}
                                     fullWidth
                                     placeholder="Enter Health Risk Information"
                                 />

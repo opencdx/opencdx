@@ -6,9 +6,11 @@ import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
 
 import { systemVariables } from '../../store/constant';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
+
 
 export const MeasureComponent = React.forwardRef(({ register, index, currentIndex, tab, control }, ref) => {
-    const formData = JSON.parse(localStorage.getItem('anf-form'));
+    const {formData} = useAnfFormStore();
     const componentType =
         ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType) &&
         !['timingMeasure', 'rangeMeasure', 'result'].includes(tab);
@@ -30,7 +32,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.lowerBound`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.lowerBound`)}
                                         fullWidth
                                         type="text"
                                         value={lowerBoundState}
@@ -42,7 +44,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.lowerBound`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.lowerBound`)}
                                         fullWidth
                                         type="text"
                                         InputProps={{
@@ -59,7 +61,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 <FormControl>
                                     <Controller
                                         control={control}
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.lowerBoundOptions`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.lowerBoundOptions`)}
                                         render={({ field }) =>
                                             componentType ? (
                                                 <RadioGroup
@@ -102,7 +104,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.sematic`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.sematic`)}
                                         fullWidth
                                         value={semanticState}
                                         onChange={(e) => {
@@ -113,7 +115,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.sematic`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.sematic`)}
                                         fullWidth
                                         placeholder="Enter Semantic Value"
                                     />
@@ -128,7 +130,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                     <Grid item xs={12} sm={8} lg={8}>
                         {componentType ? (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.resolution`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.resolution`)}
                                 fullWidth
                                 value={resolutionState}
                                 onChange={(e) => {
@@ -139,7 +141,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             />
                         ) : (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.resolution`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.resolution`)}
                                 fullWidth
                                 type="text"
                                 InputProps={{
@@ -156,7 +158,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                         {componentType ? (
                             <TextField
                                 type={'text'}
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.upperBound`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.upperBound`)}
                                 fullWidth
                                 value={upperBoundState}
                                 onChange={(e) => {
@@ -167,7 +169,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             />
                         ) : (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.upperBound`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.upperBound`)}
                                 fullWidth
                                 InputProps={{
                                     inputProps: { min: 0 }
@@ -184,7 +186,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                         <FormControl>
                             <Controller
                                 control={control}
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.upperBoundOptions`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.upperBoundOptions`)}
                                 render={({ field }) =>
                                     componentType ? (
                                         <RadioGroup

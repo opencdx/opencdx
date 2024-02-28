@@ -21,7 +21,7 @@ const Type = React.forwardRef(({  index, currentIndex, control,getValues }, ref)
                             <Grid item xs={12} sm={9} lg={6}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`test.${index}.item.${currentIndex}.typeValue`}
+                                name={`item.${index}.item.${currentIndex}.typeValue`}
                                 control={control}
                                 defaultValue={10}
                                 render={({ field }) => (

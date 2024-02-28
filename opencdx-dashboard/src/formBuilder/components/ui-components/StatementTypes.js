@@ -4,8 +4,11 @@ import { FormControl, FormControlLabel, Grid, Radio, RadioGroup, Button, Typogra
 import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
 import IconRestore from '@mui/icons-material/Restore';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
+
 
 const StatementTypes = forwardRef(({ register, index, control, item, handleStatementTypeChange }, ref) => {
+    const { formData , setFormData} = useAnfFormStore();
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -38,16 +41,24 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
     );
 
     const handleRadioChange = (value) => {
-        const formData = JSON.parse(localStorage.getItem('anf-form'));
         formData?.item?.map((element, currentIndex) => {
             if (currentIndex === index) {
                 formData.item[index].componentType = value;
             }
         });
         handleStatementTypeChange(value)
-        localStorage.setItem('anf-form', JSON.stringify({ item: formData.item }));
-
+        setFormData({ item: formData.item });
         setSelectedOption(value);
+       
+        const markedMainANFStatement = formData.item
+            .filter((element) => element.componentType === 'main_anf_statement')
+            .map((element) => element.text);
+            const updatedItem = formData.item.map((element) => ({
+                ...element,
+                markedMainANFStatement: markedMainANFStatement
+            }));
+            setFormData({ item: updatedItem });
+
     };
 
     const renderList = useCallback(() => {
@@ -72,7 +83,7 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                                         sx={{ width: '300px' }}
                                         control={
                                             <Checkbox
-                                                {...register(`test.${index}.componentTypeAssociated.${indexItem}`)}
+                                                {...register(`item.${index}.componentTypeAssociated.${indexItem}`)}
                                                 checked={
                                                     !item.componentType && selectedAssociatedOption && selectedAssociatedOption[indexItem]
                                                 }
@@ -146,7 +157,7 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                     <Grid item xs={12} lg={12} sx={{ height: 'auto', overflow: 'auto' }}>
                         <Controller
                             control={control}
-                            {...register(`test.${index}.componentType`)}
+                            {...register(`item.${index}.componentType`)}
                             render={({ field }) => (
                                 <RadioGroup
                                     row

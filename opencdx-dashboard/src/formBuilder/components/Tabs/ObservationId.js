@@ -26,6 +26,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { observationAttributes, categories } from '../../store/constant';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 
 export const ObservationId = ({ currentIndex, index, control, getValues, register }) => {
@@ -33,13 +34,10 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
         margin: theme.spacing(0.5),
     }));
     const [chipData, setChipData] = React.useState([]);
-
-
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const {formData,setFormData} = useAnfFormStore();
 
     useEffect(() => {
-        const formData = JSON.parse(localStorage.getItem('anf-form'));
-
         if (formData && formData.item) {
             const currentCategories = formData.item[index]?.selectedCategories || [];
 
@@ -57,16 +55,13 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
     }, []);
 
     const handleChange = (data) => () => {
-        const formData = JSON.parse(localStorage.getItem('anf-form')) || { item: [] };
         const currentCategories = formData.item[index]?.selectedCategories || [];
-
         const updatedCategories = currentCategories.includes(data.label)
             ? currentCategories.filter(category => category !== data.label)
             : [...currentCategories, data.label];
 
         formData.item[index] = { ...formData.item[index], selectedCategories: updatedCategories };
-
-        localStorage.setItem('anf-form', JSON.stringify(formData));
+        setFormData(formData);
 
         setChipData(chips => chips.map(chip => ({
             ...chip,
@@ -92,7 +87,7 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                         <FormControl fullWidth>
                             {typeof attribute === 'object' && attribute.options ? (
                                 <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.${attribute.label}${i}`)}
+                                    {...register(`item.${index}.item.${currentIndex}.${attribute.label}${i}`)}
                                     fullWidth
                                     placeholder={attribute.label}
                                 />
@@ -142,11 +137,11 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                     <Grid item xs={12} sm={12} lg={12}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`test.${index}.item.${currentIndex}.observationType`}
+                                name={`item.${index}.item.${currentIndex}.observationType`}
                                 control={control}
                                 defaultValue={10}
                                 render={({ field }) => (
-                                    <Select {...field} id={`test.${index}.item.${currentIndex}.type`} >
+                                    <Select {...field} id={`item.${index}.item.${currentIndex}.type`} >
                                         <MenuItem value={10}>Observation procedure</MenuItem>
                                     </Select>
                                 )}
@@ -197,8 +192,6 @@ ObservationId.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
     currentIndex: PropTypes.number,
-    tab: PropTypes.string,
-    selectedOption: PropTypes.array,
-    filteredAttributes: PropTypes.array
+    tab: PropTypes.string
 };
 export default ObservationId;
