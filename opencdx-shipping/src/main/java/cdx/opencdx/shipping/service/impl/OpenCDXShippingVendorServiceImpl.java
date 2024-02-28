@@ -30,12 +30,18 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
+/**
+ * OpenCDX shipping vendor service implementation
+ */
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorService {
 
     private Map<String, OpenCDXShippingVendor> vendors;
 
+    /**
+     * Default constructor
+     */
     public OpenCDXShippingVendorServiceImpl() {
         this.vendors = new HashMap<>();
 

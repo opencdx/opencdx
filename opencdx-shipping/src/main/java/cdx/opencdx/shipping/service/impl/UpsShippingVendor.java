@@ -29,9 +29,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * UPS shipping vendor simulation
+ */
 public class UpsShippingVendor implements OpenCDXShippingVendor {
 
     private static final String VENDOR_ID = "ups";
+
+    /**
+     * Default constructor
+     */
+    public UpsShippingVendor() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     @Override
     public String getVendorId() {

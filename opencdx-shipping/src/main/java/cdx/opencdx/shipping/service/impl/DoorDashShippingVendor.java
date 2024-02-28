@@ -28,8 +28,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * DoorDash shipping vendor simulation
+ */
 public class DoorDashShippingVendor implements OpenCDXShippingVendor {
     private static final String VENDOR_ID = "doordash";
+
+    /**
+     * Default constructor
+     */
+    public DoorDashShippingVendor() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
     @Override
     public String getVendorId() {

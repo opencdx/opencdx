@@ -20,6 +20,11 @@ import cdx.opencdx.grpc.shipping.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The OpenCDXShippingRequest class is a DTO that is used to convert the ShippingRequest to a
+ * OpenCDXShippingRequest.
+ */
+
 @Slf4j
 @Data
 public class OpenCDXShippingRequest {
@@ -30,6 +35,11 @@ public class OpenCDXShippingRequest {
     private final boolean requireSignature;
     private final Double declaredValue;
 
+    /**
+     * Constructor for OpenCDXShippingRequest
+     *
+     * @param shipping the shipping request
+     */
     public OpenCDXShippingRequest(ShippingRequest shipping) {
         this.senderAddress = shipping.getSenderAddress();
         this.recipientAddress = shipping.getRecipientAddress();

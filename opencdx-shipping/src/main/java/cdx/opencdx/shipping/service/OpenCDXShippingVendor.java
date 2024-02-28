@@ -20,11 +20,29 @@ import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
 import java.util.List;
 
+/**
+ * OpenCDX shipping vendor interface
+ * Used to define the contract for shipping vendors
+ */
 public interface OpenCDXShippingVendor {
 
+    /**
+     * Get the vendor id
+     * @return the vendor id
+     */
     String getVendorId();
 
+    /**
+     * Get the shipping vendors
+     * @param request the shipping request
+     * @return the list of shipping vendors
+     */
     List<OpenCDXShippingModel> getShippingVendors(OpenCDXShippingRequest request);
 
+    /**
+     * Ship the package
+     * @param request the shipping request
+     * @return the shipping response
+     */
     OpenCDXShippingResponse shipPackage(OpenCDXShippingModel request);
 }

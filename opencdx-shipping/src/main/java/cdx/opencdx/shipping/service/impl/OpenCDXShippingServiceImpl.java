@@ -49,19 +49,28 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
-    public static final String DOMAIN = "OpenCDXShippingServiceImpl";
-    public static final String OBJECT = "OBJECT";
-    public static final String ORDER = "Order: ";
-    public static final String FAILED_TO_FIND_PROFILE = "Failed to find Profile: ";
-    public static final String FAILED_TO_CONVERT_ORDER = "Failed to convert Order";
-    public static final String FAILED_TO_FIND_ORDER = "Failed to find Order: ";
-    public static final String ACCESSING_ORDER = "Accessing Order";
+    private static final String DOMAIN = "OpenCDXShippingServiceImpl";
+    private static final String OBJECT = "OBJECT";
+    private static final String ORDER = "Order: ";
+    private static final String FAILED_TO_FIND_PROFILE = "Failed to find Profile: ";
+    private static final String FAILED_TO_CONVERT_ORDER = "Failed to convert Order";
+    private static final String FAILED_TO_FIND_ORDER = "Failed to find Order: ";
+    private static final String ACCESSING_ORDER = "Accessing Order";
     private final OpenCDXOrderRepository openCDXOrderRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXProfileRepository openCDXProfileRepository;
 
+    /**
+     * Default constructor
+     *
+     * @param openCDXOrderRepository repository for order data
+     * @param openCDXCurrentUser current user service
+     * @param openCDXAuditService audit service
+     * @param objectMapper object mapper
+     * @param openCDXProfileRepository profile repository
+     */
     public OpenCDXShippingServiceImpl(
             OpenCDXOrderRepository openCDXOrderRepository,
             OpenCDXCurrentUser openCDXCurrentUser,

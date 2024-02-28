@@ -31,6 +31,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Model for Shipping in Mongo. Features conversions to/from Protobuf messages.
+ */
 @Slf4j
 @Data
 @Builder
@@ -52,8 +55,15 @@ public class OpenCDXShippingModel {
     private String shippingVendorId;
     private PaymentDetails paymentDetails;
 
+    /**
+     * Default constructor
+     */
     public OpenCDXShippingModel() {}
 
+    /**
+     * Create this model from this protobuf message
+     * @param request Protobuf message to create from
+     */
     public OpenCDXShippingModel(OpenCDXShippingRequest request) {
         this.senderAddress = request.getSenderAddress();
         this.recipientAddress = request.getRecipientAddress();
@@ -62,6 +72,10 @@ public class OpenCDXShippingModel {
         this.requireSignature = request.isRequireSignature();
     }
 
+    /**
+     * Create this model from this protobuf message
+     * @param shipping Protobuf message to create from
+     */
     public OpenCDXShippingModel(Shipping shipping) {
         if (shipping.hasId()) {
             this.id = new ObjectId(shipping.getId());
@@ -78,6 +92,10 @@ public class OpenCDXShippingModel {
         this.shippingCost = shipping.getShippingCost();
     }
 
+    /**
+     * Create a protobuf message from this model
+     * @return Protobuf message created from this model
+     */
     public Shipping toProtobuf() {
         Shipping.Builder builder = Shipping.newBuilder();
         if (this.id != null) {
@@ -124,6 +142,10 @@ public class OpenCDXShippingModel {
         return builder.build();
     }
 
+    /**
+     * Copy constructor
+     * @param other Model to copy from
+     */
     public OpenCDXShippingModel(OpenCDXShippingModel other) {
         this.id = other.id;
         this.senderAddress = other.senderAddress;

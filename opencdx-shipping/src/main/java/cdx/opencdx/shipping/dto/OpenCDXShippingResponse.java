@@ -23,6 +23,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The OpenCDXShippingResponse class is a DTO that represents the response of the shipping service.
+ */
 @Slf4j
 @Data
 @Builder
@@ -32,6 +35,18 @@ public class OpenCDXShippingResponse {
     private Double totalCost;
     private Instant estimatedDelivery;
 
+    /**
+     * Default constructor
+     */
+    public OpenCDXShippingResponse() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Converts the OpenCDXShippingResponse to a ShippingResponse protobuf.
+     *
+     * @return ShippingResponse
+     */
     public ShippingResponse toProtobuf() {
         ShippingResponse.Builder builder = ShippingResponse.newBuilder();
 
