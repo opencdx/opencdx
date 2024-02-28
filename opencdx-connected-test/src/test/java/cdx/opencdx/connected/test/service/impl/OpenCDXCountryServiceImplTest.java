@@ -210,4 +210,48 @@ class OpenCDXCountryServiceImplTest {
                 "Country ID: " + countryIdRequest.getCountryId() + " in use.",
                 this.openCDXCountryService.deleteCountry(countryIdRequest).getMessage());
     }
+
+    @Test
+    void deleteCountryOpenCDXNotAcceptable() throws JsonProcessingException {
+        OpenCDXCountryModel openCDXCountryModel =
+                OpenCDXCountryModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXCountryRepository.save(Mockito.any(OpenCDXCountryModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXCountryModel));
+        CountryIdRequest country = CountryIdRequest.newBuilder()
+                .setCountryId(ObjectId.get().toHexString())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXCountryModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        OpenCDXCountryServiceImpl openCDXCountryService1 = new OpenCDXCountryServiceImpl(
+                this.openCDXVendorRepository,
+                this.openCDXCountryRepository,
+                this.openCDXManufacturerRepository,
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXCountryService1.deleteCountry(country));
+    }
+
+    @Test
+    void deleteCountryOpenCDXNotFound() {
+        Mockito.when(this.openCDXCountryRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        CountryIdRequest country = CountryIdRequest.newBuilder()
+                .setCountryId(ObjectId.get().toHexString())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        OpenCDXCountryServiceImpl openCDXCountryService1 = new OpenCDXCountryServiceImpl(
+                this.openCDXVendorRepository,
+                this.openCDXCountryRepository,
+                this.openCDXManufacturerRepository,
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService);
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> openCDXCountryService1.deleteCountry(country));
+    }
 }

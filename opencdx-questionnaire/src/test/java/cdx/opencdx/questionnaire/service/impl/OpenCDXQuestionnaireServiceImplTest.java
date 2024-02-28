@@ -236,7 +236,7 @@ class OpenCDXQuestionnaireServiceImplTest {
                         PageRequest.of(1, 10),
                         1));
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
-                openCDXMessageService, openCDXDocumentValidator, openCDXProfileRepository);
+                openCDXMessageService, openCDXDocumentValidator, openCDXProfileRepository, openCDXCurrentUser);
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
                 this.openCDXAuditService,
                 this.objectMapper,

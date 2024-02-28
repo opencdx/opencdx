@@ -195,6 +195,11 @@ message UserAnswer {
    * Location of the user.
    */
   Location user_location = 12;
+
+  /*
+ * ID of the submitting user.
+ */
+  string submitting_user_id = 13;
 }
 
 /*
@@ -245,6 +250,11 @@ message ClassificationResponse {
    * Identifier for the patient.
    */
   string patient_id = 11;
+
+  /**
+   * Whether to notify the CDC.
+   */
+  bool notify_cdc = 12;
 }
 
 /*

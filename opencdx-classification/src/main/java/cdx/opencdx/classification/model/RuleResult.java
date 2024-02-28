@@ -29,5 +29,7 @@ public class RuleResult {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
-    private String result;
+    private String furtherActions = "";
+
+    private boolean notifyCDC = false;
 }

@@ -167,4 +167,46 @@ class OpenCDXDeviceServiceImplTest {
                 this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXDeviceService1.updateDevice(device));
     }
+
+    @Test
+    void deleteDeviceOpenCDXNotFound() {
+        Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        DeviceIdRequest device = DeviceIdRequest.newBuilder()
+                .setDeviceId(ObjectId.get().toHexString())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        OpenCDXDeviceServiceImpl openCDXDeviceService1 = new OpenCDXDeviceServiceImpl(
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> openCDXDeviceService1.deleteDevice(device));
+    }
+
+    @Test
+    void deleteDeviceOpenCDXNotAcceptable() throws JsonProcessingException {
+        OpenCDXDeviceModel openCDXDeviceModel =
+                OpenCDXDeviceModel.builder().id(ObjectId.get()).model("model").build();
+        Mockito.when(this.openCDXDeviceRepository.save(Mockito.any(OpenCDXDeviceModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXDeviceRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXDeviceModel));
+        DeviceIdRequest device = DeviceIdRequest.newBuilder()
+                .setDeviceId(ObjectId.get().toHexString())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXDeviceModel.class)))
+                .thenThrow(JsonProcessingException.class);
+        OpenCDXDeviceServiceImpl openCDXDeviceService1 = new OpenCDXDeviceServiceImpl(
+                this.openCDXDeviceRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXDeviceService1.deleteDevice(device));
+    }
 }

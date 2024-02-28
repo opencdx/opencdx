@@ -233,7 +233,7 @@ class OpenCDXGrpcQuestionnaireControllerTest {
                 .thenReturn(true);
 
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
-                openCDXMessageService, openCDXDocumentValidator, openCDXProfileRepository);
+                openCDXMessageService, openCDXDocumentValidator, openCDXProfileRepository, openCDXCurrentUser);
 
         Mockito.when(openCDXRuleSetRepository.save(Mockito.any(OpenCDXRuleSet.class)))
                 .thenAnswer(new Answer<OpenCDXRuleSet>() {
