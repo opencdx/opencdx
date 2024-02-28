@@ -25,7 +25,6 @@ import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.neural.protector.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -80,21 +79,7 @@ class OpenCDXRestProtectorControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
-                                .fullName(FullName.newBuilder()
-                                        .setFirstName("bob")
-                                        .setLastName("bob")
-                                        .build())
                                 .username("ab@safehealth.me")
-                                .primaryContactInfo(ContactInfo.newBuilder()
-                                        .addAllEmails(List.of(EmailAddress.newBuilder()
-                                                .setType(EmailType.EMAIL_TYPE_WORK)
-                                                .setEmail("ab@safehealth.me")
-                                                .build()))
-                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
-                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
-                                                .setNumber("1234567890")
-                                                .build()))
-                                        .build())
                                 .emailVerified(true)
                                 .build());
                     }

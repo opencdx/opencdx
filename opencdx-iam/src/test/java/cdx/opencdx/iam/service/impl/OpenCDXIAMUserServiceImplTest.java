@@ -23,7 +23,9 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
@@ -37,6 +39,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -100,8 +103,50 @@ class OpenCDXIAMUserServiceImplTest {
     @Mock
     JwtTokenUtil jwtTokenUtil;
 
+    @Mock
+    OpenCDXProfileRepository openCDXProfileRepository;
+
     @BeforeEach
     void beforeEach() throws JsonProcessingException {
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findByUserId(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
@@ -132,7 +177,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
     }
 
     @AfterEach
@@ -218,7 +263,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         OpenCDXIAMUserModel model3 =
                 OpenCDXIAMUserModel.builder().id(ObjectId.get()).build();
         when(this.openCDXIAMUserRepository.findAll(any(Pageable.class)))
@@ -250,7 +295,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -277,7 +322,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -303,7 +348,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -329,7 +374,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
@@ -419,10 +464,6 @@ class OpenCDXIAMUserServiceImplTest {
                         .id(ObjectId.get())
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
-                        .fullName(FullName.newBuilder()
-                                .setFirstName("bob")
-                                .setLastName("bob")
-                                .build())
                         .build()));
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
@@ -436,24 +477,6 @@ class OpenCDXIAMUserServiceImplTest {
                         .id(objectId)
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
-                        .fullName(FullName.newBuilder()
-                                .setFirstName("bob")
-                                .setLastName("bob")
-                                .build())
-                        .primaryContactInfo(ContactInfo.newBuilder()
-                                .addAllAddresses(List.of(Address.newBuilder()
-                                        .setCountryId(ObjectId.get().toHexString())
-                                        .setAddress1("Test 1")
-                                        .build()))
-                                .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
-                                        .setType(PhoneType.PHONE_TYPE_WORK)
-                                        .setNumber("1234567890")
-                                        .build()))
-                                .addAllEmails(List.of(EmailAddress.newBuilder()
-                                        .setType(EmailType.EMAIL_TYPE_WORK)
-                                        .setEmail("ab@safehealth.me")
-                                        .build()))
-                                .build())
                         .build()));
 
         String id = objectId.toHexString();
@@ -474,16 +497,12 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         when(this.openCDXIAMUserRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMUserModel.builder()
                         .id(ObjectId.get())
                         .username("ab@safehealth.me")
                         .type(IamUserType.IAM_USER_TYPE_REGULAR)
-                        .fullName(FullName.newBuilder()
-                                .setFirstName("bob")
-                                .setLastName("bob")
-                                .build())
                         .build()));
         String id = ObjectId.get().toHexString();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.openCDXIAMUserService.verifyEmailIamUser(id));
@@ -515,7 +534,7 @@ class OpenCDXIAMUserServiceImplTest {
                 currentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
         Assertions.assertEquals(
                 id.toHexString(),
                 this.openCDXIAMUserService
@@ -538,7 +557,7 @@ class OpenCDXIAMUserServiceImplTest {
                 this.openCDXCurrentUser,
                 this.appProperties,
                 this.openCDXCommunicationService,
-                this.openCDXNationalHealthIdentifier);
+                this.openCDXProfileRepository);
 
         CurrentUserRequest currentUserRequest = CurrentUserRequest.newBuilder().build();
         Assertions.assertThrows(

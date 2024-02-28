@@ -11,3 +11,10 @@ opencdx:
       enabled: true
     questionnaire:
       enabled: true
+
+mongock:
+  change-logs-scan-package: cdx.opencdx.classification.changelog
+  max-waiting-for-lock-minutes: 3
+  lock-acquired-for-minutes: 2
+  max-tries: 5
+  service-identifier: ${spring.application.name}

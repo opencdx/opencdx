@@ -32,11 +32,11 @@ import org.springframework.stereotype.Repository;
 public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTestModel, ObjectId> {
     /**
      * Lookup ConnectedTests for a user.
-     * @param userId User to lookup
+     * @param patientId Patient to lookup
      * @param pageable Pageable information to pull only required tests
      * @return Page information for the returned tests.
      */
-    Page<OpenCDXConnectedTestModel> findAllByUserId(ObjectId userId, Pageable pageable);
+    Page<OpenCDXConnectedTestModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
 
     /**
      * Lookup ConnectedTests by national health id

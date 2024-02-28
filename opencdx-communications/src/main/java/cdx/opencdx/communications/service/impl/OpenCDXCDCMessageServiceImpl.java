@@ -136,7 +136,7 @@ public class OpenCDXCDCMessageServiceImpl implements OpenCDXCDCMessageService {
                     "CDC Notification",
                     SensitivityLevel.SENSITIVITY_LEVEL_LOW,
                     currentUser.getId().toHexString(),
-                    currentUser.getNationalHealthId(),
+                    "",
                     NOTIFICATION_EVENT + ": CDC MESSAGE",
                     (new CDCMessage(requestString, responseMessage)).toString());
 

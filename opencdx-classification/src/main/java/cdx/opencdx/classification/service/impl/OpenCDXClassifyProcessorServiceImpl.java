@@ -63,6 +63,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
      * Constructor for OpenCDXClassifyProcessorServiceImpl
      * @param openCDXMediaUpDownClient service for media upload and download client
      * @param openCDXCurrentUser service for current user
+     * @param openCDXQuestionnaireClient service for questionnaire client
      */
     public OpenCDXClassifyProcessorServiceImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
@@ -92,7 +93,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         builder.setPositiveProbability(new Random().nextFloat());
         builder.setAvailability(new Random().nextFloat() < 0.5 ? "Not Available" : "Available");
         builder.setCost(new Random().nextFloat(1000.00f));
-        builder.setUserId(model.getUserAnswer().getUserId());
+        builder.setPatientId(model.getUserAnswer().getPatientId());
 
         if (model.getConnectedTest() != null) {
             builder.setFurtherActions(

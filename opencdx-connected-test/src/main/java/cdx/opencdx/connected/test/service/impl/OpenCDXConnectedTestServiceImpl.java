@@ -19,7 +19,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
 import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
@@ -60,7 +61,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXCommunicationService openCDXCommunicationService;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXClassificationMessageService openCDXClassificationMessageService;
 
@@ -72,7 +73,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
      * @param openCDXCurrentUser             Current User Service
      * @param objectMapper                   ObjectMapper for converting to JSON for Audit system.
      * @param openCDXCommunicationService    Communication Service for informing user test received.
-     * @param openCDXIAMUserRepository       Repository to look up patient.
+     * @param openCDXProfileRepository        Repository for profiles
      * @param openCDXDocumentValidator       Validator for documents
      * @param openCDXClassificationMessageService Service for submitting connected tests for classification
      */
@@ -82,7 +83,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             OpenCDXCurrentUser openCDXCurrentUser,
             ObjectMapper objectMapper,
             OpenCDXCommunicationService openCDXCommunicationService,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository,
+            OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXDocumentValidator openCDXDocumentValidator,
             OpenCDXClassificationMessageService openCDXClassificationMessageService) {
         this.openCDXAuditService = openCDXAuditService;
@@ -90,7 +91,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.objectMapper = objectMapper;
         this.openCDXCommunicationService = openCDXCommunicationService;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXClassificationMessageService = openCDXClassificationMessageService;
     }
@@ -102,7 +103,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
             throw new OpenCDXFailedPrecondition(DOMAIN, 1, "Connected Test does not have basic info");
         }
 
-        ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getUserId());
+        ObjectId patientID = new ObjectId(connectedTest.getBasicInfo().getPatientId());
 
         this.openCDXDocumentValidator.validateOrganizationWorkspaceOrThrow(
                 new ObjectId(connectedTest.getBasicInfo().getOrganizationId()),
@@ -114,7 +115,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
         this.openCDXDocumentValidator.validateDocumentOrThrow(
                 "media", new ObjectId(connectedTest.getTestDetails().getMediaId()));
 
-        OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(patientID)
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, "Failed to find patient"));
 
@@ -201,7 +202,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     currentUser.getAgentType(),
                     CONNECTED_TEST_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    connectedTest.getBasicInfo().getUserId(),
+                    connectedTest.getBasicInfo().getPatientId(),
                     connectedTest.getBasicInfo().getNationalHealthId(),
                     CONNECTED_TEST + connectedTest.getBasicInfo().getId(),
                     this.objectMapper.writeValueAsString(connectedTest));
@@ -218,7 +219,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
     @Override
     public ConnectedTestListResponse listConnectedTests(ConnectedTestListRequest request) {
 
-        ObjectId objectId = new ObjectId(request.getUserId());
+        ObjectId objectId = new ObjectId(request.getPatientId());
 
         log.trace("Searching Database");
 
@@ -235,7 +236,8 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                     request.getPagination().getPageSize());
         }
 
-        Page<OpenCDXConnectedTestModel> all = this.openCDXConnectedTestRepository.findAllByUserId(objectId, pageable);
+        Page<OpenCDXConnectedTestModel> all =
+                this.openCDXConnectedTestRepository.findAllByPatientId(objectId, pageable);
         log.trace("found database results");
 
         all.get().forEach(openCDXConnectedTestModel -> {
@@ -246,7 +248,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                         currentUser.getAgentType(),
                         CONNECTED_TEST_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXConnectedTestModel.getBasicInfo().getUserId(),
+                        openCDXConnectedTestModel.getBasicInfo().getPatientId(),
                         openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
                         CONNECTED_TEST + openCDXConnectedTestModel.getId(),
                         this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));
@@ -306,7 +308,7 @@ public class OpenCDXConnectedTestServiceImpl implements OpenCDXConnectedTestServ
                         currentUser.getAgentType(),
                         CONNECTED_TEST_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        openCDXConnectedTestModel.getBasicInfo().getUserId(),
+                        openCDXConnectedTestModel.getBasicInfo().getPatientId(),
                         openCDXConnectedTestModel.getBasicInfo().getNationalHealthId(),
                         CONNECTED_TEST + openCDXConnectedTestModel.getId(),
                         this.objectMapper.writeValueAsString(openCDXConnectedTestModel.getProtobufMessage()));

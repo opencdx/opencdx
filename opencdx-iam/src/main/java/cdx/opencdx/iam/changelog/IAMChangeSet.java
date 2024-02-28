@@ -19,7 +19,6 @@ import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
 import com.github.cloudyrock.mongock.ChangeLog;
@@ -166,7 +165,7 @@ public class IAMChangeSet {
     @ChangeSet(order = "002", id = "Setup Users Email Index", author = "Gaurav Mishra")
     public void setupIndexes(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
-        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("email")));
+        mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("username")));
     }
 
     /**
@@ -182,10 +181,6 @@ public class IAMChangeSet {
                 .id(new ObjectId("5f63a53ddcc67c7a1c3d93e8"))
                 .username("admin@opencdx.org")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .fullName(FullName.newBuilder()
-                        .setLastName("Admin")
-                        .setLastName("OpenCDX")
-                        .build())
                 .type(IamUserType.IAM_USER_TYPE_REGULAR)
                 .password("{bcrypt}$2a$10$nHiiVDdMtK3I/gRZYybaOO9dm2KBJ.y2sYmA2IttTB/BvgjnMrQiG")
                 .emailVerified(true)
@@ -201,5 +196,15 @@ public class IAMChangeSet {
     public void setupSystemIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         mongockTemplate.getCollection("users").createIndex(Indexes.ascending(List.of("systemName")));
+    }
+
+    /**
+     * Create an index based on the id
+     * @param mongockTemplate MongockTemplate to modify MongoDB.
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @ChangeSet(order = "005", id = "Setup IAM Index", author = "Gaurav Mishra")
+    public void setupIAMIndex(MongockTemplate mongockTemplate, OpenCDXCurrentUser openCDXCurrentUser) {
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
     }
 }

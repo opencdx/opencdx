@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.protector.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -24,7 +23,6 @@ import cdx.opencdx.grpc.neural.protector.AnomalyDetectionData;
 import cdx.opencdx.grpc.neural.protector.AnomalyDetectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlData;
 import cdx.opencdx.grpc.neural.protector.AuthorizationControlDataRequest;
-import cdx.opencdx.grpc.neural.protector.PrivacyProtectionData;
 import cdx.opencdx.grpc.neural.protector.PrivacyProtectionDataRequest;
 import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringData;
 import cdx.opencdx.grpc.neural.protector.RealTimeMonitoringDataRequest;
@@ -32,7 +30,6 @@ import cdx.opencdx.grpc.neural.protector.SecurityResponse;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisData;
 import cdx.opencdx.grpc.neural.protector.UserBehaviorAnalysisDataRequest;
 import cdx.opencdx.protector.service.OpenCDXProtectorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -73,8 +70,7 @@ class OpenCDXProtectorServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.protectorService = new OpenCDXProtectorServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
+        this.protectorService = new OpenCDXProtectorServiceImpl(this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -145,111 +141,5 @@ class OpenCDXProtectorServiceImplTest {
 
         Assertions.assertEquals("SecurityResponse [analyzeUserBehavior]", response.getResponse());
         Assertions.assertEquals(request.getUserBehaviorAnalysisData().getEncounterId(), response.getEncounterId());
-    }
-
-    // Failure
-
-    // Failure test case: ProtectorServiceImplTest that calls the detectAnomalies and simulates a failure in JSON
-    // processing
-    @Test
-    void detectAnomaliesFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.protectorService = new OpenCDXProtectorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        AnomalyDetectionDataRequest request = AnomalyDetectionDataRequest.newBuilder()
-                .setAnomalyDetectionData(AnomalyDetectionData.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
-                        .setEncounterId("789")
-                        .build())
-                .build();
-
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> protectorService.detectAnomalies(request));
-    }
-
-    // Failure test case: ProtectorServiceImplTest that calls the enforceAuthorizationControl and simulates a failure in
-    // JSON processing
-    @Test
-    void enforceAuthorizationControlFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.protectorService = new OpenCDXProtectorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        AuthorizationControlDataRequest request = AuthorizationControlDataRequest.newBuilder()
-                .setAuthorizationControlData(AuthorizationControlData.newBuilder()
-                        .setEncounterId("789")
-                        .setUserId(ObjectId.get().toHexString())
-                        .build())
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> protectorService.enforceAuthorizationControl(request));
-    }
-
-    // Failure test case: ProtectorServiceImplTest that calls the protectPrivacy and simulates a failure in JSON
-    // processing
-    @Test
-    void protectPrivacyFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.protectorService = new OpenCDXProtectorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        PrivacyProtectionDataRequest request = PrivacyProtectionDataRequest.newBuilder()
-                .setPrivacyProtectionData(
-                        PrivacyProtectionData.newBuilder().setEncounterId("789").build())
-                .build();
-
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> protectorService.protectPrivacy(request));
-    }
-
-    // Failure test case: ProtectorServiceImplTest that calls the monitorRealTimeActivity and simulates a failure in
-    // JSON processing
-    @Test
-    void monitorRealTimeActivityFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.protectorService = new OpenCDXProtectorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        RealTimeMonitoringDataRequest request = RealTimeMonitoringDataRequest.newBuilder()
-                .setRealTimeMonitoringData(RealTimeMonitoringData.newBuilder()
-                        .setEncounterId("789")
-                        .setMonitoredEntity(ObjectId.get().toHexString())
-                        .build())
-                .build();
-
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> protectorService.monitorRealTimeActivity(request));
-    }
-
-    // Failure test case: ProtectorServiceImplTest that calls the analyzeUserBehavior and simulates a failure in JSON
-    // processing
-    @Test
-    void getMedicationFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.protectorService = new OpenCDXProtectorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        UserBehaviorAnalysisDataRequest request = UserBehaviorAnalysisDataRequest.newBuilder()
-                .setUserBehaviorAnalysisData(UserBehaviorAnalysisData.newBuilder()
-                        .setUserId(ObjectId.get().toHexString())
-                        .setEncounterId("789")
-                        .build())
-                .build();
-
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> protectorService.analyzeUserBehavior(request));
     }
 }

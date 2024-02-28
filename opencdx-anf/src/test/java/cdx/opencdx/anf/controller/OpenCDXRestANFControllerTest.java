@@ -22,11 +22,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.anf.model.OpenCDXANFStatementModel;
 import cdx.opencdx.anf.repository.OpenCDXANFStatementRepository;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.anf.AnfStatement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -51,7 +54,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXRestANFControllerTest {
     @Autowired
     ObjectMapper objectMapper;
@@ -62,10 +65,50 @@ class OpenCDXRestANFControllerTest {
     @MockBean
     private OpenCDXANFStatementRepository openCDXANFStatementRepository;
 
+    @MockBean
+    private OpenCDXProfileRepository openCDXProfileRepository;
+
     private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
@@ -87,8 +130,12 @@ class OpenCDXRestANFControllerTest {
                     @Override
                     public Optional<OpenCDXANFStatementModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(
-                                OpenCDXANFStatementModel.builder().id(argument).build());
+                        return Optional.of(OpenCDXANFStatementModel.builder()
+                                .id(argument)
+                                .subjectOfRecord(AnfStatement.Participant.newBuilder()
+                                        .setPatientId(ObjectId.get().toHexString())
+                                        .build())
+                                .build());
                     }
                 });
 
@@ -115,6 +162,9 @@ class OpenCDXRestANFControllerTest {
                 .setCreator(ObjectId.get().toHexString())
                 .setModified(Timestamp.newBuilder().setSeconds(1696733104))
                 .setModifier(ObjectId.get().toHexString())
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
+                        .build())
                 .build();
 
         MvcResult result = this.mockMvc
@@ -131,6 +181,9 @@ class OpenCDXRestANFControllerTest {
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
+                        .build())
+                .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

@@ -321,9 +321,9 @@ message ContactInfo {
   FullName name = 1;
 
   /*
-   * Identity of the user.
+   * Identity of the patient.
    */
-  optional string user_id = 2;
+  optional string patient_id = 2;
 
   /*
    * Collection of addresses linked with the user.
@@ -406,3 +406,78 @@ message Duration {
   DurationType type = 2;
 }
 
+message PaymentDetails {
+  /*
+   * Mode of payment used for the test.
+   */
+  string payment_mode = 1;
+  /*
+   * ID referring to insurance information used for the test.
+   */
+  string insurance_info_id = 2;
+  /*
+   * ID of the payment transaction for the test.
+   */
+  string payment_transaction_id = 3;
+  /*
+   * More details about the payment.
+   */
+  string payment_details = 4;
+}
+
+enum ShippingStatus {
+  /*
+   * The delivery is currently being transported from the source to the destination.
+   */
+  IN_TRANSIT = 0;
+
+  /*
+   * The delivery has been successfully made at the destination.
+   */
+  DELIVERED = 1;
+
+  /*
+   * The planned delivery was called off.
+   */
+  CANCELED = 2;
+
+  /*
+   * The delivery is yet to be picked up from the source.
+   */
+  PENDING_PICKUP = 3;
+
+  /*
+   * The delivery is in its final phase of reaching the destination.
+   */
+  OUT_FOR_DELIVERY = 4;
+
+  /*
+   * The delivery couldn't reach the destination due to some reason.
+   */
+  FAILED_DELIVERY = 5;
+
+  /*
+   * The delivery was made but it was returned back from the destination.
+   */
+  RETURNED = 6;
+
+  /*
+   * The delivery is running behind the scheduled time.
+   */
+  DELAYED = 7;
+
+  /*
+   * The delivery is currently kept on a temporary pause.
+   */
+  ON_HOLD = 8;
+
+  /*
+   * There is some exceptional case or issue associated with the delivery.
+   */
+  EXCEPTION = 9;
+
+  /*
+   * The delivery couldn't be traced or located.
+   */
+  LOST = 10;
+}

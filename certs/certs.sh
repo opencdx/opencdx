@@ -106,6 +106,7 @@ services=(  "Audit"
             "Dashboard"
             "GraphQl"
             "Prometheus"
+            "Zipkin"
         )
 
 check_ca_files_exist
