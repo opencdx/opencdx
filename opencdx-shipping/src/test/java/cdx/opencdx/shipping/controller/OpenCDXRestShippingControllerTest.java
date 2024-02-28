@@ -1,4 +1,26 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.shipping.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
@@ -6,11 +28,8 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.Country;
 import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.inventory.CountryListRequest;
 import cdx.opencdx.grpc.inventory.TestCase;
-import cdx.opencdx.grpc.shipping.CancelOrderRequest;
 import cdx.opencdx.grpc.shipping.CreateOrderRequest;
 import cdx.opencdx.grpc.shipping.ListOrdersRequest;
 import cdx.opencdx.grpc.shipping.Order;
@@ -18,8 +37,10 @@ import cdx.opencdx.shipping.model.OpenCDXOrderModel;
 import cdx.opencdx.shipping.repository.OpenCDXOrderRepository;
 import cdx.opencdx.shipping.service.OpenCDXShippingService;
 import cdx.opencdx.shipping.service.impl.OpenCDXShippingServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -45,17 +66,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -69,6 +79,7 @@ class OpenCDXRestShippingControllerTest {
 
     @Mock
     OpenCDXOrderRepository openCDXOrderRepository;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -80,6 +91,7 @@ class OpenCDXRestShippingControllerTest {
 
     @Autowired
     private WebApplicationContext context;
+
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -153,23 +165,40 @@ class OpenCDXRestShippingControllerTest {
 
         Mockito.when(this.openCDXOrderRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXOrderModel.builder().id(ObjectId.get()).patientId(ObjectId.get()).build()), PageRequest.of(1, 10), 1));
+                        List.of(OpenCDXOrderModel.builder()
+                                .id(ObjectId.get())
+                                .patientId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
-        Mockito.when(this.openCDXOrderRepository.findAllByPatientId(Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXOrderRepository.findAllByPatientId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenAnswer(new Answer<PageImpl<OpenCDXOrderModel>>() {
                     @Override
                     public PageImpl<OpenCDXOrderModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
                         return new PageImpl<>(
-                                List.of(OpenCDXOrderModel.builder().id(ObjectId.get()).patientId(argument).build()), PageRequest.of(1, 10), 1);
+                                List.of(OpenCDXOrderModel.builder()
+                                        .id(ObjectId.get())
+                                        .patientId(argument)
+                                        .build()),
+                                PageRequest.of(1, 10),
+                                1);
                     }
                 });
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
+
     @Test
     void getOrder() throws Exception {
         MvcResult result = this.mockMvc
@@ -237,8 +266,7 @@ class OpenCDXRestShippingControllerTest {
     @Test
     void cancelOrder() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/order/" + ObjectId.get().toHexString())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .perform(delete("/order/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
@@ -247,10 +275,8 @@ class OpenCDXRestShippingControllerTest {
     @Test
     void listOrders() throws Exception {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
         MvcResult result = this.mockMvc

@@ -1,8 +1,24 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.shipping.service.impl;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
@@ -19,6 +35,11 @@ import cdx.opencdx.shipping.service.OpenCDXShippingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -37,14 +58,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -58,6 +71,7 @@ class OpenCDXShippingServiceImplTest {
 
     @Mock
     OpenCDXOrderRepository openCDXOrderRepository;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -142,21 +156,36 @@ class OpenCDXShippingServiceImplTest {
 
         Mockito.when(this.openCDXOrderRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXOrderModel.builder().id(ObjectId.get()).patientId(ObjectId.get()).build()), PageRequest.of(1, 10), 1));
+                        List.of(OpenCDXOrderModel.builder()
+                                .id(ObjectId.get())
+                                .patientId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
 
-        Mockito.when(this.openCDXOrderRepository.findAllByPatientId(Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+        Mockito.when(this.openCDXOrderRepository.findAllByPatientId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenAnswer(new Answer<PageImpl<OpenCDXOrderModel>>() {
                     @Override
                     public PageImpl<OpenCDXOrderModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
                         return new PageImpl<>(
-                                List.of(OpenCDXOrderModel.builder().id(ObjectId.get()).patientId(argument).build()), PageRequest.of(1, 10), 1);
+                                List.of(OpenCDXOrderModel.builder()
+                                        .id(ObjectId.get())
+                                        .patientId(argument)
+                                        .build()),
+                                PageRequest.of(1, 10),
+                                1);
                     }
                 });
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
     }
-
 
     @Test
     void createOrder() {
@@ -182,16 +211,15 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.createOrder(createOrderRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.createOrder(createOrderRequest));
     }
 
     @Test
     void getOrder() {
-        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .build();
+        GetOrderRequest getOrderRequest =
+                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.getOrder(getOrderRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
 
     @Test
@@ -213,7 +241,7 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.updateOrder(updateOrderRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.updateOrder(updateOrderRequest));
     }
 
     @Test
@@ -222,19 +250,17 @@ class OpenCDXShippingServiceImplTest {
                 .setId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.cancelOrder(cancelOrderRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.cancelOrder(cancelOrderRequest));
     }
 
     @Test
     void listOrders() {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
 
     @Test
@@ -248,7 +274,7 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
 
     @Test
@@ -262,37 +288,38 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
+
     @Test
     void listOrders_None() {
         Mockito.when(this.openCDXOrderRepository.findAll(Mockito.any(Pageable.class)))
-                .thenReturn(new PageImpl<>(
-                        Collections.emptyList(), PageRequest.of(1, 10), 1));
+                .thenReturn(new PageImpl<>(Collections.emptyList(), PageRequest.of(1, 10), 1));
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
 
     @Test
     void listOrders_PatientId() {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .setPatientId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertDoesNotThrow( () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertDoesNotThrow(() -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
 
     @Test
@@ -300,7 +327,8 @@ class OpenCDXShippingServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXOrderModel.class)))
                 .thenThrow(JsonProcessingException.class);
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
         CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
@@ -318,7 +346,8 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () ->this.openCDXShippingService.createOrder(createOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXShippingService.createOrder(createOrderRequest));
     }
 
     @Test
@@ -326,13 +355,14 @@ class OpenCDXShippingServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXOrderModel.class)))
                 .thenThrow(JsonProcessingException.class);
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
-        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .build();
+        GetOrderRequest getOrderRequest =
+                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class,  () ->this.openCDXShippingService.getOrder(getOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
 
     @Test
@@ -340,7 +370,8 @@ class OpenCDXShippingServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXOrderModel.class)))
                 .thenThrow(JsonProcessingException.class);
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
@@ -359,7 +390,8 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class,  () ->this.openCDXShippingService.updateOrder(updateOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXShippingService.updateOrder(updateOrderRequest));
     }
 
     @Test
@@ -367,14 +399,15 @@ class OpenCDXShippingServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXOrderModel.class)))
                 .thenThrow(JsonProcessingException.class);
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
-
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class,  () ->this.openCDXShippingService.cancelOrder(cancelOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXShippingService.cancelOrder(cancelOrderRequest));
     }
 
     @Test
@@ -382,19 +415,18 @@ class OpenCDXShippingServiceImplTest {
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXOrderModel.class)))
                 .thenThrow(JsonProcessingException.class);
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, mapper, openCDXProfileRepository);
 
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .setPatientId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotAcceptable.class,  () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
-
 
     @Test
     void createOrder_OpenCDXNotFound() throws JsonProcessingException {
@@ -402,7 +434,12 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
@@ -420,7 +457,8 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class, () ->this.openCDXShippingService.createOrder(createOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.openCDXShippingService.createOrder(createOrderRequest));
     }
 
     @Test
@@ -429,13 +467,17 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
-        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .build();
+        GetOrderRequest getOrderRequest =
+                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.getOrder(getOrderRequest));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
 
     @Test
@@ -444,7 +486,12 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
@@ -463,7 +510,8 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.updateOrder(updateOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.openCDXShippingService.updateOrder(updateOrderRequest));
     }
 
     @Test
@@ -472,14 +520,19 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
-
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.cancelOrder(cancelOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.openCDXShippingService.cancelOrder(cancelOrderRequest));
     }
 
     @Test
@@ -488,17 +541,20 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .setPatientId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.listOrders(listOrdersRequest));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXShippingService.listOrders(listOrdersRequest));
     }
 
     @Test
@@ -507,13 +563,17 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
-        GetOrderRequest getOrderRequest = GetOrderRequest.newBuilder()
-                .setId(ObjectId.get().toHexString())
-                .build();
+        GetOrderRequest getOrderRequest =
+                GetOrderRequest.newBuilder().setId(ObjectId.get().toHexString()).build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.getOrder(getOrderRequest));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXShippingService.getOrder(getOrderRequest));
     }
 
     @Test
@@ -522,7 +582,12 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         UpdateOrderRequest updateOrderRequest = UpdateOrderRequest.newBuilder()
                 .setOrder(Order.newBuilder()
@@ -541,7 +606,8 @@ class OpenCDXShippingServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.updateOrder(updateOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.openCDXShippingService.updateOrder(updateOrderRequest));
     }
 
     @Test
@@ -550,13 +616,18 @@ class OpenCDXShippingServiceImplTest {
         Mockito.when(this.openCDXOrderRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
 
-        this.openCDXShippingService = new OpenCDXShippingServiceImpl(openCDXOrderRepository, openCDXCurrentUser, openCDXAuditService, objectMapper, openCDXProfileRepository);
-
+        this.openCDXShippingService = new OpenCDXShippingServiceImpl(
+                openCDXOrderRepository,
+                openCDXCurrentUser,
+                openCDXAuditService,
+                objectMapper,
+                openCDXProfileRepository);
 
         CancelOrderRequest cancelOrderRequest = CancelOrderRequest.newBuilder()
                 .setId(ObjectId.get().toHexString())
                 .build();
 
-        Assertions.assertThrows(OpenCDXNotFound.class,  () ->this.openCDXShippingService.cancelOrder(cancelOrderRequest));
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> this.openCDXShippingService.cancelOrder(cancelOrderRequest));
     }
 }
