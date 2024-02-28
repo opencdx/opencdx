@@ -124,7 +124,10 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 });
 
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
-                this.openCDXMessageService, this.openCDXDocumentValidator, this.openCDXProfileRepository);
+                this.openCDXMessageService,
+                this.openCDXDocumentValidator,
+                this.openCDXProfileRepository,
+                openCDXCurrentUser);
 
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService,

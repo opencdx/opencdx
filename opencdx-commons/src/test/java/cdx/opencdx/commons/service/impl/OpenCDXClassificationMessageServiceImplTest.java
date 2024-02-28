@@ -19,9 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.common.Gender;
@@ -38,9 +40,10 @@ class OpenCDXClassificationMessageServiceImplTest {
     private OpenCDXMessageService messageService = Mockito.mock(OpenCDXMessageService.class);
     private OpenCDXDocumentValidator openCDXDocumentValidator = Mockito.mock(OpenCDXDocumentValidator.class);
     private OpenCDXProfileRepository openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
+    private OpenCDXCurrentUser openCDXCurrentUser = Mockito.mock(OpenCDXCurrentUser.class);
 
     private OpenCDXClassificationMessageServiceImpl service = new OpenCDXClassificationMessageServiceImpl(
-            messageService, openCDXDocumentValidator, openCDXProfileRepository);
+            messageService, openCDXDocumentValidator, openCDXProfileRepository, openCDXCurrentUser);
 
     @Test
     void testSubmitConnectedTest() {
@@ -63,9 +66,12 @@ class OpenCDXClassificationMessageServiceImplTest {
         // Sets behavior for mock objects
         Mockito.when(openCDXProfileRepository.findById(userId)).thenReturn(Optional.of(userModel));
 
+        Mockito.when(openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+
         // Constructs target object
         OpenCDXClassificationMessageServiceImpl target = new OpenCDXClassificationMessageServiceImpl(
-                messageServiceMock, openCDXDocumentValidatorMock, openCDXProfileRepository);
+                messageServiceMock, openCDXDocumentValidatorMock, openCDXProfileRepository, openCDXCurrentUser);
 
         // Calls the method to be tested
         target.submitConnectedTest(userId, connectedTestId, mediaId);
@@ -94,6 +100,8 @@ class OpenCDXClassificationMessageServiceImplTest {
         userModel.setGender(Gender.GENDER_FEMALE);
         userModel.setDateOfBirth(Instant.now());
 
+        Mockito.when(openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         when(openCDXProfileRepository.findById(userId)).thenReturn(Optional.of(userModel));
 
         Assertions.assertDoesNotThrow(() -> service.submitQuestionnaire(userId, questionnaireUserId, mediaId));
