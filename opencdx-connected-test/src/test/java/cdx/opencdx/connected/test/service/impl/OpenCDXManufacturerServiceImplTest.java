@@ -257,4 +257,54 @@ class OpenCDXManufacturerServiceImplTest {
                         .deleteManufacturer(manufacturerIdRequest)
                         .getMessage());
     }
+
+    @Test
+    void deleteManufacturerOpenCDXNotAcceptable() throws JsonProcessingException {
+        OpenCDXManufacturerModel openCDXManufacturerModel =
+                OpenCDXManufacturerModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXManufacturerModel));
+        ManufacturerIdRequest manufacturerIdRequest = ManufacturerIdRequest.newBuilder()
+                .setManufacturerId(ObjectId.get().toHexString())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXManufacturerModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXManufacturerServiceImpl manufacturerService1 = new OpenCDXManufacturerServiceImpl(
+                this.openCDXManufacturerRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(
+                OpenCDXNotAcceptable.class, () -> manufacturerService1.deleteManufacturer(manufacturerIdRequest));
+    }
+
+    @Test
+    void deleteManufacturerOpenCDXNotFound() throws JsonProcessingException {
+        Mockito.when(this.openCDXManufacturerRepository.save(Mockito.any(OpenCDXManufacturerModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXManufacturerRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        ManufacturerIdRequest manufacturerIdRequest = ManufacturerIdRequest.newBuilder()
+                .setManufacturerId(ObjectId.get().toHexString())
+                .build();
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        OpenCDXManufacturerServiceImpl manufacturerService1 = new OpenCDXManufacturerServiceImpl(
+                this.openCDXManufacturerRepository,
+                this.openCDXDeviceRepository,
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(
+                OpenCDXNotFound.class, () -> manufacturerService1.deleteManufacturer(manufacturerIdRequest));
+    }
 }

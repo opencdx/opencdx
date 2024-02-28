@@ -19,6 +19,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
@@ -43,20 +44,24 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     private final OpenCDXMessageService messageService;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
      * Constructor to use the OpenCDXMessageService to send the notificaiton.
      * @param messageService Message service to use to send.
      * @param openCDXDocumentValidator Document validator to validate the document.
-     * @param openCDXProfileRepository Profile repository to use to get the user profile.
+     * @param openCDXProfileRepository IAM user repository to use to get the user.
+     * @param openCDXCurrentUser Current user to use to get the current user.
      */
     public OpenCDXClassificationMessageServiceImpl(
             OpenCDXMessageService messageService,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXProfileRepository openCDXProfileRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.messageService = messageService;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     @Override
@@ -112,6 +117,7 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
 
         UserAnswer.Builder builder = UserAnswer.newBuilder().setPatientId(patientId.toHexString());
 
+        builder.setSubmittingUserId(openCDXCurrentUser.getCurrentUser().getId().toHexString());
         if (patient.getGender() != null) {
             builder.setGender(patient.getGender());
         }

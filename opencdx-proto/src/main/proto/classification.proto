@@ -195,6 +195,11 @@ message UserAnswer {
    * Location of the user.
    */
   Location user_location = 12;
+
+  /*
+ * ID of the submitting user.
+ */
+  string submitting_user_id = 13;
 }
 
 /*
