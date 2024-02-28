@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
  * The OpenCDXShippingRequest class is a DTO that is used to convert the ShippingRequest to a
  * OpenCDXShippingRequest.
  */
-
 @Slf4j
 @Data
 public class OpenCDXShippingRequest {

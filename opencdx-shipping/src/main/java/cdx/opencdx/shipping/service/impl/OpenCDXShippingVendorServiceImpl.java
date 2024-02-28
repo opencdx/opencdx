@@ -20,6 +20,7 @@ import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
 import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
 import cdx.opencdx.shipping.dto.OpenCDXShippingRequest;
+import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendor;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
@@ -28,11 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * OpenCDX shipping vendor service implementation
  */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorService {
@@ -53,10 +56,15 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
         this.vendors.put(vendor.getVendorId(), vendor);
         vendor = new DoorDashShippingVendor();
         this.vendors.put(vendor.getVendorId(), vendor);
+
+        this.vendors.keySet().forEach(key -> {
+            log.info("Vendor: {}", key);
+        });
     }
 
     @Override
     public ShippingVendorResponse getShippingVendors(ShippingRequest request) {
+        log.info("Getting Shipping Vendor Options");
         OpenCDXShippingRequest openCDXShippingRequest = new OpenCDXShippingRequest(request);
         List<OpenCDXShippingModel> models = new ArrayList<>();
 
@@ -67,6 +75,10 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
             }
         }
 
+        if (log.isInfoEnabled()) {
+            models.forEach(item -> log.info("Shipping Option: {}", item.toString()));
+        }
+
         return ShippingVendorResponse.newBuilder()
                 .addAllOptions(
                         models.stream().map(OpenCDXShippingModel::toProtobuf).toList())
@@ -75,9 +87,15 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
 
     @Override
     public ShippingResponse shipPackage(Shipping request) {
-        return this.vendors
+        log.info("Shipping Package");
+
+        OpenCDXShippingResponse openCDXShippingResponse = this.vendors
                 .get(request.getShippingVendorId())
-                .shipPackage(new OpenCDXShippingModel(request))
+                .shipPackage(new OpenCDXShippingModel(request));
+
+        log.info("Shipping Response: {}", openCDXShippingResponse.toString());
+
+        return openCDXShippingResponse
                 .toProtobuf();
     }
 }

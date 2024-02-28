@@ -1,17 +1,32 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.shipping.service.impl;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.shipping.Order;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
-import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
-import cdx.opencdx.shipping.model.OpenCDXShippingModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class OpenCDXShippingVendorServiceImplTest {
 
@@ -34,57 +49,18 @@ class OpenCDXShippingVendorServiceImplTest {
         Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.getShippingVendors(shippingRequest));
     }
 
-    @Test
-    void fedexShippingVendor() {
+    @ParameterizedTest
+    @ValueSource(strings = {"fedex", "ups", "usps", "doordash"})
+    void testShippingVendor(String vendorID) {
         Shipping shipping = Shipping.newBuilder()
-                .setShippingVendorId("fedex")
+                .setShippingVendorId(vendorID)
                 .setDeclaredValue(Math.random() * 100)
                 .setRequireSignature(Math.random() > 0.5)
+                .setShippingCost(Math.random() * 100)
                 .setPackageDetails(Order.getDefaultInstance())
                 .setSenderAddress(Address.getDefaultInstance())
                 .setRecipientAddress(Address.getDefaultInstance())
                 .build();
-
-        Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.shipPackage(shipping));
-    }
-
-    @Test
-    void upsShippingVendor() {
-        Shipping shipping = Shipping.newBuilder()
-                .setShippingVendorId("ups")
-                .setDeclaredValue(Math.random() * 100)
-                .setRequireSignature(Math.random() > 0.5)
-                .setPackageDetails(Order.getDefaultInstance())
-                .setSenderAddress(Address.getDefaultInstance())
-                .setRecipientAddress(Address.getDefaultInstance())
-                .build();
-
-        Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.shipPackage(shipping));
-    }
-    @Test
-    void uspsShippingVendor() {
-        Shipping shipping = Shipping.newBuilder()
-                .setShippingVendorId("usps")
-                .setDeclaredValue(Math.random() * 100)
-                .setRequireSignature(Math.random() > 0.5)
-                .setPackageDetails(Order.getDefaultInstance())
-                .setSenderAddress(Address.getDefaultInstance())
-                .setRecipientAddress(Address.getDefaultInstance())
-                .build();
-
-        Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.shipPackage(shipping));
-    }
-    @Test
-    void doorDashShippingVendor() {
-        Shipping shipping = Shipping.newBuilder()
-                .setShippingVendorId("doordash")
-                .setDeclaredValue(Math.random() * 100)
-                .setRequireSignature(Math.random() > 0.5)
-                .setPackageDetails(Order.getDefaultInstance())
-                .setSenderAddress(Address.getDefaultInstance())
-                .setRecipientAddress(Address.getDefaultInstance())
-                .build();
-
         Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.shipPackage(shipping));
     }
 }

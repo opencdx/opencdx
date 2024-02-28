@@ -35,7 +35,6 @@ public class OpenCDXShippingResponse {
     private final Double totalCost;
     private final Instant estimatedDelivery;
 
-
     /**
      * Converts the OpenCDXShippingResponse to a ShippingResponse protobuf.
      *

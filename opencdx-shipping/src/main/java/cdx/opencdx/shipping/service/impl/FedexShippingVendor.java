@@ -51,9 +51,6 @@ public class FedexShippingVendor implements OpenCDXShippingVendor {
     @Override
     public List<OpenCDXShippingModel> getShippingVendors(OpenCDXShippingRequest request) {
 
-        if (Math.random() < 0.25) {
-            return Collections.emptyList();
-        }
 
         OpenCDXShippingModel model = new OpenCDXShippingModel(request);
         List<OpenCDXShippingModel> list = new ArrayList<>();
@@ -61,15 +58,14 @@ public class FedexShippingVendor implements OpenCDXShippingVendor {
         model.setShippingVendorId(VENDOR_ID);
         model.setShippingCost(10.0);
 
-        if (Math.random() < 0.5) {
-            model.setServiceLevel(ServiceLevel.newBuilder()
-                    .setCode("FEDEX_GROUND")
-                    .setShortDescription("Fedex Ground")
-                    .setLongDescription("Fedex Ground 7-10 days")
-                    .build());
-            model.setShippingCost(10 + Math.random() * 40);
-            list.add(new OpenCDXShippingModel(model));
-        }
+        model.setServiceLevel(ServiceLevel.newBuilder()
+                .setCode("FEDEX_GROUND")
+                .setShortDescription("Fedex Ground")
+                .setLongDescription("Fedex Ground 7-10 days")
+                .build());
+        model.setShippingCost(10 + Math.random() * 40);
+        list.add(new OpenCDXShippingModel(model));
+
 
         if (Math.random() < 0.5) {
             model.setServiceLevel(ServiceLevel.newBuilder()

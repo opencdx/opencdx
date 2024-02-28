@@ -74,6 +74,7 @@ public class DoorDashShippingVendor implements OpenCDXShippingVendor {
         if (request.isRequireSignature()) {
             return Collections.emptyList();
         }
+
         return list;
     }
 

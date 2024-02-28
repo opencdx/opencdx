@@ -86,6 +86,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
+        log.info("Creating Order");
         OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(new ObjectId(request.getOrder().getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
@@ -116,6 +117,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public GetOrderResponse getOrder(GetOrderRequest request) {
+        log.info("Getting Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_ORDER + request.getId()));
@@ -148,6 +150,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public UpdateOrderResponse updateOrder(UpdateOrderRequest request) {
+        log.info("Updating Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
                 .findById(new ObjectId(request.getOrder().getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
@@ -186,6 +189,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
+        log.info("Canceling Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 9, FAILED_TO_FIND_ORDER + request.getId()));
@@ -223,6 +227,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public ListOrdersResponse listOrders(ListOrdersRequest request) {
+        log.info("Listing Orders");
         Pageable pageable;
         if (request.getPagination().hasSort()) {
             pageable = PageRequest.of(
