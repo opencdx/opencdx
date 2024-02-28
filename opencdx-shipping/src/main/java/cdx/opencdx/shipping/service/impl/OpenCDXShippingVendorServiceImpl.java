@@ -57,9 +57,7 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
         vendor = new DoorDashShippingVendor();
         this.vendors.put(vendor.getVendorId(), vendor);
 
-        this.vendors.keySet().forEach(key -> {
-            log.info("Vendor: {}", key);
-        });
+        this.vendors.keySet().forEach(key -> log.info("Vendor: {}", key));
     }
 
     @Override
@@ -89,13 +87,11 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
     public ShippingResponse shipPackage(Shipping request) {
         log.info("Shipping Package");
 
-        OpenCDXShippingResponse openCDXShippingResponse = this.vendors
-                .get(request.getShippingVendorId())
-                .shipPackage(new OpenCDXShippingModel(request));
+        OpenCDXShippingResponse openCDXShippingResponse =
+                this.vendors.get(request.getShippingVendorId()).shipPackage(new OpenCDXShippingModel(request));
 
         log.info("Shipping Response: {}", openCDXShippingResponse.toString());
 
-        return openCDXShippingResponse
-                .toProtobuf();
+        return openCDXShippingResponse.toProtobuf();
     }
 }

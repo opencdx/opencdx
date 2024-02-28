@@ -25,7 +25,6 @@ import cdx.opencdx.shipping.service.OpenCDXShippingVendor;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +50,6 @@ public class FedexShippingVendor implements OpenCDXShippingVendor {
     @Override
     public List<OpenCDXShippingModel> getShippingVendors(OpenCDXShippingRequest request) {
 
-
         OpenCDXShippingModel model = new OpenCDXShippingModel(request);
         List<OpenCDXShippingModel> list = new ArrayList<>();
 
@@ -65,7 +63,6 @@ public class FedexShippingVendor implements OpenCDXShippingVendor {
                 .build());
         model.setShippingCost(10 + Math.random() * 40);
         list.add(new OpenCDXShippingModel(model));
-
 
         if (Math.random() < 0.5) {
             model.setServiceLevel(ServiceLevel.newBuilder()
