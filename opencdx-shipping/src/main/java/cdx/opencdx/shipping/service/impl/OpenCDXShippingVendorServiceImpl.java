@@ -19,20 +19,59 @@ import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
 import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
+import cdx.opencdx.shipping.dto.OpenCDXShippingRequest;
+import cdx.opencdx.shipping.model.OpenCDXShippingModel;
+import cdx.opencdx.shipping.service.OpenCDXShippingVendor;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
 import io.micrometer.observation.annotation.Observed;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorService {
+
+    private Map<String, OpenCDXShippingVendor> vendors;
+
+    public OpenCDXShippingVendorServiceImpl() {
+        this.vendors = new HashMap<>();
+
+        OpenCDXShippingVendor vendor = new UpsShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+        vendor = new UspsShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+        vendor = new FedexShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+        vendor = new DoorDashShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+    }
+
     @Override
     public ShippingVendorResponse getShippingVendors(ShippingRequest request) {
-        return null;
+        OpenCDXShippingRequest openCDXShippingRequest = new OpenCDXShippingRequest(request);
+        List<OpenCDXShippingModel> models = new ArrayList<>();
+
+        for (OpenCDXShippingVendor vendor : vendors.values()) {
+            List<OpenCDXShippingModel> shippingVendors = vendor.getShippingVendors(openCDXShippingRequest);
+            if (shippingVendors != null && !shippingVendors.isEmpty()) {
+                models.addAll(shippingVendors);
+            }
+        }
+
+        return ShippingVendorResponse.newBuilder()
+                .addAllOptions(
+                        models.stream().map(OpenCDXShippingModel::toProtobuf).toList())
+                .build();
     }
 
     @Override
     public ShippingResponse shipPackage(Shipping request) {
-        return null;
+        return this.vendors
+                .get(request.getShippingVendorId())
+                .shipPackage(new OpenCDXShippingModel(request))
+                .toProtobuf();
     }
 }
