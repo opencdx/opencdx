@@ -480,4 +480,9 @@ enum ShippingStatus {
    * The delivery couldn't be traced or located.
    */
   LOST = 10;
+
+  /**
+   * The delivery is in the process of being shipped.
+   */
+  PENDING = 11;
 }

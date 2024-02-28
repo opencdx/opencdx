@@ -55,6 +55,11 @@ message Order {
    * This field is also optional.
    */
   optional string modifier = 8;
+
+  /**
+   * The status of the order.
+   */
+  optional cdx.opencdx.grpc.common.ShippingStatus status = 9;
 }
 
 /**
@@ -155,6 +160,11 @@ message ListOrdersResponse {
    * The list of orders that were retrieved.
    */
   repeated Order orders = 1;
+
+  /**
+   * The pagination details for the list of orders.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
 }
 
 /**
