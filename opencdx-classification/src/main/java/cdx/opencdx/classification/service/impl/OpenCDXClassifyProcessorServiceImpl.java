@@ -151,7 +151,8 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                 Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
                 RuleResult ruleResult = new RuleResult();
                 knowledge.newStatelessSession().insertAndFire(getResponse(model), ruleResult);
-                builder.setFurtherActions(ruleResult.getResult());
+                builder.setNotifyCdc(ruleResult.isNotifyCDC());
+                builder.setFurtherActions(ruleResult.getFurtherActions());
             } catch (IOException e) {
                 throw new OpenCDXInternalServerError(
                         OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());

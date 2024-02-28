@@ -604,17 +604,17 @@ public class BloodPressureRules {
     @Rule
     @Where("$s < 120")
     public void normalBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
-        ruleResult.setResult("Normal blood pressure. No further actions needed.");
+        ruleResult.setFurtherActions("Normal blood pressure. No further actions needed.");
     }
     @Rule
     @Where("$s >= 120 && $s <= 129")
     public void elevatedBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
-        ruleResult.setResult("Elevated blood pressure. Please continue monitoring.");
+        ruleResult.setFurtherActions("Elevated blood pressure. Please continue monitoring.");
     }
     @Rule
     @Where("$s > 129")
     public void highBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
-        ruleResult.setResult("High blood pressure. Please seek additional assistance.");
+        ruleResult.setFurtherActions("High blood pressure. Please seek additional assistance.");
     }
 }
                                 """)
@@ -645,5 +645,67 @@ public class BloodPressureRules {
         Assertions.assertEquals(
                 "Elevated blood pressure. Please continue monitoring.",
                 classificationService.classify(classificationRequest).getFurtherActions());
+    }
+
+    @Test
+    void testSubmitClassificationCovidCDC() {
+        String ruleId = ObjectId.get().toHexString();
+        String ruleQuestionId = ObjectId.get().toHexString();
+
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.openCDXQuestionnaireClient.getRuleSet(
+                        Mockito.anyString(), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(GetRuleSetResponse.newBuilder()
+                        .setRuleSet(RuleSet.newBuilder()
+                                .setRuleId(ruleId)
+                                .setRule(
+                                        """
+package cdx.opencdx.classification.service;
+
+import cdx.opencdx.classification.model.RuleResult;
+import org.evrete.dsl.annotation.Fact;
+import org.evrete.dsl.annotation.Rule;
+import org.evrete.dsl.annotation.Where;
+
+public class CovidRule {
+
+    @Rule
+    @Where("$c")
+    public void normalBloodPressure(@Fact("$c") boolean hasCovid, RuleResult ruleResult) {
+        ruleResult.setNotifyCDC(true);
+    }
+}
+                                """)
+                                .build())
+                        .build());
+
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .addQuestionnaireData(Questionnaire.newBuilder()
+                                .setRuleId(ruleId)
+                                .addRuleQuestionId(ruleQuestionId)
+                                .addItem(QuestionnaireItem.newBuilder()
+                                        .setLinkId(ruleQuestionId)
+                                        .setType("boolean")
+                                        .setAnswerBoolean(true))
+                                .build())
+                        .build());
+
+        ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
+                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        // Verify that the rules executed and set notify CDC
+        Assertions.assertTrue(
+                classificationService.classify(classificationRequest).getNotifyCdc());
     }
 }
