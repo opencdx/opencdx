@@ -246,6 +246,9 @@ message ClassificationResponse {
    */
   string patient_id = 11;
 
+  /**
+   * Whether to notify the CDC.
+   */
   bool notify_cdc = 12;
 }
 
