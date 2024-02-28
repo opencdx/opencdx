@@ -95,12 +95,8 @@ public class OpenCDXOrderModel {
      */
     public Order getProtobuf() {
         Order.Builder builder = Order.newBuilder();
-        if (this.id != null) {
-            builder.setId(this.id.toHexString());
-        }
-        if (this.patientId != null) {
-            builder.setPatientId(this.patientId.toHexString());
-        }
+        builder.setId(this.id.toHexString());
+        builder.setPatientId(this.patientId.toHexString());
 
         if (this.shippingAddress != null) {
             builder.setShippingAddress(this.shippingAddress);
