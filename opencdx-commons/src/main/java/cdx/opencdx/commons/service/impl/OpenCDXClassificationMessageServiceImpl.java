@@ -51,7 +51,7 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
      * @param messageService Message service to use to send.
      * @param openCDXDocumentValidator Document validator to validate the document.
      * @param openCDXProfileRepository IAM user repository to use to get the user.
-     * @param openCDXCurrentUser
+     * @param openCDXCurrentUser Current user to use to get the current user.
      */
     public OpenCDXClassificationMessageServiceImpl(
             OpenCDXMessageService messageService,
