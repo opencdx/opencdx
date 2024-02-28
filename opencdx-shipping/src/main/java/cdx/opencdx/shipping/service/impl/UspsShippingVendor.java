@@ -34,7 +34,7 @@ import java.util.UUID;
  */
 public class UspsShippingVendor implements OpenCDXShippingVendor {
 
-    private static final String VENDOR_ID = "ups";
+    private static final String VENDOR_ID = "usps";
 
     /**
      * Default constructor

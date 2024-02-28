@@ -30,17 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Builder
 public class OpenCDXShippingResponse {
-    private String trackingNumber;
-    private ShippingStatus status;
-    private Double totalCost;
-    private Instant estimatedDelivery;
+    private final String trackingNumber;
+    private final ShippingStatus status;
+    private final Double totalCost;
+    private final Instant estimatedDelivery;
 
-    /**
-     * Default constructor
-     */
-    public OpenCDXShippingResponse() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
 
     /**
      * Converts the OpenCDXShippingResponse to a ShippingResponse protobuf.
