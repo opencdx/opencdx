@@ -50,6 +50,7 @@ public class CommunicationsChangeSet {
     private static final String NOTIFICATION_EVENT = "notification-event";
     private static final String NOTIFICATIONS = "notifications";
     private static final String USER_NAME = "userName";
+    public static final String NOTIFICATION = "notification";
 
     /**
      * Default Consructor
@@ -336,13 +337,13 @@ public class CommunicationsChangeSet {
 
                         Thank you!
                         """)
-                .variables(List.of(FIRST_NAME, LAST_NAME, "notification"))
+                .variables(List.of(FIRST_NAME, LAST_NAME, NOTIFICATION))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d374f"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("${notification}")
-                .variables(List.of("notification"))
+                .variables(List.of(NOTIFICATION))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3750"))
@@ -458,6 +459,78 @@ public class CommunicationsChangeSet {
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3751"))
                 .emailRetry(4)
                 .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3752"))
+                .smsRetry(4)
+                .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
+                .build();
+        openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
+        openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
+        openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
+    }
+
+    /**
+     * Create Shipment Template
+     * @param openCDXEmailTemplateRepository Email Template Repository
+     * @param openCDXSMSTemplateRespository SMS Template Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @Observed
+    @ChangeSet(order = "010", id = "Create Shipment Template", author = "Gaurav Mishra")
+    public void generateCreateShipmentTemplate(
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Shipment Templates");
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3762"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .subject("OpenCDX Notification Shipment")
+                .content(
+                        """
+                        Dear [[${firstName}]] [[${lastName}]],
+
+                        This is to notify you of [[${notification}]].
+                        The tracking number [[trackingNumber]] for
+                        item [[itemShipped]] to the following address:
+                        [[address1]]
+                        [[address2]]
+                        [[address3]]
+                        [[city]]
+                        [[postalCode]]
+                        [[state]]
+                        [[countryId]]
+
+                        Thank you!
+                        """)
+                .variables(List.of(
+                        FIRST_NAME,
+                        LAST_NAME,
+                        NOTIFICATION,
+                        "trackingNumber",
+                        "itemShipped",
+                        "address1",
+                        "address2",
+                        "address3",
+                        "city",
+                        "postalCode",
+                        "state",
+                        "countryId"))
+                .build();
+        OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3763"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .message("Your item ${itemShipped} with tracking id ${trackingNumber} has been shipped.")
+                .variables(List.of("itemShipped", "trackingNumber"))
+                .build();
+        OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3764"))
+                .eventName("Shipment Created Notification to user")
+                .eventDescription("Shipment Created Notification to user.")
+                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3762"))
+                .emailRetry(4)
+                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3763"))
                 .smsRetry(4)
                 .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
                 .build();
