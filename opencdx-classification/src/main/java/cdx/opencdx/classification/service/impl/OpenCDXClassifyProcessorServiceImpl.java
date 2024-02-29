@@ -153,6 +153,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                 knowledge.newStatelessSession().insertAndFire(getResponse(model), ruleResult);
                 builder.setNotifyCdc(ruleResult.isNotifyCDC());
                 builder.setFurtherActions(ruleResult.getFurtherActions());
+                if (ruleResult.getType() != null) {
+                    builder.setType(ruleResult.getType());
+                }
             } catch (IOException e) {
                 throw new OpenCDXInternalServerError(
                         OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
