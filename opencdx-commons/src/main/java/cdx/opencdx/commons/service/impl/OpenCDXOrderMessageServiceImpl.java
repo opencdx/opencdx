@@ -52,8 +52,7 @@ public class OpenCDXOrderMessageServiceImpl implements OpenCDXOrderMessageServic
         log.info("Submitting order: {}", order);
 
         this.openCDXDocumentValidator.validateDocumentOrThrow("profiles", new ObjectId(order.getPatientId()));
-        this.openCDXDocumentValidator.validateDocumentOrThrow(
-                "testcases", new ObjectId(order.getTestCase().getId()));
+        this.openCDXDocumentValidator.validateDocumentOrThrow("testcases", new ObjectId(order.getTestCaseId()));
 
         this.messageService.send(OpenCDXMessageService.ORDER_MESSAGE_SUBJECT, order);
     }

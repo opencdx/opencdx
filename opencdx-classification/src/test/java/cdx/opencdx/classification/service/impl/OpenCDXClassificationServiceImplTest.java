@@ -35,6 +35,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
 import cdx.opencdx.grpc.common.Duration;
 import cdx.opencdx.grpc.common.DurationType;
 import cdx.opencdx.grpc.connected.ConnectedTest;
@@ -91,6 +92,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
+
+    @Autowired
+    OpenCDXOrderMessageService openCDXOrderMessageService;
 
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
@@ -239,7 +243,8 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
-                openCDXProfileRepository);
+                openCDXProfileRepository,
+                openCDXOrderMessageService);
     }
 
     @AfterEach
@@ -543,7 +548,8 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
-                openCDXProfileRepository);
+                openCDXProfileRepository,
+                openCDXOrderMessageService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()

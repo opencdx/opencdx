@@ -20,9 +20,7 @@ import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
-import cdx.opencdx.client.service.OpenCDXMediaClient;
-import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
+import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -31,7 +29,10 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
+import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.media.GetMediaRequest;
@@ -40,10 +41,12 @@ import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
+import cdx.opencdx.grpc.shipping.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -69,6 +72,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
     private final OpenCDXClassificationRepository openCDXClassificationRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXOrderMessageService openCDXOrderMessageService;
 
     /**
      * Constructor for OpenCDXClassificationServiceImpl
@@ -82,6 +86,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXClassificationRepository repository for classification
      * @param openCDXQuestionnaireClient service for questionnaire client
      * @param openCDXProfileRepository repository for profile
+     * @param openCDXOrderMessageService service for order message
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -94,7 +99,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXQuestionnaireClient openCDXQuestionnaireClient,
             OpenCDXClassifyProcessorService openCDXClassifyProcessorService,
             OpenCDXClassificationRepository openCDXClassificationRepository,
-            OpenCDXProfileRepository openCDXProfileRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXOrderMessageService openCDXOrderMessageService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -105,6 +111,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXClassifyProcessorService = openCDXClassifyProcessorService;
         this.openCDXClassificationRepository = openCDXClassificationRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXOrderMessageService = openCDXOrderMessageService;
     }
 
     /**
@@ -247,8 +254,54 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     }
 
     private void processClassification(OpenCDXClassificationModel model) {
+        if (model.getClassificationResponse() != null
+                && ObjectId.isValid(
+                        model.getClassificationResponse().getTestKit().getTestCaseId())) {
+            orderTestCase(model);
+        }
+    }
 
+    private void orderTestCase(OpenCDXClassificationModel model) {
 
+        try {
+            this.openCDXDocumentValidator.validateDocumentOrThrow(
+                    "testcases",
+                    new ObjectId(model.getClassificationResponse().getTestKit().getTestCaseId()));
+            Address shippingAddress = null;
 
+            Optional<Address> addressOptional = model.getPatient().getAddresses().stream()
+                    .filter(address -> address.getAddressPurposeValue() == AddressPurpose.SHIPPING_VALUE)
+                    .findFirst();
+            if (addressOptional.isPresent()) {
+                shippingAddress = addressOptional.get();
+            }
+
+            if (shippingAddress == null) {
+                addressOptional = model.getPatient().getAddresses().stream()
+                        .filter(address -> address.getAddressPurposeValue() == AddressPurpose.PRIMARY_VALUE)
+                        .findFirst();
+                if (addressOptional.isPresent()) {
+                    shippingAddress = addressOptional.get();
+                }
+            }
+
+            if (shippingAddress == null) {
+                addressOptional = model.getPatient().getAddresses().stream().findFirst();
+                if (addressOptional.isPresent()) {
+                    shippingAddress = addressOptional.get();
+                }
+            }
+
+            Order.Builder builder = Order.newBuilder();
+            builder.setPatientId(model.getPatient().getId().toHexString());
+            builder.setShippingAddress(shippingAddress);
+            builder.setTestCaseId(model.getClassificationResponse().getTestKit().getTestCaseId());
+
+            this.openCDXOrderMessageService.submitOrder(builder.build());
+
+        } catch (OpenCDXNotFound e) {
+            log.error("Failed to find test case: {}",
+                     model.getClassificationResponse().getTestKit().getTestCaseId(),e);
+        }
     }
 }

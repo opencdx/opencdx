@@ -24,7 +24,6 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.Pagination;
-import cdx.opencdx.grpc.inventory.TestCase;
 import cdx.opencdx.grpc.shipping.*;
 import cdx.opencdx.shipping.model.OpenCDXOrderModel;
 import cdx.opencdx.shipping.repository.OpenCDXOrderRepository;
@@ -193,9 +192,7 @@ class OpenCDXGrpcShippingControllerTest {
                                 .setPostalCode("94105")
                                 .setCountryId(ObjectId.get().toHexString())
                                 .build())
-                        .setTestCase(TestCase.newBuilder(TestCase.getDefaultInstance())
-                                .setId(ObjectId.get().toHexString())
-                                .build())
+                        .setTestCaseId(ObjectId.get().toHexString())
                         .build())
                 .build();
 
@@ -231,9 +228,7 @@ class OpenCDXGrpcShippingControllerTest {
                                 .setPostalCode("94105")
                                 .setCountryId(ObjectId.get().toHexString())
                                 .build())
-                        .setTestCase(TestCase.newBuilder(TestCase.getDefaultInstance())
-                                .setId(ObjectId.get().toHexString())
-                                .build())
+                        .setTestCaseId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

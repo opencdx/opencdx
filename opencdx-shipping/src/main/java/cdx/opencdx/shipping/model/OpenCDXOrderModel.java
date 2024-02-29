@@ -17,7 +17,6 @@ package cdx.opencdx.shipping.model;
 
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ShippingStatus;
-import cdx.opencdx.grpc.inventory.TestCase;
 import cdx.opencdx.grpc.shipping.Order;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -45,9 +44,9 @@ public class OpenCDXOrderModel {
     private ObjectId id;
 
     private ObjectId patientId;
-    Address shippingAddress;
-    TestCase testCase;
-    ShippingStatus status;
+    private Address shippingAddress;
+    private ObjectId testCaseID;
+    private ShippingStatus status;
 
     private Instant created;
     private Instant modified;
@@ -71,7 +70,7 @@ public class OpenCDXOrderModel {
 
         this.patientId = new ObjectId(order.getPatientId());
         this.shippingAddress = order.getShippingAddress();
-        this.testCase = order.getTestCase();
+        this.testCaseID = new ObjectId(order.getTestCaseId());
 
         if (order.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -101,8 +100,8 @@ public class OpenCDXOrderModel {
         if (this.shippingAddress != null) {
             builder.setShippingAddress(this.shippingAddress);
         }
-        if (this.testCase != null) {
-            builder.setTestCase(this.testCase);
+        if (this.testCaseID != null) {
+            builder.setTestCaseId(this.testCaseID.toHexString());
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()
