@@ -12,54 +12,66 @@ import "google/protobuf/timestamp.proto";
  * Enum to categorize different types of specimens.
  */
 enum SpecimenType {
+  /**
+   * Unspecified specimen type.
+   */
+  UNSPECIFIED_SPECIMEN_TYPE = 0;
   /*
    * Blood specimen.
    */
-  BLOOD = 0;
+  BLOOD = 1;
   /*
    * Swab specimen.
    */
-  SWAB = 1;
+  SWAB = 2;
   /*
    * Urine specimen.
    */
-  URINE = 2;
+  URINE = 3;
 }
 
 /*
  * Enum to denote the severity level.
  */
 enum SeverityLevel {
+  /**
+   * Unspecified severity.
+   */
+  UNSPECIFIED_SEVERITY_LEVEL = 0;
   /*
    * Low severity.
    */
-  LOW = 0;
+  LOW = 1;
   /*
    * Moderate severity.
    */
-  MEDIUM = 1;
+  MEDIUM = 2;
   /*
    * High severity.
    */
-  HIGH = 2;
+  HIGH = 3;
 }
 
 /*
  * Enum for classification type
  */
 enum ClassificationType {
+  /**
+   * Unspecified classification
+   */
+  UNSPECIFIED_CLASSIFICATION_TYPE = 0;
   /*
    * Bacterial classification
    */
-  BACTERIAL = 0;
+  BACTERIAL = 1;
   /*
    * Viral classification
    */
-  VIRAL = 1;
+  VIRAL = 2;
   /*
    * Injury classification
    */
-  INJURY = 2;
+  INJURY = 3;
 }
 
 /*

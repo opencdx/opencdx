@@ -771,7 +771,7 @@ public class TypeRule {
 
         // Verify that the rules executed and set notify CDC
         Assertions.assertEquals(
-                ClassificationType.BACTERIAL,
+                ClassificationType.UNSPECIFIED_CLASSIFICATION_TYPE,
                 classificationService.classify(classificationRequest).getType());
     }
 }

@@ -16,6 +16,7 @@
 package cdx.opencdx.classification.model;
 
 import cdx.opencdx.grpc.neural.classification.ClassificationType;
+import cdx.opencdx.grpc.neural.classification.TestKit;
 import lombok.Data;
 
 /**
@@ -35,4 +36,6 @@ public class RuleResult {
     private boolean notifyCDC = false;
 
     private ClassificationType type;
+
+    private TestKit testKit = null;
 }

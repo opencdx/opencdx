@@ -27,6 +27,7 @@ import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.ClassificationType;
 import cdx.opencdx.grpc.questionnaire.GetRuleSetResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
@@ -46,7 +47,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Service implementation for processing Classification Requests
+ * Service implementation for processing Classification Requests. This class is demonstration of types of
+ * strategies that could be applied.  This is not a complete implementation. This class should be implemented
+ * by any party using the classification service.  Rules engine, AI/ML, or other strategies can be used to
+ * process the classification request.
  */
 @Slf4j
 @Service
@@ -58,6 +62,8 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
     private final OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
+
+    private final Random random;
 
     /**
      * Constructor for OpenCDXClassifyProcessorServiceImpl
@@ -72,6 +78,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXQuestionnaireClient = openCDXQuestionnaireClient;
+        this.random = new Random();
     }
 
     @Override
@@ -89,15 +96,18 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
         builder.setMessage("Executed classify operation.");
 
-        builder.setConfidence(new Random().nextFloat());
-        builder.setPositiveProbability(new Random().nextFloat());
-        builder.setAvailability(new Random().nextFloat() < 0.5 ? "Not Available" : "Available");
-        builder.setCost(new Random().nextFloat(1000.00f));
+        builder.setConfidence(this.random.nextFloat(100.0f));
+        builder.setPositiveProbability(this.random.nextFloat(100.0f));
+        builder.setAvailability(this.random.nextBoolean() ? "Not Available" : "Available");
+        builder.setCost(this.random.nextFloat(1000.00f));
         builder.setPatientId(model.getUserAnswer().getPatientId());
 
         if (model.getConnectedTest() != null) {
-            builder.setFurtherActions(
-                    new Random().nextFloat() < 0.5 ? "Follow up with your physician." : "Hospitalization is required.");
+            runTestAnalsysis(model, builder);
+        } else if (model.getUserQuestionnaireData() != null) {
+            runRules(model, builder);
+        } else {
+            builder.setType(ClassificationType.UNSPECIFIED_CLASSIFICATION_TYPE);
         }
 
         runRules(model, builder);
@@ -156,6 +166,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                 if (ruleResult.getType() != null) {
                     builder.setType(ruleResult.getType());
                 }
+                if (ruleResult.getTestKit() != null) {
+                    builder.setTestKit(ruleResult.getTestKit());
+                }
             } catch (IOException e) {
                 throw new OpenCDXInternalServerError(
                         OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
@@ -199,5 +212,34 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         }
 
         return null;
+    }
+
+    /**
+     * This is an example method for how to process Connected Test Analysis. Ideally this could be a Rules Engine,
+     * a Neural Network, or some other form of AI/ML model to process the results of the test.,
+     * @param model OpenCDXClassificationModel
+     * @param builder ClassificationResponse.Builder
+     */
+    private void runTestAnalsysis(OpenCDXClassificationModel model, ClassificationResponse.Builder builder) {
+
+        builder.setFurtherActions(
+                random.nextBoolean() ? "Follow up with your physician." : "Hospitalization is required.");
+
+        switch (random.nextInt(3)) {
+            case 1:
+                builder.setType(ClassificationType.BACTERIAL);
+                break;
+            case 2:
+                builder.setType(ClassificationType.VIRAL);
+                break;
+            default:
+                builder.setType(ClassificationType.INJURY);
+                break;
+        }
+
+        builder.setNotifyCdc(random.nextBoolean());
+
+        // TODO: This is a placeholder for adding in a TestCase list Client call, to get a test case to add to the
+        // response.
     }
 }

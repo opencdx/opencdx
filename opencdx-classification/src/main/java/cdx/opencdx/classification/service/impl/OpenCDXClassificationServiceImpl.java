@@ -300,8 +300,10 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             this.openCDXOrderMessageService.submitOrder(builder.build());
 
         } catch (OpenCDXNotFound e) {
-            log.error("Failed to find test case: {}",
-                     model.getClassificationResponse().getTestKit().getTestCaseId(),e);
+            log.error(
+                    "Failed to find test case: {}",
+                    model.getClassificationResponse().getTestKit().getTestCaseId(),
+                    e);
         }
     }
 }
