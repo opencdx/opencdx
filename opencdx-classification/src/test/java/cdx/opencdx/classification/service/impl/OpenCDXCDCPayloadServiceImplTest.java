@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.connected.test.service.impl;
+package cdx.opencdx.classification.service.impl;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
+import cdx.opencdx.client.dto.OpenCDXCallCredentials;
+import cdx.opencdx.client.exceptions.OpenCDXClientException;
+import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
+import cdx.opencdx.client.service.OpenCDXDeviceClient;
+import cdx.opencdx.client.service.OpenCDXManufacturerClient;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
-import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
-import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
-import cdx.opencdx.connected.test.model.OpenCDXManufacturerModel;
-import cdx.opencdx.connected.test.repository.OpenCDXConnectedTestRepository;
-import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
-import cdx.opencdx.connected.test.repository.OpenCDXManufacturerRepository;
-import cdx.opencdx.connected.test.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.connected.BasicInfo;
-import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.connected.OrderableTestResult;
-import cdx.opencdx.grpc.connected.TestDetails;
+import cdx.opencdx.grpc.connected.*;
 import cdx.opencdx.grpc.inventory.Device;
+import cdx.opencdx.grpc.inventory.DeviceIdRequest;
 import cdx.opencdx.grpc.inventory.Manufacturer;
+import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
 import com.google.protobuf.Timestamp;
 import java.util.Collections;
 import java.util.List;
@@ -62,19 +61,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class OpenCDXCDCPayloadServiceImplTest {
 
     @Mock
-    OpenCDXConnectedTestRepository openCDXConnectedTestRepository;
+    OpenCDXConnectedTestClient openCDXConnectedTestClient;
 
     @Mock
-    OpenCDXDeviceRepository openCDXDeviceRepository;
+    OpenCDXDeviceClient openCDXDeviceClient;
 
     @Mock
-    OpenCDXManufacturerRepository openCDXManufacturerRepository;
-
-    @Mock
-    OpenCDXMessageService openCDXMessageService;
+    OpenCDXManufacturerClient openCDXManufacturerClient;
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Mock
+    OpenCDXMessageService openCDXMessageService;
 
     private OpenCDXCDCPayloadService openCDXCDCPayloadService;
 
@@ -84,7 +86,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
@@ -97,7 +99,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(ObjectId.get())
@@ -109,7 +111,7 @@ class OpenCDXCDCPayloadServiceImplTest {
         Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) {
                         String argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(ObjectId.get())
@@ -120,10 +122,11 @@ class OpenCDXCDCPayloadServiceImplTest {
                 });
 
         openCDXCDCPayloadService = new OpenCDXCDCPayloadServiceImpl(
-                openCDXConnectedTestRepository,
+                openCDXConnectedTestClient,
+                openCDXDeviceClient,
+                openCDXManufacturerClient,
                 openCDXProfileRepository,
-                openCDXDeviceRepository,
-                openCDXManufacturerRepository,
+                openCDXCurrentUser,
                 openCDXMessageService);
     }
 
@@ -136,60 +139,38 @@ class OpenCDXCDCPayloadServiceImplTest {
         String vendorId = ObjectId.get().toHexString();
         String countryId = ObjectId.get().toHexString();
 
-        OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
+        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
+
         OpenCDXProfileModel openCDXProfileModel = createUser1(patientId);
         openCDXProfileModel.setActive(true);
-        OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
-        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
+
+        Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        Manufacturer manufacturerInfo = Manufacturer.newBuilder()
                 .setId(manufacturerId)
                 .setName("ABC Devices Inc")
                 .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
-                .build());
-
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
-                .thenReturn(Optional.of(openCDXConnectedTestModel));
-
-        when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.of(openCDXDeviceModel));
-        when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
-                .thenReturn(Optional.of(openCDXManufacturerModel));
-
-        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
-
-        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
-        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
-        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
-    }
-
-    @Test
-    void testSendCDCPayloadMessage_2() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
-        String manufacturerId = ObjectId.get().toHexString();
-        String vendorId = ObjectId.get().toHexString();
-        String countryId = ObjectId.get().toHexString();
-
-        OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
-        OpenCDXProfileModel openCDXProfileModel = createUser2(patientId);
-        openCDXProfileModel.setActive(true);
-        OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
-        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
-                .setId(manufacturerId)
-                .setName("ABC Devices Inc")
-                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
-                .build());
-
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
-                .thenReturn(Optional.of(openCDXConnectedTestModel));
-        when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.of(openCDXDeviceModel));
-        when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
-                .thenReturn(Optional.of(openCDXManufacturerModel));
+                .build();
+        when(openCDXCurrentUser.getCurrentUserAccessToken()).thenReturn("ACCESS_TOKEN");
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(deviceInfo);
+        when(openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(manufacturerInfo);
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
 
-        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
-        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
-        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
+        verify(openCDXCurrentUser).getCurrentUserAccessToken();
+        verify(openCDXConnectedTestClient)
+                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXManufacturerClient)
+                .getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
     }
 
     @Test
@@ -201,34 +182,86 @@ class OpenCDXCDCPayloadServiceImplTest {
         String vendorId = ObjectId.get().toHexString();
         String countryId = ObjectId.get().toHexString();
 
-        OpenCDXConnectedTestModel openCDXConnectedTestModel = createTest(testId, patientId, deviceId);
-        openCDXConnectedTestModel.setTestDetails(
-                TestDetails.newBuilder().setDeviceIdentifier(deviceId).build());
+        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
+
+        OpenCDXProfileModel openCDXProfileModel = createUser2(patientId);
+        openCDXProfileModel.setActive(true);
+
+        Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        Manufacturer manufacturerInfo = Manufacturer.newBuilder()
+                .setId(manufacturerId)
+                .setName("ABC Devices Inc")
+                .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
+                .build();
+
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(deviceInfo);
+        when(openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(manufacturerInfo);
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
+
+        verify(openCDXCurrentUser).getCurrentUserAccessToken();
+        verify(openCDXConnectedTestClient)
+                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXManufacturerClient)
+                .getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+    }
+
+    @Test
+    void testSendCDCPayloadMessage3() {
+        String testId = ObjectId.get().toHexString();
+        String patientId = ObjectId.get().toHexString();
+        String deviceId = ObjectId.get().toHexString();
+        String manufacturerId = ObjectId.get().toHexString();
+        String vendorId = ObjectId.get().toHexString();
+        String countryId = ObjectId.get().toHexString();
+
+        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
+
         OpenCDXProfileModel openCDXProfileModel = createUser2(patientId);
         openCDXProfileModel.setGender(null);
         openCDXProfileModel.setActive(true);
         openCDXProfileModel.setAddresses(null);
         openCDXProfileModel.setId(new ObjectId(patientId));
-        OpenCDXDeviceModel openCDXDeviceModel = createDevice(deviceId, manufacturerId, vendorId, countryId);
-        openCDXDeviceModel.setExpiryDate(null);
-        OpenCDXManufacturerModel openCDXManufacturerModel = new OpenCDXManufacturerModel(Manufacturer.newBuilder()
+
+        Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
+        // deviceInfo.
+        Manufacturer manufacturerInfo = Manufacturer.newBuilder()
                 .setId(manufacturerId)
                 .setName("ABC Devices Inc")
                 .setCreated(Timestamp.newBuilder().setSeconds(1696732104))
-                .build());
+                .build();
 
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
-                .thenReturn(Optional.of(openCDXConnectedTestModel));
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(deviceInfo);
+        when(openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(manufacturerInfo);
         when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(openCDXProfileModel));
-        when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.of(openCDXDeviceModel));
-        when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
-                .thenReturn(Optional.of(openCDXManufacturerModel));
 
         openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
 
-        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
-        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
-        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
+        verify(openCDXCurrentUser).getCurrentUserAccessToken();
+        verify(openCDXConnectedTestClient)
+                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXManufacturerClient)
+                .getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
     }
 
     @Test
@@ -236,8 +269,12 @@ class OpenCDXCDCPayloadServiceImplTest {
         String testId = ObjectId.get().toHexString();
         String patientId = ObjectId.get().toHexString();
         String deviceId = ObjectId.get().toHexString();
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
-                .thenReturn(Optional.of(createTest(testId, patientId, deviceId)));
+
+        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
+
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
         when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.empty());
 
         Assertions.assertThrows(
@@ -245,18 +282,20 @@ class OpenCDXCDCPayloadServiceImplTest {
                 () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
                 "Failed to find patient: " + patientId);
 
-        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXConnectedTestClient)
+                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXProfileRepository).findById(new ObjectId(patientId));
     }
 
     @Test
     void testSendCDCPayloadMessageTestNotFound() {
         String testId = ObjectId.get().toHexString();
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId))).thenReturn(Optional.empty());
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenThrow(OpenCDXClientException.class);
+
         Assertions.assertThrows(
-                OpenCDXNotFound.class,
-                () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
-                "Failed to find connected test: " + testId);
+                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId));
     }
 
     @Test
@@ -270,19 +309,24 @@ class OpenCDXCDCPayloadServiceImplTest {
         patient.setPrimaryContactInfo(null);
         patient.setId(new ObjectId(patientId));
 
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
-                .thenReturn(Optional.of(createTest(testId, patientId, deviceId)));
+        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
+
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
         when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(patient));
-        when(openCDXDeviceRepository.findById(new ObjectId(deviceId))).thenReturn(Optional.empty());
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenThrow(OpenCDXClientException.class);
 
         Assertions.assertThrows(
-                OpenCDXNotFound.class,
-                () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
-                "Failed to find device: " + deviceId);
+                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId));
 
-        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXConnectedTestClient)
+                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXProfileRepository).findById(new ObjectId(patientId));
-        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
     }
 
     @Test
@@ -293,28 +337,42 @@ class OpenCDXCDCPayloadServiceImplTest {
         String manufacturerId = ObjectId.get().toHexString();
         String vendorId = ObjectId.get().toHexString();
         String countryId = ObjectId.get().toHexString();
-        when(openCDXConnectedTestRepository.findById(new ObjectId(testId)))
-                .thenReturn(Optional.of(createTest(testId, patientId, deviceId)));
+
+        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
+
+        when(openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(connectedTest);
+
+        Device deviceInfo = createDevice(deviceId, manufacturerId, vendorId, countryId);
+
+        OpenCDXProfileModel openCDXProfileModel = createUser1(patientId);
+        openCDXProfileModel.setActive(true);
+
         when(openCDXProfileRepository.findById(new ObjectId(patientId)))
                 .thenReturn(Optional.of(createUser4(patientId)));
-        when(openCDXDeviceRepository.findById(new ObjectId(deviceId)))
-                .thenReturn(Optional.of(createDevice(deviceId, manufacturerId, vendorId, countryId)));
-        when(openCDXManufacturerRepository.findById(new ObjectId(manufacturerId)))
-                .thenReturn(Optional.empty());
+        when(openCDXDeviceClient.getDeviceById(
+                        Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(deviceInfo);
+        when(openCDXManufacturerClient.getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenThrow(OpenCDXClientException.class);
 
         Assertions.assertThrows(
-                OpenCDXNotFound.class,
-                () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
-                "Failed to find manufacturer: " + manufacturerId);
+                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId));
 
-        verify(openCDXConnectedTestRepository).findById(new ObjectId(testId));
+        verify(openCDXConnectedTestClient)
+                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXProfileRepository).findById(new ObjectId(patientId));
-        verify(openCDXDeviceRepository).findById(new ObjectId(deviceId));
-        verify(openCDXManufacturerRepository).findById(new ObjectId(manufacturerId));
+        verify(openCDXDeviceClient)
+                .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+        verify(openCDXManufacturerClient)
+                .getManufacturerById(
+                        Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
     }
 
-    private OpenCDXConnectedTestModel createTest(String testId, String userId, String deviceId) {
-        return new OpenCDXConnectedTestModel(ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
+    private ConnectedTest createTest(String testId, String userId, String deviceId) {
+        return ConnectedTest.newBuilder(ConnectedTest.getDefaultInstance())
                 .setBasicInfo(BasicInfo.newBuilder()
                         .setId(testId)
                         .setNationalHealthId(UUID.randomUUID().toString())
@@ -326,7 +384,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                                 .setTestResult("POSITIVE")
                                 .build())
                         .build())
-                .build());
+                .build();
     }
 
     private OpenCDXProfileModel createUser1(String userId) {
@@ -508,14 +566,14 @@ class OpenCDXCDCPayloadServiceImplTest {
         return openCDXProfileModel;
     }
 
-    private OpenCDXDeviceModel createDevice(String deviceId, String manufacturerId, String vendorId, String countryId) {
-        return new OpenCDXDeviceModel(Device.newBuilder()
+    private Device createDevice(String deviceId, String manufacturerId, String vendorId, String countryId) {
+        return Device.newBuilder()
                 .setId(deviceId)
                 .setManufacturerId(manufacturerId)
                 .setManufacturerCountryId(countryId)
                 .setVendorCountryId(countryId)
                 .setVendorId(vendorId)
                 .setExpiryDate(Timestamp.newBuilder().setSeconds(1696732104))
-                .build());
+                .build();
     }
 }
