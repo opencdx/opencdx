@@ -46,6 +46,53 @@ export const typeDefs = gql`
     deviceStatus: String
     associatedSoftwareVersion: String
   }
+  type Actor {
+    identity_: String
+    role_: String
+    networkAddress_: String
+    agentType_: Int
+    memoizedIsInitialized: Int
+    memoizedSize: Int
+    memoizedHashCode: Int
+    _class: String
+  }
+  type DataObject {
+    resource_: String
+    data_: String
+    sensitivity_: Int
+    memoizedIsInitialized: Int
+    memoizedSize: Int
+    memoizedHashCode: Int
+    _class: String
+  }
+  type AuditSource {
+    systemInfo_: String
+    configuration_: String
+    memoizedIsInitialized: Int
+    memoizedSize: Int
+    memoizedHashCode: Int
+  }
+  type AuditEntity {
+    patientIdentifier_: String
+    userIdentifier_: String
+    memoizedIsInitialized: Int
+    memoizedSize: Int
+    memoizedHashCode: Int
+  }
+
+  type Audit {
+    purposeOfUse: String,
+    created: String,
+    eventType: String,
+    actor: Actor,
+    dataObject: DataObject,
+    auditSource: AuditSource,
+    auditEntity: AuditEntity,
+    _class: String,
+    creator: String,
+    modifier: String,
+    modified: String    
+  }
 
   type Query {
     getManufacturers: [Manufacturer]
@@ -56,5 +103,7 @@ export const typeDefs = gql`
 
     getPatients: [Patient]
     findAPatient(id: String): Patient
+
+    getAudit: [Audit]
   }
 `;

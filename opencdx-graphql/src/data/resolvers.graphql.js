@@ -1,4 +1,4 @@
-import { Manufacturers, Devices, Patients } from "../db/dbConnector.js";
+import { Manufacturers, Devices, Patients, Audit } from "../db/dbConnector.js";
 
 /**
  * GraphQL Resolvers
@@ -50,6 +50,14 @@ export const resolvers = {
       try {
         const patient = await Patients.findOne({ _id: id });
         return patient;
+      } catch (err) {
+        reject(err)
+      }
+    },
+    getAudit: async (root) => {
+      try {
+        const audit = await Audit.find();
+        return audit;
       } catch (err) {
         reject(err)
       }
