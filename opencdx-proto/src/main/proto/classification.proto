@@ -45,6 +45,24 @@ enum SeverityLevel {
 }
 
 /*
+ * Enum for classification type
+ */
+enum ClassificationType {
+  /*
+   * Bacterial classification
+   */
+  BACTERIAL = 0;
+  /*
+   * Viral classification
+   */
+  VIRAL = 1;
+  /*
+   * Injury classification
+   */
+  INJURY = 2;
+}
+
+/*
  * Message denoting a geographical location via coordinates.
  */
 message Location {
@@ -257,10 +275,15 @@ message ClassificationResponse {
    */
   string patient_id = 11;
 
-  /**
+  /*
    * Whether to notify the CDC.
    */
   bool notify_cdc = 12;
+
+  /*
+   * Classification type
+   */
+   ClassificationType type = 13;
 }
 
 /*

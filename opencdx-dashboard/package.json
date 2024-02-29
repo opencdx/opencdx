@@ -41,12 +41,14 @@
         "react-router-dom": "^6.15.0",
         "react-scripts": "^5.0.1",
         "react-slick": "^0.29.0",
+        "react-transition-group": "^4.4.5",
         "react18-input-otp": "^1.1.4",
         "redux": "^4.2.1",
         "redux-persist": "^6.0.0",
         "slick-carousel": "^1.8.1",
         "web-vitals": "^3.4.0",
-        "yup": "^1.2.0"
+        "yup": "^1.2.0",
+        "zustand": "^4.5.1"
     },
     "scripts": {
         "start": "REACT_APP_API_URL_SECURED=false react-scripts start",

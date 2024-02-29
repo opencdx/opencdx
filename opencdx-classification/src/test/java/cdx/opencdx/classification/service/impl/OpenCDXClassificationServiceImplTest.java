@@ -44,11 +44,7 @@ import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.media.Media;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.SeverityLevel;
-import cdx.opencdx.grpc.neural.classification.Symptom;
-import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import cdx.opencdx.grpc.neural.classification.*;
 import cdx.opencdx.grpc.questionnaire.*;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -713,5 +709,69 @@ public class CovidRule {
         // Verify that the rules executed and set notify CDC
         Assertions.assertTrue(
                 classificationService.classify(classificationRequest).getNotifyCdc());
+    }
+
+    @Test
+    void testSubmitClassificationType() {
+        String ruleId = ObjectId.get().toHexString();
+        String ruleQuestionId = ObjectId.get().toHexString();
+
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.openCDXQuestionnaireClient.getRuleSet(
+                        Mockito.anyString(), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(GetRuleSetResponse.newBuilder()
+                        .setRuleSet(RuleSet.newBuilder()
+                                .setRuleId(ruleId)
+                                .setRule(
+                                        """
+package cdx.opencdx.classification.service;
+
+import cdx.opencdx.classification.model.RuleResult;
+import org.evrete.dsl.annotation.Fact;
+import org.evrete.dsl.annotation.Rule;
+import org.evrete.dsl.annotation.Where;
+import cdx.opencdx.grpc.neural.classification.ClassificationType;
+
+public class TypeRule {
+
+    @Rule
+    @Where("$t == 'bacterial'")
+    public void normalBloodPressure(@Fact("$t") String type, RuleResult ruleResult) {
+        ruleResult.setType(ClassificationType.BACTERIAL);
+    }
+}
+                                """)
+                                .build())
+                        .build());
+
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .addQuestionnaireData(Questionnaire.newBuilder()
+                                .setRuleId(ruleId)
+                                .addRuleQuestionId(ruleQuestionId)
+                                .addItem(QuestionnaireItem.newBuilder()
+                                        .setLinkId(ruleQuestionId)
+                                        .setType("choice")
+                                        .setAnswerString("true"))
+                                .build())
+                        .build());
+
+        ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
+                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        // Verify that the rules executed and set notify CDC
+        Assertions.assertEquals(
+                ClassificationType.BACTERIAL,
+                classificationService.classify(classificationRequest).getType());
     }
 }
