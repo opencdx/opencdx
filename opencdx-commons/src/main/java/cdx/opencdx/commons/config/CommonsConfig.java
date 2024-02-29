@@ -87,7 +87,7 @@ public class CommonsConfig {
 
     @ExcludeFromJacocoGeneratedReport
     private static boolean observationPrediction(Observation.Context context, PathMatcher pathMatcher) {
-        log.info("Observation Prediction: {}", context);
+        log.trace("Observation Prediction: {}", context);
         if (context instanceof ServerRequestObservationContext observationContext) {
             return !pathMatcher.match(
                     "/actuator/**", observationContext.getCarrier().getRequestURI());

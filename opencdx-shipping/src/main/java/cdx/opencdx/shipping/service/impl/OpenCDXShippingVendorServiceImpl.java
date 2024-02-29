@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.shipping.service.impl;
 
+import cdx.opencdx.commons.service.OpenCDXDeliveryTrackingMessageService;
+import cdx.opencdx.grpc.routine.DeliveryTracking;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
@@ -24,7 +26,9 @@ import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendor;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
+import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,10 +46,14 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
 
     private Map<String, OpenCDXShippingVendor> vendors;
 
+    private final OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService;
+
     /**
      * Default constructor
      */
-    public OpenCDXShippingVendorServiceImpl() {
+    public OpenCDXShippingVendorServiceImpl(
+            OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService) {
+        this.openCDXDeliveryTrackingMessageService = openCDXDeliveryTrackingMessageService;
         this.vendors = new HashMap<>();
 
         OpenCDXShippingVendor vendor = new UpsShippingVendor();
@@ -91,6 +99,17 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
                 this.vendors.get(request.getShippingVendorId()).shipPackage(new OpenCDXShippingModel(request));
 
         log.info("Shipping Response: {}", openCDXShippingResponse.toString());
+
+        DeliveryTracking.Builder builder = DeliveryTracking.newBuilder();
+        builder.setTrackingId(openCDXShippingResponse.getTrackingNumber());
+        builder.setOrderId(request.getPackageDetails().getId());
+        builder.setStatus(openCDXShippingResponse.getStatus());
+        builder.setStartDatetime(Timestamp.newBuilder()
+                .setSeconds(Instant.now().getEpochSecond())
+                .build());
+        builder.setAssignedCourier(request.getShippingVendorId());
+
+        this.openCDXDeliveryTrackingMessageService.submitDeliveryTracking(builder.build());
 
         return openCDXShippingResponse.toProtobuf();
     }
