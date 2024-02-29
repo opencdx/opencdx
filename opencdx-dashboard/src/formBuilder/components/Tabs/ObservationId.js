@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import {
-    FormControl,
-    FormControlLabel,
-    Grid,
-    MenuItem,
-    Select,
-    InputLabel,
-    Input,
-    Checkbox,
-    Button,
-    Chip,
-    TextField
-} from '@mui/material';
+import { FormControl, FormControlLabel, Grid, MenuItem, Select, InputLabel, Input, Checkbox, Button, Chip, TextField } from '@mui/material';
 
 import { Controller } from 'react-hook-form';
 import { SystemVariables } from '../ui-components/SystemVariables';
@@ -28,28 +16,28 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { observationAttributes, categories } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
 export const ObservationId = ({ currentIndex, index, control, getValues, register }) => {
     const ListItem = styled('li')(({ theme }) => ({
-        margin: theme.spacing(0.5),
+        margin: theme.spacing(0.5)
     }));
     const [chipData, setChipData] = React.useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const {formData,setFormData} = useAnfFormStore();
+    const { formData, setFormData } = useAnfFormStore();
 
     useEffect(() => {
         if (formData && formData.item) {
             const currentCategories = formData.item[index]?.selectedCategories || [];
 
-            setChipData(categories.map((data, index) => ({
-                key: index,
-                label: data.label,
-                selected: currentCategories.includes(data.label),
-            })));
+            setChipData(
+                categories.map((data, index) => ({
+                    key: index,
+                    label: data.label,
+                    selected: currentCategories.includes(data.label)
+                }))
+            );
 
-            setSelectedCategories(currentCategories.length > 0
-                ? currentCategories
-                : chipData.filter(data => data.selected).map(data => data.label)
+            setSelectedCategories(
+                currentCategories.length > 0 ? currentCategories : chipData.filter((data) => data.selected).map((data) => data.label)
             );
         }
     }, []);
@@ -57,20 +45,21 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
     const handleChange = (data) => () => {
         const currentCategories = formData.item[index]?.selectedCategories || [];
         const updatedCategories = currentCategories.includes(data.label)
-            ? currentCategories.filter(category => category !== data.label)
+            ? currentCategories.filter((category) => category !== data.label)
             : [...currentCategories, data.label];
 
         formData.item[index] = { ...formData.item[index], selectedCategories: updatedCategories };
         setFormData(formData);
 
-        setChipData(chips => chips.map(chip => ({
-            ...chip,
-            selected: chip.key === data.key ? !chip.selected : chip.selected,
-        })));
+        setChipData((chips) =>
+            chips.map((chip) => ({
+                ...chip,
+                selected: chip.key === data.key ? !chip.selected : chip.selected
+            }))
+        );
 
         setSelectedCategories(updatedCategories);
     };
-
 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
@@ -78,9 +67,7 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                 <Grid container spacing={2} alignItems="center" key={`${index}-${i}`} sx={{ pt: 2 }}>
                     <Grid item xs={12} sm={4} lg={4}>
                         <FormControl fullWidth>
-                            <Typography variant="h5">
-                                Observation.{typeof attribute === 'object' ? attribute.label : attribute}
-                            </Typography>
+                            <Typography variant="h5">Observation.{typeof attribute === 'object' ? attribute.label : attribute}</Typography>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={5}>
@@ -141,7 +128,7 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                                 control={control}
                                 defaultValue={10}
                                 render={({ field }) => (
-                                    <Select {...field} id={`item.${index}.item.${currentIndex}.type`} >
+                                    <Select {...field} id={`item.${index}.item.${currentIndex}.type`}>
                                         <MenuItem value={10}>Observation procedure</MenuItem>
                                     </Select>
                                 )}
@@ -157,7 +144,7 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                                 listStyle: 'none',
                                 backgroundColor: '#f8fafc',
                                 p: 0.5,
-                                m: 0,
+                                m: 0
                             }}
                             component="ul"
                         >
@@ -186,12 +173,14 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
             <ObservationAttributes filteredAttributes={filteredAttributes} />
         </Grid>
     );
-
 };
 ObservationId.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
     currentIndex: PropTypes.number,
-    tab: PropTypes.string
+    tab: PropTypes.string,
+    control: PropTypes.object,
+    getValues: PropTypes.func,
+    filteredAttributes: PropTypes.array
 };
 export default ObservationId;

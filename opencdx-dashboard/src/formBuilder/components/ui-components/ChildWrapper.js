@@ -10,8 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { Controller } from 'react-hook-form';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
-const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
+const ChildWrapper = ({ control, register }) => {
     const { formData } = useAnfFormStore();
     const [hideOptions, setHideOptions] = React.useState(true);
     const { fields, remove } = useFieldArray({
@@ -35,13 +34,9 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
     const theme = useTheme();
     const handleStatementTypeChange = (value) => setHideOptions(value !== 'main_statement_questions');
     return (
-        <div className="wrapper" ref={ref}>
+        <div className="wrapper">
             {fields.map((item, index) => (
-                <AccordianWrapper
-                    key={item.uniqueIdentifier}  // Use a unique identifier instead of index
-                    title={`${index + 1}. ${item.text} - ${item.linkId}`}
-                    remove={() => remove(index)}
-                >
+                <AccordianWrapper key={index} title={`${index + 1}. ${item.text} - ${item.linkId}`} remove={() => remove(index)}>
                     <ComponentID {...{ control, register, index }} />
                     <StatementTypes {...{ control, register, index, item }} handleStatementTypeChange={handleStatementTypeChange} />
                     {hideOptions && <OptionWrapper {...{ control, register, index, item }} />}
@@ -77,7 +72,12 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
                             control={control}
                             defaultValue={formData ? formData.ruleset : ''}
                             render={({ field }) => (
-                                <Select {...field} id={`item.rulesets`} fullWidth variant="outlined" size="small"
+                                <Select
+                                    {...field}
+                                    id={`item.rulesets`}
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
                                     // onClick={(e) => setFormData({ ruleset: e.target.value })}
                                 >
                                     {rulesets.map((ruleset) => (
@@ -93,7 +93,7 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
             </Grid>
         </div>
     );
-});
+};
 
 ChildWrapper.propTypes = {
     register: PropTypes.func,

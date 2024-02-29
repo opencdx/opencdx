@@ -7,7 +7,6 @@ import { Table, TableBody, TableCell, TableRow, FormControlLabel, TableContainer
 import { capitalizeANFTitle } from '../../utils/StringManulpations';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
 const StatementTypesReport = React.forwardRef((props, ref) => {
     const { formData } = useAnfFormStore();
     const [showReport, setShowReport] = React.useState(false);
@@ -62,7 +61,7 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} sm={3} lg={3}>
                         <FormControlLabel
-                            control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" id='show-report'/>}
+                            control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" id="show-report" />}
                             label={'Show Report'}
                             sx={{ color: 'primary.main', fontWeight: 600 }}
                         />

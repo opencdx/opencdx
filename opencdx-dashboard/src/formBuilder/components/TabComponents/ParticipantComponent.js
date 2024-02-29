@@ -7,7 +7,6 @@ import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
 export const ParticipantComponent = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
     const { formData } = useAnfFormStore();
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
@@ -16,26 +15,26 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
     const [state, setState] = React.useState({
         id: '',
         code: '',
-        practitionerValue: '',
+        practitionerValue: ''
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         const systemVariable = tab === 'authors' || tab === 'rangeParticipant' ? systemVariables[tab][0] : systemVariables[tab];
 
-        if (componentType){
-            setState(prevState => ({
+        if (componentType) {
+            setState((prevState) => ({
                 id: id || systemVariable.id || prevState.id,
                 code: code || systemVariable.code || prevState.code,
-                practitionerValue: practitionerValue || systemVariable.practitionerValue || prevState.practitionerValue,
+                practitionerValue: practitionerValue || systemVariable.practitionerValue || prevState.practitionerValue
             }));
-        }else{
-        setState(prevState => ({
-            id: id  || prevState.id,
-            code: code || prevState.code,
-            practitionerValue: practitionerValue  || prevState.practitionerValue,
-        }));
-    }
-    }, [tab]);
+        } else {
+            setState((prevState) => ({
+                id: id || prevState.id,
+                code: code || prevState.code,
+                practitionerValue: practitionerValue || prevState.practitionerValue
+            }));
+        }
+    }, [tab, id, code, componentType, practitionerValue]);
 
     return (
         <Grid item xs={12} lg={12} ref={ref}>
@@ -46,14 +45,34 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
                             {/* ... other grid items ... */}
 
                             {/* ID */}
-                            {renderTextField(register,'ID', `item.${index}.item.${currentIndex}.${tab}.id`, 'Enter ID Value', state.id, e => setState({ ...state, id: e.target.value }))}
+                            {renderTextField(
+                                register,
+                                'ID',
+                                `item.${index}.item.${currentIndex}.${tab}.id`,
+                                'Enter ID Value',
+                                state.id,
+                                (e) => setState({ ...state, id: e.target.value })
+                            )}
 
                             {/* Practitioner */}
-                            {renderTextField(register,'Practitioner', `item.${index}.item.${currentIndex}.${tab}.practitionerValue`, 'Enter Practitioner Value', state.practitionerValue, e => setState({ ...state, practitionerValue: e.target.value }))}
+                            {renderTextField(
+                                register,
+                                'Practitioner',
+                                `item.${index}.item.${currentIndex}.${tab}.practitionerValue`,
+                                'Enter Practitioner Value',
+                                state.practitionerValue,
+                                (e) => setState({ ...state, practitionerValue: e.target.value })
+                            )}
 
                             {/* Code */}
-                            {renderTextField(register,'Code', `item.${index}.item.${currentIndex}.${tab}.code`, 'Enter Code Value', state.code, e => setState({ ...state, code: e.target.value }))}
-
+                            {renderTextField(
+                                register,
+                                'Code',
+                                `item.${index}.item.${currentIndex}.${tab}.code`,
+                                'Enter Code Value',
+                                state.code,
+                                (e) => setState({ ...state, code: e.target.value })
+                            )}
                         </Grid>
                     </Grid>
                     <Divider />
@@ -66,20 +85,13 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
 });
 
 // Helper function to render text fields
-const renderTextField = (register,label, name, placeholder, value, onChange) => (
+const renderTextField = (register, label, name, placeholder, value, onChange) => (
     <>
         <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
             <InputLabel horizontal>{label}</InputLabel>
         </Grid>
         <Grid item xs={12} sm={9} lg={8}>
-            <TextField
-                {...register(name)}
-                fullWidth
-                placeholder={placeholder}
-                value={value }
-                defaultValue={value}
-                onChange={onChange}
-            />
+            <TextField {...register(name)} fullWidth placeholder={placeholder} value={value} defaultValue={value} onChange={onChange} />
         </Grid>
     </>
 );

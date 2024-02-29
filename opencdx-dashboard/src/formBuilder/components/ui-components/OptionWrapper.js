@@ -6,7 +6,7 @@ import { useFieldArray } from 'react-hook-form';
 import { AccordianWrapper } from './AccordianWrapper';
 import { CustomTabs } from './CustomTabs';
 
-const OptionWrapper = React.forwardRef(({ control, register, index, item },ref) => {
+const OptionWrapper = React.forwardRef(({ control, register, index, item }, ref) => {
     const [showValueField, setShowValueField] = React.useState(false);
     const { fields, append, remove, getValues } = useFieldArray({
         control,
@@ -33,7 +33,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item },ref) 
         }
     };
     return (
-        <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
+        <Grid item xs={12} lg={12} sx={{ pt: 2 }} ref={ref}>
             <Grid container spacing={2} alignItems="center" sx={{ pl: 2 }}>
                 <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2 }}>
                     <Typography variant="subtitle1">Operator</Typography>

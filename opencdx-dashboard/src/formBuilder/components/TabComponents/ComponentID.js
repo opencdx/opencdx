@@ -37,5 +37,5 @@ export const ComponentID = forwardRef(({ register, index, item }, ref) => {
 ComponentID.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
-    item: PropTypes.object,
+    item: PropTypes.object
 };

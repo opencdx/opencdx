@@ -6,9 +6,8 @@ import { SubCard } from './SubCard';
 import IconRestore from '@mui/icons-material/Restore';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
 const StatementTypes = forwardRef(({ register, index, control, item, handleStatementTypeChange }, ref) => {
-    const { formData , setFormData} = useAnfFormStore();
+    const { formData, setFormData } = useAnfFormStore();
     const [selectedOption, setSelectedOption] = React.useState('');
     const [selectedMainOption, setSelectedMainOption] = React.useState([]);
     const [selectedAssociatedOption, setSelectedAssociatedOption] = React.useState([]);
@@ -46,19 +45,18 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                 formData.item[index].componentType = value;
             }
         });
-        handleStatementTypeChange(value)
+        handleStatementTypeChange(value);
         setFormData({ item: formData.item });
         setSelectedOption(value);
-       
+
         const markedMainANFStatement = formData.item
             .filter((element) => element.componentType === 'main_anf_statement')
             .map((element) => element.text);
-            const updatedItem = formData.item.map((element) => ({
-                ...element,
-                markedMainANFStatement: markedMainANFStatement
-            }));
-            setFormData({ item: updatedItem });
-
+        const updatedItem = formData.item.map((element) => ({
+            ...element,
+            markedMainANFStatement: markedMainANFStatement
+        }));
+        setFormData({ item: updatedItem });
     };
 
     const renderList = useCallback(() => {
@@ -186,11 +184,7 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                                         {selectedOption === 'associated_anf_statement' && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
                                     <Grid item xs={12} sm={2} lg={4} sx={{ pl: 3 }}>
-                                        <FormControlLabel
-                                            value="main_statement_questions"
-                                            control={<Radio />}
-                                            label="User Question"
-                                        />
+                                        <FormControlLabel value="main_statement_questions" control={<Radio />} label="User Question" />
 
                                         {selectedOption === 'main_statement_questions' && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
@@ -212,7 +206,8 @@ StatementTypes.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
     control: PropTypes.object,
-    item: PropTypes.object
+    item: PropTypes.object,
+    handleStatementTypeChange: PropTypes.func
 };
 
 export default StatementTypes;

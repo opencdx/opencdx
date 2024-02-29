@@ -1,19 +1,14 @@
 import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import useLocalStorage from '../../utils/useLocalStorage';
 import { Button, Snackbar } from '@mui/material';
 import { Tooltip } from '@mui/material';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
-
-
 
 const QuestionsList = forwardRef((props, ref) => {
     const { formData } = useAnfFormStore();
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
     const handleCopyToClipboard = (value) => {
-        // const lowerBound = getValues && getValues(`item.${index}.item.${currentIndex}.${tab}.lowerBound`);
-
         navigator.clipboard.writeText('document.getElementsById("' + value + '").value').catch((error) => {
             console.error('Unable to copy text to clipboard', error);
         });

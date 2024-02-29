@@ -12,9 +12,8 @@ import { systemVariables } from '../../store/constant';
 import { SystemVariables } from '../ui-components/SystemVariables';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
-export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex , getValues}, ref) => {
-    const {formData} = useAnfFormStore();
+export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex, getValues }, ref) => {
+    const { formData } = useAnfFormStore();
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
 
     return (
@@ -32,8 +31,10 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                                 control={control}
                                 defaultValue={10}
                                 render={({ field }) => (
-                                    <Select {...field}  >
-                                        <MenuItem value={10}  defaultValue={10}>Performance Circumstance</MenuItem>
+                                    <Select {...field}>
+                                        <MenuItem value={10} defaultValue={10}>
+                                            Performance Circumstance
+                                        </MenuItem>
                                         <MenuItem value={20}>Request Circumstance</MenuItem>
                                         <MenuItem value={30}>Narrative Circumstance</MenuItem>
                                     </Select>
@@ -99,16 +100,16 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         <InputLabel horizontal>Normal Range</InputLabel>
                     </Grid>
                     {<MeasureComponent {...{ control, register, index, currentIndex }} tab="rangeMeasure" />}
-                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important',marginTop:10 } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important', marginTop: 10 } }}>
                         <InputLabel horizontal>Circumstance</InputLabel>
                     </Grid>
                     {<ParticipantComponent {...{ control, register, index, currentIndex }} tab="rangeParticipant" />}
 
-                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important',marginTop:10 } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important', marginTop: 10 } }}>
                         <InputLabel horizontal>Timing</InputLabel>
                     </Grid>
                     {<MeasureComponent {...{ control, register, index, currentIndex }} tab="timingMeasure" />}
-                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important',marginTop:10 } }}>
+                    <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important', marginTop: 10 } }}>
                         <InputLabel horizontal>Participant</InputLabel>
                     </Grid>
                     {<ParticipantComponent {...{ control, register, index, currentIndex }} tab={'rangeParticipant'} />}
@@ -122,5 +123,6 @@ CircumstanceChoice.propTypes = {
     register: PropTypes.func,
     control: PropTypes.func,
     index: PropTypes.number,
-    currentIndex: PropTypes.number
+    currentIndex: PropTypes.number,
+    getValues: PropTypes.func
 };

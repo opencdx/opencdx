@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid,Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 import CodeIcon from '@mui/icons-material/Code';
 
 import QuestionsList from './QuestionsList';
 
-const SystemVariables = React.forwardRef(({  index, currentIndex, getValues, tab }, ref) => {
+const SystemVariables = React.forwardRef(({ index, currentIndex, getValues, tab }, ref) => {
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -19,14 +19,14 @@ const SystemVariables = React.forwardRef(({  index, currentIndex, getValues, tab
         <>
             <Grid container>
                 <Grid item xs={12} lg={12} ref={ref} justifyContent="flex-end" sx={{ display: 'flex', pb: 2 }}>
-                    <Button variant="contained" color='warning' size="small" onClick={handleClickOpen}>
-                        <DisplaySettingsIcon  /> 
-                        <Typography sx={{pl:1}}>System Variables</Typography>
+                    <Button variant="contained" color="warning" size="small" onClick={handleClickOpen}>
+                        <DisplaySettingsIcon />
+                        <Typography sx={{ pl: 1 }}>System Variables</Typography>
                     </Button>
 
-                    <Button variant="contained" color="warning" size="small" onClick={handleClickOpen} sx={{ ml: 2}}>
-                        <CodeIcon /> 
-                        <Typography sx={{pl:1}}>Code Lookup</Typography>
+                    <Button variant="contained" color="warning" size="small" onClick={handleClickOpen} sx={{ ml: 2 }}>
+                        <CodeIcon />
+                        <Typography sx={{ pl: 1 }}>Code Lookup</Typography>
                     </Button>
                 </Grid>
             </Grid>

@@ -113,7 +113,7 @@ const FormBuilder = () => {
     const [open, setOpen] = React.useState(true);
     const [openDialog, setOpenDialog] = React.useState(false);
     const [openAnfDialog, setOpenAnfDialog] = React.useState(false);
-    const { formData, setFormData ,uploadData, setUploadData} = useAnfFormStore();
+    const { formData, setFormData, uploadData, setUploadData } = useAnfFormStore();
 
     const handleChange = (e) => {
         const fileReader = new FileReader();
@@ -284,7 +284,7 @@ const FormBuilder = () => {
                     </DialogWrapper>
                     <StatementTypesReport />
 
-                    {formData && formData.item && <MainWrapper  uploadedFile={formData} />}
+                    {formData && formData.item && <MainWrapper uploadedFile={formData} />}
                 </Box>
             </Main>
         </Box>

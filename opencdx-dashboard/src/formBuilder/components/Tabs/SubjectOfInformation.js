@@ -9,7 +9,6 @@ import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
 const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab, getValues }, ref) => {
     const { formData } = useAnfFormStore();
 
@@ -51,6 +50,7 @@ SubjectOfInformation.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
     currentIndex: PropTypes.number,
-    tab: PropTypes.string
+    tab: PropTypes.string,
+    getValues: PropTypes.func
 };
 export { SubjectOfInformation };

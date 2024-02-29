@@ -8,9 +8,8 @@ import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
 export const MeasureComponent = React.forwardRef(({ register, index, currentIndex, tab, control }, ref) => {
-    const {formData} = useAnfFormStore();
+    const { formData } = useAnfFormStore();
     const componentType =
         ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType) &&
         !['timingMeasure', 'rangeMeasure', 'result'].includes(tab);
@@ -39,8 +38,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                         placeholder="Enter Lower Bound Value"
                                         onChange={(e) => {
                                             setLowerBound(e.target.value);
-                                        }
-                                        }
+                                        }}
                                     />
                                 ) : (
                                     <TextField
@@ -109,8 +107,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                         value={semanticState}
                                         onChange={(e) => {
                                             setSemantic(e.target.value);
-                                        }
-                                        }
+                                        }}
                                         placeholder="Enter Semantic Value"
                                     />
                                 ) : (
@@ -135,8 +132,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 value={resolutionState}
                                 onChange={(e) => {
                                     setResolution(e.target.value);
-                                }
-                                }
+                                }}
                                 placeholder="Enter Resolution"
                             />
                         ) : (
@@ -163,8 +159,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 value={upperBoundState}
                                 onChange={(e) => {
                                     setUpperBound(e.target.value);
-                                }
-                                }
+                                }}
                                 placeholder="Enter Upper Bound Value"
                             />
                         ) : (
@@ -199,7 +194,6 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                 setUpperBoundOptions(e.target.value);
                                             }}
                                             value={upperBoundOptionsState}
-
                                         >
                                             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
                                             <FormControlLabel value="no" control={<Radio />} label="No" />
