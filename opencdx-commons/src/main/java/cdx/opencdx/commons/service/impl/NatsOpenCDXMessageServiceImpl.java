@@ -164,9 +164,9 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                             context.traceId(),
                             context.parentId(),
                             this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)));
-            log.info("Sending Message: {}", subject);
+            log.debug("Sending Message: {}", subject);
             natsConnection.jetStream().publishAsync(subject, json.getBytes());
-            log.info("Message Sent: {}", subject);
+            log.debug("Message Sent: {}", subject);
         } catch (IOException e) {
             span.error(e);
             OpenCDXNotAcceptable openCDXNotAcceptable =
@@ -220,7 +220,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
         @SuppressWarnings("java:S1141")
         public void onMessage(Message msg) {
             this.openCDXCurrentUser.configureAuthentication("SYSTEM");
-            log.info("Received Message: {}", msg.getSubject());
+            log.debug("Received Message: {}", msg.getSubject());
 
             try {
                 String json = new String(msg.getData());
@@ -253,7 +253,7 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
                     span.error(e);
                     throw e;
                 } finally {
-                    log.info("Message Processed");
+                    log.debug("Message Processed");
                     span.end();
                 }
 
@@ -269,14 +269,14 @@ public class NatsOpenCDXMessageServiceImpl implements OpenCDXMessageService {
             span.name(this.getClass().getCanonicalName());
             span.start();
             try (Tracer.SpanInScope ws = this.tracer.withSpan(span)) {
-                log.info("Received Message: \n{}", natsMessage.json);
+                log.debug("Received Message: \n{}", natsMessage.json);
                 handler.receivedMessage(natsMessage.json().getBytes());
             } catch (Throwable e) {
                 log.error("Failed to process message", e);
                 span.error(e);
                 throw e;
             } finally {
-                log.info("Message Processed");
+                log.debug("Message Processed");
                 span.end();
             }
         }
