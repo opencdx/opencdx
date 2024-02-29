@@ -257,7 +257,12 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         if (model.getClassificationResponse() != null
                 && ObjectId.isValid(
                         model.getClassificationResponse().getTestKit().getTestCaseId())) {
+            log.info("Ordering Test Case");
             orderTestCase(model);
+        }
+
+        if (model.getClassificationResponse().getNotifyCdc()) {
+            // TODO: Notify CDC of positive test
         }
     }
 

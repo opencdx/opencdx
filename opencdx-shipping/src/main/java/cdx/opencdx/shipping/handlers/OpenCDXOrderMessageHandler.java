@@ -56,8 +56,8 @@ public class OpenCDXOrderMessageHandler implements OpenCDXMessageHandler {
 
     @Override
     public void receivedMessage(byte[] message) {
-        log.trace("Received Order Event");
         try {
+            log.trace("Received Order Event");
             Order order = this.objectMapper.readValue(message, Order.class);
             this.openCDXShippingService.createOrder(
                     CreateOrderRequest.newBuilder().setOrder(order).build());

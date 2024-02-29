@@ -188,6 +188,18 @@ spring:
             - Path=/dashboard/**
           filters:
             - RewritePath=/dashboard/?(?<segment>.*), /$\{segment}
+        - id: grpc-order
+          uri: https://shipping:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.shipping.OrderService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-shipping
+          uri: https://shipping:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.shipping.ShippingService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:
