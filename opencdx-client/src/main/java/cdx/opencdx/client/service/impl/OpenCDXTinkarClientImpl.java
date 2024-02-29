@@ -18,9 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTinkarClient;
-import cdx.opencdx.grpc.tinkar.TinkarGrpc;
-import cdx.opencdx.grpc.tinkar.TinkarRequest;
-import cdx.opencdx.grpc.tinkar.TinkarResponse;
+import cdx.opencdx.grpc.tinkar.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
@@ -41,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Observed(name = "opencdx")
 public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
 
-    private final TinkarGrpc.TinkarBlockingStub tinkarBlockingStub;
+    private final TinkarQueryServiceGrpc.TinkarQueryServiceBlockingStub tinkarQueryServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
@@ -65,31 +63,56 @@ public class OpenCDXTinkarClientImpl implements OpenCDXTinkarClient {
                         .trustManager(InsecureTrustManagerFactory.INSTANCE)
                         .build())
                 .build();
-        this.tinkarBlockingStub = TinkarGrpc.newBlockingStub(channel);
+        this.tinkarQueryServiceBlockingStub = TinkarQueryServiceGrpc.newBlockingStub(channel);
     }
 
     /**
      * Constructor for creating the Tinkar client implementation.
-     * @param tinkarBlockingStub gRPC Blocking Stub for Tinkar.
+     * @param tinkarQueryServiceBlockingStub gRPC Blocking Stub for Tinkar.
      */
-    public OpenCDXTinkarClientImpl(TinkarGrpc.TinkarBlockingStub tinkarBlockingStub) {
-        this.tinkarBlockingStub = tinkarBlockingStub;
+    public OpenCDXTinkarClientImpl(
+            TinkarQueryServiceGrpc.TinkarQueryServiceBlockingStub tinkarQueryServiceBlockingStub) {
+        this.tinkarQueryServiceBlockingStub = tinkarQueryServiceBlockingStub;
     }
 
     /**
-     * Method to gRPC Call Tinkar Service sayTinkar() api.
-     *
-     * @param request Tinkar request to pass
+     * Method to gRPC Call Tinkar Service searchTinkar() api.
+     * @param request TinkarQueryRequest request to pass
      * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Classification Response.
+     * @return TinkarQueryResponse
      */
     @Override
-    public TinkarResponse sayTinkar(TinkarRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public TinkarQueryResponse searchTinkar(TinkarQueryRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
-            return tinkarBlockingStub
+            return tinkarQueryServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
-                    .sayTinkar(request);
+                    .searchTinkar(request);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    "OpenCDXTinkarClientImpl",
+                    1,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    /**
+     * Method to gRPC Call Tinkar Service getTinkarEntity() api.
+     * @param request TinkarGetRequest request to pass
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return TinkarQueryResult
+     */
+    @Override
+    public TinkarQueryResult getTinkarEntity(TinkarGetRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return tinkarQueryServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getTinkarEntity(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(

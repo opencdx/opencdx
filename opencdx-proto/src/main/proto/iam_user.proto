@@ -329,47 +329,39 @@ message IamUser {
    */
   optional string id = 1;
   /*
-   * The timestamp when the user was created.
+   * The name of the system for System Users.
    */
-  optional google.protobuf.Timestamp created_at = 2;
-  /*
-   * The timestamp when the user was last updated.
-   */
-  optional google.protobuf.Timestamp updated_at = 3;
-  /*
-   * The name of the system where the user is registered.
-   */
-  string system_name = 4;
+  string system_name = 2;
   /*
    * The username of the user.
    */
-  string username = 5;
+  string username = 3;
   /*
    * Indicates whether the user's email has been verified.
    */
-  bool email_verified = 6;
+  bool email_verified = 4;
   /*
    * The current status of the user.
    */
-  IamUserStatus status = 7;
+  IamUserStatus status = 5;
   /*
    * The type of the user.
    */
-  IamUserType type = 8;
+  IamUserType type = 6;
   /*
    * The timestamp when the user was created.
    */
-  optional google.protobuf.Timestamp created = 9;
+  optional google.protobuf.Timestamp created = 7;
   /*
    * The timestamp when the user was last modified.
    */
-  optional google.protobuf.Timestamp modified = 10;
+  optional google.protobuf.Timestamp modified = 8;
   /*
    * The ID of the user who created this user.
    */
-  optional string creator = 11;
+  optional string creator = 9;
   /*
    * The ID of the user who last modified this user.
    */
-  optional string modifier = 12;
+  optional string modifier = 10;
 }

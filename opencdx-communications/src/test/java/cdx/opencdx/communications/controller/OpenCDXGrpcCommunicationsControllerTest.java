@@ -17,6 +17,8 @@ package cdx.opencdx.communications.controller;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -104,6 +106,12 @@ class OpenCDXGrpcCommunicationsControllerTest {
     OpenCDXGrpcCommunicationsController openCDXGrpcCommunicationsController;
 
     @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    @Mock
+    OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
@@ -130,7 +138,9 @@ class OpenCDXGrpcCommunicationsControllerTest {
                         return argument;
                     }
                 });
-
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(
+                        OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
         Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXEmailTemplateModel()));
         Mockito.when(this.openCDXSMSTemplateRespository.findById(Mockito.any(ObjectId.class)))
@@ -178,7 +188,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
                 objectMapper,
-                this.openCDXDocumentValidator);
+                this.openCDXDocumentValidator,
+                openCDXProfileRepository);
         this.openCDXGrpcCommunicationsController = new OpenCDXGrpcCommunicationsController(
                 this.openCDXNotificationService, openCDXCommunicationEmailService, openCDXCommunicationSmsService);
     }

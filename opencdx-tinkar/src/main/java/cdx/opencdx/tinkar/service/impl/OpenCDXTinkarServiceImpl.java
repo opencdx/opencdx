@@ -15,12 +15,16 @@
  */
 package cdx.opencdx.tinkar.service.impl;
 
-import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.exceptions.OpenCDXBadRequest;
+import cdx.opencdx.grpc.tinkar.TinkarGetRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryRequest;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResponse;
+import cdx.opencdx.grpc.tinkar.TinkarQueryResult;
 import cdx.opencdx.tinkar.service.OpenCDXTinkarService;
 import dev.ikm.tinkar.common.service.*;
 import io.micrometer.observation.annotation.Observed;
 import java.io.File;
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,41 +34,49 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Observed(name = "opencdx")
-@ExcludeFromJacocoGeneratedReport
 @Slf4j
 public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
 
     private static final String ARRAY_STORE_TO_OPEN = "Open SpinedArrayStore";
 
-    @Value("${data.path.parent}")
-    private String pathParent;
+    private final String pathParent;
 
-    @Value("${data.path.child}")
-    private String pathChild;
+    private final String pathChild;
 
     /**
      * Default Constructor
+     * @param pathParent Parent path
+     * @param pathChild Child path
      */
-    public OpenCDXTinkarServiceImpl() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    public OpenCDXTinkarServiceImpl(
+            @Value("${data.path.parent}") String pathParent, @Value("${data.path.child}") String pathChild) {
+        this.pathParent = pathParent;
+        this.pathChild = pathChild;
     }
 
     @Override
-    public PrimitiveDataSearchResult[] search(String query, int maxResultSize) {
+    public TinkarQueryResponse search(TinkarQueryRequest request) {
         try {
             initializePrimitiveData(pathParent, pathChild);
-            return PrimitiveData.get().search(query, maxResultSize);
+            PrimitiveDataSearchResult[] searchResults =
+                    PrimitiveData.get().search(request.getQuery(), request.getMaxResults());
+            TinkarQueryResult[] results =
+                    Arrays.stream(searchResults).map(this::extract).toArray(TinkarQueryResult[]::new);
+
+            return TinkarQueryResponse.newBuilder()
+                    .addAllResults(Arrays.asList(results))
+                    .build();
         } catch (Exception e) {
             throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Search Failed", e);
         }
     }
 
     @Override
-    public String getEntity(int nid) {
+    public TinkarQueryResult getEntity(TinkarGetRequest request) {
         try {
             initializePrimitiveData(pathParent, pathChild);
-            PrimitiveDataSearchResult[] searchResult = PrimitiveData.get().search("nid=" + nid, 1);
-            return searchResult[0].toString();
+            PrimitiveDataSearchResult[] searchResult = PrimitiveData.get().search("nid=" + request.getNid(), 1);
+            return (searchResult.length > 0) ? extract(searchResult[0]) : null;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new OpenCDXBadRequest("OpenCDXTinkarServiceImpl", 1, "Entity Get Failed", e);
@@ -78,5 +90,16 @@ public class OpenCDXTinkarServiceImpl implements OpenCDXTinkarService {
             PrimitiveData.selectControllerByName(ARRAY_STORE_TO_OPEN);
             PrimitiveData.start();
         }
+    }
+
+    private TinkarQueryResult extract(PrimitiveDataSearchResult searchResult) {
+        return TinkarQueryResult.newBuilder()
+                .setNid(searchResult.nid())
+                .setRcNid(searchResult.rcNid())
+                .setPatternNid(searchResult.patternNid())
+                .setFieldIndex(searchResult.fieldIndex())
+                .setScore(searchResult.score())
+                .setHighlightedString(searchResult.highlightedString())
+                .build();
     }
 }

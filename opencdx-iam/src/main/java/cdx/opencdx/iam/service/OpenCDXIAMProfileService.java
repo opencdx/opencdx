@@ -36,6 +36,13 @@ public interface OpenCDXIAMProfileService {
     UpdateUserProfileResponse updateUserProfile(UpdateUserProfileRequest request);
 
     /**
+     * Method to create a user Profile
+     * @param request Request containing the user profile.
+     * @return Response with user profile.
+     */
+    CreateUserProfileResponse createUserProfile(CreateUserProfileRequest request);
+
+    /**
      * Method to delete a profile
      * @param request Request with the profile to delete.
      * @return Response indicating if successful.

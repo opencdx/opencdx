@@ -79,6 +79,7 @@ public class CommonsConfig {
     @Bean
     @ExcludeFromJacocoGeneratedReport
     ObservationRegistryCustomizer<ObservationRegistry> skipActuatorEndpointsFromObservation() {
+        log.info("Setting up Observation Registry");
         PathMatcher pathMatcher = new AntPathMatcher("/");
         return registry -> registry.observationConfig()
                 .observationPredicate((name, context) -> observationPrediction(context, pathMatcher));
@@ -86,6 +87,7 @@ public class CommonsConfig {
 
     @ExcludeFromJacocoGeneratedReport
     private static boolean observationPrediction(Observation.Context context, PathMatcher pathMatcher) {
+        log.info("Observation Prediction: {}", context);
         if (context instanceof ServerRequestObservationContext observationContext) {
             return !pathMatcher.match(
                     "/actuator/**", observationContext.getCarrier().getRequestURI());
@@ -103,6 +105,7 @@ public class CommonsConfig {
     @GRpcGlobalInterceptor
     @ExcludeFromJacocoGeneratedReport
     public ObservationGrpcServerInterceptor interceptor(ObservationRegistry observationRegistry) {
+        log.info("Setting up gRPC Server Interceptor");
         return new ObservationGrpcServerInterceptor(observationRegistry);
     }
 
@@ -111,6 +114,7 @@ public class CommonsConfig {
     @ExcludeFromJacocoGeneratedReport
     MongoClientSettingsBuilderCustomizer mongoObservabilityCustomizer(
             ObservationRegistry observationRegistry, MongoProperties mongoProperties) {
+        log.info("Setting up Mongo Observability Customizer");
         return clientSettingsBuilder ->
                 getClientSetttingsBuilder(observationRegistry, mongoProperties, clientSettingsBuilder);
     }
@@ -120,6 +124,7 @@ public class CommonsConfig {
             ObservationRegistry observationRegistry,
             MongoProperties mongoProperties,
             MongoClientSettings.Builder clientSettingsBuilder) {
+        log.info("Setting up Mongo Observability Customizer");
         return clientSettingsBuilder
                 .contextProvider(ContextProviderFactory.create(observationRegistry))
                 .addCommandListener(new MongoObservationCommandListener(
@@ -133,6 +138,7 @@ public class CommonsConfig {
     @Bean
     @Primary
     public CacheManager cacheManager() {
+        log.info("Setting up Cache Manager");
         return new OpenCDXMemoryCacheManager();
     }
 
@@ -144,6 +150,7 @@ public class CommonsConfig {
     @Primary
     @Description("Password Encoder using the recommend Spring Delegating encoder.")
     public PasswordEncoder passwordEncoder() {
+        log.info("Setting up Password Encoder");
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
@@ -155,6 +162,7 @@ public class CommonsConfig {
     @Primary
     @Description("OWASP Html Sanitizer.")
     public OpenCDXHtmlSanitizer sanitizer() {
+        log.info("Setting up OpenCDXHtmlSanitizer");
         return new OwaspHtmlSanitizerImpl();
     }
 
@@ -275,6 +283,7 @@ public class CommonsConfig {
      */
     @Bean
     public ModelResolver modelResolver(final ObjectMapper objectMapper) {
+        log.info("Creating Model Resolver for Swagger");
         return new ModelResolver(objectMapper);
     }
 
@@ -284,6 +293,7 @@ public class CommonsConfig {
      */
     @Bean
     public OpenAPI customizeOpenAPI() {
+        log.info("Customizing OpenAPI Configuration");
         final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))

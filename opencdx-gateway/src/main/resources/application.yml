@@ -176,6 +176,12 @@ spring:
             - Path=/cdx.opencdx.grpc.neural.classification.ClassificationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-tinkar
+          uri: https://tinkar:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.tinkar.TinkarQueryService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
         - id: admin-dashboard
           uri: https://dashboard:3005
           predicates:
@@ -230,7 +236,7 @@ management:
       type: b3
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: https://zipkin:9411/api/v2/spans
 logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
 server:
   port: 8080

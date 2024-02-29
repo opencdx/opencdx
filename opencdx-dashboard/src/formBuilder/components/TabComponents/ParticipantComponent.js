@@ -43,6 +43,7 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
                                         fullWidth
                                         placeholder="Enter ID Value"
                                         value={idState}
+                                        defaultValue={idState}
                                         onChange={(e) => setId(e.target.value)}
                                     />
                                 ) : (

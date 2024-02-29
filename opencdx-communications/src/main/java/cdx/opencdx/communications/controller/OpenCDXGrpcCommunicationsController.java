@@ -54,11 +54,13 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
+        log.info("OpenCDXGrpcCommunicationsController created");
     }
 
     @Secured({})
     @Override
     public void createEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
+        log.trace("Received request to create email template ");
         responseObserver.onNext(this.openCDXCommunicationEmailService.createEmailTemplate(request));
         responseObserver.onCompleted();
     }
@@ -66,6 +68,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void getEmailTemplate(TemplateRequest request, StreamObserver<EmailTemplate> responseObserver) {
+        log.trace("Received request to get email template ");
         responseObserver.onNext(this.openCDXCommunicationEmailService.getEmailTemplate(request));
         responseObserver.onCompleted();
     }
@@ -73,6 +76,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void updateEmailTemplate(EmailTemplate request, StreamObserver<EmailTemplate> responseObserver) {
+        log.trace("Received request to update email template ");
         responseObserver.onNext(this.openCDXCommunicationEmailService.updateEmailTemplate(request));
         responseObserver.onCompleted();
     }
@@ -80,6 +84,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void deleteEmailTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        log.trace("Received request to delete email template ");
         responseObserver.onNext(this.openCDXCommunicationEmailService.deleteEmailTemplate(request));
         responseObserver.onCompleted();
     }
@@ -87,6 +92,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void createSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
+        log.trace("Received request to create SMS template ");
         responseObserver.onNext(this.openCDXCommunicationSmsService.createSMSTemplate(request));
         responseObserver.onCompleted();
     }
@@ -94,6 +100,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void getSMSTemplate(TemplateRequest request, StreamObserver<SMSTemplate> responseObserver) {
+        log.trace("Received request to get SMS template ");
         responseObserver.onNext(this.openCDXCommunicationSmsService.getSMSTemplate(request));
         responseObserver.onCompleted();
     }
@@ -101,6 +108,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void updateSMSTemplate(SMSTemplate request, StreamObserver<SMSTemplate> responseObserver) {
+        log.trace("Received request to update SMS template ");
         responseObserver.onNext(this.openCDXCommunicationSmsService.updateSMSTemplate(request));
         responseObserver.onCompleted();
     }
@@ -108,6 +116,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void deleteSMSTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        log.trace("Received request to delete SMS template ");
         responseObserver.onNext(this.openCDXCommunicationSmsService.deleteSMSTemplate(request));
         responseObserver.onCompleted();
     }
@@ -115,6 +124,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void createNotificationEvent(NotificationEvent request, StreamObserver<NotificationEvent> responseObserver) {
+        log.trace("Received request to create notification event ");
         responseObserver.onNext(this.openCDXNotificationService.createNotificationEvent(request));
         responseObserver.onCompleted();
     }
@@ -122,6 +132,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void getNotificationEvent(TemplateRequest request, StreamObserver<NotificationEvent> responseObserver) {
+        log.trace("Received request to get notification event ");
         responseObserver.onNext(this.openCDXNotificationService.getNotificationEvent(request));
         responseObserver.onCompleted();
     }
@@ -129,6 +140,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void updateNotificationEvent(NotificationEvent request, StreamObserver<NotificationEvent> responseObserver) {
+        log.trace("Received request to update notification event ");
         responseObserver.onNext(this.openCDXNotificationService.updateNotificationEvent(request));
         responseObserver.onCompleted();
     }
@@ -136,6 +148,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void deleteNotificationEvent(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        log.trace("Received request to delete notification event ");
         responseObserver.onNext(this.openCDXNotificationService.deleteNotificationEvent(request));
         responseObserver.onCompleted();
     }
@@ -143,6 +156,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Secured({})
     @Override
     public void sendNotification(Notification request, StreamObserver<SuccessResponse> responseObserver) {
+        log.trace("Received request to send notification ");
         responseObserver.onNext(this.openCDXNotificationService.sendNotification(request));
         responseObserver.onCompleted();
     }
@@ -151,6 +165,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void listSMSTemplates(
             SMSTemplateListRequest request, StreamObserver<SMSTemplateListResponse> responseObserver) {
+        log.trace("Received request to list SMS templates ");
         responseObserver.onNext(this.openCDXCommunicationSmsService.listSMSTemplates(request));
         responseObserver.onCompleted();
     }
@@ -159,6 +174,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void listEmailTemplates(
             EmailTemplateListRequest request, StreamObserver<EmailTemplateListResponse> responseObserver) {
+        log.trace("Received request to list email templates ");
         responseObserver.onNext(this.openCDXCommunicationEmailService.listEmailTemplates(request));
         responseObserver.onCompleted();
     }
@@ -167,6 +183,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
     @Override
     public void listNotificationEvents(
             NotificationEventListRequest request, StreamObserver<NotificationEventListResponse> responseObserver) {
+        log.trace("Received request to list notification events ");
         responseObserver.onNext(this.openCDXNotificationService.listNotificationEvents(request));
         responseObserver.onCompleted();
     }

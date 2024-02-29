@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for the /greeting api's
+ * Controller for the /classify api's
  */
 @Slf4j
 @RestController
@@ -56,7 +56,7 @@ public class OpenCDXRestClassificationController {
      */
     @PostMapping(value = "/classify", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClassificationResponse> submitClassification(@RequestBody ClassificationRequest request) {
-
+        log.trace("Received classify request");
         return new ResponseEntity<>(this.classificationService.classify(request), HttpStatus.OK);
     }
 }

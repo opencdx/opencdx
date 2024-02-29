@@ -2,6 +2,7 @@
 
 # Define global variables
 GIT_BRANCH=""
+
 LAST_COMMIT=""
 DEPLOYED="NONE"
 
@@ -29,7 +30,19 @@ handle_error() {
     fi
     exit 1
 }
-
+# Parameters: $1 - Information message
+handle_warn() {
+    if [ -t 1 ]; then
+        # Check if stdout is a terminal
+        echo -e "${RED}$1${NC}"
+        echo -e "${GREEN}Press any key to continue...${NC}"
+        read -n 1  # waits for one character of input
+    else
+        echo "$1"
+        echo "Press any key to continue..."
+        read -n 1  # waits for one character of input
+    fi
+}
 # Function to handle information messages
 # Parameters: $1 - Information message
 handle_info() {
@@ -70,7 +83,33 @@ if [ -d ".git" ] || git rev-parse --git-dir > /dev/null 2>&1; then
   LAST_COMMIT=$(git rev-parse --short HEAD)
 fi
 
+delete_except() {
+  dir=$1
+  shift
+  excludes=("$@")
 
+  for file in "$dir"/*; do
+    delete=true
+    for exclude in "${excludes[@]}"; do
+      if [[ $(basename "$file") == "$exclude" ]]; then
+        delete=false
+        break
+      fi
+    done
+
+    if $delete; then
+      handle_info "Deleting $file"
+      rm -rf "$file"
+    fi
+  done
+}
+
+check_tinkar_directory() {
+  dir="./data/solor-us-tinkar.sa"
+  if [[ ! -d "$dir" ]]; then
+    handle_warn "Error: Directory $dir does not exist. Please copy solor-us-tinkar.sa to the data directory, for opencdx-tinkar to function."
+  fi
+}
 
 generate_version_number() {
   # Check if $skip variable is set to true
@@ -252,7 +291,7 @@ open_reports() {
         ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
-        ./gradlew jacocoRootReport || handle_error "Failed to generate the JaCoCo report."
+        ./gradlew jacocoRootReport -x bootBuildInfo -x generateGitProperties || handle_error "Failed to generate the JaCoCo report."
         open_url "build/reports/jacoco/jacocoRootReport/html/index.html"
         ;;
     check)
@@ -267,24 +306,24 @@ open_reports() {
     publish)
         read -p "Enter the path to protoc-gen-doc installation (or press Enter to skip): " proto_gen_doc_path
         handle_info "Cleaning doc folder"
-        rm -rf ./doc
-        mkdir doc
+        rm -rf ./opencdx-admin/src/main/resources/public
+        mkdir opencdx-admin/src/main/resources/public
         handle_info "Creating JavaDoc..."
         ./gradlew allJavadoc || handle_error "Failed to generate the JavaDoc."
-        mv build/docs/javadoc-all ./doc/javadoc
+        mv build/docs/javadoc-all ./opencdx-admin/src/main/resources/public/javadoc
 
         handle_info "Creating ProtoDoc..."
-        mkdir -p doc/protodoc
-        protoc -Iopencdx-proto/src/main/proto --doc_out=./doc/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
+        mkdir -p opencdx-admin/src/main/resources/public/protodoc/protodoc
+        protoc -Iopencdx-proto/src/main/proto --doc_out=./opencdx-admin/src/main/resources/public/protodoc --doc_opt=html,index.html opencdx-proto/src/main/proto/*.proto --plugin=protoc-gen-doc="$proto_gen_doc_path" || handle_error "Failed to generate Proto documentation."
         handle_info "Creating Dependency Check Report..."
-        mkdir -p doc/dependency
-        cp build/reports/dependency-check-report.html ./doc/dependency
+        mkdir -p ./opencdx-admin/src/main/resources/public/dependency
+        cp build/reports/dependency-check-report.html ./opencdx-admin/src/main/resources/public/dependency
         handle_info "Running Smoke Test...."
         mkdir -p doc/jmeter
 
         run_jmeter_tests smoke
 
-        mv build/reports/jmeter ./doc
+        mv build/reports/jmeter ./opencdx-admin/src/main/resources/public
 
         ;;
     proto)
@@ -305,7 +344,7 @@ open_reports() {
         ;;
     micrometer_tracing)
         handle_info "Opening Zipkin Microservice Tracing Dashboard..."
-        open_url "http://localhost:9411/zipkin"
+        open_url "https://localhost:9411/zipkin"
         ;;
 
     status)
@@ -348,7 +387,7 @@ build_docker() {
   components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/connected-test"
     "opencdx/iam" "opencdx/routine" "opencdx/protector" "opencdx/predictor"
-    "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway"
+    "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/shipping"
     "opencdx/discovery" "opencdx/anf" "opencdx/dashboard" "opencdx/graphql")
 
   selected_components=()
@@ -731,6 +770,8 @@ if [[ "$java_version" == *"$required_jdk_version"* ]]; then
 else
     handle_error "JDK $required_jdk_version is required. Please install the required JDK version."
 fi
+# Check for Tinkar Directory
+check_tinkar_directory
 
 # Check for Docker
 if ! command -v docker &> /dev/null; then
@@ -774,7 +815,7 @@ if [ "$skip" = false ]; then
 fi
 if [ "$wipe" = true ]; then
     handle_info "Wiping Data"
-    rm -rf ./data
+    delete_except ./data solor-us-tinkar.sa
 fi
 if [ "$cert" = true ]; then
     handle_info "Wiping Certificates"
@@ -802,7 +843,7 @@ sleep 2
 if [ "$proto" = true ]; then
     handle_info "Wiping Proto generated files"
     rm -rf ./opencdx-proto/build
-    if ./gradlew opencdx-proto:build opencdx-proto:publish; then
+    if ./gradlew opencdx-proto:build opencdx-proto:publish --parallel; then
         # Build Completed Successfully
         handle_info "Proto files generated successfully"
     else
@@ -815,18 +856,32 @@ fi
 # Clean the project if --clean is specified
 if [ "$fast_build" = true ]; then
     git_info
-    if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck ; then
+    if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck --parallel; then
         # Build Completed Successfully
-        handle_info "Fast Build & Clean completed successfully"
+        handle_info "Fast Build completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
 elif [ "$clean" = true ] && [ "$skip" = true ]; then
-    ./gradlew clean || handle_error "Failed to clean the project."
+    ./gradlew clean --parallel || handle_error "Failed to clean the project."
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew clean spotlessApply build publish; then
+    if ./gradlew spotlessApply; then
+            # Build Completed Successfully
+            handle_info "Spotless completed successfully"
+        else
+            # Build Failed
+            handle_error "Spotless failed. Please review output to determine the issue."
+        fi
+    if ./gradlew sonarlintMain sonarlintTest --parallel; then
+                # Build Completed Successfully
+                handle_info "Sonarlint completed successfully"
+            else
+                # Build Failed
+                handle_error "Sonarlint failed. Please review output to determine the issue."
+            fi
+    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
@@ -835,7 +890,21 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
     fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
-    if ./gradlew spotlessApply build publish; then
+    if ./gradlew spotlessApply; then
+            # Build Completed Successfully
+            handle_info "Spotless completed successfully"
+        else
+            # Build Failed
+            handle_error "Spotless failed. Please review output to determine the issue."
+        fi
+    if ./gradlew sonarlintMain sonarlintTest --parallel; then
+                # Build Completed Successfully
+                handle_info "Sonarlint completed successfully"
+            else
+                # Build Failed
+                handle_error "Sonarlint failed. Please review output to determine the issue."
+            fi
+    if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
     else
@@ -861,7 +930,7 @@ fi
 if [ "$check" = true ]; then
     handle_info "Performing Check on JavaDoc"
     handle_info "TODO: Fix dependencyCheckAggregate"
-    ./gradlew  versionUpToDateReport versionReport allJavadoc || handle_error "Failed to generate the JavaDoc."
+    ./gradlew  versionUpToDateReport versionReport allJavadoc --parallel || handle_error "Failed to generate the JavaDoc."
     echo
     handle_info "Project Passes all checks"
 fi
@@ -877,7 +946,7 @@ if [ "$no_menu" = false ]; then
         open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            countdown 120
+            countdown 300
             run_jmeter_tests $jmeter_test
             open_url "build/reports/jmeter/index.html"
         fi

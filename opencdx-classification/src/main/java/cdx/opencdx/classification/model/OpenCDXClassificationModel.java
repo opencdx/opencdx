@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.classification.model;
 
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
@@ -50,6 +51,8 @@ public class OpenCDXClassificationModel {
     @Id
     private ObjectId id;
 
+    private OpenCDXProfileModel patient;
+
     private UserAnswer userAnswer;
     private ClassificationResponse classificationResponse;
     private Media media;
@@ -60,4 +63,5 @@ public class OpenCDXClassificationModel {
     private Instant modified;
     private ObjectId creator;
     private ObjectId modifier;
+    private Media testDetailsMedia;
 }

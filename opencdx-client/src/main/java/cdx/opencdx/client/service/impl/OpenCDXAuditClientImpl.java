@@ -88,7 +88,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
      */
     private void sendMessage(AuditEvent event, OpenCDXCallCredentials openCDXCallCredentials) {
         try {
-            log.info("Sending Audit Event: {}", event.getEventType());
+            log.trace("Sending Audit Event: {}", event.getEventType());
             this.auditServiceBlockingStub
                     .withCallCredentials(openCDXCallCredentials)
                     .event(event);
@@ -428,7 +428,7 @@ public class OpenCDXAuditClientImpl implements OpenCDXAuditClient {
     }
 
     private AuditEntity getAuditEntity(String auditEntity) {
-        return AuditEntity.newBuilder().setPatientIdentifier(auditEntity).build();
+        return AuditEntity.newBuilder().setPatientId(auditEntity).build();
     }
 
     private DataObject getDataObject(String jsonRecord, String resource, SensitivityLevel sensitivityLevel) {

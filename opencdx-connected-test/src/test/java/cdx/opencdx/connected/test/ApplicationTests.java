@@ -15,24 +15,24 @@
  */
 package cdx.opencdx.connected.test;
 
-import cdx.opencdx.connected.test.config.AppConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class ApplicationTests {
     @Autowired
-    AppConfig appConfig;
+    private ApplicationContext applicationContext;
 
     @Test
     void contextLoads() {
-        Assertions.assertNotNull(appConfig);
+        Assertions.assertNotNull(applicationContext);
     }
 }

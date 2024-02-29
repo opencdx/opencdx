@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * DTO for NPI Address
+ * DTO for NPI Basic Info
  */
 @Data
 public class OpenCDXDtoNpiBasicInfo {

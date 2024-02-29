@@ -16,6 +16,9 @@
 package cdx.opencdx.communications.tasks;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -98,7 +101,13 @@ class OpenCDXNotificationProcessorTasksTest {
     OpenCDXNotificationProcessorTasks openCDXNotificationProcessorTasks;
 
     @Mock
+    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+
+    @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Mock
+    OpenCDXProfileRepository openCDXProfileRepository;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
@@ -108,12 +117,56 @@ class OpenCDXNotificationProcessorTasksTest {
         this.openCDXNotificaitonRepository = Mockito.mock(OpenCDXNotificaitonRepository.class);
         this.openCDXCommunicationEmailService = Mockito.mock(OpenCDXCommunicationEmailService.class);
         this.openCDXCommunicationSmsService = Mockito.mock(OpenCDXCommunicationSmsService.class);
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXSMSTemplateRespository.save(Mockito.any(OpenCDXSMSTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.save(Mockito.any(OpenCDXNotificationEventModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
+
+        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(
+                        OpenCDXIAMUserModel.builder().id(ObjectId.get()).build()));
+
         Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXNotificationModel>() {
                     @Override
@@ -142,7 +195,8 @@ class OpenCDXNotificationProcessorTasksTest {
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
                 objectMapper,
-                openCDXDocumentValidator);
+                openCDXDocumentValidator,
+                openCDXProfileRepository);
 
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 
@@ -183,6 +237,7 @@ class OpenCDXNotificationProcessorTasksTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
+                .patients(List.of(ObjectId.get(), ObjectId.get()))
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())

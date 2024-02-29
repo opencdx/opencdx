@@ -49,6 +49,7 @@ public class OpenCDXNotificationProcessorTasks {
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXNotificaitonRepository openCDXNotificaitonRepository,
             OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating OpenCDXNotificationProcessorTasks");
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -58,10 +59,11 @@ public class OpenCDXNotificationProcessorTasks {
      * Task that runs on a cron schedule of queue.priority.high to process
      * any pending Immediate or High notifications.
      */
+    @Observed(name = "opencdx")
     @Scheduled(cron = "${queue.priority.high}")
     @SchedulerLock(name = "highPriorityNotifications")
     public void highPriorityNotifications() {
-        log.info("Starting High Priority Notifications Processing");
+        log.trace("Starting High Priority Notifications Processing");
         this.openCDXCurrentUser.configureAuthentication(SYSTEM_ROLE);
 
         this.openCDXNotificaitonRepository
@@ -104,6 +106,7 @@ public class OpenCDXNotificationProcessorTasks {
      * Task that runs on a cron schedule of queue.priority.medium to process
      * any pending Medium notifications.
      */
+    @Observed(name = "opencdx")
     @Scheduled(cron = "${queue.priority.medium}")
     @SchedulerLock(name = "mediumPriorityNotifications")
     public void mediumPriorityNotifications() {
@@ -134,6 +137,7 @@ public class OpenCDXNotificationProcessorTasks {
      * Task that runs on a cron schedule of queue.priority.low to process
      * any pending low notifications.
      */
+    @Observed(name = "opencdx")
     @Scheduled(cron = "${queue.priority.low}")
     @SchedulerLock(name = "lowPriorityNotifications")
     public void lowPriorityNotifications() {

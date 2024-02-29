@@ -45,6 +45,9 @@ import org.springframework.stereotype.Service;
 public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
     private static final String COUNTRY = "country";
     private static final String DEVICE = "DEVICE: ";
+    private static final String DOMAIN = "OpenCDXDeviceServiceImpl";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_DEVICE_MODEL = "Failed to convert OpenCDXDeviceModel";
+    private static final String OBJECT = "OBJECT";
     private final OpenCDXDeviceRepository openCDXDeviceRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
@@ -107,9 +110,9 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                     this.objectMapper.writeValueAsString(openCDXDeviceModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("OpenCDXDeviceServiceImpl", 2, "Failed to convert OpenCDXDeviceModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDX_DEVICE_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXDeviceModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXDeviceModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXDeviceModel.getProtobufMessage();
@@ -139,9 +142,9 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
                     this.objectMapper.writeValueAsString(openCDXDeviceModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable("OpenCDXDeviceServiceImpl", 3, "Failed to convert OpenCDXDeviceModel", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_DEVICE_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
-            openCDXNotAcceptable.getMetaData().put("OBJECT", openCDXDeviceModel.toString());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXDeviceModel.toString());
             throw openCDXNotAcceptable;
         }
         return openCDXDeviceModel.getProtobufMessage();
@@ -149,7 +152,30 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
 
     @Override
     public DeleteResponse deleteDevice(DeviceIdRequest request) {
-        this.openCDXDeviceRepository.deleteById(new ObjectId(request.getDeviceId()));
+        ObjectId objectId = new ObjectId(request.getDeviceId());
+
+        OpenCDXDeviceModel openCDXDeviceModel = this.openCDXDeviceRepository
+                .findById(objectId)
+                .orElseThrow(() -> new OpenCDXNotFound(
+                        "OpenCDXManufacturerServiceImpl", 1, "Failed to find testcase: " + request.getDeviceId()));
+
+        try {
+            OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
+            this.openCDXAuditService.config(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "Deleting Device",
+                    SensitivityLevel.SENSITIVITY_LEVEL_LOW,
+                    DEVICE + openCDXDeviceModel.getId().toHexString(),
+                    this.objectMapper.writeValueAsString(openCDXDeviceModel));
+        } catch (JsonProcessingException e) {
+            OpenCDXNotAcceptable openCDXNotAcceptable =
+                    new OpenCDXNotAcceptable(DOMAIN, 3, FAILED_TO_CONVERT_OPEN_CDX_DEVICE_MODEL, e);
+            openCDXNotAcceptable.setMetaData(new HashMap<>());
+            openCDXNotAcceptable.getMetaData().put(OBJECT, openCDXDeviceModel.toString());
+            throw openCDXNotAcceptable;
+        }
+        this.openCDXDeviceRepository.deleteById(objectId);
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Device: " + request.getDeviceId() + " is deleted.")

@@ -54,6 +54,13 @@ public class OpenCDXIAMProfileGrpcController extends UserProfileServiceGrpc.User
     }
 
     @Override
+    public void createUserProfile(
+            CreateUserProfileRequest request, StreamObserver<CreateUserProfileResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXIAMProfileService.createUserProfile(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void deleteUserProfile(
             DeleteUserProfileRequest request, StreamObserver<DeleteUserProfileResponse> responseObserver) {
         responseObserver.onNext(this.openCDXIAMProfileService.deleteUserProfile(request));

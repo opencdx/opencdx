@@ -145,7 +145,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
         StreamObserver<GetProviderResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.getProviderByNumber(
                 GetProviderRequest.newBuilder(GetProviderRequest.getDefaultInstance())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setProviderNumber(ObjectId.get().toHexString())
                         .build(),
                 responseObserver);
 

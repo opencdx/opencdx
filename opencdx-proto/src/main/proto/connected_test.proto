@@ -138,11 +138,11 @@ message BasicInfo {
    */
   string type = 7;
   /*
-   * ID of the user associated with the test.
+   * ID of the patient associated with the test.
    */
-  string user_id = 8;
+  string patient_id = 8;
   /*
-   * National health ID of the user associated with the test.
+   * National health ID of the patient associated with the test.
    */
   string national_health_id = 9;
   /*
@@ -223,24 +223,7 @@ message TestNotes {
 /*
  * Contains details related to payments for the test.
  */
-message PaymentDetails {
-  /*
-   * Mode of payment used for the test.
-   */
-  string payment_mode = 1;
-  /*
-   * ID referring to insurance information used for the test.
-   */
-  string insurance_info_id = 2;
-  /*
-   * ID of the payment transaction for the test.
-   */
-  string payment_transaction_id = 3;
-  /*
-   * More details about the payment.
-   */
-  string payment_details = 4;
-}
+
 /*
  * Contains information about the providers associated with the=test.
  */
@@ -366,6 +349,10 @@ message TestDetails {
    * LOINC code associated with the test.
    */
   cdx.opencdx.grpc.codeable.Coding loinc_code = 26;
+  /*
+  * Media ID
+   */
+  optional string media_id = 27;
 }
 
 /*
@@ -630,7 +617,7 @@ message ConnectedTest {
   /*
    * This block captures all payment related details.
    */
-  PaymentDetails payment_details = 4;
+  cdx.opencdx.grpc.common.PaymentDetails payment_details = 4;
   /*
    * Information about the provider is found in this block.
    */
@@ -667,9 +654,9 @@ message ConnectedTestListRequest{
    */
   cdx.opencdx.grpc.common.Pagination pagination = 1;
   /*
-   * Unique identifier for the user, used to fetch the tests related to this user.
+   * Unique identifier for the patient, used to fetch the tests related to this patient.
    */
-  string user_id = 2;
+  string patient_id = 2;
 }
 
 /*

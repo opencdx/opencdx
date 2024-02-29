@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
-
 /**
  * The OpenCDXClassificationMessageHandler class is responsible for handling classification messages
  * received from the OpenCDXMessageService. It implements the OpenCDXMessageHandler interface.
@@ -48,7 +47,7 @@ public class OpenCDXClassificationMessageHandler implements OpenCDXMessageHandle
             OpenCDXMessageService openCDXMessageService) {
         this.objectMapper = objectMapper;
         this.openCDXClassificationService = openCDXClassificationService;
-        log.info("Instantiating OpenCDXClassificationMessageHandler.");
+        log.trace("Instantiating OpenCDXClassificationMessageHandler.");
 
         openCDXMessageService.subscribe(OpenCDXMessageService.CLASSIFICATION_MESSAGE_SUBJECT, this);
     }
@@ -57,7 +56,7 @@ public class OpenCDXClassificationMessageHandler implements OpenCDXMessageHandle
     public void receivedMessage(byte[] message) {
         try {
             ClassificationRequest classificationRequest = objectMapper.readValue(message, ClassificationRequest.class);
-            log.info("Received Classification Event");
+            log.trace("Received Classification Event");
             this.openCDXClassificationService.classify(classificationRequest);
         } catch (Exception e) {
             log.error("Failed to process classification event", e);

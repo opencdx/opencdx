@@ -16,9 +16,10 @@
 package cdx.opencdx.commons.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
-import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXClassificationMessageService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
@@ -42,33 +43,37 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
 
     private final OpenCDXMessageService messageService;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXCurrentUser openCDXCurrentUser;
 
     /**
      * Constructor to use the OpenCDXMessageService to send the notificaiton.
      * @param messageService Message service to use to send.
      * @param openCDXDocumentValidator Document validator to validate the document.
-     * @param openCDXIAMUserRepository IAM user repository to use to get the user.
+     * @param openCDXProfileRepository IAM user repository to use to get the user.
+     * @param openCDXCurrentUser Current user to use to get the current user.
      */
     public OpenCDXClassificationMessageServiceImpl(
             OpenCDXMessageService messageService,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.messageService = messageService;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXCurrentUser = openCDXCurrentUser;
     }
 
     @Override
-    public void submitQuestionnaire(ObjectId userId, ObjectId questionnaireUserId, ObjectId mediaId) {
+    public void submitQuestionnaire(ObjectId patientId, ObjectId questionnaireUserId, ObjectId mediaId) {
         log.info(
                 "Submitting questionnaire for user: {}, Questionnaire: {}, Media: {}",
-                userId.toHexString(),
+                patientId.toHexString(),
                 questionnaireUserId.toHexString(),
                 mediaId == null ? "NULL" : mediaId.toHexString());
         this.openCDXDocumentValidator.validateDocumentOrThrow("questionnaire-user", questionnaireUserId);
 
-        UserAnswer.Builder builder = getUserPreparedAnswer(userId);
+        UserAnswer.Builder builder = getUserPreparedAnswer(patientId);
 
         builder.setUserQuestionnaireId(questionnaireUserId.toHexString());
         if (mediaId != null) {
@@ -82,15 +87,15 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
     }
 
     @Override
-    public void submitConnectedTest(ObjectId userId, ObjectId connectedTestId, ObjectId mediaId) {
+    public void submitConnectedTest(ObjectId patientId, ObjectId connectedTestId, ObjectId mediaId) {
         log.info(
-                "Submitting Connected Test for user: {}, Connected Test: {}, Media: {}",
-                userId.toHexString(),
+                "Submitting Connected Test for patient: {}, Connected Test: {}, Media: {}",
+                patientId.toHexString(),
                 connectedTestId.toHexString(),
                 mediaId == null ? "NULL" : mediaId.toHexString());
         this.openCDXDocumentValidator.validateDocumentOrThrow("connected-test", connectedTestId);
 
-        UserAnswer.Builder builder = getUserPreparedAnswer(userId);
+        UserAnswer.Builder builder = getUserPreparedAnswer(patientId);
 
         builder.setConnectedTestId(connectedTestId.toHexString());
         if (mediaId != null) {
@@ -103,20 +108,22 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
                         .build());
     }
 
-    private UserAnswer.Builder getUserPreparedAnswer(ObjectId userId) {
-        OpenCDXIAMUserModel user = this.openCDXIAMUserRepository
-                .findById(userId)
+    private UserAnswer.Builder getUserPreparedAnswer(ObjectId patientId) {
+        log.trace("Validating User");
+        OpenCDXProfileModel patient = this.openCDXProfileRepository
+                .findById(patientId)
                 .orElseThrow(() -> new OpenCDXNotFound(
-                        "OpenCDXClassificationMessageServiceImpl", 1, "User " + userId + " does not found "));
+                        "OpenCDXClassificationMessageServiceImpl", 1, "User " + patientId + " does not found "));
 
-        UserAnswer.Builder builder = UserAnswer.newBuilder().setUserId(userId.toHexString());
+        UserAnswer.Builder builder = UserAnswer.newBuilder().setPatientId(patientId.toHexString());
 
-        if (user.getGender() != null) {
-            builder.setGender(user.getGender());
+        builder.setSubmittingUserId(openCDXCurrentUser.getCurrentUser().getId().toHexString());
+        if (patient.getGender() != null) {
+            builder.setGender(patient.getGender());
         }
 
-        if (user.getDateOfBirth() != null) {
-            Instant dobInstant = user.getDateOfBirth();
+        if (patient.getDateOfBirth() != null) {
+            Instant dobInstant = patient.getDateOfBirth();
             ZonedDateTime dobZoned = dobInstant.atZone(ZoneId.systemDefault());
             Period age =
                     Period.between(dobZoned.toLocalDate(), ZonedDateTime.now().toLocalDate());

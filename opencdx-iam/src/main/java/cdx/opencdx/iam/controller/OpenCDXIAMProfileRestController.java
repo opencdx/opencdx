@@ -66,6 +66,16 @@ public class OpenCDXIAMProfileRestController {
     }
 
     /**
+     * Method to create user profile.
+     * @param request The user profile for a user.
+     * @return The created user.
+     */
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CreateUserProfileResponse> createUserProfile(@RequestBody CreateUserProfileRequest request) {
+        return new ResponseEntity<>(this.openCDXIAMProfileService.createUserProfile(request), HttpStatus.OK);
+    }
+
+    /**
      * Method to delete a user.
      * @param id Id of the user to delete.
      * @return Response with the deleted user.

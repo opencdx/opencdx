@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.predictor.service.impl;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -24,7 +23,6 @@ import cdx.opencdx.grpc.neural.predictor.PredictorInput;
 import cdx.opencdx.grpc.neural.predictor.PredictorRequest;
 import cdx.opencdx.grpc.neural.predictor.PredictorResponse;
 import cdx.opencdx.predictor.service.OpenCDXPredictorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -65,8 +63,7 @@ class OpenCDXPredictorServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
+        this.predictorService = new OpenCDXPredictorServiceImpl(this.openCDXDocumentValidator);
     }
 
     @AfterEach
@@ -88,23 +85,5 @@ class OpenCDXPredictorServiceImplTest {
         Assertions.assertEquals(
                 request.getPredictorInput().getEncounterId(),
                 response.getPredictorOutput().getEncounterId());
-    }
-
-    @Test
-    void testPredictFail() throws JsonProcessingException {
-        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
-
-        Mockito.when(mapper.writeValueAsString(Mockito.anyString())).thenThrow(JsonProcessingException.class);
-
-        this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXAuditService, mapper, this.openCDXCurrentUser, this.openCDXDocumentValidator);
-
-        PredictorRequest request = PredictorRequest.newBuilder()
-                .setPredictorInput(PredictorInput.newBuilder()
-                        .setTestId(ObjectId.get().toHexString())
-                        .setEncounterId("789")
-                        .build())
-                .build();
-        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> predictorService.predict(request));
     }
 }

@@ -99,24 +99,29 @@ message Questionnaire {
   optional string rule_id = 8;
 
   /*
+   * The identifier of the question which the response will be used for the rule  was executed for the questionnaire submission.
+   */
+  repeated string rule_question_id = 9;
+
+  /*
    * The timestamp representing when this questionnaire was created.
    */
-  optional google.protobuf.Timestamp created = 9;
+  optional google.protobuf.Timestamp created = 10;
 
   /*
    * The timestamp representing when this questionnaire was last modified.
    */
-  optional google.protobuf.Timestamp modified = 10;
+  optional google.protobuf.Timestamp modified = 11;
 
   /*
    * The identifier of the individual or system who created the questionnaire.
    */
-  optional string creator = 11;
+  optional string creator = 12;
 
   /*
    * The identifier of the individual or system who last modified the questionnaire.
    */
-  optional string modifier = 12;
+  optional string modifier = 13;
 }
 
 /*
@@ -444,7 +449,7 @@ message UserQuestionnaireData {
   /*
    * Represents the user identifier associated with these questionnaires.
    */
-  string user_id = 2;
+  string patient_id = 2;
   /*
     * Contains a list of `Questionnaire` associated with a specific user.
     */
@@ -463,15 +468,25 @@ message RuleSet {
   /*
    * Indicates the type of the rule (e.g., business rule, validation rule etc.).
    */
-  optional string type = 2;
+  string type = 2;
   /*
    * Indicates the category of the rule.
    */
-  optional string category = 3;
+  string category = 3;
   /*
    * Description or any remarks regarding the rule.
    */
-  optional string description = 4;
+  string description = 4;
+
+  /*
+   * The rule itself.
+   */
+  optional string rule = 5;
+
+  /**
+   * The rule set status.
+   */
+  optional QuestionnaireStatus status = 6;
 }
 
 /*
@@ -498,6 +513,80 @@ message RuleSetsResponse {
   repeated RuleSet rule_sets = 1;
 }
 
+/**
+ * Represents the request to create a rule set.
+ */
+message CreateRuleSetRequest {
+  /*
+   * The rule set to be created.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the response retrieved from the CreateRuleSet operation.
+ */
+message CreateRuleSetResponse {
+  /**
+   * The rule set that was created.
+   */
+  RuleSet rule_set = 1;
+}
+
+/**
+ * Represents the request to update a rule set.
+ */
+message UpdateRuleSetRequest {
+  /*
+   * The rule set to be updated.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the response retrieved from the UpdateRuleSet operation.
+ */
+message UpdateRuleSetResponse {
+  /**
+   * The rule set that was updated.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the request to delete a rule set.
+ */
+message GetRuleSetRequest {
+  /*
+   * The unique identifier of the rule set.
+   */
+  optional string id = 1;
+}
+/**
+ * Represents the response retrieved from the GetRuleSet operation.
+ */
+message GetRuleSetResponse {
+  /*
+   * The rule set that was retrieved.
+   */
+  RuleSet rule_set = 1;
+}
+/**
+ * Represents the request to delete a rule set.
+ */
+message DeleteRuleSetRequest {
+  /*
+   * The unique identifier of the rule set.
+   */
+  optional string id = 1;
+}
+/**
+ * Represents the response retrieved from the DeleteRuleSet operation.
+ */
+message DeleteRuleSetResponse {
+  /*
+   * The rule set that was deleted.
+   */
+  RuleSet rule_set = 1;
+}
+
 /*
  * Defines a service for managing FHIR questionnaires.
  * TODO: Expand information on FHIR.
@@ -508,6 +597,26 @@ service QuestionnaireService {
    * Defines operations for FHIR questionnaires
    */
   rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);
+
+  /**
+   * Create a rule set.
+   */
+  rpc CreateRuleSet(CreateRuleSetRequest) returns (CreateRuleSetResponse);
+
+  /**
+   * Update a rule set.
+   */
+  rpc UpdateRuleSet(UpdateRuleSetRequest) returns (UpdateRuleSetResponse);
+
+  /**
+   * Get a rule set.
+   */
+  rpc GetRuleSet(GetRuleSetRequest) returns (GetRuleSetResponse);
+
+  /**
+   * Delete a rule set.
+   */
+  rpc DeleteRuleSet(DeleteRuleSetRequest) returns (DeleteRuleSetResponse);
 
   /*
    * Handling operations for Questionnaires

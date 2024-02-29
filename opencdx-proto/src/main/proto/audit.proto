@@ -181,13 +181,13 @@ message AuditSource {
  */
 message AuditEntity {
   /*
+   * Patient ID
+   */
+  string patient_id = 1;
+  /*
    * National Health Identifier
    */
-  string patient_identifier = 1;
-  /*
-   * UUID for the patient's user ID
-   */
-  string user_identifier = 2;
+  string nationalHealthId = 2;
 }
 /*
  * Audit Event information to record.

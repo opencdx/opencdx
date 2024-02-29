@@ -146,7 +146,7 @@ message UserAnswer {
   /*
    * ID of the user.
    */
-  string user_id = 1;
+  string patient_id = 1;
 
   /*
    * Id of the connected test..
@@ -195,6 +195,11 @@ message UserAnswer {
    * Location of the user.
    */
   Location user_location = 12;
+
+  /*
+ * ID of the submitting user.
+ */
+  string submitting_user_id = 13;
 }
 
 /*
@@ -242,9 +247,14 @@ message ClassificationResponse {
    */
   google.protobuf.Timestamp timestamp = 10;
   /*
-   * Identifier for the user.
+   * Identifier for the patient.
    */
-  string user_id = 11;
+  string patient_id = 11;
+
+  /**
+   * Whether to notify the CDC.
+   */
+  bool notify_cdc = 12;
 }
 
 /*

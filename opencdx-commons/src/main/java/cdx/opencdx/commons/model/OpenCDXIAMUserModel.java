@@ -16,23 +16,18 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.audit.AgentType;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.ContactInfo;
-import cdx.opencdx.grpc.common.FullName;
-import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.iam.SignUpRequest;
 import cdx.opencdx.grpc.profile.*;
-import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -40,6 +35,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * User Record for IAM
  */
+@Slf4j
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,9 +45,6 @@ public class OpenCDXIAMUserModel {
     @Id
     private ObjectId id;
 
-    private Instant createdAt;
-    private Instant updatedAt;
-    private FullName fullName;
     private String username;
     private String systemName;
 
@@ -61,7 +54,6 @@ public class OpenCDXIAMUserModel {
     private IamUserStatus status;
     private IamUserType type;
     private String password;
-    private String nationalHealthId;
 
     @Builder.Default
     private boolean accountExpired = false;
@@ -72,24 +64,6 @@ public class OpenCDXIAMUserModel {
     @Builder.Default
     private boolean accountLocked = false;
 
-    private List<ContactInfo> contactInfo;
-    private Gender gender;
-    private Instant dateOfBirth;
-    private PlaceOfBirth placeOfBirth;
-    private List<Address> addresses;
-    private byte[] photo;
-    private Preferences communication;
-    private Demographics demographics;
-    private Education education;
-    private EmployeeIdentity employeeIdentity;
-    private ContactInfo primaryContactInfo;
-    private EmergencyContact emergencyContact;
-    private Pharmacy pharmacyDetails;
-
-    private List<Vaccine> vaccines;
-    private List<ObjectId> dependents;
-    private List<KnownAllergy> allergies;
-    private List<Medication> medications;
     private Instant created;
     private Instant modified;
     private ObjectId creator;
@@ -110,47 +84,12 @@ public class OpenCDXIAMUserModel {
     }
 
     /**
-     * Method to update the data with a protobuf UserProfile
-     * @param userProfile UserProfile to update data from
-     * @return reference to itself.
-     */
-    public OpenCDXIAMUserModel update(UserProfile userProfile) {
-        this.nationalHealthId = userProfile.getNationalHealthId();
-        this.fullName = userProfile.getFullName();
-        this.contactInfo = userProfile.getContactsList();
-        this.gender = userProfile.getGender();
-
-        if (userProfile.hasDateOfBirth()) {
-            this.dateOfBirth = Instant.ofEpochSecond(
-                    userProfile.getDateOfBirth().getSeconds(),
-                    userProfile.getDateOfBirth().getNanos());
-        }
-
-        this.addresses = userProfile.getAddressList();
-        this.photo = userProfile.getPhoto().toByteArray();
-        this.communication = userProfile.getCommunication();
-        this.demographics = userProfile.getDemographics();
-        this.education = userProfile.getEducation();
-        this.employeeIdentity = userProfile.getEmployeeIdentity();
-        this.primaryContactInfo = userProfile.getPrimaryContactInfo();
-        this.emergencyContact = userProfile.getEmergencyContact();
-        this.pharmacyDetails = userProfile.getPharmacyDetails();
-        this.vaccines = userProfile.getVaccineAdministeredList();
-        this.allergies = userProfile.getKnownAllergiesList();
-        this.medications = userProfile.getCurrentMedicationsList();
-        return this;
-    }
-
-    /**
      * Constructor from a SignUpRequest
      * @param request SingUpRequest to create from.
      */
     public OpenCDXIAMUserModel(SignUpRequest request) {
+        log.trace("Creating user from sign up request");
 
-        this.fullName = FullName.newBuilder()
-                .setFirstName(request.getFirstName())
-                .setLastName(request.getLastName())
-                .build();
         this.systemName = request.getSystemName();
         this.username = request.getUsername();
         this.status = IamUserStatus.IAM_USER_STATUS_ACTIVE;
@@ -161,22 +100,11 @@ public class OpenCDXIAMUserModel {
      * @param iamUser IamUser to read in.
      */
     public OpenCDXIAMUserModel(IamUser iamUser) {
+        log.trace("Creating user from IAM User");
         if (iamUser.hasId()) {
             this.id = new ObjectId(iamUser.getId());
         }
         this.systemName = iamUser.getSystemName();
-        if (iamUser.hasCreatedAt()) {
-            this.createdAt = Instant.ofEpochSecond(
-                    iamUser.getCreatedAt().getSeconds(), iamUser.getCreatedAt().getNanos());
-        } else {
-            this.createdAt = Instant.now();
-        }
-        if (iamUser.hasUpdatedAt()) {
-            this.updatedAt = Instant.ofEpochSecond(
-                    iamUser.getUpdatedAt().getSeconds(), iamUser.getUpdatedAt().getNanos());
-        } else {
-            this.updatedAt = Instant.now();
-        }
 
         this.username = iamUser.getUsername();
         this.emailVerified = iamUser.getEmailVerified();
@@ -203,22 +131,11 @@ public class OpenCDXIAMUserModel {
      * @return gRPC IamUser Message
      */
     public IamUser getIamUserProtobufMessage() {
+        log.trace("Creating IAM User from user");
         IamUser.Builder builder = IamUser.newBuilder();
 
         if (this.id != null) {
             builder.setId(this.id.toHexString());
-        }
-        if (this.createdAt != null) {
-            builder.setCreatedAt(Timestamp.newBuilder()
-                    .setSeconds(this.createdAt.getEpochSecond())
-                    .setNanos(this.createdAt.getNano())
-                    .build());
-        }
-        if (this.updatedAt != null) {
-            builder.setUpdatedAt(Timestamp.newBuilder()
-                    .setSeconds(this.updatedAt.getEpochSecond())
-                    .setNanos(this.updatedAt.getNano())
-                    .build());
         }
 
         if (this.username != null) {
@@ -235,102 +152,6 @@ public class OpenCDXIAMUserModel {
         }
         if (this.type != null) {
             builder.setType(this.type);
-        }
-        if (this.created != null) {
-            builder.setCreated(Timestamp.newBuilder()
-                    .setSeconds(this.created.getEpochSecond())
-                    .setNanos(this.created.getNano())
-                    .build());
-        }
-        if (this.modified != null) {
-            builder.setModified(Timestamp.newBuilder()
-                    .setSeconds(this.modified.getEpochSecond())
-                    .setNanos(this.modified.getNano())
-                    .build());
-        }
-        if (this.creator != null) {
-            builder.setCreator(this.creator.toHexString());
-        }
-        if (this.modified != null) {
-            builder.setModifier(this.modifier.toHexString());
-        }
-        return builder.build();
-    }
-
-    /**
-     * Method to return a gRPC UserProfile Message
-     * @return gRPC UserProfile Message
-     */
-    @SuppressWarnings("java:S3776")
-    public UserProfile getUserProfileProtobufMessage() {
-        UserProfile.Builder builder = UserProfile.newBuilder();
-
-        builder.setUserId(this.id.toHexString());
-
-        builder.setIsActive(this.status != null && this.status.equals(IamUserStatus.IAM_USER_STATUS_ACTIVE));
-
-        if (this.nationalHealthId != null) {
-            builder.setNationalHealthId(this.nationalHealthId);
-        }
-
-        if (this.fullName != null) {
-            builder.setFullName(this.fullName);
-        }
-        if (this.contactInfo != null) {
-            builder.addAllContacts(this.contactInfo);
-        }
-        if (this.gender != null) {
-            builder.setGender(this.gender);
-        }
-        if (this.dateOfBirth != null) {
-
-            builder.setDateOfBirth(Timestamp.newBuilder()
-                    .setSeconds(this.dateOfBirth.getEpochSecond())
-                    .setNanos(this.dateOfBirth.getNano())
-                    .build());
-        }
-        if (this.placeOfBirth != null) {
-            builder.setPlaceOfBirth(this.placeOfBirth);
-        }
-        if (this.addresses != null) {
-            builder.addAllAddress(this.addresses);
-        }
-        if (this.photo != null && this.photo.length > 0) {
-            builder.setPhoto(ByteString.copyFrom(this.photo));
-        }
-        if (this.communication != null) {
-            builder.setCommunication(this.communication);
-        }
-        if (this.demographics != null) {
-            builder.setDemographics(this.demographics);
-        }
-        if (this.education != null) {
-            builder.setEducation(this.education);
-        }
-        if (this.employeeIdentity != null) {
-            builder.setEmployeeIdentity(this.employeeIdentity);
-        }
-        if (this.primaryContactInfo != null) {
-            builder.setPrimaryContactInfo(this.primaryContactInfo);
-        }
-        if (this.emergencyContact != null) {
-            builder.setEmergencyContact(this.emergencyContact);
-        }
-        if (this.pharmacyDetails != null) {
-            builder.setPharmacyDetails(this.pharmacyDetails);
-        }
-        if (this.vaccines != null) {
-            builder.addAllVaccineAdministered(this.vaccines);
-        }
-        if (this.dependents != null) {
-            builder.addAllDependentId(
-                    this.dependents.stream().map(ObjectId::toHexString).toList());
-        }
-        if (this.allergies != null) {
-            builder.addAllKnownAllergies(this.allergies);
-        }
-        if (this.medications != null) {
-            builder.addAllCurrentMedications(this.medications);
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

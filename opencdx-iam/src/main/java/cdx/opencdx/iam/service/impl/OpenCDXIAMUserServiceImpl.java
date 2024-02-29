@@ -20,16 +20,14 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXUnauthorized;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.audit.*;
-import cdx.opencdx.grpc.common.ContactInfo;
-import cdx.opencdx.grpc.common.EmailAddress;
-import cdx.opencdx.grpc.common.EmailType;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.iam.*;
@@ -41,6 +39,7 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for processing HelloWorld Requests
+ * Service for processing IAM User Requests
  */
 @Slf4j
 @Service
@@ -65,8 +64,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
     private static final String OBJECT = "OBJECT";
     private static final String FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL = "Failed to convert OpenCDXIAMUserModel";
     private static final String IAM_USER = "USERS: ";
-    private static final String FIRST_NAME = "firstName";
-    private static final String LAST_NAME = "lastName";
+    private static final String USER_NAME = "userName";
     private static final String FAILED_TO_FIND_USER = "Failed to find user: ";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
@@ -79,7 +77,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
-    private final OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
 
     /**
      * Constructor taking the a PersonRepository
@@ -93,7 +91,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
      * @param authenticationManager    AuthenticationManager for the service
      * @param jwtTokenUtil              Utility class for JWT Tokens
      * @param openCDXCommunicationService Communication Client for triggering events
-     * @param openCDXNationalHealthIdentifier OpenCDXNationalHealthIdentifier for generating National Health Id.
+     * @param openCDXProfileRepository OpenCDXProfileRepository for saving user profiles.
      */
     @Autowired
     public OpenCDXIAMUserServiceImpl(
@@ -106,7 +104,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             OpenCDXCurrentUser openCDXCurrentUser,
             AppProperties appProperties,
             OpenCDXCommunicationService openCDXCommunicationService,
-            OpenCDXNationalHealthIdentifier openCDXNationalHealthIdentifier) {
+            OpenCDXProfileRepository openCDXProfileRepository) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXIAMUserRepository = openCDXIAMUserRepository;
@@ -116,7 +114,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXCommunicationService = openCDXCommunicationService;
         this.appProperties = appProperties;
-        this.openCDXNationalHealthIdentifier = openCDXNationalHealthIdentifier;
+        this.openCDXProfileRepository = openCDXProfileRepository;
     }
 
     /**
@@ -134,12 +132,11 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
+                .addAllPatientIds(List.of(model.getId().toHexString()))
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(
-                        FIRST_NAME,
-                        model.getFullName().getFirstName(),
-                        LAST_NAME,
-                        model.getFullName().getLastName(),
+                        USER_NAME,
+                        model.getUsername(),
                         "user_id",
                         model.getId().toHexString(),
                         "verification_server",
@@ -151,10 +148,10 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
             this.openCDXAuditService.piiCreated(
                     currentUser.getId().toHexString(),
                     currentUser.getAgentType(),
-                    "User record updated",
+                    "User record Created: ",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    "",
+                    "",
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -198,8 +195,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                         currentUser.getAgentType(),
                         USER_RECORD_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        model.getId().toHexString(),
-                        model.getNationalHealthId(),
+                        "",
+                        "",
                         IAM_USER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
@@ -241,8 +238,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    "",
+                    "",
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -283,8 +280,8 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     currentUser.getAgentType(),
                     "User record updated",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    "",
+                    "",
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -322,22 +319,30 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.CHANGE_PASSWORD)
+                .addAllPatientIds(List.of(model.getId().toHexString()))
                 .addAllToEmail(List.of(model.getUsername()))
-                .putAllVariables(Map.of(
-                        FIRST_NAME,
-                        model.getFullName().getFirstName(),
-                        LAST_NAME,
-                        model.getFullName().getLastName(),
-                        "notification",
-                        "Password changed"))
+                .putAllVariables(Map.of(USER_NAME, model.getUsername()))
                 .build());
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(model);
-        this.openCDXAuditService.passwordChange(
-                currentUser.getId().toHexString(),
-                currentUser.getAgentType(),
-                "User Password Change",
-                model.getId().toHexString(),
-                model.getNationalHealthId());
+
+        Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findByUserId(model.getId());
+
+        if (patient.isPresent()) {
+
+            this.openCDXAuditService.passwordChange(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "User Password Change",
+                    patient.get().getId().toHexString(),
+                    patient.get().getNationalHealthId());
+        } else {
+            this.openCDXAuditService.passwordChange(
+                    currentUser.getId().toHexString(),
+                    currentUser.getAgentType(),
+                    "User Password Change",
+                    model.getId().toHexString(),
+                    "No National Health Id");
+        }
         return ChangePasswordResponse.newBuilder()
                 .setIamUser(model.getIamUserProtobufMessage())
                 .build();
@@ -358,7 +363,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
         userModel.setStatus(IamUserStatus.IAM_USER_STATUS_DELETED);
 
         userModel = this.openCDXIAMUserRepository.save(userModel);
-        log.info("Deleted User: {}", request.getId());
+        log.trace("Deleted User: {}", request.getId());
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.checkCurrentUser(userModel);
@@ -368,7 +373,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     "User record deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     userModel.getId().toHexString(),
-                    userModel.getNationalHealthId(),
+                    "",
                     IAM_USER + userModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(userModel));
         } catch (JsonProcessingException e) {
@@ -405,7 +410,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    "",
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -433,34 +438,13 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 1, FAILED_TO_FIND_USER + id));
 
         model.setEmailVerified(true);
-        model.setNationalHealthId(this.openCDXNationalHealthIdentifier.generateNationalHealthId(model));
-        if (model.getPrimaryContactInfo() == null) {
-            model.setPrimaryContactInfo(ContactInfo.newBuilder()
-                    .addAllEmails(List.of(EmailAddress.newBuilder()
-                            .setEmail(model.getUsername())
-                            .setType(EmailType.EMAIL_TYPE_WORK)
-                            .build()))
-                    .build());
-        } else {
-            model.setPrimaryContactInfo(ContactInfo.newBuilder(model.getPrimaryContactInfo())
-                    .addAllEmails(List.of(EmailAddress.newBuilder()
-                            .setEmail(model.getUsername())
-                            .setType(EmailType.EMAIL_TYPE_WORK)
-                            .build()))
-                    .build());
-        }
         model = this.openCDXIAMUserRepository.save(model);
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.WELCOME_EMAIL_USER)
+                .addAllPatientIds(List.of(model.getId().toHexString()))
                 .addAllToEmail(List.of(model.getUsername()))
-                .putAllVariables(Map.of(
-                        FIRST_NAME,
-                        model.getFullName().getFirstName(),
-                        LAST_NAME,
-                        model.getFullName().getLastName(),
-                        "email",
-                        model.getUsername()))
+                .putAllVariables(Map.of(USER_NAME, model.getUsername()))
                 .build());
 
         try {
@@ -470,7 +454,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     "User email verification",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    "",
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -551,7 +535,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
                     USER_RECORD_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
-                    model.getNationalHealthId(),
+                    "",
                     IAM_USER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
