@@ -5,6 +5,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package cdx.opencdx.grpc.neural.classification;
 import "common.proto";
+import "inventory.proto";
 import "google/protobuf/timestamp.proto";
 
 /*
@@ -111,6 +112,11 @@ message TestKit {
    * The duration of the test in minutes.
    */
   int32 test_duration = 9;
+
+  /**
+   * The cost of the test kit.
+   */
+  string test_case_id = 10;
 }
 
 /*
@@ -209,7 +215,7 @@ message ClassificationResponse {
   /*
    * Name of the recommended test kit.
    */
-  string test_kit_name = 1;
+  TestKit test_kit = 1;
   /*
    * Confidence score of the classification.
    */

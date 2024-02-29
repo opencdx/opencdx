@@ -131,6 +131,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         model = this.openCDXClassificationRepository.save(model);
 
+        this.processClassification(model);
+
         OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
         try {
 
@@ -242,5 +244,11 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         if (userQuestionnaireData != null) {
             model.setUserQuestionnaireData(userQuestionnaireData);
         }
+    }
+
+    private void processClassification(OpenCDXClassificationModel model) {
+
+
+
     }
 }
