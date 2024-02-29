@@ -10,9 +10,8 @@ export const categories = [
     { key: 4, label: 'Value and Interpretation', selected: false },
     { key: 5, label: 'Additional Information', selected: false },
     { key: 6, label: 'Reference Range', selected: false },
-    { key: 7, label: 'Relationship', selected: false },
+    { key: 7, label: 'Relationship', selected: false }
 ];
-
 
 export const observationAttributes = [
     // ANF Topic Attributes
@@ -26,9 +25,8 @@ export const observationAttributes = [
         observationCategory: 'ANF Topic',
         label: 'bodySite',
         options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }
-    },  
+    },
     {
-
         observationCategory: 'ANF Topic',
         label: 'device',
         options: { 1: 'Code Option 1', 2: 'Code Option 2', 3: 'Code Option 3' }

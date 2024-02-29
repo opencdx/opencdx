@@ -6,7 +6,7 @@ import { ParticipantComponent } from '../TabComponents/ParticipantComponent';
 const SubjectofRecord = React.forwardRef(({ register, index, getValues, currentIndex }, ref) => {
     return (
         <>
-           <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab="subjectOfRecord" />
+            <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab="subjectOfRecord" />
             <ParticipantComponent {...{ register, index, currentIndex }} tab="subjectOfRecord" ref={ref} />
         </>
     );

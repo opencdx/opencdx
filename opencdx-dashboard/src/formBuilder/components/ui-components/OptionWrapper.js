@@ -6,11 +6,11 @@ import { useFieldArray } from 'react-hook-form';
 import { AccordianWrapper } from './AccordianWrapper';
 import { CustomTabs } from './CustomTabs';
 
-const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
+const OptionWrapper = React.forwardRef(({ control, register, index, item }, ref) => {
     const [showValueField, setShowValueField] = React.useState(false);
     const { fields, append, remove, getValues } = useFieldArray({
         control,
-        name: `test.${index}.items`
+        name: `item.${index}.items`
     });
 
     const getOptions = (type) => {
@@ -33,17 +33,17 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
         }
     };
     return (
-        <Grid item xs={12} lg={12} sx={{ pt: 2 }}>
+        <Grid item xs={12} lg={12} sx={{ pt: 2 }} ref={ref}>
             <Grid container spacing={2} alignItems="center" sx={{ pl: 2 }}>
                 <Grid item xs={12} sm={3} lg={4} sx={{ pt: 2 }}>
                     <Typography variant="subtitle1">Operator</Typography>
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
                             fullWidth
-                            {...register(`test.${index}.item.${0}.operatorValue`, { value: '' })}
+                            {...register(`item.${index}.item.${0}.operatorValue`, { value: '' })}
                             control={control}
                             render={({ field }) => (
-                                <Select {...field} id={`test.${index}.item.${0}.operatorValue`}>
+                                <Select {...field} id={`item.${index}.item.${0}.operatorValue`}>
                                     {getOptions('logical').map((option, index) => (
                                         <MenuItem key={index} value={option}>
                                             {option}
@@ -60,7 +60,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
                             fullWidth
-                            {...register(`test.${index}.item.${0}.answerValue`)}
+                            {...register(`item.${index}.item.${0}.answerValue`)}
                             control={control}
                             render={({ field }) => (
                                 <Select
@@ -73,7 +73,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                                             setShowValueField(false);
                                         }
                                     }}
-                                    id={`test.${index}.item.${0}.answerField`}
+                                    id={`item.${index}.item.${0}.answerField`}
                                 >
                                     {getOptions(item.type).map((option, index) => (
                                         <MenuItem key={index} value={option}>
@@ -93,13 +93,13 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                         <FormControl fullWidth>
                             <Controller
                                 fullWidth
-                                {...register(`test.${index}.item.${0}.answerTextValue`)}
+                                {...register(`item.${index}.item.${0}.answerTextValue`)}
                                 control={control}
                                 defaultValue=""
                                 render={({ field: { onChange, value } }) => (
                                     <TextField
                                         fullWidth
-                                        id={`test.${index}.item.${0}.answerTextValue`}
+                                        id={`item.${index}.item.${0}.answerTextValue`}
                                         key={index}
                                         type="number"
                                         InputProps={{
@@ -134,10 +134,10 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                             <FormControl fullWidth sx={{ pt: 2 }}>
                                 <Controller
                                     fullWidth
-                                    {...register(`test.${index}.item.${i + 1}.operatorValue`, { value: '' })}
+                                    {...register(`item.${index}.item.${i + 1}.operatorValue`, { value: '' })}
                                     control={control}
                                     render={({ field }) => (
-                                        <Select {...field} id={`test.${index}.item.${i + 1}.operatorValue`}>
+                                        <Select {...field} id={`item.${index}.item.${i + 1}.operatorValue`}>
                                             {getOptions('logical').map((option, index) => (
                                                 <MenuItem key={index} value={option}>
                                                     {option}
@@ -155,7 +155,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                             <FormControl fullWidth sx={{ pt: 2 }}>
                                 <Controller
                                     fullWidth
-                                    {...register(`test.${index}.item.${i + 1}.answerValue`)}
+                                    {...register(`item.${index}.item.${i + 1}.answerValue`)}
                                     control={control}
                                     render={({ field }) => (
                                         <Select
@@ -163,7 +163,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }) => {
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
                                             }}
-                                            id={`test.${index}.item.${i + 1}.answerField`}
+                                            id={`item.${index}.item.${i + 1}.answerField`}
                                         >
                                             {getOptions(item.type).map((option, index) => (
                                                 <MenuItem key={index} value={option}>

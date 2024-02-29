@@ -47,7 +47,8 @@
         "redux-persist": "^6.0.0",
         "slick-carousel": "^1.8.1",
         "web-vitals": "^3.4.0",
-        "yup": "^1.2.0"
+        "yup": "^1.2.0",
+        "zustand": "^4.5.1"
     },
     "scripts": {
         "start": "REACT_APP_API_URL_SECURED=false react-scripts start",

@@ -7,9 +7,10 @@ import ErrorPage from 'pages/ErrorPage';
 const Admin = () => {
     const [isValidPage, setIsValidPage] = useState(false);
 
-    const url = process.env.REACT_APP_API_URL_SECURED ? 'https://localhost:8861/admin/wallboard' : 'http://localhost:8861/admin/wallboard';
-
     useEffect(() => {
+        const url = process.env.REACT_APP_API_URL_SECURED
+            ? 'https://localhost:8861/admin/wallboard'
+            : 'http://localhost:8861/admin/wallboard';
         const fetchData = async () => {
             try {
                 await axios.post(url);

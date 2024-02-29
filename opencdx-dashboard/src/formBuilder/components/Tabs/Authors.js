@@ -4,7 +4,6 @@ import { ParticipantComponent } from '../TabComponents/ParticipantComponent';
 import { SystemVariables } from '../ui-components/SystemVariables';
 
 const Authors = React.forwardRef(({ control, register, index, currentIndex, getValues }, ref) => {
-   
     return (
         <>
             <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab="authors" />
