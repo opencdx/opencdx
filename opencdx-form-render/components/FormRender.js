@@ -36,7 +36,7 @@ export default function App({ questionnaire, navigation}) {
         });
         const userQuestionnaireData = {
             "userQuestionnaireData": {
-                "userId": "65c103b2c444da00ae4332e5",
+                "patientId": "65de167e6321996307427d3d",
                 "questionnaireData": [
                     questionnaire
 
