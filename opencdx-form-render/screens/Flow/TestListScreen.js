@@ -11,7 +11,7 @@ const TestListScreen = () => {
     const navigation = useNavigation();
     const [searchText, setSearchText] = useState('');
     const [testList, setTestList] = useState([
-        { id: 1, name: 'COVID-19 Antigen Home Test' , description: 'This is an Antigen Home test for COVID-19' , price: 45},
+        { id: 1, name: 'COVID-19 Antigen Home Test' , description: 'This is an antigen test for COVID-19' , price: 45},
         { id: 2, name: 'COVID-19 Nasal Swab Test' , description: 'This is a nasal swab test for COVID-19' , price: 38},
         { id: 3  , name: 'HEP Antibody Test' , description: 'This is an antibody test for HEP' , price: 50},
         { id: 4  , name: 'HEP Antigen Test' , description: 'This is an antigen test for HEP' , price: 60},
@@ -86,7 +86,7 @@ const styles = {
         flex: 1,
         shadowColor: "#000",
         backgroundColor: '#fff',
-        padding: 10,
+        paddingRight: 10,
         ...Platform.select({
             web: {
                 width: 500,
