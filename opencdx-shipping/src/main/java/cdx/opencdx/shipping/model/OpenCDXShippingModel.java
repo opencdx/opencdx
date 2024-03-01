@@ -17,11 +17,14 @@ package cdx.opencdx.shipping.model;
 
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.PaymentDetails;
+import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.shipping.AdditionalService;
 import cdx.opencdx.grpc.shipping.Order;
 import cdx.opencdx.grpc.shipping.ServiceLevel;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.shipping.dto.OpenCDXShippingRequest;
+import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
+import java.time.Instant;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +57,10 @@ public class OpenCDXShippingModel {
     private Double shippingCost;
     private String shippingVendorId;
     private PaymentDetails paymentDetails;
+
+    private String trackingNumber;
+    private ShippingStatus status;
+    private Instant estimatedDelivery;
 
     /**
      * Default constructor
@@ -90,6 +97,12 @@ public class OpenCDXShippingModel {
         this.shippingVendorId = shipping.getShippingVendorId();
         this.paymentDetails = shipping.getPaymentDetails();
         this.shippingCost = shipping.getShippingCost();
+    }
+
+    public void update(OpenCDXShippingResponse response) {
+        this.trackingNumber = response.getTrackingNumber();
+        this.status = response.getStatus();
+        this.estimatedDelivery = response.getEstimatedDelivery();
     }
 
     /**
