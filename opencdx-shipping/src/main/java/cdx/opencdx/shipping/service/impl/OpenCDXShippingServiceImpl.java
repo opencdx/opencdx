@@ -49,19 +49,28 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
-    public static final String DOMAIN = "OpenCDXShippingServiceImpl";
-    public static final String OBJECT = "OBJECT";
-    public static final String ORDER = "Order: ";
-    public static final String FAILED_TO_FIND_PROFILE = "Failed to find Profile: ";
-    public static final String FAILED_TO_CONVERT_ORDER = "Failed to convert Order";
-    public static final String FAILED_TO_FIND_ORDER = "Failed to find Order: ";
-    public static final String ACCESSING_ORDER = "Accessing Order";
+    private static final String DOMAIN = "OpenCDXShippingServiceImpl";
+    private static final String OBJECT = "OBJECT";
+    private static final String ORDER = "Order: ";
+    private static final String FAILED_TO_FIND_PROFILE = "Failed to find Profile: ";
+    private static final String FAILED_TO_CONVERT_ORDER = "Failed to convert Order";
+    private static final String FAILED_TO_FIND_ORDER = "Failed to find Order: ";
+    private static final String ACCESSING_ORDER = "Accessing Order";
     private final OpenCDXOrderRepository openCDXOrderRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXProfileRepository openCDXProfileRepository;
 
+    /**
+     * Default constructor
+     *
+     * @param openCDXOrderRepository repository for order data
+     * @param openCDXCurrentUser current user service
+     * @param openCDXAuditService audit service
+     * @param objectMapper object mapper
+     * @param openCDXProfileRepository profile repository
+     */
     public OpenCDXShippingServiceImpl(
             OpenCDXOrderRepository openCDXOrderRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
@@ -77,6 +86,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
+        log.info("Creating Order");
         OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(new ObjectId(request.getOrder().getPatientId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
@@ -107,6 +117,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public GetOrderResponse getOrder(GetOrderRequest request) {
+        log.info("Getting Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_ORDER + request.getId()));
@@ -139,6 +150,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public UpdateOrderResponse updateOrder(UpdateOrderRequest request) {
+        log.info("Updating Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
                 .findById(new ObjectId(request.getOrder().getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(
@@ -150,7 +162,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 7, FAILED_TO_FIND_PROFILE + patientId));
 
         model.setShippingAddress(request.getOrder().getShippingAddress());
-        model.setTestCase(request.getOrder().getTestCase());
+        model.setTestCaseID(new ObjectId(request.getOrder().getTestCaseId()));
 
         model = this.openCDXOrderRepository.save(model);
 
@@ -177,6 +189,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
+        log.info("Canceling Order");
         OpenCDXOrderModel model = this.openCDXOrderRepository
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 9, FAILED_TO_FIND_ORDER + request.getId()));
@@ -214,6 +227,7 @@ public class OpenCDXShippingServiceImpl implements OpenCDXShippingService {
 
     @Override
     public ListOrdersResponse listOrders(ListOrdersRequest request) {
+        log.info("Listing Orders");
         Pageable pageable;
         if (request.getPagination().hasSort()) {
             pageable = PageRequest.of(

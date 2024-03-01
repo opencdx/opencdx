@@ -28,6 +28,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
 import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
@@ -59,6 +60,9 @@ class OpenCDXGrpcClassificationControllerTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
+
+    @Autowired
+    OpenCDXOrderMessageService openCDXOrderMessageService;
 
     OpenCDXClassificationServiceImpl classificationService;
 
@@ -156,7 +160,8 @@ class OpenCDXGrpcClassificationControllerTest {
                 openCDXQuestionnaireClient,
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
-                openCDXProfileRepository);
+                openCDXProfileRepository,
+                openCDXOrderMessageService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 

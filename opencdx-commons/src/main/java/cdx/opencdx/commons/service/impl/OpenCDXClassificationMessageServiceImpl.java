@@ -113,7 +113,7 @@ public class OpenCDXClassificationMessageServiceImpl implements OpenCDXClassific
         OpenCDXProfileModel patient = this.openCDXProfileRepository
                 .findById(patientId)
                 .orElseThrow(() -> new OpenCDXNotFound(
-                        "OpenCDXClassificationMessageServiceImpl", 1, "User " + patientId + " does not found "));
+                        "OpenCDXClassificationMessageServiceImpl", 1, "Patient " + patientId + " does not found "));
 
         UserAnswer.Builder builder = UserAnswer.newBuilder().setPatientId(patientId.toHexString());
 

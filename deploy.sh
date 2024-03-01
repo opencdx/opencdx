@@ -585,12 +585,17 @@ countdown() {
 
     if [ -t 1 ]; then
         # Check if stdout is a terminal
-        echo -ne "\r${GREEN}Waiting: ${RED}$number${GREEN} seconds.${NC}"
+        echo -ne "\r${GREEN}Waiting: ${RED}$number${GREEN} seconds.${NC} ${YELLOW}(Press 'x' to cancel)${NC} "
     else
-        echo -ne "\rWaiting: $number seconds"
+        echo -ne "\rWaiting: $number seconds. (Press 'x' to cancel)"
     fi
 
-    sleep 1
+    read -t 1 -n 1 input  # Wait for 1 second, checking for user input
+
+        if [ "$input" == $'x' ]; then
+          echo -e "\nCountdown interrupted by user. Exiting..."
+          return
+        fi
     ((number--))
   done
 

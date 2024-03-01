@@ -38,6 +38,7 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -316,9 +317,20 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
     private void recordAudit(
             CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, ObjectId patientId) {
-        OpenCDXProfileModel patient = this.openCDXProfileRepository
-                .findById(patientId)
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Patient Not Found"));
+
+        String nationalHealthId = "N/A";
+        String patientIdString = patientId.toHexString();
+
+        Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findById(patientId);
+
+        if (patient.isPresent()) {
+            nationalHealthId = patient.get().getNationalHealthId();
+        }
+
+        if (patient.isEmpty()) {
+            patientIdString = "USER ID: " + patientId.toHexString();
+        }
+
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.communication(
@@ -326,8 +338,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    patientId.toHexString(),
-                    patient.getNationalHealthId(),
+                    patientIdString,
+                    nationalHealthId,
                     NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {

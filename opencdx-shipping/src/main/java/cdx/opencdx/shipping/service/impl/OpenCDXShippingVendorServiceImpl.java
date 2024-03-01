@@ -15,24 +15,98 @@
  */
 package cdx.opencdx.shipping.service.impl;
 
+import cdx.opencdx.commons.service.OpenCDXDeliveryTrackingMessageService;
+import cdx.opencdx.grpc.routine.DeliveryTracking;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
 import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
+import cdx.opencdx.shipping.dto.OpenCDXShippingRequest;
+import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
+import cdx.opencdx.shipping.model.OpenCDXShippingModel;
+import cdx.opencdx.shipping.service.OpenCDXShippingVendor;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
+import com.google.protobuf.Timestamp;
 import io.micrometer.observation.annotation.Observed;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * OpenCDX shipping vendor service implementation
+ */
+@Slf4j
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorService {
+
+    private Map<String, OpenCDXShippingVendor> vendors;
+
+    private final OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService;
+
+    /**
+     * Instantiates a new OpenCDXShippingVendorServiceImpl.
+     *
+     * @param openCDXDeliveryTrackingMessageService the openCDX delivery tracking message service
+     */
+    public OpenCDXShippingVendorServiceImpl(
+            OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService) {
+        this.openCDXDeliveryTrackingMessageService = openCDXDeliveryTrackingMessageService;
+        this.vendors = new HashMap<>();
+
+        OpenCDXShippingVendor vendor = new UpsShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+        vendor = new UspsShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+        vendor = new FedexShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+        vendor = new DoorDashShippingVendor();
+        this.vendors.put(vendor.getVendorId(), vendor);
+
+        this.vendors.keySet().forEach(key -> log.info("Vendor: {}", key));
+    }
+
     @Override
     public ShippingVendorResponse getShippingVendors(ShippingRequest request) {
-        return null;
+        log.info("Getting Shipping Vendor Options");
+        OpenCDXShippingRequest openCDXShippingRequest = new OpenCDXShippingRequest(request);
+        List<OpenCDXShippingModel> models = new ArrayList<>();
+
+        for (OpenCDXShippingVendor vendor : vendors.values()) {
+            List<OpenCDXShippingModel> shippingVendors = vendor.getShippingVendors(openCDXShippingRequest);
+            if (shippingVendors != null && !shippingVendors.isEmpty()) {
+                models.addAll(shippingVendors);
+            }
+        }
+
+        return ShippingVendorResponse.newBuilder()
+                .addAllOptions(
+                        models.stream().map(OpenCDXShippingModel::toProtobuf).toList())
+                .build();
     }
 
     @Override
     public ShippingResponse shipPackage(Shipping request) {
-        return null;
+        log.info("Shipping Package");
+
+        OpenCDXShippingResponse openCDXShippingResponse =
+                this.vendors.get(request.getShippingVendorId()).shipPackage(new OpenCDXShippingModel(request));
+
+        DeliveryTracking.Builder builder = DeliveryTracking.newBuilder();
+        builder.setTrackingId(openCDXShippingResponse.getTrackingNumber());
+        builder.setOrderId(request.getPackageDetails().getId());
+        builder.setStatus(openCDXShippingResponse.getStatus());
+        builder.setStartDatetime(Timestamp.newBuilder()
+                .setSeconds(Instant.now().getEpochSecond())
+                .build());
+        builder.setAssignedCourier(request.getShippingVendorId());
+
+        this.openCDXDeliveryTrackingMessageService.submitDeliveryTracking(builder.build());
+
+        return openCDXShippingResponse.toProtobuf();
     }
 }

@@ -28,9 +28,9 @@ message Order {
   cdx.opencdx.grpc.common.Address shipping_address = 3;
 
   /**
-   * The list of items that are part of the order.
+   * The id of TestCase that are part of the order.
    */
-  cdx.opencdx.grpc.inventory.TestCase test_case = 4;
+  string test_case_id = 4;
 
   /*
    * The timestamp capturing when this particular Manufacturer instance was created.

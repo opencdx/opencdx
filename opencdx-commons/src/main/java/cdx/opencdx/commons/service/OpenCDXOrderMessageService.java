@@ -13,29 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.classification.model;
+package cdx.opencdx.commons.service;
 
-import cdx.opencdx.grpc.neural.classification.ClassificationType;
-import cdx.opencdx.grpc.neural.classification.TestKit;
-import lombok.Data;
+import cdx.opencdx.grpc.shipping.Order;
 
 /**
- * Model for Rule Result
+ * OpenCDXOrderMessageService is an interface that defines methods for submitting an order.
  */
-@Data
-public class RuleResult {
+public interface OpenCDXOrderMessageService {
+
     /**
-     * Constructor for RuleResult
+     * Submit an order
+     * @param order the order to submit
      */
-    public RuleResult() {
-        // Explicit declaration to prevent this class from inadvertently being made instantiable
-    }
-
-    private String furtherActions = "";
-
-    private boolean notifyCDC = false;
-
-    private ClassificationType type;
-
-    private TestKit testKit = null;
+    void submitOrder(Order order);
 }

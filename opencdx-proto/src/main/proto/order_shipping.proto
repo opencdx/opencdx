@@ -39,42 +39,52 @@ message ShippingRequest {
  * The Shipping message is used to ship a package.
  */
 message Shipping {
+
+  /**
+   * The shipping id.
+   */
+  optional string id = 1;
   /**
    * The address of the sender.
    */
-  cdx.opencdx.grpc.common.Address sender_address = 1;
+  cdx.opencdx.grpc.common.Address sender_address = 2;
   /**
    * The address of the recipient.
    */
-  cdx.opencdx.grpc.common.Address recipient_address = 2;
+  cdx.opencdx.grpc.common.Address recipient_address = 3;
   /**
    * The package details.
    */
-  cdx.opencdx.grpc.shipping.Order package_details = 3;
+  cdx.opencdx.grpc.shipping.Order package_details = 4;
   /**
    * The service level requested.
    */
-  ServiceLevel service_level = 4;
+  ServiceLevel service_level = 5;
   /**
    * The additional services requested.
    */
-  repeated AdditionalService additional_services = 5;
+  repeated AdditionalService additional_services = 6;
   /**
    * The payment details.
    */
-  bool require_signature = 6;
+  bool require_signature = 7;
   /**
    * The declared value of the package.
    */
-  double declared_value = 7;
+  double declared_value = 8;
   /**
    * The shipping vendor id.
    */
-  string shipping_vendor_id = 8;
+  string shipping_vendor_id = 9;
+
+  /**
+   * The shipping cost.
+   */
+  double shipping_cost = 10;
   /**
    * The payment details.
    */
-  cdx.opencdx.grpc.common.PaymentDetails payment_details = 9;
+  cdx.opencdx.grpc.common.PaymentDetails payment_details = 11;
 }
 
 /**
@@ -92,11 +102,12 @@ message ShippingResponse {
   /**
    * The estimated delivery date.
    */
-  string estimated_delivery_date = 3;
+  google.protobuf.Timestamp estimated_delivery_date = 3;
   /**
    * The shipping cost.
    */
   double total_cost = 4;
+
 }
 
 /**

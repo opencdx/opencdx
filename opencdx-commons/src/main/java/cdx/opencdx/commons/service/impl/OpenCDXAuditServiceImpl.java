@@ -370,8 +370,17 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
         if (event.hasAuditEntity()) {
             log.debug("Validating Audit Entity: {}", event.getAuditEntity().getPatientId());
             if (!event.getAuditEntity().getPatientId().isEmpty()) {
-                openCDXDocumentValidator.validateDocumentOrLog(
-                        "patient", new ObjectId(event.getAuditEntity().getPatientId()));
+                String searchString = "USER ID: ";
+                if (event.getAuditEntity().getPatientId().contains(searchString)) {
+                    String userId = event.getAuditEntity()
+                            .getPatientId()
+                            .substring(event.getAuditEntity().getPatientId().indexOf(searchString)
+                                    + searchString.length());
+                    openCDXDocumentValidator.validateDocumentOrLog("users", new ObjectId(userId));
+                } else {
+                    openCDXDocumentValidator.validateDocumentOrLog(
+                            "profiles", new ObjectId(event.getAuditEntity().getPatientId()));
+                }
             }
         }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);
