@@ -79,7 +79,7 @@ const tabsOption = [
 
 const Profile2 = () => {
     const theme = useTheme();
-    const [user, setUser] = useState({});
+    const [setUser] = useState({});
 
     useEffect(() => {
         const fetchEmailList = async () => {
@@ -94,7 +94,7 @@ const Profile2 = () => {
             setUser(response.data.userProfile);
         };
         fetchEmailList();
-    }, []);
+    }, [setUser]);
 
     const { borderRadius } = useConfig();
     const [value, setValue] = React.useState(0);

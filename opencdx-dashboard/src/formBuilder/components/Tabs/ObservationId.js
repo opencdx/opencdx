@@ -1,20 +1,7 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import {
-    FormControl,
-    FormControlLabel,
-    Grid,
-    MenuItem,
-    Select,
-    InputLabel,
-    Input,
-    Checkbox,
-    Button,
-    Chip,
-    TextField
-} from '@mui/material';
+import { FormControl, FormControlLabel, Grid, MenuItem, Select, InputLabel, Input, Checkbox, Button, Chip, TextField } from '@mui/material';
 
 import { Controller } from 'react-hook-form';
 import { SystemVariables } from '../ui-components/SystemVariables';
@@ -27,51 +14,67 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { observationAttributes, categories } from '../../store/constant';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-
-export const ObservationId = ({ currentIndex, index, control, getValues }) => {
+export const ObservationId = ({ currentIndex, index, control, getValues, register }) => {
     const ListItem = styled('li')(({ theme }) => ({
-        margin: theme.spacing(0.5),
+        margin: theme.spacing(0.5)
     }));
-    const [chipData, setChipData] = React.useState(categories);
+    const [chipData, setChipData] = React.useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const { formData, setFormData } = useAnfFormStore();
 
-    const { register } = useForm();
+    useEffect(() => {
+        if (formData && formData.item) {
+            const currentCategories = formData.item[index]?.selectedCategories || [];
 
-    const [selectedCategories, setSelectedCategories] = useState([chipData.filter((data) => data.selected).map((data) => data.label)]);
+            setChipData(
+                categories.map((data, index) => ({
+                    key: index,
+                    label: data.label,
+                    selected: currentCategories.includes(data.label)
+                }))
+            );
 
-    const handleChange = function (data) {
-        return function () {
-            setChipData((chips) => chips.map((chip) => {
-                if (chip.key === data.key) {
-                    if (chip.selected) {
-                        setSelectedCategories(selectedCategories.filter((category) => category !== data.label));
-                    } else {
-                        setSelectedCategories([...selectedCategories, data.label]);
-                    }
-                    return { ...chip, selected: !chip.selected };
-                }
-                return chip;
-            }));
-        };
+            setSelectedCategories(
+                currentCategories.length > 0 ? currentCategories : chipData.filter((data) => data.selected).map((data) => data.label)
+            );
+        }
+    }, []);
 
+    const handleChange = (data) => () => {
+        const currentCategories = formData.item[index]?.selectedCategories || [];
+        const updatedCategories = currentCategories.includes(data.label)
+            ? currentCategories.filter((category) => category !== data.label)
+            : [...currentCategories, data.label];
+
+        formData.item[index] = { ...formData.item[index], selectedCategories: updatedCategories };
+        setFormData(formData);
+
+        setChipData((chips) =>
+            chips.map((chip) => ({
+                ...chip,
+                selected: chip.key === data.key ? !chip.selected : chip.selected
+            }))
+        );
+
+        setSelectedCategories(updatedCategories);
     };
 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
-            {filteredAttributes.map((attribute, index) => (
-                <Grid container spacing={2} alignItems="center" key={index} sx={{ pt: 2 }}>
+            {filteredAttributes.map((attribute, i) => (
+                <Grid container spacing={2} alignItems="center" key={`${index}-${i}`} sx={{ pt: 2 }}>
                     <Grid item xs={12} sm={4} lg={4}>
                         <FormControl fullWidth>
-                            <Typography key={index} variant="h5">
-                                Observation.{typeof attribute === 'object' ? attribute.label : attribute}
-                            </Typography>
+                            <Typography variant="h5">Observation.{typeof attribute === 'object' ? attribute.label : attribute}</Typography>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={5}>
                         <FormControl fullWidth>
                             {typeof attribute === 'object' && attribute.options ? (
                                 <TextField
-                                    {...register(`test.${index}.item.${currentIndex}.${attribute.label}`)}
+                                    {...register(`item.${index}.item.${currentIndex}.${attribute.label}${i}`)}
                                     fullWidth
                                     placeholder={attribute.label}
                                 />
@@ -85,7 +88,7 @@ export const ObservationId = ({ currentIndex, index, control, getValues }) => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        key={index} // Add key prop to avoid rendering error
+                                        key={`${index}-${i}`} // Updated key for uniqueness
                                         name={attribute.label}
                                         color="primary"
                                         value={attribute.label}
@@ -113,19 +116,19 @@ export const ObservationId = ({ currentIndex, index, control, getValues }) => {
             <SystemVariables index={index} currentIndex={currentIndex} tab="observation" getValues={getValues} />
             <MainCard>
                 <Grid item xs={12} sm={12} lg={12} sx={{ paddingBottom: 2 }}>
-                    <InputLabel style={{ fontWeight: 'bold' }}
-                        horizontal>Observation Type</InputLabel>
+                    <InputLabel style={{ fontWeight: 'bold' }} horizontal>
+                        Observation Type
+                    </InputLabel>
                 </Grid>
                 <Grid container spacing={2} alignItems="center">
-
                     <Grid item xs={12} sm={12} lg={12}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`test.${index}.item.${currentIndex}.observationType`}
+                                name={`item.${index}.item.${currentIndex}.observationType`}
                                 control={control}
                                 defaultValue={10}
                                 render={({ field }) => (
-                                    <Select {...field} id={`test.${index}.item.${currentIndex}.type`} >
+                                    <Select {...field} id={`item.${index}.item.${currentIndex}.type`}>
                                         <MenuItem value={10}>Observation procedure</MenuItem>
                                     </Select>
                                 )}
@@ -141,20 +144,13 @@ export const ObservationId = ({ currentIndex, index, control, getValues }) => {
                                 listStyle: 'none',
                                 backgroundColor: '#f8fafc',
                                 p: 0.5,
-                                m: 0,
+                                m: 0
                             }}
                             component="ul"
                         >
                             {chipData.map((data) => {
-                                let icon;
-                                let color;
-
-                                if (data.selected) {
-                                    icon = <CheckCircleIcon />;
-                                    color = 'primary';
-                                } else {
-                                    color = 'default';
-                                }
+                                const icon = data.selected && <CheckCircleIcon />;
+                                const color = data.selected ? 'primary' : 'default';
 
                                 return (
                                     <ListItem key={data.key}>
@@ -183,7 +179,8 @@ ObservationId.propTypes = {
     index: PropTypes.number,
     currentIndex: PropTypes.number,
     tab: PropTypes.string,
-    selectedOption: PropTypes.array,
+    control: PropTypes.object,
+    getValues: PropTypes.func,
     filteredAttributes: PropTypes.array
 };
 export default ObservationId;

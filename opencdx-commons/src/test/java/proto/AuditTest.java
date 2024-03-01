@@ -58,8 +58,8 @@ class AuditTest {
                         .setConfiguration("configurationT")
                         .build())
                 .setAuditEntity(AuditEntity.newBuilder()
-                        .setPatientIdentifier("patientIdentifierT")
-                        .setUserIdentifier("userIdentifierT")
+                        .setPatientId("patientIdentifierT")
+                        .setNationalHealthId("nationalHealthId")
                         .build())
                 .build();
         log.info("AuditEvent: {}", this.mapper.writeValueAsString(auditEvent));

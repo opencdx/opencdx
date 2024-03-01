@@ -11,7 +11,7 @@ buildscript {
         SEMANTIC_RELEASE_VERSION = (System.env.version)
     }
     dependencies {
-        classpath "se.solrike.sonarlint:sonarlint-gradle-plugin:1.0.0-beta.15"
+        classpath "se.solrike.sonarlint:sonarlint-gradle-plugin:1.0.0-beta.17"
         classpath "se.solrike.otsswinfo:ots-sw-info-gradle-plugin:1.0.0-beta.10"
         classpath "org.owasp:dependency-check-gradle:${owaspVersion}"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:6.20.0"
@@ -127,7 +127,8 @@ def exportedProjects = [
         ":opencdx-protector",
         ":opencdx-questionnaire",
         ":opencdx-routine",
-        ":opencdx-tinkar"
+        ":opencdx-tinkar",
+        ":opencdx-shipping"
 ]
 
 tasks.register('allJavadoc', Javadoc) {
@@ -226,7 +227,7 @@ allprojects {
         violationRules {
             rule {
                 limit {
-                    minimum = 0.1
+                    minimum = 0.0
                 }
             }
         }

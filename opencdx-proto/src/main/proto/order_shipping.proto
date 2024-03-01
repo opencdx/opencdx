@@ -1,0 +1,162 @@
+/**
+ * The Order Shipping service for shipping packages.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.shipping;
+import "common.proto";
+import "inventory.proto";
+import "order.proto";
+import "google/protobuf/timestamp.proto";
+
+/**
+ * The ShippingRequest message is used to request shipping options for a package.
+ */
+message ShippingRequest {
+  /**
+   * The address of the sender.
+   */
+  cdx.opencdx.grpc.common.Address sender_address = 1;
+  /**
+   * The address of the recipient.
+   */
+  cdx.opencdx.grpc.common.Address recipient_address = 2;
+  /**
+   * The package details.
+   */
+  cdx.opencdx.grpc.shipping.Order package_details = 3;
+  /**
+   * The service level requested.
+   */
+  bool require_signature = 5;
+  /**
+   * The declared value of the package.
+   */
+  double declared_value = 6;
+}
+
+/**
+ * The Shipping message is used to ship a package.
+ */
+message Shipping {
+  /**
+   * The address of the sender.
+   */
+  cdx.opencdx.grpc.common.Address sender_address = 1;
+  /**
+   * The address of the recipient.
+   */
+  cdx.opencdx.grpc.common.Address recipient_address = 2;
+  /**
+   * The package details.
+   */
+  cdx.opencdx.grpc.shipping.Order package_details = 3;
+  /**
+   * The service level requested.
+   */
+  ServiceLevel service_level = 4;
+  /**
+   * The additional services requested.
+   */
+  repeated AdditionalService additional_services = 5;
+  /**
+   * The payment details.
+   */
+  bool require_signature = 6;
+  /**
+   * The declared value of the package.
+   */
+  double declared_value = 7;
+  /**
+   * The shipping vendor id.
+   */
+  string shipping_vendor_id = 8;
+  /**
+   * The payment details.
+   */
+  cdx.opencdx.grpc.common.PaymentDetails payment_details = 9;
+}
+
+/**
+ * The ShippingResponse message is used to return the shipping details.
+ */
+message ShippingResponse {
+  /**
+   * The tracking number.
+   */
+  string tracking_number = 1;
+  /**
+   * The shipping status.
+   */
+  cdx.opencdx.grpc.common.ShippingStatus status = 2;
+  /**
+   * The estimated delivery date.
+   */
+  string estimated_delivery_date = 3;
+  /**
+   * The shipping cost.
+   */
+  double total_cost = 4;
+}
+
+/**
+ * The AdditionalService message is used to define additional services.
+ */
+message AdditionalService {
+  /**
+   * The additional service code.
+   */
+  string code = 1;
+  /**
+   * The additional service short description.
+   */
+  string short_description = 2;
+  /**
+   * The additional service long description.
+   */
+  string long_description = 3;
+}
+
+/**
+ * The ServiceLevel message is used to define the service level.
+ */
+message ServiceLevel {
+  /**
+   * The service level code.
+   */
+  string code = 1;
+  /**
+   * The service level short description.
+   */
+  string short_description = 2;
+  /**
+   * The service level long description.
+   */
+  string long_description = 3;
+}
+
+/**
+ * The ShippingVendorResponse message is used to return the shipping vendors.
+ */
+message ShippingVendorResponse {
+  /**
+   * The shipping vendors.
+   */
+  repeated Shipping options = 1;
+}
+
+/**
+ * The ShippingService service definition.
+ */
+service ShippingService {
+  /**
+   * The GetShippingVendors method is used to get the shipping vendors.
+   */
+  rpc GetShippingVendors(ShippingRequest) returns (ShippingVendorResponse);
+  /**
+   * The ShipPackage method is used to ship a package.
+   */
+  rpc ShipPackage(Shipping) returns (ShippingResponse);
+
+}
+
