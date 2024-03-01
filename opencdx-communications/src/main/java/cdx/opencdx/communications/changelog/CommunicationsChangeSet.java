@@ -50,7 +50,7 @@ public class CommunicationsChangeSet {
     private static final String NOTIFICATION_EVENT = "notification-event";
     private static final String NOTIFICATIONS = "notifications";
     private static final String USER_NAME = "userName";
-    public static final String NOTIFICATION = "notification";
+    private static final String NOTIFICATION = "notification";
 
     /**
      * Default Consructor

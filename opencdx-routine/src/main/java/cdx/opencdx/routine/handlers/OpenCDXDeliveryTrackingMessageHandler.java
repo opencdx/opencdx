@@ -24,6 +24,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Delivery Tracking Message Handler is responsible for receiving and processing Delivery Tracking events
+ * received from the OpenCDX message service.
+ */
 @Slf4j
 @Observed(name = "opencdx")
 public class OpenCDXDeliveryTrackingMessageHandler implements OpenCDXMessageHandler {
@@ -31,6 +35,13 @@ public class OpenCDXDeliveryTrackingMessageHandler implements OpenCDXMessageHand
 
     private final OpenCDXRoutineService openCDXRoutineService;
 
+    /**
+     * Instantiates a new OpenCDXDeliveryTrackingMessageHandler.
+     *
+     * @param objectMapper the object mapper
+     * @param openCDXRoutineService the openCDX routine service
+     * @param openCDXMessageService the openCDX message service
+     */
     public OpenCDXDeliveryTrackingMessageHandler(
             ObjectMapper objectMapper,
             OpenCDXRoutineService openCDXRoutineService,

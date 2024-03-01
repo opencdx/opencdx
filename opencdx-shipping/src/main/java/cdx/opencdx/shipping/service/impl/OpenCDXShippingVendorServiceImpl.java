@@ -49,7 +49,9 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
     private final OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService;
 
     /**
-     * Default constructor
+     * Instantiates a new OpenCDXShippingVendorServiceImpl.
+     *
+     * @param openCDXDeliveryTrackingMessageService the openCDX delivery tracking message service
      */
     public OpenCDXShippingVendorServiceImpl(
             OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService) {

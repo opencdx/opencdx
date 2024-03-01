@@ -36,6 +36,16 @@ public class OpenCDXShippingResponse {
     private final Instant estimatedDelivery;
 
     /**
+     * Instantiates a new OpenCDXShippingResponse.
+     */
+    public OpenCDXShippingResponse() {
+        this.trackingNumber = null;
+        this.status = null;
+        this.totalCost = null;
+        this.estimatedDelivery = null;
+    }
+
+    /**
      * Converts the OpenCDXShippingResponse to a ShippingResponse protobuf.
      *
      * @return ShippingResponse
