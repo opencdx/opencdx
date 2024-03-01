@@ -99,6 +99,10 @@ public class OpenCDXShippingModel {
         this.shippingCost = shipping.getShippingCost();
     }
 
+    /**
+     * Update this model from this protobuf message
+     * @param response Protobuf message to update from
+     */
     public void update(OpenCDXShippingResponse response) {
         this.trackingNumber = response.getTrackingNumber();
         this.status = response.getStatus();
