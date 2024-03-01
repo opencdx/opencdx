@@ -18,6 +18,7 @@ package cdx.opencdx.classification.service.impl;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
@@ -122,10 +123,8 @@ class OpenCDXCDCPayloadServiceImplTest {
                 });
 
         openCDXCDCPayloadService = new OpenCDXCDCPayloadServiceImpl(
-                openCDXConnectedTestClient,
                 openCDXDeviceClient,
                 openCDXManufacturerClient,
-                openCDXProfileRepository,
                 openCDXCurrentUser,
                 openCDXMessageService);
     }
@@ -161,11 +160,13 @@ class OpenCDXCDCPayloadServiceImplTest {
                         Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(manufacturerInfo);
 
-        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(openCDXProfileModel);
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(model);
 
         verify(openCDXCurrentUser).getCurrentUserAccessToken();
-        verify(openCDXConnectedTestClient)
-                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXDeviceClient)
                 .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXManufacturerClient)
@@ -204,11 +205,13 @@ class OpenCDXCDCPayloadServiceImplTest {
                         Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenReturn(manufacturerInfo);
 
-        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(openCDXProfileModel);
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(model);
 
         verify(openCDXCurrentUser).getCurrentUserAccessToken();
-        verify(openCDXConnectedTestClient)
-                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXDeviceClient)
                 .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXManufacturerClient)
@@ -252,50 +255,19 @@ class OpenCDXCDCPayloadServiceImplTest {
                 .thenReturn(manufacturerInfo);
         when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.of(openCDXProfileModel));
 
-        openCDXCDCPayloadService.sendCDCPayloadMessage(testId);
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(openCDXProfileModel);
+
+        openCDXCDCPayloadService.sendCDCPayloadMessage(model);
 
         verify(openCDXCurrentUser).getCurrentUserAccessToken();
-        verify(openCDXConnectedTestClient)
-                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
+
         verify(openCDXDeviceClient)
                 .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXManufacturerClient)
                 .getManufacturerById(
                         Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
-    }
-
-    @Test
-    void testSendCDCPayloadMessagePatientNotFound() {
-        String testId = ObjectId.get().toHexString();
-        String patientId = ObjectId.get().toHexString();
-        String deviceId = ObjectId.get().toHexString();
-
-        ConnectedTest connectedTest = createTest(testId, patientId, deviceId);
-
-        when(openCDXConnectedTestClient.getTestDetailsById(
-                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
-                .thenReturn(connectedTest);
-        when(openCDXProfileRepository.findById(new ObjectId(patientId))).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(
-                OpenCDXNotFound.class,
-                () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId),
-                "Failed to find patient: " + patientId);
-
-        verify(openCDXConnectedTestClient)
-                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
-        verify(openCDXProfileRepository).findById(new ObjectId(patientId));
-    }
-
-    @Test
-    void testSendCDCPayloadMessageTestNotFound() {
-        String testId = ObjectId.get().toHexString();
-        when(openCDXConnectedTestClient.getTestDetailsById(
-                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
-                .thenThrow(OpenCDXClientException.class);
-
-        Assertions.assertThrows(
-                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId));
     }
 
     @Test
@@ -319,12 +291,13 @@ class OpenCDXCDCPayloadServiceImplTest {
                         Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenThrow(OpenCDXClientException.class);
 
-        Assertions.assertThrows(
-                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId));
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(patient);
 
-        verify(openCDXConnectedTestClient)
-                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
-        verify(openCDXProfileRepository).findById(new ObjectId(patientId));
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(model));
+
         verify(openCDXDeviceClient)
                 .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
     }
@@ -358,12 +331,13 @@ class OpenCDXCDCPayloadServiceImplTest {
                         Mockito.any(ManufacturerIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
                 .thenThrow(OpenCDXClientException.class);
 
-        Assertions.assertThrows(
-                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(testId));
+        OpenCDXClassificationModel model = new OpenCDXClassificationModel();
+        model.setConnectedTest(connectedTest);
+        model.setPatient(openCDXProfileModel);
 
-        verify(openCDXConnectedTestClient)
-                .getTestDetailsById(Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
-        verify(openCDXProfileRepository).findById(new ObjectId(patientId));
+        Assertions.assertThrows(
+                OpenCDXClientException.class, () -> openCDXCDCPayloadService.sendCDCPayloadMessage(model));
+
         verify(openCDXDeviceClient)
                 .getDeviceById(Mockito.any(DeviceIdRequest.class), Mockito.any(OpenCDXCallCredentials.class));
         verify(openCDXManufacturerClient)
@@ -389,6 +363,7 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     private OpenCDXProfileModel createUser1(String userId) {
         OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
+        openCDXProfileModel.setId(new ObjectId(userId));
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")
@@ -437,6 +412,7 @@ class OpenCDXCDCPayloadServiceImplTest {
 
     private OpenCDXProfileModel createUser2(String userId) {
         OpenCDXProfileModel openCDXProfileModel = new OpenCDXProfileModel();
+        openCDXProfileModel.setId(new ObjectId(userId));
         openCDXProfileModel.setFullName(FullName.newBuilder()
                 .setFirstName("Adam")
                 .setMiddleName("Charles")

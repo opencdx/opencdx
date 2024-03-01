@@ -15,13 +15,15 @@
  */
 package cdx.opencdx.classification.service;
 
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+
 /**
  * Interface for the OpenCDXCDCPayloadService
  */
 public interface OpenCDXCDCPayloadService {
     /**
      * Prepares a payload to be sent to CDC for a connected test.
-     * @param testId Id for a Connected Test
+     * @param model OpenCDXClassificationModel for this classification of the test.
      */
-    void sendCDCPayloadMessage(String testId);
+    void sendCDCPayloadMessage(OpenCDXClassificationModel model);
 }
