@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.classification.service;
+package cdx.opencdx.shipping.repository;
 
-import cdx.opencdx.classification.model.OpenCDXClassificationModel;
+import cdx.opencdx.shipping.model.OpenCDXShippingModel;
+import io.micrometer.observation.annotation.Observed;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * Interface for the OpenCDXCDCPayloadService
+ * Repository for OpenCDXShippingModel
  */
-public interface OpenCDXCDCPayloadService {
-    /**
-     * Prepares a payload to be sent to CDC for a connected test.
-     * @param model OpenCDXClassificationModel for this classification of the test.
-     */
-    void sendCDCPayloadMessage(OpenCDXClassificationModel model);
-}
+@Repository
+@Observed(name = "opencdx")
+public interface OpenCDXShippingRepository extends MongoRepository<OpenCDXShippingModel, ObjectId> {}

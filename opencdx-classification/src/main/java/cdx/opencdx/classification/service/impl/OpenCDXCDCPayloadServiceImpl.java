@@ -17,19 +17,16 @@ package cdx.opencdx.classification.service.impl;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXDeviceClient;
 import cdx.opencdx.client.service.OpenCDXManufacturerClient;
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
-import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXMessageService;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.connected.ConnectedTest;
-import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.inventory.DeviceIdRequest;
 import cdx.opencdx.grpc.inventory.Manufacturer;
 import cdx.opencdx.grpc.inventory.ManufacturerIdRequest;
@@ -41,7 +38,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Address;
 import org.springframework.stereotype.Service;
@@ -56,62 +52,46 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
 
     private static final String LOINC_URL = "https://loinc.org";
 
-    private final OpenCDXConnectedTestClient openCDXConnectedTestClient;
     private final OpenCDXDeviceClient openCDXDeviceClient;
     private final OpenCDXManufacturerClient openCDXManufacturerClient;
-    private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXMessageService openCDXMessageService;
 
     /**
      * Constructor with OpenCDXCDCPayloadServiceImpl
      *
-     * @param openCDXConnectedTestClient     Client for OpenCDXConnectedTest
      * @param openCDXDeviceClient            Client for Device info
      * @param openCDXManufacturerClient      Client for Manufacturer info
-     * @param openCDXProfileRepository       Mongo repository for Profile info
      * @param openCDXCurrentUser             Service for getting current user
      * @param openCDXMessageService          Message Service for sending CDC message
      */
     public OpenCDXCDCPayloadServiceImpl(
-            OpenCDXConnectedTestClient openCDXConnectedTestClient,
             OpenCDXDeviceClient openCDXDeviceClient,
             OpenCDXManufacturerClient openCDXManufacturerClient,
-            OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXMessageService openCDXMessageService) {
-        this.openCDXConnectedTestClient = openCDXConnectedTestClient;
         this.openCDXDeviceClient = openCDXDeviceClient;
         this.openCDXManufacturerClient = openCDXManufacturerClient;
-        this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXMessageService = openCDXMessageService;
     }
 
-    public void sendCDCPayloadMessage(String testId) {
+    public void sendCDCPayloadMessage(OpenCDXClassificationModel model) {
 
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
 
-        // retrieve the connected test using the refId
-        ConnectedTest connectedTest = this.openCDXConnectedTestClient.getTestDetailsById(
-                TestIdRequest.newBuilder().setTestId(testId).build(), openCDXCallCredentials);
-
-        // Retrieve Patient
-        String patientId = connectedTest.getBasicInfo().getPatientId();
-        Patient patient = getPatientInfo(patientId);
-
         // Create Device
-        Device device = createDevice(connectedTest, openCDXCallCredentials);
+        Device device = createDevice(model.getConnectedTest(), openCDXCallCredentials);
 
         // Create Observation
-        Observation observation = createObservation(connectedTest);
+        Observation observation = createObservation(model.getConnectedTest());
 
         // Create DiagnosticReport
-        DiagnosticReport diagnosticReport = createDiagnosticReport(connectedTest);
+        DiagnosticReport diagnosticReport = createDiagnosticReport(model.getConnectedTest());
 
         // Create Bundle
-        Bundle bundle = createBundle(patient, device, observation, diagnosticReport);
+        Bundle bundle = createBundle(getPatientInfo(model.getPatient()), device, observation, diagnosticReport);
 
         // Send to CDC
         sendMessage(bundle);
@@ -272,13 +252,7 @@ public class OpenCDXCDCPayloadServiceImpl implements OpenCDXCDCPayloadService {
         return diagnosticReport;
     }
 
-    private Patient getPatientInfo(String patientId) {
-
-        // Retrieve the patient Info from the database
-        OpenCDXProfileModel patientInfo = this.openCDXProfileRepository
-                .findById(new ObjectId(patientId))
-                .orElseThrow(() ->
-                        new OpenCDXNotFound(this.getClass().getName(), 1, "Failed to find patient: " + patientId));
+    private Patient getPatientInfo(OpenCDXProfileModel patientInfo) {
 
         Patient patient = new Patient();
 

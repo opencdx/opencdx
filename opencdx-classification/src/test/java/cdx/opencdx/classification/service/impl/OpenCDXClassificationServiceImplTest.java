@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
+import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
@@ -120,6 +121,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXCDCPayloadService openCDXCDCPayloadService;
 
     @BeforeEach
     void beforeEach() {
@@ -240,7 +244,8 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
-                openCDXOrderMessageService);
+                openCDXOrderMessageService,
+                openCDXCDCPayloadService);
     }
 
     @AfterEach
@@ -545,7 +550,8 @@ class OpenCDXClassificationServiceImplTest {
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
-                openCDXOrderMessageService);
+                openCDXOrderMessageService,
+                openCDXCDCPayloadService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()

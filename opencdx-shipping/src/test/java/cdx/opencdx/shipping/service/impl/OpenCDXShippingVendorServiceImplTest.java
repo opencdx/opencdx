@@ -22,12 +22,14 @@ import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.shipping.Order;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
+import cdx.opencdx.shipping.repository.OpenCDXShippingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -43,9 +45,13 @@ class OpenCDXShippingVendorServiceImplTest {
 
     OpenCDXShippingVendorServiceImpl openCDXShippingVendorServiceImpl;
 
+    @Mock
+    OpenCDXShippingRepository openCDXShippingRepository;
+
     @BeforeEach
     void beforeEach() {
-        openCDXShippingVendorServiceImpl = new OpenCDXShippingVendorServiceImpl(openCDXDeliveryTrackingMessageService);
+        openCDXShippingVendorServiceImpl =
+                new OpenCDXShippingVendorServiceImpl(openCDXDeliveryTrackingMessageService, openCDXShippingRepository);
     }
 
     @RepeatedTest(100)
