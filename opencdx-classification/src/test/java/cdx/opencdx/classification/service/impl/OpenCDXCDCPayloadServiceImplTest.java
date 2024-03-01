@@ -25,7 +25,6 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
 import cdx.opencdx.client.service.OpenCDXDeviceClient;
 import cdx.opencdx.client.service.OpenCDXManufacturerClient;
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
@@ -123,10 +122,7 @@ class OpenCDXCDCPayloadServiceImplTest {
                 });
 
         openCDXCDCPayloadService = new OpenCDXCDCPayloadServiceImpl(
-                openCDXDeviceClient,
-                openCDXManufacturerClient,
-                openCDXCurrentUser,
-                openCDXMessageService);
+                openCDXDeviceClient, openCDXManufacturerClient, openCDXCurrentUser, openCDXMessageService);
     }
 
     @Test
