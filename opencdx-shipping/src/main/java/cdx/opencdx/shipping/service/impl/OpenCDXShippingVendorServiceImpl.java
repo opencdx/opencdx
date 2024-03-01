@@ -81,10 +81,6 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
             }
         }
 
-        if (log.isInfoEnabled()) {
-            models.forEach(item -> log.info("Shipping Option: {}", item.toString()));
-        }
-
         return ShippingVendorResponse.newBuilder()
                 .addAllOptions(
                         models.stream().map(OpenCDXShippingModel::toProtobuf).toList())
@@ -97,8 +93,6 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
 
         OpenCDXShippingResponse openCDXShippingResponse =
                 this.vendors.get(request.getShippingVendorId()).shipPackage(new OpenCDXShippingModel(request));
-
-        log.info("Shipping Response: {}", openCDXShippingResponse.toString());
 
         DeliveryTracking.Builder builder = DeliveryTracking.newBuilder();
         builder.setTrackingId(openCDXShippingResponse.getTrackingNumber());

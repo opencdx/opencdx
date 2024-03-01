@@ -447,7 +447,7 @@ public class CommunicationsChangeSet {
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3753"))
+                .id(new ObjectId("60f1e6b1f075a361a94d3752"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("your password has changed for account: ${userName}")
                 .variables(List.of(USER_NAME))
