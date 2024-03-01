@@ -19,8 +19,7 @@ import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 @Builder
+@AllArgsConstructor
 public class OpenCDXShippingResponse {
     private final String trackingNumber;
     private final ShippingStatus status;
@@ -36,15 +36,23 @@ public class OpenCDXShippingResponse {
     private final Instant estimatedDelivery;
 
     /**
-     * Instantiates a new OpenCDXShippingResponse.
+     * Constructor for OpenCDXShippingResponse.
+     *
+     * @param response ShippingResponse
      */
-    public OpenCDXShippingResponse() {
-        this.trackingNumber = null;
-        this.status = null;
-        this.totalCost = null;
-        this.estimatedDelivery = null;
+    public OpenCDXShippingResponse(ShippingResponse response) {
+        log.trace("Creating OpenCDXShippingResponse from protobuf message");
+        this.trackingNumber = response.getTrackingNumber();
+        this.status = response.getStatus();
+        this.totalCost = response.getTotalCost();
+        if (response.hasEstimatedDeliveryDate()) {
+            this.estimatedDelivery = Instant.ofEpochSecond(
+                    response.getEstimatedDeliveryDate().getSeconds(),
+                    response.getEstimatedDeliveryDate().getNanos());
+        } else {
+            this.estimatedDelivery = Instant.now();
+        }
     }
-
     /**
      * Converts the OpenCDXShippingResponse to a ShippingResponse protobuf.
      *
