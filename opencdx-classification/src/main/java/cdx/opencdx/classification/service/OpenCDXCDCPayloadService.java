@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.connected.test.service;
+package cdx.opencdx.classification.service;
 
 /**
  * Interface for the OpenCDXCDCPayloadService

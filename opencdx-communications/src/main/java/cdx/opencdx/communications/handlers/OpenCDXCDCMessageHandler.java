@@ -48,13 +48,12 @@ public class OpenCDXCDCMessageHandler implements OpenCDXMessageHandler {
             OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXCDCMessageService = openCDXCDCMessageService;
         this.openCDXCurrentUser = openCDXCurrentUser;
-        log.info("OpenCDXCDCMessageHandler - Constructor");
         openCDXMessageService.subscribe(OpenCDXMessageService.CDC_MESSAGE_SUBJECT, this);
     }
 
     @Override
     public void receivedMessage(byte[] message) {
-        log.info("Received CDC Payload");
+        log.debug("Received CDC Payload");
         this.openCDXCurrentUser.configureAuthentication("SYSTEM");
         String cdcPayload = new String(message);
         this.openCDXCDCMessageService.sendCDCMessage(cdcPayload);
