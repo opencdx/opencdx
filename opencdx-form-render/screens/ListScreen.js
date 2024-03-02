@@ -40,25 +40,62 @@ const ListScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Heading size="lg" >Select a questionnaire:</Heading>
-            {buttonTitles.map((questionnaire, index) => (
-                <Button
-                    style={styles.input}
-                    key={index}
-                    title={questionnaire.title}
-                    onPress={() => navigation.navigate('Home', { questionnaire })}
-                    size="md"
-                    variant="contained"
-                    action="primary"
-                    isDisabled={false}
-                >
-                    <ButtonText>{questionnaire.title}</ButtonText>
-                    <ButtonIcon as={ArrowRightIcon} 
-                        color="primary" 
+            <div style={{ padding:10 }}>
+                <p>Mar 2, 2024</p>
+                <p>Hello, John Smith</p>
+            </div>            
+            <div
+                style={{ cursor: 'pointer', borderRadius: 10, padding: 10, backgroundColor: 'white', backgroundColor: 'lightgray', marginBottom: 20 }}
+            >
+                <Heading size="md">Not feeling well</Heading>
+                <p>
+                    Share details about your symptoms to see if you qualify for FDA approved antiviral treatment.
+                </p>
+            </div>
+            <div
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}
+            >
+                <Heading size="md">Take a Test</Heading>
+                <p>
+                    if you don't already have a test kit, you can order one and have it shipped to you.
+                </p>
+            </div>
+            <div
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Take a specific questionnaire</Heading>
+                {buttonTitles.map((questionnaire, index) => (
+                    <Button
+                        style={styles.input}
+                        key={index}
+                        title={questionnaire.title}
+                        onPress={() => navigation.navigate('Home', { questionnaire })}
                         size="md"
-                    />
-                </Button>
-            ))}
+                        variant="contained"
+                        action="primary"
+                        isDisabled={false}
+                    >
+                        <ButtonText>{questionnaire.title}</ButtonText>
+                        <ButtonIcon as={ArrowRightIcon} color="primary" size="md" />
+                    </Button>
+                ))}
+            </div>
+            <div
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <div>
+                    <Heading size="md">Current Status</Heading>
+                </div>
+                <div>
+                    bar code
+                </div>
+            </div> 
+            <div
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}
+            >
+                <Heading size="md">Test History</Heading>
+                <p>
+                    See your test history.
+                </p>
+            </div>            
         </View>
     );
 };
