@@ -40,27 +40,25 @@ const ListScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <div style={{ padding:10 }}>
-                <p>Mar 2, 2024</p>
-                <p>Hello, John Smith</p>
-            </div>            
-            <div
-                style={{ cursor: 'pointer', borderRadius: 10, padding: 10, backgroundColor: 'white', backgroundColor: 'lightgray', marginBottom: 20 }}
-            >
+            <View style={styles.body}>
+                <text>Mar 2, 2024</text>
+                <text>Hello, John Smith</text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
                 <Heading size="md">Not feeling well</Heading>
-                <p>
+                <text>
                     Share details about your symptoms to see if you qualify for FDA approved antiviral treatment.
-                </p>
-            </div>
-            <div
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}
-            >
+                </text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
                 <Heading size="md">Take a Test</Heading>
-                <p>
+                <text>
                     if you don't already have a test kit, you can order one and have it shipped to you.
-                </p>
-            </div>
-            <div
+                </text>
+            </View>
+            <View
                 style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
                 <Heading size="md">Take a specific questionnaire</Heading>
                 {buttonTitles.map((questionnaire, index) => (
@@ -78,24 +76,21 @@ const ListScreen = ({ navigation }) => {
                         <ButtonIcon as={ArrowRightIcon} color="primary" size="md" />
                     </Button>
                 ))}
-            </div>
-            <div
+            </View>
+            <View
                 style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
-                <div>
-                    <Heading size="md">Current Status</Heading>
-                </div>
-                <div>
+                <Heading size="md">Current Status</Heading>
+                <text>
                     bar code
-                </div>
-            </div> 
-            <div
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}
-            >
-                <Heading size="md">Test History</Heading>
-                <p>
+                </text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Text History</Heading>
+                <text>
                     See your test history.
-                </p>
-            </div>            
+                </text>
+            </View>            
         </View>
     );
 };
