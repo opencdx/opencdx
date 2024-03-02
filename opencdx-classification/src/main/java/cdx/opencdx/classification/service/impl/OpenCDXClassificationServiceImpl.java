@@ -17,6 +17,7 @@ package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
+import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
@@ -74,6 +75,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
 
+    private final OpenCDXCDCPayloadService openCDXCDCPayloadService;
+
     /**
      * Constructor for OpenCDXClassificationServiceImpl
      * @param openCDXAuditService service for auditing
@@ -87,6 +90,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXQuestionnaireClient service for questionnaire client
      * @param openCDXProfileRepository repository for profile
      * @param openCDXOrderMessageService service for order message
+     * @param openCDXCDCPayloadService service for CDC payload
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -100,7 +104,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXClassifyProcessorService openCDXClassifyProcessorService,
             OpenCDXClassificationRepository openCDXClassificationRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
-            OpenCDXOrderMessageService openCDXOrderMessageService) {
+            OpenCDXOrderMessageService openCDXOrderMessageService,
+            OpenCDXCDCPayloadService openCDXCDCPayloadService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -112,6 +117,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXClassificationRepository = openCDXClassificationRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
+        this.openCDXCDCPayloadService = openCDXCDCPayloadService;
     }
 
     /**
@@ -262,7 +268,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         }
 
         if (model.getClassificationResponse().getNotifyCdc()) {
-            // TODO: Notify CDC of positive test
+            this.openCDXCDCPayloadService.sendCDCPayloadMessage(model);
         }
     }
 

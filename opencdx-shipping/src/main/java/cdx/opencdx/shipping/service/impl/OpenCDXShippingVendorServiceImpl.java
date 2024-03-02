@@ -24,6 +24,7 @@ import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
 import cdx.opencdx.shipping.dto.OpenCDXShippingRequest;
 import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
+import cdx.opencdx.shipping.repository.OpenCDXShippingRepository;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendor;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
 import com.google.protobuf.Timestamp;
@@ -47,15 +48,19 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
     private Map<String, OpenCDXShippingVendor> vendors;
 
     private final OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService;
+    private final OpenCDXShippingRepository openCDXShippingRepository;
 
     /**
      * Instantiates a new OpenCDXShippingVendorServiceImpl.
      *
      * @param openCDXDeliveryTrackingMessageService the openCDX delivery tracking message service
+     * @param openCDXShippingRepository the openCDX shipping repository
      */
     public OpenCDXShippingVendorServiceImpl(
-            OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService) {
+            OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService,
+            OpenCDXShippingRepository openCDXShippingRepository) {
         this.openCDXDeliveryTrackingMessageService = openCDXDeliveryTrackingMessageService;
+        this.openCDXShippingRepository = openCDXShippingRepository;
         this.vendors = new HashMap<>();
 
         OpenCDXShippingVendor vendor = new UpsShippingVendor();
@@ -92,9 +97,14 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
     @Override
     public ShippingResponse shipPackage(Shipping request) {
         log.info("Shipping Package");
+        OpenCDXShippingModel openCDXShippingModel = new OpenCDXShippingModel(request);
 
         OpenCDXShippingResponse openCDXShippingResponse =
-                this.vendors.get(request.getShippingVendorId()).shipPackage(new OpenCDXShippingModel(request));
+                this.vendors.get(request.getShippingVendorId()).shipPackage(openCDXShippingModel);
+
+        openCDXShippingModel.update(openCDXShippingResponse);
+
+        this.openCDXShippingRepository.save(openCDXShippingModel);
 
         DeliveryTracking.Builder builder = DeliveryTracking.newBuilder();
         builder.setTrackingId(openCDXShippingResponse.getTrackingNumber());

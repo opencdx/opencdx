@@ -17,6 +17,7 @@ package cdx.opencdx.classification.controller;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
+import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.classification.service.impl.OpenCDXClassificationServiceImpl;
 import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
@@ -92,6 +93,9 @@ class OpenCDXGrpcClassificationControllerTest {
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
 
+    @Mock
+    OpenCDXCDCPayloadService openCDXCDCPayloadService;
+
     @BeforeEach
     void setUp() {
 
@@ -161,7 +165,8 @@ class OpenCDXGrpcClassificationControllerTest {
                 this.openCDXClassifyProcessorService,
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
-                openCDXOrderMessageService);
+                openCDXOrderMessageService,
+                openCDXCDCPayloadService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);
     }
 
