@@ -28,39 +28,61 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
         if (formData && formData.item) {
             const currentCategories = formData.item[index]?.selectedCategories || [];
 
-            setChipData(
-                categories.map((data, index) => ({
-                    key: index,
-                    label: data.label,
-                    selected: currentCategories.includes(data.label)
-                }))
-            );
+            const newChipData = categories.map((data, index) => ({
+                key: index,
+                label: data.label,
+                selected: currentCategories.includes(data.label)
+            }));
 
-            setSelectedCategories(
-                currentCategories.length > 0 ? currentCategories : chipData.filter((data) => data.selected).map((data) => data.label)
-            );
+            setChipData(newChipData);
+
+            const newSelectedCategories = currentCategories.length > 0
+                ? currentCategories
+                : newChipData.filter((data) => data.selected).map((data) => data.label);
+
+            setSelectedCategories(newSelectedCategories);
         }
-    }, []);
+    }, []); // Run once after component mounts
 
-    const handleChange = (data) => () => {
-        const currentCategories = formData.item[index]?.selectedCategories || [];
-        const updatedCategories = currentCategories.includes(data.label)
-            ? currentCategories.filter((category) => category !== data.label)
-            : [...currentCategories, data.label];
+    // Function to handle chip click
+    const handleChipClick = (data) => () => {
+        setFormData((prevFormData) => {
+            const currentCategories = prevFormData.item[index]?.selectedCategories || [];
+            const updatedCategories = currentCategories.includes(data.label)
+                ? currentCategories.filter((category) => category !== data.label)
+                : [...currentCategories, data.label];
 
-        formData.item[index] = { ...formData.item[index], selectedCategories: updatedCategories };
-        setFormData(formData);
+            const newFormData = { ...prevFormData };
+            newFormData.item[index] = { ...newFormData.item[index], selectedCategories: updatedCategories };
 
-        setChipData((chips) =>
-            chips.map((chip) => ({
+            return newFormData;
+        });
+
+        setChipData((prevChipData) =>
+            prevChipData.map((chip) => ({
                 ...chip,
                 selected: chip.key === data.key ? !chip.selected : chip.selected
             }))
         );
 
-        setSelectedCategories(updatedCategories);
+        setSelectedCategories((prevSelectedCategories) => {
+            const updatedCategories = prevSelectedCategories.includes(data.label)
+                ? prevSelectedCategories.filter((category) => category !== data.label)
+                : [...prevSelectedCategories, data.label];
+
+            return updatedCategories;
+        });
     };
 
+    // Function to handle textbox change
+    const handleTextboxChange = (event) => {
+
+        const { name, value } = event.target;
+        const updatedFormData = { ...formData };
+        updatedFormData.item[index].item[currentIndex][name] = value;
+        setFormData(updatedFormData);
+    };
+ 
     const ObservationAttributes = ({ filteredAttributes }) => (
         <>
             {filteredAttributes.map((attribute, i) => (
@@ -77,6 +99,9 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                                     {...register(`item.${index}.item.${currentIndex}.${attribute.label}${i}`)}
                                     fullWidth
                                     placeholder={attribute.label}
+                                    value={formData.item[index]?.item[currentIndex][attribute.label + i] || ''}
+                                    onChange={handleTextboxChange}
+                                    name={`${attribute.label}${i}`} // Ensure name attribute is unique
                                 />
                             ) : (
                                 <Input />
@@ -157,7 +182,7 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                                         <Chip
                                             icon={icon}
                                             label={data.label}
-                                            onClick={handleChange(data)}
+                                            onClick={handleChipClick(data)}
                                             color={color}
                                             size="small"
                                             clickable
