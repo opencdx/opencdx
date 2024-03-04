@@ -145,7 +145,7 @@ class OpenCDXGrpcANFControllerTest {
                         .setId(ObjectId.get().toHexString())
                         .build())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         this.openCDXGrpcANFController.createANFStatement(anfStatement, responseObserver);
@@ -166,7 +166,7 @@ class OpenCDXGrpcANFControllerTest {
                 .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
                         .id(ObjectId.get())
                         .subjectOfRecord(AnfStatement.Participant.newBuilder()
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build()));
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()
@@ -186,7 +186,7 @@ class OpenCDXGrpcANFControllerTest {
                         .setId(ObjectId.get().toHexString())
                         .build())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
 
@@ -208,7 +208,7 @@ class OpenCDXGrpcANFControllerTest {
                 .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
                         .id(ObjectId.get())
                         .subjectOfRecord(AnfStatement.Participant.newBuilder()
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build()));
         AnfStatement.Identifier identifier = AnfStatement.Identifier.newBuilder()

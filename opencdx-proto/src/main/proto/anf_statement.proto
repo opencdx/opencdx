@@ -168,12 +168,12 @@ message Measure {
   /*
    * The `upper_bound` field signifies the maximum limit of the measure.
    */
-  float upper_bound = 1;
+  string upper_bound = 1;
 
   /*
    * The `lower_bound` field signifies the minimum limit of the measure.
    */
-  float lower_bound = 2;
+  string lower_bound = 2;
 
   /*
    * The `include_upper_bound` field reveals if the `upper_bound` value is inclusive in the measure.
@@ -192,22 +192,12 @@ message Measure {
    * LogicalExpression is assumed to be another message type, and `semantic` is an instance of this LogicalExpression message type.
    * Essentially, this line is defining a LogicalExpression object named "semantic" in the Protocol Buffers message format.
    */
-  LogicalExpression semantic = 5;
+  string semantic = 5;
 
   /*
    * `resolution` denotes the accuracy or precision of the measure, it is an optional field.
    */
-  float resolution = 6;
-}
-
-/*
- * Message representing a logical expression using a string.
- */
-message LogicalExpression {
-  /*
-   * Direct representation of the logical expression
-   */
-  string expression = 1;
+  string resolution = 6;
 }
 
 /*
@@ -217,7 +207,11 @@ message Participant {
   /*
    * Unique identifier for the participant
    */
-  string patient_id = 1;
+  string id = 1;
+
+  string practitioner_value = 2;
+
+  string code = 3;
 }
 
 /*
@@ -242,27 +236,28 @@ message Practitioner {
   /*
    * Unique identifier for the practitioner
    */
-  optional string provider_id = 1;
+  optional string id = 1;
 
   /*
    * Reference to the participating practitioner
    */
-  string practitioner = 2;
+  string practitioner_value = 2;
 
   /*
    * Authorized roles of the practitioner
    */
-  LogicalExpression code = 3;
+  string code = 3;
 }
 
 /*
  * Message representing associated statements like preconditions or interpretations.
  */
 message AssociatedStatement {
+  string id = 1;
   /*
    * Contents or description of the associated statement
    */
-  string description = 1;
+  string semantic = 2;
 }
 
 /*
@@ -302,7 +297,7 @@ message Circumstance {
   /*
    * Information about the purposes
    */
-  repeated LogicalExpression purpose = 2;
+  repeated string purpose = 2;
 }
 
 /*
@@ -320,7 +315,7 @@ message RequestCircumstance {
   /*
    * The level of priority for the request
    */
-  LogicalExpression priority = 3;
+  string priority = 3;
   /*
    * Expected result from the request
    */
@@ -342,7 +337,7 @@ message PerformanceCircumstance {
   /*
    * The current state of the performance
    */
-  LogicalExpression status = 1;
+  string status = 1;
   /*
    * The result from the performance
    */
@@ -350,7 +345,7 @@ message PerformanceCircumstance {
   /*
    * Level of health risk, optional
    */
-  LogicalExpression health_risk = 3;
+  string health_risk = 3;
   /*
    * The typical range for the result, optional
    */
@@ -418,7 +413,7 @@ message ANFStatement {
   /*
    * Refers to the subject or topic of the incorporated information.
    */
-  LogicalExpression subject_of_information = 5;
+  string subject_of_information = 5;
   /*
    * Refers to any related statements or conditions.
    */
@@ -430,11 +425,11 @@ message ANFStatement {
    * - Laboratory test statements use the "Laboratory Procedure" concept.
    * - Imaging Procedure statements use the "Imaging Procedure" concept.
    */
-  LogicalExpression topic = 7;
+  string topic = 7;
   /*
    * Specifies the type category of the statement such as "Request", "Performance", etc.
    */
-  LogicalExpression type = 8;
+  string type = 8;
   /*
    * Circumstance choice: RequestCircumstance, PerformanceCircumstance, or NarrativeCircumstance, any one of which must be present.
    */

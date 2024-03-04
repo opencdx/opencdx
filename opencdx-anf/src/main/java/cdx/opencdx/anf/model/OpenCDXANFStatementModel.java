@@ -44,10 +44,10 @@ public class OpenCDXANFStatementModel {
     private AnfStatement.Measure time;
     private AnfStatement.Participant subjectOfRecord;
     private List<AnfStatement.Practitioner> authors;
-    private AnfStatement.LogicalExpression subjectOfInformation;
+    private String subjectOfInformation;
     private List<AnfStatement.AssociatedStatement> associatedStatements;
-    private AnfStatement.LogicalExpression topic;
-    private AnfStatement.LogicalExpression type;
+    private String topic;
+    private String type;
     private AnfStatement.RequestCircumstance requestCircumstance;
     private AnfStatement.PerformanceCircumstance performanceCircumstance;
     private AnfStatement.NarrativeCircumstance narrativeCircumstance;
