@@ -18,7 +18,8 @@ package cdx.opencdx.connected.test.controller;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
@@ -55,7 +56,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXGrpcConnectedTestControllerTest {
 
     @Autowired
@@ -75,7 +76,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     OpenCDXGrpcConnectedTestController openCDXGrpcConnectedTestController;
 
     @Mock
-    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    OpenCDXProfileRepository openCDXProfileRepository;
 
     @Autowired
     OpenCDXCommunicationService openCDXCommunicationService;
@@ -95,20 +96,18 @@ class OpenCDXGrpcConnectedTestControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMUserModel.builder()
+                        return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
-                                .username("ab@safehealth.me")
                                 .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllEmails(List.of(EmailAddress.newBuilder()
@@ -120,13 +119,15 @@ class OpenCDXGrpcConnectedTestControllerTest {
                                                 .setNumber("1234567890")
                                                 .build()))
                                         .build())
-                                .emailVerified(true)
                                 .build());
                     }
                 });
 
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
-                this.openCDXMessageService, this.openCDXDocumentValidator, this.openCDXIAMUserRepository);
+                this.openCDXMessageService,
+                this.openCDXDocumentValidator,
+                this.openCDXProfileRepository,
+                openCDXCurrentUser);
 
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService,
@@ -134,7 +135,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 objectMapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         this.openCDXGrpcConnectedTestController =
@@ -153,7 +154,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
@@ -182,7 +183,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(UUID.randomUUID().toString())
-                                .setUserId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -217,7 +218,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -228,7 +229,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -239,15 +240,15 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests_2() throws JsonProcessingException {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .id(ObjectId.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),
@@ -261,7 +262,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         this.openCDXGrpcConnectedTestController =
@@ -274,7 +275,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class,
@@ -284,7 +285,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests_3() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -296,7 +297,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setSortAscending(true)
                         .setSort("nationalHealthId")
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -307,7 +308,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
     @Test
     void testListConnectedTests_4() {
 
-        Mockito.when(this.openCDXConnectedTestRepository.findAllByUserId(
+        Mockito.when(this.openCDXConnectedTestRepository.findAllByPatientId(
                         Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
 
@@ -319,7 +320,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                         .setSortAscending(false)
                         .setSort("nationalHealthId")
                         .build())
-                .setUserId(new ObjectId().toHexString())
+                .setPatientId(new ObjectId().toHexString())
                 .build();
         this.openCDXGrpcConnectedTestController.listConnectedTests(request, responseObserver);
 
@@ -357,10 +358,10 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 .thenReturn(new PageImpl<>(
                         List.of(OpenCDXConnectedTestModel.builder()
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(ObjectId.get())
+                                .patientId(ObjectId.get())
                                 .id(ObjectId.get())
                                 .basicInfo(BasicInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setNationalHealthId(UUID.randomUUID().toString())
                                         .build())
                                 .build()),
@@ -374,7 +375,7 @@ class OpenCDXGrpcConnectedTestControllerTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         this.openCDXGrpcConnectedTestController =

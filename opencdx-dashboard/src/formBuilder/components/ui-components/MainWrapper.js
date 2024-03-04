@@ -6,14 +6,15 @@ import ChildWrapper from './ChildWrapper';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { Grid } from '@mui/material';
-import useLocalStorage from '../../utils/useLocalStorage';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
-    const [anfFormLocal, setAnfFormLocal] = useLocalStorage('anf-form');
+    const { formData } = useAnfFormStore();
+
     const [showAlert, setShowAlert] = useState(false);
 
     const defaultValues = {
-        test: uploadedFile.item
+        item: uploadedFile.item
     };
     const { register, handleSubmit, control, getValues, errors, setValue, reset } = useForm({ defaultValues });
 
@@ -23,31 +24,17 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
 
     useEffect(() => {
         reset({
-            test: anfFormLocal.item
+            item: formData.item
         });
-    }, [anfFormLocal, reset]);
+    }, [formData, reset]);
 
     const onSubmit = (data) => {
-        const formData = JSON.parse(localStorage.getItem('anf-form'));
-        formData?.item?.forEach((element, index) => {
-            if (element.componentType === '') {
-                data.test[index].componentType = element.componentType;
-            }
-        });
-
-        const item = data.test;
-        const markedMainANFStatement = item
-            .filter((element) => element.componentType === 'main_anf_statement')
-            .map((element) => element.text);
-
-        const updatedItem = item.map((element) => ({
-            ...element,
-            markedMainANFStatement: markedMainANFStatement
-        }));
-
-        setAnfFormLocal({ item: updatedItem, ruleset: data.test.rulesets });
-
         setShowAlert(true);
+        const anf = JSON.parse(localStorage.getItem('anf-form')); // Parse the JSON string to an object
+        anf.updated.item = data.item;
+        anf.updated.ruleset = data.item.ruleset;
+        localStorage.setItem('anf-form', JSON.stringify(anf));
+        // setFiles({ item: data.test, ruleset: data.test.rulesets });
     };
 
     return (

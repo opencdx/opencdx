@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, Text,StyleSheet, Platform } from 'react-native';
 import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Heading, ButtonText, ButtonIcon, ArrowRightIcon } from '@gluestack-ui/themed';
@@ -40,25 +40,57 @@ const ListScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Heading size="lg" >Select a questionnaire:</Heading>
-            {buttonTitles.map((questionnaire, index) => (
-                <Button
-                    style={styles.input}
-                    key={index}
-                    title={questionnaire.title}
-                    onPress={() => navigation.navigate('Home', { questionnaire })}
-                    size="md"
-                    variant="contained"
-                    action="primary"
-                    isDisabled={false}
-                >
-                    <ButtonText>{questionnaire.title}</ButtonText>
-                    <ButtonIcon as={ArrowRightIcon}
-                        color="primary"
+            <View style={styles.body}>
+                <Text>Mar 2, 2024</Text>
+                <Text>Hello, John Smith</Text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Not feeling well</Heading>
+                <Text>
+                    Share details about your symptoms to see if you qualify for FDA approved antiviral treatment.
+                </Text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Take a Test</Heading>
+                <Text>
+                    if you don't already have a test kit, you can order one and have it shipped to you.
+                </Text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Take a specific questionnaire</Heading>
+                {buttonTitles.map((questionnaire, index) => (
+                    <Button
+                        style={styles.input}
+                        key={index}
+                        title={questionnaire.title}
+                        onPress={() => navigation.navigate('Home', { questionnaire })}
                         size="md"
-                    />
-                </Button>
-            ))}
+                        variant="contained"
+                        action="primary"
+                        isDisabled={false}
+                    >
+                        <ButtonText>{questionnaire.title}</ButtonText>
+                        <ButtonIcon as={ArrowRightIcon}color="primary"size="md" />
+                    </Button>
+                ))}
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Current Status</Heading>
+                <Text>
+                    bar code
+                </Text>
+            </View>
+            <View
+                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
+                <Heading size="md">Text History</Heading>
+                <Text>
+                    See your test history.
+                </Text>
+            </View>            
             <Heading size="lg" >Flow:</Heading>
             <Button
                 style={styles.input}

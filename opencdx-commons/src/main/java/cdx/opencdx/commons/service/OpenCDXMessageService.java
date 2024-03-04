@@ -49,10 +49,25 @@ public interface OpenCDXMessageService {
     String CDC_MESSAGE_SUBJECT = "opencdx.communication.cdc.notification.message";
 
     /**
+     * OpenCDXMessage Subject for Order messages
+     */
+    String ORDER_MESSAGE_SUBJECT = "opencdx.order.message";
+    /**
+     * OpenCDXMessage Subject for Delivery Tracking messages
+     */
+    String DELIVERY_TRACKING_MESSAGE_SUBJECT = "openCDX.delivery.tracking.message";
+
+    /**
      * List of all the subjects.
      */
     List<String> SUBJECTS = List.of(
-            AUDIT_MESSAGE_SUBJECT, NOTIFICATION_MESSAGE_SUBJECT, CLASSIFICATION_MESSAGE_SUBJECT, CDC_MESSAGE_SUBJECT);
+            AUDIT_MESSAGE_SUBJECT,
+            NOTIFICATION_MESSAGE_SUBJECT,
+            CLASSIFICATION_MESSAGE_SUBJECT,
+            CDC_MESSAGE_SUBJECT,
+            ORDER_MESSAGE_SUBJECT,
+            DELIVERY_TRACKING_MESSAGE_SUBJECT);
+
     /**
      * Subscribe to a message subject and the handlers for received those messages
      * for processing.

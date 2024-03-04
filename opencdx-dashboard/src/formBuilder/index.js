@@ -28,7 +28,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
-import useLocalStorage from './utils/useLocalStorage';
 
 /* start - anf statement type */
 import StatementTypesReport from './components/ui-components/StatementTypesReport';
@@ -37,6 +36,7 @@ import FullScreenSection from './components/ui-components/FullScreen';
 import { Grid } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import { useAnfFormStore } from './utils/useAnfFormStore';
 
 import './custom.css';
 
@@ -111,25 +111,22 @@ const VisuallyHiddenInput = styled('input')({
 const FormBuilder = () => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
     const [openDialog, setOpenDialog] = React.useState(false);
     const [openAnfDialog, setOpenAnfDialog] = React.useState(false);
-    const [files, setFiles] = useLocalStorage('anf-form');
-    const [uploadJson, setUploadedJson] = useLocalStorage('uploaded-form');
+    const { formData, setFormData, uploadData, setUploadData } = useAnfFormStore();
 
     const handleChange = (e) => {
         const fileReader = new FileReader();
         fileReader.readAsText(e.target.files[0], 'UTF-8');
         fileReader.onload = (e) => {
-            setFiles(JSON.parse(e.target.result));
-            setUploadedJson(JSON.parse(e.target.result));
+            const formData = JSON.parse(e.target.result);
+            setFormData(formData);
+            setUploadData(formData);
+            const data = {
+                default: formData,
+                updated: formData
+            };
+            localStorage.setItem('anf-form', JSON.stringify(data));
         };
     };
 
@@ -146,13 +143,20 @@ const FormBuilder = () => {
         setOpenAnfDialog(false);
     };
     const handlePreviewDownload = () => {
-        handleDownload(uploadJson, 'upload-form.json');
+        handleDownload(uploadData, 'upload-form.json');
     };
     const handleAnfDownload = () => {
-        handleDownload(files, 'anf-form.json');
+        handleDownload(uploadData, 'anf-form.json');
     };
-    const handleDownload = (uploadJson, fileName) => {
-        const data = JSON.stringify(uploadJson);
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+    const handleDownload = (uploadData, fileName) => {
+        const data = JSON.stringify(uploadData);
         const blob = new Blob([data], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -168,6 +172,7 @@ const FormBuilder = () => {
                     {title}
                     <IconButton
                         aria-label="close"
+                        id="close-dialog"
                         onClick={handleClose}
                         sx={{
                             position: 'absolute',
@@ -241,8 +246,9 @@ const FormBuilder = () => {
 
                 <Divider />
                 <List>
-                    {files &&
-                        files?.item.map(({ linkId, text }) => (
+                    {formData &&
+                        formData.item &&
+                        formData.item.map(({ linkId, text }) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>
                                     <ListItemText primary={linkId + ' - ' + text} />
@@ -254,19 +260,19 @@ const FormBuilder = () => {
             <Main open={open}>
                 <DrawerHeader />
                 <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
-                    {uploadJson && uploadJson.item && (
-                        <Button sx={{ m: 1 }} variant="contained" onClick={handleClickOpen}>
+                    {uploadData && uploadData.item && (
+                        <Button sx={{ m: 1 }} variant="contained" id="user-form-json" onClick={handleClickOpen}>
                             User Form JSON
                         </Button>
                     )}
-                    {files && files.item && (
-                        <Button sx={{ m: 1 }} variant="contained" onClick={handleClickOpenAnfDialog}>
+                    {formData && formData.item && (
+                        <Button sx={{ m: 1 }} variant="contained" id="anf-statement-json" onClick={handleClickOpenAnfDialog}>
                             ANF Statement JSON
                         </Button>
                     )}
 
                     <DialogWrapper open={openDialog} handleClose={handleClose} title="Preview JSON" handleDownload={handlePreviewDownload}>
-                        <JsonView data={uploadJson} shouldExpandNode={allExpanded} style={defaultStyles} />
+                        <JsonView data={uploadData} shouldExpandNode={allExpanded} style={defaultStyles} />
                     </DialogWrapper>
                     <DialogWrapper
                         open={openAnfDialog}
@@ -274,11 +280,11 @@ const FormBuilder = () => {
                         title="ANF Statement"
                         handleDownload={handleAnfDownload}
                     >
-                        <JsonView data={files} shouldExpandNode={allExpanded} style={defaultStyles} />
+                        <JsonView data={formData} shouldExpandNode={allExpanded} style={defaultStyles} />
                     </DialogWrapper>
                     <StatementTypesReport />
 
-                    {files && files.item && <MainWrapper key={files} uploadedFile={files} />}
+                    {formData && formData.item && <MainWrapper uploadedFile={formData} />}
                 </Box>
             </Main>
         </Box>

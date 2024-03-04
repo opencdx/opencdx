@@ -15,10 +15,27 @@
  */
 package cdx.opencdx.classification.model;
 
+import cdx.opencdx.grpc.neural.classification.ClassificationType;
+import cdx.opencdx.grpc.neural.classification.TestKit;
 import lombok.Data;
 
+/**
+ * Model for Rule Result
+ */
 @Data
 public class RuleResult {
+    /**
+     * Constructor for RuleResult
+     */
+    public RuleResult() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 
-    private String result;
+    private String furtherActions = "";
+
+    private boolean notifyCDC = false;
+
+    private ClassificationType type;
+
+    private TestKit testKit = null;
 }

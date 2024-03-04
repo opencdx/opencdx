@@ -19,7 +19,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.impl.OpenCDXClassificationMessageServiceImpl;
 import cdx.opencdx.connected.test.model.OpenCDXConnectedTestModel;
@@ -52,7 +53,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXConnectedTestServiceImplTest {
 
     @Autowired
@@ -70,7 +71,7 @@ class OpenCDXConnectedTestServiceImplTest {
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @Mock
-    OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    OpenCDXProfileRepository openCDXProfileRepository;
 
     @Autowired
     OpenCDXCommunicationService openCDXCommunicationService;
@@ -90,20 +91,18 @@ class OpenCDXConnectedTestServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMUserModel.builder()
+                        return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
-                                .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
-                                .username("ab@safehealth.me")
                                 .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllEmails(List.of(EmailAddress.newBuilder()
@@ -115,13 +114,15 @@ class OpenCDXConnectedTestServiceImplTest {
                                                 .setNumber("1234567890")
                                                 .build()))
                                         .build())
-                                .emailVerified(true)
                                 .build());
                     }
                 });
 
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
-                this.openCDXMessageService, this.openCDXDocumentValidator, this.openCDXIAMUserRepository);
+                this.openCDXMessageService,
+                this.openCDXDocumentValidator,
+                this.openCDXProfileRepository,
+                openCDXCurrentUser);
 
         this.openCDXConnectedTestService = new OpenCDXConnectedTestServiceImpl(
                 this.openCDXAuditService,
@@ -129,7 +130,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 openCDXCurrentUser,
                 objectMapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
     }
@@ -147,7 +148,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
@@ -164,19 +165,17 @@ class OpenCDXConnectedTestServiceImplTest {
     @Test
     void submitTest2() {
 
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMUserModel.builder()
+                        return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
-                                .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
-                                .username("ab@safehealth.me")
                                 .gender(Gender.GENDER_FEMALE)
                                 .primaryContactInfo(ContactInfo.newBuilder()
                                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
@@ -184,7 +183,6 @@ class OpenCDXConnectedTestServiceImplTest {
                                                 .setNumber("1234567890")
                                                 .build()))
                                         .build())
-                                .emailVerified(true)
                                 .build());
                     }
                 });
@@ -196,7 +194,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
@@ -240,7 +238,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
@@ -255,7 +253,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         Assertions.assertThrows(
@@ -272,15 +270,15 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
-        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
+        this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
                     @Override
                     public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
@@ -297,7 +295,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         Assertions.assertThrows(OpenCDXNotFound.class, () -> testOpenCDXConnectedTestService.submitTest(connectedTest));
@@ -313,29 +311,26 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setNationalHealthId(UUID.randomUUID().toString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .build())
                 .setTestDetails(TestDetails.newBuilder()
                         .setDeviceIdentifier(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
-        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+        this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMUserModel.builder()
+                        return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
-                                .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
                                         .build())
                                 .primaryContactInfo(null)
-                                .username("ab@safehealth.me")
-                                .emailVerified(true)
                                 .build());
                     }
                 });
@@ -346,7 +341,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 openCDXCurrentUser,
                 objectMapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         Assertions.assertDoesNotThrow(() -> testOpenCDXConnectedTestService.submitTest(connectedTest));
@@ -360,7 +355,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 .setBasicInfo(BasicInfo.newBuilder(BasicInfo.getDefaultInstance())
                         .setId(ObjectId.get().toHexString())
                         .setNationalHealthId(UUID.randomUUID().toString())
-                        .setUserId(ObjectId.get().toHexString())
+                        .setPatientId(ObjectId.get().toHexString())
                         .setOrganizationId(ObjectId.get().toHexString())
                         .setWorkspaceId(ObjectId.get().toHexString())
                         .build())
@@ -369,15 +364,14 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setMediaId(ObjectId.get().toHexString())
                         .build())
                 .build();
-        this.openCDXIAMUserRepository = Mockito.mock(OpenCDXIAMUserRepository.class);
-        Mockito.when(this.openCDXIAMUserRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXIAMUserModel>>() {
+        this.openCDXProfileRepository = Mockito.mock(OpenCDXProfileRepository.class);
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
-                    public Optional<OpenCDXIAMUserModel> answer(InvocationOnMock invocation) throws Throwable {
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
                         ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXIAMUserModel.builder()
+                        return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
-                                .password("{noop}pass")
                                 .fullName(FullName.newBuilder()
                                         .setFirstName("bob")
                                         .setLastName("bob")
@@ -388,8 +382,6 @@ class OpenCDXConnectedTestServiceImplTest {
                                                 .setEmail("test@opencdx.org")
                                                 .build()))
                                         .build())
-                                .username("ab@safehealth.me")
-                                .emailVerified(true)
                                 .build());
                     }
                 });
@@ -400,7 +392,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 openCDXCurrentUser,
                 objectMapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         Assertions.assertDoesNotThrow(() -> testOpenCDXConnectedTestService.submitTest(connectedTest));
@@ -413,7 +405,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(UUID.randomUUID().toString())
-                                .setUserId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build())
                         .setTestDetails(TestDetails.newBuilder()
                                 .setMediaId(ObjectId.get().toHexString()))
@@ -437,7 +429,7 @@ class OpenCDXConnectedTestServiceImplTest {
                         .setBasicInfo(BasicInfo.newBuilder()
                                 .setId(ObjectId.get().toHexString())
                                 .setNationalHealthId(UUID.randomUUID().toString())
-                                .setUserId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build())
                         .build());
 
@@ -450,7 +442,7 @@ class OpenCDXConnectedTestServiceImplTest {
                 openCDXCurrentUser,
                 mapper,
                 openCDXCommunicationService,
-                openCDXIAMUserRepository,
+                openCDXProfileRepository,
                 openCDXDocumentValidator,
                 openCDXClassificationMessageService);
         TestIdRequest testIdRequest = TestIdRequest.newBuilder()

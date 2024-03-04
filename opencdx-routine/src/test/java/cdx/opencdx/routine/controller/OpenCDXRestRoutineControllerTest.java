@@ -41,7 +41,6 @@ import cdx.opencdx.grpc.routine.SuspectedDiagnosis;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -95,29 +94,6 @@ class OpenCDXRestRoutineControllerTest {
                         return Optional.of(OpenCDXIAMUserModel.builder()
                                 .id(argument)
                                 .password("{noop}pass")
-                                .fullName(FullName.newBuilder()
-                                        .setFirstName("bob")
-                                        .setLastName("bob")
-                                        .build())
-                                .username("ab@safehealth.me")
-                                .primaryContactInfo(ContactInfo.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
-                                        .addAllAddresses(List.of(Address.newBuilder()
-                                                .setCity("City")
-                                                .setCountryId(ObjectId.get().toHexString())
-                                                .setState("CA")
-                                                .setPostalCode("12345")
-                                                .setAddress1("101 Main Street")
-                                                .build()))
-                                        .addAllEmails(List.of(EmailAddress.newBuilder()
-                                                .setEmail("email@email.com")
-                                                .setType(EmailType.EMAIL_TYPE_WORK)
-                                                .build()))
-                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
-                                                .setNumber("1234567890")
-                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
-                                                .build()))
-                                        .build())
                                 .emailVerified(true)
                                 .build());
                     }
@@ -171,12 +147,12 @@ class OpenCDXRestRoutineControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(DeliveryTrackingRequest.newBuilder()
                                 .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                        .setDeliveryId("789")
+                                        .setTrackingId("789")
                                         .build())
                                 .build())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.deliveryTracking.deliveryId").value("789"));
+                .andExpect(jsonPath("$.deliveryTracking.trackingId").value("789"));
     }
 
     // Test cases for getDeliveryTracking
@@ -186,7 +162,7 @@ class OpenCDXRestRoutineControllerTest {
                 .perform(get("/deliveryTracking/789").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.deliveryTracking.deliveryId").value("789"));
+                .andExpect(jsonPath("$.deliveryTracking.trackingId").value("789"));
     }
 
     // Test cases for createClinicalProtocolExecution

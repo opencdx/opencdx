@@ -107,7 +107,7 @@ class OpenCDXIAMProviderServiceImplTest {
     @Test
     void getProviderByNumberElse() {
         GetProviderRequest request = GetProviderRequest.newBuilder()
-                .setUserId(ObjectId.get().toHexString())
+                .setProviderNumber(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(
                 OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.getProviderByNumber(request));

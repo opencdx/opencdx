@@ -188,6 +188,18 @@ spring:
             - Path=/dashboard/**
           filters:
             - RewritePath=/dashboard/?(?<segment>.*), /$\{segment}
+        - id: grpc-order
+          uri: https://shipping:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.shipping.OrderService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-shipping
+          uri: https://shipping:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.shipping.ShippingService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:
@@ -236,7 +248,7 @@ management:
       type: b3
   zipkin:
     tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+      endpoint: https://zipkin:9411/api/v2/spans
 logging.pattern.level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
 server:
   port: 8080

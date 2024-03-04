@@ -344,7 +344,7 @@ open_reports() {
         ;;
     micrometer_tracing)
         handle_info "Opening Zipkin Microservice Tracing Dashboard..."
-        open_url "http://localhost:9411/zipkin"
+        open_url "https://localhost:9411/zipkin"
         ;;
 
     status)
@@ -387,7 +387,7 @@ build_docker() {
   components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/connected-test"
     "opencdx/iam" "opencdx/routine" "opencdx/protector" "opencdx/predictor"
-    "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway"
+    "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/shipping"
     "opencdx/discovery" "opencdx/anf" "opencdx/dashboard" "opencdx/graphql")
 
   selected_components=()
@@ -585,12 +585,17 @@ countdown() {
 
     if [ -t 1 ]; then
         # Check if stdout is a terminal
-        echo -ne "\r${GREEN}Waiting: ${RED}$number${GREEN} seconds.${NC}"
+        echo -ne "\r${GREEN}Waiting: ${RED}$number${GREEN} seconds.${NC} ${YELLOW}(Press 'x' to cancel)${NC} "
     else
-        echo -ne "\rWaiting: $number seconds"
+        echo -ne "\rWaiting: $number seconds. (Press 'x' to cancel)"
     fi
 
-    sleep 1
+    read -t 1 -n 1 input  # Wait for 1 second, checking for user input
+
+        if [ "$input" == $'x' ]; then
+          echo -e "\nCountdown interrupted by user. Exiting..."
+          return
+        fi
     ((number--))
   done
 
@@ -858,7 +863,7 @@ if [ "$fast_build" = true ]; then
     git_info
     if ./gradlew build publish -x test -x dependencyCheckAggregate -x sonarlintMain -x sonarlintMain -x spotlessApply -x spotlessCheck --parallel; then
         # Build Completed Successfully
-        handle_info "Fast Build & Clean completed successfully"
+        handle_info "Fast Build completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
@@ -869,17 +874,17 @@ elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
     if ./gradlew spotlessApply; then
             # Build Completed Successfully
-            handle_info "Build & Clean completed successfully"
+            handle_info "Spotless completed successfully"
         else
             # Build Failed
-            handle_error "Build failed. Please review output to determine the issue."
+            handle_error "Spotless failed. Please review output to determine the issue."
         fi
     if ./gradlew sonarlintMain sonarlintTest --parallel; then
                 # Build Completed Successfully
-                handle_info "Build & Clean completed successfully"
+                handle_info "Sonarlint completed successfully"
             else
                 # Build Failed
-                handle_error "Build failed. Please review output to determine the issue."
+                handle_error "Sonarlint failed. Please review output to determine the issue."
             fi
     if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
@@ -892,17 +897,17 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
     if ./gradlew spotlessApply; then
             # Build Completed Successfully
-            handle_info "Build completed successfully"
+            handle_info "Spotless completed successfully"
         else
             # Build Failed
-            handle_error "Build failed. Please review output to determine the issue."
+            handle_error "Spotless failed. Please review output to determine the issue."
         fi
     if ./gradlew sonarlintMain sonarlintTest --parallel; then
                 # Build Completed Successfully
-                handle_info "Build completed successfully"
+                handle_info "Sonarlint completed successfully"
             else
                 # Build Failed
-                handle_error "Build failed. Please review output to determine the issue."
+                handle_error "Sonarlint failed. Please review output to determine the issue."
             fi
     if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
@@ -946,7 +951,7 @@ if [ "$no_menu" = false ]; then
         open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
-            countdown 150
+            countdown 300
             run_jmeter_tests $jmeter_test
             open_url "build/reports/jmeter/index.html"
         fi

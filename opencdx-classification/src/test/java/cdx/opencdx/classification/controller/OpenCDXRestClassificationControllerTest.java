@@ -22,6 +22,8 @@ import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Gender;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
@@ -29,6 +31,8 @@ import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.Optional;
+import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -75,8 +79,49 @@ class OpenCDXRestClassificationControllerTest {
     @MockBean
     OpenCDXClassificationRepository openCDXClassificationRepository;
 
+    @MockBean
+    OpenCDXProfileRepository openCDXProfileRepository;
+
     @BeforeEach
     public void setup() {
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
+
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(argument)
+                                .build());
+                    }
+                });
+        Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(ObjectId.get())
+                                .nationalHealthId(argument)
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
         Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(Mockito.any(), Mockito.any()))
                 .thenReturn(UserQuestionnaireData.getDefaultInstance());
         Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
@@ -115,7 +160,7 @@ class OpenCDXRestClassificationControllerTest {
                 .perform(post("/classify")
                         .content(this.objectMapper.writeValueAsString(ClassificationRequest.newBuilder()
                                 .setUserAnswer(UserAnswer.newBuilder()
-                                        .setUserId(ObjectId.get().toHexString())
+                                        .setPatientId(ObjectId.get().toHexString())
                                         .setUserQuestionnaireId(ObjectId.get().toHexString())
                                         .setGender(Gender.GENDER_MALE)
                                         .setAge(30))

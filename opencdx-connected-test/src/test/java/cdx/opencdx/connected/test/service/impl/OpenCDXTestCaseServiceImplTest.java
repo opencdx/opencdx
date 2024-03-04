@@ -49,7 +49,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Slf4j
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.cloud.config.enabled=false")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXTestCaseServiceImplTest {
 
     @Autowired
@@ -190,5 +190,49 @@ class OpenCDXTestCaseServiceImplTest {
                 this.openCDXAuditService,
                 this.openCDXDocumentValidator);
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXTestCaseService1.updateTestCase(testCase));
+    }
+
+    @Test
+    void deleteTestCase() throws JsonProcessingException {
+        OpenCDXTestCaseModel openCDXTestCaseModel =
+                OpenCDXTestCaseModel.builder().id(ObjectId.get()).build();
+        Mockito.when(this.openCDXTestCaseRepository.save(Mockito.any(OpenCDXTestCaseModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(openCDXTestCaseModel));
+        TestCaseIdRequest testCase = TestCaseIdRequest.newBuilder()
+                .setTestCaseId(ObjectId.get().toHexString())
+                .build();
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.writeValueAsString(Mockito.any(OpenCDXTestCaseModel.class)))
+                .thenThrow(JsonProcessingException.class);
+
+        OpenCDXTestCaseServiceImpl openCDXTestCaseService1 = new OpenCDXTestCaseServiceImpl(
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXTestCaseService1.deleteTestCase(testCase));
+    }
+
+    @Test
+    void deleteTestCaseOpenCDXNotFound() {
+        Mockito.when(this.openCDXTestCaseRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.empty());
+        TestCaseIdRequest testCase = TestCaseIdRequest.newBuilder()
+                .setTestCaseId(ObjectId.get().toHexString())
+                .build();
+
+        ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
+
+        OpenCDXTestCaseServiceImpl openCDXTestCaseService1 = new OpenCDXTestCaseServiceImpl(
+                this.openCDXTestCaseRepository,
+                openCDXCurrentUser,
+                mapper,
+                this.openCDXAuditService,
+                this.openCDXDocumentValidator);
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> openCDXTestCaseService1.deleteTestCase(testCase));
     }
 }

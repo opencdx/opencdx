@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { Grid, TextField } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
+import { SystemVariables } from '../ui-components/SystemVariables';
+
 import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables } from '../../store/constant';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
-    const formData = JSON.parse(localStorage.getItem('anf-form'));
+const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab, getValues }, ref) => {
+    const { formData } = useAnfFormStore();
 
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
+            <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab={'subjectOfInformation'} />
             <MainCard border>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
@@ -22,14 +26,14 @@ const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, 
                             <Grid item xs={12} sm={9} lg={6}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
                                         fullWidth
                                         defaultValue={systemVariables['subject_of_information'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
                                         placeholder="Enter Subject Of Information"
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.subject_of_information`)}
                                         fullWidth
                                         placeholder="Enter Subject Of Information"
                                     />
@@ -46,6 +50,7 @@ SubjectOfInformation.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,
     currentIndex: PropTypes.number,
-    tab: PropTypes.string
+    tab: PropTypes.string,
+    getValues: PropTypes.func
 };
 export { SubjectOfInformation };

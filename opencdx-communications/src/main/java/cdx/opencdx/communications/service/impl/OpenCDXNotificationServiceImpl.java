@@ -19,7 +19,8 @@ import cdx.opencdx.commons.exceptions.OpenCDXFailedPrecondition;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
@@ -37,6 +38,7 @@ import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +75,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
-    private final OpenCDXIAMUserRepository openCDXIAMUserRepository;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
     /**
      * Constructor taking some repositoroes
      *
@@ -88,7 +90,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
      * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      * @param openCDXDocumentValidator           Document Validator for validating documents.
-     * @param openCDXIAMUserRepository           Repository for accessing IAM Users.
+     * @param openCDXProfileRepository           Repository for accessing Profiles.
      */
     @Autowired
     public OpenCDXNotificationServiceImpl(
@@ -103,7 +105,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXIAMUserRepository openCDXIAMUserRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
@@ -115,7 +117,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
-        this.openCDXIAMUserRepository = openCDXIAMUserRepository;
+        this.openCDXProfileRepository = openCDXProfileRepository;
     }
 
     @Override
@@ -315,9 +317,20 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
 
     private void recordAudit(
             CommunicationAuditRecord auditRecord, NotificationEvent notificationEvent, ObjectId patientId) {
-        OpenCDXIAMUserModel patient = this.openCDXIAMUserRepository
-                .findById(patientId)
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 2, "Patient Not Found"));
+
+        String nationalHealthId = "N/A";
+        String patientIdString = patientId.toHexString();
+
+        Optional<OpenCDXProfileModel> patient = this.openCDXProfileRepository.findById(patientId);
+
+        if (patient.isPresent()) {
+            nationalHealthId = patient.get().getNationalHealthId();
+        }
+
+        if (patient.isEmpty()) {
+            patientIdString = "USER ID: " + patientId.toHexString();
+        }
+
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.communication(
@@ -325,8 +338,8 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                     currentUser.getAgentType(),
                     notificationEvent.getEventDescription(),
                     notificationEvent.getSensitivity(),
-                    patientId.toHexString(),
-                    patient.getNationalHealthId(),
+                    patientIdString,
+                    nationalHealthId,
                     NOTIFICATION_EVENT + ": " + notificationEvent.getEventId(),
                     this.objectMapper.writeValueAsString(auditRecord));
         } catch (JsonProcessingException e) {

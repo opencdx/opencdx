@@ -15,139 +15,143 @@ import "google/protobuf/timestamp.proto";
  */
 message UserProfile {
   /*
+   * The unique identifier for the user profile.
+   */
+  optional string id = 1;
+  /*
    * The unique identifier for the user.
    */
-  string user_id = 1;
+  optional string user_id = 2;
 
   /*
    * The national health identifier of the user.
    */
-  string national_health_id = 2;
+  string national_health_id = 3;
 
   /*
    * The full name details of the user.
    */
-  cdx.opencdx.grpc.common.FullName full_name = 3;
+  cdx.opencdx.grpc.common.FullName full_name = 4;
 
   /*
    * A list of contact information for the user.
    */
-  repeated cdx.opencdx.grpc.common.ContactInfo contacts = 4;
+  repeated cdx.opencdx.grpc.common.ContactInfo contacts = 5;
 
   /*
    * The gender of the user.
    */
-  cdx.opencdx.grpc.common.Gender gender = 5;
+  cdx.opencdx.grpc.common.Gender gender = 6;
 
   /*
    * The date of birth of the user.
    */
-  google.protobuf.Timestamp date_of_birth = 6;
+  google.protobuf.Timestamp date_of_birth = 7;
 
   /*
    * The place of birth of the user.
    */
-  PlaceOfBirth place_of_birth = 7;
+  PlaceOfBirth place_of_birth = 8;
 
   /*
    * The profile photo of the user, represented in bytes (binary data).
    */
-  bytes photo = 8;
+  bytes photo = 9;
 
   /*
    * The user's communication preferences.
    */
-  Preferences communication = 9;
+  Preferences communication = 10;
 
   /*
    * The demographic information about the user.
    */
-  Demographics demographics = 10;
+  Demographics demographics = 11;
 
   /*
    * The education qualification details about the user.
    */
-  Education education = 11;
+  Education education = 12;
 
   /*
    * The user's employment identification details.
    */
-  EmployeeIdentity employee_identity = 12;
+  EmployeeIdentity employee_identity = 13;
 
   /*
    * The primary contact information for the user.
    */
-  cdx.opencdx.grpc.common.ContactInfo primary_contact_info = 13;
+  cdx.opencdx.grpc.common.ContactInfo primary_contact_info = 14;
 
   /*
    * The user's emergency contact information.
    */
-  EmergencyContact emergency_contact = 14;
+  EmergencyContact emergency_contact = 15;
 
   /*
    * Details about the user's pharmacy of choice.
    */
-  Pharmacy pharmacy_details = 15;
+  Pharmacy pharmacy_details = 16;
 
   /*
    * Information about vaccines administered to the user.
    */
-  repeated Vaccine vaccine_administered = 16;
+  repeated Vaccine vaccine_administered = 17;
 
   /*
    * A list of identifiers for user's dependents.
    */
-  repeated string dependent_id = 17;
+  repeated string dependent_id = 18;
 
   /*
    * A list of known allergies of the user.
    */
-  repeated KnownAllergy known_allergies = 18;
+  repeated KnownAllergy known_allergies = 19;
 
   /*
    * A list of medications currently being taken by the user.
    */
-  repeated Medication current_medications = 19;
+  repeated Medication current_medications = 20;
 
   /*
    * Indicates the active/inactive status of the user.
    */
-  bool is_active = 20;
+  bool is_active = 21;
 
   /*
    * A list of user's email addresses.
    */
-  repeated cdx.opencdx.grpc.common.EmailAddress email = 21;
+  repeated cdx.opencdx.grpc.common.EmailAddress email = 22;
 
   /*
    * A list of user's phone numbers.
    */
-  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 22;
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 23;
 
   /*
    * A list of user's addresses.
    */
-  repeated cdx.opencdx.grpc.common.Address address = 23;
+  repeated cdx.opencdx.grpc.common.Address address = 24;
 
   /*
    * The timestamp indicating when the user's profile was created.
    */
-  optional google.protobuf.Timestamp created = 24;
+  optional google.protobuf.Timestamp created = 25;
 
   /*
    * The timestamp indicating the last modification of the user's profile.
    */
-  optional google.protobuf.Timestamp modified = 25;
+  optional google.protobuf.Timestamp modified = 26;
 
   /*
    * The identifier of the entity that created the user's profile.
    */
-  optional string creator = 26;
+  optional string creator = 27;
 
   /*
    * The identifier of the entity that last modified the user's profile.
    */
-  optional string modifier = 27;
+  optional string modifier = 28;
 }
 /*
  * Contains the emergency contact's relationship to the user and contact information.
@@ -471,6 +475,11 @@ service UserProfileService {
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
 
   /*
+  * CreateUserProfile is an RPC method that creates a user profile based on UserProfileRequest
+  */
+  rpc CreateUserProfile(CreateUserProfileRequest) returns (CreateUserProfileResponse);
+
+  /*
    * DeleteUserProfile is an RPC method that deletes a user profile based on the provided user ID in the DeleteUserProfileRequest
    */
   rpc DeleteUserProfile(DeleteUserProfileRequest) returns (DeleteUserProfileResponse);
@@ -524,6 +533,26 @@ message UpdateUserProfileResponse {
    * Indicates whether the update was successful
    */
   bool success = 1;
+}
+
+/*
+ * This message contains the details required for creating a User Profile.
+ */
+message CreateUserProfileRequest {
+  /*
+   * The UserProfile object with the details for the user profile that will be created.
+   */
+  optional UserProfile userProfile = 1;
+}
+
+/*
+ * This message contains the details of the User Profile that has been created.
+ */
+message CreateUserProfileResponse {
+  /*
+   * The created User Profile object.
+   */
+  optional UserProfile userProfile = 1;
 }
 
 /*

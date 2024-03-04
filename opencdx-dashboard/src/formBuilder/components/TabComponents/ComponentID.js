@@ -19,10 +19,10 @@ export const ComponentID = forwardRef(({ register, index, item }, ref) => {
                                     <TextField
                                         fullWidth
                                         placeholder="Generate Component UUID"
-                                        defaultValue={item?.componentId ? item.componentId : generateUUID()}
-                                        id={'component-id' + index}
-                                        name={'component-id' + index}
-                                        {...register(`test.${index}.componentId`)}
+                                        defaultValue={item?.componentId ?? generateUUID()}
+                                        id={`component-id-${index}`}
+                                        name={`component-id-${index}`}
+                                        {...register(`item.${index}.componentId`)}
                                     />
                                 </FormControl>
                             </Grid>
@@ -33,6 +33,7 @@ export const ComponentID = forwardRef(({ register, index, item }, ref) => {
         </Grid>
     );
 });
+
 ComponentID.propTypes = {
     register: PropTypes.func,
     index: PropTypes.number,

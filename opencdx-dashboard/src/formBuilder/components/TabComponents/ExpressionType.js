@@ -5,9 +5,10 @@ import { Grid, TextField } from '@mui/material';
 import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables } from '../../store/constant';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 export const ExpressionType = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
-    const formData = JSON.parse(localStorage.getItem('anf-form'));
+    const { formData } = useAnfFormStore();
     const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
@@ -21,14 +22,14 @@ export const ExpressionType = React.forwardRef(({ register, index, currentIndex,
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.expressionType`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.expressionType`)}
                                         fullWidth
                                         placeholder="Enter ExpressionType Value"
                                         value={systemVariables[tab].expressionType}
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.expressionType`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.expressionType`)}
                                         fullWidth
                                         placeholder="Enter ExpressionType Value"
                                     />
@@ -41,14 +42,14 @@ export const ExpressionType = React.forwardRef(({ register, index, currentIndex,
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.expressionLanguage`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.expressionLanguage`)}
                                         fullWidth
                                         placeholder="Enter ExpressionLanguage Value"
                                         value={systemVariables[tab].expressionLanguage}
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`test.${index}.item.${currentIndex}.${tab}.expressionLanguage`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.expressionLanguage`)}
                                         fullWidth
                                         placeholder="Enter ExpressionLanguage Value"
                                     />
@@ -63,14 +64,14 @@ export const ExpressionType = React.forwardRef(({ register, index, currentIndex,
                     <Grid item xs={12} sm={9} lg={8}>
                         {componentType ? (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.expressionValue`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.expressionValue`)}
                                 fullWidth
                                 placeholder="Enter ExpressionValue Value"
                                 value={systemVariables[tab].expressionValue}
                             />
                         ) : (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.expressionValue`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.expressionValue`)}
                                 fullWidth
                                 placeholder="Enter ExpressionValue Value"
                             />
@@ -82,14 +83,14 @@ export const ExpressionType = React.forwardRef(({ register, index, currentIndex,
                     <Grid item xs={12} sm={9} lg={8}>
                         {componentType ? (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.expressionDescription`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.expressionDescription`)}
                                 fullWidth
                                 placeholder="Enter Expression Description Value"
                                 value={systemVariables[tab].expressionDescription}
                             />
                         ) : (
                             <TextField
-                                {...register(`test.${index}.item.${currentIndex}.${tab}.expressionDescription`)}
+                                {...register(`item.${index}.item.${currentIndex}.${tab}.expressionDescription`)}
                                 fullWidth
                                 placeholder="Enter expressionDescription Value"
                             />

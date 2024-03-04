@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.connected.test.service;
+package cdx.opencdx.commons.service;
+
+import cdx.opencdx.grpc.routine.DeliveryTracking;
 
 /**
- * Interface for the OpenCDXCDCPayloadService
+ * OpenCDXDeliveryTrackingMessageService is an interface that defines methods for submitting delivery tracking.
  */
-public interface OpenCDXCDCPayloadService {
+public interface OpenCDXDeliveryTrackingMessageService {
+
     /**
-     * Prepares a payload to be sent to CDC for a connected test.
-     * @param testId Id for a Connected Test
+     * Submit delivery tracking
+     * @param deliveryTracking the delivery tracking to submit
      */
-    void sendCDCPayloadMessage(String testId);
+    void submitDeliveryTracking(DeliveryTracking deliveryTracking);
 }

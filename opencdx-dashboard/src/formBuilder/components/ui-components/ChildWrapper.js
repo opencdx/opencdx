@@ -8,11 +8,14 @@ import { AccordianWrapper } from './AccordianWrapper';
 import { Grid, FormControl, Select, MenuItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Controller } from 'react-hook-form';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
+const ChildWrapper = ({ control, register }) => {
+    const { formData } = useAnfFormStore();
+    const [hideOptions, setHideOptions] = React.useState(true);
     const { fields, remove } = useFieldArray({
         control,
-        name: 'test'
+        name: 'item'
     });
     const [rulesets] = React.useState([
         {
@@ -29,17 +32,17 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
         }
     ]);
     const theme = useTheme();
+    const handleStatementTypeChange = (value) => setHideOptions(value !== 'main_statement_questions');
     return (
-        <div className="wrapper" ref={ref}>
-            {fields.map((item, index) => {
-                return (
-                    <AccordianWrapper key={index} title={index + 1 + '. ' + item.text + ' - ' + item.linkId} remove={() => remove(index)}>
-                        <ComponentID {...{ control, register, index }} />
-                        <StatementTypes {...{ control, register, index, item }} />
-                        <OptionWrapper {...{ control, register, index, item }} />
-                    </AccordianWrapper>
-                );
-            })}
+        <div className="wrapper">
+            {fields.map((item, index) => (
+                <AccordianWrapper key={index} title={`${index + 1}. ${item.text} - ${item.linkId}`} remove={() => remove(index)}>
+                    <ComponentID {...{ control, register, index }} />
+                    <StatementTypes {...{ control, register, index, item }} handleStatementTypeChange={handleStatementTypeChange} />
+                    {hideOptions && <OptionWrapper {...{ control, register, index, item }} />}
+                </AccordianWrapper>
+            ))}
+
             <Grid
                 container
                 item
@@ -64,12 +67,19 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
                 <Grid item xs={12} sm={9} lg={10}>
                     <FormControl fullWidth>
                         <Controller
-                            name={`test.rulesets`}
-                            {...register(`test.rulesets`)}
+                            name={`item.ruleset`}
+                            {...register(`item.ruleset`)}
                             control={control}
-                            defaultValue={localStorage.getItem('anf-form') ? JSON.parse(localStorage.getItem('anf-form')).ruleset : ''}
+                            defaultValue={formData ? formData.ruleset : ''}
                             render={({ field }) => (
-                                <Select {...field} id={`test.rulesets`} fullWidth variant="outlined" size="small">
+                                <Select
+                                    {...field}
+                                    id={`item.rulesets`}
+                                    fullWidth
+                                    variant="outlined"
+                                    size="small"
+                                    // onClick={(e) => setFormData({ ruleset: e.target.value })}
+                                >
                                     {rulesets.map((ruleset) => (
                                         <MenuItem key={ruleset.ruleId} value={ruleset.ruleId}>
                                             {ruleset.type} - {ruleset.category} - {ruleset.description}
@@ -83,7 +93,7 @@ const ChildWrapper = React.forwardRef(({ control, register }, ref) => {
             </Grid>
         </div>
     );
-});
+};
 
 ChildWrapper.propTypes = {
     register: PropTypes.func,

@@ -89,7 +89,7 @@ export const CustomTabs = React.forwardRef(({ control, register, index, currentI
     );
 });
 CustomTabs.propTypes = {
-    control: PropTypes.any,
+    control: PropTypes.object,
     register: PropTypes.any,
     index: PropTypes.number,
     currentIndex: PropTypes.number,

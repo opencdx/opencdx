@@ -38,7 +38,7 @@ public class OpenCDXUserQuestionnaireModel {
     @Id
     private ObjectId id;
 
-    private ObjectId userId;
+    private ObjectId patientId;
 
     private List<Questionnaire> list;
 
@@ -52,7 +52,7 @@ public class OpenCDXUserQuestionnaireModel {
             this.id = new ObjectId(data.getId());
         }
 
-        this.userId = new ObjectId(data.getUserId());
+        this.patientId = new ObjectId(data.getPatientId());
 
         this.list = data.getQuestionnaireDataList();
     }
@@ -67,7 +67,7 @@ public class OpenCDXUserQuestionnaireModel {
 
         builder.setId(this.id.toHexString());
 
-        builder.setUserId(this.userId.toHexString());
+        builder.setPatientId(this.patientId.toHexString());
         builder.addAllQuestionnaireData(this.list);
 
         return builder.build();

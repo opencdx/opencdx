@@ -57,7 +57,7 @@ class ProfileTest {
                                                 .setLastName("last")
                                                 .build())
                                         .addAllContacts(List.of(ContactInfo.newBuilder()
-                                                .setUserId(ObjectId.get().toHexString())
+                                                .setPatientId(ObjectId.get().toHexString())
                                                 .addAllAddresses(List.of(Address.newBuilder()
                                                         .setCity("City")
                                                         .setCountryId(
@@ -118,7 +118,7 @@ class ProfileTest {
                                                 .setOrganizationId("OrganizationId")
                                                 .build())
                                         .setPrimaryContactInfo(ContactInfo.newBuilder()
-                                                .setUserId(ObjectId.get().toHexString())
+                                                .setPatientId(ObjectId.get().toHexString())
                                                 .addAllAddresses(List.of(Address.newBuilder()
                                                         .setCity("City")
                                                         .setCountryId(
@@ -138,7 +138,7 @@ class ProfileTest {
                                                 .build())
                                         .setEmergencyContact(EmergencyContact.newBuilder()
                                                 .setContactInfo(ContactInfo.newBuilder()
-                                                        .setUserId(
+                                                        .setPatientId(
                                                                 ObjectId.get().toHexString())
                                                         .setName(FullName.newBuilder()
                                                                 .setFirstName("First")
@@ -176,7 +176,7 @@ class ProfileTest {
                                                         .build())
                                                 .setPharmacyName("Pharmacy Name")
                                                 .setPharmacyContact(ContactInfo.newBuilder()
-                                                        .setUserId(
+                                                        .setPatientId(
                                                                 ObjectId.get().toHexString())
                                                         .addAllAddresses(List.of(Address.newBuilder()
                                                                 .setCity("City")

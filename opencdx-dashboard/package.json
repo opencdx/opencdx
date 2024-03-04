@@ -41,12 +41,14 @@
         "react-router-dom": "^6.15.0",
         "react-scripts": "^5.0.1",
         "react-slick": "^0.29.0",
+        "react-transition-group": "^4.4.5",
         "react18-input-otp": "^1.1.4",
         "redux": "^4.2.1",
         "redux-persist": "^6.0.0",
         "slick-carousel": "^1.8.1",
         "web-vitals": "^3.4.0",
-        "yup": "^1.2.0"
+        "yup": "^1.2.0",
+        "zustand": "^4.5.1"
     },
     "scripts": {
         "start": "REACT_APP_API_URL_SECURED=false react-scripts start",
@@ -83,6 +85,8 @@
         "@babel/core": "^7.22.10",
         "@babel/eslint-parser": "^7.22.10",
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "@cypress/code-coverage": "^3.12.24",
+        "cypress": "^13.6.5",
         "eslint": "^8.47.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-config-react-app": "^7.0.1",

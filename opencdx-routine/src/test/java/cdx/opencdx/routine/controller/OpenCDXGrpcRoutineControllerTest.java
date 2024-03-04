@@ -86,8 +86,7 @@ class OpenCDXGrpcRoutineControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.routineService = new OpenCDXRoutineServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, openCDXDocumentValidator);
+        this.routineService = new OpenCDXRoutineServiceImpl(openCDXDocumentValidator);
         this.openCDXGrpcRoutineController = new OpenCDXGrpcRoutineController(this.routineService);
     }
 
@@ -125,7 +124,7 @@ class OpenCDXGrpcRoutineControllerTest {
         this.openCDXGrpcRoutineController.createDeliveryTracking(
                 DeliveryTrackingRequest.newBuilder(DeliveryTrackingRequest.getDefaultInstance())
                         .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setDeliveryId("789")
+                                .setTrackingId("789")
                                 .build())
                         .build(),
                 responseObserver);
@@ -139,7 +138,7 @@ class OpenCDXGrpcRoutineControllerTest {
         this.openCDXGrpcRoutineController.getDeliveryTracking(
                 DeliveryTrackingRequest.newBuilder()
                         .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setDeliveryId("789")
+                                .setTrackingId("789")
                                 .build())
                         .build(),
                 responseObserver);

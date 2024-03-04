@@ -346,10 +346,10 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
     private AuditEntity getAuditEntity(String patientId, String patientNhiId) {
         AuditEntity.Builder builder = AuditEntity.newBuilder();
         if (patientId != null) {
-            builder.setUserIdentifier(patientId);
+            builder.setPatientId(patientId);
         }
         if (patientNhiId != null) {
-            builder.setPatientIdentifier(patientNhiId);
+            builder.setNationalHealthId(patientNhiId);
         }
 
         return builder.build();
@@ -368,10 +368,19 @@ public class OpenCDXAuditServiceImpl implements OpenCDXAuditService {
         openCDXDocumentValidator.validateDocumentOrLog(
                 "users", new ObjectId(event.getActor().getIdentity()));
         if (event.hasAuditEntity()) {
-            log.debug("Validating Audit Entity: {}", event.getAuditEntity().getUserIdentifier());
-            if (!event.getAuditEntity().getUserIdentifier().isEmpty()) {
-                openCDXDocumentValidator.validateDocumentOrLog(
-                        "users", new ObjectId(event.getAuditEntity().getUserIdentifier()));
+            log.debug("Validating Audit Entity: {}", event.getAuditEntity().getPatientId());
+            if (!event.getAuditEntity().getPatientId().isEmpty()) {
+                String searchString = "USER ID: ";
+                if (event.getAuditEntity().getPatientId().contains(searchString)) {
+                    String userId = event.getAuditEntity()
+                            .getPatientId()
+                            .substring(event.getAuditEntity().getPatientId().indexOf(searchString)
+                                    + searchString.length());
+                    openCDXDocumentValidator.validateDocumentOrLog("users", new ObjectId(userId));
+                } else {
+                    openCDXDocumentValidator.validateDocumentOrLog(
+                            "profiles", new ObjectId(event.getAuditEntity().getPatientId()));
+                }
             }
         }
         this.messageService.send(OpenCDXMessageService.AUDIT_MESSAGE_SUBJECT, event);

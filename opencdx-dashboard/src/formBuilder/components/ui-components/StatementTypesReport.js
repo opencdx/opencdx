@@ -5,8 +5,10 @@ import { MainCard } from './MainCard';
 import { Table, TableBody, TableCell, TableRow, FormControlLabel, TableContainer } from '@mui/material';
 
 import { capitalizeANFTitle } from '../../utils/StringManulpations';
+import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 const StatementTypesReport = React.forwardRef((props, ref) => {
+    const { formData } = useAnfFormStore();
     const [showReport, setShowReport] = React.useState(false);
 
     const handleCheckboxChange = (event) => {
@@ -14,13 +16,10 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
     };
 
     const renderList = () => {
-        if (showReport && localStorage.getItem('anf-form')) {
-            const storedJson = localStorage.getItem('anf-form');
-            const questionnaireData = storedJson ? JSON.parse(storedJson) : null;
-
+        if (showReport && formData) {
             const groupedItems = {};
 
-            questionnaireData.item.forEach((item) => {
+            formData?.item.forEach((item) => {
                 const type = item.componentType || 'unassigned';
                 if (!groupedItems[type]) {
                     groupedItems[type] = [];
@@ -62,7 +61,7 @@ const StatementTypesReport = React.forwardRef((props, ref) => {
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} sm={3} lg={3}>
                         <FormControlLabel
-                            control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" />}
+                            control={<Checkbox checked={showReport} onChange={handleCheckboxChange} color="primary" id="show-report" />}
                             label={'Show Report'}
                             sx={{ color: 'primary.main', fontWeight: 600 }}
                         />

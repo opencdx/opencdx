@@ -65,8 +65,7 @@ class OpenCDXGrpcPredictorControllerTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.predictorService = new OpenCDXPredictorServiceImpl(
-                this.openCDXAuditService, this.objectMapper, openCDXCurrentUser, this.openCDXDocumentValidator);
+        this.predictorService = new OpenCDXPredictorServiceImpl(this.openCDXDocumentValidator);
         this.grpcPredictorController = new OpenCDXGrpcPredictorController(this.predictorService);
     }
 
