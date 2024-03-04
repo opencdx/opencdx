@@ -277,4 +277,14 @@ public class ClientConfig {
             throws SSLException {
         return new OpenCDXVendorClientImpl(server, port, observationGrpcClientInterceptor);
     }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "opencdx.client.connected-lab", name = "enabled", havingValue = "true")
+    OpenCDXLabConnectedClient openCDXLabConnectedClient(
+            @Value("${opencdx.client.connected-lab.server") String server,
+            @Value("${opencdx.client.connected-lab.port}") Integer port,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        return new OpenCDXLabConnectedClientImpl(server, port, observationGrpcClientInterceptor);
+    }
 }

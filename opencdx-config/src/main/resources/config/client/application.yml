@@ -14,6 +14,9 @@ opencdx:
     communications:
       server: communications
       port: 9090
+    connected-lab:
+      server: connected-lab
+      port: 9090
     connected-test:
       server: connected-test
       port: 9090
