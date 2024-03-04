@@ -48,9 +48,7 @@ public class OpenCDXANFStatementModel {
     private List<AnfStatement.AssociatedStatement> associatedStatements;
     private String topic;
     private String type;
-    private AnfStatement.RequestCircumstance requestCircumstance;
-    private AnfStatement.PerformanceCircumstance performanceCircumstance;
-    private AnfStatement.NarrativeCircumstance narrativeCircumstance;
+    private AnfStatement.CircumstanceChoice circumstanceChoice;
 
     private Instant created;
     private Instant modified;
@@ -79,9 +77,7 @@ public class OpenCDXANFStatementModel {
         this.associatedStatements = anfStatement.getAssociatedStatementList();
         this.topic = anfStatement.getTopic();
         this.type = anfStatement.getType();
-        this.requestCircumstance = anfStatement.getRequestCircumstance();
-        this.performanceCircumstance = anfStatement.getPerformanceCircumstance();
-        this.narrativeCircumstance = anfStatement.getNarrativeCircumstance();
+        this.circumstanceChoice = anfStatement.getCircumstanceChoice();
 
         if (anfStatement.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -137,14 +133,8 @@ public class OpenCDXANFStatementModel {
         if (this.type != null) {
             builder.setType(this.type);
         }
-        if (this.requestCircumstance != null) {
-            builder.setRequestCircumstance(this.requestCircumstance);
-        }
-        if (this.performanceCircumstance != null) {
-            builder.setPerformanceCircumstance(this.performanceCircumstance);
-        }
-        if (this.narrativeCircumstance != null) {
-            builder.setNarrativeCircumstance(this.narrativeCircumstance);
+        if (this.circumstanceChoice != null) {
+            builder.setCircumstanceChoice(this.circumstanceChoice);
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

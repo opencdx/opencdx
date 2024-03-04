@@ -75,8 +75,8 @@ class AnfTest {
                         .build()))
                 .setTopic("Topic")
                 .setType("Type")
-                .setNarrativeCircumstance(AnfStatement.NarrativeCircumstance.newBuilder()
-                        .setText("Narrative Circumstance")
+                .setCircumstanceChoice(AnfStatement.CircumstanceChoice.newBuilder()
+                        .setCircumstanceType(AnfStatement.CircumstanceType.NARRATIVE_CIRCUMSTANCE)
                         .build())
                 .build();
 
