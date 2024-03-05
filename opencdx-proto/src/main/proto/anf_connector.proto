@@ -27,10 +27,10 @@ enum AnfStatementType {
   ANF_STATEMENT_TYPE_ASSOCIATED = 2;
 
   /*
-   * `ANF_STATEMENT_TYPE_QUESTION` implies that the ANF statement is the main
+   * `ANF_STATEMENT_USER_QUESTION` implies that the ANF statement is the main
    * statement pertaining to the question.
    */
-  ANF_STATEMENT_TYPE_QUESTION = 3;
+  ANF_STATEMENT_USER_QUESTION = 3;
 
   /*
    * `ANF_STATEMENT_TYPE_NOT_APPLICABLE` implies that the ANF statement does not apply.
