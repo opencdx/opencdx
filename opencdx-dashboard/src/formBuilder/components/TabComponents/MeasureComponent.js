@@ -102,7 +102,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.${tab}.sematic`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.semantic`)}
                                         fullWidth
                                         value={semanticState}
                                         onChange={(e) => {
@@ -112,7 +112,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.${tab}.sematic`)}
+                                        {...register(`item.${index}.item.${currentIndex}.${tab}.semantic`)}
                                         fullWidth
                                         placeholder="Enter Semantic Value"
                                     />
