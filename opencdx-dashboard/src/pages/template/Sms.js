@@ -19,8 +19,10 @@ const Sms = () => {
             const response = await axios.post(
                 '/communications/sms/list',
                 {
-                    pageSize: 20,
-                    sortAscending: true
+                    "pagination": {
+                    "pageSize": 30,
+                    "sortAscending": true
+                  }
                 },
                 {
                     headers: {
