@@ -200,7 +200,54 @@ class OpenCDXGrpcTestCaseControllerTest {
                         .setPageSize(10)
                         .setSortAscending(true)
                         .build())
+                .build();
+        this.openCDXGrpcTestCaseController.listTestCase(testCaseListRequest, responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listTestCaseManufacturer() {
+        StreamObserver<TestCaseListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXTestCaseRepository.findAllByManufacturerId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXTestCaseModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        TestCaseListRequest testCaseListRequest = TestCaseListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
                 .setManufacturerId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXGrpcTestCaseController.listTestCase(testCaseListRequest, responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listTestCaseVendorElse() {
+        StreamObserver<TestCaseListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXTestCaseRepository.findAllByVendorId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXTestCaseModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        TestCaseListRequest testCaseListRequest = TestCaseListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .setVendorId(ObjectId.get().toHexString())
                 .build();
         this.openCDXGrpcTestCaseController.listTestCase(testCaseListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());

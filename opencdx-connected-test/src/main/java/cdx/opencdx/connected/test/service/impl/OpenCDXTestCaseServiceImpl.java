@@ -197,9 +197,17 @@ public class OpenCDXTestCaseServiceImpl implements OpenCDXTestCaseService {
                     request.getPagination().getPageSize());
         }
         log.info("Searching Database");
-        Page<OpenCDXTestCaseModel> all = !request.getManufacturerId().isEmpty()
-                ? this.openCDXTestCaseRepository.findAll(pageable)
-                : Page.empty();
+        Page<OpenCDXTestCaseModel> all = null;
+
+        if (request.hasManufacturerId()) {
+            all = this.openCDXTestCaseRepository.findAllByManufacturerId(
+                    new ObjectId(request.getManufacturerId()), pageable);
+        } else if (request.hasVendorId()) {
+            all = this.openCDXTestCaseRepository.findAllByVendorId(new ObjectId(request.getVendorId()), pageable);
+        } else {
+            all = this.openCDXTestCaseRepository.findAll(pageable);
+        }
+
         return TestCaseListResponse.newBuilder()
                 .setPagination(Pagination.newBuilder(request.getPagination())
                         .setTotalPages(all.getTotalPages())

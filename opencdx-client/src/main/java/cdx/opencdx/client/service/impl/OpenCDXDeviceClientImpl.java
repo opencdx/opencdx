@@ -181,4 +181,31 @@ public class OpenCDXDeviceClientImpl implements OpenCDXDeviceClient {
                     e);
         }
     }
+
+    /**
+     * Method to gRPC Call Device Service listTestCase() api.
+     *
+     * @param request Client Rules request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    @Override
+    public DeviceListResponse listDevices(DeviceListRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return deviceServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .listDevices(request);
+
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_DEVICE_CLIENT_IMPL,
+                    5,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
 }

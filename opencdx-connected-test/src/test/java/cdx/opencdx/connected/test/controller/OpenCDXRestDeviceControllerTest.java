@@ -23,9 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
+import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.inventory.Device;
+import cdx.opencdx.grpc.inventory.DeviceListRequest;
+import cdx.opencdx.grpc.inventory.TestCaseListRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -40,6 +46,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -166,5 +175,59 @@ class OpenCDXRestDeviceControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void listDevices() throws Exception {
+        Mockito.when(this.openCDXDeviceRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXDeviceModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        MvcResult result2 = this.mockMvc
+                .perform(post("/device/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(DeviceListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(true)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content2 = result2.getResponse().getContentAsString();
+        log.info("Received\n {}", content2);
+    }
+
+    @Test
+    void listDevicesElse() throws Exception {
+        Mockito.when(this.openCDXDeviceRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXDeviceModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        MvcResult result2 = this.mockMvc
+                .perform(post("/device/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(DeviceListRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSort("true")
+                                        .setSortAscending(false)
+                                        .build())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content2 = result2.getResponse().getContentAsString();
+        log.info("Received\n {}", content2);
     }
 }
