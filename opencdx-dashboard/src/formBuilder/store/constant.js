@@ -196,7 +196,7 @@ export const systemVariables = {
             code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
         }
     ],
-    subject_of_information: {
+    subjectOfInformation: {
         subjectOfRecord: '{ id: ${{participant.id}} }'
     },
     associatedStatement: [
