@@ -948,7 +948,6 @@ if [ "$no_menu" = false ]; then
         start_docker "docker-compose.yml";
         DEPLOYED="ALL"
         open_reports "admin";
-        open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
             countdown 300
