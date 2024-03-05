@@ -16,6 +16,6 @@ spring:
   application:
     name: connected-lab
   profiles:
-    active: managed,mongo,nats,connected-lab
+    active: managed,mongo,nats,lab
 
 

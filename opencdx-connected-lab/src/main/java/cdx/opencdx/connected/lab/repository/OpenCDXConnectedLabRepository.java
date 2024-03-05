@@ -15,15 +15,17 @@
  */
 package cdx.opencdx.connected.lab.repository;
 
-import cdx.opencdx.connected.lab.model.Person;
-import io.micrometer.observation.annotation.Observed;
+import cdx.opencdx.connected.lab.model.OpenCDXConnectedLabModel;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for interacting the "person" records
+ * Repository for interacting the "opencdxconnectedlab" records
  */
 @Repository
-@Observed(name = "opencdx")
-public interface PersonRepository extends MongoRepository<Person, ObjectId> {}
+public interface OpenCDXConnectedLabRepository extends MongoRepository<OpenCDXConnectedLabModel, ObjectId> {
+    Optional<OpenCDXConnectedLabModel> findByOrganizationIdAndWorkspaceId(
+            ObjectId organizationId, ObjectId workspaceId);
+}
