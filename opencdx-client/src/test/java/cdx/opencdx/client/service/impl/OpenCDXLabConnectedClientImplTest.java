@@ -1,12 +1,26 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.client.service.impl;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXLabConnectedClient;
 import cdx.opencdx.grpc.lab.connected.*;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClassificationServiceGrpc;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
@@ -16,12 +30,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OpenCDXLabConnectedClientImplTest {
 
     @Mock
-    ConnectedLabServiceGrpc.ConnectedLabServiceBlockingStub connectedLabServiceBlockingStub;;
+    ConnectedLabServiceGrpc.ConnectedLabServiceBlockingStub connectedLabServiceBlockingStub;
+
+    ;
     OpenCDXLabConnectedClient openCDXLabConnectedClient;
 
     @BeforeEach
@@ -32,7 +46,6 @@ class OpenCDXLabConnectedClientImplTest {
         Mockito.when(connectedLabServiceBlockingStub.withCallCredentials(Mockito.any()))
                 .thenReturn(this.connectedLabServiceBlockingStub);
     }
-
 
     @AfterEach
     void tearDown() {
@@ -52,7 +65,8 @@ class OpenCDXLabConnectedClientImplTest {
 
     @Test
     void createConnectedLab() {
-        Mockito.when(this.connectedLabServiceBlockingStub.createConnectedLab(Mockito.any(CreateConnectedLabRequest.class)))
+        Mockito.when(this.connectedLabServiceBlockingStub.createConnectedLab(
+                        Mockito.any(CreateConnectedLabRequest.class)))
                 .thenReturn(CreateConnectedLabResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -74,7 +88,8 @@ class OpenCDXLabConnectedClientImplTest {
 
     @Test
     void updateConnectedLab() {
-        Mockito.when(this.connectedLabServiceBlockingStub.updateConnectedLab(Mockito.any(UpdateConnectedLabRequest.class)))
+        Mockito.when(this.connectedLabServiceBlockingStub.updateConnectedLab(
+                        Mockito.any(UpdateConnectedLabRequest.class)))
                 .thenReturn(UpdateConnectedLabResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -85,7 +100,8 @@ class OpenCDXLabConnectedClientImplTest {
 
     @Test
     void deleteConnectedLab() {
-        Mockito.when(this.connectedLabServiceBlockingStub.deleteConnectedLab(Mockito.any(DeleteConnectedLabRequest.class)))
+        Mockito.when(this.connectedLabServiceBlockingStub.deleteConnectedLab(
+                        Mockito.any(DeleteConnectedLabRequest.class)))
                 .thenReturn(DeleteConnectedLabResponse.getDefaultInstance());
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertEquals(
@@ -94,27 +110,27 @@ class OpenCDXLabConnectedClientImplTest {
                         DeleteConnectedLabRequest.getDefaultInstance(), openCDXCallCredentials));
     }
 
-
     @Test
     void submitLabFindingsException() {
         Mockito.when(this.connectedLabServiceBlockingStub.submitLabFindings(Mockito.any(LabFindings.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        LabFindings request = LabFindings.getDefaultInstance();
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXLabConnectedClient.submitLabFindings(
-                        LabFindings.getDefaultInstance(), openCDXCallCredentials));
+                () -> this.openCDXLabConnectedClient.submitLabFindings(request, openCDXCallCredentials));
     }
 
     @Test
     void createConnectedLabException() {
-        Mockito.when(this.connectedLabServiceBlockingStub.createConnectedLab(Mockito.any(CreateConnectedLabRequest.class)))
+        Mockito.when(this.connectedLabServiceBlockingStub.createConnectedLab(
+                        Mockito.any(CreateConnectedLabRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        CreateConnectedLabRequest request = CreateConnectedLabRequest.getDefaultInstance();
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXLabConnectedClient.createConnectedLab(
-                        CreateConnectedLabRequest.getDefaultInstance(), openCDXCallCredentials));
+                () -> this.openCDXLabConnectedClient.createConnectedLab(request, openCDXCallCredentials));
     }
 
     @Test
@@ -122,31 +138,33 @@ class OpenCDXLabConnectedClientImplTest {
         Mockito.when(this.connectedLabServiceBlockingStub.getConnectedLab(Mockito.any(GetConnectedLabRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        GetConnectedLabRequest request = GetConnectedLabRequest.getDefaultInstance();
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXLabConnectedClient.getConnectedLab(
-                        GetConnectedLabRequest.getDefaultInstance(), openCDXCallCredentials));
+                () -> this.openCDXLabConnectedClient.getConnectedLab(request, openCDXCallCredentials));
     }
 
     @Test
     void updateConnectedLabException() {
-        Mockito.when(this.connectedLabServiceBlockingStub.updateConnectedLab(Mockito.any(UpdateConnectedLabRequest.class)))
+        Mockito.when(this.connectedLabServiceBlockingStub.updateConnectedLab(
+                        Mockito.any(UpdateConnectedLabRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        UpdateConnectedLabRequest request = UpdateConnectedLabRequest.getDefaultInstance();
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () ->  this.openCDXLabConnectedClient.updateConnectedLab(
-                        UpdateConnectedLabRequest.getDefaultInstance(), openCDXCallCredentials));
+                () -> this.openCDXLabConnectedClient.updateConnectedLab(request, openCDXCallCredentials));
     }
 
     @Test
     void deleteConnectedLabException() {
-        Mockito.when(this.connectedLabServiceBlockingStub.deleteConnectedLab(Mockito.any(DeleteConnectedLabRequest.class)))
+        Mockito.when(this.connectedLabServiceBlockingStub.deleteConnectedLab(
+                        Mockito.any(DeleteConnectedLabRequest.class)))
                 .thenThrow(new StatusRuntimeException(Status.INTERNAL));
         OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        DeleteConnectedLabRequest request = DeleteConnectedLabRequest.getDefaultInstance();
         Assertions.assertThrows(
                 OpenCDXClientException.class,
-                () -> this.openCDXLabConnectedClient.deleteConnectedLab(
-                        DeleteConnectedLabRequest.getDefaultInstance(), openCDXCallCredentials));
+                () -> this.openCDXLabConnectedClient.deleteConnectedLab(request, openCDXCallCredentials));
     }
 }
