@@ -6788,42 +6788,33 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
             <stringProp name="GRPCSampler.requestJson">{
   &quot;time&quot; : {
-    &quot;upperBound&quot; : 100.0,
-    &quot;lowerBound&quot; : 0.0,
+    &quot;upperBound&quot; : &quot;100&quot;,
+    &quot;lowerBound&quot; : &quot;0.0&quot;,
     &quot;includeUpperBound&quot; : true,
     &quot;includeLowerBound&quot; : true,
-    &quot;semantic&quot; : {
-      &quot;expression&quot; : &quot;expression&quot;
-    },
-    &quot;resolution&quot; : 1.0
+    &quot;semantic&quot; : &quot;expression&quot;,
+    &quot;resolution&quot; : &quot;1.0&quot;
   },
   &quot;subjectOfRecord&quot; : {
-    &quot;patientId&quot; : &quot;${patient_id_g}&quot;
+    &quot;id&quot; : &quot;${patient_id_g}&quot;
   },
   &quot;author&quot; : [ {
-    &quot;practitioner&quot; : &quot;practitioner&quot;,
-    &quot;code&quot; : {
-      &quot;expression&quot; : &quot;expression&quot;
-    }
+    &quot;practitionerValue&quot; : &quot;practitioner&quot;,
+    &quot;code&quot; : &quot;expression&quot;
   } ],
-  &quot;subjectOfInformation&quot; : {
-    &quot;expression&quot; : &quot;expression&quot;
-  },
+  &quot;subjectOfInformation&quot; : &quot;expression&quot;,
   &quot;associatedStatement&quot; : [ {
-    &quot;description&quot; : &quot;Associated description&quot;
+    &quot;semantic&quot; : &quot;Associated description&quot;
   } ],
-  &quot;topic&quot; : {
-    &quot;expression&quot; : &quot;Topic&quot;
-  },
-  &quot;type&quot; : {
-    &quot;expression&quot; : &quot;Type&quot;
-  },
-  &quot;narrativeCircumstance&quot; : {
-    &quot;text&quot; : &quot;Narrative Circumstance&quot;
+  &quot;topic&quot; : &quot;Topic&quot;,
+  &quot;type&quot; : &quot;Type&quot;,
+  &quot;circumstanceChoice&quot; : {
+    &quot;circumstanceType&quot; : &quot;NARRATIVE_CIRCUMSTANCE&quot;,
+    &quot;status&quot; : &quot;&quot;,
+    &quot;healthRisk&quot; : &quot;&quot;
   },
   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;
-}
-</stringProp>
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract ANF ID" enabled="true">
@@ -6869,43 +6860,34 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;id&quot; : {
     &quot;id&quot; : &quot;${anf_id}&quot;
   },
-   &quot;time&quot; : {
-    &quot;upperBound&quot; : 100.0,
-    &quot;lowerBound&quot; : 0.0,
+  &quot;time&quot; : {
+    &quot;upperBound&quot; : &quot;100.0&quot;,
+    &quot;lowerBound&quot; : &quot;0.0&quot;,
     &quot;includeUpperBound&quot; : true,
     &quot;includeLowerBound&quot; : true,
-    &quot;semantic&quot; : {
-      &quot;expression&quot; : &quot;expression&quot;
-    },
-    &quot;resolution&quot; : 1.0
+    &quot;semantic&quot; : &quot;expression&quot;,
+    &quot;resolution&quot; : &quot;1.0&quot;
   },
   &quot;subjectOfRecord&quot; : {
-    &quot;patientId&quot; : &quot;${patient_id_g}&quot;
+    &quot;id&quot; : &quot;${patient_id_g}&quot;
   },
   &quot;author&quot; : [ {
-    &quot;practitioner&quot; : &quot;practitioner&quot;,
-    &quot;code&quot; : {
-      &quot;expression&quot; : &quot;expression&quot;
-    }
+    &quot;practitionerValue&quot; : &quot;practitioner&quot;,
+    &quot;code&quot; : &quot;expression&quot;
   } ],
-  &quot;subjectOfInformation&quot; : {
-    &quot;expression&quot; : &quot;expression&quot;
-  },
+  &quot;subjectOfInformation&quot; : &quot;expression&quot;,
   &quot;associatedStatement&quot; : [ {
-    &quot;description&quot; : &quot;Associated description&quot;
+    &quot;semantic&quot; : &quot;Associated description&quot;
   } ],
-  &quot;topic&quot; : {
-    &quot;expression&quot; : &quot;Topic&quot;
-  },
-  &quot;type&quot; : {
-    &quot;expression&quot; : &quot;Type&quot;
-  },
-  &quot;narrativeCircumstance&quot; : {
-    &quot;text&quot; : &quot;Narrative Circumstance&quot;
+  &quot;topic&quot; : &quot;Topic&quot;,
+  &quot;type&quot; : &quot;Type&quot;,
+  &quot;circumstanceChoice&quot; : {
+    &quot;circumstanceType&quot; : &quot;NARRATIVE_CIRCUMSTANCE&quot;,
+    &quot;status&quot; : &quot;&quot;,
+    &quot;healthRisk&quot; : &quot;&quot;
   },
   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;
-}
-</stringProp>
+}</stringProp>
           </vn.zalopay.benchmark.GRPCSampler>
           <hashTree/>
           <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="ANF / DeleteANFStatement" enabled="true">
@@ -6934,38 +6916,30 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
   &quot;time&quot; : {&#xd;
-    &quot;upperBound&quot; : 100.0,&#xd;
-    &quot;lowerBound&quot; : 0.0,&#xd;
+    &quot;upperBound&quot; : &quot;100&quot;,&#xd;
+    &quot;lowerBound&quot; : &quot;0.0&quot;,&#xd;
     &quot;includeUpperBound&quot; : true,&#xd;
     &quot;includeLowerBound&quot; : true,&#xd;
-    &quot;semantic&quot; : {&#xd;
-      &quot;expression&quot; : &quot;expression&quot;&#xd;
-    },&#xd;
-    &quot;resolution&quot; : 1.0&#xd;
+    &quot;semantic&quot; : &quot;expression&quot;,&#xd;
+    &quot;resolution&quot; : &quot;1.0&quot;&#xd;
   },&#xd;
   &quot;subjectOfRecord&quot; : {&#xd;
-    &quot;patientId&quot; : &quot;${patient_id_r}&quot;&#xd;
+    &quot;id&quot; : &quot;${patient_id_r}&quot;&#xd;
   },&#xd;
   &quot;author&quot; : [ {&#xd;
-    &quot;practitioner&quot; : &quot;practitioner&quot;,&#xd;
-    &quot;code&quot; : {&#xd;
-      &quot;expression&quot; : &quot;expression&quot;&#xd;
-    }&#xd;
+    &quot;practitionerValue&quot; : &quot;practitioner&quot;,&#xd;
+    &quot;code&quot; : &quot;expression&quot;&#xd;
   } ],&#xd;
-  &quot;subjectOfInformation&quot; : {&#xd;
-    &quot;expression&quot; : &quot;expression&quot;&#xd;
-  },&#xd;
+  &quot;subjectOfInformation&quot; : &quot;expression&quot;,&#xd;
   &quot;associatedStatement&quot; : [ {&#xd;
-    &quot;description&quot; : &quot;Associated description&quot;&#xd;
+    &quot;semantic&quot; : &quot;Associated description&quot;&#xd;
   } ],&#xd;
-  &quot;topic&quot; : {&#xd;
-    &quot;expression&quot; : &quot;Topic&quot;&#xd;
-  },&#xd;
-  &quot;type&quot; : {&#xd;
-    &quot;expression&quot; : &quot;Type&quot;&#xd;
-  },&#xd;
-  &quot;narrativeCircumstance&quot; : {&#xd;
-    &quot;text&quot; : &quot;Narrative Circumstance&quot;&#xd;
+  &quot;topic&quot; : &quot;Topic&quot;,&#xd;
+  &quot;type&quot; : &quot;Type&quot;,&#xd;
+  &quot;circumstanceChoice&quot; : {&#xd;
+    &quot;circumstanceType&quot; : &quot;NARRATIVE_CIRCUMSTANCE&quot;,&#xd;
+    &quot;status&quot; : &quot;&quot;,&#xd;
+    &quot;healthRisk&quot; : &quot;&quot;&#xd;
   },&#xd;
   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
 }&#xd;
@@ -7026,38 +7000,30 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;id&quot; : &quot;${anf_id}&quot;&#xd;
   },&#xd;
   &quot;time&quot; : {&#xd;
-    &quot;upperBound&quot; : 100.0,&#xd;
-    &quot;lowerBound&quot; : 0.0,&#xd;
+    &quot;upperBound&quot; : &quot;100&quot;,&#xd;
+    &quot;lowerBound&quot; : &quot;0.0&quot;,&#xd;
     &quot;includeUpperBound&quot; : true,&#xd;
     &quot;includeLowerBound&quot; : true,&#xd;
-    &quot;semantic&quot; : {&#xd;
-      &quot;expression&quot; : &quot;expression&quot;&#xd;
-    },&#xd;
-    &quot;resolution&quot; : 1.0&#xd;
+    &quot;semantic&quot; : &quot;expression&quot;,&#xd;
+    &quot;resolution&quot; : &quot;1.0&quot;&#xd;
   },&#xd;
   &quot;subjectOfRecord&quot; : {&#xd;
-    &quot;patientId&quot; : &quot;${patient_id_g}&quot;&#xd;
+    &quot;id&quot; : &quot;${patient_id_r}&quot;&#xd;
   },&#xd;
   &quot;author&quot; : [ {&#xd;
-    &quot;practitioner&quot; : &quot;practitioner&quot;,&#xd;
-    &quot;code&quot; : {&#xd;
-      &quot;expression&quot; : &quot;expression&quot;&#xd;
-    }&#xd;
+    &quot;practitionerValue&quot; : &quot;practitioner&quot;,&#xd;
+    &quot;code&quot; : &quot;expression&quot;&#xd;
   } ],&#xd;
-  &quot;subjectOfInformation&quot; : {&#xd;
-    &quot;expression&quot; : &quot;expression&quot;&#xd;
-  },&#xd;
+  &quot;subjectOfInformation&quot; : &quot;expression&quot;,&#xd;
   &quot;associatedStatement&quot; : [ {&#xd;
-    &quot;description&quot; : &quot;Associated description&quot;&#xd;
+    &quot;semantic&quot; : &quot;Associated description&quot;&#xd;
   } ],&#xd;
-  &quot;topic&quot; : {&#xd;
-    &quot;expression&quot; : &quot;Topic&quot;&#xd;
-  },&#xd;
-  &quot;type&quot; : {&#xd;
-    &quot;expression&quot; : &quot;Type&quot;&#xd;
-  },&#xd;
-  &quot;narrativeCircumstance&quot; : {&#xd;
-    &quot;text&quot; : &quot;Narrative Circumstance&quot;&#xd;
+  &quot;topic&quot; : &quot;Topic&quot;,&#xd;
+  &quot;type&quot; : &quot;Type&quot;,&#xd;
+  &quot;circumstanceChoice&quot; : {&#xd;
+    &quot;circumstanceType&quot; : &quot;NARRATIVE_CIRCUMSTANCE&quot;,&#xd;
+    &quot;status&quot; : &quot;&quot;,&#xd;
+    &quot;healthRisk&quot; : &quot;&quot;&#xd;
   },&#xd;
   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
 }&#xd;
@@ -9793,30 +9759,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
-        <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateMedication" enabled="true">
-          <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-          <stringProp name="GRPCSampler.libFolder"></stringProp>
-          <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-          <stringProp name="GRPCSampler.host">localhost</stringProp>
-          <stringProp name="GRPCSampler.port">8080</stringProp>
-          <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateMedication</stringProp>
-          <stringProp name="GRPCSampler.deadline">1000</stringProp>
-          <boolProp name="GRPCSampler.tls">true</boolProp>
-          <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-          <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-          <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-          <stringProp name="GRPCSampler.requestJson">{
-  &quot;medication&quot; : {
-    &quot;medicationId&quot; : &quot;6581e5147e001111d3736b41&quot;,
-    &quot;medicationName&quot; : &quot;Medication name&quot;,
-    &quot;administrationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
-    &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]
-  }
-}</stringProp>
-        </vn.zalopay.benchmark.GRPCSampler>
-        <hashTree/>
       </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
