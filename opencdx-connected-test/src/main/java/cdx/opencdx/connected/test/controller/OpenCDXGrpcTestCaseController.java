@@ -16,10 +16,7 @@
 package cdx.opencdx.connected.test.controller;
 
 import cdx.opencdx.connected.test.service.OpenCDXTestCaseService;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.TestCase;
-import cdx.opencdx.grpc.inventory.TestCaseIdRequest;
-import cdx.opencdx.grpc.inventory.TestCaseServiceGrpc;
+import cdx.opencdx.grpc.inventory.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +66,13 @@ public class OpenCDXGrpcTestCaseController extends TestCaseServiceGrpc.TestCaseS
     @Override
     public void deleteTestCase(TestCaseIdRequest request, StreamObserver<DeleteResponse> responseObserver) {
         responseObserver.onNext(this.openCDXTestCaseService.deleteTestCase(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void listTestCase(TestCaseListRequest request, StreamObserver<TestCaseListResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXTestCaseService.listTestCase(request));
         responseObserver.onCompleted();
     }
 }
