@@ -2,6 +2,15 @@
 export const gridSpacing = 3;
 export const drawerWidth = 260;
 export const appDrawerWidth = 320;
+// Define the enum
+export const statementType = {
+    MAIN: 'ANF_STATEMENT_TYPE_MAIN',
+    ASSOCIATED: 'ANF_STATEMENT_TYPE_ASSOCIATED',
+    USER_QUESTION: 'ANF_STATEMENT_TYPE_USER_QUESTION',
+    NOT_APPLICABLE: 'ANF_STATEMENT_TYPE_NOT_APPLICABLE'
+};
+
+
 export const categories = [
     { key: 0, label: 'ANF Topic', selected: false },
     { key: 1, label: 'General', selected: false },

@@ -40,7 +40,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }, ref)
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
                             fullWidth
-                            {...register(`item.${index}.item.${0}.operatorValue`, { value: '' })}
+                            {...register(`item.${index}.item.anfOperatorType`, { value: '' })}
                             control={control}
                             render={({ field }) => (
                                 <Select {...field} id={`item.${index}.item.${0}.operatorValue`}>
@@ -60,7 +60,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }, ref)
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
                             fullWidth
-                            {...register(`item.${index}.item.${0}.answerValue`)}
+                            {...register(`item.${index}.operatorValue`)}
                             control={control}
                             render={({ field }) => (
                                 <Select
@@ -155,7 +155,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }, ref)
                             <FormControl fullWidth sx={{ pt: 2 }}>
                                 <Controller
                                     fullWidth
-                                    {...register(`item.${index}.item.${i + 1}.answerValue`)}
+                                    {...register(`item.${index}.item.${i + 1}.operatorValue`)}
                                     control={control}
                                     render={({ field }) => (
                                         <Select

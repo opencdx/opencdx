@@ -33,6 +33,18 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
         const anf = JSON.parse(localStorage.getItem('anf-form')); // Parse the JSON string to an object
         anf.updated.item = data.item;
         anf.updated.ruleset = data.item.ruleset;
+        anf.updated.item.forEach((element, index) => {
+            let componentType=element.componentType;
+            let anfOperatorType = element.anfOperatorType;
+            let operatorValue = element.operatorValue;
+            element.item.forEach((connector, index) => {
+                connector.anfStatementConnector[0].anfStatement.anfStatementType = componentType;
+                connector.anfStatementConnector[0].anfStatement.anfOperatorType = anfOperatorType;
+                connector.anfStatementConnector[0].anfStatement.operatorValue = operatorValue;
+            }
+            );
+        });
+
         localStorage.setItem('anf-form', JSON.stringify(anf));
         // setFiles({ item: data.test, ruleset: data.test.rulesets });
     };

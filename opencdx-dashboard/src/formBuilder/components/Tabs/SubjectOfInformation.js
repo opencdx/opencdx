@@ -6,13 +6,13 @@ import { MainCard } from '../ui-components/MainCard';
 import { SystemVariables } from '../ui-components/SystemVariables';
 
 import { InputLabel } from '../ui-components/InputLabel';
-import { systemVariables } from '../../store/constant';
+import { systemVariables, statementType } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab, getValues }, ref) => {
     const { formData } = useAnfFormStore();
 
-    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
+    const componentType = [statementType.MAIN, statementType.ASSOCIATED].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <SystemVariables index={index} currentIndex={currentIndex} getValues={getValues} tab={'subjectOfInformation'} />

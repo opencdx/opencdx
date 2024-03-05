@@ -9,7 +9,7 @@ const QuestionsList = forwardRef((props, ref) => {
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
     const handleCopyToClipboard = (value) => {
-        navigator.clipboard.writeText('document.getElementsById("' + value + '").value').catch((error) => {
+        navigator.clipboard.writeText('{{REPLACE_' + value + '}}').catch((error) => {
             console.error('Unable to copy text to clipboard', error);
         });
         setIsSnackbarOpen(true);
@@ -40,7 +40,7 @@ const QuestionsList = forwardRef((props, ref) => {
                             <td>{item.text}</td>
                             {/* <td style={{ wordWrap: 'break-word' }}>document.getElementById({item.linkId}).value</td> */}
                             <td>
-                                <Tooltip title={`document.getElementById(${item.linkId}).value`}>
+                                <Tooltip title={`{{REPLACE_${item.linkId})}}`}>
                                     <Button onClick={() => handleCopyToClipboard(item.linkId, index)}>Copy to Clipboard</Button>
                                 </Tooltip>
                             </td>

@@ -8,13 +8,13 @@ import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
 import { Controller } from 'react-hook-form';
 
-import { systemVariables } from '../../store/constant';
+import { systemVariables, statementType } from '../../store/constant';
 import { SystemVariables } from '../ui-components/SystemVariables';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 export const CircumstanceChoice = React.forwardRef(({ control, register, index, currentIndex, getValues }, ref) => {
     const { formData } = useAnfFormStore();
-    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
+    const componentType = [statementType.MAIN, statementType.ASSOCIATED].includes(formData.item[index]?.componentType);
 
     return (
         <Grid item xs={12} lg={12} ref={ref}>
@@ -27,16 +27,16 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={9} lg={8}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`item.${index}.item.${currentIndex}.circumstanceType`}
+                                name={`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.circumstanceChoice.circumstanceType`}
                                 control={control}
-                                defaultValue={10}
+                                defaultValue={'PERFORMANCE_CIRCUMSTANCE'}
                                 render={({ field }) => (
                                     <Select {...field}>
-                                        <MenuItem value={10} defaultValue={10}>
+                                        <MenuItem value={'PERFORMANCE_CIRCUMSTANCE'} defaultValue={10}>
                                             Performance Circumstance
                                         </MenuItem>
-                                        <MenuItem value={20}>Request Circumstance</MenuItem>
-                                        <MenuItem value={30}>Narrative Circumstance</MenuItem>
+                                        <MenuItem value={'REQUEST_CIRCUMSTANCE'}>Request Circumstance</MenuItem>
+                                        <MenuItem value={'NARRATIVE_CIRCUMSTANCE'}>Narrative Circumstance</MenuItem>
                                     </Select>
                                 )}
                             />
@@ -59,7 +59,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                                     name={`item.${index}.item.${currentIndex}.status`}
                                     control={control}
                                     render={({ field }) => (
-                                        <Select {...field} id={`item.${index}.item.${currentIndex}.status`}>
+                                        <Select {...field} id={`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.circumstanceChoice.status`}>
                                             <MenuItem value={10}>On Hold</MenuItem>
                                             <MenuItem value={20}>Completed</MenuItem>
                                             <MenuItem value={30}>Needed</MenuItem>
@@ -74,7 +74,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Result</InputLabel>
                     </Grid>
-                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="result" />}
+                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="circumstanceChoice.result" />}
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Health Risks</InputLabel>
                     </Grid>
@@ -82,14 +82,14 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                         <FormControl fullWidth>
                             {componentType ? (
                                 <TextField
-                                    {...register(`item.${index}.item.${currentIndex}.healthRisk`)}
+                                    {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.circumstanceChoice.healthRisk`)}
                                     fullWidth
                                     placeholder="Enter Health Risk Information"
                                     defaultValue={systemVariables['circumstanceChoice'][0].healthRisk.replace('XXXXX', '')}
                                 />
                             ) : (
                                 <TextField
-                                    {...register(`item.${index}.item.${currentIndex}.healthRisk`)}
+                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.circumstanceChoice.healthRisk`)}
                                     fullWidth
                                     placeholder="Enter Health Risk Information"
                                 />
@@ -99,7 +99,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important' } }}>
                         <InputLabel horizontal>Normal Range</InputLabel>
                     </Grid>
-                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="rangeMeasure" />}
+                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="circumstanceChoice.normalRange" />}
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important', marginTop: 10 } }}>
                         <InputLabel horizontal>Circumstance</InputLabel>
                     </Grid>
@@ -108,7 +108,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important', marginTop: 10 } }}>
                         <InputLabel horizontal>Timing</InputLabel>
                     </Grid>
-                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="timingMeasure" />}
+                    {<MeasureComponent {...{ control, register, index, currentIndex }} tab="circumstanceChoice.timing" />}
                     <Grid item xs={12} sm={3} lg={4} sx={{ pt: { xs: 2, sm: '0 !important', marginTop: 10 } }}>
                         <InputLabel horizontal>Participant</InputLabel>
                     </Grid>
