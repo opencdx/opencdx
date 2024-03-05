@@ -43,8 +43,9 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
 
             if (Array.isArray(element.item)) {
                 element.item.forEach((connector, index) => {
+                
                     connector.anfStatementConnector[0].anfStatement.anfStatementType = componentType;
-                    connector.anfStatementConnector[0].anfStatement.anfOperatorType = anfOperatorType;
+                    connector.anfStatementConnector[0].anfStatement.anfOperatorType = anfOperatorType === 'Equal' ? 'ANF_OPERATOR_TYPE_EQUAL' :'ANF_OPERATOR_TYPE_NOT_EQUAL';
                     connector.anfStatementConnector[0].anfStatement.operatorValue = operatorValue;
                 });
             }

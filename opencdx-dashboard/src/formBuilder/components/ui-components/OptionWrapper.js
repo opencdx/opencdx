@@ -40,7 +40,7 @@ const OptionWrapper = React.forwardRef(({ control, register, index, item }, ref)
                     <FormControl fullWidth sx={{ pt: 2 }}>
                         <Controller
                             fullWidth
-                            {...register(`item.${index}.item.anfOperatorType`, { value: '' })}
+                            {...register(`item.${index}.anfOperatorType`)}
                             control={control}
                             render={({ field }) => (
                                 <Select {...field} id={`item.${index}.item.${0}.operatorValue`}>

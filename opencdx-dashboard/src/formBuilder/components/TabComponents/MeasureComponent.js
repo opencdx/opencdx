@@ -17,8 +17,8 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
     const [upperBoundState, setUpperBound] = useState(systemVariables[tab]?.upperBound);
     const [resolutionState, setResolution] = useState(systemVariables[tab]?.resolution);
     const [semanticState, setSemantic] = useState(systemVariables[tab]?.semantic);
-    const [lowerBoundOptionsState, setLowerBoundOptions] = useState(systemVariables[tab]?.lowerBoundOptions);
-    const [upperBoundOptionsState, setUpperBoundOptions] = useState(systemVariables[tab]?.upperBoundOptions);
+    const [lowerBoundOptionsState, setLowerBoundOptions] = useState(systemVariables[tab]?.includeLowerBound);
+    const [upperBoundOptionsState, setUpperBoundOptions] = useState(systemVariables[tab]?.includeUpperBound);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
@@ -59,13 +59,13 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 <FormControl>
                                     <Controller
                                         control={control}
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.lowerBoundOptions`)}
+                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.includeLowerBound`)}
                                         render={({ field }) =>
                                             componentType ? (
                                                 <RadioGroup
                                                     row
-                                                    aria-label="lowerBoundOptions"
-                                                    name="lowerBoundOptions"
+                                                    aria-label="includeLowerBound"
+                                                    name="includeLowerBound"
                                                     {...field}
                                                     onChange={(e) => {
                                                         field.onChange(e.target.value);
@@ -80,8 +80,8 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                             ) : (
                                                 <RadioGroup
                                                     row
-                                                    aria-label="lowerBoundOptions"
-                                                    name="lowerBoundOptions"
+                                                    aria-label="includeLowerBound"
+                                                    name="includeLowerBound"
                                                     {...field}
                                                     onChange={(e) => {
                                                         field.onChange(e.target.value);
@@ -181,13 +181,13 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                         <FormControl>
                             <Controller
                                 control={control}
-                                {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.upperBoundOptions`)}
+                                {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.includeUpperBound`)}
                                 render={({ field }) =>
                                     componentType ? (
                                         <RadioGroup
                                             row
-                                            aria-label="upperBoundOptions"
-                                            name="upperBoundOptions"
+                                            aria-label="includeUpperBound"
+                                            name="includeUpperBound"
                                             {...field}
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
@@ -202,8 +202,8 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     ) : (
                                         <RadioGroup
                                             row
-                                            aria-label="upperBoundOptions"
-                                            name="upperBoundOptions"
+                                            aria-label="includeUpperBound"
+                                            name="includeUpperBound"
                                             {...field}
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
