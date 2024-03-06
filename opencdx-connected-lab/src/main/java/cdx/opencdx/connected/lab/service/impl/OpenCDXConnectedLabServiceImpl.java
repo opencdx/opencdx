@@ -33,6 +33,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -77,24 +78,36 @@ public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabServic
         ObjectId organizationId = new ObjectId(request.getBasicInfo().getOrganizationId());
         ObjectId workspaceId = new ObjectId(request.getBasicInfo().getWorkspaceId());
 
-        OpenCDXConnectedLabModel openCDXConnectedLabModel = this.openCDXConnectedLabRepository
-                .findByOrganizationIdAndWorkspaceId(organizationId, workspaceId)
-                .orElseThrow(() -> new OpenCDXNotFound(
-                        DOMAIN,
-                        7,
-                        "Failed to find connected lab for organizationId: " + organizationId + " and workspaceId: "
-                                + workspaceId));
+        Optional<OpenCDXConnectedLabModel> openCDXConnectedLabModel =
+                this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(organizationId, workspaceId);
+
+        if (openCDXConnectedLabModel.isEmpty()) {
+            openCDXConnectedLabModel = this.openCDXConnectedLabRepository.findByOrganizationId(organizationId);
+        }
+
+        if (openCDXConnectedLabModel.isEmpty()) {
+            log.error("Failed to find connected lab for organizationId: " + organizationId + " and workspaceId: "
+                    + workspaceId);
+            throw new OpenCDXNotFound(
+                    DOMAIN,
+                    7,
+                    "Failed to find connected lab for organizationId: " + organizationId + " and workspaceId: "
+                            + workspaceId);
+        }
 
         try {
-            OpenCDXLabConnected connection =
-                    this.openCDXLabConnectionFactoryBean.getConnection(openCDXConnectedLabModel.getIdentifier());
+            OpenCDXLabConnected connection = this.openCDXLabConnectionFactoryBean.getConnection(
+                    openCDXConnectedLabModel.get().getIdentifier());
 
-            return connection.submitLabFindings(openCDXConnectedLabModel, request);
+            return connection.submitLabFindings(openCDXConnectedLabModel.get(), request);
 
         } catch (Exception e) {
-            log.error("Failed to load lab: " + openCDXConnectedLabModel.getIdentifier(), e);
+            log.error("Failed to load lab: " + openCDXConnectedLabModel.get().getIdentifier(), e);
             throw new OpenCDXServiceUnavailable(
-                    DOMAIN, 8, "Failed load lab: " + openCDXConnectedLabModel.getIdentifier(), e);
+                    DOMAIN,
+                    8,
+                    "Failed load lab: " + openCDXConnectedLabModel.get().getIdentifier(),
+                    e);
         }
     }
 

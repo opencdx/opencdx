@@ -126,11 +126,6 @@ message Routine {
  * The 'DeliveryTracking' is a message which represents a specific delivery and stores the details related to it.
  */
 message DeliveryTracking {
-  /*
-   * The 'Status' enumeration is used to represent the different stages/phases that a delivery can go through in its journey.
-   * Each member of this enum represents a particular status that a delivery can possess.
-   */
-
 
   /*
    * Uniquely identifies a delivery instance.

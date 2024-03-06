@@ -28,4 +28,6 @@ import org.springframework.stereotype.Repository;
 public interface OpenCDXConnectedLabRepository extends MongoRepository<OpenCDXConnectedLabModel, ObjectId> {
     Optional<OpenCDXConnectedLabModel> findByOrganizationIdAndWorkspaceId(
             ObjectId organizationId, ObjectId workspaceId);
+
+    Optional<OpenCDXConnectedLabModel> findByOrganizationId(ObjectId organizationId);
 }
