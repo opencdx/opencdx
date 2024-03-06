@@ -56,13 +56,15 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
 
         const saveQuestionnare = async () => {
             const response = await axios.post(
-                'http://localhost:8080/questionnaire/questionnaire',
+                'https://localhost:8080/questionnaire/questionnaire',
+                {
+                    data: updatedData
+                },
                 {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
-                    },
-                    data: updatedData
+                    }
                 }
             );
             console.log(response.data);
