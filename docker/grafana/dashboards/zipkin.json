@@ -17,7 +17,7 @@
       }
     ]
   },
-  "description": "Visualize Prometheus metrics exported by OpenZipkin (http://zipkin.io/).",
+  "description": "Visualize Prometheus metrics exported by OpenZipkin (https://zipkin.io).",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 1598,
@@ -29,7 +29,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -94,7 +94,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(level)(rate(log4j2_events_total{job=\"zipkin\",level=\"trace\",instance=~\"$instances\"}[5m]))",
           "format": "time_series",
@@ -108,7 +108,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -173,7 +173,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(level)(rate(log4j2_events_total{job=\"zipkin\",level=\"debug\",instance=~\"$instances\"}[5m]))",
           "format": "time_series",
@@ -187,7 +187,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -252,7 +252,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(level)(rate(log4j2_events_total{job=\"zipkin\",level=\"info\",instance=~\"$instances\"}[5m]))",
           "format": "time_series",
@@ -266,7 +266,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -334,7 +334,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(level)(rate(log4j2_events_total{job=\"zipkin\",level=\"warn\",instance=~\"$instances\"}[5m]))",
           "format": "time_series",
@@ -348,7 +348,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -416,7 +416,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(level)(rate(log4j2_events_total{job=\"zipkin\",level=\"error\",instance=~\"$instances\"}[5m]))",
           "format": "time_series",
@@ -430,7 +430,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -498,7 +498,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(level)(rate(log4j2_events_total{job=\"zipkin\",level=\"fatal\",instance=~\"$instances\"}[5m]))",
           "format": "time_series",
@@ -512,7 +512,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "gridPos": {
         "h": 3,
@@ -536,7 +536,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "refId": "A"
         }
@@ -550,7 +550,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "description": "Messages on left axis, Spans on right axis",
       "fill": 0,
@@ -612,7 +612,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(transport)(rate(zipkin_collector_messages_total{job=\"zipkin\",instance=~\"$instances\"}[$__interval]))\n",
           "format": "time_series",
@@ -662,7 +662,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "description": "Messages on left axis, Spans on right axis",
       "fill": 0,
@@ -717,7 +717,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(transport)(rate(zipkin_collector_spans_total{instance=~\"$instances\"}[$__interval]))\n",
           "format": "time_series",
@@ -768,7 +768,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "description": "The number of messages dropped (for kafka, scribe and http)",
       "fill": 0,
@@ -825,7 +825,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(transport)(rate(zipkin_collector_messages_dropped_total{job=\"zipkin\",instance=~\"$instances\"}[$__interval]))",
           "format": "time_series",
@@ -876,7 +876,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "description": "The number of spans dropped (for scribe, http and kafka)",
       "fill": 0,
@@ -931,7 +931,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(transport)(rate(zipkin_collector_spans_dropped_total{instance=~\"$instances\"}[$__interval]))\n",
           "format": "time_series",
@@ -982,7 +982,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 0,
       "fillGradient": 0,
@@ -1034,7 +1034,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by (transport)(rate(zipkin_collector_bytes_total{job=\"zipkin\",instance=~\"$instances\"}[$__interval]))",
           "format": "time_series",
@@ -1082,7 +1082,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 0,
       "fillGradient": 0,
@@ -1129,7 +1129,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "rate(http_server_requests_seconds_count{job=\"zipkin\",instance=~\"$instances\",uri=\"/api/v2/spans\"}[$__interval])",
           "format": "time_series",
@@ -1178,7 +1178,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1219,7 +1219,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "histogram_quantile(0.9, http_server_requests_seconds_bucket{job=\"zipkin\",method=\"GET\",status=\"200\",uri=\"/api/v2/spans\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1232,7 +1232,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "histogram_quantile(0.5, http_server_requests_seconds_bucket{job=\"zipkin\",method=\"GET\",status=\"200\",uri=\"/api/v2/spans\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1280,7 +1280,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1321,7 +1321,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "histogram_quantile(0.9, http_server_requests_seconds_bucket{job=\"zipkin\",method=\"POST\",status=\"202\",uri=\"/api/v2/spans\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1336,7 +1336,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "histogram_quantile(0.5, http_server_requests_seconds_bucket{job=\"zipkin\",method=\"POST\",status=\"202\",uri=\"/api/v2/spans\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1386,7 +1386,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1432,7 +1432,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "system_cpu_count{job=\"zipkin\",instance=~\"$instances\"}",
           "format": "time_series",
@@ -1445,7 +1445,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "system_load_average_1m{job=\"zipkin\",instance=~\"$instances\"}",
           "format": "time_series",
@@ -1493,7 +1493,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 0,
       "fillGradient": 0,
@@ -1548,7 +1548,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(area,instance)(jvm_memory_used_bytes{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1560,7 +1560,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(area,instance)(jvm_memory_max_bytes{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1572,7 +1572,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(instance,id)(jvm_buffer_total_capacity_bytes{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1622,7 +1622,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 0,
       "fillGradient": 0,
@@ -1668,7 +1668,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "delta(jvm_gc_pause_seconds_sum{job=\"zipkin\",instance=~\"$instances\"}[$__interval])",
           "format": "time_series",
@@ -1681,7 +1681,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "delta(jvm_gc_pause_seconds_count{job=\"zipkin\",instance=~\"$instances\"}[$__interval])",
           "format": "time_series",
@@ -1732,7 +1732,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 0,
       "fillGradient": 0,
@@ -1773,7 +1773,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(instance)(jvm_threads_live_threads{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1786,7 +1786,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(instance)(jvm_threads_daemon_threads{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1799,7 +1799,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(instance)(jvm_threads_peak_threads{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1812,7 +1812,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "sum by(instance)(jvm_threads_states_threads{job=\"zipkin\",instance=~\"$instances\"})",
           "format": "time_series",
@@ -1859,7 +1859,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prom"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1900,7 +1900,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "jvm_classes_loaded_classes{job=\"zipkin\",instance=~\"$instances\"}",
           "format": "time_series",
@@ -1913,7 +1913,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "prom"
           },
           "expr": "jvm_classes_unloaded_classes_total{job=\"zipkin\",instance=~\"$instances\"}",
           "format": "time_series",
@@ -1977,7 +1977,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "prom"
         },
         "definition": "label_values(http_server_requests_seconds_bucket{job=\"zipkin\"}, instance)",
         "hide": 0,
