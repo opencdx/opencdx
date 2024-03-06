@@ -597,6 +597,11 @@ service DeviceService {
    * Delete a specific device.
    */
   rpc delete_device(DeviceIdRequest) returns (DeleteResponse);
+
+  /*
+  * Retrieves a list of devices.
+  */
+  rpc list_devices(DeviceListRequest) returns (DeviceListResponse);
 }
 
 /*
@@ -624,6 +629,67 @@ service TestCaseService {
    * Delete a specific test case.
    */
   rpc delete_test_case(TestCaseIdRequest) returns (DeleteResponse);
+
+  /*
+   * Retrieves a list of test case.
+   */
+  rpc list_test_case(TestCaseListRequest) returns (TestCaseListResponse);
+}
+
+/*
+ * Request Message to list TestCaseListRequest. This helps
+ * fetching multiple test data for a user, leveraging pagination.
+ */
+message TestCaseListRequest {
+  /*
+   * Pagination information and sorting. Used to fetch a batch of tests for a user rather than all.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /*
+   * Unique identifier
+   */
+  optional string manufacturer_id = 2;
+  optional string vendor_id = 3;
+}
+
+/*
+ * Response containing the requested list of connected tests for a specific user.
+ * The response includes details of all connected tests for a user.
+ */
+message TestCaseListResponse {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  repeated TestCase test_cases = 2;
+}
+
+/*
+ * Request Message to list Devices. This helps
+ * fetching multiple test data for a user, leveraging pagination.
+ */
+message DeviceListRequest {
+  /*
+   * Pagination information and sorting. Used to fetch a batch of devices.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /*
+   * Unique identifier
+   */
+  optional string manufacturer_id = 2;
+  optional string vendor_id = 3;
+}
+
+/*
+ * Response containing the requested list of devices for a specific user.
+ * The response includes details of all devices.
+ */
+message DeviceListResponse {
+  /*
+   * Pagination information and sorting.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  repeated Device device = 2;
 }
 
 /*
