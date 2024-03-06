@@ -321,6 +321,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             }
 
             Order.Builder builder = Order.newBuilder();
+            builder.setShippingName(model.getPatient().getFullName());
             builder.setPatientId(model.getPatient().getId().toHexString());
             builder.setShippingAddress(shippingAddress);
             builder.setTestCaseId(model.getClassificationResponse().getTestKit().getTestCaseId());

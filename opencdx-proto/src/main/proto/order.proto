@@ -23,43 +23,48 @@ message Order {
   optional string patient_id = 2;
 
   /**
+   * The shipping name for the order.
+   */
+  cdx.opencdx.grpc.common.FullName shipping_name = 3;
+
+  /**
    * The shipping address for the order.
    */
-  cdx.opencdx.grpc.common.Address shipping_address = 3;
+  cdx.opencdx.grpc.common.Address shipping_address = 4;
 
   /**
    * The id of TestCase that are part of the order.
    */
-  string test_case_id = 4;
+  string test_case_id = 5;
 
   /*
    * The timestamp capturing when this particular Manufacturer instance was created.
    * This is optional, and might not be present at all.
    */
-  optional google.protobuf.Timestamp created = 5;
+  optional google.protobuf.Timestamp created = 6;
 
   /*
    * The timestamp capturing any modifications to the Manufacturer instance.
    * Similar to 'created', this too is optional.
    */
-  optional google.protobuf.Timestamp modified = 6;
+  optional google.protobuf.Timestamp modified = 7;
 
   /*
    * The ID of the user who initially created this Manufacturer instance.
    * Another optional field.
    */
-  optional string creator = 7;
+  optional string creator = 8;
 
   /*
    * The ID of the user who made the most recent modifications to this Manufacturer instance.
    * This field is also optional.
    */
-  optional string modifier = 8;
+  optional string modifier = 9;
 
   /**
    * The status of the order.
    */
-  optional cdx.opencdx.grpc.common.ShippingStatus status = 9;
+  optional cdx.opencdx.grpc.common.ShippingStatus status = 10;
 }
 
 /**

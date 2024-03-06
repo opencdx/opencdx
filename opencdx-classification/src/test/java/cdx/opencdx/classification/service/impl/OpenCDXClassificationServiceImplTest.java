@@ -31,10 +31,7 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.AddressPurpose;
-import cdx.opencdx.grpc.common.Duration;
-import cdx.opencdx.grpc.common.DurationType;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.TestDetails;
 import cdx.opencdx.grpc.connected.TestIdRequest;
@@ -158,6 +155,10 @@ class OpenCDXClassificationServiceImplTest {
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("Open")
+                                        .setLastName("CDX")
+                                        .build())
                                 .addresses(List.of(Address.newBuilder()
                                         .setAddress1("123 Main St")
                                         .setCity("Anytown")

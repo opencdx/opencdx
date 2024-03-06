@@ -18,13 +18,17 @@ message ShippingRequest {
    */
   cdx.opencdx.grpc.common.Address sender_address = 1;
   /**
+   * The name to ship the package to.
+   */
+  cdx.opencdx.grpc.common.FullName shipping_name = 2;
+  /**
    * The address of the recipient.
    */
-  cdx.opencdx.grpc.common.Address recipient_address = 2;
+  cdx.opencdx.grpc.common.Address recipient_address = 3;
   /**
    * The package details.
    */
-  cdx.opencdx.grpc.shipping.Order package_details = 3;
+  cdx.opencdx.grpc.shipping.Order package_details = 4;
   /**
    * The service level requested.
    */
@@ -45,46 +49,50 @@ message Shipping {
    */
   optional string id = 1;
   /**
+   * The name to ship the package to.
+   */
+  cdx.opencdx.grpc.common.FullName shipping_name = 2;
+  /**
    * The address of the sender.
    */
-  cdx.opencdx.grpc.common.Address sender_address = 2;
+  cdx.opencdx.grpc.common.Address sender_address = 3;
   /**
    * The address of the recipient.
    */
-  cdx.opencdx.grpc.common.Address recipient_address = 3;
+  cdx.opencdx.grpc.common.Address recipient_address = 4;
   /**
    * The package details.
    */
-  cdx.opencdx.grpc.shipping.Order package_details = 4;
+  cdx.opencdx.grpc.shipping.Order package_details = 5;
   /**
    * The service level requested.
    */
-  ServiceLevel service_level = 5;
+  ServiceLevel service_level = 6;
   /**
    * The additional services requested.
    */
-  repeated AdditionalService additional_services = 6;
+  repeated AdditionalService additional_services = 7;
   /**
    * The payment details.
    */
-  bool require_signature = 7;
+  bool require_signature = 8;
   /**
    * The declared value of the package.
    */
-  double declared_value = 8;
+  double declared_value = 9;
   /**
    * The shipping vendor id.
    */
-  string shipping_vendor_id = 9;
+  string shipping_vendor_id = 10;
 
   /**
    * The shipping cost.
    */
-  double shipping_cost = 10;
+  double shipping_cost = 11;
   /**
    * The payment details.
    */
-  cdx.opencdx.grpc.common.PaymentDetails payment_details = 11;
+  cdx.opencdx.grpc.common.PaymentDetails payment_details = 12;
 }
 
 /**
