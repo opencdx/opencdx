@@ -256,5 +256,4 @@ class OpenCDXGrpcDeviceControllerTest {
         this.openCDXGrpcDeviceController.listDevices(deviceListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
-
 }

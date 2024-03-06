@@ -23,14 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
-import cdx.opencdx.connected.test.model.OpenCDXTestCaseModel;
 import cdx.opencdx.connected.test.repository.OpenCDXDeviceRepository;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.inventory.Device;
 import cdx.opencdx.grpc.inventory.DeviceListRequest;
-import cdx.opencdx.grpc.inventory.TestCaseListRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
