@@ -183,8 +183,8 @@ export const systemVariables = {
         semantic: 'Seconds | ${{upperbound - lowerbound}}',
         resolution: '1 second',
         upperBound: '${{system.util.epoc("${{application.statement.documented.end.time}}")}}',
-        includeLowerBound: 'yes',
-        includeUpperBound: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     subjectOfRecord: {
         id: '${{participant.uuid}}',
@@ -242,16 +242,16 @@ export const systemVariables = {
             '[${{getElementById("3079919224534").value}}, ${{getElementById("3079919224534").value}}] ${{getElementById("3079919224534").unit}}',
         resolution: '1 mmHg',
         upperBound: '120',
-        includeLowerBound: 'yes',
-        includeUpperBound: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     rangeMeasure: {
         lowerBound: '90',
         semantic: 'Systolic blood pressure measurement',
         resolution: '1 mmHg',
         upperBound: '120',
-        includeLowerBound: 'yes',
-        includeUpperBound: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     rangeParticipant: [
         {
@@ -272,8 +272,8 @@ export const systemVariables = {
         semantic: 'Seconds | ${{upperbound - lowerbound}}',
         resolution: '1 second',
         upperBound: '${{system.util.epoc("${{application.statement.measurement.end.time}}")}}',
-        includeLowerBound: 'yes',
-        includeUpperBound: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     purpose: [
         {

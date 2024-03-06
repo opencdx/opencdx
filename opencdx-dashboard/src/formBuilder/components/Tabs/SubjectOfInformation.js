@@ -26,14 +26,14 @@ const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, 
                             <Grid item xs={12} sm={9} lg={6}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.subjectOfInformation`)}
+                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.subjectOfInformation`)}
                                         fullWidth
                                         defaultValue={systemVariables['subjectOfInformation'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
                                         placeholder="Enter Subject Of Information"
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.subjectOfInformation`)}
+                                            {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.subjectOfInformation`)}
                                         fullWidth
                                         placeholder="Enter Subject Of Information"
                                     />

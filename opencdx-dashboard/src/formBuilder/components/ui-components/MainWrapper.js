@@ -35,20 +35,33 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
         const anf = JSON.parse(localStorage.getItem('anf-form')); // Parse the JSON string to an object
         anf.updated.item = data.item;
         anf.updated.ruleset = data.item.ruleset;
+        localStorage.setItem('anf-form', JSON.stringify(anf));
+
         anf.updated.item.forEach((element, index) => {
             let componentType = element.componentType;
-            let anfOperatorType = element.anfOperatorType;
-            let operatorValue = element.operatorValue;
+            let Type = element.anfOperatorType === 'Equal' ? 'ANF_OPERATOR_TYPE_EQUAL' :'ANF_OPERATOR_TYPE_NOT_EQUAL';
+            let Value = element.operatorValue;
             console.log('element', element);
 
             if (Array.isArray(element.item)) {
                 element.item.forEach((connector, index) => {
                 
-                    connector.anfStatementConnector[0].anfStatement.anfStatementType = componentType;
-                    connector.anfStatementConnector[0].anfStatement.anfOperatorType = anfOperatorType === 'Equal' ? 'ANF_OPERATOR_TYPE_EQUAL' :'ANF_OPERATOR_TYPE_NOT_EQUAL';
-                    connector.anfStatementConnector[0].anfStatement.operatorValue = operatorValue;
+                    connector.anfStatementConnector[0].anfStatementType = componentType;
+                    connector.anfStatementConnector[0].anfOperatorType = Type;
+                    connector.anfStatementConnector[0].operatorValue = Value;
+                    if (connector.anfStatementConnector[0].anfStatement.authors)
+                        connector.anfStatementConnector[0].anfStatement.authors = [connector.anfStatementConnector[0].anfStatement.authors, connector.anfStatementConnector[0].anfStatement.authors]
+
                 });
             }
+            delete element.componentType;
+            delete element.anfOperatorType;
+            delete element.operatorValue; 
+            delete element.markedMainANFStatement;
+            delete element.selectedCategories;
+            delete element.componentId;
+            delete element.answerTextValue;
+
         });
         const updatedData = {
             questionnaire: anf.updated   // The data to be sent to the server    
@@ -58,7 +71,7 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
             const response = await axios.post(
                 'https://localhost:8080/questionnaire/questionnaire',
                 {
-                    data: updatedData
+                    questionnaire: anf.updated
                 },
                 {
                     headers: {
@@ -71,7 +84,7 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
         };
         saveQuestionnare();
 
-        localStorage.setItem('anf-form', JSON.stringify(anf));
+
         // setFiles({ item: data.test, ruleset: data.test.rulesets });
     };
 

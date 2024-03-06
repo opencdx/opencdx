@@ -124,12 +124,12 @@ export const ObservationId = ({ currentIndex, index, control, getValues, registe
                     <Grid item xs={12} sm={12} lg={12}>
                         <FormControl fullWidth>
                             <Controller
-                                name={`item.${index}.item.${currentIndex}.observationType`}
+                                name={`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.observation`}
                                 control={control}
-                                defaultValue={10}
+                                defaultValue={'OBSERVATION_PROCEDURE'}
                                 render={({ field }) => (
                                     <Select {...field} id={`item.${index}.item.${currentIndex}.type`}>
-                                        <MenuItem value={10}>Observation procedure</MenuItem>
+                                        <MenuItem value={'OBSERVATION_PROCEDURE'}>Observation procedure</MenuItem>
                                     </Select>
                                 )}
                             />

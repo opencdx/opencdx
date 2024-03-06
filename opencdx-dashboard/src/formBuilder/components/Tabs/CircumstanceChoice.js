@@ -48,7 +48,7 @@ export const CircumstanceChoice = React.forwardRef(({ control, register, index, 
                     <Grid item xs={12} sm={9} lg={8}>
                         {componentType ? (
                             <TextField
-                                {...register(`item.${index}.item.${currentIndex}.choice`)}
+                                {...register(`item.${index}.item.${currentIndex}..anfStatementConnector[0].anfStatement.circumstanceChoice.status`)}
                                 fullWidth
                                 placeholder="Enter Type Information"
                                 defaultValue={JSON.stringify(systemVariables['status'])}

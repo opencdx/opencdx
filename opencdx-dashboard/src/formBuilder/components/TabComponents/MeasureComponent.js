@@ -73,9 +73,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                     }}
                                                     value={lowerBoundOptionsState}
                                                 >
-                                                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                                                    <FormControlLabel value="no" control={<Radio />} label="No" />
-                                                    <FormControlLabel value="not" control={<Radio />} label="Not Answered" />
+                                                    <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                                                    <FormControlLabel value={false} control={<Radio />} label="No" />
+                                                    <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
                                                 </RadioGroup>
                                             ) : (
                                                 <RadioGroup
@@ -87,9 +87,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                         field.onChange(e.target.value);
                                                     }}
                                                 >
-                                                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                                                    <FormControlLabel value="no" control={<Radio />} label="No" />
-                                                    <FormControlLabel value="not" control={<Radio />} label="Not Answered" />
+                                                        <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                                                        <FormControlLabel value={false} control={<Radio />} label="No" />
+                                                        <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
                                                 </RadioGroup>
                                             )
                                         }
@@ -195,9 +195,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                             }}
                                             value={upperBoundOptionsState}
                                         >
-                                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                                            <FormControlLabel value="no" control={<Radio />} label="No" />
-                                            <FormControlLabel value="not" control={<Radio />} label="Not Answered" />
+                                            <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                                            <FormControlLabel value={false} control={<Radio />} label="No" />
+                                            <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
                                         </RadioGroup>
                                     ) : (
                                         <RadioGroup
@@ -209,9 +209,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                 field.onChange(e.target.value);
                                             }}
                                         >
-                                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                                            <FormControlLabel value="no" control={<Radio />} label="No" />
-                                            <FormControlLabel value="not" control={<Radio />} label="Not Answered" />
+                                                <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                                                <FormControlLabel value={false} control={<Radio />} label="No" />
+                                                <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
                                         </RadioGroup>
                                     )
                                 }
