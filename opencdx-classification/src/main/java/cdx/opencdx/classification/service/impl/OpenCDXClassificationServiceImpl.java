@@ -263,9 +263,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
     private void processClassification(OpenCDXClassificationModel model) {
         if (model.getClassificationResponse() != null
-                && ObjectId.isValid(
-                        model.getClassificationResponse().getTestKit().getTestCaseId())) {
-            log.info("Ordering Test Case");
+                && model.getClassificationResponse().hasTestKit()) {
             orderTestCase(model);
         }
 
@@ -290,7 +288,9 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     }
 
     private void orderTestCase(OpenCDXClassificationModel model) {
-
+        log.info(
+                "Ordering Test Case: {}",
+                model.getClassificationResponse().getTestKit().getTestCaseId());
         try {
             this.openCDXDocumentValidator.validateDocumentOrThrow(
                     "testcases",

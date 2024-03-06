@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.helloworld.config;
 
-import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

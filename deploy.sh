@@ -902,13 +902,6 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Spotless failed. Please review output to determine the issue."
     fi
-    if ./gradlew sonarlintMain sonarlintTest --parallel; then
-        # Build Completed Successfully
-        handle_info "Sonarlint completed successfully"
-    else
-        # Build Failed
-        handle_error "Sonarlint failed. Please review output to determine the issue."
-    fi
     if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
@@ -916,6 +909,13 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
+    if ./gradlew sonarlintMain sonarlintTest --parallel; then
+            # Build Completed Successfully
+            handle_info "Sonarlint completed successfully"
+        else
+            # Build Failed
+            handle_error "Sonarlint failed. Please review output to determine the issue."
+        fi
 fi
 
 if [ "$no_ui" = false ] && [ "$skip" = false ]; then
