@@ -542,8 +542,12 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
+      - GF_SERVER_PROTOCOL=https
+      - GF_SERVER_CERT_KEY=/certs/Grafana-key.pem
+      - GF_SERVER_CERT_FILE=/certs/Grafana-cert.pem
     volumes:
       - ./grafana:/etc/grafana/provisioning
+      - ../certs:/certs
 
   tempo:
     image: grafana/tempo

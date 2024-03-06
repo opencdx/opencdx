@@ -106,6 +106,7 @@ services=(  "Audit"
             "Dashboard"
             "GraphQl"
             "Prometheus"
+            "Grafana"
             "Zipkin"
             "Shipping"
         )
