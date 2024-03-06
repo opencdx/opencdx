@@ -56,7 +56,7 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
 
         const saveQuestionnare = async () => {
             const response = await axios.post(
-                'questionnaire/questionnaire',
+                'http://localhost:8080/questionnaire/questionnaire',
                 {
                     headers: {
                         'Content-Type': 'application/json',
