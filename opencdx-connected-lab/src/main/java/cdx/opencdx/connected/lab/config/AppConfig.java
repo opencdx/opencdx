@@ -15,12 +15,20 @@
  */
 package cdx.opencdx.connected.lab.config;
 
+import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.connected.lab.handler.OpenCDXConnectedLabMessageHandler;
+import cdx.opencdx.connected.lab.service.OpenCDXConnectedLabService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 
 /**
  * Applicaiton Configuration
  */
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(OpenCDXLabConnectionFactoryBean.class)
 public class AppConfig {
@@ -29,5 +37,16 @@ public class AppConfig {
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    @Description(
+            "OpenCDXConnectedLabMessageHandler that is specific for handling Connected Lab Findings messages being received over messaging.")
+    OpenCDXConnectedLabMessageHandler openCDXConnectedLabMessageHandler(
+            ObjectMapper objectMapper,
+            OpenCDXConnectedLabService openCDXClassificationService,
+            OpenCDXMessageService openCDXMessageService) {
+        log.trace("Instantiating OpenCDXConnectedLabMessageHandler.");
+        return new OpenCDXConnectedLabMessageHandler(openCDXMessageService, openCDXClassificationService, objectMapper);
     }
 }
