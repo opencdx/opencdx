@@ -28,7 +28,7 @@ message LabFindings {
   /**
    * The ID of the LabFinding.
    */
-  string id = 1;
+  optional string id = 1;
   /**
    * The basic information of the connected test submission.
    */

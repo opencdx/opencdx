@@ -33,10 +33,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
+import cdx.opencdx.commons.service.*;
 import cdx.opencdx.grpc.common.Duration;
 import cdx.opencdx.grpc.common.DurationType;
 import cdx.opencdx.grpc.connected.ConnectedTest;
@@ -95,6 +92,9 @@ class OpenCDXClassificationServiceImplTest {
 
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
+
+    @Autowired
+    OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
@@ -245,7 +245,8 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
-                openCDXCDCPayloadService);
+                openCDXCDCPayloadService,
+                openCDXConnectedLabMessageService);
     }
 
     @AfterEach
@@ -551,7 +552,8 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
-                openCDXCDCPayloadService);
+                openCDXCDCPayloadService,
+                openCDXConnectedLabMessageService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()

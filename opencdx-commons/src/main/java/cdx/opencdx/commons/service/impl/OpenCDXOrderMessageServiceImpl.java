@@ -49,7 +49,7 @@ public class OpenCDXOrderMessageServiceImpl implements OpenCDXOrderMessageServic
 
     @Override
     public void submitOrder(Order order) {
-        log.info("Submitting order: {}", order);
+        log.info("Submitting order to OpenCDXMessageService");
 
         this.openCDXDocumentValidator.validateDocumentOrThrow("profiles", new ObjectId(order.getPatientId()));
         this.openCDXDocumentValidator.validateDocumentOrThrow("testcases", new ObjectId(order.getTestCaseId()));

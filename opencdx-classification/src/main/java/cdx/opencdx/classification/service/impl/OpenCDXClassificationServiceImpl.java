@@ -27,15 +27,13 @@ import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
+import cdx.opencdx.commons.service.*;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.TestIdRequest;
+import cdx.opencdx.grpc.lab.connected.LabFindings;
 import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
@@ -76,6 +74,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
 
     private final OpenCDXCDCPayloadService openCDXCDCPayloadService;
+    private final OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
 
     /**
      * Constructor for OpenCDXClassificationServiceImpl
@@ -91,6 +90,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXProfileRepository repository for profile
      * @param openCDXOrderMessageService service for order message
      * @param openCDXCDCPayloadService service for CDC payload
+     * @param openCDXConnectedLabMessageService service for connected lab message
      */
     @Autowired
     public OpenCDXClassificationServiceImpl(
@@ -105,7 +105,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXClassificationRepository openCDXClassificationRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
-            OpenCDXCDCPayloadService openCDXCDCPayloadService) {
+            OpenCDXCDCPayloadService openCDXCDCPayloadService,
+            OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCurrentUser = openCDXCurrentUser;
@@ -118,6 +119,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
+        this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
     }
 
     /**
@@ -270,6 +272,21 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         if (model.getClassificationResponse().getNotifyCdc()) {
             this.openCDXCDCPayloadService.sendCDCPayloadMessage(model);
         }
+        if (model.getConnectedTest() != null) {
+            submitConnectedLabMessage(model);
+        }
+    }
+
+    private void submitConnectedLabMessage(OpenCDXClassificationModel model) {
+
+        LabFindings.Builder builder = LabFindings.newBuilder();
+
+        builder.setBasicInfo(model.getConnectedTest().getBasicInfo());
+        builder.setProviderInfo(model.getConnectedTest().getProviderInfo());
+        builder.setMetadata(model.getConnectedTest().getTestDetails().getMetadata());
+        builder.setClassification(model.getClassificationResponse());
+
+        this.openCDXConnectedLabMessageService.submitLabFindings(builder.build());
     }
 
     private void orderTestCase(OpenCDXClassificationModel model) {
