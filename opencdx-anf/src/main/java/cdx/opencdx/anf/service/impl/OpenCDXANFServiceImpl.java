@@ -88,11 +88,11 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     @Override
     public AnfStatement.Identifier createANFStatement(AnfStatement.ANFStatement request) {
         log.trace("Creating ANF Statement");
-        if (!request.getAuthorList().isEmpty()) {
+        if (!request.getAuthorsList().isEmpty()) {
             log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     "provider",
-                    request.getAuthorList().stream()
+                    request.getAuthorsList().stream()
                             .filter(AnfStatement.Practitioner::hasId)
                             .map(AnfStatement.Practitioner::getId)
                             .map(ObjectId::new)
@@ -174,11 +174,11 @@ public class OpenCDXANFServiceImpl implements OpenCDXANFService {
     @Override
     public AnfStatement.Identifier updateANFStatement(AnfStatement.ANFStatement request) {
         log.trace("Updating ANF Statement");
-        if (!request.getAuthorList().isEmpty()) {
+        if (!request.getAuthorsList().isEmpty()) {
             log.trace("Validating authors");
             this.openCDXDocumentValidator.validateDocumentsOrThrow(
                     "provider",
-                    request.getAuthorList().stream()
+                    request.getAuthorsList().stream()
                             .filter(AnfStatement.Practitioner::hasId)
                             .map(AnfStatement.Practitioner::getId)
                             .map(ObjectId::new)
