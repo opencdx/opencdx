@@ -873,42 +873,42 @@ elif [ "$clean" = true ] && [ "$skip" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
     if ./gradlew spotlessApply; then
-            # Build Completed Successfully
-            handle_info "Spotless completed successfully"
-        else
-            # Build Failed
-            handle_error "Spotless failed. Please review output to determine the issue."
-        fi
-    if ./gradlew sonarlintMain sonarlintTest --parallel; then
-                # Build Completed Successfully
-                handle_info "Sonarlint completed successfully"
-            else
-                # Build Failed
-                handle_error "Sonarlint failed. Please review output to determine the issue."
-            fi
-    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest --parallel; then
+        # Build Completed Successfully
+        handle_info "Spotless completed successfully"
+    else
+        # Build Failed
+        handle_error "Spotless failed. Please review output to determine the issue."
+    fi
+    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest -x spotlessApply --parallel; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
+    if ./gradlew sonarlintMain sonarlintTest --parallel; then
+        # Build Completed Successfully
+        handle_info "Sonarlint completed successfully"
+    else
+        # Build Failed
+        handle_error "Sonarlint failed. Please review output to determine the issue."
+    fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
     if ./gradlew spotlessApply; then
-            # Build Completed Successfully
-            handle_info "Spotless completed successfully"
-        else
-            # Build Failed
-            handle_error "Spotless failed. Please review output to determine the issue."
-        fi
+        # Build Completed Successfully
+        handle_info "Spotless completed successfully"
+    else
+        # Build Failed
+        handle_error "Spotless failed. Please review output to determine the issue."
+    fi
     if ./gradlew sonarlintMain sonarlintTest --parallel; then
-                # Build Completed Successfully
-                handle_info "Sonarlint completed successfully"
-            else
-                # Build Failed
-                handle_error "Sonarlint failed. Please review output to determine the issue."
-            fi
+        # Build Completed Successfully
+        handle_info "Sonarlint completed successfully"
+    else
+        # Build Failed
+        handle_error "Sonarlint failed. Please review output to determine the issue."
+    fi
     if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"

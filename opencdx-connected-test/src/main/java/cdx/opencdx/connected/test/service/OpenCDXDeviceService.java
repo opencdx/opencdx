@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.connected.test.service;
 
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Device;
-import cdx.opencdx.grpc.inventory.DeviceIdRequest;
+import cdx.opencdx.grpc.inventory.*;
 
 /**
  * Device service for device identification
@@ -50,4 +48,12 @@ public interface OpenCDXDeviceService {
      * @return Response indicating if successful.
      */
     DeleteResponse deleteDevice(DeviceIdRequest request);
+
+    /**
+     * Method to get list of devices
+     *
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested test case with page, sorting, and page size
+     */
+    DeviceListResponse listDevices(DeviceListRequest request);
 }

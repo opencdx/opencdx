@@ -93,4 +93,15 @@ public class OpenCDXRestTestCaseController {
                         TestCaseIdRequest.newBuilder().setTestCaseId(id).build()),
                 HttpStatus.OK);
     }
+
+    /**
+     * List Test Cases
+     *
+     * @param testCaseListRequest request for Test Cases.
+     * @return the requested connected tests
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TestCaseListResponse> listTestCase(@RequestBody TestCaseListRequest testCaseListRequest) {
+        return new ResponseEntity<>(this.openCDXTestCaseService.listTestCase(testCaseListRequest), HttpStatus.OK);
+    }
 }

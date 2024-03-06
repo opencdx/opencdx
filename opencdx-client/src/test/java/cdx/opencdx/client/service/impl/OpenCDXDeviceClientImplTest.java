@@ -136,4 +136,25 @@ class OpenCDXDeviceClientImplTest {
                 OpenCDXClientException.class,
                 () -> this.openCDXDeviceClient.deleteDevice(request, openCDXCallCredentials));
     }
+
+    @Test
+    void listTestCase() {
+        Mockito.when(this.deviceServiceBlockingStub.listDevices(Mockito.any(DeviceListRequest.class)))
+                .thenReturn(DeviceListResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                DeviceListResponse.getDefaultInstance(),
+                this.openCDXDeviceClient.listDevices(DeviceListRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void listTestCaseException() {
+        Mockito.when(this.deviceServiceBlockingStub.listDevices(Mockito.any(DeviceListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        DeviceListRequest request = DeviceListRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXDeviceClient.listDevices(request, openCDXCallCredentials));
+    }
 }

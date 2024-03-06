@@ -24,9 +24,11 @@ import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
 import cdx.opencdx.connected.test.service.impl.OpenCDXDeviceServiceImpl;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -38,6 +40,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -182,6 +187,73 @@ class OpenCDXGrpcDeviceControllerTest {
         DeleteResponse deleteResponse =
                 DeleteResponse.newBuilder().setSuccess(true).setMessage(message).build();
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(deleteResponse);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listDevices() {
+        StreamObserver<DeviceListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXDeviceRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXDeviceModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        DeviceListRequest deviceListRequest = DeviceListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .build();
+        this.openCDXGrpcDeviceController.listDevices(deviceListRequest, responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listDevicesManufacturer() {
+        StreamObserver<DeviceListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXDeviceRepository.findAllByManufacturerId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXDeviceModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        DeviceListRequest deviceListRequest = DeviceListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(true)
+                        .build())
+                .setManufacturerId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXGrpcDeviceController.listDevices(deviceListRequest, responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void listDevicesVendor() {
+        StreamObserver<DeviceListResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        Mockito.when(this.openCDXDeviceRepository.findAllByVendorId(
+                        Mockito.any(ObjectId.class), Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(
+                        List.of(OpenCDXDeviceModel.builder()
+                                .manufacturerId(ObjectId.get())
+                                .build()),
+                        PageRequest.of(1, 10),
+                        1));
+        DeviceListRequest deviceListRequest = DeviceListRequest.newBuilder()
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSortAscending(false)
+                        .build())
+                .setVendorId(ObjectId.get().toHexString())
+                .build();
+        this.openCDXGrpcDeviceController.listDevices(deviceListRequest, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

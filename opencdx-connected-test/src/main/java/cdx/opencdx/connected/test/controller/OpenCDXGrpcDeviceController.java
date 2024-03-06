@@ -16,10 +16,7 @@
 package cdx.opencdx.connected.test.controller;
 
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Device;
-import cdx.opencdx.grpc.inventory.DeviceIdRequest;
-import cdx.opencdx.grpc.inventory.DeviceServiceGrpc;
+import cdx.opencdx.grpc.inventory.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +66,13 @@ public class OpenCDXGrpcDeviceController extends DeviceServiceGrpc.DeviceService
     @Override
     public void deleteDevice(DeviceIdRequest request, StreamObserver<DeleteResponse> responseObserver) {
         responseObserver.onNext(this.openCDXDeviceService.deleteDevice(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void listDevices(DeviceListRequest request, StreamObserver<DeviceListResponse> responseObserver) {
+        responseObserver.onNext(this.openCDXDeviceService.listDevices(request));
         responseObserver.onCompleted();
     }
 }

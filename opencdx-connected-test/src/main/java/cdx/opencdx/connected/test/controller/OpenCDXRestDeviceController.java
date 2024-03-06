@@ -93,4 +93,15 @@ public class OpenCDXRestDeviceController {
                         DeviceIdRequest.newBuilder().setDeviceId(id).build()),
                 HttpStatus.OK);
     }
+
+    /**
+     * List Devices
+     *
+     * @param deviceListRequest request for Devices.
+     * @return the requested connected tests
+     */
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeviceListResponse> listDevices(@RequestBody DeviceListRequest deviceListRequest) {
+        return new ResponseEntity<>(this.openCDXDeviceService.listDevices(deviceListRequest), HttpStatus.OK);
+    }
 }
