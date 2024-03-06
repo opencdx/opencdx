@@ -5,7 +5,12 @@ scrape_configs:
   # Make Prometheus scrape itself for metrics.
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['Prometheus:9090']
+    scheme: https  # Use HTTPS
+    tls_config:
+      insecure_skip_verify: true
+      cert_file: /certs/Prometheus-cert.pem # place of the cert file inside the docker container
+      key_file: /certs/Prometheus-key.pem # place of the key file inside the docker container
 
   # Discover Eureka services to scrape.
   - job_name: 'eureka'
