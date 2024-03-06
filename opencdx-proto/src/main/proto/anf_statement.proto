@@ -212,7 +212,7 @@ message ANFStatement {
   /*
    * Identifies all authors behind this statement.
    */
-  repeated Practitioner author = 4;
+  repeated Practitioner authors = 4;
   /*
    * Refers to the subject or topic of the incorporated information.
    */

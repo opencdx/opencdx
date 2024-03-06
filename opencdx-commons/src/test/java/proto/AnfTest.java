@@ -64,7 +64,7 @@ class AnfTest {
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .build())
-                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
+                .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
                         .setPractitionerValue("practitioner")
                         .setCode("expression")
                         .setId(ObjectId.get().toHexString())
