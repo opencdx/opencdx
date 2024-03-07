@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
-import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.connected.lab.config.OpenCDXLabConnectionFactoryBean;
@@ -228,26 +227,37 @@ class OpenCDXConnectedLabServiceImplTest {
         Assertions.assertDoesNotThrow(
                 () -> this.openCDXConnectedLabService.listConnectedLabs(listConnectedLabsRequest));
     }
+
     @Test
     void listConnectedLabs_SortAsc() {
         ListConnectedLabsRequest listConnectedLabsRequest = ListConnectedLabsRequest.newBuilder()
-                .setPagination(
-                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).setSort("id").setSortAscending(true).build())
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSort("id")
+                        .setSortAscending(true)
+                        .build())
                 .build();
 
         Assertions.assertDoesNotThrow(
                 () -> this.openCDXConnectedLabService.listConnectedLabs(listConnectedLabsRequest));
     }
+
     @Test
     void listConnectedLabs_SortDesc() {
         ListConnectedLabsRequest listConnectedLabsRequest = ListConnectedLabsRequest.newBuilder()
-                .setPagination(
-                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).setSort("id").setSortAscending(false).build())
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .setSort("id")
+                        .setSortAscending(false)
+                        .build())
                 .build();
 
         Assertions.assertDoesNotThrow(
                 () -> this.openCDXConnectedLabService.listConnectedLabs(listConnectedLabsRequest));
     }
+
     @Test
     void listConnectedLabs_None() {
         Mockito.when(this.openCDXConnectedLabRepository.findAll(Mockito.any(Pageable.class)))
@@ -272,10 +282,9 @@ class OpenCDXConnectedLabServiceImplTest {
     @Test
     void submitLabFindings_OnlyOrganization() {
         Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationIdAndWorkspaceId(
-                Mockito.any(ObjectId.class), Mockito.any(ObjectId.class)))
+                        Mockito.any(ObjectId.class), Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
-        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationId(
-                        Mockito.any(ObjectId.class)))
+        Mockito.when(this.openCDXConnectedLabRepository.findByOrganizationId(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXConnectedLabModel>>() {
                     @Override
                     public Optional<OpenCDXConnectedLabModel> answer(InvocationOnMock invocation) throws Throwable {
@@ -333,7 +342,8 @@ class OpenCDXConnectedLabServiceImplTest {
                 .build();
 
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,() -> this.openCDXConnectedLabService.createConnectedLab(createConnectedLabRequest));
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXConnectedLabService.createConnectedLab(createConnectedLabRequest));
     }
 
     @Test
@@ -363,7 +373,8 @@ class OpenCDXConnectedLabServiceImplTest {
                 .build();
 
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,() -> this.openCDXConnectedLabService.updateConnectedLab(createConnectedLabRequest));
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXConnectedLabService.updateConnectedLab(createConnectedLabRequest));
     }
 
     @Test
@@ -384,7 +395,8 @@ class OpenCDXConnectedLabServiceImplTest {
                 .build();
 
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class,() -> this.openCDXConnectedLabService.deleteConnectedLab(deleteConnectedLabRequest));
+                OpenCDXNotAcceptable.class,
+                () -> this.openCDXConnectedLabService.deleteConnectedLab(deleteConnectedLabRequest));
     }
 
     @Test
@@ -405,7 +417,7 @@ class OpenCDXConnectedLabServiceImplTest {
                 .build();
 
         Assertions.assertThrows(
-                OpenCDXNotFound.class,() -> this.openCDXConnectedLabService.getConnectedLab(getConnectedLabRequest));
+                OpenCDXNotFound.class, () -> this.openCDXConnectedLabService.getConnectedLab(getConnectedLabRequest));
     }
 
     @Test
@@ -435,7 +447,8 @@ class OpenCDXConnectedLabServiceImplTest {
                 .build();
 
         Assertions.assertThrows(
-                OpenCDXNotFound.class,() -> this.openCDXConnectedLabService.updateConnectedLab(createConnectedLabRequest));
+                OpenCDXNotFound.class,
+                () -> this.openCDXConnectedLabService.updateConnectedLab(createConnectedLabRequest));
     }
 
     @Test
@@ -456,6 +469,7 @@ class OpenCDXConnectedLabServiceImplTest {
                 .build();
 
         Assertions.assertThrows(
-                OpenCDXNotFound.class,() -> this.openCDXConnectedLabService.deleteConnectedLab(deleteConnectedLabRequest));
+                OpenCDXNotFound.class,
+                () -> this.openCDXConnectedLabService.deleteConnectedLab(deleteConnectedLabRequest));
     }
 }
