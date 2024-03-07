@@ -14,6 +14,18 @@ export default function App({ questionnaire, navigation}) {
 
     const onSubmit = (data) => {
         questionnaire.item.forEach((field, index) => {
+                field.item.forEach((connector) => {
+                    if (
+                        connector &&
+                        connector.anfStatementConnector[0] &&
+                        connector.anfStatementConnector[0].anfStatement &&
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice
+                    ) {
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.result.resolution = data[field.linkId];
+
+                    }
+                });
+            
             switch (field.type) {
                 case 'integer':
                     field.answerInteger = data[field.linkId];
@@ -34,6 +46,7 @@ export default function App({ questionnaire, navigation}) {
                     break;
             }
         });
+      
         const userQuestionnaireData = {
             "userQuestionnaireData": {
                 "userId": "65c103b2c444da00ae4332e5",
@@ -43,6 +56,7 @@ export default function App({ questionnaire, navigation}) {
                 ]
             }
         };
+        
         const handleSave = async () => {
             console.log(userQuestionnaireData)
             const data=JSON.stringify(userQuestionnaireData);
@@ -55,7 +69,8 @@ export default function App({ questionnaire, navigation}) {
                         Authorization: `Bearer ${jwtToken}`,
                     },
                 });
-                navigation.navigate('Success');
+                console.log(response)
+                //navigation.navigate('Success');
             } catch (error) {
                 console.log(error);
                 alert( error);
