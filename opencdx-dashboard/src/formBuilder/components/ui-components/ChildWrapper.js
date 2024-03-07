@@ -9,6 +9,7 @@ import { Grid, FormControl, Select, MenuItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Controller } from 'react-hook-form';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
+import { statementType } from '../../store/constant';
 
 const ChildWrapper = ({ control, register }) => {
     const { formData } = useAnfFormStore();
@@ -32,7 +33,7 @@ const ChildWrapper = ({ control, register }) => {
         }
     ]);
     const theme = useTheme();
-    const handleStatementTypeChange = (value) => setHideOptions(value !== 'main_statement_questions');
+    const handleStatementTypeChange = (value) => setHideOptions(value !== statementType.USER_QUESTION);
     return (
         <div className="wrapper">
             {fields.map((item, index) => (

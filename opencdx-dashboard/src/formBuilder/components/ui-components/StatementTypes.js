@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { SubCard } from './SubCard';
 import IconRestore from '@mui/icons-material/Restore';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
-
+import { statementType } from '../../store/constant';
 const StatementTypes = forwardRef(({ register, index, control, item, handleStatementTypeChange }, ref) => {
     const { formData, setFormData } = useAnfFormStore();
     const [selectedOption, setSelectedOption] = React.useState('');
@@ -50,7 +50,7 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
         setSelectedOption(value);
 
         const markedMainANFStatement = formData.item
-            .filter((element) => element.componentType === 'main_anf_statement')
+            .filter((element) => element.componentType === statementType.MAIN)
             .map((element) => element.text);
         const updatedItem = formData.item.map((element) => ({
             ...element,
@@ -61,13 +61,13 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
 
     const renderList = useCallback(() => {
         switch (selectedOption) {
-            case 'main_anf_statement':
+            case statementType.MAIN:
                 return (
                     <Grid item xs={12} lg={12}>
                         <Typography variant="subtitle2"> Component marked as Main ANF type</Typography>
                     </Grid>
                 );
-            case 'associated_anf_statement':
+            case statementType.ASSOCIATED:
                 return (
                     <Grid item xs={12} lg={12}>
                         <Typography variant="subtitle2" sx={{ width: '300px' }}>
@@ -96,13 +96,13 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                         </Grid>
                     </Grid>
                 );
-            case 'main_statement_questions':
+            case statementType.USER_QUESTION:
                 return (
                     <Grid item xs={12} lg={12}>
                         <Typography variant="subtitle2"> User Provided Data</Typography>
                     </Grid>
                 );
-            case 'not_applicable':
+            case statementType.NOT_APPLICABLE:
                 return (
                     <Grid item xs={12} lg={12}>
                         <Typography variant="subtitle2"> Component marked as non ANF type.</Typography>
@@ -155,7 +155,7 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                     <Grid item xs={12} lg={12} sx={{ height: 'auto', overflow: 'auto' }}>
                         <Controller
                             control={control}
-                            {...register(`item.${index}.componentType`)}
+                            {...register(`item.${index}.anfStatementType`)}
                             render={({ field }) => (
                                 <RadioGroup
                                     row
@@ -170,28 +170,36 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                                     value={selectedOption || ''}
                                 >
                                     <Grid item xs={12} sm={2} lg={2} sx={{ pl: 3 }}>
-                                        <FormControlLabel value="main_anf_statement" control={<Radio />} label="Main ANF Statement" />
+                                        <FormControlLabel value="ANF_STATEMENT_TYPE_MAIN" control={<Radio />} label="Main ANF Statement" />
 
-                                        {selectedOption === 'main_anf_statement' && renderListItem()}
+                                        {selectedOption === statementType.MAIN && renderListItem()}
                                     </Grid>
                                     <Grid item xs={12} sm={2} lg={4} sx={{ pl: 3 }}>
                                         <FormControlLabel
-                                            value="associated_anf_statement"
+                                            value="ANF_STATEMENT_TYPE_ASSOCIATED"
                                             control={<Radio />}
                                             label="Associated ANF Statement"
                                         />
 
-                                        {selectedOption === 'associated_anf_statement' && item?.markedMainANFStatement && renderListItem()}
+                                        {selectedOption === statementType.ASSOCIATED && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
                                     <Grid item xs={12} sm={2} lg={4} sx={{ pl: 3 }}>
-                                        <FormControlLabel value="main_statement_questions" control={<Radio />} label="User Question" />
+                                        <FormControlLabel
+                                            value="ANF_STATEMENT_TYPE_USER_QUESTION"
+                                            control={<Radio />}
+                                            label="User Question"
+                                        />
 
-                                        {selectedOption === 'main_statement_questions' && item?.markedMainANFStatement && renderListItem()}
+                                        {selectedOption === statementType.USER_QUESTION && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
                                     <Grid item xs={12} sm={2} lg={2} sx={{ pl: 3 }}>
-                                        <FormControlLabel value="not_applicable" control={<Radio />} label="Not Applicable" />
+                                        <FormControlLabel
+                                            value="ANF_STATEMENT_TYPE_NOT_APPLICABLE"
+                                            control={<Radio />}
+                                            label="Not Applicable"
+                                        />
 
-                                        {selectedOption === 'not_applicable' && renderListItem()}
+                                        {selectedOption === statementType.NOT_APPLICABLE && renderListItem()}
                                     </Grid>
                                 </RadioGroup>
                             )}

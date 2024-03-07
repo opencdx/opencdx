@@ -170,7 +170,7 @@ class OpenCDXANFServiceImplTest {
                 openCDXDocumentValidator,
                 openCDXProfileRepository);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
-                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
+                .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .build()))
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
@@ -274,7 +274,7 @@ class OpenCDXANFServiceImplTest {
                 openCDXDocumentValidator,
                 openCDXProfileRepository);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
-                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
+                .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
                         .setId(ObjectId.get().toHexString())
                         .build()))
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
