@@ -70,7 +70,7 @@ export default function App({ questionnaire, navigation}) {
                     },
                 });
                 console.log(response)
-                //navigation.navigate('Success');
+                navigation.navigate('Success');
             } catch (error) {
                 console.log(error);
                 alert( error);
