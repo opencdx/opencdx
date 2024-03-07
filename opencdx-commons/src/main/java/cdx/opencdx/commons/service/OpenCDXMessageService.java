@@ -57,6 +57,9 @@ public interface OpenCDXMessageService {
      */
     String DELIVERY_TRACKING_MESSAGE_SUBJECT = "openCDX.delivery.tracking.message";
 
+    /**
+     * OpenCDXMessage Subject for Connected Lab Findings messages
+     */
     String CONNECTED_LAB_FINDINGS = "opencdx.connected.lab.findings";
 
     /**

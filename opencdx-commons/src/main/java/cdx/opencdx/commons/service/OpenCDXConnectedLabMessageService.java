@@ -20,8 +20,7 @@ import cdx.opencdx.grpc.lab.connected.LabFindings;
 /**
  * The OpenCDXConnectedLabMessageService interface provides methods to send LabFindings to the opencdx-connected-lab system.
  *
- * @implSpec This implementation is based on {@link cdx.opencdx.commons.service.OpenCDXMessageService}.  Any changes
- * will require changes to {@link cdx.opencdx.connected.lab} be modified as well.
+ * @implSpec This implementation is based on {@link cdx.opencdx.commons.service.OpenCDXMessageService}.
  */
 public interface OpenCDXConnectedLabMessageService {
     /**
