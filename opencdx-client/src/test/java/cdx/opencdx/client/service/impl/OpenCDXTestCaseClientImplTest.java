@@ -20,10 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXTestCaseClient;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.TestCase;
-import cdx.opencdx.grpc.inventory.TestCaseIdRequest;
-import cdx.opencdx.grpc.inventory.TestCaseServiceGrpc;
+import cdx.opencdx.grpc.inventory.*;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.junit.jupiter.api.AfterEach;
@@ -140,5 +137,27 @@ class OpenCDXTestCaseClientImplTest {
         Assertions.assertThrows(
                 OpenCDXClientException.class,
                 () -> this.openCDXTestCaseClient.deleteTestCase(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void listTestCase() {
+        Mockito.when(this.testCaseServiceBlockingStub.listTestCase(Mockito.any(TestCaseListRequest.class)))
+                .thenReturn(TestCaseListResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                TestCaseListResponse.getDefaultInstance(),
+                this.openCDXTestCaseClient.listTestCase(
+                        TestCaseListRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void listTestCaseException() {
+        Mockito.when(this.testCaseServiceBlockingStub.listTestCase(Mockito.any(TestCaseListRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        TestCaseListRequest request = TestCaseListRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.openCDXTestCaseClient.listTestCase(request, openCDXCallCredentials));
     }
 }

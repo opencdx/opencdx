@@ -25,15 +25,18 @@ import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import cdx.opencdx.connected.test.repository.*;
 import cdx.opencdx.connected.test.service.OpenCDXDeviceService;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.Device;
-import cdx.opencdx.grpc.inventory.DeviceIdRequest;
+import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.inventory.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -179,6 +182,48 @@ public class OpenCDXDeviceServiceImpl implements OpenCDXDeviceService {
         return DeleteResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage("Device: " + request.getDeviceId() + " is deleted.")
+                .build();
+    }
+
+    /**
+     * Method to get list of test cases
+     *
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested test case with page, sorting, and page size
+     */
+    @Override
+    public DeviceListResponse listDevices(DeviceListRequest request) {
+        Pageable pageable;
+        if (request.getPagination().hasSort()) {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize(),
+                    request.getPagination().getSortAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                    request.getPagination().getSort());
+        } else {
+            pageable = PageRequest.of(
+                    request.getPagination().getPageNumber(),
+                    request.getPagination().getPageSize());
+        }
+        log.info("Searching Database");
+        Page<OpenCDXDeviceModel> all = null;
+
+        if (request.hasManufacturerId()) {
+            all = this.openCDXDeviceRepository.findAllByManufacturerId(
+                    new ObjectId(request.getManufacturerId()), pageable);
+        } else if (request.hasVendorId()) {
+            all = this.openCDXDeviceRepository.findAllByVendorId(new ObjectId(request.getVendorId()), pageable);
+        } else {
+            all = this.openCDXDeviceRepository.findAll(pageable);
+        }
+
+        return DeviceListResponse.newBuilder()
+                .setPagination(Pagination.newBuilder(request.getPagination())
+                        .setTotalPages(all.getTotalPages())
+                        .setTotalRecords(all.getTotalElements())
+                        .build())
+                .addAllDevice(
+                        all.get().map(OpenCDXDeviceModel::getProtobufMessage).toList())
                 .build();
     }
 }
