@@ -9,7 +9,7 @@ import { InputLabel } from '../ui-components/InputLabel';
 import { systemVariables, statementType } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
-const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, tab, getValues }, ref) => {
+const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, getValues }, ref) => {
     const { formData } = useAnfFormStore();
 
     const componentType = [statementType.MAIN, statementType.ASSOCIATED].includes(formData.item[index]?.componentType);
@@ -26,14 +26,18 @@ const SubjectOfInformation = React.forwardRef(({ register, index, currentIndex, 
                             <Grid item xs={12} sm={9} lg={6}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.subjectOfInformation`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.subjectOfInformation`
+                                        )}
                                         fullWidth
                                         defaultValue={systemVariables['subjectOfInformation'].subjectOfRecord.match(/(?<=:\s*)[^\s]+/)[0]}
                                         placeholder="Enter Subject Of Information"
                                     />
                                 ) : (
                                     <TextField
-                                            {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.subjectOfInformation`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.subjectOfInformation`
+                                        )}
                                         fullWidth
                                         placeholder="Enter Subject Of Information"
                                     />

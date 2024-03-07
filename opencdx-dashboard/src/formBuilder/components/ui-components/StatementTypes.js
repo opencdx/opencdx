@@ -42,11 +42,11 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
     const handleRadioChange = (value) => {
         formData?.item?.map((element, currentIndex) => {
             if (currentIndex === index) {
-                formData.item[index].componentType = value;                
+                formData.item[index].componentType = value;
             }
         });
         handleStatementTypeChange(value);
-         setFormData({ item: formData.item });
+        setFormData({ item: formData.item });
         setSelectedOption(value);
 
         const markedMainANFStatement = formData.item
@@ -184,12 +184,20 @@ const StatementTypes = forwardRef(({ register, index, control, item, handleState
                                         {selectedOption === statementType.ASSOCIATED && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
                                     <Grid item xs={12} sm={2} lg={4} sx={{ pl: 3 }}>
-                                        <FormControlLabel value="ANF_STATEMENT_TYPE_USER_QUESTION" control={<Radio />} label="User Question" />
+                                        <FormControlLabel
+                                            value="ANF_STATEMENT_TYPE_USER_QUESTION"
+                                            control={<Radio />}
+                                            label="User Question"
+                                        />
 
                                         {selectedOption === statementType.USER_QUESTION && item?.markedMainANFStatement && renderListItem()}
                                     </Grid>
                                     <Grid item xs={12} sm={2} lg={2} sx={{ pl: 3 }}>
-                                        <FormControlLabel value="ANF_STATEMENT_TYPE_NOT_APPLICABLE" control={<Radio />} label="Not Applicable" />
+                                        <FormControlLabel
+                                            value="ANF_STATEMENT_TYPE_NOT_APPLICABLE"
+                                            control={<Radio />}
+                                            label="Not Applicable"
+                                        />
 
                                         {selectedOption === statementType.NOT_APPLICABLE && renderListItem()}
                                     </Grid>

@@ -17,10 +17,10 @@ const Email = () => {
             const response = await axios.post(
                 '/communications/email/list',
                 {
-                    "pagination": {
-                    "pageSize": 30,
-                    "sortAscending": true
-                  }
+                    pagination: {
+                        pageSize: 30,
+                        sortAscending: true
+                    }
                 },
                 {
                     headers: {

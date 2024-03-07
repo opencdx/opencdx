@@ -17,8 +17,12 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
     const [upperBoundState, setUpperBound] = useState(systemVariables[tab]?.upperBound);
     const [resolutionState, setResolution] = useState(systemVariables[tab]?.resolution);
     const [semanticState, setSemantic] = useState(systemVariables[tab]?.semantic);
-    const [lowerBoundOptionsState, setLowerBoundOptions] = useState(systemVariables[tab]?.includeLowerBound);
-    const [upperBoundOptionsState, setUpperBoundOptions] = useState(systemVariables[tab]?.includeUpperBound);
+    const [lowerBoundOptionsState, setLowerBoundOptions] = useState(
+        systemVariables[tab] ? (systemVariables[tab]?.includeLowerBound ? 'yes' : 'no') : 'not'
+    );
+    const [upperBoundOptionsState, setUpperBoundOptions] = useState(
+        systemVariables[tab] ? (systemVariables[tab]?.includeUpperBound ? 'yes' : 'no') : 'not'
+    );
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>
@@ -31,7 +35,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.lowerBound`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.lowerBound`
+                                        )}
                                         fullWidth
                                         type="text"
                                         value={lowerBoundState}
@@ -42,7 +48,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.lowerBound`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.lowerBound`
+                                        )}
                                         fullWidth
                                         type="text"
                                         InputProps={{
@@ -59,7 +67,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                 <FormControl>
                                     <Controller
                                         control={control}
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.includeLowerBound`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.includeLowerBound`
+                                        )}
                                         render={({ field }) =>
                                             componentType ? (
                                                 <RadioGroup
@@ -73,9 +83,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                     }}
                                                     value={lowerBoundOptionsState}
                                                 >
-                                                    <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                                                    <FormControlLabel value={false} control={<Radio />} label="No" />
-                                                    <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
+                                                    <FormControlLabel value={'yes'} control={<Radio />} label="Yes" />
+                                                    <FormControlLabel value={'no'} control={<Radio />} label="No" />
+                                                    <FormControlLabel value={'not'} control={<Radio />} label="Not Answered" />
                                                 </RadioGroup>
                                             ) : (
                                                 <RadioGroup
@@ -87,9 +97,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                         field.onChange(e.target.value);
                                                     }}
                                                 >
-                                                        <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                                                        <FormControlLabel value={false} control={<Radio />} label="No" />
-                                                        <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
+                                                    <FormControlLabel value={'yes'} control={<Radio />} label="Yes" />
+                                                    <FormControlLabel value={'no'} control={<Radio />} label="No" />
+                                                    <FormControlLabel value={'not'} control={<Radio />} label="Not Answered" />
                                                 </RadioGroup>
                                             )
                                         }
@@ -102,7 +112,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             <Grid item xs={12} sm={9} lg={8}>
                                 {componentType ? (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.semantic`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.semantic`
+                                        )}
                                         fullWidth
                                         value={semanticState}
                                         onChange={(e) => {
@@ -112,7 +124,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                     />
                                 ) : (
                                     <TextField
-                                        {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.semantic`)}
+                                        {...register(
+                                            `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.semantic`
+                                        )}
                                         fullWidth
                                         placeholder="Enter Semantic Value"
                                     />
@@ -137,7 +151,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             />
                         ) : (
                             <TextField
-                                    {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.resolution`)}
+                                {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.resolution`)}
                                 fullWidth
                                 type="text"
                                 InputProps={{
@@ -164,7 +178,7 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                             />
                         ) : (
                             <TextField
-                                    {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.upperBound`)}
+                                {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.upperBound`)}
                                 fullWidth
                                 InputProps={{
                                     inputProps: { min: 0 }
@@ -181,7 +195,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                         <FormControl>
                             <Controller
                                 control={control}
-                                {...register(`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.includeUpperBound`)}
+                                {...register(
+                                    `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.includeUpperBound`
+                                )}
                                 render={({ field }) =>
                                     componentType ? (
                                         <RadioGroup
@@ -195,9 +211,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                             }}
                                             value={upperBoundOptionsState}
                                         >
-                                            <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                                            <FormControlLabel value={false} control={<Radio />} label="No" />
-                                            <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
+                                            <FormControlLabel value={'yes'} control={<Radio />} label="Yes" />
+                                            <FormControlLabel value={'no'} control={<Radio />} label="No" />
+                                            <FormControlLabel value={'not'} control={<Radio />} label="Not Answered" />
                                         </RadioGroup>
                                     ) : (
                                         <RadioGroup
@@ -209,9 +225,9 @@ export const MeasureComponent = React.forwardRef(({ register, index, currentInde
                                                 field.onChange(e.target.value);
                                             }}
                                         >
-                                                <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                                                <FormControlLabel value={false} control={<Radio />} label="No" />
-                                                <FormControlLabel value={false} control={<Radio />} label="Not Answered" />
+                                            <FormControlLabel value={'yes'} control={<Radio />} label="Yes" />
+                                            <FormControlLabel value={'no'} control={<Radio />} label="No" />
+                                            <FormControlLabel value={'not'} control={<Radio />} label="Not Answered" />
                                         </RadioGroup>
                                     )
                                 }

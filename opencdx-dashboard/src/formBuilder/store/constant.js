@@ -10,7 +10,6 @@ export const statementType = {
     NOT_APPLICABLE: 'ANF_STATEMENT_TYPE_NOT_APPLICABLE'
 };
 
-
 export const categories = [
     { key: 0, label: 'ANF Topic', selected: false },
     { key: 1, label: 'General', selected: false },
@@ -191,20 +190,12 @@ export const systemVariables = {
         practitionerValue: '${{participant.id}}',
         code: ''
     },
-    authors: [
-        {
-            id: '${{paractitioner[n].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
-            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
-        },
-        {
-            id: '{{paractitioner[1].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[1].id}}", "role": "Practitioner/${{paractitioner[1].role}}"',
-            code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
-        }
-    ],
+    authors: {
+        id: '${{paractitioner[n].uuid}}',
+        practitionerValue:
+            '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+        code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
+    },
     subjectOfInformation: {
         subjectOfRecord: '{ id: ${{participant.id}} }'
     },
@@ -253,20 +244,21 @@ export const systemVariables = {
         includeLowerBound: true,
         includeUpperBound: true
     },
-    rangeParticipant: [
-        {
-            id: '${{paractitioner[n].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
-            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
-        },
-        {
-            id: '{{paractitioner[n].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
-            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
-        }
-    ],
+
+    circumstance: {
+        id: '${{paractitioner[n].uuid}}',
+        practitionerValue:
+            '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+        code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
+    },
+
+    participant: {
+        id: '${{paractitioner[n].uuid}}',
+        practitionerValue:
+            '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+        code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
+    },
+
     timingMeasure: {
         lowerBound: '${{system.util.epoc("${{application.statement.measurement.start.time}}")}}',
         semantic: 'Seconds | ${{upperbound - lowerbound}}',

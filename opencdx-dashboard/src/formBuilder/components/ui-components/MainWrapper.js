@@ -9,7 +9,6 @@ import { Grid } from '@mui/material';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 import axios from 'axios';
 
-
 const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
     const { formData } = useAnfFormStore();
 
@@ -37,36 +36,67 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
         anf.updated.ruleset = data.item.ruleset;
         localStorage.setItem('anf-form', JSON.stringify(anf));
 
-        anf.updated.item.forEach((element, index) => {
+        anf.updated.item.forEach((element) => {
             let componentType = element.componentType;
-            let Type = element.anfOperatorType === 'Equal' ? 'ANF_OPERATOR_TYPE_EQUAL' :'ANF_OPERATOR_TYPE_NOT_EQUAL';
+            let Type = element.anfOperatorType === 'Equal' ? 'ANF_OPERATOR_TYPE_EQUAL' : 'ANF_OPERATOR_TYPE_NOT_EQUAL';
             let Value = element.operatorValue;
-            console.log('element', element);
 
             if (Array.isArray(element.item)) {
-                element.item.forEach((connector, index) => {
-                
+                element.item.forEach((connector) => {
                     connector.anfStatementConnector[0].anfStatementType = componentType;
                     connector.anfStatementConnector[0].anfOperatorType = Type;
                     connector.anfStatementConnector[0].operatorValue = Value;
                     if (connector.anfStatementConnector[0].anfStatement.authors)
-                        connector.anfStatementConnector[0].anfStatement.authors = [connector.anfStatementConnector[0].anfStatement.authors, connector.anfStatementConnector[0].anfStatement.authors]
+                        connector.anfStatementConnector[0].anfStatement.authors = [
+                            connector.anfStatementConnector[0].anfStatement.authors,
+                            connector.anfStatementConnector[0].anfStatement.authors
+                        ];
+                    connector.anfStatementConnector[0].anfStatement.time.includeLowerBound =
+                        connector.anfStatementConnector[0].anfStatement.time.includeLowerBound === 'yes' ? true : false;
+                    connector.anfStatementConnector[0].anfStatement.time.includeUpperBound =
+                        connector.anfStatementConnector[0].anfStatement.time.includeUpperBound === 'yes' ? true : false;
+                    if (
+                        connector &&
+                        connector.anfStatementConnector[0] &&
+                        connector.anfStatementConnector[0].anfStatement &&
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice
+                    ) {
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.normalRange.includeLowerBound =
+                            connector.anfStatementConnector[0].anfStatement?.circumstanceChoice?.normalRange?.includeLowerBound === 'yes'
+                                ? true
+                                : false;
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.normalRange.includeUpperBound =
+                            connector.anfStatementConnector[0].anfStatement?.circumstanceChoice.normalRange?.includeUpperBound === 'yes'
+                                ? true
+                                : false;
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.result.includeLowerBound =
+                            connector.anfStatementConnector[0].anfStatement?.circumstanceChoice?.result?.includeLowerBound === 'yes'
+                                ? true
+                                : false;
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.result.includeUpperBound =
+                            connector.anfStatementConnector[0].anfStatement?.circumstanceChoice?.result?.includeUpperBound === 'yes'
+                                ? true
+                                : false;
 
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.timing.includeLowerBound =
+                            connector.anfStatementConnector[0].anfStatement?.circumstanceChoice?.timing?.includeLowerBound === 'yes'
+                                ? true
+                                : false;
+                        connector.anfStatementConnector[0].anfStatement.circumstanceChoice.timing.includeUpperBound =
+                            connector.anfStatementConnector[0].anfStatement?.circumstanceChoice?.timing?.includeUpperBound === 'yes'
+                                ? true
+                                : false;
+                    }
                 });
             }
             delete element.componentType;
             delete element.anfOperatorType;
-            delete element.operatorValue; 
+            delete element.operatorValue;
             delete element.markedMainANFStatement;
             delete element.selectedCategories;
             delete element.componentId;
             delete element.answerTextValue;
-
         });
-        const updatedData = {
-            questionnaire: anf.updated   // The data to be sent to the server    
-        };
-
         const saveQuestionnare = async () => {
             const response = await axios.post(
                 'https://localhost:8080/questionnaire/questionnaire',
@@ -83,7 +113,6 @@ const MainWrapper = forwardRef(({ uploadedFile }, ref) => {
             console.log(response.data);
         };
         saveQuestionnare();
-
 
         // setFiles({ item: data.test, ruleset: data.test.rulesets });
     };

@@ -19,8 +19,12 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
     });
 
     useEffect(() => {
-        const systemVariable = tab === 'authors' || tab === 'circumstanceChoice.circumstance' || tab === 'circumstanceChoice.participant' ? systemVariables[tab][0] : systemVariables[tab];
-
+        const tabLookup = {
+            'circumstanceChoice.circumstance': 'circumstance',
+            'circumstanceChoice.participant': 'participant'
+        };
+        const tabValue = tabLookup[tab] || tab;
+        const systemVariable = systemVariables[tabValue];
         if (componentType) {
             setState((prevState) => ({
                 id: id || systemVariable.id || prevState.id,
