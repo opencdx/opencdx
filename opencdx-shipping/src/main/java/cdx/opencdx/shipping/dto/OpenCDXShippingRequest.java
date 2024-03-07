@@ -16,6 +16,7 @@
 package cdx.opencdx.shipping.dto;
 
 import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.shipping.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class OpenCDXShippingRequest {
 
+    private final FullName shippingName;
     private final Address senderAddress;
     private final Address recipientAddress;
     private final Order packageDetails;
@@ -40,6 +42,7 @@ public class OpenCDXShippingRequest {
      * @param shipping the shipping request
      */
     public OpenCDXShippingRequest(ShippingRequest shipping) {
+        this.shippingName = shipping.getShippingName();
         this.senderAddress = shipping.getSenderAddress();
         this.recipientAddress = shipping.getRecipientAddress();
         this.packageDetails = shipping.getPackageDetails();

@@ -21,13 +21,18 @@ import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
+import cdx.opencdx.client.service.OpenCDXTestCaseClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
+import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.inventory.TestCaseListRequest;
+import cdx.opencdx.grpc.inventory.TestCaseListResponse;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationType;
+import cdx.opencdx.grpc.neural.classification.TestKit;
 import cdx.opencdx.grpc.questionnaire.GetRuleSetResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
@@ -63,6 +68,8 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
     private final OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
 
+    private final OpenCDXTestCaseClient openCDXTestCaseClient;
+
     private final Random random;
 
     /**
@@ -70,14 +77,17 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
      * @param openCDXMediaUpDownClient service for media upload and download client
      * @param openCDXCurrentUser service for current user
      * @param openCDXQuestionnaireClient service for questionnaire client
+     * @param openCDXTestCaseClient service for test case client
      */
     public OpenCDXClassifyProcessorServiceImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXCurrentUser openCDXCurrentUser,
-            OpenCDXQuestionnaireClient openCDXQuestionnaireClient) {
+            OpenCDXQuestionnaireClient openCDXQuestionnaireClient,
+            OpenCDXTestCaseClient openCDXTestCaseClient) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXQuestionnaireClient = openCDXQuestionnaireClient;
+        this.openCDXTestCaseClient = openCDXTestCaseClient;
         this.random = new Random();
     }
 
@@ -239,7 +249,22 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
 
         builder.setNotifyCdc(random.nextBoolean());
 
-        // TODO: This is a placeholder for adding in a TestCase list Client call, to get a test case to add to the
-        // response.
+        if (random.nextBoolean()) {
+
+            TestCaseListResponse testCaseListResponse = this.openCDXTestCaseClient.listTestCase(
+                    TestCaseListRequest.newBuilder()
+                            .setPagination(Pagination.newBuilder()
+                                    .setPageNumber(0)
+                                    .setPageSize(1)
+                                    .build())
+                            .build(),
+                    new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken()));
+
+            if (!testCaseListResponse.getTestCasesList().isEmpty()) {
+                builder.setTestKit(TestKit.newBuilder()
+                        .setTestCaseId(testCaseListResponse.getTestCases(0).getId())
+                        .build());
+            }
+        }
     }
 }

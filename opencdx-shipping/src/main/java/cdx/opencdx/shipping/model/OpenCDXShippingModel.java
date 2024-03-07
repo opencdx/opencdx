@@ -16,6 +16,7 @@
 package cdx.opencdx.shipping.model;
 
 import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.shipping.AdditionalService;
@@ -47,6 +48,7 @@ public class OpenCDXShippingModel {
     @Id
     private ObjectId id;
 
+    private FullName shippingName;
     private Address senderAddress;
     private Address recipientAddress;
     private Order packageDetails;
@@ -72,6 +74,7 @@ public class OpenCDXShippingModel {
      * @param request Protobuf message to create from
      */
     public OpenCDXShippingModel(OpenCDXShippingRequest request) {
+        this.shippingName = request.getShippingName();
         this.senderAddress = request.getSenderAddress();
         this.recipientAddress = request.getRecipientAddress();
         this.packageDetails = request.getPackageDetails();
@@ -87,6 +90,7 @@ public class OpenCDXShippingModel {
         if (shipping.hasId()) {
             this.id = new ObjectId(shipping.getId());
         }
+        this.shippingName = shipping.getShippingName();
         this.senderAddress = shipping.getSenderAddress();
         this.recipientAddress = shipping.getRecipientAddress();
         this.packageDetails = shipping.getPackageDetails();
@@ -117,6 +121,9 @@ public class OpenCDXShippingModel {
         Shipping.Builder builder = Shipping.newBuilder();
         if (this.id != null) {
             builder.setId(this.id.toHexString());
+        }
+        if (this.shippingName != null) {
+            builder.setShippingName(this.shippingName);
         }
         if (this.senderAddress != null) {
             builder.setSenderAddress(this.senderAddress);
@@ -181,6 +188,7 @@ public class OpenCDXShippingModel {
     public String toString() {
         final StringBuilder sb = new StringBuilder("OpenCDXShippingModel{").append("\n");
         sb.append("id=").append(id).append("\n");
+        sb.append("shippingName = ").append(shippingName).append("\n");
         sb.append("senderAddress = ").append(senderAddress).append("\n");
         sb.append("recipientAddress = ").append(recipientAddress).append("\n");
         sb.append("packageDetails = ").append(packageDetails).append("\n");

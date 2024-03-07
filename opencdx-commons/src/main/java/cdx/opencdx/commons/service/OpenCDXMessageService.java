@@ -57,6 +57,8 @@ public interface OpenCDXMessageService {
      */
     String DELIVERY_TRACKING_MESSAGE_SUBJECT = "openCDX.delivery.tracking.message";
 
+    String CONNECTED_LAB_FINDINGS = "opencdx.connected.lab.findings";
+
     /**
      * List of all the subjects.
      */
@@ -66,7 +68,8 @@ public interface OpenCDXMessageService {
             CLASSIFICATION_MESSAGE_SUBJECT,
             CDC_MESSAGE_SUBJECT,
             ORDER_MESSAGE_SUBJECT,
-            DELIVERY_TRACKING_MESSAGE_SUBJECT);
+            DELIVERY_TRACKING_MESSAGE_SUBJECT,
+            CONNECTED_LAB_FINDINGS);
 
     /**
      * Subscribe to a message subject and the handlers for received those messages

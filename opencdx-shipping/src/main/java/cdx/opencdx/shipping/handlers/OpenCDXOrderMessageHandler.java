@@ -49,7 +49,7 @@ public class OpenCDXOrderMessageHandler implements OpenCDXMessageHandler {
             OpenCDXMessageService openCDXMessageService) {
         this.objectMapper = objectMapper;
         this.openCDXShippingService = openCDXShippingService;
-        log.trace("Instantiating OpenCDXOrderMessageHandler.");
+        log.info("Instantiating OpenCDXOrderMessageHandler.");
 
         openCDXMessageService.subscribe(OpenCDXMessageService.ORDER_MESSAGE_SUBJECT, this);
     }
@@ -57,8 +57,8 @@ public class OpenCDXOrderMessageHandler implements OpenCDXMessageHandler {
     @Override
     public void receivedMessage(byte[] message) {
         try {
-            log.trace("Received Order Event");
             Order order = this.objectMapper.readValue(message, Order.class);
+            log.trace("Received Order Event");
             this.openCDXShippingService.createOrder(
                     CreateOrderRequest.newBuilder().setOrder(order).build());
         } catch (IOException e) {
