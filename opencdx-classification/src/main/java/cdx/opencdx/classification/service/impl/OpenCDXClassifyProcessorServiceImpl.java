@@ -113,8 +113,12 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         builder.setPatientId(model.getUserAnswer().getPatientId());
 
         if (model.getConnectedTest() != null) {
+            log.info(
+                    "Connected Test: {}",
+                    model.getConnectedTest().getBasicInfo().getId());
             runTestAnalsysis(model, builder);
         } else if (model.getUserQuestionnaireData() != null) {
+            log.info("User Questionnaire: {}", model.getUserQuestionnaireData().getId());
             runRules(model, builder);
         } else {
             builder.setType(ClassificationType.UNSPECIFIED_CLASSIFICATION_TYPE);
@@ -183,6 +187,8 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                 throw new OpenCDXInternalServerError(
                         OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
             }
+        } else {
+            log.error("No rules to process.");
         }
     }
 
@@ -191,7 +197,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
         GetRuleSetResponse ruleSetResponse = openCDXQuestionnaireClient.getRuleSet(
                 model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleId(), openCDXCallCredentials);
-
+        log.info("RuleSet: {}", ruleSetResponse.getRuleSet().getRuleId());
         return new ByteArrayInputStream(ruleSetResponse.getRuleSet().getRule().getBytes());
     }
 
