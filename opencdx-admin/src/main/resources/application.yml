@@ -44,7 +44,7 @@ spring:
               - label: "Zipkin"
                 url: "https://localhost:9411/zipkin"
               - label: "Grafana"
-                url: "http://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
+                url: "https://localhost:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s"
               - label: "Prometheus"
                 url: "https://localhost:9090"
           - label: "Swagger"
