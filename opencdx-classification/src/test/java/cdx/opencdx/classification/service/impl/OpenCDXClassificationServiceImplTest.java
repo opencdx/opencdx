@@ -23,25 +23,21 @@ import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
-import cdx.opencdx.client.service.OpenCDXConnectedTestClient;
-import cdx.opencdx.client.service.OpenCDXMediaClient;
-import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
-import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
+import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
-import cdx.opencdx.commons.service.OpenCDXAuditService;
-import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
-import cdx.opencdx.commons.service.OpenCDXOrderMessageService;
-import cdx.opencdx.grpc.common.Duration;
-import cdx.opencdx.grpc.common.DurationType;
+import cdx.opencdx.commons.service.*;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.TestDetails;
 import cdx.opencdx.grpc.connected.TestIdRequest;
+import cdx.opencdx.grpc.inventory.TestCase;
+import cdx.opencdx.grpc.inventory.TestCaseListRequest;
+import cdx.opencdx.grpc.inventory.TestCaseListResponse;
 import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.media.Media;
@@ -51,6 +47,7 @@ import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.bson.types.ObjectId;
@@ -96,6 +93,9 @@ class OpenCDXClassificationServiceImplTest {
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
 
+    @Autowired
+    OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
+
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
@@ -114,6 +114,9 @@ class OpenCDXClassificationServiceImplTest {
     @Mock
     OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
 
+    @Mock
+    OpenCDXTestCaseClient openCDXTestCaseClient;
+
     OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
 
     @Mock
@@ -128,6 +131,22 @@ class OpenCDXClassificationServiceImplTest {
     @BeforeEach
     void beforeEach() {
 
+        Mockito.when(this.openCDXTestCaseClient.listTestCase(
+                        Mockito.any(TestCaseListRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<TestCaseListResponse>() {
+                    @Override
+                    public TestCaseListResponse answer(InvocationOnMock invocation) throws Throwable {
+                        return TestCaseListResponse.newBuilder()
+                                .addAllTestCases(List.of(
+                                        TestCase.newBuilder()
+                                                .setId(ObjectId.get().toHexString())
+                                                .build(),
+                                        TestCase.newBuilder()
+                                                .setId(ObjectId.get().toHexString())
+                                                .build()))
+                                .build();
+                    }
+                });
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
@@ -136,23 +155,22 @@ class OpenCDXClassificationServiceImplTest {
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
                                 .nationalHealthId(UUID.randomUUID().toString())
+                                .fullName(FullName.newBuilder()
+                                        .setFirstName("Open")
+                                        .setLastName("CDX")
+                                        .build())
+                                .addresses(List.of(Address.newBuilder()
+                                        .setAddress1("123 Main St")
+                                        .setCity("Anytown")
+                                        .setState("NY")
+                                        .setPostalCode("12345")
+                                        .setAddressPurpose(AddressPurpose.SHIPPING)
+                                        .build()))
                                 .userId(ObjectId.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
-                    @Override
-                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
-                                .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(argument)
-                                .build());
-                    }
-                });
         Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override
@@ -231,7 +249,10 @@ class OpenCDXClassificationServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXClassifyProcessorService = new OpenCDXClassifyProcessorServiceImpl(
-                this.openCDXMediaUpDownClient, this.openCDXCurrentUser, this.openCDXQuestionnaireClient);
+                this.openCDXMediaUpDownClient,
+                this.openCDXCurrentUser,
+                this.openCDXQuestionnaireClient,
+                this.openCDXTestCaseClient);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
@@ -245,7 +266,8 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
-                openCDXCDCPayloadService);
+                openCDXCDCPayloadService,
+                openCDXConnectedLabMessageService);
     }
 
     @AfterEach
@@ -551,7 +573,8 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
-                openCDXCDCPayloadService);
+                openCDXCDCPayloadService,
+                openCDXConnectedLabMessageService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
         ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()

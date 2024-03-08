@@ -4,12 +4,12 @@ import { Divider, Grid, TextField } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
-import { systemVariables } from '../../store/constant';
+import { systemVariables, statementType } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 export const ParticipantComponent = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
     const { formData } = useAnfFormStore();
-    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
+    const componentType = [statementType.MAIN, statementType.ASSOCIATED].includes(formData.item[index]?.componentType);
 
     const { id, code, practitionerValue } = formData.item[index]?.item?.[currentIndex]?.[tab] || '';
     const [state, setState] = React.useState({
@@ -19,8 +19,12 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
     });
 
     useEffect(() => {
-        const systemVariable = tab === 'authors' || tab === 'rangeParticipant' ? systemVariables[tab][0] : systemVariables[tab];
-
+        const tabLookup = {
+            'circumstanceChoice.circumstance': 'circumstance',
+            'circumstanceChoice.participant': 'participant'
+        };
+        const tabValue = tabLookup[tab] || tab;
+        const systemVariable = systemVariables[tabValue];
         if (componentType) {
             setState((prevState) => ({
                 id: id || systemVariable.id || prevState.id,
@@ -48,7 +52,7 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
                             {renderTextField(
                                 register,
                                 'ID',
-                                `item.${index}.item.${currentIndex}.${tab}.id`,
+                                `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.id`,
                                 'Enter ID Value',
                                 state.id,
                                 (e) => setState({ ...state, id: e.target.value })
@@ -58,7 +62,7 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
                             {renderTextField(
                                 register,
                                 'Practitioner',
-                                `item.${index}.item.${currentIndex}.${tab}.practitionerValue`,
+                                `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.practitionerValue`,
                                 'Enter Practitioner Value',
                                 state.practitionerValue,
                                 (e) => setState({ ...state, practitionerValue: e.target.value })
@@ -68,7 +72,7 @@ export const ParticipantComponent = React.forwardRef(({ register, index, current
                             {renderTextField(
                                 register,
                                 'Code',
-                                `item.${index}.item.${currentIndex}.${tab}.code`,
+                                `item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.${tab}.code`,
                                 'Enter Code Value',
                                 state.code,
                                 (e) => setState({ ...state, code: e.target.value })

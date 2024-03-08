@@ -72,7 +72,7 @@ public class OpenCDXANFStatementModel {
 
         this.time = anfStatement.getTime();
         this.subjectOfRecord = anfStatement.getSubjectOfRecord();
-        this.authors = anfStatement.getAuthorList();
+        this.authors = anfStatement.getAuthorsList();
         this.subjectOfInformation = anfStatement.getSubjectOfInformation();
         this.associatedStatements = anfStatement.getAssociatedStatementList();
         this.topic = anfStatement.getTopic();
@@ -119,7 +119,7 @@ public class OpenCDXANFStatementModel {
             builder.setSubjectOfRecord(this.subjectOfRecord);
         }
         if (this.authors != null) {
-            builder.addAllAuthor(this.authors);
+            builder.addAllAuthors(this.authors);
         }
         if (this.subjectOfInformation != null) {
             builder.setSubjectOfInformation(this.subjectOfInformation);

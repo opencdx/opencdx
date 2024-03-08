@@ -4,12 +4,12 @@ import { Grid, TextField } from '@mui/material';
 
 import { MainCard } from '../ui-components/MainCard';
 import { InputLabel } from '../ui-components/InputLabel';
-import { systemVariables } from '../../store/constant';
+import { systemVariables, statementType } from '../../store/constant';
 import { useAnfFormStore } from '../../utils/useAnfFormStore';
 
 export const ExpressionType = React.forwardRef(({ register, index, currentIndex, tab }, ref) => {
     const { formData } = useAnfFormStore();
-    const componentType = ['main_anf_statement', 'associated_anf_statement'].includes(formData.item[index]?.componentType);
+    const componentType = [statementType.MAIN, statementType.ASSOCIATED].includes(formData.item[index]?.componentType);
     return (
         <Grid item xs={12} lg={12} ref={ref}>
             <MainCard border>

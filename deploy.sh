@@ -385,7 +385,7 @@ build_docker() {
   local auto_confirm_all=$2
 
   components=("opencdx/mongodb" "opencdx/admin" "opencdx/config" "opencdx/tinkar"
-    "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/connected-test"
+    "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/connected-test" "opencdx/connected-lab"
     "opencdx/iam" "opencdx/routine" "opencdx/protector" "opencdx/predictor"
     "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/shipping"
     "opencdx/discovery" "opencdx/anf" "opencdx/dashboard" "opencdx/graphql")
@@ -873,42 +873,35 @@ elif [ "$clean" = true ] && [ "$skip" = true ]; then
 elif [ "$clean" = true ] && [ "$skip" = false ]; then
     git_info
     if ./gradlew spotlessApply; then
-            # Build Completed Successfully
-            handle_info "Spotless completed successfully"
-        else
-            # Build Failed
-            handle_error "Spotless failed. Please review output to determine the issue."
-        fi
-    if ./gradlew sonarlintMain sonarlintTest --parallel; then
-                # Build Completed Successfully
-                handle_info "Sonarlint completed successfully"
-            else
-                # Build Failed
-                handle_error "Sonarlint failed. Please review output to determine the issue."
-            fi
-    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest --parallel; then
+        # Build Completed Successfully
+        handle_info "Spotless completed successfully"
+    else
+        # Build Failed
+        handle_error "Spotless failed. Please review output to determine the issue."
+    fi
+    if ./gradlew clean build publish -x sonarlintMain -x sonarlintTest -x spotlessApply --parallel; then
         # Build Completed Successfully
         handle_info "Build & Clean completed successfully"
     else
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
+    if ./gradlew sonarlintMain sonarlintTest --parallel; then
+        # Build Completed Successfully
+        handle_info "Sonarlint completed successfully"
+    else
+        # Build Failed
+        handle_error "Sonarlint failed. Please review output to determine the issue."
+    fi
 elif [ "$clean" = false ] && [ "$skip" = false ]; then
     git_info
     if ./gradlew spotlessApply; then
-            # Build Completed Successfully
-            handle_info "Spotless completed successfully"
-        else
-            # Build Failed
-            handle_error "Spotless failed. Please review output to determine the issue."
-        fi
-    if ./gradlew sonarlintMain sonarlintTest --parallel; then
-                # Build Completed Successfully
-                handle_info "Sonarlint completed successfully"
-            else
-                # Build Failed
-                handle_error "Sonarlint failed. Please review output to determine the issue."
-            fi
+        # Build Completed Successfully
+        handle_info "Spotless completed successfully"
+    else
+        # Build Failed
+        handle_error "Spotless failed. Please review output to determine the issue."
+    fi
     if ./gradlew build publish -x sonarlintMain -x sonarlintTest --parallel; then
         # Build Completed Successfully
         handle_info "Build completed successfully"
@@ -916,6 +909,13 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
         # Build Failed
         handle_error "Build failed. Please review output to determine the issue."
     fi
+    if ./gradlew sonarlintMain sonarlintTest --parallel; then
+            # Build Completed Successfully
+            handle_info "Sonarlint completed successfully"
+        else
+            # Build Failed
+            handle_error "Sonarlint failed. Please review output to determine the issue."
+        fi
 fi
 
 if [ "$no_ui" = false ] && [ "$skip" = false ]; then
@@ -948,7 +948,6 @@ if [ "$no_menu" = false ]; then
         start_docker "docker-compose.yml";
         DEPLOYED="ALL"
         open_reports "admin";
-        open_reports "dashboard";
         if [ "$jmeter" = true ]; then
             handle_info "Waiting to run $jmeter_test tests"
             countdown 300

@@ -18,6 +18,7 @@ package cdx.opencdx.classification.service.impl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
+import cdx.opencdx.client.service.OpenCDXTestCaseClient;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.media.Media;
@@ -32,10 +33,12 @@ class OpenCDXClassifyProcessorServiceImplTest {
 
     OpenCDXQuestionnaireClient openCDXQuestionnaireClient;
 
+    OpenCDXTestCaseClient openCDXTestCaseClient;
+
     @Test
     void classifyExceptionOpenCDXInternal() {
         OpenCDXClassifyProcessorServiceImpl processorService = new OpenCDXClassifyProcessorServiceImpl(
-                openCDXMediaUpDownClient, openCDXCurrentUser, openCDXQuestionnaireClient);
+                openCDXMediaUpDownClient, openCDXCurrentUser, openCDXQuestionnaireClient, openCDXTestCaseClient);
         OpenCDXClassificationModel model = Mockito.mock(OpenCDXClassificationModel.class);
         Media media = Mockito.mock(Media.class);
         Mockito.when(model.getMedia()).thenReturn(media);

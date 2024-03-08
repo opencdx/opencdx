@@ -18,6 +18,8 @@ package cdx.opencdx.connected.test.repository;
 import cdx.opencdx.connected.test.model.OpenCDXDeviceModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -50,4 +52,18 @@ public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceMo
      * @return Boolean indicating if successful
      */
     Boolean existsByManufacturerId(ObjectId manfacturerId);
+    /**
+     * Find all manufacturer for a device.
+     * @param manufacturerId The manufacturerId.
+     * @param pageable The page to return.
+     * @return The devices.
+     */
+    Page<OpenCDXDeviceModel> findAllByManufacturerId(ObjectId manufacturerId, Pageable pageable);
+    /**
+     * Find all vendor for a device.
+     * @param vendorId The vendorId.
+     * @param pageable The page to return.
+     * @return The devices
+     */
+    Page<OpenCDXDeviceModel> findAllByVendorId(ObjectId vendorId, Pageable pageable);
 }

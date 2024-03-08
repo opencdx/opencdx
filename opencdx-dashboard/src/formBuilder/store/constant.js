@@ -2,6 +2,14 @@
 export const gridSpacing = 3;
 export const drawerWidth = 260;
 export const appDrawerWidth = 320;
+// Define the enum
+export const statementType = {
+    MAIN: 'ANF_STATEMENT_TYPE_MAIN',
+    ASSOCIATED: 'ANF_STATEMENT_TYPE_ASSOCIATED',
+    USER_QUESTION: 'ANF_STATEMENT_TYPE_USER_QUESTION',
+    NOT_APPLICABLE: 'ANF_STATEMENT_TYPE_NOT_APPLICABLE'
+};
+
 export const categories = [
     { key: 0, label: 'ANF Topic', selected: false },
     { key: 1, label: 'General', selected: false },
@@ -174,28 +182,20 @@ export const systemVariables = {
         semantic: 'Seconds | ${{upperbound - lowerbound}}',
         resolution: '1 second',
         upperBound: '${{system.util.epoc("${{application.statement.documented.end.time}}")}}',
-        lowerBoundOptions: 'yes',
-        upperBoundOptions: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     subjectOfRecord: {
         id: '${{participant.uuid}}',
         practitionerValue: '${{participant.id}}',
         code: ''
     },
-    authors: [
-        {
-            id: '${{paractitioner[n].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
-            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
-        },
-        {
-            id: '{{paractitioner[1].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[1].id}}", "role": "Practitioner/${{paractitioner[1].role}}"',
-            code: '${{paractitioner[1].role[0].code}}, ${{paractitioner[1].role[1].code}}'
-        }
-    ],
+    authors: {
+        id: '${{paractitioner[n].uuid}}',
+        practitionerValue:
+            '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+        code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
+    },
     subjectOfInformation: {
         subjectOfRecord: '{ id: ${{participant.id}} }'
     },
@@ -233,38 +233,39 @@ export const systemVariables = {
             '[${{getElementById("3079919224534").value}}, ${{getElementById("3079919224534").value}}] ${{getElementById("3079919224534").unit}}',
         resolution: '1 mmHg',
         upperBound: '120',
-        lowerBoundOptions: 'yes',
-        upperBoundOptions: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     rangeMeasure: {
         lowerBound: '90',
         semantic: 'Systolic blood pressure measurement',
         resolution: '1 mmHg',
         upperBound: '120',
-        lowerBoundOptions: 'yes',
-        upperBoundOptions: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
-    rangeParticipant: [
-        {
-            id: '${{paractitioner[n].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
-            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
-        },
-        {
-            id: '{{paractitioner[n].uuid}}',
-            practitionerValue:
-                '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
-            code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
-        }
-    ],
+
+    circumstance: {
+        id: '${{paractitioner[n].uuid}}',
+        practitionerValue:
+            '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+        code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
+    },
+
+    participant: {
+        id: '${{paractitioner[n].uuid}}',
+        practitionerValue:
+            '"Practitioner": {"reference": "Practitioner/${{paractitioner[n].id}}", "role": "Practitioner/${{paractitioner[n].role}}"',
+        code: '${{paractitioner[n].role[n].code}}, ${{paractitioner[n].role[n].code}}'
+    },
+
     timingMeasure: {
         lowerBound: '${{system.util.epoc("${{application.statement.measurement.start.time}}")}}',
         semantic: 'Seconds | ${{upperbound - lowerbound}}',
         resolution: '1 second',
         upperBound: '${{system.util.epoc("${{application.statement.measurement.end.time}}")}}',
-        lowerBoundOptions: 'yes',
-        upperBoundOptions: 'yes'
+        includeLowerBound: true,
+        includeUpperBound: true
     },
     purpose: [
         {

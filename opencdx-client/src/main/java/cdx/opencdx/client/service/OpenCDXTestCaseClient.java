@@ -57,4 +57,14 @@ public interface OpenCDXTestCaseClient {
      */
     DeleteResponse deleteTestCase(TestCaseIdRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call TestCase Service listTestCase() api.
+     *
+     * @param request Client Rules request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    TestCaseListResponse listTestCase(TestCaseListRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 }

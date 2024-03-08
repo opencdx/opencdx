@@ -56,4 +56,14 @@ public interface OpenCDXDeviceClient {
      */
     DeleteResponse deleteDevice(DeviceIdRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Device Service listTestCase() api.
+     *
+     * @param request Client Rules request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    DeviceListResponse listDevices(DeviceListRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
 }
