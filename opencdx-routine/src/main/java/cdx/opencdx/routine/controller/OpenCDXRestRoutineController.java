@@ -71,35 +71,6 @@ public class OpenCDXRestRoutineController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Delivery Tracking
-    /**
-     * Post Delivery Tracking Rest API
-     * @param request DeliveryTrackingRequest indicating input.
-     * @return DeliveryTrackingResponse with the data.
-     */
-    @PostMapping(value = "/deliveryTracking", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeliveryTrackingResponse> createDeliveryTracking(
-            @RequestBody DeliveryTrackingRequest request) {
-        DeliveryTrackingResponse response = openCDXRoutineService.createDeliveryTracking(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * Get Delivery Tracking using GET method
-     * @param deliveryId The ID of the delivery tracking to retrieve.
-     * @return DeliveryTrackingResponse with the data.
-     */
-    @GetMapping("/deliveryTracking/{deliveryId}")
-    public ResponseEntity<DeliveryTrackingResponse> getDeliveryTracking(
-            @PathVariable(value = "deliveryId") String deliveryId) {
-        DeliveryTrackingRequest request = DeliveryTrackingRequest.newBuilder()
-                .setDeliveryTracking(
-                        DeliveryTracking.newBuilder().setTrackingId(deliveryId).build())
-                .build();
-        DeliveryTrackingResponse response = openCDXRoutineService.getDeliveryTracking(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     // Clinical Protocol Execution
     /**
      * Post Clinical Protocol Execution Rest API

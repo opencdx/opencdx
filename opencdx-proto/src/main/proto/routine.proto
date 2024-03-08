@@ -120,59 +120,6 @@ message Routine {
 }
 
 /*
- * This protobuf message represents the entities involved in a Delivery Tracking System. It includes various fields that
- * provide information about an ongoing or completed delivery.
- *
- * The 'DeliveryTracking' is a message which represents a specific delivery and stores the details related to it.
- */
-message DeliveryTracking {
-
-  /*
-   * Uniquely identifies a delivery instance.
-   */
-  optional string tracking_id = 1;
-
-  /*
-   * This field is used to link the delivery to a particular order.
-   */
-  optional string order_id = 2;
-
-  /*
-   * Stores the current status of the delivery.
-   */
-  optional cdx.opencdx.grpc.common.ShippingStatus status = 3;
-
-  /*
-   * The timestamp representing when the delivery process was commenced.
-   */
-  google.protobuf.Timestamp start_datetime = 4;
-
-  /*
-   * The timestamp indicating when the delivery reached its destination.
-   */
-  google.protobuf.Timestamp end_datetime = 5;
-
-  /*
-   * Information about the current whereabouts of the delivery.
-   */
-  optional string current_location = 6;
-
-  /*
-   * Contains information about the person who is supposed to receive the delivery.
-   */
-  optional string recipient = 7;
-
-  /*
-   * Here all the details related to the items included in the delivery are stored.
-   */
-  repeated string delivery_items = 8;
-
-  /*
-   * The courier person who has been responsible for the delivery is identified by this field.
-   */
-  optional string assigned_courier = 9;
-}
-/*
  * This Protocol Buffers (protobuf) message represents entities related to the execution of a Clinical Protocol.
  * A Clinical Protocol Execution details the process of undergoing a specific protocol in a clinical setup.
  */
@@ -417,14 +364,6 @@ service RoutineSystemService {
    */
   rpc GetRoutine(RoutineRequest) returns (RoutineResponse);
   /*
-   * RPC service for creating a new entity to track medication delivery.
-   */
-  rpc CreateDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
-  /*
-   * RPC service for retrieving information about a specific medication delivery tracking entity.
-   */
-  rpc GetDeliveryTracking(DeliveryTrackingRequest) returns (DeliveryTrackingResponse);
-  /*
    * RPC service for creating new clinical protocol execution entity.
    */
   rpc CreateClinicalProtocolExecution(ClinicalProtocolExecutionRequest) returns (ClinicalProtocolExecutionResponse);
@@ -494,27 +433,6 @@ message RoutineResponse {
    * Newly created routine data
    */
   Routine routine = 1;
-}
-
-/*
- * The DeliveryTrackingRequest message defining the request format for a Delivery Tracking entity.
- */
-message DeliveryTrackingRequest {
-  /*
-   * Delivery tracking details
-   */
-  DeliveryTracking delivery_tracking = 1;
-}
-
-/*
- * The DeliveryTrackingResponse message states the response format from the Delivery Tracking operation.
- * 'delivery_tracking' holds the created delivery tracking details.
- */
-message DeliveryTrackingResponse {
-  /*
-   * Created delivery tracking data
-   */
-  DeliveryTracking delivery_tracking = 1;
 }
 
 /*

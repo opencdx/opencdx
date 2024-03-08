@@ -42,26 +42,6 @@ public interface OpenCDXRoutineClient {
             throws OpenCDXClientException;
 
     /**
-     * Method to gRPC Call Routine Service createDeliveryTracking() api.
-     * @param request Delivery Tracking Request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Delivery Tracking Response.
-     */
-    DeliveryTrackingResponse createDeliveryTracking(
-            DeliveryTrackingRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException;
-
-    /**
-     * Method to gRPC Call Routine Service getDeliveryTracking() api.
-     * @param request Delivery Tracking request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Delivery Tracking Response.
-     */
-    DeliveryTrackingResponse getDeliveryTracking(
-            DeliveryTrackingRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException;
-
-    /**
      * Method to gRPC Call Routine Service createClinicalProtocolExecution() api.
      * @param request Clinical Protocol Execution request
      * @param openCDXCallCredentials Call Credentials to use for send.

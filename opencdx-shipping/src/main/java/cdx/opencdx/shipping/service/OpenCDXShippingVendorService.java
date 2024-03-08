@@ -15,6 +15,8 @@
  */
 package cdx.opencdx.shipping.service;
 
+import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
@@ -38,4 +40,20 @@ public interface OpenCDXShippingVendorService {
      * @return Shipping response
      */
     ShippingResponse shipPackage(Shipping request);
+
+    /**
+     * Creates a delivery tracking record based on the provided DeliveryTrackingRequest.
+     *
+     * @param request The DeliveryTrackingRequest for creating a delivery tracking record.
+     * @return A DeliveryTrackingResponse indicating the status of the delivery tracking creation.
+     */
+    DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request);
+
+    /**
+     * Retrieves information about a delivery tracking record based on the provided DeliveryTrackingRequest.
+     *
+     * @param request The DeliveryTrackingRequest for retrieving delivery tracking information.
+     * @return A DeliveryTrackingResponse containing information about the requested delivery tracking record.
+     */
+    DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request);
 }

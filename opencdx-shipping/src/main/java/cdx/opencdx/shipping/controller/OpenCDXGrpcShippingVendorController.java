@@ -16,6 +16,8 @@
 package cdx.opencdx.shipping.controller;
 
 import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
@@ -49,6 +51,22 @@ public class OpenCDXGrpcShippingVendorController extends ShippingServiceGrpc.Shi
     @Override
     public void shipPackage(Shipping request, StreamObserver<ShippingResponse> responseObserver) {
         responseObserver.onNext(this.openCDXShippingVendorService.shipPackage(request));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void createDeliveryTracking(
+            DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
+        DeliveryTrackingResponse response = openCDXShippingVendorService.createDeliveryTracking(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getDeliveryTracking(
+            DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
+        DeliveryTrackingResponse response = openCDXShippingVendorService.getDeliveryTracking(request);
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

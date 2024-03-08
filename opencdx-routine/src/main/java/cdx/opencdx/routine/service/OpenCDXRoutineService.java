@@ -17,8 +17,6 @@ package cdx.opencdx.routine.service;
 
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse;
-import cdx.opencdx.grpc.routine.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.routine.DeliveryTrackingResponse;
 import cdx.opencdx.grpc.routine.DiagnosisRequest;
 import cdx.opencdx.grpc.routine.DiagnosisResponse;
 import cdx.opencdx.grpc.routine.LabOrderRequest;
@@ -52,22 +50,6 @@ public interface OpenCDXRoutineService {
      * @return A RoutineResponse containing information about the requested routine.
      */
     RoutineResponse getRoutine(RoutineRequest request);
-
-    /**
-     * Creates a delivery tracking record based on the provided DeliveryTrackingRequest.
-     *
-     * @param request The DeliveryTrackingRequest for creating a delivery tracking record.
-     * @return A DeliveryTrackingResponse indicating the status of the delivery tracking creation.
-     */
-    DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request);
-
-    /**
-     * Retrieves information about a delivery tracking record based on the provided DeliveryTrackingRequest.
-     *
-     * @param request The DeliveryTrackingRequest for retrieving delivery tracking information.
-     * @return A DeliveryTrackingResponse containing information about the requested delivery tracking record.
-     */
-    DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request);
 
     /**
      * Creates a clinical protocol execution based on the provided ClinicalProtocolExecutionRequest.

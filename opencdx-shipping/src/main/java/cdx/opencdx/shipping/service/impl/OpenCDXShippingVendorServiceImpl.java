@@ -15,8 +15,18 @@
  */
 package cdx.opencdx.shipping.service.impl;
 
-import cdx.opencdx.commons.service.OpenCDXDeliveryTrackingMessageService;
-import cdx.opencdx.grpc.routine.DeliveryTracking;
+import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
+import cdx.opencdx.commons.service.OpenCDXCommunicationService;
+import cdx.opencdx.grpc.common.EmailAddress;
+import cdx.opencdx.grpc.common.EmailType;
+import cdx.opencdx.grpc.common.PhoneNumber;
+import cdx.opencdx.grpc.common.PhoneType;
+import cdx.opencdx.grpc.communication.Notification;
+import cdx.opencdx.grpc.shipping.DeliveryTracking;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
 import cdx.opencdx.grpc.shipping.Shipping;
 import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
@@ -35,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -47,20 +58,23 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
 
     private Map<String, OpenCDXShippingVendor> vendors;
 
-    private final OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService;
     private final OpenCDXShippingRepository openCDXShippingRepository;
+    private final OpenCDXCommunicationService openCDXCommunicationService;
+    private final OpenCDXProfileRepository openCDXProfileRepository;
 
     /**
      * Instantiates a new OpenCDXShippingVendorServiceImpl.
-     *
-     * @param openCDXDeliveryTrackingMessageService the openCDX delivery tracking message service
      * @param openCDXShippingRepository the openCDX shipping repository
+     * @param openCDXCommunicationService
+     * @param openCDXProfileRepository
      */
     public OpenCDXShippingVendorServiceImpl(
-            OpenCDXDeliveryTrackingMessageService openCDXDeliveryTrackingMessageService,
-            OpenCDXShippingRepository openCDXShippingRepository) {
-        this.openCDXDeliveryTrackingMessageService = openCDXDeliveryTrackingMessageService;
+            OpenCDXShippingRepository openCDXShippingRepository,
+            OpenCDXCommunicationService openCDXCommunicationService,
+            OpenCDXProfileRepository openCDXProfileRepository) {
         this.openCDXShippingRepository = openCDXShippingRepository;
+        this.openCDXCommunicationService = openCDXCommunicationService;
+        this.openCDXProfileRepository = openCDXProfileRepository;
         this.vendors = new HashMap<>();
 
         OpenCDXShippingVendor vendor = new UpsShippingVendor();
@@ -115,8 +129,79 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
                 .build());
         builder.setAssignedCourier(request.getShippingVendorId());
 
-        this.openCDXDeliveryTrackingMessageService.submitDeliveryTracking(builder.build());
-
         return openCDXShippingResponse.toProtobuf();
+    }
+
+    @Override
+    public DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request) {
+        ObjectId trackingId = new ObjectId(request.getDeliveryTracking().getTrackingId());
+        if (request.getDeliveryTracking().hasTrackingId()) {
+            OpenCDXShippingModel openCDXShippingModel = this.openCDXShippingRepository
+                    .findById(trackingId)
+                    .orElseThrow(
+                            () -> new OpenCDXNotFound("OpenCDXShippingVendorServiceImpl", 1, "Failed to find patient"));
+            String patientId = openCDXShippingModel.getPackageDetails().getPatientId();
+            OpenCDXProfileModel patient = this.openCDXProfileRepository
+                    .findById(new ObjectId(patientId))
+                    .orElseThrow(
+                            () -> new OpenCDXNotFound("OpenCDXShippingVendorServiceImpl", 2, "Failed to find patient"));
+
+            Map<String, String> map = new HashMap<>();
+            map.put("firstName", patient.getFullName().getFirstName());
+            map.put("lastName", patient.getFullName().getLastName());
+            map.put("notification", "Updated delivery tracking ");
+            map.put("trackingNumber", openCDXShippingModel.getTrackingNumber());
+            map.put("itemShipped", openCDXShippingModel.getPackageDetails().getTestCaseId());
+            map.put("address1", patient.getAddresses().get(0).getAddress1());
+            map.put("address2", patient.getAddresses().get(0).getAddress2());
+            map.put("address3", patient.getAddresses().get(0).getAddress3());
+            map.put("city", patient.getAddresses().get(0).getCity());
+            map.put("postalCode", patient.getAddresses().get(0).getPostalCode());
+            map.put("state", patient.getAddresses().get(0).getState());
+            map.put("countryId", patient.getAddresses().get(0).getCountryId());
+
+            Notification.Builder builder = Notification.newBuilder()
+                    .setEventId(OpenCDXCommunicationService.CREATE_SHIPMENT)
+                    .putAllVariables(map);
+            builder.addAllPatientIds(List.of(patient.getId().toHexString()));
+
+            EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                            .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                            .findFirst()
+                            .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                                    .findFirst()
+                                    .orElse(null)));
+            if (emailAddress != null) {
+                builder.addAllToEmail(List.of(emailAddress.getEmail()));
+            }
+            List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                    .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .map(PhoneNumber::getNumber)
+                    .toList();
+            if (!mobileList.isEmpty()) {
+                builder.addAllToPhoneNumber(mobileList);
+            }
+
+            this.openCDXCommunicationService.sendNotification(builder.build());
+        }
+        return DeliveryTrackingResponse.newBuilder()
+                .setDeliveryTracking(request.getDeliveryTracking())
+                .build();
+    }
+
+    /**
+     * Retrieve delivery tracking information by ID from the provided DeliveryTrackingRequest.
+     * @param request The DeliveryTrackingRequest containing the ID for retrieval
+     * @return Message containing details of the requested delivery tracking
+     */
+    @Override
+    public DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request) {
+
+        return DeliveryTrackingResponse.newBuilder()
+                .setDeliveryTracking(request.getDeliveryTracking())
+                .build();
     }
 }

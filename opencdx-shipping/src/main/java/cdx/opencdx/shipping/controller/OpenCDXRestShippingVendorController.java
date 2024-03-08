@@ -22,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Rest Controller for Shipping Vendor
@@ -63,5 +60,34 @@ public class OpenCDXRestShippingVendorController {
     @PostMapping(value = "/ship", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ShippingResponse> shipPackage(@RequestBody Shipping request) {
         return new ResponseEntity<>(this.openCDXShippingVendorService.shipPackage(request), HttpStatus.OK);
+    }
+
+    // Delivery Tracking
+    /**
+     * Post Delivery Tracking Rest API
+     * @param request DeliveryTrackingRequest indicating input.
+     * @return DeliveryTrackingResponse with the data.
+     */
+    @PostMapping(value = "/deliveryTracking", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DeliveryTrackingResponse> createDeliveryTracking(
+            @RequestBody DeliveryTrackingRequest request) {
+        DeliveryTrackingResponse response = openCDXShippingVendorService.createDeliveryTracking(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Get Delivery Tracking using GET method
+     * @param deliveryId The ID of the delivery tracking to retrieve.
+     * @return DeliveryTrackingResponse with the data.
+     */
+    @GetMapping("/deliveryTracking/{deliveryId}")
+    public ResponseEntity<DeliveryTrackingResponse> getDeliveryTracking(
+            @PathVariable(value = "deliveryId") String deliveryId) {
+        DeliveryTrackingRequest request = DeliveryTrackingRequest.newBuilder()
+                .setDeliveryTracking(
+                        DeliveryTracking.newBuilder().setTrackingId(deliveryId).build())
+                .build();
+        DeliveryTrackingResponse response = openCDXShippingVendorService.getDeliveryTracking(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

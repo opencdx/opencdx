@@ -65,27 +65,6 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
         return RoutineResponse.newBuilder().setRoutine(request.getRoutine()).build();
     }
 
-    @Override
-    public DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request) {
-
-        return DeliveryTrackingResponse.newBuilder()
-                .setDeliveryTracking(request.getDeliveryTracking())
-                .build();
-    }
-
-    /**
-     * Retrieve delivery tracking information by ID from the provided DeliveryTrackingRequest.
-     * @param request The DeliveryTrackingRequest containing the ID for retrieval
-     * @return Message containing details of the requested delivery tracking
-     */
-    @Override
-    public DeliveryTrackingResponse getDeliveryTracking(DeliveryTrackingRequest request) {
-
-        return DeliveryTrackingResponse.newBuilder()
-                .setDeliveryTracking(request.getDeliveryTracking())
-                .build();
-    }
-
     /**
      * Process the provided ClinicalProtocolExecutionRequest to create clinical protocol execution.
      * @param request The ClinicalProtocolExecutionRequest to be processed
