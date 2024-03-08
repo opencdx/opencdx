@@ -119,7 +119,7 @@ message Routine {
   repeated string associated_protocols = 8;
 }
 
-
+/*
  * This Protocol Buffers (protobuf) message represents entities related to the execution of a Clinical Protocol.
  * A Clinical Protocol Execution details the process of undergoing a specific protocol in a clinical setup.
  */
