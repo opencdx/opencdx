@@ -17,6 +17,8 @@ package proto;
 
 import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.routine.*;
+import cdx.opencdx.grpc.shipping.DeliveryTracking;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

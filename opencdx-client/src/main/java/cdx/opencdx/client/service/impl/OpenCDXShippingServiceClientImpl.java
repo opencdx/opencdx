@@ -129,4 +129,58 @@ public class OpenCDXShippingServiceClientImpl implements OpenCDXShippingServiceC
                     e);
         }
     }
+
+    /**
+     * Method to gRPC Call Routine Service createDeliveryTracking() api.
+     *
+     * @param request                Delivery Tracking Request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Delivery Tracking Response.
+     */
+    @Override
+    public DeliveryTrackingResponse createDeliveryTracking(
+            DeliveryTrackingRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return shippingServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .createDeliveryTracking(request);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_SHIPPING_CLIENT_IMPL,
+                    3,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    /**
+     * Method to gRPC Call Routine Service getDeliveryTracking() api.
+     *
+     * @param request                Delivery Tracking request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Delivery Tracking Response.
+     */
+    @Override
+    public DeliveryTrackingResponse getDeliveryTracking(
+            DeliveryTrackingRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return shippingServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getDeliveryTracking(request);
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    OPEN_CDX_SHIPPING_CLIENT_IMPL,
+                    4,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
 }

@@ -17,10 +17,7 @@ package cdx.opencdx.client.service;
 
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
-import cdx.opencdx.grpc.shipping.Shipping;
-import cdx.opencdx.grpc.shipping.ShippingRequest;
-import cdx.opencdx.grpc.shipping.ShippingResponse;
-import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
+import cdx.opencdx.grpc.shipping.*;
 
 /**
  * Interface for communicating with the Shipping Service.
@@ -42,5 +39,25 @@ public interface OpenCDXShippingServiceClient {
      * @return Message response.
      */
     ShippingResponse shipPackage(Shipping request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Routine Service createDeliveryTracking() api.
+     * @param request Delivery Tracking Request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Delivery Tracking Response.
+     */
+    DeliveryTrackingResponse createDeliveryTracking(
+            DeliveryTrackingRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Routine Service getDeliveryTracking() api.
+     * @param request Delivery Tracking request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Delivery Tracking Response.
+     */
+    DeliveryTrackingResponse getDeliveryTracking(
+            DeliveryTrackingRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

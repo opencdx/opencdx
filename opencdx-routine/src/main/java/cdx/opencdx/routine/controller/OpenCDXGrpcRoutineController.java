@@ -72,34 +72,6 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
     }
 
     /**
-     * gRPC Service Call to createDeliveryTracking.
-     * @param request Request to process.
-     * @param responseObserver Observer to process the response.
-     */
-    @Override
-    @Secured({})
-    public void createDeliveryTracking(
-            DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
-        DeliveryTrackingResponse response = openCDXRoutineService.createDeliveryTracking(request);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
-
-    /**
-     * gRPC Service Call to getDeliveryTracking.
-     * @param request Request to process.
-     * @param responseObserver Observer to process the response.
-     */
-    @Override
-    @Secured({})
-    public void getDeliveryTracking(
-            DeliveryTrackingRequest request, StreamObserver<DeliveryTrackingResponse> responseObserver) {
-        DeliveryTrackingResponse response = openCDXRoutineService.getDeliveryTracking(request);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
-
-    /**
      * gRPC Service Call to createClinicalProtocolExecution.
      * @param request Request to process.
      * @param responseObserver Observer to process the response.

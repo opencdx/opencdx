@@ -1,12 +1,9 @@
 # RoutineSystemService Overview
 
-The **RoutineSystemService** is a comprehensive system designed to manage various entities related to routine processes, clinical protocols, delivery tracking, and healthcare data. The system encompasses entities such as Routine, DeliveryTracking, ClinicalProtocolExecution, LabOrder, Diagnosis, SuspectedDiagnosis, LabResult, and Medication. Each entity serves a specific purpose within the healthcare domain.
+The **RoutineSystemService** is a comprehensive system designed to manage various entities related to routine processes, clinical protocols, delivery tracking, and healthcare data. The system encompasses entities such as Routine, ClinicalProtocolExecution, LabOrder, Diagnosis, SuspectedDiagnosis, LabResult, and Medication. Each entity serves a specific purpose within the healthcare domain.
 
 ## 1. Routine
 Represents routine processes with details such as routine ID, name, description, status, creation and last update timestamps, assigned user or team, and associated clinical protocols.
-
-## 2. DeliveryTracking
-Manages the tracking of deliveries, including delivery ID, order ID, status, start and end timestamps, current location, recipient information, and details of the delivered items.
 
 ## 3. ClinicalProtocolExecution
 Handles the execution of clinical protocols, capturing execution ID, associated routine and protocol IDs, status, start and end timestamps, results, assigned medical staff, and individual protocol steps.

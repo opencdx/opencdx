@@ -1,6 +1,11 @@
 # OpenCDX Shipping
 > Template Module for an OpenCDX Service. Used to quickly setup new services.
 
+# OpenCDXShippingVendorService Overview
+
+## 2. DeliveryTracking
+Manages the tracking of deliveries, including delivery ID, order ID, status, start and end timestamps, current location, recipient information, and details of the delivered items.
+
 ## Docker Image
 opencdx/shipping
 
