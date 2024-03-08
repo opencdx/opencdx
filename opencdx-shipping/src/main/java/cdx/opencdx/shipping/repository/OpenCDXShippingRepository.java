@@ -17,6 +17,7 @@ package cdx.opencdx.shipping.repository;
 
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXShippingRepository extends MongoRepository<OpenCDXShippingModel, ObjectId> {}
+public interface OpenCDXShippingRepository extends MongoRepository<OpenCDXShippingModel, ObjectId> {
+    Optional<OpenCDXShippingModel> findByTrackingNumber(String trackingNumber);
+}

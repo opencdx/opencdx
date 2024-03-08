@@ -3530,10 +3530,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;subjectOfRecord&quot; : {
     &quot;id&quot; : &quot;${patient_id_g}&quot;
   },
-  &quot;author&quot; : [ {
-    &quot;practitionerValue&quot; : &quot;practitioner&quot;,
-    &quot;code&quot; : &quot;expression&quot;
-  } ],
   &quot;subjectOfInformation&quot; : &quot;expression&quot;,
   &quot;associatedStatement&quot; : [ {
     &quot;semantic&quot; : &quot;Associated description&quot;
@@ -3603,10 +3599,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;subjectOfRecord&quot; : {
     &quot;id&quot; : &quot;${patient_id_g}&quot;
   },
-  &quot;author&quot; : [ {
-    &quot;practitionerValue&quot; : &quot;practitioner&quot;,
-    &quot;code&quot; : &quot;expression&quot;
-  } ],
   &quot;subjectOfInformation&quot; : &quot;expression&quot;,
   &quot;associatedStatement&quot; : [ {
     &quot;semantic&quot; : &quot;Associated description&quot;
@@ -3696,33 +3688,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;results&quot; : &quot;ClinicalProtocolExecution Results&quot;,
     &quot;assignedMedicalStaff&quot; : &quot;6581e5157e001111d3736b4d&quot;,
     &quot;steps&quot; : [ &quot;Step 1&quot;, &quot;Step 2&quot;, &quot;Step 3&quot; ]
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateDeliveryTracking" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateDeliveryTracking</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-  &quot;deliveryTracking&quot; : {
-    &quot;orderId&quot; : &quot;6581e5157e001111d3736b4f&quot;,
-    &quot;status&quot; : &quot;DeliveryTracking.Status.ACTIVE&quot;,
-    &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;currentLocation&quot; : &quot;Current Location&quot;,
-    &quot;recipient&quot; : &quot;6581e5157e001111d3736b50&quot;,
-    &quot;deliveryItems&quot; : [ &quot;6581e5157e001111d3736b51&quot; ],
-    &quot;assignedCourier&quot; : &quot;6581e5157e001111d3736b52&quot;
   }
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
@@ -4548,7 +4513,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 	},
 	&quot;package_details&quot;:{
 		&quot;id&quot;:&quot;${order_id_g}&quot;,
-		&quot;patient_id&quot;:&quot;${patient_id_r}&quot;,
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
 		&quot;shipping_address&quot;:{
 			&quot;country_id&quot;:&quot;${countryId}&quot;,
 			&quot;address_purpose&quot;:null,
@@ -4588,6 +4553,43 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">${ship_g}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">tracking_number_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.tracking_number</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Shipping / CreateDeliveryTracking" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.shipping.ShippingService/CreateDeliveryTracking</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;delivery_tracking&quot;:{
+		&quot;tracking_id&quot;:&quot;${tracking_number_g}&quot;,
+		&quot;order_id&quot;:&quot;${order_id_g}&quot;,
+		&quot;status&quot;:&quot;DeliveryTracking.Status.ACTIVE&quot;,
+		 &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
+    &quot;currentLocation&quot; : &quot;Current Location&quot;,
+    &quot;recipient&quot; : &quot;6581e5157e001111d3736b50&quot;,
+    &quot;deliveryItems&quot; : [ &quot;6581e5157e001111d3736b51&quot; ],
+    &quot;assignedCourier&quot; : &quot;6581e5157e001111d3736b52&quot;
+	}
+}
+</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
@@ -8864,10 +8866,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;subjectOfRecord&quot; : {&#xd;
     &quot;id&quot; : &quot;${patient_id_r}&quot;&#xd;
   },&#xd;
-  &quot;author&quot; : [ {&#xd;
-    &quot;practitionerValue&quot; : &quot;practitioner&quot;,&#xd;
-    &quot;code&quot; : &quot;expression&quot;&#xd;
-  } ],&#xd;
   &quot;subjectOfInformation&quot; : &quot;expression&quot;,&#xd;
   &quot;associatedStatement&quot; : [ {&#xd;
     &quot;semantic&quot; : &quot;Associated description&quot;&#xd;
@@ -8881,6 +8879,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   },&#xd;
   &quot;status&quot; : &quot;STATUS_UNSPECIFIED&quot;&#xd;
 }&#xd;
+&#xd;
 </stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -8948,10 +8947,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
   &quot;subjectOfRecord&quot; : {&#xd;
     &quot;id&quot; : &quot;${patient_id_r}&quot;&#xd;
   },&#xd;
-  &quot;author&quot; : [ {&#xd;
-    &quot;practitionerValue&quot; : &quot;practitioner&quot;,&#xd;
-    &quot;code&quot; : &quot;expression&quot;&#xd;
-  } ],&#xd;
   &quot;subjectOfInformation&quot; : &quot;expression&quot;,&#xd;
   &quot;associatedStatement&quot; : [ {&#xd;
     &quot;semantic&quot; : &quot;Associated description&quot;&#xd;
@@ -9068,42 +9063,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.path">/routine/clinicalProtocolExecution</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/deliveryTracking [POST]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;deliveryTracking&quot; : {&#xd;
-    &quot;orderId&quot; : &quot;6581e5157e001111d3736b4f&quot;,&#xd;
-    &quot;status&quot; : &quot;DELAYED&quot;,&#xd;
-    &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;currentLocation&quot; : &quot;Current Location&quot;,&#xd;
-    &quot;recipient&quot; : &quot;6581e5157e001111d3736b50&quot;,&#xd;
-    &quot;deliveryItems&quot; : [ &quot;6581e5157e001111d3736b51&quot; ],&#xd;
-    &quot;assignedCourier&quot; : &quot;6581e5157e001111d3736b52&quot;&#xd;
-  }&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/deliveryTracking</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -10492,6 +10451,51 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.path">/shipping/ship</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract User ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">tracking_number_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.trackingNumber</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/shipping/deliveryTracking [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;deliveryTracking&quot; : {&#xd;
+  	&quot;trackingId&quot;:&quot;${tracking_number_r}&quot;,&#xd;
+    &quot;orderId&quot; : &quot;${order_id_r}&quot;,&#xd;
+    &quot;status&quot; : &quot;DELAYED&quot;,&#xd;
+    &quot;startDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;endDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
+    &quot;currentLocation&quot; : &quot;Current Location&quot;,&#xd;
+    &quot;recipient&quot; : &quot;6581e5157e001111d3736b50&quot;,&#xd;
+    &quot;deliveryItems&quot; : [ &quot;6581e5157e001111d3736b51&quot; ],&#xd;
+    &quot;assignedCourier&quot; : &quot;6581e5157e001111d3736b52&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/shipping/deliveryTracking</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
