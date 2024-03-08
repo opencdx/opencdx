@@ -133,7 +133,7 @@ class OpenCDXShippingVendorServiceImplTest {
         Mockito.when(order.getTestCaseId()).thenReturn("testCaseId");
         Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
         Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
-        Mockito.when(this.openCDXShippingRepository.findById(new ObjectId("60f1e6b1f075a901a94d3762")))
+        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
                 .thenReturn(Optional.of(shippingModel));
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()

@@ -134,10 +134,9 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
 
     @Override
     public DeliveryTrackingResponse createDeliveryTracking(DeliveryTrackingRequest request) {
-        ObjectId trackingId = new ObjectId(request.getDeliveryTracking().getTrackingId());
         if (request.getDeliveryTracking().hasTrackingId()) {
             OpenCDXShippingModel openCDXShippingModel = this.openCDXShippingRepository
-                    .findById(trackingId)
+                    .findByTrackingNumber(request.getDeliveryTracking().getTrackingId())
                     .orElseThrow(
                             () -> new OpenCDXNotFound("OpenCDXShippingVendorServiceImpl", 1, "Failed to find patient"));
             String patientId = openCDXShippingModel.getPackageDetails().getPatientId();
