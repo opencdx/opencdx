@@ -32,7 +32,7 @@ System.out.println(&quot;Setup Users: &quot; + ${__P(noThreads,1)} + &quot; Ramp
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="gRpc Test" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tests" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${__P(noThreads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,1)}</stringProp>
         <stringProp name="ThreadGroup.duration">${__P(durationSec,60)}</stringProp>
@@ -3103,34 +3103,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Lab / SubmitLabFindings" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.lab.connected.ConnectedLabService/SubmitLabFindings</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;basicInfo&quot;:{
-		&quot;id&quot;:&quot;${connectedTestId}&quot;,
-		&quot;vendor_lab_test_id&quot;:&quot;41bbe3fa-babf-4e9f-bc58-8c394cf268c2&quot;,
-		&quot;type&quot;:&quot;Hello&quot;,
-		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
-		&quot;national_health_id&quot;:&quot;a5a21c5e-e348-4639-a123-a71a0f1975f8&quot;,
-		&quot;health_service_id&quot;:&quot;e8c994f6-19c6-4d65-8f90-22bbdd01fe99&quot;,
-		&quot;organization_id&quot;:&quot;${organization_g}&quot;,
-		&quot;workspace_id&quot;:&quot;${workspace_g}&quot;,
-		&quot;source&quot;:&quot;Hello&quot;
-	}
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Connected Test - Connected Tests" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -3337,6 +3309,196 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
 </stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Lab / SubmitLabFindings" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.lab.connected.ConnectedLabService/SubmitLabFindings</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;basicInfo&quot;:{
+		&quot;id&quot;:&quot;${connectedTestId}&quot;,
+		&quot;vendor_lab_test_id&quot;:&quot;41bbe3fa-babf-4e9f-bc58-8c394cf268c2&quot;,
+		&quot;type&quot;:&quot;Hello&quot;,
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+		&quot;national_health_id&quot;:&quot;a5a21c5e-e348-4639-a123-a71a0f1975f8&quot;,
+		&quot;health_service_id&quot;:&quot;e8c994f6-19c6-4d65-8f90-22bbdd01fe99&quot;,
+		&quot;organization_id&quot;:&quot;${organization_g}&quot;,
+		&quot;workspace_id&quot;:&quot;${workspace_g}&quot;,
+		&quot;source&quot;:&quot;Hello&quot;
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Connected Tests Loops" enabled="true">
+            <stringProp name="LoopController.loops">500</stringProp>
+          </LoopController>
+          <hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Connected Test /  SubmitTest" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.connected.HealthcareService/SubmitTest</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+    &quot;basicInfo&quot;: {
+        &quot;healthServiceId&quot;: &quot;amet minim culpa sed&quot;,
+        &quot;nationalHealthId&quot;: 677453581,
+        &quot;source&quot;: &quot;ea&quot;,
+        &quot;organizationId&quot; : &quot;${organization_g}&quot;,
+        &quot;workspaceId&quot; : &quot;${workspace_g}&quot;,
+        &quot;type&quot;: &quot;aliqua culpa aute enim&quot;,
+        &quot;patientId&quot;: &quot;${patient_id_g}&quot;,
+        &quot;vendorLabTestId&quot;: &quot;ut Ut velit non&quot;
+    },
+    &quot;orderInfo&quot;: {
+        &quot;encounterId&quot;: &quot;laboris fugiat&quot;,
+        &quot;isSyncedWithEHR&quot;: true,
+        &quot;orderId&quot;: &quot;cupidatat occaecat mollit sit ad&quot;,
+        &quot;questionnaireId&quot;: &quot;proident sit eu dolor&quot;,
+        &quot;result&quot;: &quot;officia anim sed&quot;,
+        &quot;status&quot;: &quot;adipisicing&quot;,
+        &quot;statusMessage&quot;: &quot;irure ut officia&quot;,
+        &quot;statusMessageActions&quot;: [
+            {
+                &quot;id&quot;: &quot;deserunt enim qui&quot;,
+                &quot;Value&quot;: &quot;ex esse&quot;,
+                &quot;Description&quot;: &quot;incididunt&quot;
+            },
+            {
+                &quot;Value&quot;: &quot;eu non occaecat elit&quot;,
+                &quot;id&quot;: &quot;ipsum nisi&quot;,
+                &quot;Description&quot;: &quot;officia quis&quot;
+            },
+            {
+                &quot;id&quot;: &quot;nulla est ut fugiat&quot;,
+                &quot;Description&quot;: &quot;exercitation dolore irure ipsum Excepteur&quot;,
+                &quot;Value&quot;: &quot;Duis aliqua amet&quot;
+            },
+            {
+                &quot;Value&quot;: &quot;sed est adipisicing ullamco&quot;,
+                &quot;id&quot;: &quot;in aliqua minim quis consectetur&quot;,
+                &quot;Description&quot;: &quot;adipisicing ipsum et esse&quot;
+            }
+        ]
+    },
+    &quot;paymentDetails&quot;: {
+        &quot;insuranceInfoId&quot;: &quot;Duis Ut exercitation cillum&quot;,
+        &quot;paymentDetails&quot;: &quot;in&quot;,
+        &quot;paymentMode&quot;: &quot;commodo in deserunt sunt Lorem&quot;,
+        &quot;paymentTransactionId&quot;: &quot;nisi eiusmod&quot;
+    },
+    &quot;providerInfo&quot;: {
+        &quot;assignedProviderID&quot;: -44602025,
+        &quot;orderingProviderId&quot;: &quot;dolore et tempor&quot;,
+        &quot;orderingProviderNPI&quot;: -211209566
+    },
+    &quot;testDetails&quot;: {
+    	   &quot;mediaId&quot;: &quot;${mediaId}&quot;,	
+        &quot;deviceIdentifier&quot;: &quot;${deviceId_g}&quot;,
+        &quot;deviceSerialNumber&quot;: &quot;sunt quis irure enim&quot;,
+        &quot;diagnostics&quot;: &quot;consequat amet ut&quot;,
+        &quot;internalTestId&quot;: &quot;ullamco in&quot;,
+        &quot;isAutoGenerated&quot;: false,
+        &quot;isOnsiteTest&quot;: true,
+        &quot;labTestType&quot;: &quot;quis deserunt eu commodo adipisicing&quot;,
+        &quot;labVendorConfirmationId&quot;: &quot;ad tempor incididunt ipsum quis&quot;,
+        &quot;medicalCode&quot;: &quot;pariatur non sit exercitation&quot;,
+        &quot;medications&quot;: &quot;sit sed Ut ut&quot;,
+        &quot;metadata&quot;: {
+            &quot;cassetteExpirationDate&quot;: &quot;sint consequat reprehenderit ut&quot;,
+            &quot;cassetteLotNumber&quot;: &quot;sed est non qui&quot;,
+            &quot;cassetteVerification&quot;: &quot;ad cillum&quot;,
+            &quot;imageType&quot;: &quot;cupidatat&quot;,
+            &quot;kitUploadID&quot;: &quot;Lorem deserunt&quot;,
+            &quot;labTestOrderableId&quot;: &quot;et sit nostrud ex cupidatat&quot;,
+            &quot;manufacturer&quot;: &quot;quis cillum&quot;,
+            &quot;outcome&quot;: &quot;reprehenderit veniam ut Ut&quot;,
+            &quot;outcomeIgG&quot;: true,
+            &quot;outcomeIgM&quot;: true,
+            &quot;qrData&quot;: &quot;incididunt pariatur&quot;,
+            &quot;responseCode&quot;: 1699231156,
+            &quot;responseMessage&quot;: &quot;commodo mollit culpa quis consectetur&quot;,
+            &quot;responseTitle&quot;: &quot;Ut laboris sint nisi non&quot;,
+            &quot;selfAssessmentOutcome&quot;: &quot;dolore officia&quot;,
+            &quot;selfAssessmentOutcomeIgG&quot;: false,
+            &quot;selfAssessmentOutcomeIgM&quot;: true,
+            &quot;skuId&quot;: &quot;cupidatat anim officia&quot;,
+            &quot;type&quot;: &quot;fugiat incididunt nisi dolor sunt&quot;
+        },
+        &quot;notificationFlag&quot;: &quot;ut nulla sint&quot;,
+        &quot;orderableTestIds&quot;: [
+            &quot;est enim cupidatat dolore&quot;
+        ],
+        &quot;orderableTestResults&quot;: [
+            {
+                &quot;responseMessage&quot;: &quot;ipsum reprehenderit&quot;,
+                &quot;responseTitle&quot;: &quot;voluptate Duis et&quot;,
+                &quot;outcome&quot;: &quot;velit sit Ut&quot;,
+                &quot;orderableTestId&quot;: &quot;cillum&quot;,
+                &quot;collectionDate&quot;: &quot;ut&quot;,
+                &quot;testResult&quot;: &quot;aliquip tempor cillum reprehenderit officia&quot;,
+                &quot;responseCode&quot;: 1582878818
+            }
+        ],
+        &quot;orderableTests&quot;: [
+            {
+                &quot;orderableTestId&quot;: &quot;irure&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;aute elit aliqua ea&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;nostrud laborum Lorem eu&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;deserunt veniam voluptate&quot;
+            },
+            {
+                &quot;orderableTestId&quot;: &quot;minim occaecat sint ut cupidatat&quot;
+            }
+        ],
+        &quot;orderReceiptPath&quot;: &quot;deserunt&quot;,
+        &quot;orderStatusFlag&quot;: &quot;ullamco et ad eu&quot;,
+        &quot;referrals&quot;: &quot;id ut est elit eiusmod&quot;,
+        &quot;reportingFlag&quot;: &quot;commodo in incididunt fugiat laborum&quot;,
+        &quot;requisitionBase64&quot;: &quot;amet dolor&quot;,
+        &quot;specimenType&quot;: &quot;sed exercitation&quot;,
+        &quot;specimenId&quot;: &quot;sint eu voluptate cupidatat&quot;,
+        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;
+    },
+    &quot;testNotes&quot;: {
+        &quot;diagnosticNotes&quot;: &quot;qui ullamco&quot;,
+        &quot;medicationNotes&quot;: &quot;non aute consectetur qui cupidatat&quot;,
+        &quot;notes&quot;: &quot;non Duis cupidatat dolor&quot;,
+        &quot;referralNotes&quot;: &quot;aliquip ullamco minim&quot;
+    }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Connected Test Id" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.submission_id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="ANF" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -8296,43 +8458,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-lab/lab [POST]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;basicinfo&quot; : {&#xd;
-    &quot;id&quot;:&quot;${connectedTestId}&quot;,&#xd;
-    &quot;vendorLabTestId&quot; : &quot;50fa1fc7-9ca0-4339-bf34-1288a0d582cb&quot;,&#xd;
-    &quot;type&quot; : &quot;lab&quot;,&#xd;
-    &quot;patientId&quot; : &quot;${patient_id_r}&quot;,&#xd;
-    &quot;nationalHealthId&quot; : &quot;2b04895a-66f1-4e13-a013-d404d6691533&quot;,&#xd;
-    &quot;healthServiceId&quot; : &quot;6f187ba8-3170-49de-91c0-68b952c98ab6&quot;,&#xd;
-    &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
-    &quot;workspaceId&quot; : &quot;${workspace_r}&quot;,&#xd;
-    &quot;source&quot; : &quot;lab&quot;&#xd;
-  }&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/connected-lab/lab</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
         </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Connected Test - Connected Tests" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -8532,6 +8657,189 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
           </HTTPSamplerProxy>
           <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-lab/lab [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;basicinfo&quot; : {&#xd;
+    &quot;id&quot;:&quot;${connectedTestId}&quot;,&#xd;
+    &quot;vendorLabTestId&quot; : &quot;50fa1fc7-9ca0-4339-bf34-1288a0d582cb&quot;,&#xd;
+    &quot;type&quot; : &quot;lab&quot;,&#xd;
+    &quot;patientId&quot; : &quot;${patient_id_r}&quot;,&#xd;
+    &quot;nationalHealthId&quot; : &quot;2b04895a-66f1-4e13-a013-d404d6691533&quot;,&#xd;
+    &quot;healthServiceId&quot; : &quot;6f187ba8-3170-49de-91c0-68b952c98ab6&quot;,&#xd;
+    &quot;organizationId&quot; : &quot;${organization_r}&quot;,&#xd;
+    &quot;workspaceId&quot; : &quot;${workspace_r}&quot;,&#xd;
+    &quot;source&quot; : &quot;lab&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-lab/lab</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Connected Tests Loops" enabled="true">
+          <stringProp name="LoopController.loops">500</stringProp>
+        </LoopController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/connected-test [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;basicInfo&quot;: {&#xd;
+    &quot;patientId&quot;: &quot;${patient_id_r}&quot;,&#xd;
+    &quot;vendorLabTestId&quot;: &quot;vendorLabTestId&quot;,&#xd;
+    &quot;type&quot;: &quot;type&quot;,&#xd;
+    &quot;nationalHealthId&quot;: 1,&#xd;
+    &quot;healthServiceId&quot;: &quot;hea;thServiceId&quot;,&#xd;
+    &quot;organizationId&quot;: &quot;${organization_r}&quot;,&#xd;
+    &quot;workspaceId&quot;: &quot;${workspace_r}&quot;,&#xd;
+    &quot;source&quot;: &quot;source&quot;&#xd;
+  },&#xd;
+  &quot;orderInfo&quot;: {&#xd;
+    &quot;orderId&quot;: &quot;orderId&quot;,&#xd;
+    &quot;status&quot;: &quot;statusId&quot;,&#xd;
+    &quot;statusMessage&quot;: &quot;statusMessage&quot;,&#xd;
+    &quot;statusMessageActions&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;id&quot;,&#xd;
+        &quot;value&quot;: &quot;value&quot;,&#xd;
+        &quot;description&quot;: &quot;description&quot;&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;encounterId&quot;: &quot;encounterId&quot;,&#xd;
+    &quot;isSyncedWithEhr&quot;: true,&#xd;
+    &quot;result&quot;: &quot;result&quot;,&#xd;
+    &quot;questionnaireId&quot;: &quot;questionnaireId&quot;&#xd;
+  },&#xd;
+  &quot;testNotes&quot;: {&#xd;
+    &quot;notes&quot;: &quot;notes&quot;,&#xd;
+    &quot;medicationNotes&quot;: &quot;medicationNotes&quot;,&#xd;
+    &quot;referralNotes&quot;: &quot;referralNotes&quot;,&#xd;
+    &quot;diagnosticNotes&quot;: &quot;diagnosticNotes&quot;&#xd;
+  },&#xd;
+  &quot;paymentDetails&quot;: {&#xd;
+    &quot;paymentMode&quot;: &quot;paymentMode&quot;,&#xd;
+    &quot;insuranceInfoId&quot;: &quot;insuranceInfoId&quot;,&#xd;
+    &quot;paymentTransactionId&quot;: &quot;paymentTransactionId&quot;,&#xd;
+    &quot;paymentDetails&quot;: &quot;paymentDetails&quot;&#xd;
+  },&#xd;
+  &quot;providerInfo&quot;: {&#xd;
+    &quot;orderingProviderId&quot;: &quot;orderingProviderId&quot;,&#xd;
+    &quot;assignedProviderId&quot;: 1,&#xd;
+    &quot;orderingProviderNpi&quot;: 1&#xd;
+  },&#xd;
+  &quot;testDetails&quot;: {&#xd;
+    &quot;mediaId&quot;: &quot;${mediaId}&quot;,	&#xd;
+    &quot;metadata&quot;: {&#xd;
+      &quot;qrData&quot;: &quot;qrdata&quot;,&#xd;
+      &quot;kitUploadId&quot;: &quot;kitUploadID&quot;,&#xd;
+      &quot;responseMessage&quot;: &quot;responseMessage&quot;,&#xd;
+      &quot;responseTitle&quot;: &quot;responseTitle&quot;,&#xd;
+      &quot;responseCode&quot;: 200,&#xd;
+      &quot;imageType&quot;: &quot;imageType&quot;,&#xd;
+      &quot;type&quot;: &quot;type&quot;,&#xd;
+      &quot;manufacturer&quot;: &quot;manufacturer&quot;,&#xd;
+      &quot;cassetteLotNumber&quot;: &quot;cassetteLotNumber&quot;,&#xd;
+      &quot;outcomeIgm&quot;: true,&#xd;
+      &quot;outcomeIgg&quot;: true,&#xd;
+      &quot;outcome&quot;: &quot;outcome&quot;,&#xd;
+      &quot;selfAssessmentOutcomeIgm&quot;: true,&#xd;
+      &quot;selfAssessmentOutcomeIgg&quot;: true,&#xd;
+      &quot;selfAssessmentOutcome&quot;: &quot;selfAssessmentOutcome&quot;,&#xd;
+      &quot;cassetteExpirationDate&quot;: &quot;expDate&quot;,&#xd;
+      &quot;labTestOrderableId&quot;: &quot;labTestOrderableId&quot;,&#xd;
+      &quot;skuId&quot;: &quot;skuID&quot;,&#xd;
+      &quot;cassetteVerification&quot;: &quot;verification&quot;&#xd;
+    },&#xd;
+    &quot;requisitionBase64&quot;: &quot;requisitionBase64&quot;,&#xd;
+    &quot;internalTestId&quot;: &quot;internalTestId&quot;,&#xd;
+    &quot;medications&quot;: &quot;medications&quot;,&#xd;
+    &quot;referrals&quot;: &quot;referrals&quot;,&#xd;
+    &quot;diagnostics&quot;: &quot;diagnostics&quot;,&#xd;
+    &quot;orderableTestIds&quot;: [&#xd;
+      &quot;orderableTestIds&quot;&#xd;
+    ],&#xd;
+    &quot;orderableTests&quot;: [&#xd;
+      {&#xd;
+        &quot;orderableTestId&quot;: &quot;orderableTestId&quot;&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;orderableTestResults&quot;: [&#xd;
+      {&#xd;
+        &quot;orderableTestId&quot;: &quot;orderableTestId&quot;,&#xd;
+        &quot;collectionDate&quot;: &quot;collectionDate&quot;,&#xd;
+        &quot;testResult&quot;: &quot;testResult&quot;,&#xd;
+        &quot;outcome&quot;: &quot;outcome&quot;,&#xd;
+        &quot;responseMessage&quot;: &quot;responseMessage&quot;,&#xd;
+        &quot;responseTitle&quot;: &quot;responseTitle&quot;,&#xd;
+        &quot;responseCode&quot;: 200&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;testClassification&quot;: &quot;TEST_CLASSIFICATION_GENERAL&quot;,&#xd;
+    &quot;isOnsiteTest&quot;: true,&#xd;
+    &quot;specimenId&quot;: &quot;specimenId&quot;,&#xd;
+    &quot;labVendorConfirmationId&quot;: &quot;labVendorConfirmationId&quot;,&#xd;
+    &quot;deviceIdentifier&quot;: &quot;${deviceId}&quot;,&#xd;
+    &quot;deviceSerialNumber&quot;: &quot;deviceSerialNumber&quot;,&#xd;
+    &quot;isAutoGenerated&quot;: true,&#xd;
+    &quot;reportingFlag&quot;: &quot;reportingFlag&quot;,&#xd;
+    &quot;notificationFlag&quot;: &quot;notificationFlag&quot;,&#xd;
+    &quot;orderStatusFlag&quot;: &quot;orderStatusFlag&quot;,&#xd;
+    &quot;orderReceiptPath&quot;: &quot;orderReceiptPath&quot;,&#xd;
+    &quot;labTestType&quot;: &quot;labTestType&quot;,&#xd;
+    &quot;specimenType&quot;: &quot;specimanType&quot;,&#xd;
+    &quot;medicalCode&quot;: &quot;medicalCode&quot;,&#xd;
+    &quot;testName&quot;: &quot;&quot;,&#xd;
+    &quot;testFormat&quot;: &quot;TEST_FORMAT_UNSPECIFIED&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/connected-test</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Email Template ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">connectedTestId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.submissionId</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="ANF" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -10202,7 +10510,69 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
-        <hashTree/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/tinkar [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="query" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">query</stringProp>
+                  <stringProp name="Argument.value">chronic disease of respiratory system</stringProp>
+                </elementProp>
+                <elementProp name="maxResults" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">maxResults</stringProp>
+                  <stringProp name="Argument.value">10</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/tinkar</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/tinkar/nid [GET]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="nid" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">nid</stringProp>
+                  <stringProp name="Argument.value">-2144684618</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/tinkar/nid</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Media - Delete" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
