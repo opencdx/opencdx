@@ -44,13 +44,11 @@ public class OpenCDXANFStatementModel {
     private AnfStatement.Measure time;
     private AnfStatement.Participant subjectOfRecord;
     private List<AnfStatement.Practitioner> authors;
-    private AnfStatement.LogicalExpression subjectOfInformation;
+    private String subjectOfInformation;
     private List<AnfStatement.AssociatedStatement> associatedStatements;
-    private AnfStatement.LogicalExpression topic;
-    private AnfStatement.LogicalExpression type;
-    private AnfStatement.RequestCircumstance requestCircumstance;
-    private AnfStatement.PerformanceCircumstance performanceCircumstance;
-    private AnfStatement.NarrativeCircumstance narrativeCircumstance;
+    private String topic;
+    private String type;
+    private AnfStatement.CircumstanceChoice circumstanceChoice;
 
     private Instant created;
     private Instant modified;
@@ -74,14 +72,12 @@ public class OpenCDXANFStatementModel {
 
         this.time = anfStatement.getTime();
         this.subjectOfRecord = anfStatement.getSubjectOfRecord();
-        this.authors = anfStatement.getAuthorList();
+        this.authors = anfStatement.getAuthorsList();
         this.subjectOfInformation = anfStatement.getSubjectOfInformation();
         this.associatedStatements = anfStatement.getAssociatedStatementList();
         this.topic = anfStatement.getTopic();
         this.type = anfStatement.getType();
-        this.requestCircumstance = anfStatement.getRequestCircumstance();
-        this.performanceCircumstance = anfStatement.getPerformanceCircumstance();
-        this.narrativeCircumstance = anfStatement.getNarrativeCircumstance();
+        this.circumstanceChoice = anfStatement.getCircumstanceChoice();
 
         if (anfStatement.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -123,7 +119,7 @@ public class OpenCDXANFStatementModel {
             builder.setSubjectOfRecord(this.subjectOfRecord);
         }
         if (this.authors != null) {
-            builder.addAllAuthor(this.authors);
+            builder.addAllAuthors(this.authors);
         }
         if (this.subjectOfInformation != null) {
             builder.setSubjectOfInformation(this.subjectOfInformation);
@@ -137,14 +133,8 @@ public class OpenCDXANFStatementModel {
         if (this.type != null) {
             builder.setType(this.type);
         }
-        if (this.requestCircumstance != null) {
-            builder.setRequestCircumstance(this.requestCircumstance);
-        }
-        if (this.performanceCircumstance != null) {
-            builder.setPerformanceCircumstance(this.performanceCircumstance);
-        }
-        if (this.narrativeCircumstance != null) {
-            builder.setNarrativeCircumstance(this.narrativeCircumstance);
+        if (this.circumstanceChoice != null) {
+            builder.setCircumstanceChoice(this.circumstanceChoice);
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

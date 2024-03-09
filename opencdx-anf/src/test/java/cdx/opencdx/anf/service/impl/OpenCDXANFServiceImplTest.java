@@ -149,7 +149,7 @@ class OpenCDXANFServiceImplTest {
                         .setId(ObjectId.get().toHexString())
                         .build())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXANFService.createANFStatement(anfStatement));
@@ -170,11 +170,11 @@ class OpenCDXANFServiceImplTest {
                 openCDXDocumentValidator,
                 openCDXProfileRepository);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
-                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
-                        .setProviderId(ObjectId.get().toHexString())
+                .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
+                        .setId(ObjectId.get().toHexString())
                         .build()))
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
@@ -215,7 +215,7 @@ class OpenCDXANFServiceImplTest {
                 .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
                         .id(ObjectId.get())
                         .subjectOfRecord(AnfStatement.Participant.newBuilder()
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build()));
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);
@@ -253,7 +253,7 @@ class OpenCDXANFServiceImplTest {
                         .setId(ObjectId.get().toHexString())
                         .build())
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> openCDXANFService.updateANFStatement(anfStatement));
@@ -274,11 +274,11 @@ class OpenCDXANFServiceImplTest {
                 openCDXDocumentValidator,
                 openCDXProfileRepository);
         AnfStatement.ANFStatement anfStatement = AnfStatement.ANFStatement.newBuilder()
-                .addAllAuthor(List.of(AnfStatement.Practitioner.newBuilder()
-                        .setProviderId(ObjectId.get().toHexString())
+                .addAllAuthors(List.of(AnfStatement.Practitioner.newBuilder()
+                        .setId(ObjectId.get().toHexString())
                         .build()))
                 .setSubjectOfRecord(AnfStatement.Participant.newBuilder()
-                        .setPatientId(ObjectId.get().toHexString())
+                        .setId(ObjectId.get().toHexString())
                         .build())
                 .setId(AnfStatement.Identifier.newBuilder()
                         .setId(ObjectId.get().toHexString())
@@ -317,7 +317,7 @@ class OpenCDXANFServiceImplTest {
                 .thenReturn(Optional.of(OpenCDXANFStatementModel.builder()
                         .id(ObjectId.get())
                         .subjectOfRecord(AnfStatement.Participant.newBuilder()
-                                .setPatientId(ObjectId.get().toHexString())
+                                .setId(ObjectId.get().toHexString())
                                 .build())
                         .build()));
         ObjectMapper mapper = Mockito.mock(ObjectMapper.class);

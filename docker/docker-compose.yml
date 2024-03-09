@@ -271,7 +271,32 @@ services:
         condition: service_healthy
     volumes:
       - ../certs:/certs
-
+  connected-lab:
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+        max_attempts: 5
+        window: 60s
+    image: opencdx/connected-lab:${version}
+    healthcheck:
+      test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      nats:
+        condition: service_started
+      iam:
+        condition: service_healthy
+    volumes:
+      - ../certs:/certs
   connected-test:
     deploy:
       restart_policy:
@@ -523,12 +548,13 @@ services:
     restart: unless-stopped
   prometheus:
     image: prom/prometheus:v2.44.0
-    command: --config.file=/etc/prometheus/prometheus.yml --log.level=debug
+    command: --config.file=/etc/prometheus/prometheus.yml --web.config.file=/etc/prometheus/web.yml --log.level=debug
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/web.yml:/etc/prometheus/web.yml
       - ../certs:/certs
 
   grafana:
@@ -537,6 +563,10 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
     volumes:
       - ./grafana:/etc/grafana/provisioning
 

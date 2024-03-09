@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.shipping.config;
 
-import cdx.opencdx.commons.service.impl.NoOpOpenCDXMessageServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,11 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(
-        properties = "spring.cloud.config.enabled=false",
-        classes = {AppConfig.class, NoOpOpenCDXMessageServiceImpl.class})
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class AppConfigTest {
 
     @Test

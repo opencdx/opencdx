@@ -21,15 +21,15 @@ const Type = React.forwardRef(({ index, currentIndex, control, getValues }, ref)
                             <Grid item xs={12} sm={9} lg={6}>
                                 <FormControl fullWidth>
                                     <Controller
-                                        name={`item.${index}.item.${currentIndex}.typeValue`}
+                                        name={`item.${index}.item.${currentIndex}.anfStatementConnector[0].anfStatement.type`}
                                         control={control}
-                                        defaultValue={10}
+                                        defaultValue={'PERFORMANCE'}
                                         render={({ field }) => (
                                             <Select {...field}>
-                                                <MenuItem value={10} defaultValue={10}>
+                                                <MenuItem value={'PERFORMANCE'} defaultValue={'PERFORMANCE'}>
                                                     Performance
                                                 </MenuItem>
-                                                <MenuItem value={20}>Request</MenuItem>
+                                                <MenuItem value={'REQUEST'}>Request</MenuItem>
                                             </Select>
                                         )}
                                     />

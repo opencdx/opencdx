@@ -6,96 +6,6 @@ package cdx.opencdx.grpc.anf;
 import "google/protobuf/timestamp.proto";
 
 /*
- * Enumerates health risk levels.
- */
-enum HealthRisk {
-  /*
-   * Default, not specified
-   */
-  HEALTH_RISK_UNSPECIFIED = 0;
-
-  /*
-   * Low risk
-   */
-  HEALTH_RISK_LOW = 1;
-
-  /*
-   * Average risk
-   */
-  HEALTH_RISK_NORMAL = 2;
-
-  /*
-   * High risk
-   */
-  HEALTH_RISK_HIGH = 3;
-
-  /*
-   * Critical risk
-   */
-  HEALTH_RISK_CRITICAL = 4;
-}
-
-/*
- * Enumeration representing the different potential statuses of a result.
- */
-enum ResultStateStatus {
-  /*
-   * The default, when the result status hasn't been specified
-   */
-  RESULT_STATE_STATUS_UNSPECIFIED = 0;
-
-  /*
-   * Indicates that the associated action is currently paused or on hold
-   */
-  RESULT_STATE_STATUS_ON_HOLD = 1;
-
-  /*
-   * Implies that the action is required but hasn't started yet
-   */
-  RESULT_STATE_STATUS_NEEDED = 2;
-
-  /*
-   * Denotes that the action was declined or rejected
-   */
-  RESULT_STATE_STATUS_REJECTED = 3;
-
-  /*
-   * Represents that the action was successfully completed
-   */
-  RESULT_STATE_STATUS_COMPLETED = 4;
-}
-
-/*
- * Enum 'NormalRange' indicates the range in which a result falls.
- */
-enum NormalRange {
-  /*
-   * The default value, indicating that the range has not been specified.
-   */
-  NORMAL_RANGE_UNSPECIFIED = 0;
-
-  /*
-   * Indicates that the result is on the low end of the normal range.
-   */
-  NORMAL_RANGE_LOW = 1;
-
-  /*
-   * The result falls within the normal range.
-   */
-  NORMAL_RANGE_NORMAL = 2;
-
-  /*
-   * Indicates that the result is on the high end of the normal range.
-   */
-  NORMAL_RANGE_HIGH = 3;
-
-  /*
-   * The result is critically high or low, falling outside the normal range.
-   */
-  NORMAL_RANGE_CRITICAL = 4;
-}
-
-/*
  * Enum to encapsulate the possible Media statuses.
  */
 enum Status {
@@ -113,6 +23,15 @@ enum Status {
    * Media status designates that the media is being deleted.
    */
   STATUS_DELETED = 2;
+}
+
+enum CircumstanceType {
+  
+  PERFORMANCE_CIRCUMSTANCE = 0;
+
+  REQUEST_CIRCUMSTANCE = 1;
+
+  NARRATIVE_CIRCUMSTANCE = 2;
 }
 
 /*
@@ -168,12 +87,12 @@ message Measure {
   /*
    * The `upper_bound` field signifies the maximum limit of the measure.
    */
-  float upper_bound = 1;
+  string upper_bound = 1;
 
   /*
    * The `lower_bound` field signifies the minimum limit of the measure.
    */
-  float lower_bound = 2;
+  string lower_bound = 2;
 
   /*
    * The `include_upper_bound` field reveals if the `upper_bound` value is inclusive in the measure.
@@ -185,29 +104,12 @@ message Measure {
    */
   bool include_lower_bound = 4;
 
-
-  /*
-   * `LogicalExpression semantic` is a field in a Protocol Buffers message.
-   * This is declared with a unique number (5 in this case), which is used to identify the field in the serialized binary data.
-   * LogicalExpression is assumed to be another message type, and `semantic` is an instance of this LogicalExpression message type.
-   * Essentially, this line is defining a LogicalExpression object named "semantic" in the Protocol Buffers message format.
-   */
-  LogicalExpression semantic = 5;
+  string semantic = 5;
 
   /*
    * `resolution` denotes the accuracy or precision of the measure, it is an optional field.
    */
-  float resolution = 6;
-}
-
-/*
- * Message representing a logical expression using a string.
- */
-message LogicalExpression {
-  /*
-   * Direct representation of the logical expression
-   */
-  string expression = 1;
+  string resolution = 6;
 }
 
 /*
@@ -217,22 +119,11 @@ message Participant {
   /*
    * Unique identifier for the participant
    */
-  string patient_id = 1;
-}
+  string id = 1;
 
-/*
- * Message representing timing information.
- */
-message Timing {
-  /*
-   * Time represented as a Unix timestamp
-   */
-  int64 time = 1;
+  string practitioner_value = 2;
 
-  /*
-   * Label of the timing, such as "past", "present", or "future"
-   */
-  string description = 2;
+  string code = 3;
 }
 
 /*
@@ -242,141 +133,28 @@ message Practitioner {
   /*
    * Unique identifier for the practitioner
    */
-  optional string provider_id = 1;
+  optional string id = 1;
 
   /*
    * Reference to the participating practitioner
    */
-  string practitioner = 2;
+  string practitioner_value = 2;
 
   /*
    * Authorized roles of the practitioner
    */
-  LogicalExpression code = 3;
+  string code = 3;
 }
 
 /*
  * Message representing associated statements like preconditions or interpretations.
  */
 message AssociatedStatement {
+  string id = 1;
   /*
    * Contents or description of the associated statement
    */
-  string description = 1;
-}
-
-/*
- * Message representing the details of repetition for a RequestCircumstance.
- */
-message Repetition {
-  /*
-   * The starting point of the repetition
-   */
-  Measure period_start = 1;
-  /*
-   * Duration for the repetition period
-   */
-  Measure period_duration = 2;
-  /*
-   * Interval between events
-   */
-  Measure event_separation = 3;
-  /*
-   * The expected duration of each event, optional
-   */
-  Measure event_duration = 4;
-  /*
-   * The frequency at which the events occur
-   */
-  Measure event_frequency = 5;
-}
-
-/*
- * Message representing the circumstances associated with a clinical statement
- */
-message Circumstance {
-  /*
-   * Information about the timing, which is either past or current
-   */
-  Measure timing = 1;
-  /*
-   * Information about the purposes
-   */
-  repeated LogicalExpression purpose = 2;
-}
-
-/*
- * Message representing a RequestCircumstance.
- */
-message RequestCircumstance {
-  /*
-   * Conditions that initiate the request
-   */
-  repeated AssociatedStatement conditional_trigger = 1;
-  /*
-   * Participants included in the request
-   */
-  repeated Reference requested_participant = 2;
-  /*
-   * The level of priority for the request
-   */
-  LogicalExpression priority = 3;
-  /*
-   * Expected result from the request
-   */
-  Measure requested_result = 4;
-  /*
-   * Information about the repetition, optional
-   */
-  Repetition repetition = 5;
-  /*
-   * The associated circumstances for a clinical statement
-   */
-  Circumstance circumstance = 6;
-}
-
-/*
- * Message representing a PerformanceCircumstance.
- */
-message PerformanceCircumstance {
-  /*
-   * The current state of the performance
-   */
-  LogicalExpression status = 1;
-  /*
-   * The result from the performance
-   */
-  Measure result = 2;
-  /*
-   * Level of health risk, optional
-   */
-  LogicalExpression health_risk = 3;
-  /*
-   * The typical range for the result, optional
-   */
-  Measure normal_range = 4;
-  /*
-   * Participants involved in the performance
-   */
-  repeated Participant participant = 5;
-  /*
-   * The associated circumstances for a clinical statement
-   */
-  Circumstance circumstance = 6;
-}
-
-/*
- * Message representing a NarrativeCircumstance.
- */
-message NarrativeCircumstance {
-  /*
-   * Narrative or textual description
-   */
-  string text = 1;
-  /*
-   * The associated circumstances for a clinical statement
-   */
-  Circumstance circumstance = 2;
+  string semantic = 2;
 }
 
 /*
@@ -391,6 +169,26 @@ message Reference {
    * The type of the reference, for example, "Patient", "Practitioner"
    */
   string type = 2;
+}
+
+message CircumstanceChoice {
+  
+  CircumstanceType circumstance_type = 1;
+
+  string status = 2;
+
+  Measure result = 3;
+
+  string health_risk = 4;
+
+  Measure normal_range = 5;
+
+  Participant circumstance = 6;
+
+  Measure timing = 7;
+
+  Participant participant = 8;
+
 }
 
 /*
@@ -414,11 +212,11 @@ message ANFStatement {
   /*
    * Identifies all authors behind this statement.
    */
-  repeated Practitioner author = 4;
+  repeated Practitioner authors = 4;
   /*
    * Refers to the subject or topic of the incorporated information.
    */
-  LogicalExpression subject_of_information = 5;
+  string subject_of_information = 5;
   /*
    * Refers to any related statements or conditions.
    */
@@ -430,37 +228,33 @@ message ANFStatement {
    * - Laboratory test statements use the "Laboratory Procedure" concept.
    * - Imaging Procedure statements use the "Imaging Procedure" concept.
    */
-  LogicalExpression topic = 7;
+  string topic = 7;
   /*
    * Specifies the type category of the statement such as "Request", "Performance", etc.
    */
-  LogicalExpression type = 8;
+  string type = 8;
   /*
-   * Circumstance choice: RequestCircumstance, PerformanceCircumstance, or NarrativeCircumstance, any one of which must be present.
+   * Circumstance choice
    */
-  oneof circumstance_choice {
-    RequestCircumstance request_circumstance = 9;
-    PerformanceCircumstance performance_circumstance = 10;
-    NarrativeCircumstance narrative_circumstance = 11;
-  }
+  CircumstanceChoice circumstance_choice = 9;
   /*
    * Timestamp when this ANFStatement was created.
    */
-  optional google.protobuf.Timestamp created = 12;
+  optional google.protobuf.Timestamp created = 10;
   /*
    * Timestamp when modifications were done to this ANFStatement.
    */
-  optional google.protobuf.Timestamp modified = 13;
+  optional google.protobuf.Timestamp modified = 12;
   /*
    * Specifies the unique identifier of the creator of this ANFStatement.
    */
-  optional string creator = 14;
+  optional string creator = 13;
   /*
    * Specifies the unique identifier of the modifier of this ANFStatement.
    */
-  optional string modifier = 15;
+  optional string modifier = 14;
   /*
    * Specifies the current status of the ANFStatement.
    */
-  Status status = 16;
+  Status status = 15;
 }

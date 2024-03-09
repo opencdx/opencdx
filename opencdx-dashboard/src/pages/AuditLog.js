@@ -1,11 +1,11 @@
 import MainCard from 'ui-component/cards/MainCard';
 import Box from '@mui/material/Box';
 import DataGrid from 'ui-component/extended/DataGrid';
-import {  useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import axios from 'axios';
 
 export default function AuditLog() {
-  const [auditEventList, setAuditEventList] = useState([]);
+    const [auditEventList, setAuditEventList] = useState([]);
     const fetchData = useCallback(async () => {
         try {
             const response = await axios.post('http://localhost:8632/graphql', {
@@ -40,10 +40,10 @@ export default function AuditLog() {
                     }
                 }`
             });
-          response.data.data?.getAudit.forEach((item, index) => {
-            item.id = index;
-          });
-          const modifiedAuditEventList = response.data.data?.getAudit;
+            response.data.data?.getAudit.forEach((item, index) => {
+                item.id = index;
+            });
+            const modifiedAuditEventList = response.data.data?.getAudit;
             setAuditEventList(modifiedAuditEventList);
         } catch (error) {
             console.error(error);

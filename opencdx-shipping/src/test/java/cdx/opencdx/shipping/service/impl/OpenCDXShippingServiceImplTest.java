@@ -273,7 +273,7 @@ class OpenCDXShippingServiceImplTest {
     }
 
     @Test
-    void listOrders_SortA() {
+    void listOrders_SortDesc() {
         ListOrdersRequest listOrdersRequest = ListOrdersRequest.newBuilder()
                 .setPagination(Pagination.newBuilder()
                         .setPageNumber(1)

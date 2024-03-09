@@ -16,6 +16,7 @@
 package cdx.opencdx.shipping.model;
 
 import cdx.opencdx.grpc.common.Address;
+import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.shipping.Order;
 import com.google.protobuf.Timestamp;
@@ -44,6 +45,7 @@ public class OpenCDXOrderModel {
     private ObjectId id;
 
     private ObjectId patientId;
+    private FullName shippingName;
     private Address shippingAddress;
     private ObjectId testCaseID;
     private ShippingStatus status;
@@ -67,6 +69,7 @@ public class OpenCDXOrderModel {
         } else {
             this.status = ShippingStatus.PENDING;
         }
+        this.shippingName = order.getShippingName();
 
         this.patientId = new ObjectId(order.getPatientId());
         this.shippingAddress = order.getShippingAddress();
@@ -96,6 +99,9 @@ public class OpenCDXOrderModel {
         Order.Builder builder = Order.newBuilder();
         builder.setId(this.id.toHexString());
         builder.setPatientId(this.patientId.toHexString());
+        if (this.shippingName != null) {
+            builder.setShippingName(this.shippingName);
+        }
 
         if (this.shippingAddress != null) {
             builder.setShippingAddress(this.shippingAddress);

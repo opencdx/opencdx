@@ -15,11 +15,19 @@
  */
 package cdx.opencdx.shipping.config;
 
+import cdx.opencdx.commons.service.OpenCDXMessageService;
+import cdx.opencdx.shipping.handlers.OpenCDXOrderMessageHandler;
+import cdx.opencdx.shipping.service.OpenCDXShippingService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 
 /**
  * Applicaiton Configuration
  */
+@Slf4j
 @Configuration
 public class AppConfig {
     /**
@@ -27,5 +35,16 @@ public class AppConfig {
      */
     public AppConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    @Description(
+            "OpenCDXConnectedLabMessageHandler that is specific for handling Connected Lab Findings messages being received over messaging.")
+    OpenCDXOrderMessageHandler openCDXOrderMessageHandler(
+            ObjectMapper objectMapper,
+            OpenCDXShippingService openCDXShippingService,
+            OpenCDXMessageService openCDXMessageService) {
+        log.info("Instantiating OpenCDXOrderMessageHandler.");
+        return new OpenCDXOrderMessageHandler(objectMapper, openCDXShippingService, openCDXMessageService);
     }
 }

@@ -15,9 +15,7 @@
  */
 package cdx.opencdx.connected.test.service;
 
-import cdx.opencdx.grpc.inventory.DeleteResponse;
-import cdx.opencdx.grpc.inventory.TestCase;
-import cdx.opencdx.grpc.inventory.TestCaseIdRequest;
+import cdx.opencdx.grpc.inventory.*;
 
 /**
  * TestCase service
@@ -50,4 +48,11 @@ public interface OpenCDXTestCaseService {
      * @return Response indicating if successful.
      */
     DeleteResponse deleteTestCase(TestCaseIdRequest request);
+
+    /**
+     * Method to get list of test cases
+     * @param request Request indicating pagination, sorting, and page size.
+     * @return requested test case with page, sorting, and page size
+     */
+    TestCaseListResponse listTestCase(TestCaseListRequest request);
 }
