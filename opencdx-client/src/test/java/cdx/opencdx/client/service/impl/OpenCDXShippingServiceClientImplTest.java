@@ -92,4 +92,50 @@ class OpenCDXShippingServiceClientImplTest {
                 OpenCDXClientException.class,
                 () -> this.shippingServiceClient.shipPackage(request, openCDXCallCredentials));
     }
+
+    @Test
+    void createDeliveryTracking() {
+        Mockito.when(this.shippingServiceBlockingStub.createDeliveryTracking(
+                        Mockito.any(DeliveryTrackingRequest.class)))
+                .thenReturn(DeliveryTrackingResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                DeliveryTrackingResponse.getDefaultInstance(),
+                this.shippingServiceClient.createDeliveryTracking(
+                        DeliveryTrackingRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void createDeliveryTrackingException() {
+        Mockito.when(this.shippingServiceBlockingStub.createDeliveryTracking(
+                        Mockito.any(DeliveryTrackingRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        DeliveryTrackingRequest request = DeliveryTrackingRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.shippingServiceClient.createDeliveryTracking(request, openCDXCallCredentials));
+    }
+
+    @Test
+    void getDeliveryTracking() {
+        Mockito.when(this.shippingServiceBlockingStub.getDeliveryTracking(Mockito.any(DeliveryTrackingRequest.class)))
+                .thenReturn(DeliveryTrackingResponse.getDefaultInstance());
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertEquals(
+                DeliveryTrackingResponse.getDefaultInstance(),
+                this.shippingServiceClient.getDeliveryTracking(
+                        DeliveryTrackingRequest.getDefaultInstance(), openCDXCallCredentials));
+    }
+
+    @Test
+    void getDeliveryTrackingException() {
+        Mockito.when(this.shippingServiceBlockingStub.getDeliveryTracking(Mockito.any(DeliveryTrackingRequest.class)))
+                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
+        DeliveryTrackingRequest request = DeliveryTrackingRequest.getDefaultInstance();
+        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
+        Assertions.assertThrows(
+                OpenCDXClientException.class,
+                () -> this.shippingServiceClient.getDeliveryTracking(request, openCDXCallCredentials));
+    }
 }

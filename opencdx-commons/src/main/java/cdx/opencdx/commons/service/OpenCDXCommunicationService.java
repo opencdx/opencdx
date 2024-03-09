@@ -43,6 +43,10 @@ public interface OpenCDXCommunicationService {
      */
     String WELCOME_EMAIL_USER = "60f1e6b1f075a361a94d373e";
     /**
+     * ID of create shipping email notification event.
+     */
+    String CREATE_SHIPMENT = "60f1e6b1f075a361a94d3764";
+    /**
      * Method to send a Notificaiton to opencdx-communication
      * @param notification Notificaiton to send.
      */

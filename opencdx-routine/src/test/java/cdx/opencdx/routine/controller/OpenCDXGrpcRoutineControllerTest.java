@@ -22,9 +22,6 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecution;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionResponse;
-import cdx.opencdx.grpc.routine.DeliveryTracking;
-import cdx.opencdx.grpc.routine.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.routine.DeliveryTrackingResponse;
 import cdx.opencdx.grpc.routine.Diagnosis;
 import cdx.opencdx.grpc.routine.DiagnosisRequest;
 import cdx.opencdx.grpc.routine.DiagnosisResponse;
@@ -115,35 +112,6 @@ class OpenCDXGrpcRoutineControllerTest {
                 responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(RoutineResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void testCreateDeliveryTracking() {
-        StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcRoutineController.createDeliveryTracking(
-                DeliveryTrackingRequest.newBuilder(DeliveryTrackingRequest.getDefaultInstance())
-                        .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setTrackingId("789")
-                                .build())
-                        .build(),
-                responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeliveryTrackingResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void testGetDeliveryTracking() {
-        StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcRoutineController.getDeliveryTracking(
-                DeliveryTrackingRequest.newBuilder()
-                        .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                .setTrackingId("789")
-                                .build())
-                        .build(),
-                responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeliveryTrackingResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 

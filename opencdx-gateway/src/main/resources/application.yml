@@ -200,6 +200,12 @@ spring:
             - Path=/cdx.opencdx.grpc.shipping.ShippingService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-connected-lab
+          uri: https://connected-lab:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.lab.connected.ConnectedLabService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
 eureka:
   client:
     service-url:

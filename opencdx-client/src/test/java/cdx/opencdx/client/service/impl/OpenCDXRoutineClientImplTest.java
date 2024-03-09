@@ -97,54 +97,6 @@ class OpenCDXRoutineClientImplTest {
     }
 
     @Test
-    void createDeliveryTracking() {
-        Mockito.when(this.routineSystemServiceBlockingStub.createDeliveryTracking(
-                        Mockito.any(DeliveryTrackingRequest.class)))
-                .thenReturn(DeliveryTrackingResponse.getDefaultInstance());
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertEquals(
-                DeliveryTrackingResponse.getDefaultInstance(),
-                this.openCDXRoutineClient.createDeliveryTracking(
-                        DeliveryTrackingRequest.getDefaultInstance(), openCDXCallCredentials));
-    }
-
-    @Test
-    void createDeliveryTrackingException() {
-        Mockito.when(this.routineSystemServiceBlockingStub.createDeliveryTracking(
-                        Mockito.any(DeliveryTrackingRequest.class)))
-                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        DeliveryTrackingRequest request = DeliveryTrackingRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class,
-                () -> this.openCDXRoutineClient.createDeliveryTracking(request, openCDXCallCredentials));
-    }
-
-    @Test
-    void getDeliveryTracking() {
-        Mockito.when(this.routineSystemServiceBlockingStub.getDeliveryTracking(
-                        Mockito.any(DeliveryTrackingRequest.class)))
-                .thenReturn(DeliveryTrackingResponse.getDefaultInstance());
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertEquals(
-                DeliveryTrackingResponse.getDefaultInstance(),
-                this.openCDXRoutineClient.getDeliveryTracking(
-                        DeliveryTrackingRequest.getDefaultInstance(), openCDXCallCredentials));
-    }
-
-    @Test
-    void getDeliveryTrackingException() {
-        Mockito.when(this.routineSystemServiceBlockingStub.getDeliveryTracking(
-                        Mockito.any(DeliveryTrackingRequest.class)))
-                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        DeliveryTrackingRequest request = DeliveryTrackingRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class,
-                () -> this.openCDXRoutineClient.getDeliveryTracking(request, openCDXCallCredentials));
-    }
-
-    @Test
     void createClinicalProtocolExecution() {
         Mockito.when(this.routineSystemServiceBlockingStub.createClinicalProtocolExecution(
                         Mockito.any(ClinicalProtocolExecutionRequest.class)))

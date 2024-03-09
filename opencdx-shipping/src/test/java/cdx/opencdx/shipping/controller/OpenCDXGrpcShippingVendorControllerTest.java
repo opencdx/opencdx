@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.shipping.service.impl;
+package cdx.opencdx.shipping.controller;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
@@ -23,16 +22,15 @@ import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.shipping.*;
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
 import cdx.opencdx.shipping.repository.OpenCDXShippingRepository;
+import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
+import cdx.opencdx.shipping.service.impl.OpenCDXShippingVendorServiceImpl;
+import io.grpc.stub.StreamObserver;
 import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +41,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
-class OpenCDXShippingVendorServiceImplTest {
+class OpenCDXGrpcShippingVendorControllerTest {
 
-    OpenCDXShippingVendorServiceImpl openCDXShippingVendorServiceImpl;
+    OpenCDXGrpcShippingVendorController openCDXGrpcShippingVendorController;
+    OpenCDXShippingVendorService openCDXShippingVendorService;
 
     @Autowired
     OpenCDXCommunicationService openCDXCommunicationService;
@@ -58,82 +57,44 @@ class OpenCDXShippingVendorServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
-        openCDXShippingVendorServiceImpl = new OpenCDXShippingVendorServiceImpl(
+        this.openCDXShippingVendorService = new OpenCDXShippingVendorServiceImpl(
                 openCDXShippingRepository, openCDXCommunicationService, openCDXProfileRepository);
+        this.openCDXGrpcShippingVendorController =
+                new OpenCDXGrpcShippingVendorController(openCDXShippingVendorService);
     }
 
-    @RepeatedTest(100)
+    @Test
     void getShippingVendors() {
-        ShippingRequest shippingRequest = ShippingRequest.newBuilder()
-                .setDeclaredValue(Math.random() * 100)
-                .setRequireSignature(Math.random() > 0.5)
-                .setPackageDetails(Order.getDefaultInstance())
-                .setSenderAddress(Address.getDefaultInstance())
-                .setRecipientAddress(Address.getDefaultInstance())
-                .build();
-        Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.getShippingVendors(shippingRequest));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"fedex", "ups", "usps", "doordash"})
-    void testShippingVendor(String vendorID) {
-        Shipping shipping = Shipping.newBuilder()
-                .setShippingVendorId(vendorID)
-                .setDeclaredValue(Math.random() * 100)
-                .setRequireSignature(Math.random() > 0.5)
-                .setShippingCost(Math.random() * 100)
-                .setPackageDetails(Order.getDefaultInstance())
-                .setSenderAddress(Address.getDefaultInstance())
-                .setRecipientAddress(Address.getDefaultInstance())
-                .build();
-        Assertions.assertDoesNotThrow(() -> openCDXShippingVendorServiceImpl.shipPackage(shipping));
+        StreamObserver<ShippingVendorResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXGrpcShippingVendorController.getShippingVendors(
+                ShippingRequest.newBuilder(ShippingRequest.getDefaultInstance()).build(), responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ShippingVendorResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
-    void createDeliveryTrackingShippingRepo() {
-        Mockito.when(this.openCDXShippingRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.empty());
-        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
-                .setDeliveryTracking(DeliveryTracking.newBuilder()
-                        .setTrackingId("60f1e6b1f075a901a94d3762")
-                        .build())
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotFound.class,
-                () -> openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
+    void shipPackage() {
+        StreamObserver<ShippingResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXGrpcShippingVendorController.shipPackage(
+                Shipping.newBuilder(Shipping.getDefaultInstance())
+                        .setShippingVendorId("fedex")
+                        .setPackageDetails(Order.newBuilder().build())
+                        .build(),
+                responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(ShippingResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
-    void createDeliveryTrackingProfileRepo() {
-        OpenCDXShippingModel shippingModel = Mockito.mock(OpenCDXShippingModel.class);
-        Order order = Mockito.mock(Order.class);
-        Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
-        Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
-        Mockito.when(this.openCDXShippingRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.of(shippingModel));
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
-                .thenReturn(Optional.empty());
-        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
-                .setDeliveryTracking(DeliveryTracking.newBuilder()
-                        .setTrackingId("60f1e6b1f075a901a94d3762")
-                        .build())
-                .build();
-
-        Assertions.assertThrows(
-                OpenCDXNotFound.class,
-                () -> openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
-    }
-
-    @Test
-    void createDeliveryTrackingNotification() {
+    void testCreateDeliveryTracking() {
+        StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
         OpenCDXShippingModel shippingModel = Mockito.mock(OpenCDXShippingModel.class);
         Order order = Mockito.mock(Order.class);
         Mockito.when(shippingModel.getPackageDetails()).thenReturn(order);
         Mockito.when(order.getTestCaseId()).thenReturn("testCaseId");
         Mockito.when(shippingModel.getTrackingNumber()).thenReturn("trackingNumber");
         Mockito.when(order.getPatientId()).thenReturn("60f1e6b1f075a911a94d3762");
-        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber("60f1e6b1f075a901a94d3762"))
+        Mockito.when(this.openCDXShippingRepository.findByTrackingNumber(Mockito.anyString()))
                 .thenReturn(Optional.of(shippingModel));
         Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.ofNullable(OpenCDXProfileModel.builder()
@@ -167,24 +128,24 @@ class OpenCDXShippingVendorServiceImplTest {
                         .setTrackingId("60f1e6b1f075a901a94d3762")
                         .build())
                 .build();
-
-        Assertions.assertEquals(
-                DeliveryTrackingResponse.newBuilder()
-                        .setDeliveryTracking(deliveryTrackingRequest.getDeliveryTracking())
-                        .build(),
-                openCDXShippingVendorServiceImpl.createDeliveryTracking(deliveryTrackingRequest));
+        this.openCDXGrpcShippingVendorController.createDeliveryTracking(
+                DeliveryTrackingRequest.newBuilder(deliveryTrackingRequest).build(), responseObserver);
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeliveryTrackingResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
     @Test
-    void getDeliveryTracking() {
-        DeliveryTrackingRequest deliveryTrackingRequest = DeliveryTrackingRequest.newBuilder()
-                .setDeliveryTracking(
-                        DeliveryTracking.newBuilder().setTrackingId("789").build())
-                .build();
+    void testGetDeliveryTracking() {
+        StreamObserver<DeliveryTrackingResponse> responseObserver = Mockito.mock(StreamObserver.class);
+        this.openCDXGrpcShippingVendorController.getDeliveryTracking(
+                DeliveryTrackingRequest.newBuilder()
+                        .setDeliveryTracking(DeliveryTracking.newBuilder()
+                                .setTrackingId("789")
+                                .build())
+                        .build(),
+                responseObserver);
 
-        DeliveryTrackingResponse response =
-                openCDXShippingVendorServiceImpl.getDeliveryTracking(deliveryTrackingRequest);
-
-        Assertions.assertEquals("789", response.getDeliveryTracking().getTrackingId());
+        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(DeliveryTrackingResponse.class));
+        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

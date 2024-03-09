@@ -22,11 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecution;
 import cdx.opencdx.grpc.routine.ClinicalProtocolExecutionRequest;
-import cdx.opencdx.grpc.routine.DeliveryTracking;
-import cdx.opencdx.grpc.routine.DeliveryTrackingRequest;
 import cdx.opencdx.grpc.routine.Diagnosis;
 import cdx.opencdx.grpc.routine.DiagnosisRequest;
 import cdx.opencdx.grpc.routine.LabOrder;
@@ -138,31 +135,6 @@ class OpenCDXRestRoutineControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.routine.routineId").value("789"));
-    }
-
-    @Test
-    void testCreateDeliveryTracking() throws Exception {
-        this.mockMvc
-                .perform(post("/deliveryTracking")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(DeliveryTrackingRequest.newBuilder()
-                                .setDeliveryTracking(DeliveryTracking.newBuilder()
-                                        .setTrackingId("789")
-                                        .build())
-                                .build())))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.deliveryTracking.trackingId").value("789"));
-    }
-
-    // Test cases for getDeliveryTracking
-    @Test
-    void testGetDeliveryTrackingValid() throws Exception {
-        this.mockMvc
-                .perform(get("/deliveryTracking/789").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.deliveryTracking.trackingId").value("789"));
     }
 
     // Test cases for createClinicalProtocolExecution
