@@ -164,7 +164,7 @@ To skip the build and jump to the deployment menu, use the following command:
 - Loki is used for logging the microservices.
 - Grafana is used for displaying the combined data from Loki, Zipkin, and Prometheus.
 ### Accessing
-1. Open Spring Admin Dashboard: [http://localhost:8080](http://localhost:8861) or option 5 from the deployment menu.
+1. Open OpenCDX Admin Dashboard: [http://localhost:8080](http://localhost:8861) or option 5 from the deployment menu.
 2. The dashboard menu bar offers the following:
    1. A drop-down list of observability tools and their links.
    2. A drop-down list of documentation and their links.
@@ -173,6 +173,9 @@ To skip the build and jump to the deployment menu, use the following command:
    5. Link to the NATS Dashboard.
 #### Grafana
 Grafana may require Username and Password, for sign-in on first use.  The default is: admin / admin (Grafana will require a password change on first use of the username/password).
+
+## Logs
+Logs can be viewed in Docker Desktop under the container logs. OpenCDX Admin Dashboard also provides access to the logs under each microservice under the "Loggins" section. Grafana does provide a dashboard for viewing specific logs across all microservices based on a TraceId, that is output to the logs. 
 
 ## JMeter Testing
 1. Download the latest version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi)
