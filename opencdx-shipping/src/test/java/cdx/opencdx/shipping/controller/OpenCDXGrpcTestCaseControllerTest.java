@@ -137,6 +137,7 @@ class OpenCDXGrpcTestCaseControllerTest {
                 .setId(ObjectId.get().toHexString())
                 .setManufacturerId(ObjectId.get().toHexString())
                 .setVendorId(ObjectId.get().toHexString())
+                .setLidrId("")
                 .build();
         this.openCDXGrpcTestCaseController.addTestCase(testCase, responseObserver);
 
@@ -158,6 +159,7 @@ class OpenCDXGrpcTestCaseControllerTest {
                 .setId(ObjectId.get().toHexString())
                 .setManufacturerId(ObjectId.get().toHexString())
                 .setVendorId(ObjectId.get().toHexString())
+                .setLidrId("")
                 .build();
         this.openCDXGrpcTestCaseController.updateTestCase(testCase, responseObserver);
 

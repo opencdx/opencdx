@@ -52,6 +52,7 @@ public class OpenCDXDeviceModel {
     private String batchNumber;
     private String serialNumber;
     private String testTypeId;
+    private String lidrId;
     private Double testSensitivity;
     private Double testSpecificity;
     private String storageRequirements;
@@ -91,6 +92,7 @@ public class OpenCDXDeviceModel {
         this.manufacturerCountryId = new ObjectId(device.getManufacturerCountryId());
         this.vendorId = new ObjectId(device.getVendorId());
         this.vendorCountryId = new ObjectId(device.getVendorCountryId());
+        this.lidrId = device.getLidrId();
         if (device.hasManufactureDate()) {
             this.manufacturerDate = Instant.ofEpochSecond(
                     device.getManufactureDate().getSeconds(),
@@ -174,7 +176,9 @@ public class OpenCDXDeviceModel {
                     .setNanos(this.testValidationDate.getNano())
                     .build());
         }
-
+        if (this.lidrId != null) {
+            builder.setLidrId(this.lidrId);
+        }
         if (this.type != null) {
             builder.setType(this.type);
         }

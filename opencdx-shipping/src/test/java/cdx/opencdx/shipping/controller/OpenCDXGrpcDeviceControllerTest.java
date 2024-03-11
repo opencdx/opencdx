@@ -136,6 +136,7 @@ class OpenCDXGrpcDeviceControllerTest {
                 .setManufacturerCountryId(ObjectId.get().toHexString())
                 .setVendorCountryId(ObjectId.get().toHexString())
                 .setVendorId(ObjectId.get().toHexString())
+                .setLidrId("")
                 .build();
         this.openCDXGrpcDeviceController.addDevice(device, responseObserver);
 
@@ -164,6 +165,7 @@ class OpenCDXGrpcDeviceControllerTest {
                 .setManufacturerCountryId(ObjectId.get().toHexString())
                 .setVendorCountryId(ObjectId.get().toHexString())
                 .setVendorId(ObjectId.get().toHexString())
+                .setLidrId("")
                 .build();
         this.openCDXGrpcDeviceController.updateDevice(device, responseObserver);
 
