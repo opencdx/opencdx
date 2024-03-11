@@ -353,6 +353,10 @@ message TestDetails {
   * Media ID
    */
   optional string media_id = 27;
+  /*
+ * Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device
+ */
+  optional string lidr_id = 29;
 }
 
 /*

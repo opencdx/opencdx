@@ -51,6 +51,7 @@ public class OpenCDXTestCaseModel {
     private String safety;
     private String userInstructions;
     private String limitations;
+    private String lidrId;
     private Instant created;
     private Instant modified;
     private ObjectId creator;
@@ -75,6 +76,7 @@ public class OpenCDXTestCaseModel {
                     testCase.getPackagingDate().getSeconds(),
                     testCase.getPackagingDate().getNanos());
         }
+        this.lidrId = testCase.getLidrId();
         if (testCase.hasExpiryDate()) {
             this.expiryDate = Instant.ofEpochSecond(
                     testCase.getExpiryDate().getSeconds(),
@@ -128,6 +130,9 @@ public class OpenCDXTestCaseModel {
                     .setSeconds(this.expiryDate.getEpochSecond())
                     .setNanos(this.expiryDate.getNano())
                     .build());
+        }
+        if (this.lidrId != null) {
+            builder.setLidrId(this.lidrId);
         }
         if (this.manufacturerId != null) {
             builder.setManufacturerId(this.manufacturerId.toHexString());

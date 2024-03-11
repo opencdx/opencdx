@@ -250,124 +250,129 @@ message Device {
   double test_specificity = 14;
 
   /*
+   * Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device
+   */
+  optional string lidr_id = 15;
+
+  /*
    * Details about storage conditions required for the device
    */
-  string storage_requirements = 15;
+  string storage_requirements = 16;
 
   /*
    * Timestamp representing the validation date of the test performed on the device
    */
-  google.protobuf.Timestamp test_validation_date = 16;
+  google.protobuf.Timestamp test_validation_date = 17;
 
   /*
    * Current status of device approval
    */
-  string approval_status = 17;
+  string approval_status = 18;
 
   /*
    * URL providing more information about the device
    */
-  string url = 18;
+  string url = 19;
 
   /*
    * Additional notes or comments about the device
    */
-  string notes = 19;
+  string notes = 20;
 
   /*
    * Safety measures or precautions related to the device
    */
-  string safety = 20;
+  string safety = 21;
 
   /*
    * Guidelines or instructions for users to handle or operate the device
    */
-  string user_instructions = 21;
+  string user_instructions = 22;
 
   /*
    * Constraints or limitations of the device
    */
-  string limitations = 22;
+  string limitations = 23;
 
   /*
    * Information about the warranty provided for the device
    */
-  string warranty_info = 23;
+  string warranty_info = 24;
 
   /*
    * Recommended minimum age for the device usage
    */
-  int32 intended_use_age = 24;
+  int32 intended_use_age = 25;
 
   /*
    * Boolean flag indicating if the device is FDA authorized or not
    */
-  bool is_fda_authorized = 25;
+  bool is_fda_authorized = 26;
 
   /*
    * Current status or condition of the device
    */
-  string device_status = 26;
+  string device_status = 27;
 
   /*
    * Software version associated with the device, if any
    */
-  string associated_software_version = 27;
+  string associated_software_version = 28;
 
   /*
    * List of identifiers for the test cases this device is involved in, if any
    */
-  repeated string test_case_ids = 28;
+  repeated string test_case_ids = 29;
 
   /*
    * Name used to identify the device
    */
-  string name = 29;
+  string name = 30;
 
   /*
    * A brief description about the device
    */
-  string short_description = 30;
+  string short_description = 31;
 
   /*
    * Detailed description of the device
    */
-  string description = 31;
+  string description = 32;
 
   /*
    * Timestamp when this event was created.
    */
-  optional google.protobuf.Timestamp created = 32;
+  optional google.protobuf.Timestamp created = 33;
 
   /*
    * Timestamp when this event was modified.
    */
-  optional google.protobuf.Timestamp modified = 33;
+  optional google.protobuf.Timestamp modified = 34;
 
   /*
    * ID of the creator of this event.
    */
-  optional string creator = 34;
+  optional string creator = 35;
 
   /*
    * ID of the person who last modified this event.
    */
-  optional string modifier = 35;
+  optional string modifier = 36;
 
   /*
    * List of categories that this device belongs to, using a custom type 'CategoryType'
    */
-  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 36;
+  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 37;
 
   /*
    * QR code that links to the device's digital documentation or files
    */
-  optional string qr_scan_code = 37;
+  optional string qr_scan_code = 38;
 
   /*
    * SKU (Stock Keeping Unit) identifier, for inventory tracking purposes
    */
-  optional string sku = 38;
+  optional string sku = 39;
 }
 
 /*
@@ -440,39 +445,44 @@ message TestCase {
   string safety = 13;
 
   /*
+   * Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device
+   */
+  optional string lidr_id = 14;
+
+  /*
    * The date and time when this test case was created.
    */
-  optional google.protobuf.Timestamp created = 14;
+  optional google.protobuf.Timestamp created = 15;
 
   /*
    * The date and time when the test case was last modified.
    */
-  optional google.protobuf.Timestamp modified = 15;
+  optional google.protobuf.Timestamp modified = 16;
 
   /*
    * The unique identifier of the user who created this test case.
    */
-  optional string creator = 16;
+  optional string creator = 17;
 
   /*
    * The unique identifier of the user who last modified this test case.
    */
-  optional string modifier = 17;
+  optional string modifier = 18;
 
   /*
    * A list of categories applicable to this test case. Uses a custom data type.
    */
-  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 18;
+  repeated cdx.opencdx.grpc.common.types.CategoryType category_type = 19;
 
   /*
    * The Quick Response (QR) code that can be scanned to access more information about this test case.
    */
-  optional string qr_scan_code = 19;
+  optional string qr_scan_code = 20;
 
   /*
    * The Stock Keeping Unit (SKU) that is used to track the inventory of this test case.
    */
-  optional string sku = 20;
+  optional string sku = 21;
 }
 
 /*
