@@ -1,8 +1,5 @@
 /**
- * This is the main spring Application and supporting files
- * <p>
- * TODO: Insert Description
- * </p>
+ * This section archives the outcomes of linked tests results originating from a specific patient
  *
  * @author Safe Health LLC.
  * @version 1.0

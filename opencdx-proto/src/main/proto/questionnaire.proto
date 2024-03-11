@@ -587,8 +587,9 @@ message DeleteRuleSetResponse {
 }
 
 /*
- * Defines a service for managing FHIR questionnaires.
- * TODO: Expand information on FHIR.
+ * Defines a service for the storing of Questionnaires and their associated data.
+ * which may include but not limited to answers to the questions, rules, and other metadata.
+ * User data is preserved with ANF statements to allow simplified evaluation of the user's responses.
  */
 service QuestionnaireService {
 
