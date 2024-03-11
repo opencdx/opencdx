@@ -1,8 +1,5 @@
 /**
- * This is the main spring Application and supporting files
- * <p>
- * TODO: Insert Description
- * </p>
+ * Categorization outcome of a test analysis from a specific test-kit.
  *
  * @author Safe Health LLC.
  * @version 1.0

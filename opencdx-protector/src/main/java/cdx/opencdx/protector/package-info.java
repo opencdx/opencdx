@@ -1,8 +1,6 @@
 /**
- * This is the main spring Application and supporting files
- * <p>
- * TODO: Insert Description
- * </p>
+ * A system designed to facilitate the granting of permissions to both systems and
+ * individuals for accessing medical records.
  *
  * @author Safe Health LLC.
  * @version 1.0

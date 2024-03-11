@@ -31,8 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
- * Application Configuration
- * TODO:
+ * Application Level Security Configuration
  */
 @Configuration
 @EnableWebSecurity
