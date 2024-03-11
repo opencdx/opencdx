@@ -23,3 +23,5 @@ After signing in to the OpenCDx dashboard, the form builder can be found by clic
 Click upload file on the top left and select the JSON of the questionnaire created from the NLM Form Builder. The list of questions will be displayed and can then be individually configured by expanding the question. The various ANF configurations will be displayed and can be further expanded for additional settings. By default, certain fields will be autopopulated.
 
 Once finished, click save to persist the questionnaire. The updated JSON can also be viewed by clicking ANF Statement JSON on the top of the page.
+
+Sample questionnaire JSONs can be found under the `src/formBuilder/store` directory.
