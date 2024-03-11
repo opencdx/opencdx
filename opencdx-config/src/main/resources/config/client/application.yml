@@ -47,6 +47,9 @@ opencdx:
     tinkar:
       server: tinkar
       port: 9090
+    shipping:
+      server: shipping
+      port: 9090
 
 feign:
   httpclient:

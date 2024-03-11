@@ -19,7 +19,9 @@ import cdx.opencdx.grpc.common.ShippingStatus;
 import cdx.opencdx.grpc.shipping.ShippingResponse;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -11,6 +11,8 @@ opencdx:
       enabled: true
     questionnaire:
       enabled: true
+    shipping:
+      enabled: true
 
 mongock:
   change-logs-scan-package: cdx.opencdx.classification.changelog

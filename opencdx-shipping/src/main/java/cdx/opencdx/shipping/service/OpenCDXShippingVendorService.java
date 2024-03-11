@@ -15,12 +15,7 @@
  */
 package cdx.opencdx.shipping.service;
 
-import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
-import cdx.opencdx.grpc.shipping.Shipping;
-import cdx.opencdx.grpc.shipping.ShippingRequest;
-import cdx.opencdx.grpc.shipping.ShippingResponse;
-import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
+import cdx.opencdx.grpc.shipping.*;
 
 /**
  * Service for processing Shipping Vendor Requests

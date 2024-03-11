@@ -31,8 +31,6 @@ import java.util.List;
 public class ConnectedTestChangeSet {
 
     private static final String USER_ID = "userId";
-    private static final String DEVICES = "devices";
-    private static final String TESTCASES = "testcases";
     private static final String SYSTEM = "SYSTEM";
 
     /**
@@ -52,14 +50,5 @@ public class ConnectedTestChangeSet {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of(USER_ID)));
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of("nationalHealthId")));
-        mongockTemplate.getCollection(DEVICES).createIndex(Indexes.ascending(List.of(USER_ID)));
-        mongockTemplate.getCollection(DEVICES).createIndex(Indexes.ascending(List.of("manufacturerCountryId")));
-        mongockTemplate.getCollection(DEVICES).createIndex(Indexes.ascending(List.of("vendorCountryId")));
-        mongockTemplate.getCollection(DEVICES).createIndex(Indexes.ascending(List.of("vendorId")));
-        mongockTemplate.getCollection(DEVICES).createIndex(Indexes.ascending(List.of("manufacturerId")));
-        mongockTemplate.getCollection("manufacturer").createIndex(Indexes.ascending(List.of("countryId")));
-        mongockTemplate.getCollection(TESTCASES).createIndex(Indexes.ascending(List.of("manufacturerId")));
-        mongockTemplate.getCollection(TESTCASES).createIndex(Indexes.ascending(List.of("vendorId")));
-        mongockTemplate.getCollection("vendor").createIndex(Indexes.ascending(List.of("countryId")));
     }
 }

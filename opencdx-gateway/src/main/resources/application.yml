@@ -98,32 +98,32 @@ spring:
             - Path=/cdx.opencdx.grpc.iam.IamUserService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-test-country
-          uri: https://connected-test:9090
+        - id: grpc-shipping-country
+          uri: https://shipping:9090
           predicates:
             - Path=/cdx.opencdx.grpc.inventory.CountryService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-test-device
-          uri: https://connected-test:9090
+        - id: grpc-shipping-device
+          uri: https://shipping:9090
           predicates:
             - Path=/cdx.opencdx.grpc.inventory.DeviceService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-test-manufacturer
-          uri: https://connected-test:9090
+        - id: grpc-shipping-manufacturer
+          uri: https://shipping:9090
           predicates:
             - Path=/cdx.opencdx.grpc.inventory.ManufacturerService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-test-testcase
-          uri: https://connected-test:9090
+        - id: grpc-shipping-testcase
+          uri: https://shipping:9090
           predicates:
             - Path=/cdx.opencdx.grpc.inventory.TestCaseService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-test-vendor
-          uri: https://connected-test:9090
+        - id: grpc-shipping-vendor
+          uri: https://shipping:9090
           predicates:
             - Path=/cdx.opencdx.grpc.inventory.VendorService/**
           filters:

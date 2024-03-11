@@ -16,8 +16,6 @@
 package cdx.opencdx.shipping.controller;
 
 import cdx.opencdx.grpc.shipping.*;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
