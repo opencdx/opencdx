@@ -24,13 +24,7 @@ import cdx.opencdx.grpc.common.EmailType;
 import cdx.opencdx.grpc.common.PhoneNumber;
 import cdx.opencdx.grpc.common.PhoneType;
 import cdx.opencdx.grpc.communication.Notification;
-import cdx.opencdx.grpc.shipping.DeliveryTracking;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
-import cdx.opencdx.grpc.shipping.Shipping;
-import cdx.opencdx.grpc.shipping.ShippingRequest;
-import cdx.opencdx.grpc.shipping.ShippingResponse;
-import cdx.opencdx.grpc.shipping.ShippingVendorResponse;
+import cdx.opencdx.grpc.shipping.*;
 import cdx.opencdx.shipping.dto.OpenCDXShippingRequest;
 import cdx.opencdx.shipping.dto.OpenCDXShippingResponse;
 import cdx.opencdx.shipping.model.OpenCDXShippingModel;
@@ -56,7 +50,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorService {
 
-    private Map<String, OpenCDXShippingVendor> vendors;
+    private final Map<String, OpenCDXShippingVendor> vendors;
 
     private final OpenCDXShippingRepository openCDXShippingRepository;
     private final OpenCDXCommunicationService openCDXCommunicationService;

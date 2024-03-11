@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.shipping.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;

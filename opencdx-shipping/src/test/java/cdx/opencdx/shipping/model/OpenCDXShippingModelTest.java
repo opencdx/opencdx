@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.shipping.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.PaymentDetails;
 import cdx.opencdx.grpc.shipping.AdditionalService;

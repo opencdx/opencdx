@@ -15,8 +15,6 @@
  */
 package cdx.opencdx.shipping.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;

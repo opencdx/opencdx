@@ -17,11 +17,14 @@ package cdx.opencdx.shipping.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCommunicationService;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.shipping.DeliveryTracking;
+import cdx.opencdx.grpc.shipping.DeliveryTrackingRequest;
+import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.shipping.ShippingRequest;
 import cdx.opencdx.shipping.repository.OpenCDXShippingRepository;
 import cdx.opencdx.shipping.service.OpenCDXShippingVendorService;
 import cdx.opencdx.shipping.service.impl.OpenCDXShippingVendorServiceImpl;

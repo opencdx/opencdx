@@ -17,7 +17,8 @@ package cdx.opencdx.shipping.dto;
 
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.FullName;
-import cdx.opencdx.grpc.shipping.*;
+import cdx.opencdx.grpc.shipping.Order;
+import cdx.opencdx.grpc.shipping.ShippingRequest;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
