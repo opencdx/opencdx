@@ -24,7 +24,7 @@ import cdx.opencdx.grpc.inventory.CountryListResponse;
 import cdx.opencdx.grpc.inventory.DeleteResponse;
 
 /**
- * Interface for communicating with the Connected-test Country microservice.
+ * Interface for communicating with the Logistics Country microservice.
  */
 public interface OpenCDXCountryClient {
     /**

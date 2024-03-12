@@ -87,7 +87,7 @@ check_keytool
 services=(  "Audit"
             "HelloWorld"
             "Communications"
-            "Connected-Test"
+            "Health"
             "Connected-Lab"
             "IAM"
             "Media"
