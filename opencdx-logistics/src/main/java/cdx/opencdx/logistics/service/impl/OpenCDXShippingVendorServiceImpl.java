@@ -59,8 +59,8 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
     /**
      * Instantiates a new OpenCDXShippingVendorServiceImpl.
      * @param openCDXShippingRepository the openCDX shipping repository
-     * @param openCDXCommunicationService
-     * @param openCDXProfileRepository
+     * @param openCDXCommunicationService the openCDX communication service
+     * @param openCDXProfileRepository the openCDX profile repository
      */
     public OpenCDXShippingVendorServiceImpl(
             OpenCDXShippingRepository openCDXShippingRepository,

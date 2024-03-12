@@ -28,5 +28,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXShippingRepository extends MongoRepository<OpenCDXShippingModel, ObjectId> {
+    /**
+     * Method to find a shipping by tracking number.
+     * @param trackingNumber Tracking number for the shipping.
+     * @return Optional of OpenCDXShippingModel.
+     */
     Optional<OpenCDXShippingModel> findByTrackingNumber(String trackingNumber);
 }
