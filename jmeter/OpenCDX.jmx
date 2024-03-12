@@ -5618,7 +5618,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/country</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/country</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -5645,7 +5645,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/country/${countryId}</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/country/${countryId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -5670,7 +5670,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/country</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/country</stringProp>
             <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6172,7 +6172,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/manufacturer</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/manufacturer</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6199,7 +6199,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/manufacturer/${manufacturerId}</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/manufacturer/${manufacturerId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6234,7 +6234,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/manufacturer</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/manufacturer</stringProp>
             <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6266,7 +6266,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/manufacturer/list</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/manufacturer/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6301,7 +6301,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/vendor</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/vendor</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6328,7 +6328,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/vendor/${vendorId}</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/vendor/${vendorId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6363,7 +6363,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/vendor</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/vendor</stringProp>
             <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6395,7 +6395,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/vendor/list</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/vendor/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6420,7 +6420,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/testcase</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/testcase</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6447,7 +6447,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/testcase/${testcaseId}</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/testcase/${testcaseId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6472,7 +6472,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/device</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/device</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6505,7 +6505,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/testcase</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/testcase</stringProp>
             <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6524,7 +6524,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/device/${deviceId}</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/device/${deviceId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6556,7 +6556,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/device/list</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/device/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -6588,7 +6588,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/testcase/list</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/testcase/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11563,7 +11563,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/order</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/order</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11590,7 +11590,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/order/${order_id_r}</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/order/${order_id_r}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11631,7 +11631,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/order</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/order</stringProp>
             <stringProp name="HTTPSampler.method">PUT</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11694,7 +11694,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/vendors</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/vendors</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11727,7 +11727,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/ship</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/ship</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11772,7 +11772,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/shipping/deliveryTracking</stringProp>
+            <stringProp name="HTTPSampler.path">/logistics/deliveryTracking</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

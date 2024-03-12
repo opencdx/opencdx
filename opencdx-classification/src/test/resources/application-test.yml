@@ -69,7 +69,7 @@ opencdx:
       server: questionnaire
       port: 9090
       enabled: true
-    shipping:
-      server: shipping
+    logistics:
+      server: logistics
       port: 9090
       enabled: true

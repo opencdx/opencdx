@@ -32,6 +32,6 @@ include('opencdx-helloworld',
         'opencdx-gateway',
         'opencdx-discovery',
         'opencdx-anf',
-        'opencdx-shipping'
+        'opencdx-logistics'
 )
 

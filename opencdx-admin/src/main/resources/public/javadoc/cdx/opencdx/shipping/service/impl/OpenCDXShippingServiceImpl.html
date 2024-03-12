@@ -5,7 +5,7 @@
 <title>OpenCDXShippingServiceImpl (OpenCDX 0.0.20240307093107 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: cdx.opencdx.shipping.service.impl, class: OpenCDXShippingServiceImpl">
+<meta name="description" content="declaration: package: cdx.opencdx.logistics.service.impl, class: OpenCDXShippingServiceImpl">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,22 +81,22 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.shipping.service.impl</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.logistics.service.impl</a></div>
 <h1 title="Class OpenCDXShippingServiceImpl" class="title">Class OpenCDXShippingServiceImpl</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">cdx.opencdx.shipping.service.impl.OpenCDXShippingServiceImpl</div>
+<div class="inheritance">cdx.opencdx.logistics.service.impl.OpenCDXShippingServiceImpl</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></code></dd>
+<dd><code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/stereotype/Service.html" title="class or interface in org.springframework.stereotype" class="external-link">@Service</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">OpenCDXShippingServiceImpl</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></span></div>
+implements <a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></span></div>
 <div class="block">Service for processing HelloWorld Requests</div>
 </section>
 <section class="summary">
@@ -109,7 +109,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.shipping.repository.OpenCDXOrderRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.repository.OpenCDXProfileRepository)" class="member-name-link">OpenCDXShippingServiceImpl</a><wbr>(<a href="../../repository/OpenCDXOrderRepository.html" title="interface in cdx.opencdx.shipping.repository">OpenCDXOrderRepository</a>&nbsp;openCDXOrderRepository,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(cdx.opencdx.shipping.repository.OpenCDXOrderRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.repository.OpenCDXProfileRepository)" class="member-name-link">OpenCDXShippingServiceImpl</a><wbr>(<a href="../../repository/OpenCDXOrderRepository.html" title="interface in cdx.opencdx.logistics.repository">OpenCDXOrderRepository</a>&nbsp;openCDXOrderRepository,
  <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
  <a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
  <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
@@ -176,7 +176,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <li>
 <section class="detail" id="&lt;init&gt;(cdx.opencdx.shipping.repository.OpenCDXOrderRepository,cdx.opencdx.commons.service.OpenCDXCurrentUser,cdx.opencdx.commons.service.OpenCDXAuditService,com.fasterxml.jackson.databind.ObjectMapper,cdx.opencdx.commons.repository.OpenCDXProfileRepository)">
 <h3>OpenCDXShippingServiceImpl</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXShippingServiceImpl</span><wbr><span class="parameters">(<a href="../../repository/OpenCDXOrderRepository.html" title="interface in cdx.opencdx.shipping.repository">OpenCDXOrderRepository</a>&nbsp;openCDXOrderRepository,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">OpenCDXShippingServiceImpl</span><wbr><span class="parameters">(<a href="../../repository/OpenCDXOrderRepository.html" title="interface in cdx.opencdx.logistics.repository">OpenCDXOrderRepository</a>&nbsp;openCDXOrderRepository,
  <a href="../../../commons/service/OpenCDXCurrentUser.html" title="interface in cdx.opencdx.commons.service">OpenCDXCurrentUser</a>&nbsp;openCDXCurrentUser,
  <a href="../../../commons/service/OpenCDXAuditService.html" title="interface in cdx.opencdx.commons.service">OpenCDXAuditService</a>&nbsp;openCDXAuditService,
  <a href="https://javadoc.io/static/com.fasterxml.jackson.core/jackson-databind/2.15.3/com/fasterxml/jackson/databind/ObjectMapper.html" title="class or interface in com.fasterxml.jackson.databind" class="external-link">ObjectMapper</a>&nbsp;objectMapper,
@@ -208,7 +208,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <div class="block">Create an order</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingService.html#createOrder(cdx.opencdx.grpc.shipping.CreateOrderRequest)">createOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></code></dd>
+<dd><code><a href="../OpenCDXShippingService.html#createOrder(cdx.opencdx.grpc.shipping.CreateOrderRequest)">createOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - CreateOrderRequest</dd>
 <dt>Returns:</dt>
@@ -224,7 +224,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <div class="block">Get an order</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingService.html#getOrder(cdx.opencdx.grpc.shipping.GetOrderRequest)">getOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></code></dd>
+<dd><code><a href="../OpenCDXShippingService.html#getOrder(cdx.opencdx.grpc.shipping.GetOrderRequest)">getOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - GetOrderRequest</dd>
 <dt>Returns:</dt>
@@ -240,7 +240,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <div class="block">Update an order</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingService.html#updateOrder(cdx.opencdx.grpc.shipping.UpdateOrderRequest)">updateOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></code></dd>
+<dd><code><a href="../OpenCDXShippingService.html#updateOrder(cdx.opencdx.grpc.shipping.UpdateOrderRequest)">updateOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - UpdateOrderRequest</dd>
 <dt>Returns:</dt>
@@ -256,7 +256,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <div class="block">Cancel an order</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingService.html#cancelOrder(cdx.opencdx.grpc.shipping.CancelOrderRequest)">cancelOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></code></dd>
+<dd><code><a href="../OpenCDXShippingService.html#cancelOrder(cdx.opencdx.grpc.shipping.CancelOrderRequest)">cancelOrder</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - CancelOrderRequest</dd>
 <dt>Returns:</dt>
@@ -272,7 +272,7 @@ implements <a href="../OpenCDXShippingService.html" title="interface in cdx.open
 <div class="block">List orders</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingService.html#listOrders(cdx.opencdx.grpc.shipping.ListOrdersRequest)">listOrders</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingService</a></code></dd>
+<dd><code><a href="../OpenCDXShippingService.html#listOrders(cdx.opencdx.grpc.shipping.ListOrdersRequest)">listOrders</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingService.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingService</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - ListOrdersRequest</dd>
 <dt>Returns:</dt>

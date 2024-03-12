@@ -47,8 +47,8 @@ opencdx:
     tinkar:
       server: tinkar
       port: 9090
-    shipping:
-      server: shipping
+    logistics:
+      server: logistics
       port: 9090
 
 feign:

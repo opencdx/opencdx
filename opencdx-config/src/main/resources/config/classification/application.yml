@@ -11,7 +11,7 @@ opencdx:
       enabled: true
     questionnaire:
       enabled: true
-    shipping:
+    logistics:
       enabled: true
 
 mongock:

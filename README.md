@@ -5,7 +5,7 @@
 ## Software Required
 - Apache JMeter: 5.6.2 ℹ️
 - Apache JMeter gRPC Request: 1.2.6 ℹ️
-- Docker Desktop: 4.28.0 ℹ️  (Recommended Docker Resources: 24gb RAM, 6 CPU, 2gb Swap)
+- Docker Desktop: 4.28.0 ℹ️  (Minimum recommended Docker resources: 24gb RAM, 6 CPU, 2gb Swap)
 - Git: 2.39.3 ℹ️
 - Java Development Kit (JDK): 21
 - Keytool: 20.0.1
