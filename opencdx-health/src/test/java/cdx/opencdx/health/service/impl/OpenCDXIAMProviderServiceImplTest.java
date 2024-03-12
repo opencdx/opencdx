@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.service.impl;
+package cdx.opencdx.health.service.impl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -26,9 +26,9 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.provider.DeleteProviderRequest;
 import cdx.opencdx.grpc.provider.GetProviderRequest;
 import cdx.opencdx.grpc.provider.LoadProviderRequest;
-import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
-import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
+import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
+import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
+import cdx.opencdx.health.service.OpenCDXIAMProviderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;

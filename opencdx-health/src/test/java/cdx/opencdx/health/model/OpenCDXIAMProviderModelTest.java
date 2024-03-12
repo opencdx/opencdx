@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.model;
+package cdx.opencdx.health.model;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.grpc.common.AddressPurpose;
-import cdx.opencdx.iam.dto.OpenCDXDtoNpiAddress;
-import cdx.opencdx.iam.dto.OpenCDXDtoNpiBasicInfo;
-import cdx.opencdx.iam.dto.OpenCDXDtoNpiIdentifier;
-import cdx.opencdx.iam.dto.OpenCDXDtoNpiResult;
+import cdx.opencdx.health.dto.OpenCDXDtoNpiAddress;
+import cdx.opencdx.health.dto.OpenCDXDtoNpiBasicInfo;
+import cdx.opencdx.health.dto.OpenCDXDtoNpiIdentifier;
+import cdx.opencdx.health.dto.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;

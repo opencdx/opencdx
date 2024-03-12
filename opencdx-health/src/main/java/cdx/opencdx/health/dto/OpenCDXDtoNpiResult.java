@@ -13,26 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.dto;
+package cdx.opencdx.health.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
 
 /**
- * DTO for NPI JSON Response
+ * DTO for NPI Result
  */
 @Data
-public class OpenCDXDtoNpiJsonResponse {
-    @JsonProperty("result_count")
-    private int resultCount;
+public class OpenCDXDtoNpiResult {
+    @JsonProperty("created_epoch")
+    private String createdEpoch;
 
-    private List<OpenCDXDtoNpiResult> results;
+    @JsonProperty("enumeration_type")
+    private String enumerationType;
+
+    @JsonProperty("last_updated_epoch")
+    private String lastUpdatedEpoch;
+
+    private String number;
+    private List<OpenCDXDtoNpiAddress> addresses;
+
+    @JsonProperty("practiceLocations")
+    private List<String> practiceLocations;
+
+    private OpenCDXDtoNpiBasicInfo basic;
+    private List<OpenCDXDtoNpiTaxonomy> taxonomies;
+    private List<OpenCDXDtoNpiIdentifier> identifiers;
+    private List<Object> endpoints;
+
+    @JsonProperty("other_names")
+    private List<Object> otherNames;
 
     /**
      * Default Constructor
      */
-    public OpenCDXDtoNpiJsonResponse() {
+    public OpenCDXDtoNpiResult() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 }

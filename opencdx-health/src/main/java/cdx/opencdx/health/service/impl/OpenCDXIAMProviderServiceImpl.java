@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.service.impl;
+package cdx.opencdx.health.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
@@ -23,10 +23,10 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.provider.*;
-import cdx.opencdx.iam.dto.OpenCDXDtoNpiJsonResponse;
-import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
-import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
+import cdx.opencdx.health.dto.OpenCDXDtoNpiJsonResponse;
+import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
+import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
+import cdx.opencdx.health.service.OpenCDXIAMProviderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;

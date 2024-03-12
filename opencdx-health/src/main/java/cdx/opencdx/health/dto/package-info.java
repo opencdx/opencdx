@@ -8,4 +8,4 @@
  * @version 1.0
  * @since 1.0
  */
-package cdx.opencdx.iam.dto;
+package cdx.opencdx.health.dto;
