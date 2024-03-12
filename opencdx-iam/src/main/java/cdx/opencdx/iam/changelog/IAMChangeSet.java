@@ -164,9 +164,9 @@ public class IAMChangeSet {
                 .emailVerified(true)
                 .build());
         openCDXIAMUserRepository.save(OpenCDXIAMUserModel.builder()
-                .username("shipping")
+                .username("logistics")
                 .status(IamUserStatus.IAM_USER_STATUS_ACTIVE)
-                .systemName("OpenCDX-Shipping")
+                .systemName("OpenCDX-Logistics")
                 .type(IamUserType.IAM_USER_TYPE_SYSTEM)
                 .password(SCRAMBLED_PASSWORD)
                 .emailVerified(true)
