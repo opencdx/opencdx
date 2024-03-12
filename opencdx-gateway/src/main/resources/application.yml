@@ -74,8 +74,8 @@ spring:
             - Path=/cdx.opencdx.grpc.communication.CommunicationService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-connected-test
-          uri: https://connected-test:9090
+        - id: grpc-health
+          uri: https://health:9090
           predicates:
             - Path=/cdx.opencdx.grpc.connected.HealthcareService/**
           filters:

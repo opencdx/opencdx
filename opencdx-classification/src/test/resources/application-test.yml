@@ -54,8 +54,8 @@ opencdx:
     communications:
       server: communications
       port: 9090
-    connected-test:
-      server: connected-test
+    health:
+      server: health
       port: 9090
       enabled: true
     helloworld:

@@ -109,10 +109,10 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.connected-test", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
     OpenCDXConnectedTestClient openCDXConnectedTestClient(
-            @Value("${opencdx.client.connected-test.server}") String server,
-            @Value("${opencdx.client.connected-test.port}") Integer port,
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXConnectedTestClientImpl(server, port, observationGrpcClientInterceptor);
