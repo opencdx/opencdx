@@ -5,7 +5,7 @@
 <title>OpenCDXOrderRepository (OpenCDX 0.0.20240307093107 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: cdx.opencdx.shipping.repository, interface: OpenCDXOrderRepository">
+<meta name="description" content="declaration: package: cdx.opencdx.logistics.repository, interface: OpenCDXOrderRepository">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,18 +81,18 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.shipping.repository</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.logistics.repository</a></div>
 <h1 title="Interface OpenCDXOrderRepository" class="title">Interface OpenCDXOrderRepository</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code>org.springframework.data.repository.CrudRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.ListCrudRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.ListPagingAndSortingRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.mongodb.repository.MongoRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.PagingAndSortingRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.query.QueryByExampleExecutor&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>&gt;</code>, <code>org.springframework.data.repository.Repository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code></dd>
+<dd><code>org.springframework.data.repository.CrudRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.ListCrudRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.ListPagingAndSortingRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.mongodb.repository.MongoRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.PagingAndSortingRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code>, <code>org.springframework.data.repository.query.QueryByExampleExecutor&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>&gt;</code>, <code>org.springframework.data.repository.Repository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.spring.io/spring-framework/docs/3.2.1.RELEASE/javadoc-api/org/springframework/stereotype/Repository.html" title="class or interface in org.springframework.stereotype" class="external-link">@Repository</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">OpenCDXOrderRepository</span><span class="extends-implements">
-extends org.springframework.data.mongodb.repository.MongoRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</span></div>
+extends org.springframework.data.mongodb.repository.MongoRepository&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>,<wbr>org.bson.types.ObjectId&gt;</span></div>
 <div class="block">Repository for protobuf Order</div>
 </section>
 <section class="summary">
@@ -108,7 +108,7 @@ extends org.springframework.data.mongodb.repository.MongoRepository&lt;<a href="
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>org.springframework.data.domain.Page<wbr>&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>org.springframework.data.domain.Page<wbr>&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#findAllByPatientId(org.bson.types.ObjectId,org.springframework.data.domain.Pageable)" class="member-name-link">findAllByPatientId</a><wbr>(org.bson.types.ObjectId&nbsp;patientId,
  org.springframework.data.domain.Pageable&nbsp;pageable)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -149,7 +149,7 @@ extends org.springframework.data.mongodb.repository.MongoRepository&lt;<a href="
 <li>
 <section class="detail" id="findAllByPatientId(org.bson.types.ObjectId,org.springframework.data.domain.Pageable)">
 <h3>findAllByPatientId</h3>
-<div class="member-signature"><span class="return-type">org.springframework.data.domain.Page&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXOrderModel</a>&gt;</span>&nbsp;<span class="element-name">findAllByPatientId</span><wbr><span class="parameters">(org.bson.types.ObjectId&nbsp;patientId,
+<div class="member-signature"><span class="return-type">org.springframework.data.domain.Page&lt;<a href="../model/OpenCDXOrderModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXOrderModel</a>&gt;</span>&nbsp;<span class="element-name">findAllByPatientId</span><wbr><span class="parameters">(org.bson.types.ObjectId&nbsp;patientId,
  org.springframework.data.domain.Pageable&nbsp;pageable)</span></div>
 <div class="block">Find all orders for a patient.</div>
 <dl class="notes">

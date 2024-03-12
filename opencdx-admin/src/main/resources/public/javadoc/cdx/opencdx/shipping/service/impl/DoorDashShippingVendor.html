@@ -5,7 +5,7 @@
 <title>DoorDashShippingVendor (OpenCDX 0.0.20240307093107 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: cdx.opencdx.shipping.service.impl, class: DoorDashShippingVendor">
+<meta name="description" content="declaration: package: cdx.opencdx.logistics.service.impl, class: DoorDashShippingVendor">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,21 +81,21 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.shipping.service.impl</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">cdx.opencdx.logistics.service.impl</a></div>
 <h1 title="Class DoorDashShippingVendor" class="title">Class DoorDashShippingVendor</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">cdx.opencdx.shipping.service.impl.DoorDashShippingVendor</div>
+<div class="inheritance">cdx.opencdx.logistics.service.impl.DoorDashShippingVendor</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingVendor</a></code></dd>
+<dd><code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingVendor</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">DoorDashShippingVendor</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingVendor</a></span></div>
+implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingVendor</a></span></div>
 <div class="block">DoorDash shipping vendor simulation</div>
 </section>
 <section class="summary">
@@ -126,8 +126,8 @@ implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.openc
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXShippingModel</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShippingVendors(cdx.opencdx.shipping.dto.OpenCDXShippingRequest)" class="member-name-link">getShippingVendors</a><wbr>(<a href="../../dto/OpenCDXShippingRequest.html" title="class in cdx.opencdx.shipping.dto">OpenCDXShippingRequest</a>&nbsp;request)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXShippingModel</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShippingVendors(cdx.opencdx.shipping.dto.OpenCDXShippingRequest)" class="member-name-link">getShippingVendors</a><wbr>(<a href="../../dto/OpenCDXShippingRequest.html" title="class in cdx.opencdx.logistics.dto">OpenCDXShippingRequest</a>&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the shipping vendors</div>
 </div>
@@ -136,8 +136,8 @@ implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.openc
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the vendor id</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../dto/OpenCDXShippingResponse.html" title="class in cdx.opencdx.shipping.dto">OpenCDXShippingResponse</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shipPackage(cdx.opencdx.shipping.model.OpenCDXShippingModel)" class="member-name-link">shipPackage</a><wbr>(<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXShippingModel</a>&nbsp;request)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../dto/OpenCDXShippingResponse.html" title="class in cdx.opencdx.logistics.dto">OpenCDXShippingResponse</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shipPackage(cdx.opencdx.shipping.model.OpenCDXShippingModel)" class="member-name-link">shipPackage</a><wbr>(<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXShippingModel</a>&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Ship the package</div>
 </div>
@@ -181,7 +181,7 @@ implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.openc
 <div class="block">Get the vendor id</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingVendor.html#getVendorId()">getVendorId</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingVendor</a></code></dd>
+<dd><code><a href="../OpenCDXShippingVendor.html#getVendorId()">getVendorId</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingVendor</a></code></dd>
 <dt>Returns:</dt>
 <dd>the vendor id</dd>
 </dl>
@@ -190,12 +190,12 @@ implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.openc
 <li>
 <section class="detail" id="getShippingVendors(cdx.opencdx.shipping.dto.OpenCDXShippingRequest)">
 <h3>getShippingVendors</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXShippingModel</a>&gt;</span>&nbsp;<span class="element-name">getShippingVendors</span><wbr><span class="parameters">(<a href="../../dto/OpenCDXShippingRequest.html" title="class in cdx.opencdx.shipping.dto">OpenCDXShippingRequest</a>&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXShippingModel</a>&gt;</span>&nbsp;<span class="element-name">getShippingVendors</span><wbr><span class="parameters">(<a href="../../dto/OpenCDXShippingRequest.html" title="class in cdx.opencdx.logistics.dto">OpenCDXShippingRequest</a>&nbsp;request)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXShippingVendor.html#getShippingVendors(cdx.opencdx.shipping.dto.OpenCDXShippingRequest)">OpenCDXShippingVendor</a></code></span></div>
 <div class="block">Get the shipping vendors</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingVendor.html#getShippingVendors(cdx.opencdx.shipping.dto.OpenCDXShippingRequest)">getShippingVendors</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingVendor</a></code></dd>
+<dd><code><a href="../OpenCDXShippingVendor.html#getShippingVendors(cdx.opencdx.shipping.dto.OpenCDXShippingRequest)">getShippingVendors</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingVendor</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - the shipping request</dd>
 <dt>Returns:</dt>
@@ -206,12 +206,12 @@ implements <a href="../OpenCDXShippingVendor.html" title="interface in cdx.openc
 <li>
 <section class="detail" id="shipPackage(cdx.opencdx.shipping.model.OpenCDXShippingModel)">
 <h3>shipPackage</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../dto/OpenCDXShippingResponse.html" title="class in cdx.opencdx.shipping.dto">OpenCDXShippingResponse</a></span>&nbsp;<span class="element-name">shipPackage</span><wbr><span class="parameters">(<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.shipping.model">OpenCDXShippingModel</a>&nbsp;request)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../dto/OpenCDXShippingResponse.html" title="class in cdx.opencdx.logistics.dto">OpenCDXShippingResponse</a></span>&nbsp;<span class="element-name">shipPackage</span><wbr><span class="parameters">(<a href="../../model/OpenCDXShippingModel.html" title="class in cdx.opencdx.logistics.model">OpenCDXShippingModel</a>&nbsp;request)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../OpenCDXShippingVendor.html#shipPackage(cdx.opencdx.shipping.model.OpenCDXShippingModel)">OpenCDXShippingVendor</a></code></span></div>
 <div class="block">Ship the package</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../OpenCDXShippingVendor.html#shipPackage(cdx.opencdx.shipping.model.OpenCDXShippingModel)">shipPackage</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.shipping.service">OpenCDXShippingVendor</a></code></dd>
+<dd><code><a href="../OpenCDXShippingVendor.html#shipPackage(cdx.opencdx.shipping.model.OpenCDXShippingModel)">shipPackage</a></code>&nbsp;in interface&nbsp;<code><a href="../OpenCDXShippingVendor.html" title="interface in cdx.opencdx.logistics.service">OpenCDXShippingVendor</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>request</code> - the shipping request</dd>
 <dt>Returns:</dt>

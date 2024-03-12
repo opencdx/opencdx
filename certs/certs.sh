@@ -109,7 +109,7 @@ services=(  "Audit"
             "Prometheus"
             "Grafana"
             "Zipkin"
-            "Shipping"
+            "Logistics"
         )
 
 check_ca_files_exist

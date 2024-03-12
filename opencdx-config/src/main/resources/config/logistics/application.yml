@@ -1,0 +1,10 @@
+# Properties for a Managed Environment go here.
+spring:
+  application:
+    name: logistics
+mongock:
+  change-logs-scan-package: cdx.opencdx.logistics.changelog
+  max-waiting-for-lock-minutes: 3
+  lock-acquired-for-minutes: 2
+  max-tries: 5
+  service-identifier: ${spring.application.name}

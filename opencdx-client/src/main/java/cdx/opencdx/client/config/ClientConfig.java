@@ -119,20 +119,20 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.shipping", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.logistics", name = "enabled", havingValue = "true")
     OpenCDXCountryClient openCDXCountryClient(
-            @Value("${opencdx.client.shipping.server}") String server,
-            @Value("${opencdx.client.shipping.port}") Integer port,
+            @Value("${opencdx.client.logistics.server}") String server,
+            @Value("${opencdx.client.logistics.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXCountryClientImpl(server, port, observationGrpcClientInterceptor);
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.shipping", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.logistics", name = "enabled", havingValue = "true")
     OpenCDXDeviceClient openCDXDeviceClient(
-            @Value("${opencdx.client.shipping.server}") String server,
-            @Value("${opencdx.client.shipping.port}") Integer port,
+            @Value("${opencdx.client.logistics.server}") String server,
+            @Value("${opencdx.client.logistics.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXDeviceClientImpl(server, port, observationGrpcClientInterceptor);
@@ -189,10 +189,10 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.shipping", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.logistics", name = "enabled", havingValue = "true")
     OpenCDXManufacturerClient openCDXManufacturerClient(
-            @Value("${opencdx.client.shipping.server}") String server,
-            @Value("${opencdx.client.shipping.port}") Integer port,
+            @Value("${opencdx.client.logistics.server}") String server,
+            @Value("${opencdx.client.logistics.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXManufacturerClientImpl(server, port, observationGrpcClientInterceptor);
@@ -249,10 +249,10 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.shipping", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.logistics", name = "enabled", havingValue = "true")
     OpenCDXTestCaseClient openCDXTestCaseClient(
-            @Value("${opencdx.client.shipping.server}") String server,
-            @Value("${opencdx.client.shipping.port}") Integer port,
+            @Value("${opencdx.client.logistics.server}") String server,
+            @Value("${opencdx.client.logistics.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXTestCaseClientImpl(server, port, observationGrpcClientInterceptor);
@@ -269,10 +269,10 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.shipping", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.logistics", name = "enabled", havingValue = "true")
     OpenCDXVendorClient openCDXVendorClient(
-            @Value("${opencdx.client.shipping.server}") String server,
-            @Value("${opencdx.client.shipping.port}") Integer port,
+            @Value("${opencdx.client.logistics.server}") String server,
+            @Value("${opencdx.client.logistics.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXVendorClientImpl(server, port, observationGrpcClientInterceptor);
