@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.controller;
+package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,10 +23,10 @@ import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.grpc.provider.*;
-import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import cdx.opencdx.iam.repository.OpenCDXIAMProviderRepository;
-import cdx.opencdx.iam.service.OpenCDXIAMProviderService;
-import cdx.opencdx.iam.service.impl.OpenCDXIAMProviderServiceImpl;
+import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
+import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
+import cdx.opencdx.health.service.OpenCDXIAMProviderService;
+import cdx.opencdx.health.service.impl.OpenCDXIAMProviderServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Optional;

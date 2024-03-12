@@ -13,17 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.repository;
+package cdx.opencdx.health.dto;
 
-import cdx.opencdx.iam.model.OpenCDXIAMProviderModel;
-import io.micrometer.observation.annotation.Observed;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import lombok.Data;
 
 /**
- * Interface for the Database provider model.
+ * DTO for NPI Identifier
  */
-@Repository
-@Observed(name = "opencdx")
-public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {}
+@Data
+public class OpenCDXDtoNpiIdentifier {
+    private String code;
+    private String desc;
+    private String issuer;
+    private String identifier;
+    private String state;
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXDtoNpiIdentifier() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+}
