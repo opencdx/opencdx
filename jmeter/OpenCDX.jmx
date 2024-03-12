@@ -11529,6 +11529,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
             <boolProp name="HTTPSampler.md5">false</boolProp>
             <intProp name="HTTPSampler.ipSourceType">0</intProp>
+            <stringProp name="HTTPSampler.connect_timeout">1000</stringProp>
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
