@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput } from './TextInput'
+import { FormInput } from './FormInput'
 import { RadioInput } from './RadioInput'
 import { SelectInputComp } from './SelectInputComp'
 import { Text, View, StyleSheet, Platform, SafeAreaView } from 'react-native';
@@ -99,10 +99,10 @@ export default function App({ questionnaire, navigation}) {
                                 case "integer":
                                     inputComponent = (
                                         <>
-                                            <TextInput
+                                            <FormInput
                                                 key={index}
                                                 name={field.linkId}
-                                                label={field.text}
+                                                label={field.extension.length > 0 ? field.extension[0].valueCoding.display : ""}
                                                 rules={{ required: 'This field is required!' }}
                                                 setFormError={setError}
                                                 type="number"
@@ -114,7 +114,7 @@ export default function App({ questionnaire, navigation}) {
                                 case "string":
                                     inputComponent = (
                                         <>
-                                            <TextInput
+                                            <FormInput
                                                 key={index}
                                                 name={field.linkId}
                                                 label={field.text}
@@ -129,7 +129,7 @@ export default function App({ questionnaire, navigation}) {
                                 case "text":
                                     inputComponent = (
                                         <>
-                                            <TextInput
+                                            <FormInput
                                                 key={index}
                                                 name={field.linkId}
                                                 label={field.text}
