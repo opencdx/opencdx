@@ -1322,6 +1322,18 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.shipping.DeliveryTracking"><span class="badge">M</span>DeliveryTracking</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.shipping.DeliveryTrackingRequest"><span class="badge">M</span>DeliveryTrackingRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.shipping.DeliveryTrackingResponse"><span class="badge">M</span>DeliveryTrackingResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.shipping.ServiceLevel"><span class="badge">M</span>ServiceLevel</a>
                 </li>
               
@@ -1693,18 +1705,6 @@
                 </li>
               
                 <li>
-                  <a href="#cdx.opencdx.grpc.routine.DeliveryTracking"><span class="badge">M</span>DeliveryTracking</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.routine.DeliveryTrackingRequest"><span class="badge">M</span>DeliveryTrackingRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#cdx.opencdx.grpc.routine.DeliveryTrackingResponse"><span class="badge">M</span>DeliveryTrackingResponse</a>
-                </li>
-              
-                <li>
                   <a href="#cdx.opencdx.grpc.routine.Diagnosis"><span class="badge">M</span>Diagnosis</a>
                 </li>
               
@@ -2065,7 +2065,7 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                 </tr>
               
                 <tr>
-                  <td>author</td>
+                  <td>authors</td>
                   <td><a href="#cdx.opencdx.grpc.anf.Practitioner">Practitioner</a></td>
                   <td>repeated</td>
                   <td><p>Identifies all authors behind this statement. </p></td>
@@ -7143,6 +7143,13 @@ This field is also optional. </p></td>
                   <td><p>Media ID </p></td>
                 </tr>
               
+                <tr>
+                  <td>lidr_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -10460,6 +10467,13 @@ It takes a CurrentUserRequest and returns a CurrentUserResponse.</p></td>
                 </tr>
               
                 <tr>
+                  <td>lidr_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device </p></td>
+                </tr>
+              
+                <tr>
                   <td>storage_requirements</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
@@ -11026,6 +11040,13 @@ Can be one or more, hence marked as repeated. </p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>Safety guidelines to prevent improper or harmful usage of the test case. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>lidr_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Unique identifier for the LIDR (Laboratory Interoperability Data Repository id) of the device </p></td>
                 </tr>
               
                 <tr>
@@ -12902,6 +12923,134 @@ This field is also optional. </p></td>
 
         
       
+        <h3 id="cdx.opencdx.grpc.shipping.DeliveryTracking">DeliveryTracking</h3>
+        <p>This protobuf message represents the entities involved in a Delivery Tracking System. It includes various fields that</p><p>provide information about an ongoing or completed delivery.</p><p>The 'DeliveryTracking' is a message which represents a specific delivery and stores the details related to it.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>tracking_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Uniquely identifies a delivery instance. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>order_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>This field is used to link the delivery to a particular order. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#cdx.opencdx.grpc.common.ShippingStatus">cdx.opencdx.grpc.common.ShippingStatus</a></td>
+                  <td>optional</td>
+                  <td><p>Stores the current status of the delivery. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>start_datetime</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>The timestamp representing when the delivery process was commenced. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>end_datetime</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>The timestamp indicating when the delivery reached its destination. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>current_location</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Information about the current whereabouts of the delivery. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>recipient</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Contains information about the person who is supposed to receive the delivery. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>delivery_items</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Here all the details related to the items included in the delivery are stored. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>assigned_courier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The courier person who has been responsible for the delivery is identified by this field. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.shipping.DeliveryTrackingRequest">DeliveryTrackingRequest</h3>
+        <p>The DeliveryTrackingRequest message defining the request format for a Delivery Tracking entity.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delivery_tracking</td>
+                  <td><a href="#cdx.opencdx.grpc.shipping.DeliveryTracking">DeliveryTracking</a></td>
+                  <td></td>
+                  <td><p>Delivery tracking details </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.shipping.DeliveryTrackingResponse">DeliveryTrackingResponse</h3>
+        <p>The DeliveryTrackingResponse message states the response format from the Delivery Tracking operation.</p><p>'delivery_tracking' holds the created delivery tracking details.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>delivery_tracking</td>
+                  <td><a href="#cdx.opencdx.grpc.shipping.DeliveryTracking">DeliveryTracking</a></td>
+                  <td></td>
+                  <td><p>Created delivery tracking data </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.shipping.ServiceLevel">ServiceLevel</h3>
         <p>The ServiceLevel message is used to define the service level.</p>
 
@@ -13195,6 +13344,20 @@ This field is also optional. </p></td>
                 <td><a href="#cdx.opencdx.grpc.shipping.Shipping">Shipping</a></td>
                 <td><a href="#cdx.opencdx.grpc.shipping.ShippingResponse">ShippingResponse</a></td>
                 <td><p>The ShipPackage method is used to ship a package.</p></td>
+              </tr>
+            
+              <tr>
+                <td>CreateDeliveryTracking</td>
+                <td><a href="#cdx.opencdx.grpc.shipping.DeliveryTrackingRequest">DeliveryTrackingRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.shipping.DeliveryTrackingResponse">DeliveryTrackingResponse</a></td>
+                <td><p>RPC service for creating a new entity to track medication delivery.</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetDeliveryTracking</td>
+                <td><a href="#cdx.opencdx.grpc.shipping.DeliveryTrackingRequest">DeliveryTrackingRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.shipping.DeliveryTrackingResponse">DeliveryTrackingResponse</a></td>
+                <td><p>RPC service for retrieving information about a specific medication delivery tracking entity.</p></td>
               </tr>
             
           </tbody>
@@ -16032,7 +16195,7 @@ The rule set that was updated. </p></td>
 
       
         <h3 id="cdx.opencdx.grpc.questionnaire.QuestionnaireService">QuestionnaireService</h3>
-        <p>Defines a service for managing FHIR questionnaires.</p><p>TODO: Expand information on FHIR.</p>
+        <p>Defines a service for the storing of Questionnaires and their associated data.</p><p>which may include but not limited to answers to the questions, rules, and other metadata.</p><p>User data is preserved with ANF statements to allow simplified evaluation of the user's responses.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
@@ -16335,134 +16498,6 @@ Delete a rule set.</p></td>
                   <td><a href="#cdx.opencdx.grpc.routine.ClinicalProtocolExecution">ClinicalProtocolExecution</a></td>
                   <td></td>
                   <td><p>Resulting data from the Clinical Protocol Execution. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</h3>
-        <p>This protobuf message represents the entities involved in a Delivery Tracking System. It includes various fields that</p><p>provide information about an ongoing or completed delivery.</p><p>The 'DeliveryTracking' is a message which represents a specific delivery and stores the details related to it.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>tracking_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>Uniquely identifies a delivery instance. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>order_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>This field is used to link the delivery to a particular order. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>status</td>
-                  <td><a href="#cdx.opencdx.grpc.common.ShippingStatus">cdx.opencdx.grpc.common.ShippingStatus</a></td>
-                  <td>optional</td>
-                  <td><p>Stores the current status of the delivery. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>start_datetime</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
-                  <td><p>The timestamp representing when the delivery process was commenced. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>end_datetime</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
-                  <td><p>The timestamp indicating when the delivery reached its destination. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>current_location</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>Information about the current whereabouts of the delivery. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>recipient</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>Contains information about the person who is supposed to receive the delivery. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>delivery_items</td>
-                  <td><a href="#string">string</a></td>
-                  <td>repeated</td>
-                  <td><p>Here all the details related to the items included in the delivery are stored. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>assigned_courier</td>
-                  <td><a href="#string">string</a></td>
-                  <td>optional</td>
-                  <td><p>The courier person who has been responsible for the delivery is identified by this field. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.routine.DeliveryTrackingRequest">DeliveryTrackingRequest</h3>
-        <p>The DeliveryTrackingRequest message defining the request format for a Delivery Tracking entity.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>delivery_tracking</td>
-                  <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
-                  <td></td>
-                  <td><p>Delivery tracking details </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="cdx.opencdx.grpc.routine.DeliveryTrackingResponse">DeliveryTrackingResponse</h3>
-        <p>The DeliveryTrackingResponse message states the response format from the Delivery Tracking operation.</p><p>'delivery_tracking' holds the created delivery tracking details.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>delivery_tracking</td>
-                  <td><a href="#cdx.opencdx.grpc.routine.DeliveryTracking">DeliveryTracking</a></td>
-                  <td></td>
-                  <td><p>Created delivery tracking data </p></td>
                 </tr>
               
             </tbody>
@@ -17255,20 +17290,6 @@ Delete a rule set.</p></td>
                 <td><a href="#cdx.opencdx.grpc.routine.RoutineRequest">RoutineRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.routine.RoutineResponse">RoutineResponse</a></td>
                 <td><p>RPC service for retrieving information about a specified entity in the healthcare routine.</p></td>
-              </tr>
-            
-              <tr>
-                <td>CreateDeliveryTracking</td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingRequest">DeliveryTrackingRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingResponse">DeliveryTrackingResponse</a></td>
-                <td><p>RPC service for creating a new entity to track medication delivery.</p></td>
-              </tr>
-            
-              <tr>
-                <td>GetDeliveryTracking</td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingRequest">DeliveryTrackingRequest</a></td>
-                <td><a href="#cdx.opencdx.grpc.routine.DeliveryTrackingResponse">DeliveryTrackingResponse</a></td>
-                <td><p>RPC service for retrieving information about a specific medication delivery tracking entity.</p></td>
               </tr>
             
               <tr>

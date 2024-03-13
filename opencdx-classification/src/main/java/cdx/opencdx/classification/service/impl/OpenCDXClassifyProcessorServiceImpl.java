@@ -124,8 +124,6 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
             builder.setType(ClassificationType.UNSPECIFIED_CLASSIFICATION_TYPE);
         }
 
-        runRules(model, builder);
-
         model.setClassificationResponse(builder.build());
     }
 

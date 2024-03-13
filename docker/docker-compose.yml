@@ -297,14 +297,14 @@ services:
         condition: service_healthy
     volumes:
       - ../certs:/certs
-  connected-test:
+  health:
     deploy:
       restart_policy:
         condition: on-failure
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/connected-test:${version}
+    image: opencdx/health:${version}
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s
@@ -350,14 +350,14 @@ services:
         condition: service_healthy
     volumes:
       - ../certs:/certs
-  shipping:
+  logistics:
     deploy:
       restart_policy:
         condition: on-failure
         delay: 60s
         max_attempts: 5
         window: 60s
-    image: opencdx/shipping:${version}
+    image: opencdx/logistics:${version}
     healthcheck:
       test: "curl -k --fail --silent https://localhost:8080/actuator/health | grep UP || exit 1"
       interval: 5s

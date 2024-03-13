@@ -17,8 +17,8 @@ opencdx:
     connected-lab:
       server: connected-lab
       port: 9090
-    connected-test:
-      server: connected-test
+    health:
+      server: health
       port: 9090
     helloworld:
       server: helloworld
@@ -46,6 +46,9 @@ opencdx:
       port: 9090
     tinkar:
       server: tinkar
+      port: 9090
+    logistics:
+      server: logistics
       port: 9090
 
 feign:

@@ -118,7 +118,7 @@ def exportedProjects = [
         ":opencdx-commons",
         ":opencdx-communications",
         ":opencdx-config",
-        ":opencdx-connected-test",
+        ":opencdx-health",
         ":opencdx-discovery",
         ":opencdx-iam",
         ":opencdx-gateway",
@@ -128,7 +128,7 @@ def exportedProjects = [
         ":opencdx-questionnaire",
         ":opencdx-routine",
         ":opencdx-tinkar",
-        ":opencdx-shipping"
+        ":opencdx-logistics"
 ]
 
 tasks.register('allJavadoc', Javadoc) {

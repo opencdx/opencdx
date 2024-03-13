@@ -20,7 +20,7 @@ import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.inventory.*;
 
 /**
- * Interface for communicating with the Connected-test TestCase microservice.
+ * Interface for communicating with the Logistics TestCase microservice.
  */
 public interface OpenCDXTestCaseClient {
     /**

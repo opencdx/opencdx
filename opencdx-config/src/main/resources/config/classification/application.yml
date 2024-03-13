@@ -7,9 +7,11 @@ opencdx:
   client:
     media:
       enabled: true
-    connected-test:
+    health:
       enabled: true
     questionnaire:
+      enabled: true
+    logistics:
       enabled: true
 
 mongock:

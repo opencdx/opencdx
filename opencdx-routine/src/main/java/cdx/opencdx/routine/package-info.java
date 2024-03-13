@@ -1,8 +1,5 @@
 /**
- * This is the main spring Application and supporting files
- * <p>
- * TODO: Insert Description
- * </p>
+ * A comprehensive care management system that monitors a user's medications, clinical tests, and other standard health practices.
  *
  * @author Safe Health LLC.
  * @version 1.0

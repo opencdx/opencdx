@@ -21,7 +21,7 @@ include('opencdx-helloworld',
         'opencdx-audit',
         'opencdx-communications',
         'opencdx-media',
-        'opencdx-connected-test',
+        'opencdx-health',
         'opencdx-connected-lab',
         'opencdx-iam',
         'opencdx-routine',	
@@ -32,6 +32,6 @@ include('opencdx-helloworld',
         'opencdx-gateway',
         'opencdx-discovery',
         'opencdx-anf',
-        'opencdx-shipping'
+        'opencdx-logistics'
 )
 
