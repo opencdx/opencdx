@@ -117,7 +117,7 @@ export default function App({ questionnaire, navigation}) {
                                             <FormInput
                                                 key={index}
                                                 name={field.linkId}
-                                                label={field.text}
+                                                label={field.extension.length > 0 ? field.extension[0].valueCoding.display : ""}
                                                 rules={{ required: 'This field is required!' }}
                                                 setFormError={setError}
                                                 type="text"
@@ -132,7 +132,7 @@ export default function App({ questionnaire, navigation}) {
                                             <FormInput
                                                 key={index}
                                                 name={field.linkId}
-                                                label={field.text}
+                                                label={field.extension.length > 0 ? field.extension[0].valueCoding.display : ""}
                                                 rules={{ required: 'This field is required!' }}
                                                 setFormError={setError}
                                                 type="text"
