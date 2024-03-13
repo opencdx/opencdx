@@ -93,6 +93,89 @@ enum NotificationPriority {
    */
   NOTIFICATION_PRIORITY_IMMEDIATE = 4;
 }
+
+/**
+ * The type of Message.
+ */
+enum MessageType {
+  UNSPECIFIED_MESSAGE_TYPE = 0;
+  /**
+   * Informational Message.
+   */
+  INFO = 1;
+  /**
+   * Warning Message.
+   */
+  WARNING = 2;
+  /**
+   * Error Message.
+   */
+  ERROR = 3;
+}
+
+/**
+ * The status of the Message.
+ */
+enum MessageStatus {
+  /**
+   * The status of the Message is unspecified.
+   */
+  UNSPECIFIED_MESSAGE_STATUS = 0;
+  /**
+   * The Message has been read.
+   */
+  READ = 1;
+  /**
+   * The Message has not been read.
+   */
+  UNREAD = 2;
+}
+
+/**
+ * A Message message.
+ */
+message Message {
+  /**
+   * The unique identifier for the Message.
+   */
+  optional string id = 1;
+  /**
+   * The unique identifier for the patient.
+   */
+  string patient_id = 2;
+  /**
+   * The title of the Message.
+   */
+  string title = 3;
+  /**
+   * The message of the Message.
+   */
+  string message = 4;
+  /**
+   * The type of the Message.
+   */
+  MessageType type = 5;
+  /**
+   * The status of the Message.
+   */
+  MessageStatus status = 6;
+  /**
+   * The time the Message was created.
+   */
+  optional google.protobuf.Timestamp created = 7;
+  /**
+   * The time the Message was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+  /**
+   * The user who created the Message.
+   */
+  optional string creator = 9;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 10;
+}
 /*
  * EmailTemplate represents the structure of an email template.
  * It's a set of properties necessary to maintain an email template's record.
@@ -181,6 +264,47 @@ message SMSTemplate {
    */
   optional string modifier = 8;
 }
+/**
+ * A MessageTemplate for messages.
+ */
+message MessageTemplate {
+  /**
+   * The unique identifier for the Message.
+   */
+  optional string template_id = 1;
+  /*
+ * The variables that might be replaced with actual values in the SMS template.
+ */
+  repeated string variables = 2;
+  /**
+   * The title of the Message.
+   */
+  string title = 3;
+  /**
+   * The message of the Message.
+   */
+  string content = 4;
+  /**
+   * The type of the Message.
+   */
+  MessageType type = 5;
+  /**
+   * The time the Message was created.
+   */
+  optional google.protobuf.Timestamp created = 6;
+  /**
+   * The time the Message was last modified.
+   */
+  optional google.protobuf.Timestamp modified = 7;
+  /**
+   * The user who created the Message.
+   */
+  optional string creator = 8;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 9;
+}
 
 /*
  * NotificationEvent captures the details of a notification event.
@@ -212,50 +336,54 @@ message NotificationEvent {
    */
   optional string sms_template_id = 5;
 
+  /**
+   * The unique identifier for the associated message template.
+   */
+  optional string message_template_id = 6;
   /*
    * Any parameters related to the event which are necessary during event processing.
    */
-  repeated string event_parameters = 6;
+  repeated string event_parameters = 7;
 
   /*
    * Enumeration defining the priority of this notification event.
    */
-  NotificationPriority priority = 7;
+  NotificationPriority priority = 8;
 
   /*
    * Enumeration indicating the sensitivity level of the notification when sent.
    */
-  cdx.opencdx.grpc.audit.SensitivityLevel sensitivity = 8;
+  cdx.opencdx.grpc.audit.SensitivityLevel sensitivity = 9;
 
   /*
    * Represents the number of attempts to retry sending email. It defaults to 0, meaning infinite retries.
    */
-  int32 email_retry = 9;
+  int32 email_retry = 10;
 
   /*
    * Represents the number of attempts to retry sending SMS. It defaults to 0, meaning infinite retries.
    */
-  int32 sms_retry = 10;
+  int32 sms_retry = 11;
 
   /*
    * The UTC timestamp when the notification event was created.
    */
-  optional google.protobuf.Timestamp created = 11;
+  optional google.protobuf.Timestamp created = 12;
 
   /*
    * The UTC timestamp when the notification event was last modified.
    */
-  optional google.protobuf.Timestamp modified = 12;
+  optional google.protobuf.Timestamp modified = 13;
 
   /*
    * The user ID of the creator of the notification event.
    */
-  optional string creator = 13;
+  optional string creator = 14;
 
   /*
    * The user ID of the person who last modified the notification event.
    */
-  optional string modifier = 14;
+  optional string modifier = 15;
 }
 
 /*
@@ -293,9 +421,9 @@ message Notification {
   string event_id = 2;
 
   /*
-   * The unique identifier for the patient(s) that this notification is intended for.
+   * The unique identifier for the patient that this notification is intended for.
    */
-  repeated string patient_ids = 3;
+  string patient_id = 3;
 
   /*
    * The status of the SMS notification which could be 'pending', 'sent', or 'failed'.
@@ -478,7 +606,90 @@ message CommunicationAuditRecord{
    * The actual content of the SMS communication.
    */
   string smsContent = 3;
+  /*
+   * The actual content of the Message communication.
+   */
+  string messageContent = 4;
 }
+
+/**
+ * The request to get Messages.
+ */
+message GetMessagesRequest {
+  /**
+   * The unique identifier for the patient.
+   */
+  string patient_id = 1;
+  /**
+   * The pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+/**
+ * The response to get Messages.
+ */
+message GetMessagesResponse {
+  /**
+   * The Messages.
+   */
+  repeated Message messages = 1;
+  /**
+   * The pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+/**
+ * The request to mark a Message as read.
+ */
+message MarkMessagesAsReadRequest {
+  /**
+   * The unique identifier for the Message.
+   */
+  repeated string id = 1;
+}
+/**
+ * The response to mark a Message as read.
+ */
+message MarkMessagesAsReadResponse {
+  /**
+   * The Message.
+   */
+  repeated Message messages = 1;
+}
+
+/**
+ * The request to mark a Message as unread.
+ */
+message MarkMessagesAsUnreadRequest {
+  /**
+   * The unique identifier for the Message.
+   */
+  repeated string id = 1;
+}
+/**
+ * The response to mark a Message as unread.
+ */
+message MarkMessagesAsUnreadResponse {
+  /**
+   * The Message.
+   */
+  repeated Message messages = 1;
+}
+
+/**
+ * The response to list MessageTemplates.
+ */
+message MessageTemplateListResponse {
+  /**
+   * The list of MessageTemplates.
+   */
+  repeated MessageTemplate templates = 1;
+  /**
+   * The pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+
 /*
  * Service API Definition.
  * This service provides functionality related to communication strategies, namely email and SMS templates as well as notification events.
@@ -551,4 +762,37 @@ service CommunicationService {
    * Retrieves a list of notification events.
    */
   rpc listNotificationEvents(NotificationEventListRequest) returns (NotificationEventListResponse);
+
+  /**
+   * Create a MessageTemplate.
+   */
+  rpc CreateMessageTemplate(MessageTemplate) returns (MessageTemplate);
+  /**
+   * Get a MessageTemplate.
+   */
+  rpc GetMessageTemplate(TemplateRequest) returns (MessageTemplate);
+  /**
+   * Update a MessageTemplate.
+   */
+  rpc UpdateMessageTemplate(MessageTemplate) returns (MessageTemplate);
+  /**
+   * Delete a MessageTemplate.
+   */
+  rpc DeleteMessageTemplate(TemplateRequest) returns (SuccessResponse);
+  /**
+   * List MessageTemplates.
+   */
+  rpc ListMessageTemplates(cdx.opencdx.grpc.common.Pagination) returns (MessageTemplateListResponse);
+  /**
+ * Get Messages.
+ */
+  rpc GetMessages(GetMessagesRequest) returns (GetMessagesResponse);
+  /**
+   * Mark a Message as read.
+   */
+  rpc MarkMessageAsRead(MarkMessagesAsReadRequest) returns (MarkMessagesAsReadResponse);
+  /**
+   * Mark a Message as unread.
+   */
+  rpc MarkMessageAsUnread(MarkMessagesAsUnreadRequest) returns (MarkMessagesAsUnreadResponse);
 }

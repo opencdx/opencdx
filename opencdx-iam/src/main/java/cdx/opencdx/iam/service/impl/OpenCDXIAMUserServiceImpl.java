@@ -132,7 +132,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.VERIFY_EMAIL_USER)
-                .addAllPatientIds(List.of(model.getId().toHexString()))
+                .setPatientId(model.getId().toHexString())
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(
                         USER_NAME,
@@ -319,7 +319,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.CHANGE_PASSWORD)
-                .addAllPatientIds(List.of(model.getId().toHexString()))
+                .setPatientId(model.getId().toHexString())
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(USER_NAME, model.getUsername()))
                 .build());
@@ -442,7 +442,7 @@ public class OpenCDXIAMUserServiceImpl implements OpenCDXIAMUserService {
 
         this.openCDXCommunicationService.sendNotification(Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.WELCOME_EMAIL_USER)
-                .addAllPatientIds(List.of(model.getId().toHexString()))
+                .setPatientId(model.getId().toHexString())
                 .addAllToEmail(List.of(model.getUsername()))
                 .putAllVariables(Map.of(USER_NAME, model.getUsername()))
                 .build());

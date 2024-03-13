@@ -41,7 +41,7 @@ public class OpenCDXNotificationModel {
     @Id
     private ObjectId id;
 
-    private List<ObjectId> patients;
+    private ObjectId patientId;
 
     private ObjectId eventId;
     private NotificationStatus smsStatus;
@@ -77,8 +77,7 @@ public class OpenCDXNotificationModel {
     public OpenCDXNotificationModel(Notification notification) {
         this.emailFailCount = 0;
         this.smsFailCount = 0;
-        this.patients =
-                notification.getPatientIdsList().stream().map(ObjectId::new).toList();
+        this.patientId = new ObjectId(notification.getPatientId());
 
         if (notification.hasQueueId()) {
             this.id = new ObjectId(notification.getQueueId());
@@ -138,9 +137,7 @@ public class OpenCDXNotificationModel {
         Notification.Builder builder = Notification.newBuilder();
         builder.setQueueId(this.id.toHexString());
 
-        builder.addAllPatientIds(ListUtils.safe(this.patients).stream()
-                .map(ObjectId::toHexString)
-                .toList());
+        builder.setPatientId(this.patientId.toHexString());
 
         builder.setEventId(this.eventId.toHexString());
         builder.setSmsStatus(this.smsStatus);
