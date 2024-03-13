@@ -127,7 +127,7 @@ done
 cat mongodb-key.pem mongodb-cert.pem > mongodb.pem
 
 # Concatenate client certs into a client truststore
-cat Admin-cert.pem ANF-cert.pem Audit-cert.pem classification-cert.pem Communications-cert.pem Config-cert.pem Connected-lab-cert.pem Health-cert.pem Discovery-cert.pem Config-cert.pem HelloWorld-cert.pem IAM-cert.pem Media-cert.pem Predictor-cert.pem Prometheus-cert.pem Protector-cert.pem Questionnaire-cert.pem Routine-cert.pem Tinkar-cert.pem Logistics-cert.pem > opencdx-clients.pem
+cat Admin-cert.pem ANF-cert.pem Audit-cert.pem Classification-cert.pem Communications-cert.pem Config-cert.pem Connected-lab-cert.pem Health-cert.pem Discovery-cert.pem Config-cert.pem HelloWorld-cert.pem IAM-cert.pem Media-cert.pem Predictor-cert.pem Prometheus-cert.pem Protector-cert.pem Questionnaire-cert.pem Routine-cert.pem Tinkar-cert.pem Logistics-cert.pem > opencdx-clients.pem
 
 
 #Regenerating the JKS Keystore will require re-generating the encrypted password/passcodes in the configuration.
