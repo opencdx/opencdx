@@ -129,7 +129,8 @@ class OpenCDXRestCommunicationsControllerTest {
                         .title("title")
                         .message("message")
                         .messageType(MessageType.INFO)
-                        .messageStatus(MessageStatus.READ).build()));
+                        .messageStatus(MessageStatus.READ)
+                        .build()));
         Mockito.when(this.openCDXMessageRepository.findAllByPatientId(Mockito.any(ObjectId.class)))
                 .thenReturn(List.of(OpenCDXMessageModel.builder()
                         .id(ObjectId.get())
@@ -137,9 +138,10 @@ class OpenCDXRestCommunicationsControllerTest {
                         .title("title")
                         .message("message")
                         .messageType(MessageType.INFO)
-                        .messageStatus(MessageStatus.READ).build()));
+                        .messageStatus(MessageStatus.READ)
+                        .build()));
 
-                Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
+        Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXNotificationModel>() {
                     @Override
                     public OpenCDXNotificationModel answer(InvocationOnMock invocation) throws Throwable {
@@ -391,8 +393,8 @@ class OpenCDXRestCommunicationsControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/message")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
-                                .build()))
+                        .content(this.objectMapper.writeValueAsString(
+                                MessageTemplate.newBuilder().build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -407,7 +409,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(get("/messageTemplate")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(TemplateRequest.newBuilder()
-                                        .setTemplateId(ObjectId.get().toHexString())
+                                .setTemplateId(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -436,12 +438,12 @@ class OpenCDXRestCommunicationsControllerTest {
     @Test
     void deleteMessageTemplate() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(delete("/message/"+ObjectId.get().toHexString())
-                .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
-                        .setTemplateId(ObjectId.get().toHexString())
-                        .build()))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-              //  .andExpect(status().isOk())
+                .perform(delete("/message/" + ObjectId.get().toHexString())
+                        .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
+                                .setTemplateId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                //  .andExpect(status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         log.info("JSON: \n{}", this.objectMapper.writeValueAsString(TemplateRequest.getDefaultInstance()));
@@ -454,10 +456,10 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/message/list")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(Pagination.newBuilder()
-                                        .setPageNumber(1)
-                                        .setPageSize(10)
-                                        .setSortAscending(true)
-                                        .build()))
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -477,7 +479,7 @@ class OpenCDXRestCommunicationsControllerTest {
                                         .setPageSize(10)
                                         .setSortAscending(true)
                                         .build())
-                                        .setPatientId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -493,7 +495,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/message/read")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(MarkMessagesAsReadRequest.newBuilder()
-                                        .addAllId(List.of(ObjectId.get().toHexString()))
+                                .addAllId(List.of(ObjectId.get().toHexString()))
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -518,5 +520,4 @@ class OpenCDXRestCommunicationsControllerTest {
         log.info("JSON: \n{}", this.objectMapper.writeValueAsString(MarkMessagesAsUnreadRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
-
 }

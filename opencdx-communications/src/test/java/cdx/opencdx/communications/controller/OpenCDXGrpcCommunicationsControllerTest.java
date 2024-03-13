@@ -35,9 +35,7 @@ import cdx.opencdx.communications.service.impl.OpenCDXNotificationServiceImpl;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.Page;
 import io.grpc.stub.StreamObserver;
-
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -121,7 +119,6 @@ class OpenCDXGrpcCommunicationsControllerTest {
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
-
 
     @BeforeEach
     void setUp() {
@@ -614,7 +611,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
     void createMessageTemplate() {
         StreamObserver<MessageTemplate> responseObserver = Mockito.mock(StreamObserver.class);
         MessageTemplate messageTemplate = MessageTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString()).build();
+                .setTemplateId(ObjectId.get().toHexString())
+                .build();
         this.openCDXGrpcCommunicationsController.createMessageTemplate(messageTemplate, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
@@ -640,7 +638,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
     void updateMessageTemplate() {
         StreamObserver<MessageTemplate> responseObserver = Mockito.mock(StreamObserver.class);
         MessageTemplate notificationEvent = MessageTemplate.newBuilder()
-                .setTemplateId(ObjectId.get().toHexString()).build();
+                .setTemplateId(ObjectId.get().toHexString())
+                .build();
         this.openCDXGrpcCommunicationsController.updateMessageTemplate(notificationEvent, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(notificationEvent);
@@ -667,15 +666,12 @@ class OpenCDXGrpcCommunicationsControllerTest {
         StreamObserver<MessageTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(openCDXMessageTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXMessageTemplateModel.builder()
-                                .build()),
-                        PageRequest.of(1, 10),
-                        1));
+                        List.of(OpenCDXMessageTemplateModel.builder().build()), PageRequest.of(1, 10), 1));
         Pagination request = Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .setSortAscending(true)
-                        .build();
+                .setPageNumber(1)
+                .setPageSize(10)
+                .setSortAscending(true)
+                .build();
         this.openCDXGrpcCommunicationsController.listMessageTemplates(request, responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any());
@@ -690,7 +686,6 @@ class OpenCDXGrpcCommunicationsControllerTest {
         this.openCDXGrpcCommunicationsController.listMessageTemplates(request2, responseObserver);
         Mockito.verify(responseObserver, Mockito.times(2)).onNext(Mockito.any());
         Mockito.verify(responseObserver, Mockito.times(2)).onCompleted();
-
     }
 
     @Test
@@ -698,10 +693,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
         StreamObserver<MessageTemplateListResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(openCDXMessageTemplateRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(
-                        List.of(OpenCDXMessageTemplateModel.builder()
-                                .build()),
-                        PageRequest.of(1, 10),
-                        1));
+                        List.of(OpenCDXMessageTemplateModel.builder().build()), PageRequest.of(1, 10), 1));
         Pagination request = Pagination.newBuilder()
                 .setPageNumber(1)
                 .setPageSize(10)
@@ -714,7 +706,6 @@ class OpenCDXGrpcCommunicationsControllerTest {
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 
-
     @Test
     void markMessageAsRead() {
         StreamObserver<MarkMessagesAsReadResponse> responseObserver = Mockito.mock(StreamObserver.class);
@@ -723,8 +714,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
         MarkMessagesAsReadRequest templateRequest = MarkMessagesAsReadRequest.newBuilder()
                 .addId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertDoesNotThrow(() ->
-                this.openCDXGrpcCommunicationsController.markMessageAsRead(templateRequest, responseObserver));
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcCommunicationsController.markMessageAsRead(templateRequest, responseObserver));
     }
 
     @Test
@@ -732,10 +723,10 @@ class OpenCDXGrpcCommunicationsControllerTest {
         StreamObserver<MarkMessagesAsReadResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
-        MarkMessagesAsReadRequest templateRequest = MarkMessagesAsReadRequest.newBuilder()
-                .build();
-        Assertions.assertDoesNotThrow(() ->
-                this.openCDXGrpcCommunicationsController.markMessageAsRead(templateRequest, responseObserver));
+        MarkMessagesAsReadRequest templateRequest =
+                MarkMessagesAsReadRequest.newBuilder().build();
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcCommunicationsController.markMessageAsRead(templateRequest, responseObserver));
     }
 
     @Test
@@ -746,8 +737,8 @@ class OpenCDXGrpcCommunicationsControllerTest {
         MarkMessagesAsUnreadRequest templateRequest = MarkMessagesAsUnreadRequest.newBuilder()
                 .addId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertDoesNotThrow(() ->
-                        this.openCDXGrpcCommunicationsController.markMessageAsUnread(templateRequest, responseObserver));
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcCommunicationsController.markMessageAsUnread(templateRequest, responseObserver));
     }
 
     @Test
@@ -755,10 +746,10 @@ class OpenCDXGrpcCommunicationsControllerTest {
         StreamObserver<MarkMessagesAsUnreadResponse> responseObserver = Mockito.mock(StreamObserver.class);
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.empty());
-        MarkMessagesAsUnreadRequest templateRequest = MarkMessagesAsUnreadRequest.newBuilder()
-                .build();
-        Assertions.assertDoesNotThrow(() ->
-                this.openCDXGrpcCommunicationsController.markMessageAsUnread(templateRequest, responseObserver));
+        MarkMessagesAsUnreadRequest templateRequest =
+                MarkMessagesAsUnreadRequest.newBuilder().build();
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcCommunicationsController.markMessageAsUnread(templateRequest, responseObserver));
     }
 
     @Test
@@ -780,7 +771,7 @@ class OpenCDXGrpcCommunicationsControllerTest {
         GetMessagesRequest templateRequest = GetMessagesRequest.newBuilder()
                 .setPatientId(ObjectId.get().toHexString())
                 .build();
-        Assertions.assertDoesNotThrow(() -> this.openCDXGrpcCommunicationsController.getMessages(templateRequest, responseObserver));
+        Assertions.assertDoesNotThrow(
+                () -> this.openCDXGrpcCommunicationsController.getMessages(templateRequest, responseObserver));
     }
-
 }
