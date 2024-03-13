@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform , Button, ButtonText} from 'react-native';
 
 
-const OrderPlacedScreen = () => {
+
+const OrderPlacedScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Text>Your order has been submitted for processing.</Text>
             <Text>Your order number is: 2024CD-0528</Text>
+            <Button title="Ok" style={styles.button} onPress={() => navigation.navigate('List')}>
+            </Button>
         </View>
     );
 };

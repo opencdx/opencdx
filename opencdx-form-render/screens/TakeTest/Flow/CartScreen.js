@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Platform, TextInput, Button } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import Colors from '../../utils/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -16,15 +13,11 @@ const CartScreen = ({ route }) => {
     const navigation = useNavigation();
     const price = item.price;
 
-
     const availableCoupons = ['COUPON1', 'COUPON2', 'COUPON3']; // List of available coupons in the drawer
 
     const applyCoupon = () => {
         if (availableCoupons.includes(couponCode)) {
             setAppliedCoupon(couponCode);
-            console.log('Coupon code applied:', couponCode);
-        } else {
-            console.log('Invalid coupon code:', couponCode);
         }
     };
 
@@ -42,97 +35,79 @@ const CartScreen = ({ route }) => {
                 </View>
                 {/* Search Icon */}
                 <View style={styles.rightSection}>
-                   
-
                     {/* Cart Icon */}
                     <TouchableOpacity onPress={() => console.log('Cart')} style={{marginRight: 10}}>
-                    <MaterialIcons name="favorite-border" size={20} color="black" />
-                                        </TouchableOpacity>
+                        <MaterialIcons name="favorite-border" size={20} color="black" />
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{marginRight: 10}}>
                         <AntDesign name="search1" size={20} color="black" />
                     </TouchableOpacity>
                 </View>
             </View>
           
-          
-                       
-                  
-            <View >
-                <Text style={{fontWeight: 'bold', fontSize: 20, marginTop: 10, marginBottom: 10
-            }}>Order Summary </Text>
-             <View style={styles.testDescription}>
-                <Text style={{fontWeight: 'bold', marginTop: 10, fontSize:18}}>{item.name}</Text>
-                <Text style={{color: 'gray', fontSize: 16, marginTop: 5}}>{item.description}</Text>
-               
-            </View>
+            <View>
+                <Text style={{fontWeight: 'bold', fontSize: 20, marginTop: 10, marginBottom: 10}}>Order Summary</Text>
+                <View style={styles.testDescription}>
+                    <Text style={{fontWeight: 'bold', marginTop: 10, fontSize:18}}>{item.name}</Text>
+                    <Text style={{color: 'gray', fontSize: 16, marginTop: 5}}>{item.description}</Text>
+                </View>
                 <View style={styles.couponBox}>
-            <TextInput
-                    placeholder="Enter coupon code"
-                    value={couponCode}
-                    onChangeText={setCouponCode}
-                    style={{ padding: 5, borderRadius: 5}}
-                />
-                <Button title="Apply" onPress={applyCoupon} style={{border: '1px solid lightgray', padding: 5, borderRadius: 5}} />
-                {appliedCoupon && <Text>Applied Coupon: {appliedCoupon}</Text>}
-            </View>
-            <View style={styles.sectionWrapper}>
-                            <Text style={{ fontSize: 18,paddingBottom: 10}}
-                            >Insurance</Text>
-                           
-                            <TouchableOpacity  style={{marginLeft: 10, paddingTop: 2}}
-                            onPress={() => navigation.navigate('Insurance')}>
-                            <AntDesign name="right" size={20} color="green" />
-                            </TouchableOpacity>
-                        </View>
-            <View style={styles.sectionWrapper}>
-                            <Text style={{ fontSize: 18,paddingBottom: 10}}
-                            >Payment Method</Text>
-                           
-                            <TouchableOpacity  style={{marginLeft: 10, paddingTop: 2}}
-                            onPress={() => navigation.navigate('PaymentMethod')}>
-                            <AntDesign name="right" size={20} color="green" />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.sectionWrapper}>
-                            <Text style={{ fontSize: 18,paddingBottom: 10}}
-                            >Shipping Address</Text>
-                           
-                            <TouchableOpacity  style={{marginLeft: 10, paddingTop: 2}}
-                            onPress={() => navigation.navigate('Address')}>
-                            <AntDesign name="right" size={20} color="green" />
-                            </TouchableOpacity>
-                        </View>
+                    <TextInput
+                        placeholder="Enter coupon code"
+                        value={couponCode}
+                        onChangeText={setCouponCode}
+                        style={{ padding: 5, borderRadius: 5}}
+                    />
+                    <Button title="Apply" onPress={applyCoupon} style={{border: '1px solid lightgray', padding: 5, borderRadius: 5}} />
+                    {appliedCoupon && <Text>Applied Coupon: {appliedCoupon}</Text>}
+                </View>
+                <View style={styles.sectionWrapper}>
+                    <Text style={{ fontSize: 18,paddingBottom: 10}}>Insurance</Text>
+                    <TouchableOpacity style={{marginLeft: 10, paddingTop: 2}} onPress={() => navigation.navigate('Insurance')}>
+                        <AntDesign name="right" size={20} color="green" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.sectionWrapper}>
+                    <Text style={{ fontSize: 18,paddingBottom: 10}}>Payment Method</Text>
+                    <TouchableOpacity style={{marginLeft: 10, paddingTop: 2}} onPress={() => navigation.navigate('PaymentMethod')}>
+                        <AntDesign name="right" size={20} color="green" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.sectionWrapper}>
+                    <Text style={{ fontSize: 18,paddingBottom: 10}}>Shipping Address</Text>
+                    <TouchableOpacity style={{marginLeft: 10, paddingTop: 2}} onPress={() => navigation.navigate('Address')}>
+                        <AntDesign name="right" size={20} color="green" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.summary}>
                     <View style={styles.summaryText}>
                         <Text style={{fontWeight: 'bold',fontSize: 18}}>Items: </Text>
                         <Text style={{fontSize: 18}}>{item.name}</Text>
-                        </View>
-                        <View style={styles.summaryText}>
-                        <Text  style={{fontWeight: 'bold',fontSize: 18}}>Subtotal: </Text>
+                    </View>
+                    <View style={styles.summaryText}>
+                        <Text style={{fontWeight: 'bold',fontSize: 18}}>Subtotal: </Text>
                         <Text style={{fontSize: 18}}>{total}</Text>
-                        </View>
-                        <View style={styles.summaryText}>
-                        <Text  style={{fontWeight: 'bold',fontSize: 18}}>Discount: </Text>
+                    </View>
+                    <View style={styles.summaryText}>
+                        <Text style={{fontWeight: 'bold',fontSize: 18}}>Discount: </Text>
                         <Text style={{fontSize: 18}}>$0</Text>
-                        </View>
+                    </View>
                     <View style={{borderTop: '1px solid lightgray', margin: 5}}></View>
-                        <View style={styles.summaryText}>
-                        <Text  style={{fontWeight: 'bold',fontSize: 18}}>Total: </Text>
+                    <View style={styles.summaryText}>
+                        <Text style={{fontWeight: 'bold',fontSize: 18}}>Total: </Text>
                         <Text style={{fontSize: 18}}>${total}</Text>
-                        </View>
-                  
+                    </View>
                 </View>
             </View>
 
             <View style={styles.footer}>
-            <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#fff' }}>
-              <TouchableOpacity style={styles.fullButton} onPress={() => navigation.navigate('OrderPlaced')} >
-                <Text style={styles.footerText}>Proceed</Text>
-                <Text style={styles.basketTotal}>${price * count}</Text>
-              </TouchableOpacity>
-          </SafeAreaView>
-        </View>
-           
+                <SafeAreaView edges={['bottom']} style={{ backgroundColor: '#fff' }}>
+                    <TouchableOpacity style={styles.fullButton} onPress={() => navigation.navigate('OrderPlaced')}>
+                        <Text style={styles.footerText}>Proceed</Text>
+                        <Text style={styles.basketTotal}>${price * count}</Text>
+                    </TouchableOpacity>
+                </SafeAreaView>
+            </View>
         </View>
     );
 };
@@ -193,12 +168,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    subText:
-    {
-        fontSize: 16,
-        color: 'gray',
-        marginLeft: 10,
-    },
     rightSection: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -215,18 +184,6 @@ const styles = StyleSheet.create({
         padding: 5,
 
     },
-    stickyBottom: {
-        position: 'absolute',
-        bottom: 10,
-        left: 0,
-        right: 0,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        backgroundColor: '#fff',
-    },
     sectionWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -237,22 +194,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
 
 
-    },
-    leftSection: {
-        padding: 10,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-
-
-    },
-    rightSection: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        
-
-      
     },
     footer: {
         position: 'absolute',

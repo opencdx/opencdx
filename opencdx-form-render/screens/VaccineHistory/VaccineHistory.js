@@ -1,68 +1,49 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Platform } from 'react-native';
+import {Text} from 'react-native-paper';
 
-import { Ionicons, AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
-
-const AddressSection = () => {
-    const navigation = useNavigation();
-    const [testList, setTestList] = useState([
-        { id: 1, name: 'Home', description: '743 El Camino Real, Sunnyvale, CA 94087' },
-        { id: 2, name: 'Work', description: '123 Main Street, San Jose, CA 95131' },
-
-        // Add more test items here
+const VaccineHistory = ({navigation}) => {
+    const [testList] = useState([
+        { id: 1, name: 'COVID-19 Antigen Home Test', description: 'This is an antigen test for COVID-19', price: 45 },
+        { id: 2, name: 'COVID-19 Nasal Swab Test', description: 'This is a nasal swab test for COVID-19', price: 38 },
+        { id: 3, name: 'HEP Antibody Test', description: 'This is an antibody test for HEP', price: 50 },
+        { id: 4, name: 'HEP Antigen Test', description: 'This is an antigen test for HEP', price: 60 },
+        { id: 5, name: 'HELIX Genetic Test', description: 'This is a genetic test for HELIX', price: 100 },
+        { id: 6, name: 'HELIX Covid-19 Test', description: 'This is a COVID-19 test for HELIX', price: 150 },
+        { id: 7, name: 'ACCON FLOWFLEX Test', description: 'This is a FLOWFLEX test for ACCON', price: 200 },
     ]);
-
-
-
-    const handleBack = () => {
-        navigation.goBack();
-    };
-
     return (
         <View style={styles.container}>
             <SafeAreaView>
-                <View style={styles.searchContainer}>
-                    <TouchableOpacity onPress={handleBack}>
-                        <Ionicons name="arrow-back" size={24} color="black" />
-                    </TouchableOpacity>
-
-                </View>
-
+               
+                
                 <FlatList
                     data={testList}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('TestRecord', { test: item })}>
                         <View style={styles.sectionWrapper}>
                             <View style={styles.leftSection}>
-                                <Text style={styles.description}
+                                <Text variant='titleMedium'
                                 >{item.name}</Text>
-                                <Text style={styles.subText}
+                                <Text variant='titleSmall'
                                 >{item.description}</Text>
                             </View>
                             <View style={styles.rightSection}>
-
-                                <TouchableOpacity style={{ marginLeft: 10, paddingTop: 2 }}
-                                    onPress={() => navigation.navigate('TestDetails', { test: item })}>
-                                    {item.name === 'Home' ? <AntDesign name="home" size={24} color="black" /> : <MaterialCommunityIcons name="office-building" size={24} color="black" />}
-                                </TouchableOpacity>
+                               
+                                    <AntDesign name="right" size={16} color="green" />
+                               
                             </View>
+
                         </View>
+                        </TouchableOpacity>
                     )}
                 />
-                <View style={styles.sectionWrapper}>
-                    <View style={styles.leftSection}>
-                        <Text style={styles.description}
-                        >Add an Address</Text>
-                        <Text style={styles.subText}
-                        >Save your favorite places</Text>
-                    </View>
-
-                </View>
             </SafeAreaView>
         </View>
     );
@@ -73,7 +54,7 @@ const styles = {
         flex: 1,
         shadowColor: "#000",
         backgroundColor: '#fff',
-        padding: 10,
+        paddingHorizontal: 10,
         ...Platform.select({
             web: {
                 width: 500,
@@ -105,38 +86,16 @@ const styles = {
             }
         })
     },
-    description: {
-        fontWeight: 'bold',
-        ...Platform.select({
-            web: {
-                fontSize: 15,
-            },
-            default: {
-                fontSize: 18,
-            }
-        })
-    },
-    subText:
-    {
-        color: 'gray',
-        ...Platform.select({
-            web: {
-                fontSize: 15,
-            },
-            default: {
-                fontSize: 16,
-            }
-        })
-    },
+
     sectionWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#f0f0f0',
-        paddingVertical: 5,
-
-
+        backgroundColor: 'paleturquoise',
+        padding: 10,
+        margin: 5,
     },
     leftSection: {
         padding: 10,
@@ -186,4 +145,4 @@ const styles = {
     },
 };
 
-export default AddressSection;
+export default VaccineHistory;

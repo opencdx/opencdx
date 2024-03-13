@@ -1,111 +1,93 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text,StyleSheet, Platform } from 'react-native';
-import axios from '../utils/axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Heading, ButtonText, ButtonIcon, ArrowRightIcon } from '@gluestack-ui/themed';
 
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView , Platform} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 const ListScreen = ({ navigation }) => {
-    const [buttonTitles, setButtonTitles] = useState([]);
+    const currentDate = new Date().toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+    });
 
-    useEffect(() => {
-        const fetchQuestionnaireList = async () => {
-            try {
-                const jwtToken = await AsyncStorage.getItem('jwtToken');
+    const handleVirtual = () => {
+        navigation.navigate('StartVirtualConsult');
+    };
 
-                const response = await axios.post(
-                    '/questionnaire/questionnaire/list',
-                    {
-                        pagination: {
-                            pageSize: 30,
-                            sortAscending: true,
-                        },
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                    }
-                );
-                const { questionnaires } = response.data;
-                setButtonTitles(questionnaires);
+  
 
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchQuestionnaireList();
-    }, []);
+    const renderLinearGradientButton = (title, description, onPress) => (
+        <TouchableOpacity onPress={onPress}>
+            <LinearGradient
+                colors={['lightblue', '#24C6DC']}
+                start={[0.0, 0.5]}
+                end={[1.0, 0.5]}
+                locations={[0.0, 1.0]}
+                style={styles.linearGradientButton}
+            >
+                <Text style={styles.buttonTitle}>{title}</Text>
+                <Text style={styles.buttonDescription}>{description}</Text>
+            </LinearGradient>
+        </TouchableOpacity>
+    );
 
     return (
         <View style={styles.container}>
-            <View style={styles.body}>
-                <Text>Mar 2, 2024</Text>
-                <Text>Hello, John Smith</Text>
-            </View>
-            <View
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
-                <Heading size="md">Not feeling well</Heading>
-                <Text>
-                    Share details about your symptoms to see if you qualify for FDA approved antiviral treatment.
-                </Text>
-            </View>
-            <View
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
-                <Heading size="md">Take a Test</Heading>
-                <Text>
-                    if you don't already have a test kit, you can order one and have it shipped to you.
-                </Text>
-            </View>
-            <View
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
-                <Heading size="md">Take a specific questionnaire</Heading>
-                {buttonTitles.map((questionnaire, index) => (
-                    <Button
-                        style={styles.input}
-                        key={index}
-                        title={questionnaire.title}
-                        onPress={() => navigation.navigate('Home', { questionnaire })}
-                        size="md"
-                        variant="contained"
-                        action="primary"
-                        isDisabled={false}
-                    >
-                        <ButtonText>{questionnaire.title}</ButtonText>
-                        <ButtonIcon as={ArrowRightIcon}color="primary"size="md" />
-                    </Button>
-                ))}
-            </View>
-            <View
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
-                <Heading size="md">Current Status</Heading>
-                <Text>
-                    bar code
-                </Text>
-            </View>
-            <View
-                style={{ cursor: 'pointer', borderRadius: 10, borderColor: 'black', borderWidth: '1px', padding: 10, backgroundColor: 'lightgray', marginBottom: 20 }}>
-                <Heading size="md">Text History</Heading>
-                <Text>
-                    See your test history.
-                </Text>
-            </View>            
-            <Heading size="lg" >Flow:</Heading>
-            <Button
-                style={styles.input}
-                size="md"
-                variant="contained"
-                action="primary"
-                isDisabled={false}
-                onPress={() => navigation.navigate('TestList')}
-            >
-                <ButtonText>Flow</ButtonText>
-                <ButtonIcon as={ArrowRightIcon}
-                    color="primary"
-                    size="md"
-                />
-            </Button>
+            <SafeAreaView>
+                <View style={styles.body}>
+                    <Text style={styles.dateText}>{currentDate}</Text>
+                    <Text style={styles.nameText}>Hello, John Smith</Text>
+                </View>
+
+                {renderLinearGradientButton(
+                    'Not feeling well',
+                    'Share details about your symptoms to see if you qualify for FDA approved antiviral treatment.',
+                    handleVirtual
+                )}
+
+                {renderLinearGradientButton(
+                    'Take a Test',
+                    "If you don't already have a test kit, you can order one and have it shipped to you.",
+                    () => navigation.navigate('GetTested')
+                )}
+
+                <LinearGradient
+                    colors={['#90EE90', '#90EE90']}
+                    start={[0.0, 0.5]}
+                    end={[1.0, 0.5]}
+                    locations={[0.0, 1.0]}
+                    style={styles.passportContainer}
+                >
+                    <View style={styles.leftContainer}>
+                        <Text style={styles.passportTitle}>My Passport</Text>
+                        <Text style={styles.passportText}>Name: John Smith</Text>
+                        <Text style={styles.passportText}>Last Assessment: June 15, 2022</Text>
+                        <Text style={styles.passportText}>Date: July 20, 2022</Text>
+                    </View>
+                    <View style={styles.rightContainer}>
+                        <MaterialCommunityIcons name="qrcode-scan" size={80} color="black" />
+                        <Text>Sample QR code</Text>
+                    </View>
+                </LinearGradient>
+
+                {renderLinearGradientButton(
+                    'Text History',
+                    'See your test history.',
+                    () => navigation.navigate('TestHistory')
+                )}
+
+                {renderLinearGradientButton(
+                    'Vaccine History',
+                    'See your vaccine history.',
+                    () => navigation.navigate('VaccineHistory')
+                )}
+
+                {renderLinearGradientButton(
+                    'Take a specific questionnaire',
+                    '',
+                    () => navigation.navigate('User')
+                )}
+            </SafeAreaView>
         </View>
     );
 };
@@ -115,7 +97,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 8,
-        shadowColor: "#000",
+        shadowColor: '#000',
         margin: 'auto',
         ...(Platform.select({
             web: {
@@ -123,18 +105,73 @@ const styles = StyleSheet.create({
             },
             default: {
                 margin: 20,
-                shadowColor: "#000",
+                shadowColor: '#000',
             },
         })),
     },
-    input: {
-        margin: 5,
-        textAlign: 'right',
+    body: {
+        paddingBottom: 20,
+        
+        },
+    linearGradientButton: {
+        cursor: 'pointer',
+        borderRadius: 10,
+        borderColor: 'lightblue',
+        borderWidth: 1,
+        padding: 10,
+        marginBottom: 20,
+        shadowColor: 'green',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    buttonTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    buttonDescription: {
+        marginTop: 5,
+    },
+    passportContainer: {
+        cursor: 'pointer',
+        borderRadius: 10,
+        borderColor: 'lightblue',
+        borderWidth: 1,
+        padding: 10,
+        marginBottom: 20,
+        shadowColor: 'green',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderRadius: 68,
-
-
+        borderRadius: 10,
+    },
+    leftContainer: {
+        flex: 1,
+        marginRight: 10,
+    },
+    rightContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    passportTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    passportText: {
+        marginBottom: 5,
+    },
+    dateText: {
+        fontSize: 18,
+        color: 'gray',
+    },
+    nameText: {
+        fontSize: 22,
+        fontWeight: 'bold',
     },
 });
 

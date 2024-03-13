@@ -5,9 +5,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import imageS from '../../assets/flow.jpeg';
+import imageS from '../../../assets/flow.jpeg';
 
-import Colors from '../../utils/colors';
+import Colors from '../../../utils/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
