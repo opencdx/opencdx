@@ -2012,7 +2012,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_g}&quot; ]}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; : &quot;${patient_id_g}&quot;}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
             <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="CommunicationService/DeleteEmailTemplate" enabled="true">
@@ -2385,7 +2385,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_g}&quot; ]}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; :  &quot;${patient_id_g}&quot; }</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
@@ -2704,7 +2704,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_g}&quot; ]}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; : &quot;${patient_id_g}&quot;}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
@@ -3023,7 +3023,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
               <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_g}&quot; ]}</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; : &quot;${patient_id_g}&quot;}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
@@ -7636,7 +7636,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_r}&quot; ]}</stringProp>
+                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; :  &quot;${patient_id_r}&quot; }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -8108,7 +8108,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_r}&quot; ]}</stringProp>
+                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; :  &quot;${patient_id_r}&quot; }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -8523,7 +8523,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_r}&quot; ]}</stringProp>
+                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; :  &quot;${patient_id_r}&quot;}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -8938,7 +8938,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientIds&quot; : [ &quot;${patient_id_r}&quot; ]}</stringProp>
+                  <stringProp name="Argument.value">{&quot;eventId&quot;:&quot;${eventId}&quot;,&quot;customData&quot;:{},&quot;toEmail&quot;:[&quot;testuser1@opencdx.com&quot;],&quot;ccEmail&quot;:[],&quot;bccEmail&quot;:[],&quot;emailAttachments&quot;:[],&quot;toPhoneNumber&quot;:[&quot;123-456-7890&quot;],&quot;variables&quot;:{},&quot;recipientsId&quot;:[],&quot;patientId&quot; :  &quot;${patient_id_r}&quot;}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
