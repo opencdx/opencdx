@@ -41,7 +41,6 @@ import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
-import cdx.opencdx.grpc.shipping.DeliveryTrackingResponse;
 import cdx.opencdx.grpc.shipping.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -111,7 +110,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXClassificationRepository openCDXClassificationRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
-            OpenCDXCommunicationService openCDXCommunicationService, OpenCDXCDCPayloadService openCDXCDCPayloadService,
+            OpenCDXCommunicationService openCDXCommunicationService,
+            OpenCDXCDCPayloadService openCDXCDCPayloadService,
             OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService) {
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
@@ -347,53 +347,54 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private void sendTestResults(OpenCDXClassificationModel model) {
         log.info("Send test Results with response {}", model.getClassificationResponse());
         String testName = null;
-         ClassificationResponse classificationResponse = model.getClassificationResponse();
-         ConnectedTest connectedTest = model.getConnectedTest();
-         if (null != connectedTest && connectedTest.hasTestDetails()) {
-             TestDetails testDetails = connectedTest.getTestDetails();
-             testName = testDetails.getTestName();
-         }
+        ClassificationResponse classificationResponse = model.getClassificationResponse();
+        ConnectedTest connectedTest = model.getConnectedTest();
+        if (null != connectedTest && connectedTest.hasTestDetails()) {
+            TestDetails testDetails = connectedTest.getTestDetails();
+            testName = testDetails.getTestName();
+        }
 
-         UserQuestionnaireData userQuestionnaireData = model.getUserQuestionnaireData();
-         if (null != userQuestionnaireData && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
-             testName = userQuestionnaireData.getQuestionnaireDataList().get(0).getTitle();
-         }
+        UserQuestionnaireData userQuestionnaireData = model.getUserQuestionnaireData();
+        if (null != userQuestionnaireData
+                && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
+            testName = userQuestionnaireData.getQuestionnaireDataList().get(0).getTitle();
+        }
 
-         if (testName == null) {
-             testName = "Latest Test";
-         }
-         OpenCDXProfileModel patient = model.getPatient();
+        if (testName == null) {
+            testName = "Latest Test";
+        }
+        OpenCDXProfileModel patient = model.getPatient();
 
-             Map<String, String> map = new HashMap<>();
-             map.put("firstName", patient.getFullName().getFirstName());
-             map.put("lastName", patient.getFullName().getLastName());
-             map.put("testName", testName);
-             map.put("message", classificationResponse.getMessage());
+        Map<String, String> map = new HashMap<>();
+        map.put("firstName", patient.getFullName().getFirstName());
+        map.put("lastName", patient.getFullName().getLastName());
+        map.put("testName", testName);
+        map.put("message", classificationResponse.getMessage());
 
-             Notification.Builder builder = Notification.newBuilder()
-                     .setEventId(OpenCDXCommunicationService.TEST_RESULT)
-                     .putAllVariables(map);
-             builder.setPatientId(patient.getId().toHexString());
+        Notification.Builder builder = Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.TEST_RESULT)
+                .putAllVariables(map);
+        builder.setPatientId(patient.getId().toHexString());
 
-             EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
-                     .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
-                     .findFirst()
-                     .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
-                             .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
-                             .findFirst()
-                             .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
-                                     .findFirst()
-                                     .orElse(null)));
-             if (emailAddress != null) {
-                 builder.addAllToEmail(List.of(emailAddress.getEmail()));
-             }
-             List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
-                     .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
-                     .map(PhoneNumber::getNumber)
-                     .toList();
-             if (!mobileList.isEmpty()) {
-                 builder.addAllToPhoneNumber(mobileList);
-             }
-             this.openCDXCommunicationService.sendNotification(builder.build());
+        EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
+                .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                .findFirst()
+                .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                        .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                        .findFirst()
+                        .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                                .findFirst()
+                                .orElse(null)));
+        if (emailAddress != null) {
+            builder.addAllToEmail(List.of(emailAddress.getEmail()));
+        }
+        List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                .map(PhoneNumber::getNumber)
+                .toList();
+        if (!mobileList.isEmpty()) {
+            builder.addAllToPhoneNumber(mobileList);
+        }
+        this.openCDXCommunicationService.sendNotification(builder.build());
     }
 }

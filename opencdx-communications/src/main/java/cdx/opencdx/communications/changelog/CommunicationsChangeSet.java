@@ -53,6 +53,7 @@ public class CommunicationsChangeSet {
     private static final String NOTIFICATIONS = "notifications";
     private static final String USER_NAME = "userName";
     private static final String NOTIFICATION = "notification";
+    public static final String TEST_NAME = "testName";
 
     /**
      * Default Consructor
@@ -569,25 +570,21 @@ public class CommunicationsChangeSet {
 
                         This is to notify you of your test result for [[${testName}]].
                         Results are [[${message}]].
-                        
+
                         Thank you!
                         """)
-                .variables(List.of(
-                        FIRST_NAME,
-                        LAST_NAME,
-                        "testName",
-                        "message"))
+                .variables(List.of(FIRST_NAME, LAST_NAME, TEST_NAME, MESSAGE))
                 .build();
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3768"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
                 .message("Your test ${testName} result is ${message}.")
-                .variables(List.of("testName", "message"))
+                .variables(List.of(TEST_NAME, MESSAGE))
                 .build();
         OpenCDXMessageTemplateModel openCDXMessageTemplateModel = OpenCDXMessageTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3769"))
                 .messageType(MessageType.INFO)
-                .variables(List.of("testName", "message"))
+                .variables(List.of(TEST_NAME, MESSAGE))
                 .content("Your test ${testName} result is ${message}.")
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -606,5 +603,4 @@ public class CommunicationsChangeSet {
         openCDXMessageTemplateRepository.save(openCDXMessageTemplateModel);
         openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
     }
-
 }

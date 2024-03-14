@@ -170,7 +170,8 @@ class OpenCDXClassificationServiceImplTest {
                                         .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
                                                 .setNumber("1234567890")
                                                 .setType(PhoneType.PHONE_TYPE_MOBILE)
-                                                .build())).build())
+                                                .build()))
+                                        .build())
                                 .addresses(List.of(Address.newBuilder()
                                         .setAddress1("123 Main St")
                                         .setCity("Anytown")
@@ -586,7 +587,8 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
-                openCDXCommunicationService, openCDXCDCPayloadService,
+                openCDXCommunicationService,
+                openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
@@ -850,10 +852,10 @@ public class TypeRule {
                         }
                         if (argument.getUserQuestionnaireData() == null) {
                             argument.setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
-                                                .addAllQuestionnaireData(
-                                                        List.of(Questionnaire.newBuilder()
-                                                                .setTitle("title Test").build())).build());
-
+                                    .addAllQuestionnaireData(List.of(Questionnaire.newBuilder()
+                                            .setTitle("title Test")
+                                            .build()))
+                                    .build());
                         }
                         return argument;
                     }
