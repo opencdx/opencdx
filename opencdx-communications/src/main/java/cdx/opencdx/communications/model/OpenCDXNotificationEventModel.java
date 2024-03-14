@@ -45,6 +45,7 @@ public class OpenCDXNotificationEventModel {
     private String eventDescription;
     private ObjectId emailTemplateId;
     private ObjectId smsTemplateId;
+    private ObjectId messageTemplateId;
     private SensitivityLevel sensitivityLevel;
     private NotificationPriority priority;
     List<String> parameters;
@@ -75,6 +76,9 @@ public class OpenCDXNotificationEventModel {
         }
         if (event.hasSmsTemplateId()) {
             this.smsTemplateId = new ObjectId(event.getSmsTemplateId());
+        }
+        if (event.hasMessageTemplateId()) {
+            this.messageTemplateId = new ObjectId(event.getMessageTemplateId());
         }
         this.parameters = event.getEventParametersList();
         this.sensitivityLevel = event.getSensitivity();
@@ -119,6 +123,9 @@ public class OpenCDXNotificationEventModel {
         }
         if (smsTemplateId != null) {
             builder.setSmsTemplateId(this.smsTemplateId.toHexString());
+        }
+        if (messageTemplateId != null) {
+            builder.setMessageTemplateId(this.messageTemplateId.toHexString());
         }
         if (parameters != null) {
             builder.addAllEventParameters(this.parameters);

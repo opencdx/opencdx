@@ -28,10 +28,7 @@ import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
-import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
-import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
-import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -105,6 +102,12 @@ class OpenCDXNotificationServiceImplTest {
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXMessageRepository openCDXMessageRepository;
+
+    @Mock
+    OpenCDXMessageService openCDXMessageService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
@@ -185,12 +188,14 @@ class OpenCDXNotificationServiceImplTest {
                 openCDXEmailService,
                 openCDXSMSService,
                 openCDXHTMLProcessor,
+                openCDXMessageService,
                 openCDXCurrentUser,
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,
-                openCDXProfileRepository);
+                openCDXProfileRepository,
+                openCDXMessageRepository);
     }
 
     @AfterEach
@@ -262,8 +267,7 @@ class OpenCDXNotificationServiceImplTest {
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
 
         Notification notification = Notification.newBuilder()
-                .addAllPatientIds(
-                        List.of(ObjectId.get().toHexString(), ObjectId.get().toHexString()))
+                .setPatientId(ObjectId.get().toHexString())
                 .setEventId(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> {
@@ -305,6 +309,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllToEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -349,6 +354,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllCcEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -393,6 +399,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllBccEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -419,6 +426,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllToEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -463,6 +471,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertDoesNotThrow(() -> {
@@ -494,9 +503,63 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .putAllVariables(variablesMap)
                 .build();
         Assertions.assertThrows(OpenCDXFailedPrecondition.class, () -> {
+            this.openCDXNotificationService.sendNotification(notification);
+        });
+    }
+
+    @Test
+    void sendNotificationSaveMesssage() throws JsonProcessingException {
+        Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
+
+        OpenCDXNotificationEventModel eventModel = new OpenCDXNotificationEventModel();
+        eventModel.setSmsTemplateId(ObjectId.get());
+        eventModel.setEmailTemplateId(ObjectId.get());
+        eventModel.setMessageTemplateId(ObjectId.get());
+        eventModel.setPriority(NotificationPriority.NOTIFICATION_PRIORITY_IMMEDIATE);
+
+        Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(eventModel));
+
+        SMSTemplate smsTemplate = SMSTemplate.newBuilder()
+                .setMessage("This is a test string for SMS")
+                .addAllVariables((List.of("A", "B", "C")))
+                .build();
+
+        Mockito.when(this.openCDXCommunicationSmsService.getSMSTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(smsTemplate);
+
+        EmailTemplate emailTemplate = EmailTemplate.newBuilder()
+                .setContent("This is a test string for SMS")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
+
+        MessageTemplate messageTemplate = MessageTemplate.newBuilder()
+                .setContent("content for message")
+                .addAllVariables(List.of("A", "B", "C"))
+                .build();
+
+        Mockito.when(this.openCDXCommunicationEmailService.getEmailTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(emailTemplate);
+        Mockito.when(this.openCDXMessageService.getMessageTemplate(Mockito.any(TemplateRequest.class)))
+                .thenReturn(messageTemplate);
+
+        Map<String, String> variablesMap = new HashMap<>();
+        variablesMap.put("A", "Alpha");
+        variablesMap.put("B", "Beta");
+        variablesMap.put("C", "Gnarly");
+
+        Notification notification = Notification.newBuilder()
+                .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
+                .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
+                .addAllCcEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
+                .putAllVariables(variablesMap)
+                .build();
+        Assertions.assertDoesNotThrow(() -> {
             this.openCDXNotificationService.sendNotification(notification);
         });
     }
@@ -538,6 +601,7 @@ class OpenCDXNotificationServiceImplTest {
                 .setEventId(ObjectId.get().toHexString())
                 .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_FAILED)
                 .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_FAILED)
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllBccEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -585,6 +649,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllBccEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -631,6 +696,7 @@ class OpenCDXNotificationServiceImplTest {
 
         Notification notification = Notification.newBuilder()
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .addAllToPhoneNumber(List.of("123-456-7890", "098-765-4321"))
                 .addAllBccEmail(List.of("test1@opencdx.org", "test2@opencdx.org"))
                 .putAllVariables(variablesMap)
@@ -689,7 +755,7 @@ class OpenCDXNotificationServiceImplTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
-                .patients(List.of(ObjectId.get(), ObjectId.get()))
+                .patientId(ObjectId.get())
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())
@@ -758,7 +824,7 @@ class OpenCDXNotificationServiceImplTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
-                .patients(List.of(ObjectId.get(), ObjectId.get()))
+                .patientId(ObjectId.get())
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())
@@ -775,14 +841,16 @@ class OpenCDXNotificationServiceImplTest {
                 this.openCDXNotificationEventRepository,
                 this.openCDXNotificaitonRepository,
                 this.openCDXEmailService,
-                openCDXSMSService,
+                this.openCDXSMSService,
                 this.openCDXHTMLProcessor,
+                openCDXMessageService,
                 this.openCDXCurrentUser,
                 this.openCDXCommunicationSmsService,
                 this.openCDXCommunicationEmailService,
                 this.objectMapper,
                 this.openCDXDocumentValidator,
-                openCDXProfileRepository);
+                openCDXProfileRepository,
+                openCDXMessageRepository);
 
         Assertions.assertDoesNotThrow(() -> {
             openCDXNotificationService.processOpenCDXNotification(notification);

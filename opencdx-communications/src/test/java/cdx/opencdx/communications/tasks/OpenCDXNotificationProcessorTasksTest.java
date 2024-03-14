@@ -26,10 +26,7 @@ import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
-import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
-import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
-import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.communications.service.*;
 import cdx.opencdx.communications.service.OpenCDXEmailService;
 import cdx.opencdx.communications.service.OpenCDXHTMLProcessor;
@@ -108,6 +105,12 @@ class OpenCDXNotificationProcessorTasksTest {
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXMessageRepository openCDXMessageRepository;
+
+    @Mock
+    OpenCDXMessageService openCDXMessageService;
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
@@ -191,12 +194,14 @@ class OpenCDXNotificationProcessorTasksTest {
                 openCDXEmailService,
                 openCDXSMSService,
                 openCDXHTMLProcessor,
+                openCDXMessageService,
                 openCDXCurrentUser,
                 openCDXCommunicationSmsService,
                 openCDXCommunicationEmailService,
                 objectMapper,
                 openCDXDocumentValidator,
-                openCDXProfileRepository);
+                openCDXProfileRepository,
+                openCDXMessageRepository);
 
         Mockito.when(this.objectMapper.writeValueAsString(Mockito.any())).thenReturn("{\"name\":\"test\"}");
 
@@ -237,7 +242,7 @@ class OpenCDXNotificationProcessorTasksTest {
         OpenCDXNotificationModel notification = OpenCDXNotificationModel.builder()
                 .eventId(ObjectId.get())
                 .id(ObjectId.get())
-                .patients(List.of(ObjectId.get(), ObjectId.get()))
+                .patientId(ObjectId.get())
                 .smsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .emailStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .timestamp(Instant.now())

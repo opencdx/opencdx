@@ -28,6 +28,7 @@ class OpenCDXNotificationModelTest {
         OpenCDXNotificationModel openCDXNotificationModel = new OpenCDXNotificationModel(Notification.newBuilder()
                 .setQueueId(ObjectId.get().toHexString())
                 .setEventId(ObjectId.get().toHexString())
+                .setPatientId(ObjectId.get().toHexString())
                 .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_PENDING)
                 .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
                 .setTimestamp(Timestamp.newBuilder().setSeconds(10L).setNanos(5).build())

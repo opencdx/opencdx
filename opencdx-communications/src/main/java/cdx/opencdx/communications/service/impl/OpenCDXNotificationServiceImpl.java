@@ -24,8 +24,10 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.communications.model.OpenCDXMessageModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
+import cdx.opencdx.communications.repository.OpenCDXMessageRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.service.*;
@@ -72,25 +74,28 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
     private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    private final OpenCDXMessageService openCDXMessageService;
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final ObjectMapper objectMapper;
     private final OpenCDXDocumentValidator openCDXDocumentValidator;
     private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXMessageRepository openCDXMessageRepository;
     /**
      * Constructor taking some repositoroes
-     *
      * @param openCDXAuditService                Audit service for tracking FDA requirements
      * @param openCDXNotificationEventRepository Repository for saving Notification Events
      * @param openCDXNotificaitonRepository      Repository for saving Notificaitons
      * @param openCDXEmailService                Email service for sending emails
      * @param openCDXSMSService                  SMS Service for sending SMS
      * @param openCDXHTMLProcessor               HTML Process for processing HTML Templates.
+     * @param openCDXMessageService
      * @param openCDXCurrentUser                 Current User Service to access information.
      * @param openCDXCommunicationSmsService     SMS Service to use for handling SMS
      * @param openCDXCommunicationEmailService   Email Service to use for handling Email
      * @param objectMapper                       ObjectMapper used for converting messages for the audit system.
      * @param openCDXDocumentValidator           Document Validator for validating documents.
      * @param openCDXProfileRepository           Repository for accessing Profiles.
+     * @param openCDXMessageRepository
      */
     @Autowired
     public OpenCDXNotificationServiceImpl(
@@ -100,24 +105,28 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             OpenCDXEmailService openCDXEmailService,
             OpenCDXSMSService openCDXSMSService,
             OpenCDXHTMLProcessor openCDXHTMLProcessor,
+            OpenCDXMessageService openCDXMessageService,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
             ObjectMapper objectMapper,
             OpenCDXDocumentValidator openCDXDocumentValidator,
-            OpenCDXProfileRepository openCDXProfileRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXMessageRepository openCDXMessageRepository) {
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXNotificationEventRepository = openCDXNotificationEventRepository;
         this.openCDXNotificaitonRepository = openCDXNotificaitonRepository;
         this.openCDXEmailService = openCDXEmailService;
         this.openCDXSMSService = openCDXSMSService;
         this.openCDXHTMLProcessor = openCDXHTMLProcessor;
+        this.openCDXMessageService = openCDXMessageService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.objectMapper = objectMapper;
         this.openCDXDocumentValidator = openCDXDocumentValidator;
         this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXMessageRepository = openCDXMessageRepository;
     }
 
     @Override
@@ -245,9 +254,7 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         openCDXNotificaitonRepository.save(openCDXNotificationModel);
         CommunicationAuditRecord auditRecord = auditBuilder.build();
 
-        openCDXNotificationModel
-                .getPatients()
-                .forEach(patientId -> recordAudit(auditRecord, notificationEvent, patientId));
+        recordAudit(auditRecord, notificationEvent, openCDXNotificationModel.getPatientId());
     }
 
     private void sendSMS(
@@ -275,6 +282,32 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
                 && openCDXNotificationModel.getSmsFailCount() >= notificationEvent.getSmsRetry()) {
             openCDXNotificationModel.setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_FAILED);
         }
+    }
+
+    private void saveMessage(
+            OpenCDXNotificationModel openCDXNotificationModel,
+            Map<String, Object> objectVariableMap,
+            NotificationEvent notificationEvent) {
+        MessageTemplate messageTemplate = this.openCDXMessageService.getMessageTemplate(TemplateRequest.newBuilder()
+                .setTemplateId(notificationEvent.getMessageTemplateId())
+                .build());
+        String message = this.processHTML(
+                messageTemplate.getContent(),
+                messageTemplate.getVariablesList().stream().toList(),
+                objectVariableMap);
+
+        CommunicationAuditRecord.Builder auditBuilder = CommunicationAuditRecord.newBuilder();
+        auditBuilder.setNotification(openCDXNotificationModel.getProtobufMessage());
+        auditBuilder.setMessageContent(message);
+
+        recordAudit(auditBuilder.build(), notificationEvent, openCDXNotificationModel.getPatientId());
+
+        openCDXMessageRepository.save(OpenCDXMessageModel.builder()
+                .message(message)
+                .messageStatus(MessageStatus.UNREAD)
+                .patientId(openCDXNotificationModel.getPatientId())
+                .title(messageTemplate.getTitle())
+                .build());
     }
 
     private void sendEmail(
@@ -366,14 +399,16 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
             this.processOpenCDXNotification(openCDXNotificationModel);
         } else {
             Notification protobufMessage = openCDXNotificationModel.getProtobufMessage();
-            openCDXNotificationModel
-                    .getPatients()
-                    .forEach(patientId -> this.recordAudit(
-                            CommunicationAuditRecord.newBuilder()
-                                    .setNotification(protobufMessage)
-                                    .build(),
-                            notificationEvent,
-                            patientId));
+            this.recordAudit(
+                    CommunicationAuditRecord.newBuilder()
+                            .setNotification(protobufMessage)
+                            .build(),
+                    notificationEvent,
+                    openCDXNotificationModel.getPatientId());
+        }
+        if (notificationEvent.hasMessageTemplateId()) {
+            Map<String, Object> objectVariableMap = new HashMap<>(openCDXNotificationModel.getVariables());
+            saveMessage(openCDXNotificationModel, objectVariableMap, notificationEvent);
         }
         return SuccessResponse.newBuilder().setSuccess(true).build();
     }

@@ -22,21 +22,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
-import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
-import cdx.opencdx.communications.model.OpenCDXNotificationModel;
-import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
-import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
-import cdx.opencdx.communications.repository.OpenCDXNotificaitonRepository;
-import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
-import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
+import cdx.opencdx.communications.model.*;
+import cdx.opencdx.communications.repository.*;
 import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -95,10 +93,31 @@ class OpenCDXRestCommunicationsControllerTest {
     OpenCDXNotificaitonRepository openCDXNotificaitonRepository;
 
     @MockBean
+    OpenCDXMessageTemplateRepository openCDXMessageTemplateRepository;
+
+    @MockBean
+    OpenCDXMessageRepository openCDXMessageRepository;
+
+    @MockBean
     OpenCDXCurrentUser openCDXCurrentUser;
+
+    @MockBean
+    OpenCDXProfileRepository openCDXProfileRepository;
 
     @BeforeEach
     public void setup() {
+        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
+                    @Override
+                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
+                        ObjectId argument = invocation.getArgument(0);
+                        return Optional.of(OpenCDXProfileModel.builder()
+                                .id(argument)
+                                .nationalHealthId(UUID.randomUUID().toString())
+                                .userId(ObjectId.get())
+                                .build());
+                    }
+                });
         Mockito.when(this.openCDXEmailTemplateRepository.save(Mockito.any(OpenCDXEmailTemplateModel.class)))
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXEmailTemplateRepository.findById(Mockito.any(ObjectId.class)))
@@ -113,6 +132,32 @@ class OpenCDXRestCommunicationsControllerTest {
                 .then(AdditionalAnswers.returnsFirstArg());
         Mockito.when(this.openCDXNotificationEventRepository.findById(Mockito.any(ObjectId.class)))
                 .thenReturn(Optional.of(new OpenCDXNotificationEventModel()));
+
+        Mockito.when(this.openCDXMessageTemplateRepository.save(Mockito.any(OpenCDXMessageTemplateModel.class)))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXMessageTemplateRepository.findById(Mockito.any(ObjectId.class)))
+                .thenReturn(Optional.of(new OpenCDXMessageTemplateModel()));
+
+        Mockito.when(this.openCDXMessageRepository.saveAll(Mockito.anyList()))
+                .then(AdditionalAnswers.returnsFirstArg());
+        Mockito.when(this.openCDXMessageRepository.findAllById(Mockito.anyList()))
+                .thenReturn(List.of(OpenCDXMessageModel.builder()
+                        .id(ObjectId.get())
+                        .patientId(ObjectId.get())
+                        .title("title")
+                        .message("message")
+                        .messageType(MessageType.INFO)
+                        .messageStatus(MessageStatus.READ)
+                        .build()));
+        Mockito.when(this.openCDXMessageRepository.findAllByPatientId(Mockito.any(ObjectId.class)))
+                .thenReturn(List.of(OpenCDXMessageModel.builder()
+                        .id(ObjectId.get())
+                        .patientId(ObjectId.get())
+                        .title("title")
+                        .message("message")
+                        .messageType(MessageType.INFO)
+                        .messageStatus(MessageStatus.READ)
+                        .build()));
 
         Mockito.when(this.openCDXNotificaitonRepository.save(Mockito.any(OpenCDXNotificationModel.class)))
                 .thenAnswer(new Answer<OpenCDXNotificationModel>() {
@@ -134,6 +179,11 @@ class OpenCDXRestCommunicationsControllerTest {
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
         Mockito.when(this.openCDXNotificationEventRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+        Mockito.when(this.openCDXMessageTemplateRepository.findAll(Mockito.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Collections.EMPTY_LIST, PageRequest.of(1, 10), 1));
+
+        Mockito.when(openCDXMessageTemplateRepository.existsById(Mockito.any(ObjectId.class)))
+                .thenReturn(false);
 
         Mockito.when(this.openCDXCurrentUser.getCurrentUser())
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
@@ -150,7 +200,9 @@ class OpenCDXRestCommunicationsControllerTest {
                 this.connection,
                 this.openCDXEmailTemplateRepository,
                 this.openCDXNotificationEventRepository,
-                this.openCDXSMSTemplateRespository);
+                this.openCDXSMSTemplateRespository,
+                this.openCDXMessageTemplateRepository,
+                this.openCDXMessageRepository);
     }
 
     @Test
@@ -284,6 +336,7 @@ class OpenCDXRestCommunicationsControllerTest {
                 .perform(post("/notification")
                         .content(this.objectMapper.writeValueAsString(Notification.newBuilder()
                                 .setEventId(ObjectId.get().toHexString())
+                                .setPatientId(ObjectId.get().toHexString())
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -350,6 +403,139 @@ class OpenCDXRestCommunicationsControllerTest {
                 .andReturn();
         String content = result.getResponse().getContentAsString();
         log.info("JSON: \n{}", this.objectMapper.writeValueAsString(NotificationEventListRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void createMessageTemplate() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/message")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(
+                                MessageTemplate.newBuilder().build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(MessageTemplate.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void getMessageTemplate() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/messageTemplate")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(TemplateRequest.newBuilder()
+                                .setTemplateId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(TemplateRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void updateMessageTemplate() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(put("/message")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
+                                .setTemplateId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(MessageTemplate.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void deleteMessageTemplate() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(delete("/message/" + ObjectId.get().toHexString())
+                        .content(this.objectMapper.writeValueAsString(MessageTemplate.newBuilder()
+                                .setTemplateId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                //  .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(TemplateRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void listMessageTemplates() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/message/list")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(Pagination.newBuilder()
+                                .setPageNumber(1)
+                                .setPageSize(10)
+                                .setSortAscending(true)
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(NotificationEventListRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void getMessages() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(get("/messages")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(GetMessagesRequest.newBuilder()
+                                .setPagination(Pagination.newBuilder()
+                                        .setPageNumber(1)
+                                        .setPageSize(10)
+                                        .setSortAscending(true)
+                                        .build())
+                                .setPatientId(ObjectId.get().toHexString())
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(GetMessagesRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void markMessageAsRead() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/message/read")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(MarkMessagesAsReadRequest.newBuilder()
+                                .addAllId(List.of(ObjectId.get().toHexString()))
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(MarkMessagesAsReadRequest.getDefaultInstance()));
+        log.info("Received\n {}", content);
+    }
+
+    @Test
+    void markMessageAsUnread() throws Exception {
+        MvcResult result = this.mockMvc
+                .perform(post("/message/unread")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(this.objectMapper.writeValueAsString(MarkMessagesAsUnreadRequest.newBuilder()
+                                .addAllId(List.of(ObjectId.get().toHexString()))
+                                .build()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        log.info("JSON: \n{}", this.objectMapper.writeValueAsString(MarkMessagesAsUnreadRequest.getDefaultInstance()));
         log.info("Received\n {}", content);
     }
 }
