@@ -453,7 +453,7 @@ public class CommunicationsChangeSet {
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
-                .id(new ObjectId("60f1e6b1f075a361a94d3750"))
+                .id(new ObjectId("60f1e6b1f075a361a94d3753"))
                 .eventName("Change Password Notification to user")
                 .eventDescription("Change Password Notification to user.")
                 .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3751"))
