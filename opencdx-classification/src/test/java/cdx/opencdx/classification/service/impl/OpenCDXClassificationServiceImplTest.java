@@ -128,6 +128,9 @@ class OpenCDXClassificationServiceImplTest {
     @Mock
     OpenCDXCDCPayloadService openCDXCDCPayloadService;
 
+    @Mock
+    OpenCDXCommunicationService openCDXCommunicationService;
+
     @BeforeEach
     void beforeEach() {
 
@@ -159,6 +162,15 @@ class OpenCDXClassificationServiceImplTest {
                                         .setFirstName("Open")
                                         .setLastName("CDX")
                                         .build())
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .addAllEmails(List.of(EmailAddress.newBuilder()
+                                                .setType(EmailType.EMAIL_TYPE_WORK)
+                                                .setEmail("ab@safehealth.me")
+                                                .build()))
+                                        .addAllPhoneNumbers(List.of(PhoneNumber.newBuilder()
+                                                .setNumber("1234567890")
+                                                .setType(PhoneType.PHONE_TYPE_MOBILE)
+                                                .build())).build())
                                 .addresses(List.of(Address.newBuilder()
                                         .setAddress1("123 Main St")
                                         .setCity("Anytown")
@@ -266,6 +278,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
+                openCDXCommunicationService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
     }
@@ -573,7 +586,7 @@ class OpenCDXClassificationServiceImplTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
-                openCDXCDCPayloadService,
+                openCDXCommunicationService, openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
 
         // Build a ClassificationRequest with invalid data (e.g., null symptom name)
@@ -802,5 +815,63 @@ public class TypeRule {
         Assertions.assertEquals(
                 ClassificationType.UNSPECIFIED_CLASSIFICATION_TYPE,
                 classificationService.classify(classificationRequest).getType());
+    }
+
+    @Test
+    void testSubmitClassificationConnectedTestIdNullNoMediaIdSendResults() {
+        Mockito.when(this.openCDXMediaClient.getMedia(
+                        Mockito.any(GetMediaRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<GetMediaResponse>() {
+                    @Override
+                    public GetMediaResponse answer(InvocationOnMock invocation) throws Throwable {
+                        GetMediaRequest argument = invocation.getArgument(0);
+                        return GetMediaResponse.newBuilder().build();
+                    }
+                });
+        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(
+                        Mockito.any(TestIdRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<ConnectedTest>() {
+                    @Override
+                    public ConnectedTest answer(InvocationOnMock invocation) throws Throwable {
+                        TestIdRequest argument = invocation.getArgument(0);
+                        return ConnectedTest.newBuilder()
+                                .setTestDetails(TestDetails.newBuilder()
+                                        .setMediaId(ObjectId.get().toHexString()))
+                                .build();
+                    }
+                });
+        Mockito.when(this.openCDXClassificationRepository.save(Mockito.any(OpenCDXClassificationModel.class)))
+                .thenAnswer(new Answer<OpenCDXClassificationModel>() {
+                    @Override
+                    public OpenCDXClassificationModel answer(InvocationOnMock invocation) throws Throwable {
+                        OpenCDXClassificationModel argument = invocation.getArgument(0);
+                        if (argument.getId() == null) {
+                            argument.setId(ObjectId.get());
+                        }
+                        if (argument.getUserQuestionnaireData() == null) {
+                            argument.setUserQuestionnaireData(UserQuestionnaireData.newBuilder()
+                                                .addAllQuestionnaireData(
+                                                        List.of(Questionnaire.newBuilder()
+                                                                .setTitle("title Test").build())).build());
+
+                        }
+                        return argument;
+                    }
+                });
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        ClassificationRequest request = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
+                        .setMediaId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        Assertions.assertNotNull(this.classificationService.classify(request));
     }
 }

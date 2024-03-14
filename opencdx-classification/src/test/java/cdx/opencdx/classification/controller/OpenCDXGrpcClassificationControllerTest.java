@@ -96,6 +96,9 @@ class OpenCDXGrpcClassificationControllerTest {
     @Mock
     OpenCDXCDCPayloadService openCDXCDCPayloadService;
 
+    @Mock
+    OpenCDXCommunicationService openCDXCommunicationService;
+
     @BeforeEach
     void setUp() {
 
@@ -166,6 +169,7 @@ class OpenCDXGrpcClassificationControllerTest {
                 openCDXClassificationRepository,
                 openCDXProfileRepository,
                 openCDXOrderMessageService,
+                openCDXCommunicationService,
                 openCDXCDCPayloadService,
                 openCDXConnectedLabMessageService);
         this.openCDXGrpcClassificationController = new OpenCDXGrpcClassificationController(this.classificationService);

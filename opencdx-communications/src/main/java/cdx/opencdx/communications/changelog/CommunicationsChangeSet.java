@@ -18,9 +18,11 @@ package cdx.opencdx.communications.changelog;
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.communications.model.OpenCDXEmailTemplateModel;
+import cdx.opencdx.communications.model.OpenCDXMessageTemplateModel;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import cdx.opencdx.communications.model.OpenCDXSMSTemplateModel;
 import cdx.opencdx.communications.repository.OpenCDXEmailTemplateRepository;
+import cdx.opencdx.communications.repository.OpenCDXMessageTemplateRepository;
 import cdx.opencdx.communications.repository.OpenCDXNotificationEventRepository;
 import cdx.opencdx.communications.repository.OpenCDXSMSTemplateRespository;
 import cdx.opencdx.grpc.communication.*;
@@ -538,4 +540,71 @@ public class CommunicationsChangeSet {
         openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
         openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
     }
+
+    /**
+     * Create Test/Questionnaire Template
+     * @param openCDXEmailTemplateRepository Email Template Repository
+     * @param openCDXSMSTemplateRespository SMS Template Repository
+     * @param openCDXMessageTemplateRepository Message Template Repository
+     * @param openCDXNotificationEventRepository Notification Event Repository
+     * @param openCDXCurrentUser Current User to use for authentication.
+     */
+    @Observed
+    @ChangeSet(order = "011", id = "Create Test and Questionnaire Result", author = "Gaurav Mishra")
+    public void generateTestQuestionnaireResult(
+            OpenCDXEmailTemplateRepository openCDXEmailTemplateRepository,
+            OpenCDXSMSTemplateRespository openCDXSMSTemplateRespository,
+            OpenCDXMessageTemplateRepository openCDXMessageTemplateRepository,
+            OpenCDXNotificationEventRepository openCDXNotificationEventRepository,
+            OpenCDXCurrentUser openCDXCurrentUser) {
+        log.trace("Creating Test & Questionnaire Result");
+        openCDXCurrentUser.configureAuthentication(SYSTEM);
+        OpenCDXEmailTemplateModel openCDXEmailTemplateModel = OpenCDXEmailTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3767"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .subject("OpenCDX Test/Questionnaire Results")
+                .content(
+                        """
+                        Dear [[${firstName}]] [[${lastName}]],
+
+                        This is to notify you of your test result for [[${testName}]].
+                        Results are [[${message}]].
+                        
+                        Thank you!
+                        """)
+                .variables(List.of(
+                        FIRST_NAME,
+                        LAST_NAME,
+                        "testName",
+                        "message"))
+                .build();
+        OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3768"))
+                .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
+                .message("Your test ${testName} result is ${message}.")
+                .variables(List.of("testName", "message"))
+                .build();
+        OpenCDXMessageTemplateModel openCDXMessageTemplateModel = OpenCDXMessageTemplateModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3769"))
+                .messageType(MessageType.INFO)
+                .variables(List.of("testName", "message"))
+                .content("Your test ${testName} result is ${message}.")
+                .build();
+        OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
+                .id(new ObjectId("60f1e6b1f075a361a94d3770"))
+                .eventName("Test Result")
+                .eventDescription("Result for the tests undergone")
+                .emailTemplateId(new ObjectId("60f1e6b1f075a361a94d3767"))
+                .emailRetry(4)
+                .smsTemplateId(new ObjectId("60f1e6b1f075a361a94d3768"))
+                .smsRetry(4)
+                .messageTemplateId(new ObjectId("60f1e6b1f075a361a94d3769"))
+                .priority(NotificationPriority.NOTIFICATION_PRIORITY_HIGH)
+                .build();
+        openCDXEmailTemplateRepository.save(openCDXEmailTemplateModel);
+        openCDXSMSTemplateRespository.save(openCDXSMSTemplateModel);
+        openCDXMessageTemplateRepository.save(openCDXMessageTemplateModel);
+        openCDXNotificationEventRepository.save(openCDXNotificationEventModel);
+    }
+
 }
