@@ -128,7 +128,7 @@
     {
       "type": "boolean",
       "linkId": "4051866307723",
-      "text": "Please confirm you have not urinated more than 30 minutes prior to taking the measurement.",
+      "text": "Please confirm you have urinated less than 30 minutes prior to taking the measurement.",
       "required": false,
       "repeats": false,
       "readOnly": false,
