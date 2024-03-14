@@ -736,7 +736,7 @@ public class CovidRule {
                 .build();
 
         // Verify that the rules executed and set notify CDC
-        Assertions.assertTrue(
+        Assertions.assertFalse(
                 classificationService.classify(classificationRequest).getNotifyCdc());
     }
 

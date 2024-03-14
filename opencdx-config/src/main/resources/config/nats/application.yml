@@ -4,6 +4,10 @@
 nats:
   spring:
     server: nats://nats:4222
+    connection-name: ${spring.application.name}
+    reconnect-buffer-size: 5242880
+    max-reconnect: 6
+    reconnect-wait: 10
     keyStorePath: /certs/opencdx-keystore.p12
     keyStorePassword: ${keystore.password}
     keyStoreType: PKCS12

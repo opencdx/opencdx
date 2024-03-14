@@ -33,6 +33,7 @@ import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.observation.aop.ObservedAspect;
 import io.micrometer.tracing.Tracer;
 import io.nats.client.Connection;
+import io.nats.client.ConnectionListener;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -74,6 +75,12 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    @Bean
+    public ConnectionListener createConnectionListener() {
+        return (conn, type) -> log.error(
+                "Connection Event: {}  Connection: {}", type, conn.getStatus().name());
     }
 
     @Bean
