@@ -3249,7 +3249,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;requisitionBase64&quot;: &quot;amet dolor&quot;,
         &quot;specimenType&quot;: &quot;sed exercitation&quot;,
         &quot;specimenId&quot;: &quot;sint eu voluptate cupidatat&quot;,
-        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;
+        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;,
+        &quot;testName&quot;: &quot;Connected Test A&quot;
     },
     &quot;testNotes&quot;: {
         &quot;diagnosticNotes&quot;: &quot;qui ullamco&quot;,
@@ -3482,7 +3483,8 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
         &quot;requisitionBase64&quot;: &quot;amet dolor&quot;,
         &quot;specimenType&quot;: &quot;sed exercitation&quot;,
         &quot;specimenId&quot;: &quot;sint eu voluptate cupidatat&quot;,
-        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;
+        &quot;testClassification&quot;: &quot;magna enim id qui officia&quot;,
+        &quot;testName&quot;: &quot;Connected Test B&quot;
     },
     &quot;testNotes&quot;: {
         &quot;diagnosticNotes&quot;: &quot;qui ullamco&quot;,
@@ -9229,7 +9231,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;labTestType&quot;: &quot;labTestType&quot;,&#xd;
     &quot;specimenType&quot;: &quot;specimanType&quot;,&#xd;
     &quot;medicalCode&quot;: &quot;medicalCode&quot;,&#xd;
-    &quot;testName&quot;: &quot;&quot;,&#xd;
+    &quot;testName&quot;: &quot;Connected Test C&quot;,&#xd;
     &quot;testFormat&quot;: &quot;TEST_FORMAT_UNSPECIFIED&quot;&#xd;
   }&#xd;
 }</stringProp>
@@ -9464,7 +9466,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;labTestType&quot;: &quot;labTestType&quot;,&#xd;
     &quot;specimenType&quot;: &quot;specimanType&quot;,&#xd;
     &quot;medicalCode&quot;: &quot;medicalCode&quot;,&#xd;
-    &quot;testName&quot;: &quot;&quot;,&#xd;
+    &quot;testName&quot;: &quot;Connected Test D&quot;,&#xd;
     &quot;testFormat&quot;: &quot;TEST_FORMAT_UNSPECIFIED&quot;&#xd;
   }&#xd;
 }</stringProp>

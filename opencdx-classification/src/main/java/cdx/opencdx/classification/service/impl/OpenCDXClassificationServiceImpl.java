@@ -45,10 +45,7 @@ import cdx.opencdx.grpc.shipping.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -269,10 +266,12 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     }
 
     private void processClassification(OpenCDXClassificationModel model) {
+
+        sendTestResults(model);
+
         if (model.getClassificationResponse() != null
                 && model.getClassificationResponse().hasTestKit()) {
             orderTestCase(model);
-            sendTestResults(model); //  DeliveryTrackingResponse createDeliveryTracking(De
         }
 
         if (model.getClassificationResponse().getNotifyCdc()) {
@@ -369,29 +368,36 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         map.put("firstName", patient.getFullName().getFirstName());
         map.put("lastName", patient.getFullName().getLastName());
         map.put("testName", testName);
-        map.put("message", classificationResponse.getMessage());
+        map.put("message", classificationResponse.getFurtherActions());
 
         Notification.Builder builder = Notification.newBuilder()
                 .setEventId(OpenCDXCommunicationService.TEST_RESULT)
                 .putAllVariables(map);
         builder.setPatientId(patient.getId().toHexString());
 
-        EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
-                .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
-                .findFirst()
-                .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
-                        .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
-                        .findFirst()
-                        .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
-                                .findFirst()
-                                .orElse(null)));
+        EmailAddress emailAddress = null;
+        if (!patient.getPrimaryContactInfo().getEmailsList().isEmpty()) {
+            emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                            .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                            .findFirst()
+                            .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                                    .findFirst()
+                                    .orElse(null)));
+        }
         if (emailAddress != null) {
             builder.addAllToEmail(List.of(emailAddress.getEmail()));
         }
-        List<String> mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
-                .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
-                .map(PhoneNumber::getNumber)
-                .toList();
+        List<String> mobileList = Collections.emptyList();
+
+        if (!patient.getPrimaryContactInfo().getPhoneNumbersList().isEmpty()) {
+            mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                    .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .map(PhoneNumber::getNumber)
+                    .toList();
+        }
         if (!mobileList.isEmpty()) {
             builder.addAllToPhoneNumber(mobileList);
         }
