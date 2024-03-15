@@ -19,6 +19,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
@@ -120,11 +121,18 @@ class OpenCDXIAMProviderGrpcControllerTest {
                     }
                 });
 
+        // this.openCDXCurrentUser = mock(OpenCDXCurrentUser.class);
+        Mockito.when(openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
                 this.openCDXIAMProviderRepository,
                 this.openCDXAuditService,
                 this.objectMapper,
-                this.openCDXCountryRepository);
+                this.openCDXCountryRepository,
+                this.openCDXCurrentUser);
 
         this.openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
         MockitoAnnotations.openMocks(this);

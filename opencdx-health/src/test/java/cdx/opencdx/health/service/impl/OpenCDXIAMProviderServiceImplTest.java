@@ -21,8 +21,10 @@ import static org.mockito.Mockito.*;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXNotFound;
 import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.provider.DeleteProviderRequest;
 import cdx.opencdx.grpc.provider.GetProviderRequest;
 import cdx.opencdx.grpc.provider.LoadProviderRequest;
@@ -80,6 +82,9 @@ class OpenCDXIAMProviderServiceImplTest {
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
 
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
+
     @BeforeEach
     void beforeEach() throws JsonProcessingException {
         this.objectMapper = mock(ObjectMapper.class);
@@ -101,7 +106,8 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXIAMProviderRepository,
                 this.openCDXAuditService,
                 this.objectMapper,
-                this.openCDXCountryRepository);
+                this.openCDXCountryRepository,
+                this.openCDXCurrentUser);
     }
 
     @Test
@@ -124,11 +130,17 @@ class OpenCDXIAMProviderServiceImplTest {
                 .build();
         this.objectMapper1 = mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+        this.openCDXCurrentUser = mock(OpenCDXCurrentUser.class);
+        Mockito.when(openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
                 this.openCDXIAMProviderRepository,
                 this.openCDXAuditService,
                 this.objectMapper1,
-                this.openCDXCountryRepository);
+                this.openCDXCountryRepository,
+                this.openCDXCurrentUser);
         Assertions.assertThrows(
                 OpenCDXNotAcceptable.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
     }
