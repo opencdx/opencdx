@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Text } from 'react-native-paper';

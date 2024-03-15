@@ -1,0 +1,21 @@
+# Properties for NATS go here.
+
+# See https://github.com/nats-io/spring-nats/blob/main/nats-spring/src/main/java/io/nats/spring/boot/autoconfigure/NatsConnectionProperties.java
+nats:
+  spring:
+    server: nats://nats:4222
+    connection-name: ${spring.application.name}
+    reconnect-buffer-size: 5242880
+    max-reconnect: 6
+    reconnect-wait: 10
+    keyStorePath: /certs/opencdx-keystore.p12
+    keyStorePassword: ${keystore.password}
+    keyStoreType: PKCS12
+    trustStorePath: /certs/opencdx-keystore.p12
+    trustStorePassword: ${truststore.password}
+    trustStoreType: PKCS12
+
+keystore:
+  password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='
+truststore:
+  password: '{cipher}AQADXNLA7chsQBDvpjwopq+NhAQ8JCgKJhnF2uQlGNRuCTm/N5cVuxoSFn2dkum8nSZHfXL5HfTZFF234Oz0LSZ9g2z4Qs4jQbNNCx2+JnzScSBjZknJfGujzXKiHFQRWDLdPPOoMyTrE20PLA9LIKxiVXhi3rOff5eEg6bvl43uHNEqgJEvB6ZKxVzBCfSkdEWM+/vBmfIX8MMh3PyqB4U/WrrIYTAYVPSxg5iekZrBfIYdgmIHlAmFx87mlOqmDpT62LZiWE1x9Kac2ojTtCA7BivZhkBtWTGseguPJYv+fJvi65+Mw23RGj5B5HsSPRB2h4cyLq+AleLzEwTFGoKoJgW1ltNgrytUei/OiFLnNZjaKWBjD/E3nUwztI09Q7k='
