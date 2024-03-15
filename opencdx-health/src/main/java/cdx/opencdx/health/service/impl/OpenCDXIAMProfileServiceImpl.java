@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.service.impl;
+package cdx.opencdx.health.service.impl;
 
 import cdx.opencdx.commons.exceptions.OpenCDXConflict;
 import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
@@ -27,7 +27,7 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.profile.*;
-import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
+import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;

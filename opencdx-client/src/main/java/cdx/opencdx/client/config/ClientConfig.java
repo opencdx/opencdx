@@ -159,10 +159,10 @@ public class ClientConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "opencdx.client.iam", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "opencdx.client.health", name = "enabled", havingValue = "true")
     OpenCDXIAMProfileClient openCDXIAMProfileClient(
-            @Value("${opencdx.client.iam.server}") String server,
-            @Value("${opencdx.client.iam.port}") Integer port,
+            @Value("${opencdx.client.health.server}") String server,
+            @Value("${opencdx.client.health.port}") Integer port,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
         return new OpenCDXIAMProfileClientImpl(server, port, observationGrpcClientInterceptor);
