@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     surface: {
         margin: 5,
         elevation: 2,
-        justifyContent: 'space-between',
         alignItems: 'center',
         padding: 10,
         
@@ -66,8 +65,8 @@ const styles = StyleSheet.create({
                
             },
             default: {
-                width: 300,
-                height: 120,
+                width: 100,
+                height: 100,
             }
         })
     },
