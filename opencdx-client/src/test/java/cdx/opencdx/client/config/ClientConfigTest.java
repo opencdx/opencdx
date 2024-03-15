@@ -37,20 +37,24 @@ class ClientConfigTest {
     void openCDXANFClient() throws IOException, NoSuchFieldException, IllegalAccessException {
         this.observationGrpcClientInterceptor = Mockito.mock(ObservationGrpcClientInterceptor.class);
         ClientConfig clientConfig = new ClientConfig();
+        String server = "server";
+        Integer port = 9090;
+        String trustStore = "../certs/opencdx-clients.pem";
         clientConfig.observationGrpcClientInterceptor(observationRegistry);
-        clientConfig.openCDXANFClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXAuditClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXClassificationClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXCommunicationClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXHelloworldClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMOrganizationClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMProfileClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMUserClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXIAMWorkspaceClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXPredictorClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXProtectorClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXProviderClient("server", 9090, observationGrpcClientInterceptor);
-        clientConfig.openCDXRoutineClient("server", 9090, observationGrpcClientInterceptor);
-        Assertions.assertNotNull(clientConfig.openCDXTinkarClient("server", 9090, observationGrpcClientInterceptor));
+        clientConfig.openCDXANFClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXAuditClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXClassificationClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXCommunicationClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXHelloworldClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXIAMOrganizationClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXIAMProfileClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXIAMUserClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXIAMWorkspaceClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXPredictorClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXProtectorClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXProviderClient(server, port, trustStore, observationGrpcClientInterceptor);
+        clientConfig.openCDXRoutineClient(server, port, trustStore, observationGrpcClientInterceptor);
+        Assertions.assertNotNull(
+                clientConfig.openCDXTinkarClient(server, port, trustStore, observationGrpcClientInterceptor));
     }
 }

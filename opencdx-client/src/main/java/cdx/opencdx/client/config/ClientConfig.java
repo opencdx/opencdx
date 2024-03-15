@@ -17,9 +17,14 @@ package cdx.opencdx.client.config;
 
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.client.service.impl.*;
+import io.grpc.ManagedChannel;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.ObservationRegistry;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.net.ssl.SSLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +36,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Provides the Client configuration to create gRPC Clients to communicate with
- * gRPC based mircroservices.
+ * gRPC based microservices.
  */
 @Slf4j
 @AutoConfiguration
@@ -63,9 +68,10 @@ public class ClientConfig {
     OpenCDXMediaClient openCDXMediaClient(
             @Value("${opencdx.client.media.server}") String server,
             @Value("${opencdx.client.media.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXMediaClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXMediaClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -73,9 +79,10 @@ public class ClientConfig {
     OpenCDXANFClient openCDXANFClient(
             @Value("${opencdx.client.anf.server}") String server,
             @Value("${opencdx.client.anf.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXANFClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXANFClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -83,9 +90,10 @@ public class ClientConfig {
     OpenCDXAuditClient openCDXAuditClient(
             @Value("${opencdx.client.audit.server}") String server,
             @Value("${opencdx.client.audit.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXAuditClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXAuditClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -93,9 +101,11 @@ public class ClientConfig {
     OpenCDXClassificationClient openCDXClassificationClient(
             @Value("${opencdx.client.classification.server}") String server,
             @Value("${opencdx.client.classification.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXClassificationClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXClassificationClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -103,9 +113,11 @@ public class ClientConfig {
     OpenCDXCommunicationClient openCDXCommunicationClient(
             @Value("${opencdx.client.communication.server}") String server,
             @Value("${opencdx.client.communication.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws IOException {
-        return new OpenCDXCommunicationClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXCommunicationClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -113,9 +125,11 @@ public class ClientConfig {
     OpenCDXConnectedTestClient openCDXConnectedTestClient(
             @Value("${opencdx.client.health.server}") String server,
             @Value("${opencdx.client.health.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXConnectedTestClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXConnectedTestClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -123,9 +137,10 @@ public class ClientConfig {
     OpenCDXCountryClient openCDXCountryClient(
             @Value("${opencdx.client.logistics.server}") String server,
             @Value("${opencdx.client.logistics.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXCountryClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXCountryClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -133,9 +148,10 @@ public class ClientConfig {
     OpenCDXDeviceClient openCDXDeviceClient(
             @Value("${opencdx.client.logistics.server}") String server,
             @Value("${opencdx.client.logistics.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXDeviceClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXDeviceClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -143,9 +159,11 @@ public class ClientConfig {
     OpenCDXHelloworldClient openCDXHelloworldClient(
             @Value("${opencdx.client.helloworld.server}") String server,
             @Value("${opencdx.client.helloworld.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXHelloworldClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXHelloworldClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -153,9 +171,11 @@ public class ClientConfig {
     OpenCDXIAMOrganizationClient openCDXIAMOrganizationClient(
             @Value("${opencdx.client.iam.server}") String server,
             @Value("${opencdx.client.iam.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMOrganizationClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXIAMOrganizationClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -163,9 +183,11 @@ public class ClientConfig {
     OpenCDXIAMProfileClient openCDXIAMProfileClient(
             @Value("${opencdx.client.iam.server}") String server,
             @Value("${opencdx.client.iam.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMProfileClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXIAMProfileClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -173,9 +195,10 @@ public class ClientConfig {
     OpenCDXIAMUserClient openCDXIAMUserClient(
             @Value("${opencdx.client.iam.server}") String server,
             @Value("${opencdx.client.iam.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMUserClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXIAMUserClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -183,9 +206,11 @@ public class ClientConfig {
     OpenCDXIAMWorkspaceClient openCDXIAMWorkspaceClient(
             @Value("${opencdx.client.iam.server}") String server,
             @Value("${opencdx.client.iam.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXIAMWorkspaceClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXIAMWorkspaceClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -193,9 +218,11 @@ public class ClientConfig {
     OpenCDXManufacturerClient openCDXManufacturerClient(
             @Value("${opencdx.client.logistics.server}") String server,
             @Value("${opencdx.client.logistics.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXManufacturerClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXManufacturerClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -203,9 +230,11 @@ public class ClientConfig {
     OpenCDXPredictorClient openCDXPredictorClient(
             @Value("${opencdx.client.predictor.server}") String server,
             @Value("${opencdx.client.predictor.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXPredictorClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXPredictorClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -213,9 +242,11 @@ public class ClientConfig {
     OpenCDXProtectorClient openCDXProtectorClient(
             @Value("${opencdx.client.protector.server}") String server,
             @Value("${opencdx.client.protector.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXProtectorClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXProtectorClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -223,9 +254,10 @@ public class ClientConfig {
     OpenCDXProviderClient openCDXProviderClient(
             @Value("${opencdx.client.provider.server}") String server,
             @Value("${opencdx.client.provider.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXProviderClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXProviderClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -233,9 +265,11 @@ public class ClientConfig {
     OpenCDXQuestionnaireClient openCDXQuestionnaireClient(
             @Value("${opencdx.client.questionnaire.server}") String server,
             @Value("${opencdx.client.questionnaire.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXQuestionnaireClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXQuestionnaireClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -243,9 +277,10 @@ public class ClientConfig {
     OpenCDXRoutineClient openCDXRoutineClient(
             @Value("${opencdx.client.routine.server}") String server,
             @Value("${opencdx.client.routine.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXRoutineClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXRoutineClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -253,9 +288,10 @@ public class ClientConfig {
     OpenCDXTestCaseClient openCDXTestCaseClient(
             @Value("${opencdx.client.logistics.server}") String server,
             @Value("${opencdx.client.logistics.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXTestCaseClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXTestCaseClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -263,9 +299,10 @@ public class ClientConfig {
     OpenCDXTinkarClient openCDXTinkarClient(
             @Value("${opencdx.client.tinkar.server}") String server,
             @Value("${opencdx.client.tinkar.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXTinkarClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXTinkarClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -273,9 +310,10 @@ public class ClientConfig {
     OpenCDXVendorClient openCDXVendorClient(
             @Value("${opencdx.client.logistics.server}") String server,
             @Value("${opencdx.client.logistics.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXVendorClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXVendorClientImpl(createChannel(server, port, trustStore, observationGrpcClientInterceptor));
     }
 
     @Bean
@@ -283,8 +321,28 @@ public class ClientConfig {
     OpenCDXLabConnectedClient openCDXLabConnectedClient(
             @Value("${opencdx.client.connected-lab.server") String server,
             @Value("${opencdx.client.connected-lab.port}") Integer port,
+            @Value("${opencdx.client.trustStore}") String trustStore,
             ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
             throws SSLException {
-        return new OpenCDXLabConnectedClientImpl(server, port, observationGrpcClientInterceptor);
+        return new OpenCDXLabConnectedClientImpl(
+                createChannel(server, port, trustStore, observationGrpcClientInterceptor));
+    }
+
+    private ManagedChannel createChannel(
+            String server,
+            Integer port,
+            String trustStore,
+            ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
+            throws SSLException {
+        try (InputStream certChain = new FileInputStream(trustStore)) {
+            return NettyChannelBuilder.forAddress(server, port)
+                    .intercept(observationGrpcClientInterceptor)
+                    .useTransportSecurity()
+                    .sslContext(
+                            GrpcSslContexts.forClient().trustManager(certChain).build())
+                    .build();
+        } catch (IOException e) {
+            throw new SSLException("Could not load certificate chain");
+        }
     }
 }

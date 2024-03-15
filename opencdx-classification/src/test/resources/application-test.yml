@@ -48,6 +48,7 @@ opencdx:
   classification:
     format: "%s!"
   client:
+    trustStore: ../certs/opencdx-clients.pem
     audit:
       server: audit
       port: 9090
