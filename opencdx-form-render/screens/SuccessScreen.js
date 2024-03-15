@@ -1,16 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import { Button, ButtonText } from '@gluestack-ui/themed';
-import { Text } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import AnimatedCard from '../components/AnimatedCard';
 
 
 const SuccessScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Ionicons name="md-checkmark-circle" size={120} color="green" />
-            <Text style={styles.textTitle}> Success</Text>
-            <Text style={styles.text}> Questionnaire Data Saved</Text>
+            <AnimatedCard navigation={navigation} link='List' src={require('../assets/success.json')} title={'Success'} subtitle={'Questionnaire Data Saved'} />
+            
             <Button
                 style={styles.input}
                 onPress={() => navigation.navigate('List')}

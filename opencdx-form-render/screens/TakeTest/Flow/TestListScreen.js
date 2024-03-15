@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Platform } from 'react-native';
-
+import { Surface } from 'react-native-paper';
 import { Ionicons , Entypo, AntDesign} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -41,25 +41,16 @@ const TestListScreen = () => {
                     <TouchableOpacity onPress={handleBack}>
                         <Ionicons name="arrow-back" size={24} color="black" />
                     </TouchableOpacity>
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search for Test"
-                        value={searchText}
-                        onChangeText={handleSearch}
-                    />
+                   
                 </View>
-                <View style={styles.popularTest}>
-                <Entypo name="lab-flask" size={24} color="green" />
-                                <Text style={styles.popularText}>
-
-                    Popular Tests
-                </Text>
-                </View>
+                
                 <FlatList
                     data={testList}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <View style={styles.sectionWrapper}>
+                        <TouchableOpacity style={{ marginLeft: 10, paddingTop: 2 }}
+                            onPress={() => navigation.navigate('TestDetails', { test: item })}>
+                        <Surface style={styles.sectionWrapper} elevation={2}>
                             <View style={styles.leftSection}>
                             <Text style={styles.description}
                             >{item.name}</Text>
@@ -68,12 +59,12 @@ const TestListScreen = () => {
                             </View>
                             <View style={styles.rightSection}>
                             <Text>${item.price}</Text>
-                            <TouchableOpacity  style={{marginLeft: 10, paddingTop: 2}}
-                            onPress={() => navigation.navigate('TestDetails', { test: item })}>
+                           
                             <AntDesign name="right" size={16} color="green" />
-                            </TouchableOpacity>
                             </View>
-                        </View>
+                        </Surface>
+                        </TouchableOpacity>
+
                     )}
                 />
             </SafeAreaView>
@@ -86,7 +77,7 @@ const styles = {
         flex: 1,
         shadowColor: "#000",
         backgroundColor: '#fff',
-        paddingRight: 10,
+        margin: 10,
         ...Platform.select({
             web: {
                 width: 500,
@@ -147,10 +138,14 @@ const styles = {
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#f0f0f0',
-        paddingVertical: 5,
-
-
+        height: 80,
+        marginBottom: 10,
+        borderRadius: 5,
+        padding: 10,
+        margin: 5,
+        
     },
+
     leftSection: {
         padding: 10,
         flexDirection: 'column',

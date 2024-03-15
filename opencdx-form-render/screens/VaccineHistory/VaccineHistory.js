@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Platform } from 'react-native';
-import {Text} from 'react-native-paper';
+import { Surface, Text } from 'react-native-paper';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -27,20 +27,16 @@ const VaccineHistory = ({navigation}) => {
                     renderItem={({ item }) => (
                         <TouchableOpacity 
                             onPress={() => navigation.navigate('TestRecord', { test: item })}>
-                        <View style={styles.sectionWrapper}>
+                            <Surface style={styles.surface} elevation={2}>
                             <View style={styles.leftSection}>
                                 <Text variant='titleMedium'
                                 >{item.name}</Text>
                                 <Text variant='titleSmall'
                                 >{item.description}</Text>
                             </View>
-                            <View style={styles.rightSection}>
-                               
-                                    <AntDesign name="right" size={16} color="green" />
-                               
-                            </View>
+                            
 
-                        </View>
+                            </Surface>
                         </TouchableOpacity>
                     )}
                 />
@@ -65,6 +61,11 @@ const styles = {
                 justifyContent: 'space-between',
             }
         })
+    },
+    surface: {
+        padding: 8,
+        margin: 5,
+       
     },
     popularTest: {
         backgroundColor: '#ebf0f5',
@@ -100,8 +101,7 @@ const styles = {
     leftSection: {
         padding: 10,
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
+      
 
 
     },

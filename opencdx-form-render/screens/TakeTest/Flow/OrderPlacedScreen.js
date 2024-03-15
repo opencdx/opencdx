@@ -1,37 +1,64 @@
 import React from 'react';
-import { View, Text, Platform , Button, ButtonText} from 'react-native';
+import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
+import AnimatedCard from '../../../components/AnimatedCard';
 
 
+const OrderPlacedScreen = ({ navigation }) => {
 
-const OrderPlacedScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
-            <Text>Your order has been submitted for processing.</Text>
-            <Text>Your order number is: 2024CD-0528</Text>
-            <Button title="Ok" style={styles.button} onPress={() => navigation.navigate('List')}>
-            </Button>
+            <SafeAreaView style={styles.body}>
+                <AnimatedCard navigation={navigation} link='List' src={require('../../../assets/success.json')} title='Order Placed' subtitle='Your order has been submitted for processing.' />
+            </SafeAreaView>
         </View>
     );
 };
-const styles = {
+const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
         shadowColor: "#000",
-        backgroundColor: '#fff',
-        padding: 10,
-        ...Platform.select({
+        margin: 'auto',
+        ...(Platform.select({
             web: {
-                width: 500,
-                margin: 'auto',
-                justifyContent: 'center',
-                alignItems: 'center',
+                minWidth: 500,
             },
             default: {
-                alignItems: 'center',
-                justifyContent: 'center',
-            }
-        })
+                margin: 20,
+                shadowColor: "#000",
+            },
+        })),
     },
-};
+
+    surface: {
+        margin: 5,
+        elevation: 2,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+
+    },
+    leftSection: {
+
+    },
+
+    animationContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+
+
+    },
+    buttonContainer: {
+        paddingTop: 20,
+    },
+    button: {
+
+        marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 68,
+
+    },
+
+});
 
 export default OrderPlacedScreen;

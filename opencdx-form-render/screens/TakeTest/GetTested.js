@@ -1,38 +1,19 @@
 import React from 'react';
 import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import {  Text } from 'react-native-paper';
 
-const GetTested = ({navigation}) => {
+import AnimatedCard from '../../components/AnimatedCard';
+
+const GetTested = ({ navigation }) => {
+
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.body}>
-            <Text  variant='titleMedium'>
-Select how you would like to get tested            </Text>
-                <Button 
-                style={styles.button}
-                icon="arrow-right"
-                contentStyle={{flexDirection: 'row-reverse'}}
-                
-                 mode='contained-tonal'   onPress={() => navigation.navigate('TestKit')}>
-                I have a Test Kit
-            </Button>
-            <Button
-                    style={styles.button}
-
-            icon="arrow-right"
-            contentStyle={{flexDirection: 'row-reverse'}}
-            mode='contained-tonal' onPress={() => navigation.navigate('TestList')}>
-                Order a Test Kit
-            </Button>
-            <Button
-                    style={styles.button}
-
-            icon="arrow-right"
-            contentStyle={{flexDirection: 'row-reverse'}}
-            mode='contained-tonal' onPress={() => navigation.navigate('ScheduleAppointment')}>
-                Schedule Appointment
-            </Button>
-            
+                <Text variant='titleMedium'>
+                    Select how you would like to get tested            </Text>
+                    <AnimatedCard navigation={navigation} link='ScheduleAppointment' src={require('../../assets/schedule.json')} title='Schedule Appointment' subtitle='Schedule an appointment to get tested' />
+                    <AnimatedCard navigation={navigation} link='TestKit' src={require('../../assets/test.json')} title='I have a Test Kit' subtitle='I have a test kit and need to submit my results' />
+                    <AnimatedCard navigation={navigation} link='TestList' src={require('../../assets/lab2.json')} title='Order a Test Kit' subtitle='I need to order a test kit' />
             </SafeAreaView>
         </View>
     );
@@ -41,7 +22,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        padding: 8,
         shadowColor: "#000",
         margin: 'auto',
         ...(Platform.select({
@@ -50,20 +30,19 @@ const styles = StyleSheet.create({
             },
             default: {
                 margin: 20,
-                shadowColor: "#000",
+               
             },
         })),
     },
-   
-   button: {
 
-        marginTop: 10,
+    body: {
+        paddingBottom: 20,
+        paddingTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 68,
+        width: '100%', 
         
     },
-   
 });
 
 export default GetTested;

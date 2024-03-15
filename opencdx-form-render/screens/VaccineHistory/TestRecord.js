@@ -23,7 +23,7 @@ const TestRecord = ({ navigation }) => {
 
             {/* Add missing styles */}
             <View style={styles.footer}>
-                <Button mode="contained-tonal" width='100%' title="Sign In" style={styles.button} onPress={() => navigation.navigate('List')}>
+                <Button mode="contained-tonal"  title="Sign In" style={styles.button} onPress={() => navigation.navigate('List')}>
                     Back               </Button>
 
 
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     button: {
+        width: '90%',
     },
 
 });

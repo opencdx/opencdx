@@ -71,7 +71,7 @@ const ListScreen = ({ navigation }) => {
                 </LinearGradient>
 
                 {renderLinearGradientButton(
-                    'Text History',
+                    'Test History',
                     'See your test history.',
                     () => navigation.navigate('TestHistory')
                 )}

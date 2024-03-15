@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Text, Divider, Card } from 'react-native-paper';
 
 
 const TestHistory = ({ navigation }) => {
@@ -10,24 +10,32 @@ const TestHistory = ({ navigation }) => {
                 <Text style={styles.title} variant="titleLarge" size="md">
                     2024
                 </Text>
-                <View style={styles.section}>
-                    <Text variant="titleMedium" style={styles.paragraph}>Vaccine Type: Moderna/Spikevax</Text>
-                    <Text variant="titleMedium"  style={styles.paragraph}>Date: 2024-03-03</Text>
-                    <Text variant="titleMedium"  style={styles.paragraph}>Health Professional : CVS Parmacy</Text>
-                    <Text variant="titleMedium" style={styles.paragraph}>Country Administrated: United States</Text>
-                </View>
-                <View style={styles.inter}></View>
-                <View style={styles.section}>
-                    <Text variant="titleMedium" style={styles.paragraph}>Vaccine Type: Moderna/Spikevax</Text>
-                    <Text variant="titleMedium" style={styles.paragraph}>Date: 2024-03-03</Text>
-                    <Text variant="titleMedium" style={styles.paragraph}>Health Professional : CVS Parmacy</Text>
-                    <Text variant="titleMedium" style={styles.paragraph}>Country Administrated: United States</Text>
-                </View>
+                <Card>
+                    <Card.Content style={styles.section}>
+                        <Text variant="titleMedium">Vaccine Type: Moderna/Spikevax</Text>
+                        <Text variant="titleMedium">Date: 2024-03-03</Text>
+                        <Text variant="titleMedium">Health Professional : CVS Parmacy</Text>
+                        <Text variant="titleMedium">Country Administrated: United States</Text>
+                    </Card.Content>
+                   
+                </Card>
+                <Divider style={{ margin: 10 }} />
+               
+                <Card>
+                    <Card.Content style={styles.section}>
+                        <Text variant="titleMedium">Vaccine Type: Moderna/Spikevax</Text>
+                        <Text variant="titleMedium">Date: 2024-03-03</Text>
+                        <Text variant="titleMedium">Health Professional : CVS Parmacy</Text>
+                        <Text variant="titleMedium">Country Administrated: United States</Text>
+                    </Card.Content>
+
+                </Card>
+        
             </View>
             <View style={styles.footer}>
-                <Button mode="contained-tonal" width='100%' title="Sign In" style={styles.button} onPress={() => navigation.navigate('List')}>
+                <Button mode="contained-tonal"  title="Sign In" style={styles.button} onPress={() => navigation.navigate('List')}>
                     Add a record                </Button>
-                <Button mode="contained-tonal" width='100%' title="Sign In" style={styles.button} onPress={() => navigation.navigate('List')}>
+                <Button mode="contained-tonal"  title="Sign In" style={styles.button} onPress={() => navigation.navigate('List')}>
                     Go Back                </Button>
                 
             </View>
@@ -38,6 +46,8 @@ const TestHistory = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        shadowColor: "#000",
+        margin: 10,
         backgroundColor: '#fff',
         ...Platform.select({
             web: {
@@ -50,28 +60,20 @@ const styles = StyleSheet.create({
             }
         })
     },
-    inter: {
-        padding: 10,
-        backgroundColor: 'white',
-        marginBottom: 10,
-    },
-    section: {
-        padding: 10,
-        marginHorizontal: 10,
-        backgroundColor: 'paleturquoise',
-    },
+   
+    
     title: {
         marginTop: 10,
         marginBottom: 10,
         color: 'black',
         fontWeight: 'bold',
         fontSize: 18,
-        marginLeft: 10,
     },
     button: {
         marginTop: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        width: '90%',
         borderRadius: 68,
         ...Platform.select({
             web: {

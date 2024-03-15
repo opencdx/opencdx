@@ -37,8 +37,18 @@ const PriorVirtualConsult = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        shadowColor: '#000',
         backgroundColor: '#fff',
-        justifyContent: 'space-between',
+        ...Platform.select({
+            web: {
+                maxWidth: 500,
+                margin: 'auto',
+                justifyContent: 'center',
+            },
+            default: {
+                justifyContent: 'space-between',
+            },
+        }),
     },
     input: {
         textAlign: 'center',

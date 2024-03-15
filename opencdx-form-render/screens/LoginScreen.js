@@ -3,18 +3,26 @@ import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-    Image,
+    Button, Input, ButtonText, InputField, Image, Link, LinkText, Text,
+    InputSlot,
+    InputIcon,
+    EyeIcon,
+    EyeOffIcon,
+    Switch,
 } from '@gluestack-ui/themed';
-import { TextInput, Switch, Button, Text } from 'react-native-paper';
-
-
 const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState('admin@opencdx.org');
     const [password, setPassword] = useState('password');
-
-    const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-
-    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+    const [showPassword, setShowPassword] = useState(false)
+    const handleState = () => {
+        setShowPassword((showState) => {
+            return !showState
+        })
+    }
+    const [rememberMe, setRememberMe] = useState(false);
+    const toggleRememberMe = (value) => {
+        setRememberMe(value);
+    };
 
     const handleLogin = async () => {
         try {
@@ -36,26 +44,35 @@ const LoginScreen = ({ navigation }) => {
                     style={styles.image}
                     source={require('../assets/opencdx.png')}
                 />
-                <TextInput
-                    label="Email"
-                    mode='outlined'
-                    value={username}
+                <Input
+                    onChangeText={setUsername}
                     style={styles.input}
-                    onChangeText={username => setUsername(username)}
-                />
-                <TextInput
-                    label="Password"
-                    mode='outlined'
+                    variant="outlined"
+                    size="md"
+                >
+                    <InputField placeholder="Email  " defaultValue={username} />
+                </Input>
+                <Input
+                    onChangeText={setPassword}
                     style={styles.input}
-                    onChangeText={password => setPassword(password)}
-                    value={password}
-                    secureTextEntry
-                    right={<TextInput.Icon icon="eye" />}
-                />
-
+                    variant="outlined"
+                    size="md"
+                >
+                    <InputField type={showPassword ? "text" : "password"} placeholder="Password" defaultValue={password} />
+                    <InputSlot pr="$3" onPress={handleState}>
+                        <InputIcon
+                            as={showPassword ? EyeIcon : EyeOffIcon}
+                            color="$darkBlue500"
+                        />
+                    </InputSlot>
+                </Input>
                 <View style={styles.switchWrapper}>
                     <View style={styles.switch}>
-                        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} /><Text style={{ marginLeft: 10, marginTop: 10 }}
+                        <Switch
+                            value={rememberMe}
+                            onValueChange={(value) => toggleRememberMe(value)}
+
+                        /><Text style={{ marginLeft: 10 }}
                         >Remember Me</Text></View>
 
                     <Text style={styles.forget}>
@@ -63,8 +80,8 @@ const LoginScreen = ({ navigation }) => {
                 </View>
             </View>
             <View style={styles.footer}>
-                <Button mode="contained-tonal" width='100%' title="Sign In" style={styles.button} onPress={handleLogin}>
-                    Sign In
+                <Button title="Sign In" onPress={handleLogin} style={styles.button}>
+                    <ButtonText style={styles.buttonText}>Sign In</ButtonText>
                 </Button>
                 <View style={styles.center}>
                     <Text style={styles.centerText}>Don't have an account?</Text>
