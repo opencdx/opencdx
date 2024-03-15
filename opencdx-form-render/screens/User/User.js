@@ -214,6 +214,16 @@ const styles = StyleSheet.create({
             height: 2,
         },
         marginTop: 100,
+        ...Platform.select({
+            web: {
+                width: 500,
+                margin: 'auto',
+                justifyContent: 'center',
+            },
+            default: {
+                
+            }
+        })
     },
     popularTest: {
         backgroundColor: '#ebf0f5',

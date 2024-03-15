@@ -35,27 +35,10 @@ const AnimatedCard = ({ navigation, link, src, title, subtitle }) => {
 
 const styles = StyleSheet.create({
     surface: {
-        margin: 5,
+        margin: 10,
         elevation: 2,
         alignItems: 'center',
         padding: 10,
-        
-         ...Platform.select({
-             web: {
-                 marginTop:50,
-                 width: 350,
-                 height: 350,
-
-             },
-             default: {
-                    
-                   
-                
-             }
-         })
-
-       
-       
     },
     animation: {
         ...Platform.select({

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         margin: 'auto',
         ...(Platform.select({
             web: {
-                minWidth: 500,
+                maxWidth: 350,
             },
             default: {
                 margin: 20,
