@@ -47,6 +47,10 @@ public interface OpenCDXCommunicationService {
      */
     String CREATE_SHIPMENT = "60f1e6b1f075a361a94d3764";
     /**
+     * ID to create test results notification event.
+     */
+    String TEST_RESULT = "60f1e6b1f075a361a94d3770";
+    /**
      * Method to send a Notificaiton to opencdx-communication
      * @param notification Notificaiton to send.
      */

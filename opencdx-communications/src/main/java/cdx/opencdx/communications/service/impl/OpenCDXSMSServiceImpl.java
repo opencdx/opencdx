@@ -55,7 +55,7 @@ public class OpenCDXSMSServiceImpl implements OpenCDXSMSService {
         if (ListUtils.isEmpty(phoneNumbers)) {
             return true;
         }
-        log.info("Message has been sent. Message :\n {} , PhoneNumbers :\n {}", message, phoneNumbers);
+        log.info("Message has been sent. PhoneNumbers: {} \nMessage:\n {}", phoneNumbers, message);
         return true;
     }
 }
