@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import Constants from 'expo-constants';
-import FormRender from '../components/FormRender';
+import FormRender from '../../components/FormRender';
 import { Center, ScrollView } from '@gluestack-ui/themed';
 
-const HomeScreen = ({route,navigation}) => {
+const ListQuestion = ({route,navigation}) => {
     const { questionnaire } = route.params;
     return (
         <View style={styles.container}>
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HomeScreen;
+export default ListQuestion;
