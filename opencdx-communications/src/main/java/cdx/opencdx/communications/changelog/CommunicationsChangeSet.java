@@ -584,6 +584,7 @@ public class CommunicationsChangeSet {
         OpenCDXMessageTemplateModel openCDXMessageTemplateModel = OpenCDXMessageTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3769"))
                 .messageType(MessageType.INFO)
+                .title("Test/Questionnaire Results")
                 .variables(List.of(TEST_NAME, MESSAGE))
                 .content("Your test [[${testName}]] result is [[${message}]].")
                 .build();
