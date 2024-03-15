@@ -53,7 +53,7 @@ public class CommunicationsChangeSet {
     private static final String NOTIFICATIONS = "notifications";
     private static final String USER_NAME = "userName";
     private static final String NOTIFICATION = "notification";
-    public static final String TEST_NAME = "testName";
+    private static final String TEST_NAME = "testName";
 
     /**
      * Default Consructor

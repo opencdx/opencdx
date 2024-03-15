@@ -90,7 +90,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXClassificationRepository repository for classification
      * @param openCDXProfileRepository repository for profile
      * @param openCDXOrderMessageService service for order message
-     * @param openCDXCommunicationService
+     * @param openCDXCommunicationService service for communication
      * @param openCDXCDCPayloadService service for CDC payload
      * @param openCDXConnectedLabMessageService service for connected lab message
      */

@@ -49,7 +49,7 @@ public class OpenCDXRestCommunicationsController {
      *  @param openCDXNotificationService       service for processing requests.
      * @param openCDXCommunicationSmsService   service for processing SMS requests.
      * @param openCDXCommunicationEmailService service for processing email requests.
-     * @param openCDXMessageService
+     * @param openCDXMessageService        service for processing message requests.
      */
     @Autowired
     public OpenCDXRestCommunicationsController(

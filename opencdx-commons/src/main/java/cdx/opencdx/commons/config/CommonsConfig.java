@@ -77,6 +77,10 @@ public class CommonsConfig {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 
+    /**
+     * Connection Listener for NATS
+     * @return Connection Listener
+     */
     @Bean
     public ConnectionListener createConnectionListener() {
         return (conn, type) -> log.error(
