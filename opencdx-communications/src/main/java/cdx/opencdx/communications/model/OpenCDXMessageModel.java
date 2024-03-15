@@ -95,6 +95,7 @@ public class OpenCDXMessageModel {
         builder.setTitle(this.title);
         builder.setType(this.messageType);
         builder.setStatus(this.messageStatus);
+        builder.setMessage(this.message);
 
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.service.impl;
+package cdx.opencdx.health.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 import cdx.opencdx.commons.exceptions.OpenCDXConflict;
@@ -31,8 +30,7 @@ import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.profile.*;
-import cdx.opencdx.iam.config.AppProperties;
-import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
+import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
@@ -82,9 +80,6 @@ class OpenCDXIAMProfileServiceImplTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @Autowired
-    AppProperties appProperties;
 
     @Mock
     AuthenticationManager authenticationManager;

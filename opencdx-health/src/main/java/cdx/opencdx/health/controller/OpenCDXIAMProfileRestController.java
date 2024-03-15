@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.controller;
+package cdx.opencdx.health.controller;
 
 import cdx.opencdx.grpc.profile.*;
-import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
+import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

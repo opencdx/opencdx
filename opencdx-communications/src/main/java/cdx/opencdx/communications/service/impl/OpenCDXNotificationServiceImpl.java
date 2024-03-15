@@ -301,9 +301,9 @@ public class OpenCDXNotificationServiceImpl implements OpenCDXNotificationServic
         auditBuilder.setMessageContent(message);
 
         recordAudit(auditBuilder.build(), notificationEvent, openCDXNotificationModel.getPatientId());
-
         openCDXMessageRepository.save(OpenCDXMessageModel.builder()
                 .message(message)
+                .messageType(messageTemplate.getType())
                 .messageStatus(MessageStatus.UNREAD)
                 .patientId(openCDXNotificationModel.getPatientId())
                 .title(messageTemplate.getTitle())

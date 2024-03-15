@@ -340,7 +340,7 @@ public class OpenCDXRestCommunicationsController {
      * @param getMessagesRequest GetMessagesRequest
      * @return the GetMessagesResponse
      */
-    @GetMapping("/messages")
+    @PostMapping("/messages")
     public ResponseEntity<GetMessagesResponse> getMessages(@RequestBody GetMessagesRequest getMessagesRequest) {
         return new ResponseEntity<>(this.openCDXMessageService.getMessages(getMessagesRequest), HttpStatus.OK);
     }
