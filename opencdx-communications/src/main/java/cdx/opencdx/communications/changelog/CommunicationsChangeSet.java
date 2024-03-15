@@ -187,7 +187,7 @@ public class CommunicationsChangeSet {
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3745"))
                 .templateType(TemplateType.TEMPLATE_TYPE_ALERT)
-                .message("Please be advised you are receiving this alert for the following reason: ${reason}.")
+                .message("Please be advised you are receiving this alert for the following reason: [[${reason}]].")
                 .variables(List.of("reason"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -239,7 +239,7 @@ public class CommunicationsChangeSet {
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3748"))
                 .templateType(TemplateType.TEMPLATE_TYPE_REMINDER)
-                .message("Reminder: ${reminder}")
+                .message("Reminder: [[${reminder}]]")
                 .variables(List.of("reminder"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -293,7 +293,7 @@ public class CommunicationsChangeSet {
                 .id(new ObjectId("60f1e6b1f075a361a94d374b"))
                 .templateType(TemplateType.TEMPLATE_TYPE_CONFIRMATION)
                 .message(
-                        "This is to confirm you have ${confirmation}. If this is not accurate please contact OpenCDX immediately.")
+                        "This is to confirm you have [[${confirmation}]]. If this is not accurate please contact OpenCDX immediately.")
                 .variables(List.of("confirmation"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -452,7 +452,7 @@ public class CommunicationsChangeSet {
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3752"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
-                .message("your password has changed for account: ${userName}")
+                .message("Your password has changed for account: [[${userName}]]")
                 .variables(List.of(USER_NAME))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -495,15 +495,15 @@ public class CommunicationsChangeSet {
                         Dear [[${firstName}]] [[${lastName}]],
 
                         This is to notify you of [[${notification}]].
-                        The tracking number [[trackingNumber]] for
-                        item [[itemShipped]] to the following address:
-                        [[address1]]
-                        [[address2]]
-                        [[address3]]
-                        [[city]]
-                        [[postalCode]]
-                        [[state]]
-                        [[countryId]]
+                        The tracking number [[${trackingNumber}]] for
+                        item [[${itemShipped}]] to the following address:
+                        [[${address1}]]
+                        [[${address2}]]
+                        [[${address3}]]
+                        [[${city}]]
+                        [[${postalCode}]]
+                        [[${state}]]
+                        [[${countryId}]]
 
                         Thank you!
                         """)
@@ -524,7 +524,7 @@ public class CommunicationsChangeSet {
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3763"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
-                .message("Your item ${itemShipped} with tracking id ${trackingNumber} has been shipped.")
+                .message("Your item [[${itemShipped}]] with tracking id [[${trackingNumber}]] has been shipped.")
                 .variables(List.of("itemShipped", "trackingNumber"))
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
@@ -578,14 +578,14 @@ public class CommunicationsChangeSet {
         OpenCDXSMSTemplateModel openCDXSMSTemplateModel = OpenCDXSMSTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3768"))
                 .templateType(TemplateType.TEMPLATE_TYPE_NOTIFICATION)
-                .message("Your test ${testName} result is ${message}.")
+                .message("Your test [[${testName}]] result is [[${message}]].")
                 .variables(List.of(TEST_NAME, MESSAGE))
                 .build();
         OpenCDXMessageTemplateModel openCDXMessageTemplateModel = OpenCDXMessageTemplateModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3769"))
                 .messageType(MessageType.INFO)
                 .variables(List.of(TEST_NAME, MESSAGE))
-                .content("Your test ${testName} result is ${message}.")
+                .content("Your test [[${testName}]] result is [[${message}]].")
                 .build();
         OpenCDXNotificationEventModel openCDXNotificationEventModel = OpenCDXNotificationEventModel.builder()
                 .id(new ObjectId("60f1e6b1f075a361a94d3770"))
