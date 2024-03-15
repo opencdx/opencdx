@@ -2,6 +2,9 @@ import React from 'react';
 
 import { View, TextInput as RNTextInput, TextInputProps as RNTextInputProps, Text, StyleSheet } from 'react-native';
 import { useController, useFormContext } from 'react-hook-form';
+import { TextInput } from 'react-native-paper';
+import { DefaultTheme } from 'react-native-paper';
+
 const ControlledInput = (props) => {
     const formContext = useFormContext();
     const { formState } = formContext;
@@ -11,13 +14,17 @@ const ControlledInput = (props) => {
     return (
         <View style={styles.container}>
             <View>
-                <RNTextInput
+                <TextInput
+                    style={styles.input}
                     autoCapitalize="none"
                     textAlign="left"
-                    style={styles.input}
                     onChangeText={field.onChange}
-                    onBlur={field.onBlur}
                     value={field.value}
+                    mode="outlined"
+                    label={label}
+                    outlineColor="gray"
+                    activeOutlineColor="gray"
+                    theme={theme}
                     {...inputProps}
                 />
                 { hasError &&
@@ -29,7 +36,7 @@ const ControlledInput = (props) => {
         </View>
     );
 }
-export const TextInput = (props) => {
+export const FormInput = (props) => {
     const { name, rules, label, defaultValue, setFormError, ...inputProps } = props;
     const formContext = useFormContext();
     if (!formContext || !name) {
@@ -50,10 +57,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 5,
         fontSize: 16,
         height: 42,
     },
@@ -65,3 +68,11 @@ const styles = StyleSheet.create({
         color: 'red'
     }
 });
+
+const theme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        background: 'white',
+    },
+};

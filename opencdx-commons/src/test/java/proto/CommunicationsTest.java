@@ -112,8 +112,7 @@ class CommunicationsTest {
                 .setEventId("eventId")
                 .setSmsStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
                 .setEmailStatus(NotificationStatus.NOTIFICATION_STATUS_SENT)
-                .addAllPatientIds(
-                        List.of(ObjectId.get().toHexString(), ObjectId.get().toHexString()))
+                .setPatientId(ObjectId.get().toHexString())
                 .setTimestamp(Timestamp.newBuilder().setSeconds(1696732104))
                 .addAllToEmail(List.of("toEmail1", "toEmail2"))
                 .addAllCcEmail(List.of("ccEmail1", "ccEmail2"))

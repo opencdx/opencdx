@@ -25,12 +25,13 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
-import cdx.opencdx.grpc.common.Gender;
+import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.bson.types.ObjectId;
@@ -92,24 +93,22 @@ class OpenCDXRestClassificationControllerTest {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXProfileModel.builder()
                                 .id(argument)
+                                .fullName(FullName.newBuilder()
+                                        .setLastName("Bobby")
+                                        .setFirstName("Bob")
+                                        .build())
+                                .primaryContactInfo(ContactInfo.newBuilder()
+                                        .addAllEmails(List.of(EmailAddress.newBuilder()
+                                                .setEmail("bob@opencdx.org")
+                                                .setType(EmailType.EMAIL_TYPE_PERSONAL)
+                                                .build()))
+                                        .build())
                                 .nationalHealthId(UUID.randomUUID().toString())
                                 .userId(ObjectId.get())
                                 .build());
                     }
                 });
 
-        Mockito.when(this.openCDXProfileRepository.findById(Mockito.any(ObjectId.class)))
-                .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
-                    @Override
-                    public Optional<OpenCDXProfileModel> answer(InvocationOnMock invocation) throws Throwable {
-                        ObjectId argument = invocation.getArgument(0);
-                        return Optional.of(OpenCDXProfileModel.builder()
-                                .id(ObjectId.get())
-                                .nationalHealthId(UUID.randomUUID().toString())
-                                .userId(argument)
-                                .build());
-                    }
-                });
         Mockito.when(this.openCDXProfileRepository.findByNationalHealthId(Mockito.any(String.class)))
                 .thenAnswer(new Answer<Optional<OpenCDXProfileModel>>() {
                     @Override

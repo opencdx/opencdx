@@ -156,7 +156,7 @@ public class OpenCDXShippingVendorServiceImpl implements OpenCDXShippingVendorSe
             Notification.Builder builder = Notification.newBuilder()
                     .setEventId(OpenCDXCommunicationService.CREATE_SHIPMENT)
                     .putAllVariables(map);
-            builder.addAllPatientIds(List.of(patient.getId().toHexString()));
+            builder.setPatientId(patient.getId().toHexString());
 
             EmailAddress emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
                     .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))

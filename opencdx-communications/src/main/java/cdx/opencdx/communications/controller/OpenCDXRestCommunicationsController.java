@@ -17,7 +17,9 @@ package cdx.opencdx.communications.controller;
 
 import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
 import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
+import cdx.opencdx.communications.service.OpenCDXMessageService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
@@ -40,23 +42,26 @@ public class OpenCDXRestCommunicationsController {
     private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
+    private final OpenCDXMessageService openCDXMessageService;
 
     /**
      * Constructor that takes a OpenCDXNotificationService, OpenCDXCommunicationSmsService, OpenCDXCommunicationEmailService
-     *
-     * @param openCDXNotificationService       service for processing requests.
+     *  @param openCDXNotificationService       service for processing requests.
      * @param openCDXCommunicationSmsService   service for processing SMS requests.
      * @param openCDXCommunicationEmailService service for processing email requests.
+     * @param openCDXMessageService
      */
     @Autowired
     public OpenCDXRestCommunicationsController(
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
-            OpenCDXCommunicationEmailService openCDXCommunicationEmailService) {
+            OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
+            OpenCDXMessageService openCDXMessageService) {
         log.info("OpenCDXRestCommunicationsController created");
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
+        this.openCDXMessageService = openCDXMessageService;
     }
 
     /**
@@ -269,5 +274,100 @@ public class OpenCDXRestCommunicationsController {
             @RequestBody NotificationEventListRequest notificationEventListRequest) {
         return new ResponseEntity<>(
                 this.openCDXNotificationService.listNotificationEvents(notificationEventListRequest), HttpStatus.OK);
+    }
+
+    /**
+     * Create Message Template
+     *
+     * @param messageTemplate request for MessageTemplate.
+     * @return the requested MessageTemplate.
+     */
+    @PostMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MessageTemplate> createMessageTemplate(@RequestBody MessageTemplate messageTemplate) {
+        return new ResponseEntity<>(this.openCDXMessageService.createMessageTemplate(messageTemplate), HttpStatus.OK);
+    }
+
+    /**
+     * Get message template
+     *
+     * @param templateRequest request for TemplateRequest.
+     * @return the requested MessageTemplate.
+     */
+    @GetMapping("/messageTemplate")
+    public ResponseEntity<MessageTemplate> getMessageTemplate(@RequestBody TemplateRequest templateRequest) {
+        return new ResponseEntity<>(this.openCDXMessageService.getMessageTemplate(templateRequest), HttpStatus.OK);
+    }
+
+    /**
+     * Update a messageTemplate.
+     *
+     * @param messageTemplate the MessageTemplate
+     * @return the updated MessageTemplate
+     */
+    @PutMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MessageTemplate> updateMessageTemplate(@RequestBody MessageTemplate messageTemplate) {
+        return new ResponseEntity<>(this.openCDXMessageService.updateMessageTemplate(messageTemplate), HttpStatus.OK);
+    }
+
+    /**
+     * Delete Message with id.
+     *
+     * @param id the id of the MessageTemplate
+     * @return a SuccessResponse indicating if successful.
+     */
+    @DeleteMapping("/message/{id}")
+    public ResponseEntity<SuccessResponse> deleteMessageTemplate(@PathVariable String id) {
+        return new ResponseEntity<>(
+                this.openCDXMessageService.deleteMessageTemplate(
+                        TemplateRequest.newBuilder().setTemplateId(id).build()),
+                HttpStatus.OK);
+    }
+
+    /**
+     * List message templates
+     *
+     * @param pagination request for Pagination.
+     * @return the requested MessageTemplateListResponse.
+     */
+    @PostMapping(value = "/message/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MessageTemplateListResponse> listMessageTemplates(@RequestBody Pagination pagination) {
+        return new ResponseEntity<>(this.openCDXMessageService.listMessageTemplates(pagination), HttpStatus.OK);
+    }
+
+    /**
+     * Gets Messages with this id.
+     *
+     * @param getMessagesRequest GetMessagesRequest
+     * @return the GetMessagesResponse
+     */
+    @GetMapping("/messages")
+    public ResponseEntity<GetMessagesResponse> getMessages(@RequestBody GetMessagesRequest getMessagesRequest) {
+        return new ResponseEntity<>(this.openCDXMessageService.getMessages(getMessagesRequest), HttpStatus.OK);
+    }
+
+    /**
+     * List NotificationEvents
+     *
+     * @param markMessagesAsReadRequest MarkMessagesAsReadRequest
+     * @return the MarkMessagesAsReadResponse
+     */
+    @PostMapping(value = "/message/read", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MarkMessagesAsReadResponse> markMessageAsRead(
+            @RequestBody MarkMessagesAsReadRequest markMessagesAsReadRequest) {
+        return new ResponseEntity<>(
+                this.openCDXMessageService.markMessageAsRead(markMessagesAsReadRequest), HttpStatus.OK);
+    }
+
+    /**
+     * List NotificationEvents
+     *
+     * @param markMessagesAsUnreadRequest MarkMessagesAsUnreadRequest
+     * @return the MarkMessagesAsUnreadResponse
+     */
+    @PostMapping(value = "/message/unread", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MarkMessagesAsUnreadResponse> markMessageAsUnread(
+            @RequestBody MarkMessagesAsUnreadRequest markMessagesAsUnreadRequest) {
+        return new ResponseEntity<>(
+                this.openCDXMessageService.markMessageAsUnread(markMessagesAsUnreadRequest), HttpStatus.OK);
     }
 }

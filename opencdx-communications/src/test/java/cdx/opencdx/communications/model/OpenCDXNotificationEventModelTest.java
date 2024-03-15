@@ -45,6 +45,7 @@ class OpenCDXNotificationEventModelTest {
                 .setEventId(ObjectId.get().toHexString())
                 .setEmailTemplateId(ObjectId.get().toHexString())
                 .setSmsTemplateId(ObjectId.get().toHexString())
+                .setMessageTemplateId(ObjectId.get().toHexString())
                 .build();
 
         OpenCDXNotificationEventModel model = new OpenCDXNotificationEventModel(notificationEvent);

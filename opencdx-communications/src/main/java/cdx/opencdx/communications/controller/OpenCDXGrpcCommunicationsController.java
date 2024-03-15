@@ -17,7 +17,9 @@ package cdx.opencdx.communications.controller;
 
 import cdx.opencdx.communications.service.OpenCDXCommunicationEmailService;
 import cdx.opencdx.communications.service.OpenCDXCommunicationSmsService;
+import cdx.opencdx.communications.service.OpenCDXMessageService;
 import cdx.opencdx.communications.service.OpenCDXNotificationService;
+import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.communication.*;
 import io.grpc.stub.StreamObserver;
 import io.micrometer.observation.annotation.Observed;
@@ -38,22 +40,25 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
 
     private final OpenCDXCommunicationEmailService openCDXCommunicationEmailService;
     private final OpenCDXCommunicationSmsService openCDXCommunicationSmsService;
+    private final OpenCDXMessageService openCDXMessageService;
 
     /**
      * Constructor using the gRPC Communications Controller.
-     *
-     * @param openCDXNotificationService       service to process notifications
+     *  @param openCDXNotificationService       service to process notifications
      * @param openCDXCommunicationEmailService service to process email request
      * @param openCDXCommunicationSmsService   service to process SMS request
+     * @param openCDXMessageService
      */
     @Autowired
     public OpenCDXGrpcCommunicationsController(
             OpenCDXNotificationService openCDXNotificationService,
             OpenCDXCommunicationEmailService openCDXCommunicationEmailService,
-            OpenCDXCommunicationSmsService openCDXCommunicationSmsService) {
+            OpenCDXCommunicationSmsService openCDXCommunicationSmsService,
+            OpenCDXMessageService openCDXMessageService) {
         this.openCDXNotificationService = openCDXNotificationService;
         this.openCDXCommunicationEmailService = openCDXCommunicationEmailService;
         this.openCDXCommunicationSmsService = openCDXCommunicationSmsService;
+        this.openCDXMessageService = openCDXMessageService;
         log.info("OpenCDXGrpcCommunicationsController created");
     }
 
@@ -185,6 +190,72 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
             NotificationEventListRequest request, StreamObserver<NotificationEventListResponse> responseObserver) {
         log.trace("Received request to list notification events ");
         responseObserver.onNext(this.openCDXNotificationService.listNotificationEvents(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void createMessageTemplate(MessageTemplate request, StreamObserver<MessageTemplate> responseObserver) {
+        log.trace("Received request to create message template ");
+        responseObserver.onNext(this.openCDXMessageService.createMessageTemplate(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void getMessageTemplate(TemplateRequest request, StreamObserver<MessageTemplate> responseObserver) {
+        log.trace("Received request to get messages ");
+        responseObserver.onNext(this.openCDXMessageService.getMessageTemplate(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void updateMessageTemplate(MessageTemplate request, StreamObserver<MessageTemplate> responseObserver) {
+        log.trace("Received request to update message template ");
+        responseObserver.onNext(this.openCDXMessageService.updateMessageTemplate(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void deleteMessageTemplate(TemplateRequest request, StreamObserver<SuccessResponse> responseObserver) {
+        log.trace("Received request to delete message template ");
+        responseObserver.onNext(this.openCDXMessageService.deleteMessageTemplate(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void listMessageTemplates(Pagination request, StreamObserver<MessageTemplateListResponse> responseObserver) {
+        log.trace("Received request to list message templates ");
+        responseObserver.onNext(this.openCDXMessageService.listMessageTemplates(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void getMessages(GetMessagesRequest request, StreamObserver<GetMessagesResponse> responseObserver) {
+        log.trace("Received request to get messages ");
+        responseObserver.onNext(this.openCDXMessageService.getMessages(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void markMessageAsRead(
+            MarkMessagesAsReadRequest request, StreamObserver<MarkMessagesAsReadResponse> responseObserver) {
+        log.trace("Received request to mark message as read ");
+        responseObserver.onNext(this.openCDXMessageService.markMessageAsRead(request));
+        responseObserver.onCompleted();
+    }
+
+    @Secured({})
+    @Override
+    public void markMessageAsUnread(
+            MarkMessagesAsUnreadRequest request, StreamObserver<MarkMessagesAsUnreadResponse> responseObserver) {
+        log.trace("Received request to mark message as unread ");
+        responseObserver.onNext(this.openCDXMessageService.markMessageAsUnread(request));
         responseObserver.onCompleted();
     }
 }

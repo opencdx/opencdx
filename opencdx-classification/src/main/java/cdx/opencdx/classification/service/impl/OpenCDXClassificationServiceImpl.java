@@ -29,9 +29,10 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
-import cdx.opencdx.grpc.common.Address;
-import cdx.opencdx.grpc.common.AddressPurpose;
+import cdx.opencdx.grpc.common.*;
+import cdx.opencdx.grpc.communication.Notification;
 import cdx.opencdx.grpc.connected.ConnectedTest;
+import cdx.opencdx.grpc.connected.TestDetails;
 import cdx.opencdx.grpc.connected.TestIdRequest;
 import cdx.opencdx.grpc.lab.connected.LabFindings;
 import cdx.opencdx.grpc.media.GetMediaRequest;
@@ -44,8 +45,7 @@ import cdx.opencdx.grpc.shipping.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -72,6 +72,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     private final OpenCDXClassificationRepository openCDXClassificationRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
     private final OpenCDXOrderMessageService openCDXOrderMessageService;
+    private final OpenCDXCommunicationService openCDXCommunicationService;
 
     private final OpenCDXCDCPayloadService openCDXCDCPayloadService;
     private final OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService;
@@ -83,12 +84,13 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @param openCDXCurrentUser service for getting current user
      * @param openCDXDocumentValidator service for validating documents
      * @param openCDXMediaClient service for media client
-     * @param openCDXClassifyProcessorService service for classification processor
      * @param openCDXConnectedTestClient service for connected test client
-     * @param openCDXClassificationRepository repository for classification
      * @param openCDXQuestionnaireClient service for questionnaire client
+     * @param openCDXClassifyProcessorService service for classification processor
+     * @param openCDXClassificationRepository repository for classification
      * @param openCDXProfileRepository repository for profile
      * @param openCDXOrderMessageService service for order message
+     * @param openCDXCommunicationService
      * @param openCDXCDCPayloadService service for CDC payload
      * @param openCDXConnectedLabMessageService service for connected lab message
      */
@@ -105,6 +107,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
             OpenCDXClassificationRepository openCDXClassificationRepository,
             OpenCDXProfileRepository openCDXProfileRepository,
             OpenCDXOrderMessageService openCDXOrderMessageService,
+            OpenCDXCommunicationService openCDXCommunicationService,
             OpenCDXCDCPayloadService openCDXCDCPayloadService,
             OpenCDXConnectedLabMessageService openCDXConnectedLabMessageService) {
         this.openCDXAuditService = openCDXAuditService;
@@ -118,6 +121,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXClassificationRepository = openCDXClassificationRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
         this.openCDXOrderMessageService = openCDXOrderMessageService;
+        this.openCDXCommunicationService = openCDXCommunicationService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
         this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
     }
@@ -262,6 +266,9 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
     }
 
     private void processClassification(OpenCDXClassificationModel model) {
+
+        sendTestResults(model);
+
         if (model.getClassificationResponse() != null
                 && model.getClassificationResponse().hasTestKit()) {
             orderTestCase(model);
@@ -334,5 +341,66 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     model.getClassificationResponse().getTestKit().getTestCaseId(),
                     e);
         }
+    }
+
+    private void sendTestResults(OpenCDXClassificationModel model) {
+        log.info("Send test Results with response {}", model.getClassificationResponse());
+        String testName = null;
+        ClassificationResponse classificationResponse = model.getClassificationResponse();
+        ConnectedTest connectedTest = model.getConnectedTest();
+        if (null != connectedTest && connectedTest.hasTestDetails()) {
+            TestDetails testDetails = connectedTest.getTestDetails();
+            testName = testDetails.getTestName();
+        }
+
+        UserQuestionnaireData userQuestionnaireData = model.getUserQuestionnaireData();
+        if (null != userQuestionnaireData
+                && !userQuestionnaireData.getQuestionnaireDataList().isEmpty()) {
+            testName = userQuestionnaireData.getQuestionnaireDataList().get(0).getTitle();
+        }
+
+        if (testName == null) {
+            testName = "Latest Test";
+        }
+        OpenCDXProfileModel patient = model.getPatient();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("firstName", patient.getFullName().getFirstName());
+        map.put("lastName", patient.getFullName().getLastName());
+        map.put("testName", testName);
+        map.put("message", classificationResponse.getFurtherActions());
+
+        Notification.Builder builder = Notification.newBuilder()
+                .setEventId(OpenCDXCommunicationService.TEST_RESULT)
+                .putAllVariables(map);
+        builder.setPatientId(patient.getId().toHexString());
+
+        EmailAddress emailAddress = null;
+        if (!patient.getPrimaryContactInfo().getEmailsList().isEmpty()) {
+            emailAddress = patient.getPrimaryContactInfo().getEmailsList().stream()
+                    .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_PERSONAL))
+                    .findFirst()
+                    .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                            .filter(email -> email.getType().equals(EmailType.EMAIL_TYPE_WORK))
+                            .findFirst()
+                            .orElse(patient.getPrimaryContactInfo().getEmailsList().stream()
+                                    .findFirst()
+                                    .orElse(null)));
+        }
+        if (emailAddress != null) {
+            builder.addAllToEmail(List.of(emailAddress.getEmail()));
+        }
+        List<String> mobileList = Collections.emptyList();
+
+        if (!patient.getPrimaryContactInfo().getPhoneNumbersList().isEmpty()) {
+            mobileList = patient.getPrimaryContactInfo().getPhoneNumbersList().stream()
+                    .filter(phoneNumber -> phoneNumber.getType().equals(PhoneType.PHONE_TYPE_MOBILE))
+                    .map(PhoneNumber::getNumber)
+                    .toList();
+        }
+        if (!mobileList.isEmpty()) {
+            builder.addAllToPhoneNumber(mobileList);
+        }
+        this.openCDXCommunicationService.sendNotification(builder.build());
     }
 }

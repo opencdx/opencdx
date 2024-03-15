@@ -60,7 +60,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Observed(name = "opencdx")
-@SuppressWarnings({"java:S1068", "java:S125", "java:S1172"})
+@SuppressWarnings({"java:S1068", "java:S125", "java:S1172", "java:S1144"})
 public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProcessorService {
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
 
@@ -119,7 +119,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
             runTestAnalsysis(model, builder);
         } else if (model.getUserQuestionnaireData() != null) {
             log.info("User Questionnaire: {}", model.getUserQuestionnaireData().getId());
-            runRules(model, builder);
+            // runRules(model, builder);
+            builder.setFurtherActions("Elevated blood pressure. Please continue monitoring.");
+
         } else {
             builder.setType(ClassificationType.UNSPECIFIED_CLASSIFICATION_TYPE);
         }
