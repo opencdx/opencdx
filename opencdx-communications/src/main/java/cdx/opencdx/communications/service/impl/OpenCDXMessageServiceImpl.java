@@ -67,12 +67,12 @@ public class OpenCDXMessageServiceImpl implements OpenCDXMessageService {
 
     /**
      * Default Constructor
-     * @param openCDXDocumentValidator
-     * @param openCDXAuditService
-     * @param objectMapper
-     * @param openCDXMessageTemplateRepository
-     * @param openCDXMessageRepository
-     * @param openCDXCurrentUser
+     * @param openCDXDocumentValidator Document Validator
+     * @param openCDXAuditService Audit Service
+     * @param objectMapper Object Mapper
+     * @param openCDXMessageTemplateRepository Message Template Repository
+     * @param openCDXMessageRepository Message Repository
+     * @param openCDXCurrentUser Current User
      */
     @Autowired
     public OpenCDXMessageServiceImpl(

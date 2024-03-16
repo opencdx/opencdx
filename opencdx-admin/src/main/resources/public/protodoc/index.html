@@ -481,6 +481,42 @@
                 </li>
               
                 <li>
+                  <a href="#cdx.opencdx.grpc.communication.GetMessagesRequest"><span class="badge">M</span>GetMessagesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.GetMessagesResponse"><span class="badge">M</span>GetMessagesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MarkMessagesAsReadRequest"><span class="badge">M</span>MarkMessagesAsReadRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MarkMessagesAsReadResponse"><span class="badge">M</span>MarkMessagesAsReadResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MarkMessagesAsUnreadRequest"><span class="badge">M</span>MarkMessagesAsUnreadRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MarkMessagesAsUnreadResponse"><span class="badge">M</span>MarkMessagesAsUnreadResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.Message"><span class="badge">M</span>Message</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MessageTemplate"><span class="badge">M</span>MessageTemplate</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MessageTemplateListResponse"><span class="badge">M</span>MessageTemplateListResponse</a>
+                </li>
+              
+                <li>
                   <a href="#cdx.opencdx.grpc.communication.Notification"><span class="badge">M</span>Notification</a>
                 </li>
               
@@ -524,6 +560,14 @@
                   <a href="#cdx.opencdx.grpc.communication.TemplateRequest"><span class="badge">M</span>TemplateRequest</a>
                 </li>
               
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MessageStatus"><span class="badge">E</span>MessageStatus</a>
+                </li>
+              
+                <li>
+                  <a href="#cdx.opencdx.grpc.communication.MessageType"><span class="badge">E</span>MessageType</a>
+                </li>
               
                 <li>
                   <a href="#cdx.opencdx.grpc.communication.NotificationPriority"><span class="badge">E</span>NotificationPriority</a>
@@ -4627,6 +4671,13 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td><p>The actual content of the SMS communication. </p></td>
                 </tr>
               
+                <tr>
+                  <td>messageContent</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The actual content of the Message communication. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -4769,6 +4820,362 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
 
         
       
+        <h3 id="cdx.opencdx.grpc.communication.GetMessagesRequest">GetMessagesRequest</h3>
+        <p>The request to get Messages.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>patient_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The unique identifier for the patient. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>The pagination information. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.GetMessagesResponse">GetMessagesResponse</h3>
+        <p>The response to get Messages.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>messages</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.Message">Message</a></td>
+                  <td>repeated</td>
+                  <td><p>The Messages. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>The pagination information. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.MarkMessagesAsReadRequest">MarkMessagesAsReadRequest</h3>
+        <p>The request to mark a Message as read.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>The unique identifier for the Message. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.MarkMessagesAsReadResponse">MarkMessagesAsReadResponse</h3>
+        <p>The response to mark a Message as read.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>messages</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.Message">Message</a></td>
+                  <td>repeated</td>
+                  <td><p>The Message. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.MarkMessagesAsUnreadRequest">MarkMessagesAsUnreadRequest</h3>
+        <p>The request to mark a Message as unread.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>The unique identifier for the Message. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.MarkMessagesAsUnreadResponse">MarkMessagesAsUnreadResponse</h3>
+        <p>The response to mark a Message as unread.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>messages</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.Message">Message</a></td>
+                  <td>repeated</td>
+                  <td><p>The Message. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.Message">Message</h3>
+        <p>A Message message.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The unique identifier for the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>patient_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The unique identifier for the patient. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>title</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The title of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>message</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The message of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.MessageType">MessageType</a></td>
+                  <td></td>
+                  <td><p>The type of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.MessageStatus">MessageStatus</a></td>
+                  <td></td>
+                  <td><p>The status of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>The time the Message was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>The time the Message was last modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The user who created the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The user who last modified the Message. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</h3>
+        <p>A MessageTemplate for messages.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>template_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The unique identifier for the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>variables</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>The variables that might be replaced with actual values in the SMS template. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>title</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The title of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>content</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The message of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.MessageType">MessageType</a></td>
+                  <td></td>
+                  <td><p>The type of the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>The time the Message was created. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modified</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>The time the Message was last modified. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>creator</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The user who created the Message. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>modifier</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The user who last modified the Message. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="cdx.opencdx.grpc.communication.MessageTemplateListResponse">MessageTemplateListResponse</h3>
+        <p>The response to list MessageTemplates.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>templates</td>
+                  <td><a href="#cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</a></td>
+                  <td>repeated</td>
+                  <td><p>The list of MessageTemplates. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#cdx.opencdx.grpc.common.Pagination">cdx.opencdx.grpc.common.Pagination</a></td>
+                  <td></td>
+                  <td><p>The pagination information. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="cdx.opencdx.grpc.communication.Notification">Notification</h3>
         <p>Defines the data structure for a notification. A notification could be an SMS or EMAIL mode of communication.</p>
 
@@ -4794,10 +5201,10 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                 </tr>
               
                 <tr>
-                  <td>patient_ids</td>
+                  <td>patient_id</td>
                   <td><a href="#string">string</a></td>
-                  <td>repeated</td>
-                  <td><p>The unique identifier for the patient(s) that this notification is intended for. </p></td>
+                  <td></td>
+                  <td><p>The unique identifier for the patient that this notification is intended for. </p></td>
                 </tr>
               
                 <tr>
@@ -5017,6 +5424,13 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p>The unique identifier for the associated sms template. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>message_template_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>The unique identifier for the associated message template. </p></td>
                 </tr>
               
                 <tr>
@@ -5322,6 +5736,70 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
       
 
       
+        <h3 id="cdx.opencdx.grpc.communication.MessageStatus">MessageStatus</h3>
+        <p>The status of the Message.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED_MESSAGE_STATUS</td>
+                <td>0</td>
+                <td><p>The status of the Message is unspecified.</p></td>
+              </tr>
+            
+              <tr>
+                <td>READ</td>
+                <td>1</td>
+                <td><p>The Message has been read.</p></td>
+              </tr>
+            
+              <tr>
+                <td>UNREAD</td>
+                <td>2</td>
+                <td><p>The Message has not been read.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="cdx.opencdx.grpc.communication.MessageType">MessageType</h3>
+        <p>The type of Message.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED_MESSAGE_TYPE</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>INFO</td>
+                <td>1</td>
+                <td><p>Informational Message.</p></td>
+              </tr>
+            
+              <tr>
+                <td>WARNING</td>
+                <td>2</td>
+                <td><p>Warning Message.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ERROR</td>
+                <td>3</td>
+                <td><p>Error Message.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="cdx.opencdx.grpc.communication.NotificationPriority">NotificationPriority</h3>
         <p>NotificationPriority defines the levels of priority for notifications.</p><p>Values in the enum range from low, medium, high, to immediate priority.</p><p>When the priority of a notification is not set, the default is NOTIFICATION_PRIORITY_UNSPECIFIED.</p>
         <table class="enum-table">
@@ -5573,6 +6051,62 @@ For the &#34;Request of Action&#34;, Timing would always denote a future timesta
                 <td><a href="#cdx.opencdx.grpc.communication.NotificationEventListRequest">NotificationEventListRequest</a></td>
                 <td><a href="#cdx.opencdx.grpc.communication.NotificationEventListResponse">NotificationEventListResponse</a></td>
                 <td><p>Retrieves a list of notification events.</p></td>
+              </tr>
+            
+              <tr>
+                <td>CreateMessageTemplate</td>
+                <td><a href="#cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</a></td>
+                <td><p>Create a MessageTemplate.</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetMessageTemplate</td>
+                <td><a href="#cdx.opencdx.grpc.communication.TemplateRequest">TemplateRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</a></td>
+                <td><p>Get a MessageTemplate.</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateMessageTemplate</td>
+                <td><a href="#cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.MessageTemplate">MessageTemplate</a></td>
+                <td><p>Update a MessageTemplate.</p></td>
+              </tr>
+            
+              <tr>
+                <td>DeleteMessageTemplate</td>
+                <td><a href="#cdx.opencdx.grpc.communication.TemplateRequest">TemplateRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.SuccessResponse">SuccessResponse</a></td>
+                <td><p>Delete a MessageTemplate.</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListMessageTemplates</td>
+                <td><a href="#cdx.opencdx.grpc.common.Pagination">.cdx.opencdx.grpc.common.Pagination</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.MessageTemplateListResponse">MessageTemplateListResponse</a></td>
+                <td><p>List MessageTemplates.</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetMessages</td>
+                <td><a href="#cdx.opencdx.grpc.communication.GetMessagesRequest">GetMessagesRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.GetMessagesResponse">GetMessagesResponse</a></td>
+                <td><p>Get Messages.</p></td>
+              </tr>
+            
+              <tr>
+                <td>MarkMessageAsRead</td>
+                <td><a href="#cdx.opencdx.grpc.communication.MarkMessagesAsReadRequest">MarkMessagesAsReadRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.MarkMessagesAsReadResponse">MarkMessagesAsReadResponse</a></td>
+                <td><p>Mark a Message as read.</p></td>
+              </tr>
+            
+              <tr>
+                <td>MarkMessageAsUnread</td>
+                <td><a href="#cdx.opencdx.grpc.communication.MarkMessagesAsUnreadRequest">MarkMessagesAsUnreadRequest</a></td>
+                <td><a href="#cdx.opencdx.grpc.communication.MarkMessagesAsUnreadResponse">MarkMessagesAsUnreadResponse</a></td>
+                <td><p>Mark a Message as unread.</p></td>
               </tr>
             
           </tbody>
