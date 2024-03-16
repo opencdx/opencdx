@@ -52,12 +52,12 @@ import org.springframework.stereotype.Service;
 public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService {
 
     private static final String DOMAIN = "OpenCDXIAMProviderServiceImpl";
-    public static final String PROVIDER_NUMBER = "PROVIDER NUMBER: ";
-    public static final String PROVIDER = "PROVIDER ";
-    public static final String PROVIDER_ACCESSED = "Provider accessed";
-    public static final String FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL =
+    private static final String PROVIDER_NUMBER = "PROVIDER NUMBER: ";
+    private static final String PROVIDER = "PROVIDER ";
+    private static final String PROVIDER_ACCESSED = "Provider accessed";
+    private static final String FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL =
             "FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL";
-    public static final String OBJECT = "OBJECT";
+    private static final String OBJECT = "OBJECT";
 
     private final OpenCDXIAMProviderRepository openCDXIAMProviderRepository;
 
