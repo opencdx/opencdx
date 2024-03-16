@@ -72,7 +72,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      * @param openCDXAuditService Audit Service to record information
      * @param objectMapper ObjectMapper for converting to JSON
      * @param openCDXCountryRepository Country Repository for looking up countries
-     * @param openCDXCurrentUser
+     * @param openCDXCurrentUser Current User Service
      */
     public OpenCDXIAMProviderServiceImpl(
             OpenCDXIAMProviderRepository openCDXIAMProviderRepository,
