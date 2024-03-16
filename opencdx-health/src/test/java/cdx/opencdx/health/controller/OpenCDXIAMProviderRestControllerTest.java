@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
+import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
@@ -84,6 +85,9 @@ class OpenCDXIAMProviderRestControllerTest {
 
     @Mock
     OpenCDXCountryRepository openCDXCountryRepository;
+
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser;
 
     @BeforeEach
     public void setup() {
@@ -175,7 +179,8 @@ class OpenCDXIAMProviderRestControllerTest {
                 this.openCDXIAMProviderRepository,
                 this.openCDXAuditService,
                 this.objectMapper,
-                this.openCDXCountryRepository);
+                this.openCDXCountryRepository,
+                openCDXCurrentUser);
         MvcResult mvcResult = this.mockMvc
                 .perform(get("/provider/load")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
