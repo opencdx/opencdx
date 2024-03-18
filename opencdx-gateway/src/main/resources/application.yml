@@ -281,3 +281,7 @@ server:
     client-auth: none
   http2:
     enabled: true
+
+opencdx:
+  client:
+    trustStore: /certs/opencdx-clients.pem
