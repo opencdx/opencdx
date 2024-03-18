@@ -607,94 +607,94 @@ const ProtoDoc = () => {
               <ul>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.DateOfBirth"><span class="badge">M</span>DateOfBirth</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.DateOfBirth"><span class="badge">M</span>DateOfBirth</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.DeleteUserProfileRequest"><span class="badge">M</span>DeleteUserProfileRequest</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.DeleteUserProfileRequest"><span class="badge">M</span>DeleteUserProfileRequest</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.DeleteUserProfileResponse"><span class="badge">M</span>DeleteUserProfileResponse</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.DeleteUserProfileResponse"><span class="badge">M</span>DeleteUserProfileResponse</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Demographics"><span class="badge">M</span>Demographics</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Demographics"><span class="badge">M</span>Demographics</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Education"><span class="badge">M</span>Education</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Education"><span class="badge">M</span>Education</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.EducationEntry"><span class="badge">M</span>EducationEntry</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.EducationEntry"><span class="badge">M</span>EducationEntry</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.EmergencyContact"><span class="badge">M</span>EmergencyContact</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.EmergencyContact"><span class="badge">M</span>EmergencyContact</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.EmployeeIdentity"><span class="badge">M</span>EmployeeIdentity</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.EmployeeIdentity"><span class="badge">M</span>EmployeeIdentity</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.KnownAllergy"><span class="badge">M</span>KnownAllergy</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.KnownAllergy"><span class="badge">M</span>KnownAllergy</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Medication"><span class="badge">M</span>Medication</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Medication"><span class="badge">M</span>Medication</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Pharmacy"><span class="badge">M</span>Pharmacy</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Pharmacy"><span class="badge">M</span>Pharmacy</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.PlaceOfBirth"><span class="badge">M</span>PlaceOfBirth</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.PlaceOfBirth"><span class="badge">M</span>PlaceOfBirth</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Preferences"><span class="badge">M</span>Preferences</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Preferences"><span class="badge">M</span>Preferences</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.SystemSettings"><span class="badge">M</span>SystemSettings</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.SystemSettings"><span class="badge">M</span>SystemSettings</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.UpdateUserProfileRequest"><span class="badge">M</span>UpdateUserProfileRequest</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.UpdateUserProfileRequest"><span class="badge">M</span>UpdateUserProfileRequest</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.UpdateUserProfileResponse"><span class="badge">M</span>UpdateUserProfileResponse</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.UpdateUserProfileResponse"><span class="badge">M</span>UpdateUserProfileResponse</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.UserProfile"><span class="badge">M</span>UserProfile</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.UserProfile"><span class="badge">M</span>UserProfile</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.UserProfileRequest"><span class="badge">M</span>UserProfileRequest</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.UserProfileRequest"><span class="badge">M</span>UserProfileRequest</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.UserProfileResponse"><span class="badge">M</span>UserProfileResponse</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.UserProfileResponse"><span class="badge">M</span>UserProfileResponse</a>
                   </li>
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Vaccine"><span class="badge">M</span>Vaccine</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Vaccine"><span class="badge">M</span>Vaccine</a>
                   </li>
                 
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.Gender"><span class="badge">E</span>Gender</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.Gender"><span class="badge">E</span>Gender</a>
                   </li>
                 
                 
                 
                   <li>
-                    <a href="#cdx.opencdx.grpc.profile.UserProfileService"><span class="badge">S</span>UserProfileService</a>
+                    <a href="#cdx.opencdx.grpc.health.profile.UserProfileService"><span class="badge">S</span>UserProfileService</a>
                   </li>
                 
               </ul>

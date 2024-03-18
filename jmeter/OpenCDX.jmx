@@ -1281,7 +1281,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/CreateUserProfile</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/CreateUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1486,7 +1486,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/UpdateUserProfile</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/UpdateUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1684,7 +1684,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/GetUserProfile</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/GetUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>

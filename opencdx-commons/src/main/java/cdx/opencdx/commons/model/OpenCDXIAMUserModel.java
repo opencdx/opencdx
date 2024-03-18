@@ -16,11 +16,11 @@
 package cdx.opencdx.commons.model;
 
 import cdx.opencdx.grpc.audit.AgentType;
+import cdx.opencdx.grpc.health.profile.*;
 import cdx.opencdx.grpc.iam.IamUser;
 import cdx.opencdx.grpc.iam.IamUserStatus;
 import cdx.opencdx.grpc.iam.IamUserType;
 import cdx.opencdx.grpc.iam.SignUpRequest;
-import cdx.opencdx.grpc.profile.*;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import lombok.AllArgsConstructor;

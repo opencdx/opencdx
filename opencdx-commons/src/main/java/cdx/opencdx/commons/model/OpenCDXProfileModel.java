@@ -19,7 +19,7 @@ import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.Gender;
-import cdx.opencdx.grpc.profile.*;
+import cdx.opencdx.grpc.health.profile.*;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
