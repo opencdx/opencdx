@@ -36,9 +36,7 @@ import cdx.opencdx.grpc.neural.classification.TestKit;
 import cdx.opencdx.grpc.questionnaire.GetRuleSetResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
@@ -192,13 +190,15 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         }
     }
 
-    private InputStream getRulesClass(OpenCDXClassificationModel model) {
+    private String getRulesClass(OpenCDXClassificationModel model) {
         OpenCDXCallCredentials openCDXCallCredentials =
                 new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
         GetRuleSetResponse ruleSetResponse = openCDXQuestionnaireClient.getRuleSet(
                 model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleId(), openCDXCallCredentials);
-        log.info("RuleSet: {}", ruleSetResponse.getRuleSet().getRuleId());
-        return new ByteArrayInputStream(ruleSetResponse.getRuleSet().getRule().getBytes());
+
+        String source = ruleSetResponse.getRuleSet().getRule().replace("\\n", "\n");
+        log.debug("RuleSet: {}", source);
+        return source;
     }
 
     private Object getResponse(OpenCDXClassificationModel model) {
