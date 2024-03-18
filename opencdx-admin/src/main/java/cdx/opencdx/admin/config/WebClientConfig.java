@@ -19,8 +19,12 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import javax.net.ssl.SSLException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinWebClientBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import reactor.netty.http.client.HttpClient;
@@ -30,6 +34,7 @@ import reactor.netty.http.client.HttpClient;
  * It creates a custom HttpClient with a custom SSLContext and returns a ClientHttpConnector
  * bean that can be used to configure and create a WebClient instance.
  */
+@Slf4j
 @Configuration
 public class WebClientConfig {
     /**
@@ -49,10 +54,30 @@ public class WebClientConfig {
      */
     @Bean
     public ClientHttpConnector customHttpClient() throws SSLException {
+        return createHttpConnector();
+    }
+
+    /**
+     * Customizer for WebClient
+     * @return ZipkinWebClientBuilderCustomizer
+     */
+    @Bean
+    ZipkinWebClientBuilderCustomizer myCustomizer() {
+        return webClientBuilder -> {
+            try {
+                webClientBuilder
+                        .clientConnector(createHttpConnector())
+                        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            } catch (SSLException e) {
+                log.error("Error creating SSL context", e);
+            }
+        };
+    }
+
+    private ClientHttpConnector createHttpConnector() throws SSLException {
         SslContext sslContext = SslContextBuilder.forClient()
                 .trustManager(InsecureTrustManagerFactory.INSTANCE)
                 .build();
-        // Your sslContext customizations go here
         HttpClient httpClient = HttpClient.create().secure(ssl -> ssl.sslContext(sslContext));
         return new ReactorClientHttpConnector(httpClient);
     }
