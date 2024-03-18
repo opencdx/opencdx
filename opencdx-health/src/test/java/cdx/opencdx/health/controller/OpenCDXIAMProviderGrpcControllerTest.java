@@ -15,25 +15,34 @@
  */
 package cdx.opencdx.health.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
+import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.security.JwtTokenUtil;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.health.dto.*;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
 import cdx.opencdx.health.service.impl.OpenCDXIAMProviderServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,6 +70,9 @@ class OpenCDXIAMProviderGrpcControllerTest {
     ObjectMapper objectMapper;
 
     @Autowired
+    ObjectMapper objectMapper1;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -70,9 +82,13 @@ class OpenCDXIAMProviderGrpcControllerTest {
     OpenCDXIAMProviderRepository openCDXIAMProviderRepository;
 
     OpenCDXIAMProviderService openCDXIAMProviderService;
+    OpenCDXIAMProviderService openCDXIAMProviderService1;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
+
+    @Mock
+    OpenCDXCurrentUser openCDXCurrentUser1;
 
     OpenCDXIAMProviderGrpcController openCDXIAMProviderGrpcController;
 
@@ -120,11 +136,17 @@ class OpenCDXIAMProviderGrpcControllerTest {
                     }
                 });
 
+        Mockito.when(openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+
         this.openCDXIAMProviderService = new OpenCDXIAMProviderServiceImpl(
                 this.openCDXIAMProviderRepository,
                 this.openCDXAuditService,
                 this.objectMapper,
-                this.openCDXCountryRepository);
+                this.openCDXCountryRepository,
+                this.openCDXCurrentUser);
 
         this.openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
         MockitoAnnotations.openMocks(this);
@@ -187,5 +209,53 @@ class OpenCDXIAMProviderGrpcControllerTest {
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LoadProviderResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
+    }
+
+    @Test
+    void loadProviderOpenCDXNotAcceptableAndOpenCDXServiceUnavailable() throws IOException {
+        StreamObserver<LoadProviderResponse> responseObserver = mock(StreamObserver.class);
+        this.objectMapper1 = Mockito.mock(ObjectMapper.class);
+        Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+        OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse = Mockito.mock(OpenCDXDtoNpiJsonResponse.class);
+        OpenCDXDtoNpiResult openCDXDtoNpiResult = Mockito.mock(OpenCDXDtoNpiResult.class);
+        when(openCDXDtoNpiResult.getNumber()).thenReturn(ObjectId.get().toHexString());
+        OpenCDXDtoNpiBasicInfo openCDXDtoNpiBasicInfo = Mockito.mock(OpenCDXDtoNpiBasicInfo.class);
+        when(openCDXDtoNpiBasicInfo.getFirstName()).thenReturn("first");
+        when(openCDXDtoNpiBasicInfo.getLastName()).thenReturn("last");
+        when(openCDXDtoNpiBasicInfo.getCredential()).thenReturn("cred");
+        when(openCDXDtoNpiBasicInfo.getSoleProprietor()).thenReturn("sole");
+        when(openCDXDtoNpiBasicInfo.getGender()).thenReturn("M");
+        when(openCDXDtoNpiBasicInfo.getEnumerationDate()).thenReturn("enum");
+        when(openCDXDtoNpiBasicInfo.getNamePrefix()).thenReturn("namePre");
+        when(openCDXDtoNpiBasicInfo.getNameSuffix()).thenReturn("nameSuf");
+        when(openCDXDtoNpiResult.getBasic()).thenReturn(openCDXDtoNpiBasicInfo);
+        OpenCDXDtoNpiTaxonomy openCDXDtoNpiTaxonomy = Mockito.mock(OpenCDXDtoNpiTaxonomy.class);
+        when(openCDXDtoNpiResult.getTaxonomies()).thenReturn(List.of(openCDXDtoNpiTaxonomy));
+        OpenCDXDtoNpiIdentifier openCDXDtoNpiIdentifier = Mockito.mock(OpenCDXDtoNpiIdentifier.class);
+        when(openCDXDtoNpiIdentifier.getCode()).thenReturn("code");
+        when(openCDXDtoNpiIdentifier.getDesc()).thenReturn("desc");
+        when(openCDXDtoNpiIdentifier.getIdentifier()).thenReturn("identifier");
+        when(openCDXDtoNpiIdentifier.getState()).thenReturn("state");
+        when(openCDXDtoNpiResult.getIdentifiers()).thenReturn(List.of(openCDXDtoNpiIdentifier));
+        when(openCDXDtoNpiJsonResponse.getResults()).thenReturn(List.of(openCDXDtoNpiResult));
+        Mockito.when(this.objectMapper1.readValue(anyString(), Mockito.eq(OpenCDXDtoNpiJsonResponse.class)))
+                .thenReturn(openCDXDtoNpiJsonResponse);
+        Mockito.when(openCDXCurrentUser1.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(openCDXCurrentUser1.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        this.openCDXIAMProviderService1 = new OpenCDXIAMProviderServiceImpl(
+                this.openCDXIAMProviderRepository,
+                this.openCDXAuditService,
+                this.objectMapper1,
+                this.openCDXCountryRepository,
+                this.openCDXCurrentUser1);
+        openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService1);
+        LoadProviderRequest request = LoadProviderRequest.newBuilder(
+                        LoadProviderRequest.newBuilder().setUserId("1679736037").build())
+                .build();
+        Assertions.assertThrows(
+                OpenCDXServiceUnavailable.class,
+                () -> openCDXIAMProviderGrpcController.loadProvider(request, responseObserver));
     }
 }

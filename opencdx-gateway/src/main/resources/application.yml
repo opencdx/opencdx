@@ -128,8 +128,8 @@ spring:
             - Path=/cdx.opencdx.grpc.inventory.VendorService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
-        - id: grpc-iam-profile
-          uri: https://iam:9090
+        - id: grpc-health-profile
+          uri: https://health:9090
           predicates:
             - Path=/cdx.opencdx.grpc.profile.UserProfileService/**
           filters:

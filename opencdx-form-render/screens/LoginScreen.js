@@ -10,7 +10,6 @@ import {
     EyeOffIcon,
     Switch,
 } from '@gluestack-ui/themed';
-
 const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState('admin@opencdx.org');
     const [password, setPassword] = useState('password');
@@ -20,6 +19,11 @@ const LoginScreen = ({ navigation }) => {
             return !showState
         })
     }
+    const [rememberMe, setRememberMe] = useState(false);
+    const toggleRememberMe = (value) => {
+        setRememberMe(value);
+    };
+
     const handleLogin = async () => {
         try {
             const response = await axios.post('/iam/user/login', { userName: username, password: password });
@@ -29,10 +33,7 @@ const LoginScreen = ({ navigation }) => {
             alert(error);
         }
     };
-    const [rememberMe, setRememberMe] = useState(false);
-    const toggleRememberMe = (value) => {
-        setRememberMe(value);
-    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.body}>
@@ -67,15 +68,15 @@ const LoginScreen = ({ navigation }) => {
                 </Input>
                 <View style={styles.switchWrapper}>
                     <View style={styles.switch}>
-                    <Switch
-                        value={rememberMe}
-                        onValueChange={(value) => toggleRememberMe(value)}
+                        <Switch
+                            value={rememberMe}
+                            onValueChange={(value) => toggleRememberMe(value)}
 
-                    /><Text style={{ marginLeft: 10 }}
-                    >Remember Me</Text></View>
-                     
+                        /><Text style={{ marginLeft: 10 }}
+                        >Remember Me</Text></View>
+
                     <Text style={styles.forget}>
-                    Forget Password </Text>
+                        Forget Password </Text>
                 </View>
             </View>
             <View style={styles.footer}>
@@ -84,8 +85,8 @@ const LoginScreen = ({ navigation }) => {
                 </Button>
                 <View style={styles.center}>
                     <Text style={styles.centerText}>Don't have an account?</Text>
-                    <Text  style={styles.signup}>
-                       Sign Up
+                    <Text style={styles.signup}>
+                        Sign Up
                     </Text>
                 </View>
             </View>
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop:24,
+        paddingTop: 24,
     },
     centerText: {
         marginRight: 5,
@@ -134,7 +135,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 68,
-        backgroundColor: '#0066FF',
         ...Platform.select({
             web: {
                 width: '90%',
@@ -143,9 +143,6 @@ const styles = StyleSheet.create({
                 width: '90%',
             }
         })
-    },
-    buttonText: {
-        color: 'white',
     },
     image: {
         marginBottom: 48,

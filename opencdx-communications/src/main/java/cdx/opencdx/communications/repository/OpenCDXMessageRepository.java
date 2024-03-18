@@ -28,5 +28,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXMessageRepository extends MongoRepository<OpenCDXMessageModel, ObjectId> {
+    /**
+     * Find all messages for a patient.
+     * @param patientId Patient ID to find messages for.
+     * @return List of messages for the patient.
+     */
     List<OpenCDXMessageModel> findAllByPatientId(ObjectId patientId);
 }

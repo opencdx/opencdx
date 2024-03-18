@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.iam.controller;
+package cdx.opencdx.health.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -28,9 +27,8 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
 import cdx.opencdx.grpc.profile.*;
-import cdx.opencdx.iam.config.AppProperties;
-import cdx.opencdx.iam.service.OpenCDXIAMProfileService;
-import cdx.opencdx.iam.service.impl.OpenCDXIAMProfileServiceImpl;
+import cdx.opencdx.health.service.OpenCDXIAMProfileService;
+import cdx.opencdx.health.service.impl.OpenCDXIAMProfileServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
@@ -87,9 +85,6 @@ class OpenCDXIAMProfileGrpcControllerTest {
 
     @MockBean
     JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    AppProperties appProperties;
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;

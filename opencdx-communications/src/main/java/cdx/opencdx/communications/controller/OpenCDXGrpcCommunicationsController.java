@@ -47,7 +47,7 @@ public class OpenCDXGrpcCommunicationsController extends CommunicationServiceGrp
      *  @param openCDXNotificationService       service to process notifications
      * @param openCDXCommunicationEmailService service to process email request
      * @param openCDXCommunicationSmsService   service to process SMS request
-     * @param openCDXMessageService
+     * @param openCDXMessageService           service to process message request
      */
     @Autowired
     public OpenCDXGrpcCommunicationsController(

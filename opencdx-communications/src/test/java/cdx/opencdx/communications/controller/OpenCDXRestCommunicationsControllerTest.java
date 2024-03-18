@@ -489,7 +489,7 @@ class OpenCDXRestCommunicationsControllerTest {
     @Test
     void getMessages() throws Exception {
         MvcResult result = this.mockMvc
-                .perform(get("/messages")
+                .perform(post("/messages")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(GetMessagesRequest.newBuilder()
                                 .setPagination(Pagination.newBuilder()
