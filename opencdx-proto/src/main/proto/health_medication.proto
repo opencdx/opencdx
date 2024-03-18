@@ -7,8 +7,6 @@ package cdx.opencdx.grpc.health.medication;
 import "common.proto";
 import "google/protobuf/timestamp.proto";
 
-
-
 /*
  * Indicates how a medication is to be administered to a patient.
  */
@@ -194,6 +192,95 @@ enum MedicationFrequency {
   OTHER_FREQUENCY = 18;
 }
 
+/*
+ * Enumerates different dosage forms of medication.
+ */
+enum DosageForm {
+  /*
+   * Unspecified dosage form.
+   */
+  DOSAGE_FORM_UNSPECIFIED = 0;
+  /*
+   * Tablet dosage form.
+   */
+  TABLET = 1;
+  /*
+   * Capsule dosage form.
+   */
+  CAPSULE = 2;
+  /*
+   * Liquid dosage form.
+   */
+  LIQUID = 3;
+  /*
+   * Injection dosage form.
+   */
+  INJECTION = 4;
+  /*
+   * Cream dosage form.
+   */
+  CREAM = 5;
+  /*
+   * Ointment dosage form.
+   */
+  OINTMENT = 6;
+  /*
+   * Inhaler dosage form.
+   */
+  INHALER = 7;
+  /*
+   * Patch dosage form.
+   */
+  PATCH = 8;
+  /*
+   * Drops dosage form.
+   */
+  DROPS = 9;
+  /*
+   * Spray dosage form.
+   */
+  SPRAY = 10;
+  /*
+   * Suppository dosage form.
+   */
+  SUPPOSITORY = 11;
+  /*
+   * Powder dosage form.
+   */
+  POWDER = 12;
+  /*
+   * Solution dosage form.
+   */
+  SOLUTION = 13;
+  /*
+   * Gel dosage form.
+   */
+  GEL = 14;
+  /*
+   * Lozenge dosage form.
+   */
+  LOZENGE = 15;
+  /*
+   * Suspension dosage form.
+   */
+  SUSPENSION = 16;
+  /*
+   * Chewable tablet dosage form.
+   */
+  CHEWABLE_TABLET = 17;
+  /*
+   * Sublingual tablet dosage form.
+   */
+  SUBLINGUAL_TABLET = 18;
+  /*
+   * Effervescent tablet dosage form.
+   */
+  EFFERVESCENT_TABLET = 19;
+  /*
+   * Other dosage forms not listed here.
+   */
+  OTHER_DOSAGE_FORM = 20;
+}
 
 
 /*
@@ -228,48 +315,333 @@ message Medication {
    * The unit of measurement for the medication dosage
    */
   string dosage_unit = 6;
+
+  /*
+   * The dosage form of the medication
+   */
+  DosageForm dosage_form = 7;
+
+  /*
+ * The quantity of medication prescribed or administered.
+ */
+  double quantity = 8;
+
   /*
    * Instructions for how to take the medication
    */
-  string instructions = 7;
+  string instructions = 9;
   /*
    * The way the medication is to be administered (e.g., orally, intravenously, etc.)
    */
-  MedicationAdministrationRoute route_of_administration = 8;
+  MedicationAdministrationRoute route_of_administration = 10;
 
-  optional string other_route_of_administration = 9;
+  /*
+   * A string to represent other route of administration not listed in the MedicationAdministrationRoute enum
+   */
+  optional string other_route_of_administration = 11;
   /*
    * How often the medication is to be taken
    */
-  MedicationFrequency frequency = 10;
+  MedicationFrequency frequency = 12;
   /*
    * A string to represent other frequency not listed in the MedicationFrequency enum
    */
-  string other_frequency = 11;
+  string other_frequency = 13;
   /*
    * The date when the medication was first taken
    */
-  google.protobuf.Timestamp start_date = 12;
+  google.protobuf.Timestamp start_date = 14;
   /*
    * The date when the medication stopped being taken
    */
-  optional google.protobuf.Timestamp end_date = 13;
+  optional google.protobuf.Timestamp end_date = 15;
   /*
    * The provider id of the doctor who prescribed the medication
    */
-  string provider_id = 14;
+  string provider_id = 16;
   /*
    * The pharmacy id where the medication was obtained
    */
-  string pharmacy_id = 15;
+  string pharmacy_id = 17;
   /*
    * A flag indicating whether the medication requires a prescription
    */
-  bool is_prescription = 16;
+  bool is_prescription = 18;
 
   /*
    * A flag indicating whether the medication is generic
    */
-  bool is_generic = 17;
+  bool is_generic = 19;
 
+  /*
+ * The timestamp indicating when the user's profile was created.
+ */
+  optional google.protobuf.Timestamp created = 20;
+
+  /*
+   * The timestamp indicating the last modification of the user's profile.
+   */
+  optional google.protobuf.Timestamp modified = 21;
+
+  /*
+   * The identifier of the entity that created the user's profile.
+   */
+  optional string creator = 22;
+
+  /*
+   * The identifier of the entity that last modified the user's profile.
+   */
+  optional string modifier = 23;
+}
+
+/*
+ * Service for tracking medication prescriptions and administration.
+ */
+service MedicationService {
+  /*
+   * Prescribes a new medication for a patient.
+   */
+  rpc Prescribing(Medication) returns (PrescriptionResponse);
+
+  /*
+   * Ends a medication for a patient.
+   */
+  rpc Ending(EndMedicationRequest) returns (EndMedicationResponse);
+
+  /*
+   * Lists all medications for a given patient ID.
+   */
+  rpc ListAllMedicationsByPatientId(ListMedicationsByPatientIdRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Lists all medications for a given national health ID.
+   */
+  rpc ListAllMedicationsByNationalHealthId(ListMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Lists current medications for a given patient ID.
+   */
+  rpc ListCurrentMedicationsByPatientId(ListCurrentMedicationsByPatientIdRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Lists current medications for a given national health ID.
+   */
+  rpc ListCurrentMedicationsByNationalHealthId(ListCurrentMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+}
+
+/*
+ * Response message for prescribing a medication.
+ */
+message PrescriptionResponse {
+  /*
+   * Placeholder for any response data upon prescribing a medication.
+   */
+}
+
+/*
+ * Request message for ending a medication.
+ */
+message EndMedicationRequest {
+  /*
+   * The unique identifier for the medication to be ended.
+   */
+  string medication_id = 1;
+  /*
+   * Additional details or reasons for ending the medication.
+   */
+  string end_reason = 2;
+}
+
+/*
+ * Response message for ending a medication.
+ */
+message EndMedicationResponse {
+  /*
+   * Placeholder for any response data upon ending a medication.
+   */
+}
+
+/*
+ * Request message for listing medications by patient ID.
+ */
+message ListMedicationsByPatientIdRequest {
+  /*
+   * The unique identifier for the patient.
+   */
+  string patient_id = 1;
+}
+
+/*
+ * Request message for listing medications by national health ID.
+ */
+message ListMedicationsByNationalHealthIdRequest {
+  /*
+   * The unique identifier for the patient's national health ID.
+   */
+  string national_health_id = 1;
+}
+
+/*
+ * Request message for listing current medications by patient ID.
+ */
+message ListCurrentMedicationsByPatientIdRequest {
+  /*
+   * The unique identifier for the patient.
+   */
+  string patient_id = 1;
+}
+
+/*
+ * Request message for listing current medications by national health ID.
+ */
+message ListCurrentMedicationsByNationalHealthIdRequest {
+  /*
+   * The unique identifier for the patient's national health ID.
+   */
+  string national_health_id = 1;
+}
+
+/*
+ * Response message for listing medications.
+ */
+message ListMedicationsResponse {
+  /*
+   * List of medications.
+   */
+  repeated Medication medications = 1;
+
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+
+service MedicationAdministrationService {
+  /*
+   * Tracks when medication is given to a patient.
+   */
+  rpc TrackMedicationAdministration(MedicationAdministration) returns (MedicationAdministration);
+
+  /*
+   * Retrieve medication information by ID.
+   */
+  rpc GetMedicationById(GetMedicationByIdRequest) returns (Medication);
+
+  /*
+   * Retrieve medication information by patient ID within a date range.
+   */
+  rpc GetMedicationsByPatientId(GetMedicationsByPatientIdRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Retrieve medication information by national health ID within a date range.
+   */
+  rpc GetMedicationsByNationalHealthId(GetMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+}
+
+/*
+ * Request message for tracking medication administration to a patient.
+ */
+message MedicationAdministration {
+  /*
+   * The unique identifier for the medication being administered.
+   */
+  string medication_id = 1;
+  /*
+   * The unique identifier for the patient.
+   */
+  string patient_id = 2;
+  /*
+   * The unique identifier for the patient's national health ID.
+   */
+  string national_health_id = 3;
+  /*
+   * The date and time when the medication was administered.
+   */
+  google.protobuf.Timestamp administration_time = 4;
+
+  /*
+   * The unique identifier for the user who administered the medication.
+   */
+  string administrated_by = 5;
+  /*
+   * Additional notes or details about the medication administration.
+   */
+  string administration_notes = 6;
+  /*
+ * The timestamp indicating when the user's profile was created.
+ */
+  optional google.protobuf.Timestamp created = 7;
+
+  /*
+   * The timestamp indicating the last modification of the user's profile.
+   */
+  optional google.protobuf.Timestamp modified = 8;
+
+  /*
+   * The identifier of the entity that created the user's profile.
+   */
+  optional string creator = 9;
+
+  /*
+   * The identifier of the entity that last modified the user's profile.
+   */
+  optional string modifier = 10;
+}
+
+/*
+ * Request message for retrieving medication information by ID.
+ */
+message GetMedicationByIdRequest {
+  /*
+   * The unique identifier for the medication to retrieve.
+   */
+  string medication_id = 1;
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
+}
+
+/*
+ * Request message for retrieving medication information by patient ID within a date range.
+ */
+message GetMedicationsByPatientIdRequest {
+  /*
+   * The unique identifier for the patient.
+   */
+  string patient_id = 1;
+  /*
+   * Start date of the date range.
+   */
+  google.protobuf.Timestamp start_date = 2;
+  /*
+   * End date of the date range.
+   */
+  google.protobuf.Timestamp end_date = 3;
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.common.Pagination pagination = 4;
+}
+
+/*
+ * Request message for retrieving medication information by national health ID within a date range.
+ */
+message GetMedicationsByNationalHealthIdRequest {
+  /*
+   * The unique identifier for the patient's national health ID.
+   */
+  string national_health_id = 1;
+  /*
+   * Start date of the date range.
+   */
+  google.protobuf.Timestamp start_date = 2;
+  /*
+   * End date of the date range.
+   */
+  google.protobuf.Timestamp end_date = 3;
+  /*
+ * Pagination information.
+ */
+  cdx.opencdx.grpc.common.Pagination pagination = 4;
 }
