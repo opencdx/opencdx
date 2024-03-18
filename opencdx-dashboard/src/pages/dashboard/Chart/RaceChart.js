@@ -74,7 +74,7 @@ const RaceChart = () => {
             colors: ['transparent']
         },
         xaxis: {
-            categories: ['American Indian ', 'Asian', 'Black or African American', 'Hispanic or Latino', ' Hawaiian ', 'White']
+            categories: ['Black or African American', 'White', 'Hispanic or Latino', 'Asian']
         },
         yaxis: {
             title: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
@@ -13,13 +13,59 @@ import GenderChart from './Chart/GenderChart';
 import RaceChart from './Chart/RaceChart';
 import { gridSpacing } from 'utils/store/constant';
 
+import axios from 'utils/axios';
+
 const Dashboard = () => {
     const theme = useTheme();
+
+    const [userResponses, setUserResponses] = useState([]);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchUserResponses = async () => {
+            const response = await axios.post(
+                '/questionnaire/user/questionnaire/list',
+                {
+                    pagination: {
+                        pageSize: 30,
+                        sortAscending: true
+                    }
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+                    }
+                }
+            );
+            setUserResponses(response.data);
+        };
+        const fetchUsers = async () => {
+            const response = await axios.post(
+                '/iam/user/list',
+                {
+                    pagination: {
+                        pageSize: 30,
+                        sortAscending: true
+                    }
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('serviceToken')}`
+                    }
+                }
+            );
+            setUsers(response.data);
+        };
+        fetchUserResponses();
+        fetchUsers();
+    }, []);
 
     return (
         <Grid container spacing={gridSpacing} alignItems="center">
             <Grid item xs={12} lg={2}>
-                <DataCard primary="Total users" secondary="24" color={theme.palette.primary.main} iconPrimary={AccountCircleTwoToneIcon} />
+                <DataCard primary="Total users" secondary={users?.pagination?.totalRecords} color={theme.palette.primary.main} iconPrimary={AccountCircleTwoToneIcon} />
             </Grid>
             <Grid item xs={12} lg={2}>
                 <DataCard primary="Active users" secondary="4" color={theme.palette.orange.dark} iconPrimary={EmojiEmotionsTwoToneIcon} />
@@ -27,7 +73,7 @@ const Dashboard = () => {
             <Grid item xs={12} lg={2}>
                 <DataCard
                     primary="Inactive users"
-                    secondary="20"
+                    secondary="0"
                     color={theme.palette.warning.dark}
                     iconPrimary={RemoveRedEyeTwoToneIcon}
                 />
@@ -40,8 +86,8 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} lg={2}>
                 <DataCard
-                    primary="Transactions"
-                    secondary="2"
+                    primary="User Responses"
+                    secondary={userResponses?.pagination?.totalRecords}
                     color={theme.palette.orange.main}
                     iconPrimary={AccountBalanceWalletTwoToneIcon}
                 />
