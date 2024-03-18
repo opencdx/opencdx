@@ -22,42 +22,20 @@ import cdx.opencdx.grpc.lab.connected.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
-import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
-import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import java.io.InputStream;
-import javax.net.ssl.SSLException;
 import lombok.Generated;
 
 /**
  * Implementation of the Lab Connected Service gRPC Client.
  */
 public class OpenCDXLabConnectedClientImpl implements OpenCDXLabConnectedClient {
-    private ConnectedLabServiceGrpc.ConnectedLabServiceBlockingStub connectedLabServiceBlockingStub;
+    private final ConnectedLabServiceGrpc.ConnectedLabServiceBlockingStub connectedLabServiceBlockingStub;
 
     /**
      * Default Constructor used for normal operation.
-     * @param server Server address for the gRPC Service.
-     * @param port Server port for the gRPC Service.
-     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
-     * @throws SSLException creating Client
+     * @param channel ManagedChannel for the gRPC Service invocations.
      */
     @Generated
-    public OpenCDXLabConnectedClientImpl(
-            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
-        if (certChain == null) {
-            throw new SSLException("Could not load certificate chain");
-        }
-        ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
-                .intercept(observationGrpcClientInterceptor)
-                .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient()
-                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
-                        .build())
-                .build();
+    public OpenCDXLabConnectedClientImpl(ManagedChannel channel) {
         this.connectedLabServiceBlockingStub = ConnectedLabServiceGrpc.newBlockingStub(channel);
     }
 

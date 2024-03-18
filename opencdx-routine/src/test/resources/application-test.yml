@@ -38,3 +38,5 @@ spring:
 opencdx:
   routine:
     format: "%s!"
+  client:
+    trustStore: ../certs/opencdx-clients.pem

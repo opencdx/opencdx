@@ -1,5 +1,6 @@
 opencdx:
   client:
+    trustStore: /certs/opencdx-clients.pem
     tracing:
       enabled: true
     anf:

@@ -16,9 +16,11 @@
 package cdx.opencdx.gateway.config;
 
 import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import javax.net.ssl.SSLException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinWebClientBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,15 +48,14 @@ public class WebClientConfig {
      * @return ZipkinWebClientBuilderCustomizer
      */
     @Bean
-    ZipkinWebClientBuilderCustomizer myCustomizer() {
+    ZipkinWebClientBuilderCustomizer myCustomizer(@Value("${opencdx.client.trustStore}") String trustStore) {
         return webClientBuilder -> {
-            log.info("**************  WEBCLIENT CONFIG ******************");
             final HttpClient httpClient = HttpClient.create().secure(ssl -> {
-                try {
+                try (InputStream certChain = new FileInputStream(trustStore)) {
                     ssl.sslContext(SslContextBuilder.forClient()
-                            .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                            .trustManager(certChain)
                             .build());
-                } catch (SSLException e) {
+                } catch (IOException e) {
                     log.error("Error creating SSL context", e);
                 }
             });

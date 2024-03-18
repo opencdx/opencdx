@@ -31,6 +31,8 @@ spring:
 opencdx:
   tinkar:
     format: "Hello %s!"
+  client:
+    trustStore: ../certs/opencdx-clients.pem
 data:
   path:
     parent: ../data

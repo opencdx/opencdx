@@ -38,3 +38,5 @@ spring:
 opencdx:
   helloworld:
     format: "Hello %s!"
+  client:
+    trustStore: ../certs/opencdx-clients.pem

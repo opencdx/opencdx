@@ -91,3 +91,7 @@ encrypt:
     location: file:/certs/config-server.jks
     alias: config-server-key
     password: opencdx
+
+opencdx:
+  client:
+    trustStore: /certs/opencdx-clients.pem

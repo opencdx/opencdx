@@ -23,13 +23,7 @@ import cdx.opencdx.grpc.inventory.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
-import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
-import io.micrometer.core.instrument.binder.grpc.ObservationGrpcClientInterceptor;
 import io.micrometer.observation.annotation.Observed;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import java.io.InputStream;
-import javax.net.ssl.SSLException;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,26 +39,10 @@ public class OpenCDXCountryClientImpl implements OpenCDXCountryClient {
 
     /**
      * Default Constructor used for normal operation.
-     * @param server Server address for the gRPC Service.
-     * @param port Server port for the gRPC Service.
-     * @param observationGrpcClientInterceptor Interceptor for the gRPC Service.
-     * @throws SSLException creating Client
+     * @param channel ManagedChannel for the gRPC Service invocations.
      */
     @Generated
-    public OpenCDXCountryClientImpl(
-            String server, Integer port, ObservationGrpcClientInterceptor observationGrpcClientInterceptor)
-            throws SSLException {
-        InputStream certChain = getClass().getClassLoader().getResourceAsStream("opencdx-clients.pem");
-        if (certChain == null) {
-            throw new SSLException("Could not load certificate chain");
-        }
-        ManagedChannel channel = NettyChannelBuilder.forAddress(server, port)
-                .intercept(observationGrpcClientInterceptor)
-                .useTransportSecurity()
-                .sslContext(GrpcSslContexts.forClient()
-                        .trustManager(InsecureTrustManagerFactory.INSTANCE)
-                        .build())
-                .build();
+    public OpenCDXCountryClientImpl(ManagedChannel channel) {
         this.countryServiceBlockingStub = CountryServiceGrpc.newBlockingStub(channel);
     }
 

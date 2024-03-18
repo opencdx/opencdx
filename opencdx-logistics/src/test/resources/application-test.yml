@@ -24,3 +24,7 @@ spring:
     uri: mongodb+srv://<username>:<password>@database:27017/opencdx/
     username: root
     password: root
+
+opencdx:
+  client:
+    trustStore: ../certs/opencdx-clients.pem
