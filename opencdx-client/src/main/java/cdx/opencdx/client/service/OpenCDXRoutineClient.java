@@ -134,22 +134,4 @@ public interface OpenCDXRoutineClient {
      */
     LabResultResponse getLabResult(LabResultRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
-
-    /**
-     * Method to gRPC Call Routine Service createMedication() api.
-     * @param request Medication request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Medication response.
-     */
-    MedicationResponse createMedication(MedicationRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException;
-
-    /**
-     * Method to gRPC Call Routine Service getMedication() api.
-     * @param request Medication request
-     * @param openCDXCallCredentials Call Credentials to use for send.
-     * @return Medication response.
-     */
-    MedicationResponse getMedication(MedicationRequest request, OpenCDXCallCredentials openCDXCallCredentials)
-            throws OpenCDXClientException;
 }

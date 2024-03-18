@@ -1,0 +1,275 @@
+/*
+ * This Protocol Buffers (protobuf) definition is primarily focused on the management of medication.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.health.medication;
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+
+
+/*
+ * Indicates how a medication is to be administered to a patient.
+ */
+enum MedicationAdministrationRoute {
+  /*
+   * Unspecified medication type.
+   */
+  UNSPECIFIED_MEDICATION_TYPE = 0;
+  /*
+   * Medication administered orally, usually in the form of pills or liquid.
+   */
+  ORAL = 1;
+  /*
+   * Medication administered directly into a vein.
+   */
+  INTRAVENOUS = 2;
+  /*
+   * Medication administered into a muscle.
+   */
+  INTRAMUSCULAR = 3;
+  /*
+   * Medication administered into the fatty tissue beneath the skin.
+   */
+  SUBCUTANEOUS = 4;
+  /*
+   * Medication applied onto the skin surface.
+   */
+  TOPICAL = 5;
+  /*
+   * Medication administered via the rectum.
+   */
+  RECTAL = 6;
+  /*
+   * Medication inhaled into the lungs.
+   */
+  INHALATION = 7;
+  /*
+   * Medication administered through the skin.
+   */
+  TRANSDERMAL = 8;
+  /*
+   * Medication administered through the nose.
+   */
+  NASAL = 9;
+  /*
+   * Medication administered into the eye.
+   */
+  OPHTHALMIC = 10;
+  /*
+   * Medication administered into the ear.
+   */
+  OTIC = 11;
+  /*
+   * Medication administered between the cheek and gum.
+   */
+  BUCCAL = 12;
+  /*
+   * Medication administered under the tongue.
+   */
+  SUBLINGUAL = 13;
+  /*
+   * Medication administered into the skin.
+   */
+  INTRADERMAL = 14;
+  /*
+   * Medication administered into a joint.
+   */
+  INTRAARTICULAR = 15;
+  /*
+   * Medication administered directly into a lesion or injury.
+   */
+  INTRALESIONAL = 16;
+  /*
+   * Medication administered directly into the heart.
+   */
+  INTRACARDIAC = 17;
+  /*
+   * Medication administered into the eye.
+   */
+  INTRAOCULAR = 18;
+  /*
+   * Medication administered into the spinal canal.
+   */
+  INTRATHECAL = 19;
+  /*
+   * Medication administered into the bladder.
+   */
+  INTRAVESICAL = 20;
+  /*
+   * Medication administered using iontophoresis technique.
+   */
+  IONTOPHORESIS = 21;
+  /*
+   * Medication administered into the eye.
+   */
+  INTRAVITREAL = 22;
+  /*
+   * Other routes of medication administration not listed here.
+   */
+  OTHER_ROUTE = 23;
+}
+
+
+/*
+  * Indicates how often a medication is to be taken.
+ */
+enum MedicationFrequency {
+  /*
+   * Unspecified frequency.
+   */
+  UNSPECIFIED_FREQUENCY = 0;
+  /*
+   * Once a day.
+   */
+  ONCE_DAILY = 1;
+  /*
+   * Twice a day.
+   */
+  TWICE_DAILY = 2;
+  /*
+   * Three times a day.
+   */
+  THREE_TIMES_DAILY = 3;
+  /*
+   * Four times a day.
+   */
+  FOUR_TIMES_DAILY = 4;
+  /*
+   * Every 6 hours.
+   */
+  EVERY_SIX_HOURS = 5;
+  /*
+   * Every 8 hours.
+   */
+  EVERY_EIGHT_HOURS = 6;
+  /*
+   * Every 12 hours.
+   */
+  EVERY_TWELVE_HOURS = 7;
+  /*
+   * Every other day.
+   */
+  EVERY_OTHER_DAY = 8;
+  /*
+   * Once a week.
+   */
+  ONCE_WEEKLY = 9;
+  /*
+   * Every two weeks.
+   */
+  EVERY_TWO_WEEKS = 10;
+  /*
+   * As needed.
+   */
+  AS_NEEDED = 11;
+  /*
+   * PRN (pro re nata) - as needed.
+   */
+  PRN = 12;
+  /*
+   * Continuous infusion.
+   */
+  CONTINUOUS_INFUSION = 13;
+  /*
+   * Once a month.
+   */
+  ONCE_MONTHLY = 14;
+  /*
+   * Once every 3 months.
+   */
+  ONCE_EVERY_THREE_MONTHS = 15;
+  /*
+   * Once every 6 months.
+   */
+  ONCE_EVERY_SIX_MONTHS = 16;
+  /*
+   * Once a year.
+   */
+  ONCE_YEARLY = 17;
+  /*
+   * Other frequency not listed here.
+   */
+  OTHER_FREQUENCY = 18;
+}
+
+
+
+/*
+ * Represents information about a medication including its name,
+ * dosage, instructions, route of administration, frequency, start and end dates,
+ * prescribing doctor, pharmacy, and a boolean flag for prescription.
+ */
+message Medication {
+  /*
+   * The unique identifier for the medication
+   */
+  optional string id = 1;
+
+  /*
+   * The unique identifier for the patient
+   */
+  string patient_id = 2;
+
+  /*
+   * The unique identifier for the patient's national health id
+   */
+  string national_health_id = 3;
+  /*
+   * The name of the medication
+   */
+  string medication_name = 4;
+  /*
+   * Details about the medication dosage strength
+   */
+  string dosage_strength = 5;
+  /*
+   * The unit of measurement for the medication dosage
+   */
+  string dosage_unit = 6;
+  /*
+   * Instructions for how to take the medication
+   */
+  string instructions = 7;
+  /*
+   * The way the medication is to be administered (e.g., orally, intravenously, etc.)
+   */
+  MedicationAdministrationRoute route_of_administration = 8;
+
+  optional string other_route_of_administration = 9;
+  /*
+   * How often the medication is to be taken
+   */
+  MedicationFrequency frequency = 10;
+  /*
+   * A string to represent other frequency not listed in the MedicationFrequency enum
+   */
+  string other_frequency = 11;
+  /*
+   * The date when the medication was first taken
+   */
+  google.protobuf.Timestamp start_date = 12;
+  /*
+   * The date when the medication stopped being taken
+   */
+  optional google.protobuf.Timestamp end_date = 13;
+  /*
+   * The provider id of the doctor who prescribed the medication
+   */
+  string provider_id = 14;
+  /*
+   * The pharmacy id where the medication was obtained
+   */
+  string pharmacy_id = 15;
+  /*
+   * A flag indicating whether the medication requires a prescription
+   */
+  bool is_prescription = 16;
+
+  /*
+   * A flag indicating whether the medication is generic
+   */
+  bool is_generic = 17;
+
+}

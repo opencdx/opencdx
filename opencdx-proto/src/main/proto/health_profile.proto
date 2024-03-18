@@ -109,44 +109,39 @@ message UserProfile {
   repeated KnownAllergy known_allergies = 19;
 
   /*
-   * A list of medications currently being taken by the user.
-   */
-  repeated Medication current_medications = 20;
-
-  /*
    * Indicates the active/inactive status of the user.
    */
-  bool is_active = 21;
+  bool is_active = 20;
 
   /*
    * A list of user's email addresses.
    */
-  repeated cdx.opencdx.grpc.common.EmailAddress email = 22;
+  repeated cdx.opencdx.grpc.common.EmailAddress email = 21;
 
   /*
    * A list of user's phone numbers.
    */
-  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 23;
+  repeated cdx.opencdx.grpc.common.PhoneNumber phone = 22;
 
   /*
    * A list of user's addresses.
    */
-  repeated cdx.opencdx.grpc.common.Address address = 24;
+  repeated cdx.opencdx.grpc.common.Address address = 23;
 
   /*
    * The timestamp indicating when the user's profile was created.
    */
-  optional google.protobuf.Timestamp created = 25;
+  optional google.protobuf.Timestamp created = 24;
 
   /*
    * The timestamp indicating the last modification of the user's profile.
    */
-  optional google.protobuf.Timestamp modified = 26;
+  optional google.protobuf.Timestamp modified = 25;
 
   /*
    * The identifier of the entity that created the user's profile.
    */
-  optional string creator = 27;
+  optional string creator = 26;
 
   /*
    * The identifier of the entity that last modified the user's profile.
@@ -380,53 +375,7 @@ message SystemSettings {
   string last_failed_login = 9;
 }
 
-/*
- * Represents information about a medication including its name,
- * dosage, instructions, route of administration, frequency, start and end dates,
- * prescribing doctor, pharmacy, and a boolean flag for prescription.
- */
-message Medication {
-  /*
-   * The name of the medication
-   */
-  string name = 1;
-  /*
-   * Details about the medication dosage
-   */
-  string dosage = 2;
-  /*
-   * Instructions for how to take the medication
-   */
-  string instructions = 3;
-  /*
-   * The way the medication is to be administered (e.g., orally, intravenously, etc.)
-   */
-  string route_of_administration = 4;
-  /*
-   * How often the medication is to be taken
-   */
-  string frequency = 5;
-  /*
-   * The date when the medication was first taken
-   */
-  string start_date = 6;
-  /*
-   * The date when the medication stopped being taken
-   */
-  string end_date = 7;
-  /*
-   * The name of the doctor who prescribed the medication
-   */
-  string prescribing_doctor = 8;
-  /*
-   * The pharmacy where the medication was obtained
-   */
-  string pharmacy = 9;
-  /*
-   * A flag indicating whether the medication requires a prescription
-   */
-  bool is_prescription = 10;
-}
+
 
 /*
  * Represents information about a known allergy including the allergen,

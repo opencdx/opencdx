@@ -203,32 +203,4 @@ public class OpenCDXRoutineServiceImpl implements OpenCDXRoutineService {
                 .setLabResult(request.getLabResult())
                 .build();
     }
-
-    /**
-     * Trigger a medication based on the provided MedicationRequest.
-     * @param request The MedicationRequest to be processed
-     * @return Message indicating the completion of the medication triggering
-     */
-    @Override
-    public MedicationResponse triggerMedication(MedicationRequest request) {
-        this.opencdxDocumentValidator.validateDocumentsOrThrow(request.getMedication().getRelatedEntitiesList().stream()
-                .map(ObjectId::new)
-                .toList());
-
-        return MedicationResponse.newBuilder()
-                .setMedication(request.getMedication())
-                .build();
-    }
-
-    /**
-     * Retrieve medication information from the provided MedicationRequest.
-     * @param request The MedicationRequest for retrieving medication details
-     * @return Message containing details of the requested medication
-     */
-    @Override
-    public MedicationResponse getMedication(MedicationRequest request) {
-        return MedicationResponse.newBuilder()
-                .setMedication(request.getMedication())
-                .build();
-    }
 }

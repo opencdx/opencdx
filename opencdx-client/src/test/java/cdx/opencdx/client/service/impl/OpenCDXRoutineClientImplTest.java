@@ -319,48 +319,4 @@ class OpenCDXRoutineClientImplTest {
                 OpenCDXClientException.class,
                 () -> this.openCDXRoutineClient.getLabResult(request, openCDXCallCredentials));
     }
-
-    @Test
-    void createMedication() {
-        Mockito.when(this.routineSystemServiceBlockingStub.createMedication(Mockito.any(MedicationRequest.class)))
-                .thenReturn(MedicationResponse.getDefaultInstance());
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertEquals(
-                MedicationResponse.getDefaultInstance(),
-                this.openCDXRoutineClient.createMedication(
-                        MedicationRequest.getDefaultInstance(), openCDXCallCredentials));
-    }
-
-    @Test
-    void createMedicationException() {
-        Mockito.when(this.routineSystemServiceBlockingStub.createMedication(Mockito.any(MedicationRequest.class)))
-                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        MedicationRequest request = MedicationRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class,
-                () -> this.openCDXRoutineClient.createMedication(request, openCDXCallCredentials));
-    }
-
-    @Test
-    void getMedication() {
-        Mockito.when(this.routineSystemServiceBlockingStub.getMedication(Mockito.any(MedicationRequest.class)))
-                .thenReturn(MedicationResponse.getDefaultInstance());
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertEquals(
-                MedicationResponse.getDefaultInstance(),
-                this.openCDXRoutineClient.getMedication(
-                        MedicationRequest.getDefaultInstance(), openCDXCallCredentials));
-    }
-
-    @Test
-    void getMedicationException() {
-        Mockito.when(this.routineSystemServiceBlockingStub.getMedication(Mockito.any(MedicationRequest.class)))
-                .thenThrow(new StatusRuntimeException(Status.INTERNAL));
-        MedicationRequest request = MedicationRequest.getDefaultInstance();
-        OpenCDXCallCredentials openCDXCallCredentials = new OpenCDXCallCredentials("Bearer");
-        Assertions.assertThrows(
-                OpenCDXClientException.class,
-                () -> this.openCDXRoutineClient.getMedication(request, openCDXCallCredentials));
-    }
 }

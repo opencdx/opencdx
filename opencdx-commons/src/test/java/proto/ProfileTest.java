@@ -217,18 +217,6 @@ class ProfileTest {
                                                 .setLastOccurrence("1976/12/25")
                                                 .setNotes("Christmas Trees")
                                                 .build()))
-                                        .addAllCurrentMedications(List.of(Medication.newBuilder()
-                                                .setName("Singular")
-                                                .setDosage("5mg")
-                                                .setInstructions("Take 1 pill at night")
-                                                .setRouteOfAdministration("Oral")
-                                                .setFrequency("Daily")
-                                                .setStartDate("1976/12/26")
-                                                .setEndDate("EOL")
-                                                .setPrescribingDoctor("Dr. OpenCDX")
-                                                .setPharmacy("Pharmacy")
-                                                .setIsPrescription(true)
-                                                .build()))
                                         .build())
                                 .build()));
     }

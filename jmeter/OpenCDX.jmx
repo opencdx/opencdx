@@ -1445,18 +1445,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
       &quot;notes&quot; : &quot;Christmas Trees&quot;
     } ],
-    &quot;currentMedications&quot; : [ {
-      &quot;name&quot; : &quot;Singular&quot;,
-      &quot;dosage&quot; : &quot;5mg&quot;,
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,
-      &quot;frequency&quot; : &quot;Daily&quot;,
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,
-      &quot;endDate&quot; : &quot;EOL&quot;,
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,
-      &quot;isPrescription&quot; : true
-    } ],
     &quot;isActive&quot; : false,
     &quot;email&quot; : [ ],
     &quot;phone&quot; : [ ],
@@ -1650,18 +1638,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;onsetDate&quot; : &quot;1975/12/20&quot;,
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
       &quot;notes&quot; : &quot;Christmas Trees&quot;
-    } ],
-    &quot;currentMedications&quot; : [ {
-      &quot;name&quot; : &quot;Singular&quot;,
-      &quot;dosage&quot; : &quot;5mg&quot;,
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,
-      &quot;frequency&quot; : &quot;Daily&quot;,
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,
-      &quot;endDate&quot; : &quot;EOL&quot;,
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,
-      &quot;isPrescription&quot; : true
     } ],
     &quot;isActive&quot; : false,
     &quot;email&quot; : [ ],
@@ -3786,30 +3762,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;resultId&quot; : &quot;6581e5147e001111d3736b3e&quot;,
     &quot;resultValue&quot; : &quot;Result Value&quot;,
     &quot;resultDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
-    &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateMedication" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateMedication</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-  &quot;medication&quot; : {
-    &quot;medicationId&quot; : &quot;6581e5147e001111d3736b41&quot;,
-    &quot;medicationName&quot; : &quot;Medication name&quot;,
-    &quot;administrationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
     &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
   }
@@ -7013,18 +6965,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
       &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
     } ],&#xd;
-    &quot;currentMedications&quot; : [ {&#xd;
-      &quot;name&quot; : &quot;Singular&quot;,&#xd;
-      &quot;dosage&quot; : &quot;5mg&quot;,&#xd;
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,&#xd;
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,&#xd;
-      &quot;frequency&quot; : &quot;Daily&quot;,&#xd;
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,&#xd;
-      &quot;endDate&quot; : &quot;EOL&quot;,&#xd;
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,&#xd;
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,&#xd;
-      &quot;isPrescription&quot; : true&#xd;
-    } ],&#xd;
     &quot;isActive&quot; : false,&#xd;
     &quot;email&quot; : [ ],&#xd;
     &quot;phone&quot; : [ ],&#xd;
@@ -7227,18 +7167,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;onsetDate&quot; : &quot;1975/12/20&quot;,&#xd;
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
       &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
-    } ],&#xd;
-    &quot;currentMedications&quot; : [ {&#xd;
-      &quot;name&quot; : &quot;Singular&quot;,&#xd;
-      &quot;dosage&quot; : &quot;5mg&quot;,&#xd;
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,&#xd;
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,&#xd;
-      &quot;frequency&quot; : &quot;Daily&quot;,&#xd;
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,&#xd;
-      &quot;endDate&quot; : &quot;EOL&quot;,&#xd;
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,&#xd;
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,&#xd;
-      &quot;isPrescription&quot; : true&#xd;
     } ],&#xd;
     &quot;isActive&quot; : false,&#xd;
     &quot;email&quot; : [ ],&#xd;
@@ -9897,39 +9825,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.path">/routine/labResult</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/medication [POST]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;medication&quot; : {&#xd;
-    &quot;medicationId&quot; : &quot;6581e5147e001111d3736b41&quot;,&#xd;
-    &quot;medicationName&quot; : &quot;Medication name&quot;,&#xd;
-    &quot;administrationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
-    &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;
-  }&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/medication</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
