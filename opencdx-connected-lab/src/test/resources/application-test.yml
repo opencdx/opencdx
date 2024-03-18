@@ -28,3 +28,5 @@ spring:
 opencdx:
   connections:
     default: cdx.opencdx.connected.lab.handler.OpenCDXLabConnectedDefault
+  client:
+    trustStore: ../certs/opencdx-clients.pem

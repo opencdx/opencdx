@@ -38,3 +38,5 @@ spring:
 opencdx:
   questionnaire:
     format: "%s!"
+  client:
+    trustStore: ../certs/opencdx-clients.pem

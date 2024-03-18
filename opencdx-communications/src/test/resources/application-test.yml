@@ -44,3 +44,7 @@ cdc:
     uri: cdc-uri
     client: cdc-client
     key: cdc-key
+
+opencdx:
+  client:
+    trustStore: ../certs/opencdx-clients.pem

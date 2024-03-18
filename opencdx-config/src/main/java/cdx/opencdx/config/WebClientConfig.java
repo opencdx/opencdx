@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.commons.config;
+package cdx.opencdx.config;
 
-import cdx.opencdx.commons.exceptions.OpenCDXInternal;
 import io.netty.handler.ssl.SslContextBuilder;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class WebClientConfig {
                             .trustManager(certChain)
                             .build());
                 } catch (IOException e) {
-                    throw new OpenCDXInternal(this.getClass().getName(), 1, "SSL Exception", e);
+                    log.error("Error creating SSL context", e);
                 }
             });
             webClientBuilder

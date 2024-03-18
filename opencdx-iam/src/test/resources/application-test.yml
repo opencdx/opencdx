@@ -33,3 +33,4 @@ opencdx:
     verificationUrl: "https://localhost:8680/verify"
   client:
     communication: true
+    trustStore: ../certs/opencdx-clients.pem

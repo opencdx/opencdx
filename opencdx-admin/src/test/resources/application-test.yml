@@ -37,3 +37,6 @@ spring:
     username: root
     password: root
 
+opencdx:
+  client:
+    trustStore: ../certs/opencdx-clients.pem
