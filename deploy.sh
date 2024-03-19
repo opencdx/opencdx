@@ -282,10 +282,6 @@ open_reports() {
         ./gradlew testReport || handle_error "Failed to generate the test report."
         open_url "build/reports/allTests/index.html"
         ;;
-    dashboard)
-        handle_info "Opening OpenCDX Dashboard..."
-        open_url "https://localhost:3005"
-        ;;
     jacoco)
         handle_info "Opening JaCoCo Report..."
         ./gradlew jacocoRootReport -x bootBuildInfo -x generateGitProperties || handle_error "Failed to generate the JaCoCo report."
@@ -367,7 +363,6 @@ print_usage() {
     echo "  --wipe          Will wipe the contents of the ./data directory."
     echo "  --cert          Will wipe the contents of the ./certs directory."
     echo "  --proto         Will force the rebuild of the proto files only and exit."
-    echo "  --no_ui         Will skip opencdx-dashboard in the build process."
     echo "  --help          Show this help message."
     exit 0
 }
@@ -385,7 +380,7 @@ build_docker() {
     "opencdx/audit" "opencdx/communications" "opencdx/media" "opencdx/health" "opencdx/connected-lab"
     "opencdx/iam" "opencdx/routine" "opencdx/protector" "opencdx/predictor"
     "opencdx/questionnaire" "opencdx/classification" "opencdx/gateway" "opencdx/logistics"
-    "opencdx/discovery" "opencdx/anf" "opencdx/dashboard" "opencdx/graphql")
+    "opencdx/discovery" "opencdx/anf" "opencdx/graphql")
 
   selected_components=()
 
@@ -621,7 +616,7 @@ menu() {
             "Open Test Report" "Publish Doc"
             "Open JaCoCo Report" "Check JavaDoc"
             "Open Proto Doc" "Container Status"
-            "Dependency Check" "OpenCDX Dashboard"
+            "Dependency Check"
         )
 
         # Calculate the number of menu items
@@ -676,7 +671,6 @@ menu() {
             13) open_reports "proto" ;;
             14) open_reports "status" ;;
             15) open_reports "dependency" ;;
-            16) open_reports "dashboard" ;;
             x)
                 handle_info "Exiting..."
                 exit 0
@@ -702,7 +696,6 @@ wipe=false
 cert=false
 proto=false
 jmeter_test=""
-no_ui=false
 
 # Parse command-line arguments
 for arg in "$@"; do
@@ -750,9 +743,6 @@ for arg in "$@"; do
     --proto)
         proto=true
         ;;
-    --no_ui)
-        no_ui=true
-        ;;
     --help)
         print_usage
         ;;
@@ -785,28 +775,6 @@ if [[ "$OSTYPE" != "msys" ]] && ! command -v open &> /dev/null; then
     handle_error "'open' command is not available. Please install it or use an appropriate alternative."
 fi
 
-if [ "$no_ui" = false ]; then
-
-  if [ "$clean" = true ]; then
-      handle_info "Cleaning opencdx-dashboard"
-      rm -rf ./opencdx-dashboard/node_modules
-  fi
-
-  # Check if Node.js is installed
-  if command -v node &> /dev/null; then
-    # Get the installed Node.js version
-    installed_version=$(node -v | cut -c 2-)
-
-    # Compare the installed version with the desired version
-    if [ "$(printf '%s\n' "$installed_version" "$node_version" | sort -V | head -n 1)" == "$node_version" ]; then
-      handle_info "Node.js version $installed_version is installed."
-    else
-      handle_error "Node.js version $node_version is not installed. Installed version: $installed_version"
-    fi
-  else
-    handle_error "Node.js is not installed."
-  fi
-fi
 
 handle_info "All dependencies are installed."
 
@@ -913,20 +881,6 @@ elif [ "$clean" = false ] && [ "$skip" = false ]; then
             # Build Failed
             handle_error "Sonarlint failed. Please review output to determine the issue."
         fi
-fi
-
-if [ "$no_ui" = false ] && [ "$skip" = false ]; then
-  # Change directory to opencdx-dashboard
-  cd opencdx-dashboard || handle_error "Unable to change directory to opencdx-dashboard"
-
-  # Install dependencies
-  yarn install || handle_error "yarn install failed"
-
-  # Run linting
-  yarn run lint
-
-  # Change back to the previous directory
-  cd - || handle_error "Unable to change back to the previous directory"
 fi
 
 if [ "$check" = true ]; then
