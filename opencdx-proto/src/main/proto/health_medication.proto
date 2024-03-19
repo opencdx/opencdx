@@ -427,6 +427,22 @@ service MedicationService {
    * Lists current medications for a given national health ID.
    */
   rpc ListCurrentMedicationsByNationalHealthId(ListCurrentMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+
+  /*
+   * Search medications by brand name, responses will include generics.
+   */
+  rpc SearchMedications(SearchMedicationsRequest) returns (ListMedicationsResponse);
+}
+
+message SearchMedicationsRequest {
+  /*
+   * The brand name of the medication to search for.
+   */
+  string brand_name = 1;
+  /*
+   * Pagination information.
+   */
+  cdx.opencdx.grpc.common.Pagination pagination = 2;
 }
 
 /*
@@ -543,49 +559,53 @@ service MedicationAdministrationService {
  */
 message MedicationAdministration {
   /*
+   * The unique identifier for the medication administration.
+   */
+  optional string id = 1;
+  /*
    * The unique identifier for the medication being administered.
    */
-  string medication_id = 1;
+  string medication_id = 2;
   /*
    * The unique identifier for the patient.
    */
-  string patient_id = 2;
+  string patient_id = 3;
   /*
    * The unique identifier for the patient's national health ID.
    */
-  string national_health_id = 3;
+  string national_health_id = 4;
   /*
    * The date and time when the medication was administered.
    */
-  google.protobuf.Timestamp administration_time = 4;
+  google.protobuf.Timestamp administration_time = 5;
 
   /*
    * The unique identifier for the user who administered the medication.
    */
-  string administrated_by = 5;
+  string administrated_by = 6;
   /*
    * Additional notes or details about the medication administration.
    */
-  string administration_notes = 6;
+  string administration_notes = 7;
   /*
  * The timestamp indicating when the user's profile was created.
  */
-  optional google.protobuf.Timestamp created = 7;
+  optional google.protobuf.Timestamp created = 8;
 
   /*
    * The timestamp indicating the last modification of the user's profile.
    */
-  optional google.protobuf.Timestamp modified = 8;
+  optional google.protobuf.Timestamp modified = 9;
 
   /*
    * The identifier of the entity that created the user's profile.
    */
-  optional string creator = 9;
+  optional string creator = 10;
 
   /*
    * The identifier of the entity that last modified the user's profile.
    */
-  optional string modifier = 10;
+  optional string modifier = 11;
 }
 
 /*
