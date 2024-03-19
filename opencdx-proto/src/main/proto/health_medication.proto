@@ -358,7 +358,7 @@ message Medication {
   /*
    * The provider id of the doctor who prescribed the medication
    */
-  string provider_id = 16;
+  string provider_number = 16;
   /*
    * The pharmacy id where the medication was obtained
    */
@@ -401,32 +401,22 @@ service MedicationService {
   /*
    * Prescribes a new medication for a patient.
    */
-  rpc Prescribing(Medication) returns (PrescriptionResponse);
+  rpc Prescribing(Medication) returns (Medication);
 
   /*
    * Ends a medication for a patient.
    */
-  rpc Ending(EndMedicationRequest) returns (EndMedicationResponse);
+  rpc Ending(EndMedicationRequest) returns (Medication);
 
   /*
    * Lists all medications for a given patient ID.
    */
-  rpc ListAllMedicationsByPatientId(ListMedicationsByPatientIdRequest) returns (ListMedicationsResponse);
-
-  /*
-   * Lists all medications for a given national health ID.
-   */
-  rpc ListAllMedicationsByNationalHealthId(ListMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+  rpc ListAllMedications(ListMedicationsRequest) returns (ListMedicationsResponse);
 
   /*
    * Lists current medications for a given patient ID.
    */
-  rpc ListCurrentMedicationsByPatientId(ListCurrentMedicationsByPatientIdRequest) returns (ListMedicationsResponse);
-
-  /*
-   * Lists current medications for a given national health ID.
-   */
-  rpc ListCurrentMedicationsByNationalHealthId(ListCurrentMedicationsByNationalHealthIdRequest) returns (ListMedicationsResponse);
+  rpc ListCurrentMedications(ListMedicationsRequest) returns (ListMedicationsResponse);
 
   /*
    * Search medications by brand name, responses will include generics.
@@ -446,15 +436,6 @@ message SearchMedicationsRequest {
 }
 
 /*
- * Response message for prescribing a medication.
- */
-message PrescriptionResponse {
-  /*
-   * Placeholder for any response data upon prescribing a medication.
-   */
-}
-
-/*
  * Request message for ending a medication.
  */
 message EndMedicationRequest {
@@ -462,59 +443,32 @@ message EndMedicationRequest {
    * The unique identifier for the medication to be ended.
    */
   string medication_id = 1;
-  /*
-   * Additional details or reasons for ending the medication.
-   */
-  string end_reason = 2;
-}
 
-/*
- * Response message for ending a medication.
- */
-message EndMedicationResponse {
   /*
-   * Placeholder for any response data upon ending a medication.
+   * The date when the medication stopped being taken
    */
+  google.protobuf.Timestamp end_date = 2;
 }
 
 /*
  * Request message for listing medications by patient ID.
  */
-message ListMedicationsByPatientIdRequest {
-  /*
+message ListMedicationsRequest {
+
+  oneof search {
+    /*
    * The unique identifier for the patient.
    */
-  string patient_id = 1;
-}
-
-/*
- * Request message for listing medications by national health ID.
- */
-message ListMedicationsByNationalHealthIdRequest {
-  /*
+    string patient_id = 1;
+    /*
    * The unique identifier for the patient's national health ID.
    */
-  string national_health_id = 1;
-}
-
-/*
- * Request message for listing current medications by patient ID.
- */
-message ListCurrentMedicationsByPatientIdRequest {
+    string national_health_id = 2;
+  }
   /*
-   * The unique identifier for the patient.
-   */
-  string patient_id = 1;
-}
-
-/*
- * Request message for listing current medications by national health ID.
+ * Pagination information.
  */
-message ListCurrentMedicationsByNationalHealthIdRequest {
-  /*
-   * The unique identifier for the patient's national health ID.
-   */
-  string national_health_id = 1;
+  cdx.opencdx.grpc.common.Pagination pagination = 3;
 }
 
 /*
