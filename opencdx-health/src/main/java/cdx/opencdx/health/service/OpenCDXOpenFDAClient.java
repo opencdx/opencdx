@@ -19,10 +19,12 @@ import cdx.opencdx.health.dto.openfda.Search;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Interface for the OpenFDA client
+ * Interface for the OpenFDA client.  Can be used with an OpenFDA API Key, that can be requested from https://open.fda.gov/apis/authentication/ .
+ * The key should be passed in the Authorization header in the form "Basic eW91ckFQSUtleUhlcmU6".
  */
 @FeignClient(name = "fdaDrugClient")
 public interface OpenCDXOpenFDAClient {
@@ -48,4 +50,30 @@ public interface OpenCDXOpenFDAClient {
     @GetMapping("/label.json")
     ResponseEntity<Search> getLabel(
             @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
+
+    /**
+     * Method to get drugs from OpenFDA
+     * @param authorizationToken Token for authorization in the form "Basic eW91ckFQSUtleUhlcmU6"
+     * @param search search term
+     * @param limit limit
+     * @param skip skip
+     * @return Meta
+     */
+    @GetMapping("/drugsfda.json")
+    ResponseEntity<Search> getDrugs( @RequestHeader("Authorization") String authorizationToken,
+            @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
+
+    /**
+     * Method to get label from OpenFDA
+     * @param authorizationToken Token for authorization in the form "Basic eW91ckFQSUtleUhlcmU6"
+     * @param search search term
+     * @param limit limit
+     * @param skip skip
+     * @return Meta
+     */
+    @GetMapping("/label.json")
+    ResponseEntity<Search> getLabel(  @RequestHeader("Authorization") String authorizationToken,
+            @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
 }
+
+

@@ -24,3 +24,7 @@ mongock:
 feign:
   httpclient:
     disableSslValidation: true
+
+
+openFda:
+  apiKey:

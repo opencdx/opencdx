@@ -23,7 +23,10 @@ import cdx.opencdx.health.service.OpenCDXOpenFDAClient;
 import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
 import java.util.*;
+
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,19 +35,30 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
 
+    private final String openFDAApiKey;
+
     public static final String MEDICATION = "Medication: {}";
     private final OpenCDXOpenFDAClient openCDXOpenFDAClient;
 
-    public OpenCDXApiFDAImpl(OpenCDXOpenFDAClient openCDXOpenFDAClient) {
+    public OpenCDXApiFDAImpl(OpenCDXOpenFDAClient openCDXOpenFDAClient, @Value("${openFda.apiKey}") String openFDAApiKey) {
         this.openCDXOpenFDAClient = openCDXOpenFDAClient;
+        if(openFDAApiKey != null && !openFDAApiKey.isEmpty()) {
+            this.openFDAApiKey = openFDAApiKey;
+        } else {
+            this.openFDAApiKey = null;
+        }
     }
 
     @Override
     @SuppressWarnings({"java:S3776", "java:S2259"})
     public List<OpenCDXMedicationModel> getMedicationsByBrandName(String brandNamePrefix) {
-        ResponseEntity<Search> drugs = null;
+        ResponseEntity<Search> drugs;
         try {
-            drugs = this.openCDXOpenFDAClient.getDrugs("products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
+            if(this.openFDAApiKey != null) {
+                drugs = this.openCDXOpenFDAClient.getDrugs("products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
+            } else {
+                drugs = this.openCDXOpenFDAClient.getDrugs(openFDAApiKey,"products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
+            }
         } catch (FeignException e) {
             log.warn("Failed fetching drugs for brand name: {}", brandNamePrefix);
             return Collections.emptyList();
@@ -58,8 +72,15 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
         List<Result> medicationDrugs = results.stream()
                 .map(result -> {
                     try {
-                        ResponseEntity<Search> label = this.openCDXOpenFDAClient.getLabel(
-                                "openfda.application_number:\"" + result.getApplication_number() + "\"", 1000, 0);
+                        ResponseEntity<Search> label;
+
+                        if(this.openFDAApiKey != null) {
+                            label =  this.openCDXOpenFDAClient.getLabel(
+                                    "openfda.application_number:\"" + result.getApplication_number() + "\"", 1000, 0);
+                        } else {
+                            label =  this.openCDXOpenFDAClient.getLabel(openFDAApiKey,
+                                    "openfda.application_number:\"" + result.getApplication_number() + "\"", 1000, 0);
+                        }
 
                         if (label.getBody() != null
                                 && label.getBody().getResults() != null
