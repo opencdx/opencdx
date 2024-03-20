@@ -26,12 +26,12 @@ import cdx.opencdx.grpc.common.Pagination;
 import cdx.opencdx.grpc.health.medication.*;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.repository.OpenCDXMedicationRepository;
+import cdx.opencdx.health.service.OpenCDXApiFDA;
 import cdx.opencdx.health.service.OpenCDXMedicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +54,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXMedicationRepository openCDXMedicationRepository;
     private final OpenCDXProfileRepository openCDXProfileRepository;
+    private final OpenCDXApiFDA openCDXApiFDA;
 
     /**
      * Constructor that takes a ObjectMapper, OpenCDXAuditService, OpenCDXCurrentUser, and OpenCDXDocumentValidator
@@ -62,18 +63,21 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
      * @param openCDXCurrentUser Service to get Current user.
      * @param openCDXMedicationRepository repository for reading and writing medication data
      * @param openCDXProfileRepository repository for reading and writing profile data
+     * @param openCDXApiFDA OpenFDA API service
      */
     public OpenCDXMedicationServiceImpl(
             ObjectMapper objectMapper,
             OpenCDXAuditService openCDXAuditService,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXMedicationRepository openCDXMedicationRepository,
-            OpenCDXProfileRepository openCDXProfileRepository) {
+            OpenCDXProfileRepository openCDXProfileRepository,
+            OpenCDXApiFDA openCDXApiFDA) {
         this.objectMapper = objectMapper;
         this.openCDXAuditService = openCDXAuditService;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.openCDXMedicationRepository = openCDXMedicationRepository;
         this.openCDXProfileRepository = openCDXProfileRepository;
+        this.openCDXApiFDA = openCDXApiFDA;
     }
 
     @Override
@@ -187,7 +191,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
     @Override
     public ListMedicationsResponse searchMedications(SearchMedicationsRequest request) {
 
-        List<OpenCDXMedicationModel> medications = Collections.emptyList();
+        List<OpenCDXMedicationModel> medications = this.openCDXApiFDA.getMedicationsByBrandName(request.getBrandName());
 
         Page<OpenCDXMedicationModel> all = this.getMedicaitonPage(
                 request.getPagination().getPageNumber(), request.getPagination().getPageSize(), medications);

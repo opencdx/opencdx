@@ -19,8 +19,11 @@ import cdx.opencdx.grpc.health.medication.DosageForm;
 import cdx.opencdx.grpc.health.medication.Medication;
 import cdx.opencdx.grpc.health.medication.MedicationAdministrationRoute;
 import cdx.opencdx.grpc.health.medication.MedicationFrequency;
+import cdx.opencdx.health.dto.openfda.Product;
+import cdx.opencdx.health.dto.openfda.Result;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -61,12 +64,32 @@ public class OpenCDXMedicationModel {
     private String providerNumber;
     private ObjectId pharmacyId;
     private boolean prescription;
-    private boolean generic;
+
+    @Builder.Default
+    private boolean generic = false;
 
     private Instant created;
     private Instant modified;
     private ObjectId creator;
     private ObjectId modifier;
+
+    public OpenCDXMedicationModel(String medicationName, Result result, Product product, boolean generic) {
+        this.medicationName = medicationName;
+        this.generic = generic;
+        this.dosageForm = DosageForm.valueOf(product.getDosageForm().toUpperCase());
+
+        if (product.getActiveIngredients() != null
+                && !product.getActiveIngredients().isEmpty()) {
+            this.dosageStrength = product.getActiveIngredients().stream()
+                    .map(ingredient -> ingredient.getStrength() + " " + ingredient.getName())
+                    .collect(Collectors.joining(", "));
+        }
+        this.instructions = result.getDosageAndAdministration().get(0);
+        this.administrationRoute =
+                MedicationAdministrationRoute.valueOf(product.getRoute().toUpperCase());
+
+        this.prescription = product.getMarketingStatus().equalsIgnoreCase("Prescription");
+    }
 
     /**
      * Constructor from protobuf message Medication
