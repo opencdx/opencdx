@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@SuppressWarnings("java:S1700")
+@SuppressWarnings({"java:S116", "java:S1700"})
 public class Results {
     private int skip;
     private int limit;

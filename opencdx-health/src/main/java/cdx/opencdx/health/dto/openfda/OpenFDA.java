@@ -27,22 +27,21 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@SuppressWarnings("java:S116")
 public class OpenFDA {
-    private List<String> applicationNumber;
-    private List<String> brandName;
-    private List<String> genericName;
-    private List<String> manufacturerName;
-    private List<String> productNdc;
-    private List<String> productType;
+    private List<String> application_number;
+    private List<String> brand_name;
+    private List<String> generic_name;
+    private List<String> manufacturer_name;
+    private List<String> product_ndc;
+    private List<String> product_type;
     private List<String> route;
-    private List<String> substanceName;
+    private List<String> substance_name;
     private List<String> rxcui;
-    private List<String> splId;
-    private List<String> splSetId;
-    private List<String> packageNdc;
-    private List<String> originalPackagerProductNdc;
+    private List<String> spl_id;
+    private List<String> spl_set_id;
+    private List<String> package_ndc;
+    private List<String> original_packager_product_ndc;
     private List<String> upc;
     private List<String> unii;
-
-    // Getters and Setters
 }

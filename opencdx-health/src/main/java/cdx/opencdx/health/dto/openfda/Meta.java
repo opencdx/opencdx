@@ -30,6 +30,6 @@ public class Meta {
     private String disclaimer;
     private String terms;
     private String license;
-    private String lastUpdated;
+    private String last_updated;
     private Results results;
 }

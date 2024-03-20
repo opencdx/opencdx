@@ -392,6 +392,10 @@ message Medication {
    * The identifier of the entity that last modified the user's profile.
    */
   optional string modifier = 23;
+  /*
+   * A string to represent other dosage form not listed in the DosageForm enum
+   */
+  optional string other_dosage_form = 24;
 }
 
 /*

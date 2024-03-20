@@ -27,44 +27,44 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@SuppressWarnings("java:S116")
 public class Result {
-    private List<String> splProductDataElements;
-    private List<String> indicationsAndUsage;
-    private List<String> dosageAndAdministration;
-    private List<String> dosageFormsAndStrengths;
+    private List<String> spl_product_data_elements;
+    private List<String> indications_and_usage;
+    private List<String> dosage_and_administration;
+    private List<String> dosage_forms_and_strengths;
     private List<String> contraindications;
-    private List<String> warningsAndCautions;
-    private List<String> adverseReactions;
-    private List<String> drugInteractions;
-    private List<String> useInSpecificPopulations;
+    private List<String> warnings_and_cautions;
+    private List<String> adverse_reactions;
+    private List<String> drug_interactions;
+    private List<String> use_in_specific_populations;
     private List<String> pregnancy;
-    private List<String> nursingMothers;
-    private List<String> pediatricUse;
-    private List<String> geriatricUse;
-    private List<String> drugAbuseAndDependence;
-    private List<String> controlledSubstance;
+    private List<String> nursing_mothers;
+    private List<String> pediatric_use;
+    private List<String> geriatric_use;
+    private List<String> drug_abuse_and_dependence;
+    private List<String> controlled_substance;
     private List<String> abuse;
     private List<String> dependence;
     private List<String> overdosage;
     private List<String> description;
-    private List<String> clinicalPharmacology;
-    private List<String> mechanismOfAction;
+    private List<String> clinical_pharmacology;
+    private List<String> mechanism_of_action;
     private List<String> pharmacodynamics;
     private List<String> pharmacokinetics;
-    private List<String> nonclinicalToxicology;
-    private List<String> carcinogenesisAndMutagenesisAndImpairmentOfFertility;
-    private List<String> clinicalStudies;
-    private List<String> howSupplied;
-    private List<String> informationForPatients;
-    private List<String> packageLabelPrincipalDisplayPanel;
-    private String setId;
+    private List<String> nonclinical_toxicology;
+    private List<String> carcinogenesis_and_mutagenesis_and_impairment_of_fertility;
+    private List<String> clinical_studies;
+    private List<String> how_supplied;
+    private List<String> information_for_patients;
+    private List<String> package_label_principal_display_panel;
+    private String set_id;
     private String id;
-    private String effectiveTime;
+    private String effective_time;
     private String version;
     private OpenFDA openfda;
-
     private List<Submission> submissions;
-    private String applicationNumber;
-    private String sponsorName;
+    private String application_number;
+    private String sponsor_name;
     private List<Product> products;
 }

@@ -27,14 +27,15 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@SuppressWarnings("java:S116")
 public class Product {
-    private String productNumber;
-    private String referenceDrug;
-    private String brandName;
-    private List<ActiveIngredient> activeIngredients;
-    private String referenceStandard;
-    private String dosageForm;
+    private String product_number;
+    private String reference_drug;
+    private String brand_name;
+    private List<ActiveIngredient> active_ingredients;
+    private String reference_standard;
+    private String dosage_form;
     private String route;
-    private String marketingStatus;
-    private String teCode;
+    private String marketing_status;
+    private String te_code;
 }

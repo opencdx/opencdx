@@ -53,6 +53,7 @@ public class OpenCDXMedicationModel {
     private String dosageStrength;
     private String dosageUnit;
     private DosageForm dosageForm;
+    private String otherDosageForm;
     private Double quantity;
     private String instructions;
     private MedicationAdministrationRoute administrationRoute;
@@ -76,19 +77,33 @@ public class OpenCDXMedicationModel {
     public OpenCDXMedicationModel(String medicationName, Result result, Product product, boolean generic) {
         this.medicationName = medicationName;
         this.generic = generic;
-        this.dosageForm = DosageForm.valueOf(product.getDosageForm().toUpperCase());
-
-        if (product.getActiveIngredients() != null
-                && !product.getActiveIngredients().isEmpty()) {
-            this.dosageStrength = product.getActiveIngredients().stream()
+        try {
+            this.dosageForm = DosageForm.valueOf(product.getDosage_form().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid dosage form: " + product.getDosage_form());
+            this.dosageForm = DosageForm.OTHER_DOSAGE_FORM;
+            this.otherDosageForm = product.getDosage_form();
+        }
+        if (product.getActive_ingredients() != null
+                && !product.getActive_ingredients().isEmpty()) {
+            this.dosageStrength = product.getActive_ingredients().stream()
                     .map(ingredient -> ingredient.getStrength() + " " + ingredient.getName())
                     .collect(Collectors.joining(", "));
         }
-        this.instructions = result.getDosageAndAdministration().get(0);
-        this.administrationRoute =
-                MedicationAdministrationRoute.valueOf(product.getRoute().toUpperCase());
+        if (result.getDosage_and_administration() != null) {
+            this.instructions = result.getDosage_and_administration().get(0);
+        }
 
-        this.prescription = product.getMarketingStatus().equalsIgnoreCase("Prescription");
+        try {
+            this.administrationRoute =
+                    MedicationAdministrationRoute.valueOf(product.getRoute().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid route of administration: " + product.getRoute());
+            this.administrationRoute = MedicationAdministrationRoute.OTHER_ROUTE;
+            this.otherAdministrationRoute = product.getRoute();
+        }
+
+        this.prescription = product.getMarketing_status().equalsIgnoreCase("Prescription");
     }
 
     /**
@@ -111,6 +126,10 @@ public class OpenCDXMedicationModel {
         if (medication.hasOtherRouteOfAdministration()) {
             this.otherAdministrationRoute = medication.getOtherRouteOfAdministration();
         }
+        this.otherDosageForm = medication.getOtherDosageForm();
+        this.otherAdministrationRoute = medication.getOtherRouteOfAdministration();
+
+
         this.frequency = medication.getFrequency();
         this.otherFrequency = medication.getOtherFrequency();
         this.startDate = Instant.ofEpochSecond(
@@ -149,37 +168,72 @@ public class OpenCDXMedicationModel {
      * @return Protobuf message Medication
      */
     public Medication getProtobufMessage() {
-        Medication.Builder builder = Medication.newBuilder()
-                .setPatientId(patientId.toHexString())
-                .setNationalHealthId(nationalHealthId)
-                .setMedicationName(medicationName)
-                .setDosageStrength(dosageStrength)
-                .setDosageUnit(dosageUnit)
-                .setDosageForm(dosageForm)
-                .setQuantity(quantity)
-                .setInstructions(instructions)
-                .setRouteOfAdministration(administrationRoute);
+        Medication.Builder builder = Medication.newBuilder();
+        if(this.medicationName != null) {
+            builder.setMedicationName(medicationName);
+        }
+        if(this.dosageStrength != null) {
+            builder.setDosageStrength(dosageStrength);
+        }
+        if(this.dosageForm != null) {
+            builder.setDosageForm(dosageForm);
+        }
+        if(this.quantity != null) {
+            builder.setQuantity(quantity);
+        }
+        if(this.instructions != null) {
+            builder.setInstructions(instructions);
+        }
+        if(this.administrationRoute != null) {
+            builder.setRouteOfAdministration(administrationRoute);
+        }
+        if(this.id != null) {
+            builder.setId(id.toHexString());
+        }
+        if(this.patientId != null) {
+            builder.setPatientId(patientId.toHexString());
+        }
+        if(this.nationalHealthId != null) {
+            builder.setNationalHealthId(nationalHealthId);
+        }
+
         if (otherAdministrationRoute != null) {
             builder.setOtherRouteOfAdministration(otherAdministrationRoute);
         }
-        builder.setFrequency(frequency);
+        if(this.frequency != null) {
+            builder.setFrequency(frequency);
+        }
         if (otherFrequency != null) {
             builder.setOtherFrequency(otherFrequency);
         }
-        builder.setStartDate(Timestamp.newBuilder()
-                .setSeconds(startDate.getEpochSecond())
-                .setNanos(startDate.getNano())
-                .build());
+        if(otherDosageForm != null) {
+            builder.setOtherDosageForm(otherDosageForm);
+        }
+        if(this.startDate != null) {
+            builder.setStartDate(Timestamp.newBuilder()
+                    .setSeconds(startDate.getEpochSecond())
+                    .setNanos(startDate.getNano())
+                    .build());
+        }
+
         if (endDate != null) {
             builder.setEndDate(Timestamp.newBuilder()
                     .setSeconds(endDate.getEpochSecond())
                     .setNanos(endDate.getNano())
                     .build());
         }
-        builder.setProviderNumber(providerNumber)
-                .setPharmacyId(pharmacyId.toHexString())
-                .setIsPrescription(prescription)
-                .setIsGeneric(generic);
+        if(this.providerNumber != null) {
+            builder.setProviderNumber(providerNumber);
+        }
+        if(this.pharmacyId != null) {
+            builder.setPharmacyId(pharmacyId.toHexString());
+        }
+        if(this.prescription) {
+            builder.setIsPrescription(prescription);
+        }
+        if(this.generic) {
+            builder.setIsGeneric(generic);
+        }
         if (id != null) {
             builder.setId(id.toHexString());
         }

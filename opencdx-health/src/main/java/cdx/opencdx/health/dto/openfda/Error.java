@@ -15,7 +15,6 @@
  */
 package cdx.opencdx.health.dto.openfda;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,13 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @SuppressWarnings("java:S116")
-public class Submission {
-    private String submission_type;
-    private String submission_number;
-    private String submission_status;
-    private String submission_status_date;
-    private String review_priority;
-    private String submission_class_code;
-    private String submission_class_code_description;
-    private List<ApplicationDoc> application_docs;
+public class Error {
+    private String message;
+    private String code;
 }

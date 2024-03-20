@@ -27,7 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@SuppressWarnings("java:S116")
 public class Search {
     private Meta meta;
     private List<Result> results;
+    private Error error;
 }

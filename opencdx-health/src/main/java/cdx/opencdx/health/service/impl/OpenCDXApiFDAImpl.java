@@ -20,6 +20,7 @@ import cdx.opencdx.health.dto.openfda.Search;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.service.OpenCDXApiFDA;
 import cdx.opencdx.health.service.OpenCDXOpenFDAClient;
+import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
 
+    public static final String MEDICATION = "Medication: {}";
     private final OpenCDXOpenFDAClient openCDXOpenFDAClient;
 
     public OpenCDXApiFDAImpl(OpenCDXOpenFDAClient openCDXOpenFDAClient) {
@@ -51,48 +53,54 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
 
         List<Result> medicationDrugs = results.stream()
                 .map(result -> {
-                    log.debug("Result: {}", result);
+                    try {
+                        ResponseEntity<Search> label = this.openCDXOpenFDAClient.getLabel(
+                                "openfda.application_number:\"" + result.getApplication_number() + "\"", 1000, 0);
 
-                    ResponseEntity<Search> label = this.openCDXOpenFDAClient.getLabel(
-                            "openfda.application_number:\"" + result.getApplicationNumber() + "\"", 1000, 0);
+                        if (label.getBody() != null
+                                && label.getBody().getResults() != null
+                                && !label.getBody().getResults().isEmpty()) {
+                            Result drug = label.getBody().getResults().get(0);
+                            drug.setProducts(result.getProducts());
 
-                    if (label.getBody() != null
-                            && label.getBody().getResults() != null
-                            && !label.getBody().getResults().isEmpty()) {
-                        Result drug = label.getBody().getResults().get(0);
-                        drug.setProducts(result.getProducts());
-
-                        return drug;
+                            return drug;
+                        }
+                    } catch (FeignException e) {
+                        log.warn("Failed fetching label for application number: {}", result.getApplication_number());
                     }
-                    return null;
+
+                    return result;
                 })
-                .filter(Objects::nonNull)
                 .toList();
 
         List<OpenCDXMedicationModel> medications = new ArrayList<>();
 
         medicationDrugs.forEach(drug -> drug.getProducts().forEach(product -> {
-            if (drug.getOpenfda() != null && drug.getOpenfda().getGenericName() != null) {
-                for (String brandName : drug.getOpenfda().getBrandName()) {
-                    if (brandName.equals(product.getBrandName())) {
-                        OpenCDXMedicationModel medication = new OpenCDXMedicationModel(brandName, drug, product, false);
+            if (product.getMarketing_status() != null
+                    && !product.getMarketing_status().equalsIgnoreCase("Discontinued")) {
+                OpenCDXMedicationModel medication =
+                        new OpenCDXMedicationModel(product.getBrand_name(), drug, product, false);
+                medications.add(medication);
+                log.info(MEDICATION, medication);
+
+                if (drug.getOpenfda() != null && drug.getOpenfda().getGeneric_name() != null) {
+                    for (String genericName : drug.getOpenfda().getGeneric_name()) {
+                        medication = new OpenCDXMedicationModel(genericName, drug, product, true);
                         medications.add(medication);
-                        log.debug("Medication: {}", medication);
-                    }
-                }
-                for (String genericName : drug.getOpenfda().getGenericName()) {
-                    if (genericName.equals(product.getBrandName())) {
-                        OpenCDXMedicationModel medication =
-                                new OpenCDXMedicationModel(genericName, drug, product, true);
-                        medications.add(medication);
-                        log.debug("Medication: {}", medication);
+                        log.info(MEDICATION, medication);
                     }
                 }
             }
         }));
-        return medications.stream()
+
+        medications.forEach(medication -> log.info(MEDICATION, medication));
+
+        List<OpenCDXMedicationModel> list = medications.stream()
                 .distinct()
                 .sorted(Comparator.comparing(OpenCDXMedicationModel::getMedicationName))
                 .toList();
+        list.forEach(medication -> log.info("Filtered Medication: {}", medication));
+
+        return list;
     }
 }
