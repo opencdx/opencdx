@@ -20,13 +20,29 @@ spring:
   cloud:
     config:
       enabled: false
+    openfeign:
+      httpclient:
+        disable-ssl-validation: true
+      client:
+        config:
+          fdaDrugClient:
+            url: https://api.fda.gov/drug
+
   spring.data.mongodb:
     uri: mongodb+srv://<username>:<password>@database:27017/opencdx/
     username: root
     password: root
+feign:
+  httpclient:
+    disableSslValidation: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+        micrometer.enabled: true
 
 opencdx:
-  helloworld:
-    format: "Hello %s!"
   client:
     trustStore: ../certs/opencdx-clients.pem

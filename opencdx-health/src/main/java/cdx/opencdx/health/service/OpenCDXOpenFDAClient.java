@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Interface for the OpenFDA client
  */
-@FeignClient("openFda")
+@FeignClient(name = "fdaDrugClient")
 public interface OpenCDXOpenFDAClient {
 
     /**
