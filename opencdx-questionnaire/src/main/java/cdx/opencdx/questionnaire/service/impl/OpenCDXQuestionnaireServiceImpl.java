@@ -36,6 +36,7 @@ import cdx.opencdx.questionnaire.service.OpenCDXQuestionnaireService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +61,8 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
     private static final String FAILED_TO_CONVERT_OPEN_CDX_RULE_SET = "Failed to convert OpenCDXRuleSet";
     private static final String RULESET = "RULESET";
+    private static final String QUESTION_TYPE_CHOICE = "choice";
+    private static final String CODE_TINKAR = "tinkar";
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -127,6 +130,9 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     @Override
     public Questionnaire createQuestionnaire(QuestionnaireRequest request) {
         OpenCDXQuestionnaireModel model = new OpenCDXQuestionnaireModel(request.getQuestionnaire());
+
+        populateQuestionChoices(model);
+
         model = this.openCDXQuestionnaireRepository.save(model);
 
         try {
@@ -652,5 +658,41 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         return DeleteRuleSetResponse.newBuilder()
                 .setRuleSet(ruleset.getProtobufMessage())
                 .build();
+    }
+
+    private void populateQuestionChoices(OpenCDXQuestionnaireModel model) {
+        List<QuestionnaireItem> questions = new ArrayList<>();
+
+        for (QuestionnaireItem question : model.getItems()) {
+            if (question.getType().equals(QUESTION_TYPE_CHOICE) && question.getCodeCount() > 0) {
+                for (Code code : question.getCodeList()) {
+                    if (code.getSystem().equals(CODE_TINKAR)) {
+                        question = QuestionnaireItem.newBuilder(question)
+                                .addAllAnswerOption(getAnswerOptions(code.getCode()))
+                                .build();
+                    }
+                }
+            }
+            questions.add(question);
+        }
+
+        model.setItems(questions);
+    }
+
+    private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
+        List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
+
+        // TODO: Make call to get answer options
+        Coding coding = Coding.newBuilder().setDisplay("Answer 1").build();
+        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                .setValueCoding(coding)
+                .build());
+
+        coding = Coding.newBuilder().setDisplay("Answer 2").build();
+        answerOptions.add(QuestionnaireItemAnswerOption.newBuilder()
+                .setValueCoding(coding)
+                .build());
+
+        return answerOptions;
     }
 }
