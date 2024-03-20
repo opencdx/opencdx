@@ -42,9 +42,13 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
     @Override
     @SuppressWarnings({"java:S3776", "java:S2259"})
     public List<OpenCDXMedicationModel> getMedicationsByBrandName(String brandNamePrefix) {
-        ResponseEntity<Search> drugs =
-                this.openCDXOpenFDAClient.getDrugs("products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
-
+        ResponseEntity<Search> drugs = null;
+        try {
+            drugs = this.openCDXOpenFDAClient.getDrugs("products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
+        } catch (FeignException e) {
+            log.warn("Failed fetching drugs for brand name: {}", brandNamePrefix);
+            return Collections.emptyList();
+        }
         List<Result> results = Collections.emptyList();
 
         if (drugs != null && drugs.getBody() != null) {
