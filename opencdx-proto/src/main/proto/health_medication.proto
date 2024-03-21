@@ -396,6 +396,11 @@ message Medication {
    * A string to represent other dosage form not listed in the DosageForm enum
    */
   optional string other_dosage_form = 24;
+
+  /*
+   * The National Drug Code (NDC) for the medication
+   */
+  optional string product_ndc= 25;
 }
 
 /*

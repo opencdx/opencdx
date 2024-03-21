@@ -65,6 +65,7 @@ public class OpenCDXMedicationModel {
     private String providerNumber;
     private ObjectId pharmacyId;
     private boolean prescription;
+    private String productNdc;
 
     @Builder.Default
     private boolean generic = false;
@@ -91,7 +92,11 @@ public class OpenCDXMedicationModel {
                     .collect(Collectors.joining(", "));
         }
         if (result.getDosage_and_administration() != null) {
-            this.instructions = result.getDosage_and_administration().get(0);
+            this.instructions = result.getDosage_and_administration().getFirst();
+        }
+
+        if(result.getOpenfda()!= null && result.getOpenfda().getProduct_ndc() != null) {
+            this.productNdc = result.getOpenfda().getProduct_ndc().getFirst();
         }
 
         try {
@@ -128,7 +133,7 @@ public class OpenCDXMedicationModel {
         }
         this.otherDosageForm = medication.getOtherDosageForm();
         this.otherAdministrationRoute = medication.getOtherRouteOfAdministration();
-
+        this.productNdc = medication.getProductNdc();
 
         this.frequency = medication.getFrequency();
         this.otherFrequency = medication.getOtherFrequency();
@@ -186,6 +191,9 @@ public class OpenCDXMedicationModel {
         }
         if(this.administrationRoute != null) {
             builder.setRouteOfAdministration(administrationRoute);
+        }
+        if(this.productNdc != null) {
+            builder.setProductNdc(productNdc);
         }
         if(this.id != null) {
             builder.setId(id.toHexString());

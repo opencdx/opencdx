@@ -72,23 +72,25 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
         List<Result> medicationDrugs = results.stream()
                 .map(result -> {
                     try {
-                        ResponseEntity<Search> label;
+                        if(result.getOpenfda() != null && result.getOpenfda().getProduct_ndc() != null) {
+                            ResponseEntity<Search> label;
 
-                        if(this.openFDAApiKey != null) {
-                            label =  this.openCDXOpenFDAClient.getLabel(
-                                    "openfda.application_number:\"" + result.getApplication_number() + "\"", 1000, 0);
-                        } else {
-                            label =  this.openCDXOpenFDAClient.getLabel(openFDAApiKey,
-                                    "openfda.application_number:\"" + result.getApplication_number() + "\"", 1000, 0);
-                        }
+                            if (this.openFDAApiKey != null) {
+                                label = this.openCDXOpenFDAClient.getLabel(
+                                        "openfda.product_ndc:\"" + result.getOpenfda().getProduct_ndc() + "\"", 1000, 0);
+                            } else {
+                                label = this.openCDXOpenFDAClient.getLabel(openFDAApiKey,
+                                        "openfda.product_ndc:\"" + result.getOpenfda().getProduct_ndc() + "\"", 1000, 0);
+                            }
 
-                        if (label.getBody() != null
-                                && label.getBody().getResults() != null
-                                && !label.getBody().getResults().isEmpty()) {
-                            Result drug = label.getBody().getResults().get(0);
-                            drug.setProducts(result.getProducts());
+                            if (label.getBody() != null
+                                    && label.getBody().getResults() != null
+                                    && !label.getBody().getResults().isEmpty()) {
+                                Result drug = label.getBody().getResults().get(0);
+                                drug.setProducts(result.getProducts());
 
-                            return drug;
+                                return drug;
+                            }
                         }
                     } catch (FeignException e) {
                         log.warn("Failed fetching label for application number: {}", result.getApplication_number());
