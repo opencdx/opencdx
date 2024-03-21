@@ -55,6 +55,15 @@ cdx.opencdx.communications.service
 cdx.opencdx.communications.service.impl
 cdx.opencdx.communications.tasks
 cdx.opencdx.config
+cdx.opencdx.connected.lab
+cdx.opencdx.connected.lab.config
+cdx.opencdx.connected.lab.controller
+cdx.opencdx.connected.lab.handler
+cdx.opencdx.connected.lab.model
+cdx.opencdx.connected.lab.repository
+cdx.opencdx.connected.lab.security
+cdx.opencdx.connected.lab.service
+cdx.opencdx.connected.lab.service.impl
 cdx.opencdx.discovery
 cdx.opencdx.gateway
 cdx.opencdx.gateway.config
@@ -63,6 +72,7 @@ cdx.opencdx.health
 cdx.opencdx.health.changelog
 cdx.opencdx.health.controller
 cdx.opencdx.health.dto
+cdx.opencdx.health.dto.openfda
 cdx.opencdx.health.model
 cdx.opencdx.health.repository
 cdx.opencdx.health.security
