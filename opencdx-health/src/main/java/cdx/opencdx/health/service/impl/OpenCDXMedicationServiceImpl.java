@@ -204,7 +204,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
                 .build();
     }
 
-    public Page<OpenCDXMedicationModel> getMedicaitonPage(int page, int size, List<OpenCDXMedicationModel> all) {
+    private Page<OpenCDXMedicationModel> getMedicaitonPage(int page, int size, List<OpenCDXMedicationModel> all) {
 
         Pageable pageRequest = PageRequest.of(page, size);
 
