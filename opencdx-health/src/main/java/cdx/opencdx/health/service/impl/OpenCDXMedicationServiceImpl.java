@@ -211,7 +211,7 @@ public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), all.size());
 
-        if(start > end) {
+        if (start > end) {
             return Page.empty();
         }
 

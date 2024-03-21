@@ -46,3 +46,7 @@ feign:
 opencdx:
   client:
     trustStore: ../certs/opencdx-clients.pem
+
+
+openFda:
+  apiKey:

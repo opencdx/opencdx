@@ -362,7 +362,7 @@ message Medication {
   /*
    * The pharmacy id where the medication was obtained
    */
-  string pharmacy_id = 17;
+  optional string pharmacy_id = 17;
   /*
    * A flag indicating whether the medication requires a prescription
    */

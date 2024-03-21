@@ -60,8 +60,11 @@ public interface OpenCDXOpenFDAClient {
      * @return Meta
      */
     @GetMapping("/drugsfda.json")
-    ResponseEntity<Search> getDrugs( @RequestHeader("Authorization") String authorizationToken,
-            @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
+    ResponseEntity<Search> getDrugs(
+            @RequestHeader("Authorization") String authorizationToken,
+            @RequestParam("search") String search,
+            @RequestParam("limit") int limit,
+            @RequestParam("skip") int skip);
 
     /**
      * Method to get label from OpenFDA
@@ -72,8 +75,9 @@ public interface OpenCDXOpenFDAClient {
      * @return Meta
      */
     @GetMapping("/label.json")
-    ResponseEntity<Search> getLabel(  @RequestHeader("Authorization") String authorizationToken,
-            @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
+    ResponseEntity<Search> getLabel(
+            @RequestHeader("Authorization") String authorizationToken,
+            @RequestParam("search") String search,
+            @RequestParam("limit") int limit,
+            @RequestParam("skip") int skip);
 }
-
-

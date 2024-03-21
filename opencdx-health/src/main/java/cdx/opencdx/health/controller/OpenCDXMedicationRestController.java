@@ -31,14 +31,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/medication", produces = MediaType.APPLICATION_JSON_VALUE)
 @Observed(name = "opencdx")
-public class OpenCDXMedicaitonRestController {
+public class OpenCDXMedicationRestController {
     private final OpenCDXMedicationService openCDXMedicationService;
 
     /**
      * Constructor that takes a OpenCDXMedicationService
      * @param openCDXMedicationService service for procesing requests
      */
-    public OpenCDXMedicaitonRestController(OpenCDXMedicationService openCDXMedicationService) {
+    public OpenCDXMedicationRestController(OpenCDXMedicationService openCDXMedicationService) {
         this.openCDXMedicationService = openCDXMedicationService;
     }
 
@@ -56,11 +56,10 @@ public class OpenCDXMedicaitonRestController {
      * @param id The medication to end.
      * @return The ended medication.
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<Medication> ending(@PathVariable String id) {
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Medication> ending(@RequestBody EndMedicationRequest request) {
         return new ResponseEntity<>(
-                this.openCDXMedicationService.ending(
-                        EndMedicationRequest.newBuilder().setMedicationId(id).build()),
+                this.openCDXMedicationService.ending(request),
                 HttpStatus.OK);
     }
     /**

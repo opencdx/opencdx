@@ -23,8 +23,6 @@ import cdx.opencdx.health.service.OpenCDXOpenFDAClient;
 import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
 import java.util.*;
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +38,10 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
     public static final String MEDICATION = "Medication: {}";
     private final OpenCDXOpenFDAClient openCDXOpenFDAClient;
 
-    public OpenCDXApiFDAImpl(OpenCDXOpenFDAClient openCDXOpenFDAClient, @Value("${openFda.apiKey}") String openFDAApiKey) {
+    public OpenCDXApiFDAImpl(
+            OpenCDXOpenFDAClient openCDXOpenFDAClient, @Value("${openFda.apiKey}") String openFDAApiKey) {
         this.openCDXOpenFDAClient = openCDXOpenFDAClient;
-        if(openFDAApiKey != null && !openFDAApiKey.isEmpty()) {
+        if (openFDAApiKey != null && !openFDAApiKey.isEmpty()) {
             this.openFDAApiKey = openFDAApiKey;
         } else {
             this.openFDAApiKey = null;
@@ -54,8 +53,9 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
     public List<OpenCDXMedicationModel> getMedicationsByBrandName(String brandNamePrefix) {
         ResponseEntity<Search> drugs;
         try {
-            if(this.openFDAApiKey != null && !this.openFDAApiKey.isEmpty()) {
-                drugs = this.openCDXOpenFDAClient.getDrugs(openFDAApiKey,"products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
+            if (this.openFDAApiKey != null && !this.openFDAApiKey.isEmpty()) {
+                drugs = this.openCDXOpenFDAClient.getDrugs(
+                        openFDAApiKey, "products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
             } else {
                 drugs = this.openCDXOpenFDAClient.getDrugs("products.brand_name:\"" + brandNamePrefix + "\"", 1000, 0);
             }
@@ -72,18 +72,31 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
         List<Result> medicationDrugs = results.stream()
                 .map(result -> {
                     try {
-                        if(result.getOpenfda() != null && result.getOpenfda().getProduct_ndc() != null) {
+                        if (result.getOpenfda() != null && result.getOpenfda().getProduct_ndc() != null) {
                             ResponseEntity<Search> label;
 
-                            log.info("Fetching label for Product NDC: {}", result.getOpenfda().getProduct_ndc().getFirst());
-                            if(this.openFDAApiKey != null && !this.openFDAApiKey.isEmpty()) {
+                            log.info(
+                                    "Fetching label for Product NDC: {}",
+                                    result.getOpenfda().getProduct_ndc().getFirst());
+                            if (this.openFDAApiKey != null && !this.openFDAApiKey.isEmpty()) {
                                 log.info("Using OpenFDA API Key");
-                                label = this.openCDXOpenFDAClient.getLabel(openFDAApiKey,
-                                        "openfda.product_ndc:\"" + result.getOpenfda().getProduct_ndc().getFirst() + "\"", 1000, 0);
+                                label = this.openCDXOpenFDAClient.getLabel(
+                                        openFDAApiKey,
+                                        "openfda.product_ndc:\""
+                                                + result.getOpenfda()
+                                                        .getProduct_ndc()
+                                                        .getFirst() + "\"",
+                                        1000,
+                                        0);
                             } else {
                                 log.info("Not using OpenFDA API Key");
                                 label = this.openCDXOpenFDAClient.getLabel(
-                                        "openfda.product_ndc:\"" + result.getOpenfda().getProduct_ndc().getFirst() + "\"", 1000, 0);
+                                        "openfda.product_ndc:\""
+                                                + result.getOpenfda()
+                                                        .getProduct_ndc()
+                                                        .getFirst() + "\"",
+                                        1000,
+                                        0);
                             }
 
                             if (label.getBody() != null
@@ -91,15 +104,19 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
                                     && !label.getBody().getResults().isEmpty()) {
                                 Result drug = label.getBody().getResults().getFirst();
                                 drug.setProducts(result.getProducts());
-                                log.info("Found Label for Product NDC: {}", result.getOpenfda().getProduct_ndc().getFirst());
+                                log.info(
+                                        "Found Label for Product NDC: {}",
+                                        result.getOpenfda().getProduct_ndc().getFirst());
                                 return drug;
                             } else {
-                                log.warn("Label: {}",label.getBody() );
+                                log.warn("Label: {}", label.getBody());
                             }
                         }
                     } catch (FeignException e) {
                         log.error("FeignException: ", e);
-                        log.warn("Failed fetching label for Product NDC: {}", result.getOpenfda().getProduct_ndc().getFirst());
+                        log.warn(
+                                "Failed fetching label for Product NDC: {}",
+                                result.getOpenfda().getProduct_ndc().getFirst());
                     }
 
                     return result;

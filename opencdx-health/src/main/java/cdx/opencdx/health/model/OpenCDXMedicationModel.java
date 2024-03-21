@@ -95,7 +95,7 @@ public class OpenCDXMedicationModel {
             this.instructions = result.getDosage_and_administration().getFirst();
         }
 
-        if(result.getOpenfda()!= null && result.getOpenfda().getProduct_ndc() != null) {
+        if (result.getOpenfda() != null && result.getOpenfda().getProduct_ndc() != null) {
             this.productNdc = result.getOpenfda().getProduct_ndc().getFirst();
         }
 
@@ -146,7 +146,9 @@ public class OpenCDXMedicationModel {
                     medication.getEndDate().getNanos());
         }
         this.providerNumber = medication.getProviderNumber();
-        this.pharmacyId = new ObjectId(medication.getPharmacyId());
+        if(medication.hasPharmacyId()) {
+            this.pharmacyId = new ObjectId(medication.getPharmacyId());
+        }
         this.prescription = medication.getIsPrescription();
         this.generic = medication.getIsGeneric();
 
@@ -174,50 +176,50 @@ public class OpenCDXMedicationModel {
      */
     public Medication getProtobufMessage() {
         Medication.Builder builder = Medication.newBuilder();
-        if(this.medicationName != null) {
+        if (this.medicationName != null) {
             builder.setMedicationName(medicationName);
         }
-        if(this.dosageStrength != null) {
+        if (this.dosageStrength != null) {
             builder.setDosageStrength(dosageStrength);
         }
-        if(this.dosageForm != null) {
+        if (this.dosageForm != null) {
             builder.setDosageForm(dosageForm);
         }
-        if(this.quantity != null) {
+        if (this.quantity != null) {
             builder.setQuantity(quantity);
         }
-        if(this.instructions != null) {
+        if (this.instructions != null) {
             builder.setInstructions(instructions);
         }
-        if(this.administrationRoute != null) {
+        if (this.administrationRoute != null) {
             builder.setRouteOfAdministration(administrationRoute);
         }
-        if(this.productNdc != null) {
+        if (this.productNdc != null) {
             builder.setProductNdc(productNdc);
         }
-        if(this.id != null) {
+        if (this.id != null) {
             builder.setId(id.toHexString());
         }
-        if(this.patientId != null) {
+        if (this.patientId != null) {
             builder.setPatientId(patientId.toHexString());
         }
-        if(this.nationalHealthId != null) {
+        if (this.nationalHealthId != null) {
             builder.setNationalHealthId(nationalHealthId);
         }
 
         if (otherAdministrationRoute != null) {
             builder.setOtherRouteOfAdministration(otherAdministrationRoute);
         }
-        if(this.frequency != null) {
+        if (this.frequency != null) {
             builder.setFrequency(frequency);
         }
         if (otherFrequency != null) {
             builder.setOtherFrequency(otherFrequency);
         }
-        if(otherDosageForm != null) {
+        if (otherDosageForm != null) {
             builder.setOtherDosageForm(otherDosageForm);
         }
-        if(this.startDate != null) {
+        if (this.startDate != null) {
             builder.setStartDate(Timestamp.newBuilder()
                     .setSeconds(startDate.getEpochSecond())
                     .setNanos(startDate.getNano())
@@ -230,16 +232,16 @@ public class OpenCDXMedicationModel {
                     .setNanos(endDate.getNano())
                     .build());
         }
-        if(this.providerNumber != null) {
+        if (this.providerNumber != null) {
             builder.setProviderNumber(providerNumber);
         }
-        if(this.pharmacyId != null) {
+        if (this.pharmacyId != null) {
             builder.setPharmacyId(pharmacyId.toHexString());
         }
-        if(this.prescription) {
+        if (this.prescription) {
             builder.setIsPrescription(prescription);
         }
-        if(this.generic) {
+        if (this.generic) {
             builder.setIsGeneric(generic);
         }
         if (id != null) {
