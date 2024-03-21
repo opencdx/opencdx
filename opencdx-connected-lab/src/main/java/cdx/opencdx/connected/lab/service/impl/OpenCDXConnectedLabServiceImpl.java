@@ -42,22 +42,34 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+/**
+ * OpenCDXConnectedLabServiceImpl is an implementation class for OpenCDXConnectedLabService interface.
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
 @SuppressWarnings("java:S1068")
 public class OpenCDXConnectedLabServiceImpl implements OpenCDXConnectedLabService {
-    public static final String CONNECTED_LAB = "CONNECTED-LAB";
-    public static final String DOMAIN = "OpenCDXConnectedLabServiceImpl";
-    public static final String FAILED_TO_CONVERT_CONNECTED_LAB = "Failed to Convert Connected Lab";
-    public static final String OBJECT = "OBJECT";
-    public static final String FAILED_TO_FIND_CONNECTED_LAB = "Failed to find Connected Lab: ";
+    private static final String CONNECTED_LAB = "CONNECTED-LAB";
+    private static final String DOMAIN = "OpenCDXConnectedLabServiceImpl";
+    private static final String FAILED_TO_CONVERT_CONNECTED_LAB = "Failed to Convert Connected Lab";
+    private static final String OBJECT = "OBJECT";
+    private static final String FAILED_TO_FIND_CONNECTED_LAB = "Failed to find Connected Lab: ";
     private final OpenCDXCurrentUser openCDXCurrentUser;
     private final OpenCDXAuditService openCDXAuditService;
     private final ObjectMapper objectMapper;
     private final OpenCDXConnectedLabRepository openCDXConnectedLabRepository;
     private final OpenCDXLabConnectionFactoryBean openCDXLabConnectionFactoryBean;
 
+    /**
+     * Constructor that takes a OpenCDXCurrentUser, OpenCDXAuditService, ObjectMapper, OpenCDXConnectedLabRepository,
+     * and OpenCDXLabConnectionFactoryBean.
+     * @param openCDXCurrentUser the current user
+     * @param openCDXAuditService the audit service
+     * @param objectMapper the object mapper
+     * @param openCDXConnectedLabRepository the connected lab repository
+     * @param openCDXLabConnectionFactoryBean the lab connection factory
+     */
     public OpenCDXConnectedLabServiceImpl(
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXAuditService openCDXAuditService,

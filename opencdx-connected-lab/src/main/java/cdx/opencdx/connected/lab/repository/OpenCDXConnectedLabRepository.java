@@ -26,8 +26,20 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OpenCDXConnectedLabRepository extends MongoRepository<OpenCDXConnectedLabModel, ObjectId> {
+
+    /**
+     * Find by organization id and workspace id.
+     * @param organizationId the organization id
+     * @param workspaceId the workspace id
+     * @return the OpenCDXConnectedLabModel
+     */
     Optional<OpenCDXConnectedLabModel> findByOrganizationIdAndWorkspaceId(
             ObjectId organizationId, ObjectId workspaceId);
 
+    /**
+     * Find by organization id.
+     * @param organizationId the organization id
+     * @return the OpenCDXConnectedLabModel
+     */
     Optional<OpenCDXConnectedLabModel> findByOrganizationId(ObjectId organizationId);
 }
