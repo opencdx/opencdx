@@ -24,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * OpenCDXLabConnectionFactoryBean is a class to get the OpenCDXLab connection by identifier.
+ */
 @Slf4j
 @Component
 @ConfigurationProperties("opencdx")
@@ -34,6 +37,17 @@ public class OpenCDXLabConnectionFactoryBean {
 
     private Map<String, Class<? extends OpenCDXLabConnected>> connectionsMap;
 
+
+    /**
+     * Default Constructor
+     */
+    public OpenCDXLabConnectionFactoryBean() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+    /**
+     * Initialize the OpenCDXLabConnectionFactoryBean.
+     * @throws Exception if the connection is not found
+     */
     @PostConstruct
     public void initialize() throws Exception {
         log.info("Initializing OpenCDXLabConnectionFactoryBean");
@@ -54,6 +68,12 @@ public class OpenCDXLabConnectionFactoryBean {
         this.connectionsMap.keySet().forEach(key -> log.info("OpenCDXLab connection: {}", key));
     }
 
+    /**
+     * Get the OpenCDXLab connection by identifier.
+     * @param identifier the connection identifier
+     * @return the OpenCDXLabConnected
+     * @throws Exception if the connection is not found
+     */
     public OpenCDXLabConnected getConnection(String identifier) throws Exception {
         if (this.connectionsMap == null || !this.connectionsMap.containsKey(identifier)) {
             throw new IllegalArgumentException("Unknown OpenCDXLab connection identifier: " + identifier);

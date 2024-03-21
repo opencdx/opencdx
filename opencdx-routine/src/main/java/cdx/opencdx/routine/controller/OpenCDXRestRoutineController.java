@@ -208,31 +208,4 @@ public class OpenCDXRestRoutineController {
         LabResultResponse response = openCDXRoutineService.getLabResult(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    // Medication
-    /**
-     * Post Medication Rest API
-     * @param request MedicationRequest indicating input.
-     * @return MedicationResponse with the data.
-     */
-    @PostMapping(value = "/medication", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MedicationResponse> triggerMedication(@RequestBody MedicationRequest request) {
-        MedicationResponse response = openCDXRoutineService.triggerMedication(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    /**
-     * Get Medication using GET method
-     * @param medicationId The ID of the medication to retrieve.
-     * @return MedicationResponse with the data.
-     */
-    @GetMapping("/medication/{medicationId}")
-    public ResponseEntity<MedicationResponse> getMedication(@PathVariable(value = "medicationId") String medicationId) {
-        MedicationRequest request = MedicationRequest.newBuilder()
-                .setMedication(
-                        Medication.newBuilder().setMedicationId(medicationId).build())
-                .build();
-        MedicationResponse response = openCDXRoutineService.getMedication(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 }

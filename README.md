@@ -182,6 +182,11 @@ Logs can be viewed in Docker Desktop under the container logs. OpenCDX Admin Das
 2. Place Apache JMeter on your environment PATH
 3. Install Apache JMeter plugin `JMeter gRPC Request`
 
+## NVD API Key
+The NVD API Key is optional and can be specified in your local environment by environment variable:
+
+```export NVD_API_KEY=<your-api-key>```
+
 ## Support Team
 
 [Avengers (cs@safehealth.me)](mailto:cs@safehealth.me)

@@ -161,20 +161,4 @@ class RoutineTest {
 
         log.info("Item: \n{}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(item));
     }
-
-    @Test
-    void testMedicationRequest() throws JsonProcessingException {
-        MedicationRequest item = MedicationRequest.newBuilder()
-                .setMedication(Medication.newBuilder()
-                        .setMedicationId(ObjectId.get().toHexString())
-                        .setMedicationName("Medication name")
-                        .setAdministrationDatetime(Timestamp.newBuilder().setSeconds(1696435104))
-                        .setMatchedValueSet("Matched Value Set")
-                        .addAllRelatedEntities(List.of(
-                                ObjectId.get().toHexString(), ObjectId.get().toHexString()))
-                        .build())
-                .build();
-
-        log.info("Item: \n{}", this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(item));
-    }
 }

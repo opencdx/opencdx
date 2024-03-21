@@ -31,9 +31,6 @@ import cdx.opencdx.grpc.routine.LabOrderResponse;
 import cdx.opencdx.grpc.routine.LabResult;
 import cdx.opencdx.grpc.routine.LabResultRequest;
 import cdx.opencdx.grpc.routine.LabResultResponse;
-import cdx.opencdx.grpc.routine.Medication;
-import cdx.opencdx.grpc.routine.MedicationRequest;
-import cdx.opencdx.grpc.routine.MedicationResponse;
 import cdx.opencdx.grpc.routine.Routine;
 import cdx.opencdx.grpc.routine.RoutineRequest;
 import cdx.opencdx.grpc.routine.RoutineResponse;
@@ -247,33 +244,6 @@ class OpenCDXGrpcRoutineControllerTest {
                 responseObserver);
 
         Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(LabResultResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void testCreateMedication() {
-        StreamObserver<MedicationResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcRoutineController.createMedication(
-                MedicationRequest.newBuilder(MedicationRequest.getDefaultInstance())
-                        .setMedication(
-                                Medication.newBuilder().setMedicationId("789").build())
-                        .build(),
-                responseObserver);
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(MedicationResponse.class));
-        Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
-    }
-
-    @Test
-    void testGetMedication() {
-        StreamObserver<MedicationResponse> responseObserver = Mockito.mock(StreamObserver.class);
-        this.openCDXGrpcRoutineController.getMedication(
-                MedicationRequest.newBuilder()
-                        .setMedication(
-                                Medication.newBuilder().setMedicationId("789").build())
-                        .build(),
-                responseObserver);
-
-        Mockito.verify(responseObserver, Mockito.times(1)).onNext(Mockito.any(MedicationResponse.class));
         Mockito.verify(responseObserver, Mockito.times(1)).onCompleted();
     }
 }

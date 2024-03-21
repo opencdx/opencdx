@@ -59,14 +59,15 @@ class OpenCDXGrpcShippingControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    @Mock
-    OpenCDXOrderRepository openCDXOrderRepository;
 
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 
     @Mock
     OpenCDXProfileRepository openCDXProfileRepository;
+
+    @Mock
+    OpenCDXOrderRepository openCDXOrderRepository;
 
     OpenCDXShippingService openCDXShippingService;
 

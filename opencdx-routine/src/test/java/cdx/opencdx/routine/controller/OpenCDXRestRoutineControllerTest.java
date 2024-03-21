@@ -30,8 +30,6 @@ import cdx.opencdx.grpc.routine.LabOrder;
 import cdx.opencdx.grpc.routine.LabOrderRequest;
 import cdx.opencdx.grpc.routine.LabResult;
 import cdx.opencdx.grpc.routine.LabResultRequest;
-import cdx.opencdx.grpc.routine.Medication;
-import cdx.opencdx.grpc.routine.MedicationRequest;
 import cdx.opencdx.grpc.routine.Routine;
 import cdx.opencdx.grpc.routine.RoutineRequest;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosis;
@@ -265,31 +263,5 @@ class OpenCDXRestRoutineControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.labResult.resultId").value("789"));
-    }
-
-    // Test cases for triggerMedication
-    @Test
-    void testTriggerMedicationValid() throws Exception {
-        this.mockMvc
-                .perform(post("/medication")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(this.objectMapper.writeValueAsString(MedicationRequest.newBuilder()
-                                .setMedication(Medication.newBuilder()
-                                        .setMedicationId("789")
-                                        .build())
-                                .build())))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.medication.medicationId").value("789"));
-    }
-
-    // Test cases for getMedication
-    @Test
-    void testGetMedicationValid() throws Exception {
-        this.mockMvc
-                .perform(get("/medication/789").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.medication.medicationId").value("789"));
     }
 }

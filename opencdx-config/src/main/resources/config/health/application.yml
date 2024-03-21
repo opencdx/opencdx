@@ -2,10 +2,29 @@
 spring:
   application:
     name: health
-
+  cloud:
+    openfeign:
+      httpclient:
+        disable-ssl-validation: true
+      client:
+        config:
+          fdaDrugClient:
+            url: https://api.fda.gov/drug
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+            micrometer.enabled: true
 mongock:
   change-logs-scan-package: cdx.opencdx.health.changelog
   max-waiting-for-lock-minutes: 3
   lock-acquired-for-minutes: 2
   max-tries: 5
   service-identifier: ${spring.application.name}
+
+feign:
+  httpclient:
+    disableSslValidation: true
+
+
+openFda:
+  apiKey:

@@ -26,7 +26,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.commons.service.OpenCDXNationalHealthIdentifier;
-import cdx.opencdx.grpc.profile.*;
+import cdx.opencdx.grpc.health.profile.*;
 import cdx.opencdx.health.service.OpenCDXIAMProfileService;
 import cdx.opencdx.health.service.impl.OpenCDXIAMProfileServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
