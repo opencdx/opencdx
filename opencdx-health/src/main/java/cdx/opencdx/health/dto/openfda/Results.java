@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.dto.openfda;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings({"java:S116", "java:S1700"})
 public class Results {
     private int skip;

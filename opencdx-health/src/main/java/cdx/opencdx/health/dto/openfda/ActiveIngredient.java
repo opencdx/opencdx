@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.dto.openfda;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @SuppressWarnings("java:S116")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ActiveIngredient {
     private String name;
     private String strength;
