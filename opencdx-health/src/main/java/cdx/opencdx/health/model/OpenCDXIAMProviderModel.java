@@ -20,7 +20,7 @@ import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.provider.*;
-import cdx.opencdx.health.dto.OpenCDXDtoNpiResult;
+import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +51,7 @@ public class OpenCDXIAMProviderModel {
     private String created_epoch;
     private String enumeration_type;
     private String last_updated_epoch;
-    private String number;
+    private String npiNumber;
     private List<Address> addresses;
     private List<String> practiceLocations;
     private BasicInfo basic;
@@ -75,7 +75,7 @@ public class OpenCDXIAMProviderModel {
         this.created_epoch = result.getCreatedEpoch();
         this.enumeration_type = result.getEnumerationType();
         this.last_updated_epoch = result.getLastUpdatedEpoch();
-        this.number = result.getNumber();
+        this.npiNumber = result.getNumber();
 
         this.addresses = result.getAddresses().stream()
                 .map(address -> {
@@ -157,8 +157,8 @@ public class OpenCDXIAMProviderModel {
         if (this.last_updated_epoch != null) {
             builder.setLastUpdatedEpoch(this.last_updated_epoch);
         }
-        if (this.number != null) {
-            builder.setNumber(this.number);
+        if (this.npiNumber != null) {
+            builder.setNumber(this.npiNumber);
         }
         if (this.addresses != null) {
             builder.addAllAddresses(this.addresses);

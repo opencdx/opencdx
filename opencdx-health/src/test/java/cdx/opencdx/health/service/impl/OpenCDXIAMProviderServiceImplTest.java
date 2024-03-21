@@ -250,7 +250,7 @@ class OpenCDXIAMProviderServiceImplTest {
                 .thenReturn(List.of(OpenCDXIAMProviderModel.builder()
                         .userId(ObjectId.get().toHexString())
                         .id(ObjectId.get())
-                        .number(ObjectId.get().toHexString())
+                        .npiNumber(ObjectId.get().toHexString())
                         .build()));
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -277,7 +277,7 @@ class OpenCDXIAMProviderServiceImplTest {
                 .thenReturn(List.of(OpenCDXIAMProviderModel.builder()
                         .userId(ObjectId.get().toHexString())
                         .id(ObjectId.get())
-                        .number(ObjectId.get().toHexString())
+                        .npiNumber(ObjectId.get().toHexString())
                         .build()));
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(any(OpenCDXIAMProviderModel.class)))

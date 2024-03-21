@@ -24,7 +24,7 @@ import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.provider.*;
-import cdx.opencdx.health.dto.OpenCDXDtoNpiJsonResponse;
+import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiJsonResponse;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
@@ -38,6 +38,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -107,7 +109,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     PROVIDER_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     model.getId().toHexString(),
-                    PROVIDER_NUMBER + model.getNumber(),
+                    PROVIDER_NUMBER + model.getNpiNumber(),
                     PROVIDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
@@ -177,7 +179,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                         PROVIDER_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                         "PROVIDER ID: " + model.getId().toHexString(),
-                        PROVIDER_NUMBER + model.getNumber(),
+                        PROVIDER_NUMBER + model.getNpiNumber(),
                         PROVIDER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
@@ -203,6 +205,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      */
     @Override
     public LoadProviderResponse loadProvider(LoadProviderRequest request) {
+        Optional<OpenCDXIAMProviderModel> provider = this.openCDXIAMProviderRepository.findByNpiNumber(request.getProviderNumber());
+        if(provider.isPresent()) {
+            return LoadProviderResponse.newBuilder()
+                    .setProvider(provider.get().getProtobufMessage())
+                    .build();
+        }
+
         OpenCDXIAMProviderModel openCDXIAMProviderModel;
         try {
             String npiNumber = request.getUserId();
@@ -259,7 +268,7 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     PROVIDER_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
                     openCDXIAMProviderModel.getId().toHexString(),
-                    PROVIDER_NUMBER + openCDXIAMProviderModel.getNumber(),
+                    PROVIDER_NUMBER + openCDXIAMProviderModel.getNpiNumber(),
                     PROVIDER + openCDXIAMProviderModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXIAMProviderModel));
         } catch (JsonProcessingException e) {

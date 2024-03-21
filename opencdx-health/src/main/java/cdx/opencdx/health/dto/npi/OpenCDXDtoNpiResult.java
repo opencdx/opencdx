@@ -13,32 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.dto;
+package cdx.opencdx.health.dto.npi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.Data;
 
 /**
- * DTO for NPI Taxonomy
+ * DTO for NPI Result
  */
 @Data
-public class OpenCDXDtoNpiTaxonomy {
-    private String code;
+public class OpenCDXDtoNpiResult {
+    @JsonProperty("created_epoch")
+    private String createdEpoch;
 
-    @JsonProperty("taxonomy_group")
-    private String taxonomyGroup;
+    @JsonProperty("enumeration_type")
+    private String enumerationType;
 
-    private String desc;
-    private String state;
-    private String license;
+    @JsonProperty("last_updated_epoch")
+    private String lastUpdatedEpoch;
 
-    @JsonProperty("primary")
-    private boolean primary;
+    private String number;
+    private List<OpenCDXDtoNpiAddress> addresses;
+
+    @JsonProperty("practiceLocations")
+    private List<String> practiceLocations;
+
+    private OpenCDXDtoNpiBasicInfo basic;
+    private List<OpenCDXDtoNpiTaxonomy> taxonomies;
+    private List<OpenCDXDtoNpiIdentifier> identifiers;
+    private List<Object> endpoints;
+
+    @JsonProperty("other_names")
+    private List<Object> otherNames;
 
     /**
      * Default Constructor
      */
-    public OpenCDXDtoNpiTaxonomy() {
+    public OpenCDXDtoNpiResult() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 }
