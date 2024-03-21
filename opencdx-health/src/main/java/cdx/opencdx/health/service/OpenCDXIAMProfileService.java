@@ -15,7 +15,7 @@
  */
 package cdx.opencdx.health.service;
 
-import cdx.opencdx.grpc.profile.*;
+import cdx.opencdx.grpc.health.profile.*;
 
 /**
  * Interface for OpenCDXIAMProfileService

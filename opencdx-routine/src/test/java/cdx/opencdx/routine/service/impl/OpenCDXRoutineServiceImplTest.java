@@ -212,26 +212,4 @@ class OpenCDXRoutineServiceImplTest {
 
         Assertions.assertEquals("789", response.getLabResult().getResultId());
     }
-
-    @Test
-    void triggerMedication() {
-        MedicationRequest medicationRequest = MedicationRequest.newBuilder()
-                .setMedication(Medication.newBuilder().setMedicationId("789").build())
-                .build();
-
-        MedicationResponse response = routineService.triggerMedication(medicationRequest);
-
-        Assertions.assertEquals("789", response.getMedication().getMedicationId());
-    }
-
-    @Test
-    void getMedication() {
-        MedicationRequest medicationRequest = MedicationRequest.newBuilder()
-                .setMedication(Medication.newBuilder().setMedicationId("789").build())
-                .build();
-
-        MedicationResponse response = routineService.getMedication(medicationRequest);
-
-        Assertions.assertEquals("789", response.getMedication().getMedicationId());
-    }
 }

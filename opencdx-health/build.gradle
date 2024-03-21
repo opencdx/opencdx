@@ -17,7 +17,9 @@ dependencies {
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
     implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
-    
+
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"

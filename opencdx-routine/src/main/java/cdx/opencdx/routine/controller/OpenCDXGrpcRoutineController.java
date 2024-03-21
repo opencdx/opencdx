@@ -206,30 +206,4 @@ public class OpenCDXGrpcRoutineController extends RoutineSystemServiceGrpc.Routi
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
-
-    /**
-     * gRPC Service Call to createMedication.
-     * @param request Request to process.
-     * @param responseObserver Observer to process the response.
-     */
-    @Override
-    @Secured({})
-    public void createMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
-        MedicationResponse response = openCDXRoutineService.triggerMedication(request);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
-
-    /**
-     * gRPC Service Call to getMedication.
-     * @param request Request to process.
-     * @param responseObserver Observer to process the response.
-     */
-    @Override
-    @Secured({})
-    public void getMedication(MedicationRequest request, StreamObserver<MedicationResponse> responseObserver) {
-        MedicationResponse response = openCDXRoutineService.getMedication(request);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
 }

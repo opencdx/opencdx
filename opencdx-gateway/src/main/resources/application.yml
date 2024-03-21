@@ -131,7 +131,7 @@ spring:
         - id: grpc-health-profile
           uri: https://health:9090
           predicates:
-            - Path=/cdx.opencdx.grpc.profile.UserProfileService/**
+            - Path=/cdx.opencdx.grpc.health.profile.UserProfileService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
         - id: grpc-iam-workspace
@@ -206,6 +206,13 @@ spring:
             - Path=/cdx.opencdx.grpc.lab.connected.ConnectedLabService/**
           filters:
             - AddResponseHeader=X-Request-header, header-value
+        - id: grpc-health-medication
+          uri: https://health:9090
+          predicates:
+            - Path=/cdx.opencdx.grpc.health.medication.MedicationService/**
+          filters:
+            - AddResponseHeader=X-Request-header, header-value
+
 eureka:
   client:
     service-url:

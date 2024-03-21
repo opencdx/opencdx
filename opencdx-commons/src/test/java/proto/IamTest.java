@@ -16,9 +16,9 @@
 package proto;
 
 import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.health.profile.CreateUserProfileRequest;
+import cdx.opencdx.grpc.health.profile.UserProfile;
 import cdx.opencdx.grpc.iam.*;
-import cdx.opencdx.grpc.profile.CreateUserProfileRequest;
-import cdx.opencdx.grpc.profile.UserProfile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

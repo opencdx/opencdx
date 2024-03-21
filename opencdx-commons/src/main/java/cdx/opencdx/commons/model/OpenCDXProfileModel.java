@@ -19,7 +19,7 @@ import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.common.ContactInfo;
 import cdx.opencdx.grpc.common.FullName;
 import cdx.opencdx.grpc.common.Gender;
-import cdx.opencdx.grpc.profile.*;
+import cdx.opencdx.grpc.health.profile.*;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
@@ -70,8 +70,6 @@ public class OpenCDXProfileModel {
     private List<Vaccine> vaccines;
     private List<ObjectId> dependents;
     private List<KnownAllergy> allergies;
-    private List<Medication> medications;
-
     private Instant created;
     private Instant modified;
     private ObjectId creator;
@@ -112,7 +110,6 @@ public class OpenCDXProfileModel {
         this.pharmacyDetails = userProfile.getPharmacyDetails();
         this.vaccines = userProfile.getVaccineAdministeredList();
         this.allergies = userProfile.getKnownAllergiesList();
-        this.medications = userProfile.getCurrentMedicationsList();
 
         if (userProfile.hasCreated()) {
             this.created = Instant.ofEpochSecond(
@@ -208,9 +205,6 @@ public class OpenCDXProfileModel {
         }
         if (this.allergies != null) {
             builder.addAllKnownAllergies(this.allergies);
-        }
-        if (this.medications != null) {
-            builder.addAllCurrentMedications(this.medications);
         }
         if (this.created != null) {
             builder.setCreated(Timestamp.newBuilder()

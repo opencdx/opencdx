@@ -16,9 +16,11 @@
 package proto;
 
 import cdx.opencdx.grpc.common.*;
-import cdx.opencdx.grpc.profile.*;
+import cdx.opencdx.grpc.health.medication.SearchMedicationsRequest;
+import cdx.opencdx.grpc.health.profile.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.protobuf.Timestamp;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
@@ -30,14 +32,30 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-class ProfileTest {
+class HealthTest {
     ObjectMapper mapper;
+
+    ObjectWriter writer;
 
     @BeforeEach
     void setup() {
         this.mapper = new ObjectMapper();
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
+        this.writer = mapper.writerWithDefaultPrettyPrinter();
+    }
+
+    @Test
+    void searchMedicationsRequest() throws JsonProcessingException {
+        SearchMedicationsRequest searchMedicationsRequest = SearchMedicationsRequest.newBuilder()
+                .setBrandName("Adipex")
+                .setPagination(Pagination.newBuilder()
+                        .setPageNumber(1)
+                        .setPageSize(10)
+                        .build())
+                .build();
+
+        log.info("SearchMedicationsRequest: \n {}", this.writer.writeValueAsString(searchMedicationsRequest));
     }
 
     @Test
@@ -216,18 +234,6 @@ class ProfileTest {
                                                 .setOnsetDate("1975/12/20")
                                                 .setLastOccurrence("1976/12/25")
                                                 .setNotes("Christmas Trees")
-                                                .build()))
-                                        .addAllCurrentMedications(List.of(Medication.newBuilder()
-                                                .setName("Singular")
-                                                .setDosage("5mg")
-                                                .setInstructions("Take 1 pill at night")
-                                                .setRouteOfAdministration("Oral")
-                                                .setFrequency("Daily")
-                                                .setStartDate("1976/12/26")
-                                                .setEndDate("EOL")
-                                                .setPrescribingDoctor("Dr. OpenCDX")
-                                                .setPharmacy("Pharmacy")
-                                                .setIsPrescription(true)
                                                 .build()))
                                         .build())
                                 .build()));

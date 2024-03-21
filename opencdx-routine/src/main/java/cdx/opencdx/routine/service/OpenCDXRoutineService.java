@@ -23,8 +23,6 @@ import cdx.opencdx.grpc.routine.LabOrderRequest;
 import cdx.opencdx.grpc.routine.LabOrderResponse;
 import cdx.opencdx.grpc.routine.LabResultRequest;
 import cdx.opencdx.grpc.routine.LabResultResponse;
-import cdx.opencdx.grpc.routine.MedicationRequest;
-import cdx.opencdx.grpc.routine.MedicationResponse;
 import cdx.opencdx.grpc.routine.RoutineRequest;
 import cdx.opencdx.grpc.routine.RoutineResponse;
 import cdx.opencdx.grpc.routine.SuspectedDiagnosisRequest;
@@ -130,20 +128,4 @@ public interface OpenCDXRoutineService {
      * @return A LabResultResponse containing information about the requested lab result.
      */
     LabResultResponse getLabResult(LabResultRequest request);
-
-    /**
-     * Triggers a medication based on the provided MedicationRequest.
-     *
-     * @param request The MedicationRequest for triggering a medication.
-     * @return A MedicationResponse indicating the status of the medication triggering.
-     */
-    MedicationResponse triggerMedication(MedicationRequest request);
-
-    /**
-     * Retrieves information about a medication based on the provided MedicationRequest.
-     *
-     * @param request The MedicationRequest for retrieving medication information.
-     * @return A MedicationResponse containing information about the requested medication.
-     */
-    MedicationResponse getMedication(MedicationRequest request);
 }
