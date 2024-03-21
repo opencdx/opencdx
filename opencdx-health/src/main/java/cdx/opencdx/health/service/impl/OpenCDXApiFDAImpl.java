@@ -28,6 +28,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * OpenCDXApiFDAImpl is an implementation class for OpenCDXApiFDA interface.
+ */
 @Slf4j
 @Service
 @Observed(name = "opencdx")
@@ -35,9 +38,14 @@ public class OpenCDXApiFDAImpl implements OpenCDXApiFDA {
 
     private final String openFDAApiKey;
 
-    public static final String MEDICATION = "Medication: {}";
+    private static final String MEDICATION = "Medication: {}";
     private final OpenCDXOpenFDAClient openCDXOpenFDAClient;
 
+    /**
+     * Constructor that takes a OpenCDXOpenFDAClient and openFDAApiKey
+     * @param openCDXOpenFDAClient client for making requests
+     * @param openFDAApiKey the openFDA API key
+     */
     public OpenCDXApiFDAImpl(
             OpenCDXOpenFDAClient openCDXOpenFDAClient, @Value("${openFda.apiKey}") String openFDAApiKey) {
         this.openCDXOpenFDAClient = openCDXOpenFDAClient;

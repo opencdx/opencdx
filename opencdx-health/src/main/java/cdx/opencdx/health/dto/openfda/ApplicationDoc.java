@@ -22,11 +22,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * ApplicationDoc class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @SuppressWarnings("java:S116")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationDoc {
@@ -34,4 +34,11 @@ public class ApplicationDoc {
     private String url;
     private String date;
     private String type;
+
+    /**
+     * Default Constructor
+     */
+    public ApplicationDoc() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

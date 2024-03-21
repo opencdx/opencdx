@@ -53,7 +53,7 @@ public class OpenCDXMedicationRestController {
     }
     /**
      * Method to end medication.
-     * @param id The medication to end.
+     * @param request The medication to end.
      * @return The ended medication.
      */
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

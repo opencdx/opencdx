@@ -22,11 +22,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * ApplicationDoc class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Meta {
     private String disclaimer;
@@ -34,4 +34,11 @@ public class Meta {
     private String license;
     private String last_updated;
     private Results results;
+
+    /**
+     * Default Constructor
+     */
+    public Meta() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

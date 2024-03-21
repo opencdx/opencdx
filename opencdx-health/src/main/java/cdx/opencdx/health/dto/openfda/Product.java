@@ -23,11 +23,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * OpenFDA class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("java:S116")
 public class Product {
@@ -40,4 +40,11 @@ public class Product {
     private String route;
     private String marketing_status;
     private String te_code;
+
+    /**
+     * Default Constructor
+     */
+    public Product() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

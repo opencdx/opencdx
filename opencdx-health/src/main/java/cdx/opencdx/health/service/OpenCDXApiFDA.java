@@ -25,7 +25,7 @@ public interface OpenCDXApiFDA {
     /**
      * getMedicationsByBrandName is a method to get the medication information by brand name.
      * @param brandNamePrefix String containing the brand name of the medication.
-     * @return List<OpenCDXMedicationModel>
+     * @return List of OpenCDXMedicationModel containing the medication information.
      */
     List<OpenCDXMedicationModel> getMedicationsByBrandName(String brandNamePrefix);
 }

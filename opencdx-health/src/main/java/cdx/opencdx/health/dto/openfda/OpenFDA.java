@@ -23,11 +23,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * OpenFDA class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("java:S116")
 public class OpenFDA {
@@ -46,4 +46,11 @@ public class OpenFDA {
     private List<String> original_packager_product_ndc;
     private List<String> upc;
     private List<String> unii;
+
+    /**
+     * Default Constructor
+     */
+    public OpenFDA() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

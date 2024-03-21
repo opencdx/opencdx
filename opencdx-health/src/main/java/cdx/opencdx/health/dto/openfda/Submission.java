@@ -23,11 +23,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Submission class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("java:S116")
 public class Submission {
@@ -39,4 +39,11 @@ public class Submission {
     private String submission_class_code;
     private String submission_class_code_description;
     private List<ApplicationDoc> application_docs;
+
+    /**
+     * Default Constructor
+     */
+    public Submission() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

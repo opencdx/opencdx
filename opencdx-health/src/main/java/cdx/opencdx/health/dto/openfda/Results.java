@@ -22,15 +22,22 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Results class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings({"java:S116", "java:S1700"})
 public class Results {
     private int skip;
     private int limit;
     private int total;
+
+    /**
+     * Default Constructor
+     */
+    public Results() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

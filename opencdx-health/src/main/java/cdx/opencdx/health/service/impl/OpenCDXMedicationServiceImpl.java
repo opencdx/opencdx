@@ -46,9 +46,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 public class OpenCDXMedicationServiceImpl implements OpenCDXMedicationService {
-    public static final String OBJECT = "OBJECT";
-    public static final String MEDICATION = "Medication: ";
-    public static final String FAILED_TO_CONVERT_OPEN_CDX_MEDICATION_MODEL = "failed to convert OpenCDXMedicationModel";
+    private static final String OBJECT = "OBJECT";
+    private static final String MEDICATION = "Medication: ";
+    private static final String FAILED_TO_CONVERT_OPEN_CDX_MEDICATION_MODEL = "failed to convert OpenCDXMedicationModel";
     private final ObjectMapper objectMapper;
     private final OpenCDXAuditService openCDXAuditService;
     private final OpenCDXCurrentUser openCDXCurrentUser;

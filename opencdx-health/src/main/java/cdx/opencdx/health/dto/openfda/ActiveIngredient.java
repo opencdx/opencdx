@@ -16,20 +16,23 @@
 package cdx.opencdx.health.dto.openfda;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * ActiveIngredient class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @SuppressWarnings("java:S116")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ActiveIngredient {
     private String name;
     private String strength;
+
+    /**
+     * Default Constructor
+     */
+    public ActiveIngredient() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

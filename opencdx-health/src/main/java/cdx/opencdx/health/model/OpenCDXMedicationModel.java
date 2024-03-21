@@ -75,6 +75,13 @@ public class OpenCDXMedicationModel {
     private ObjectId creator;
     private ObjectId modifier;
 
+    /**
+     * Constructor from OpenFDA Result and Product
+     * @param medicationName Name of the medication
+     * @param result OpenFDA Result
+     * @param product OpenFDA Product
+     * @param generic Is the medication generic
+     */
     public OpenCDXMedicationModel(String medicationName, Result result, Product product, boolean generic) {
         this.medicationName = medicationName;
         this.generic = generic;

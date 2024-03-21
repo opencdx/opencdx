@@ -22,14 +22,21 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * ApplicationDoc class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("java:S116")
 public class Error {
     private String message;
     private String code;
+
+    /**
+     * Default Constructor
+     */
+    public Error() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

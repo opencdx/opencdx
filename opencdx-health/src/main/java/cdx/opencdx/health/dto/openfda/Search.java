@@ -23,15 +23,22 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Search class
+ */
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("java:S116")
 public class Search {
     private Meta meta;
     private List<Result> results;
     private Error error;
+
+    /**
+     * Default Constructor
+     */
+    public Search() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
 }

@@ -33,24 +33,28 @@ public interface OpenCDXMedicationRepository extends MongoRepository<OpenCDXMedi
     /**
      * Find all medications by patient id.
      * @param patientId the patient id
+     * @param pageable the pageable
      * @return the Page of medications
      */
     Page<OpenCDXMedicationModel> findAllByPatientId(ObjectId patientId, Pageable pageable);
     /**
      * Find all medications by national health id.
      * @param nationalHealthId the national health id
+     * @param pageable the pageable
      * @return the Page of medications
      */
     Page<OpenCDXMedicationModel> findAllByNationalHealthId(String nationalHealthId, Pageable pageable);
     /**
      * Find all medications by patient id and end date is null.
      * @param patientId the patient id
+     * @param pageable the pageable
      * @return the Page of medications
      */
     Page<OpenCDXMedicationModel> findAllByPatientIdAndEndDateIsNull(ObjectId patientId, Pageable pageable);
     /**
      * Find all medications by national health id and end date is null.
      * @param nationalHealthId the national health id
+     * @param pageable the pageable
      * @return the Page of medications
      */
     Page<OpenCDXMedicationModel> findAllByNationalHealthIdAndEndDateIsNull(String nationalHealthId, Pageable pageable);
