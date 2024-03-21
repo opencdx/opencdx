@@ -24,6 +24,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
+import cdx.opencdx.grpc.audit.AgentType;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.Address;
 import cdx.opencdx.grpc.health.profile.*;
@@ -32,6 +33,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.annotation.Observed;
 import java.util.HashMap;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -185,6 +188,16 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
      */
     @Override
     public CreateUserProfileResponse createUserProfile(CreateUserProfileRequest request) {
+        boolean forceUser = false;
+
+        if(!openCDXCurrentUser.getCurrentUser().getAgentType().equals(AgentType.AGENT_TYPE_SYSTEM)) {
+            Optional<OpenCDXProfileModel> userProfile = this.openCDXProfileRepository.findByUserId(openCDXCurrentUser.getCurrentUser().getId());
+            if(userProfile.isPresent()) {
+                throw new OpenCDXConflict(DOMAIN, 2, "User Profile exists: " + userProfile.get().getId().toHexString());
+            }
+            forceUser = true;
+        }
+
         this.openCDXDocumentValidator.validateDocumentsOrThrow(
                 "users",
                 request.getUserProfile().getDependentIdList().stream()
@@ -233,8 +246,12 @@ public class OpenCDXIAMProfileServiceImpl implements OpenCDXIAMProfileService {
             throw new OpenCDXConflict(DOMAIN, 3, "User Profile exist" + request.getUserProfile());
         }
 
-        OpenCDXProfileModel model =
-                this.openCDXProfileRepository.save(new OpenCDXProfileModel(request.getUserProfile()));
+        OpenCDXProfileModel model = new OpenCDXProfileModel(request.getUserProfile());
+        if(forceUser) {
+            model.setUserId(openCDXCurrentUser.getCurrentUser().getId());
+        }
+
+        model = this.openCDXProfileRepository.save(model);
 
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
