@@ -187,12 +187,33 @@ message QuestionnaireItem {
   /*
    * The response provided by the user to the item.
    */
-  oneof submission_user_response {
-    int32 answer_integer = 15;
-    double answer_double = 16;
-    string answer_string = 17;
-    bool answer_boolean = 18;
-  }
+  repeated AnswerValue answer = 15;
+}
+
+/*
+ * Represents answer response
+ */
+message AnswerValue {
+  /*
+   * Integer answer
+   */
+  optional int32 value_integer = 1;
+  /*
+   * Double answer
+   */
+  optional double value_double = 2;
+  /*
+   * String answer
+   */
+  optional string value_string = 3;
+  /*
+   * Boolean answer
+   */
+  optional bool value_boolean = 4;
+  /*
+   * Coding answer
+   */
+  optional Coding value_coding = 5;
 }
 
 /*
