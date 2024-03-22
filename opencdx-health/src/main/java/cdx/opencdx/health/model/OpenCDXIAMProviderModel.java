@@ -22,6 +22,8 @@ import cdx.opencdx.grpc.common.AddressPurpose;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiResult;
 import com.google.protobuf.Timestamp;
+
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -59,10 +61,10 @@ public class OpenCDXIAMProviderModel {
     private List<Identifier> identifiers;
     private List<String> endpoints;
     private List<String> otherNames;
-    private com.google.protobuf.Timestamp created;
-    private com.google.protobuf.Timestamp modified;
-    private String creator;
-    private String modifier;
+    private Instant created;
+    private Instant modified;
+    private ObjectId creator;
+    private ObjectId modifier;
     private ProviderStatus status;
 
     /**
@@ -227,23 +229,23 @@ public class OpenCDXIAMProviderModel {
         if (this.otherNames != null) {
             builder.addAllOtherNames(this.otherNames);
         }
-        if (this.created != null) {
+        if (created != null) {
             builder.setCreated(Timestamp.newBuilder()
-                    .setSeconds(this.created.getSeconds())
-                    .setNanos(this.created.getNanos())
+                    .setSeconds(created.getEpochSecond())
+                    .setNanos(created.getNano())
                     .build());
         }
-        if (this.modified != null) {
+        if (modified != null) {
             builder.setModified(Timestamp.newBuilder()
-                    .setSeconds(this.modified.getSeconds())
-                    .setNanos(this.modified.getNanos())
+                    .setSeconds(modified.getEpochSecond())
+                    .setNanos(modified.getNano())
                     .build());
         }
-        if (this.creator != null) {
-            builder.setCreator(this.creator);
+        if (creator != null) {
+            builder.setCreator(creator.toHexString());
         }
-        if (this.modifier != null) {
-            builder.setModifier(this.modifier);
+        if (modifier != null) {
+            builder.setModifier(modifier.toHexString());
         }
         return builder.build();
     }
