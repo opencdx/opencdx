@@ -58,9 +58,7 @@ public class OpenCDXMedicationRestController {
      */
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Medication> ending(@RequestBody EndMedicationRequest request) {
-        return new ResponseEntity<>(
-                this.openCDXMedicationService.ending(request),
-                HttpStatus.OK);
+        return new ResponseEntity<>(this.openCDXMedicationService.ending(request), HttpStatus.OK);
     }
     /**
      * Method to list all medications for a patient.
