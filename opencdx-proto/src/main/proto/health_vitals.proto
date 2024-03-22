@@ -1,0 +1,206 @@
+/*
+ * This section archives the outcomes of linked tests results originating from a specific patient.
+ */
+syntax = "proto3";
+option java_multiple_files = true;
+package cdx.opencdx.grpc.health;
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+/*
+ * Represents Height Measurement information.
+ */
+message HeightMeasurement {
+  /*
+   * Patient ID
+   */
+  string patient_id = 1;
+  /*
+   * National Health Identifier
+   */
+  string national_health_id = 2;
+  /*
+   * Height of the patient
+   */
+  double height = 3;
+  /*
+   * Timestamp when the vitals were taken.
+   */
+  optional google.protobuf.Timestamp time_of_measurement = 4;
+  /*
+   * Creation timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp created = 5;
+  /*
+   * Modification timestamp of the measurement data.
+   */
+  optional google.protobuf.Timestamp modified = 6;
+  /*
+   * Identifier of the creator of this record.
+   */
+  optional string creator = 7;
+  /**
+   * The user who last modified the Message.
+   */
+  optional string modifier = 8;
+  /*
+   * ID
+   */
+  optional string id = 9;
+
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message CreateHeightMeasurementRequest {
+  /*
+   * The Height Measurement
+   */
+  optional HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the response after creating a health vitals info.
+ */
+message CreateHeightMeasurementResponse {
+  /*
+   * The Height Measurement
+   */
+  optional HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message GetHeightMeasurementRequest {
+  /*
+   * The Height Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * This message contains the details required for fetching the Height Measurements info.
+ */
+message GetHeightMeasurementResponse {
+  /*
+   * The Height Measurement
+   */
+  optional HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for updating a health vitals info.
+ */
+message UpdateHeightMeasurementRequest {
+  /*
+   * The Height Measurement
+   */
+  optional HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This message contains the details required for creating a health vitals info.
+ */
+message UpdateHeightMeasurementResponse {
+  /*
+   * The Height Measurement
+   */
+  optional HeightMeasurement height_Measurement = 1;
+}
+
+/*
+ * This request to delete health vitals info.
+ */
+message DeleteHeightMeasurementRequest {
+  /*
+   * The Height Measurement id
+   */
+  string id = 1;
+}
+
+/*
+ * Indicates whether the operation was successful.
+ */
+message SuccessResponse{
+  /*
+   * Indication of success. If true, the operation was successful. If false, the operation failed.
+   */
+  bool success = 1;
+}
+
+/*
+ * This message contains the details required for listing health vitals info.
+ */
+message ListHeightMeasurementsRequest {
+  oneof height_identifiers{
+    /**
+     * The ID of the patient.
+     */
+    string patient_id = 1;
+
+    /**
+     * The national health identifier
+     */
+    string national_health_id = 2;
+  }
+
+  /*
+   * Start date.
+   */
+  optional google.protobuf.Timestamp start_date = 3;
+
+  /*
+   * End Date.
+   */
+  optional google.protobuf.Timestamp end_date = 4;
+
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 5;
+}
+
+/*
+ * This is the response of the Height Measurement
+ */
+message ListHeightMeasurementsResponse {
+  /*
+  * Pagination information and sorting.
+  */
+  cdx.opencdx.grpc.common.Pagination pagination = 1;
+  /**
+  * The list of Height Measurement.
+  */
+  repeated HeightMeasurement height_Measurement = 2;
+}
+
+/*
+ * The HeightVitalsService provides remote procedure call (RPC) methods to manipulate and fetch
+ * Height Measurements related information.
+ */
+service HeightMeasurementService {
+
+  /**
+   * Create a HeightMeasurement.
+   */
+  rpc CreateHeightMeasurement(CreateHeightMeasurementRequest) returns (CreateHeightMeasurementResponse);
+  /**
+   * Get a HeightMeasurement.
+   */
+  rpc GetHeightMeasurement(GetHeightMeasurementRequest) returns (GetHeightMeasurementResponse);
+  /**
+   * Update a HeightMeasurement.
+   */
+  rpc UpdateHeightMeasurement(UpdateHeightMeasurementRequest) returns (UpdateHeightMeasurementResponse);
+  /**
+   * Delete a HeightMeasurement.
+   */
+  rpc DeleteHeightMeasurement(DeleteHeightMeasurementRequest) returns (SuccessResponse);
+  /**
+   * List HeightMeasurement.
+   */
+  rpc ListHeightMeasurements(ListHeightMeasurementsRequest) returns (ListHeightMeasurementsResponse);
+}
