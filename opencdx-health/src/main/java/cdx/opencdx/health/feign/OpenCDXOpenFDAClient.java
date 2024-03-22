@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.service;
+package cdx.opencdx.health.feign;
 
 import cdx.opencdx.health.dto.openfda.Search;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,7 @@ public interface OpenCDXOpenFDAClient {
      * @param skip skip
      * @return Meta
      */
+    @Cacheable("drugs")
     @GetMapping("/drugsfda.json")
     ResponseEntity<Search> getDrugs(
             @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
@@ -47,6 +49,7 @@ public interface OpenCDXOpenFDAClient {
      * @param skip skip
      * @return Meta
      */
+    @Cacheable("label")
     @GetMapping("/label.json")
     ResponseEntity<Search> getLabel(
             @RequestParam("search") String search, @RequestParam("limit") int limit, @RequestParam("skip") int skip);
@@ -59,6 +62,7 @@ public interface OpenCDXOpenFDAClient {
      * @param skip skip
      * @return Meta
      */
+    @Cacheable("drugs")
     @GetMapping("/drugsfda.json")
     ResponseEntity<Search> getDrugs(
             @RequestHeader("Authorization") String authorizationToken,
@@ -74,6 +78,7 @@ public interface OpenCDXOpenFDAClient {
      * @param skip skip
      * @return Meta
      */
+    @Cacheable("label")
     @GetMapping("/label.json")
     ResponseEntity<Search> getLabel(
             @RequestHeader("Authorization") String authorizationToken,

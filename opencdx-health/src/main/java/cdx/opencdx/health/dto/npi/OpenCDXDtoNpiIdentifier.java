@@ -13,32 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.dto;
+package cdx.opencdx.health.dto.npi;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
- * DTO for NPI Taxonomy
+ * DTO for NPI Identifier
  */
 @Data
-public class OpenCDXDtoNpiTaxonomy {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class OpenCDXDtoNpiIdentifier {
     private String code;
-
-    @JsonProperty("taxonomy_group")
-    private String taxonomyGroup;
-
     private String desc;
+    private String issuer;
+    private String identifier;
     private String state;
-    private String license;
-
-    @JsonProperty("primary")
-    private boolean primary;
 
     /**
      * Default Constructor
      */
-    public OpenCDXDtoNpiTaxonomy() {
+    public OpenCDXDtoNpiIdentifier() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
     }
 }

@@ -50,5 +50,8 @@ public class ConnectedTestChangeSet {
         openCDXCurrentUser.configureAuthentication(SYSTEM);
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of(USER_ID)));
         mongockTemplate.getCollection("connected-test").createIndex(Indexes.ascending(List.of("nationalHealthId")));
+        mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of("nationalHealthId")));
+        mongockTemplate.getCollection("medications").createIndex(Indexes.ascending(List.of("patientId")));
+        mongockTemplate.getCollection("provider").createIndex(Indexes.ascending(List.of("npiNumber")));
     }
 }

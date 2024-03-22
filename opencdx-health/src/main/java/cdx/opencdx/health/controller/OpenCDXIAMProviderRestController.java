@@ -77,7 +77,7 @@ public class OpenCDXIAMProviderRestController {
      * @param request List of providers.
      * @return All the providers.
      */
-    @GetMapping("/load")
+    @PostMapping("/load")
     public ResponseEntity<LoadProviderResponse> loadProvider(@RequestBody LoadProviderRequest request) {
         return new ResponseEntity<>(this.openCDXIAMProviderService.loadProvider(request), HttpStatus.OK);
     }

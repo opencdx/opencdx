@@ -29,6 +29,7 @@ import cdx.opencdx.grpc.provider.DeleteProviderRequest;
 import cdx.opencdx.grpc.provider.GetProviderRequest;
 import cdx.opencdx.grpc.provider.ListProvidersRequest;
 import cdx.opencdx.grpc.provider.LoadProviderRequest;
+import cdx.opencdx.health.feign.OpenCDXNpiRegistryClient;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
@@ -43,23 +44,25 @@ import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+@ActiveProfiles({"test", "managed"})
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false", "mongock.enabled=false"})
 class OpenCDXIAMProviderServiceImplTest {
-
-    @Autowired
-    private WebApplicationContext context;
-
-    private MockMvc mockMvc;
 
     OpenCDXIAMProviderService openCDXIAMProviderService;
 
@@ -68,14 +71,15 @@ class OpenCDXIAMProviderServiceImplTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-    @Autowired
-    OpenCDXAuditService openCDXAuditService1;
 
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
+    @Mock
     ObjectMapper objectMapper1;
+
+    @Autowired
+    OpenCDXNpiRegistryClient openCDXNpiRegistryClient;
 
     @MockBean
     OpenCDXIAMProviderRepository openCDXIAMProviderRepository;
@@ -94,8 +98,13 @@ class OpenCDXIAMProviderServiceImplTest {
 
     @BeforeEach
     void beforeEach() throws JsonProcessingException {
-        this.objectMapper = mock(ObjectMapper.class);
-        when(this.objectMapper.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser())
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+        Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
+                .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
+
+
+        when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProviderRepository = mock(OpenCDXIAMProviderRepository.class);
         when(this.openCDXIAMProviderRepository.save(any(OpenCDXIAMProviderModel.class)))
                 .thenAnswer(new Answer<OpenCDXIAMProviderModel>() {
@@ -114,7 +123,8 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXAuditService,
                 this.objectMapper,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
     }
 
     @Test
@@ -149,19 +159,20 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
         GetProviderRequest request = GetProviderRequest.newBuilder()
                 .setProviderNumber(ObjectId.get().toHexString())
                 .build();
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProviderService.getProviderByNumber(request));
+                OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.getProviderByNumber(request));
     }
 
     @Test
     void deleteProviderElse() throws JsonProcessingException {
         when(this.openCDXIAMProviderRepository.findById(any(ObjectId.class)))
                 .thenReturn(Optional.of(OpenCDXIAMProviderModel.builder()
-                        .userId(ObjectId.get().toHexString())
+                        .userId(ObjectId.get())
                         .build()));
         DeleteProviderRequest request = DeleteProviderRequest.newBuilder()
                 .setProviderId(ObjectId.get().toHexString())
@@ -178,9 +189,10 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
         Assertions.assertThrows(
-                OpenCDXNotAcceptable.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
+                OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
     }
 
     @Test
@@ -213,7 +225,7 @@ class OpenCDXIAMProviderServiceImplTest {
     @Test
     void loadProviderTest() {
         LoadProviderRequest loadProviderRequest =
-                LoadProviderRequest.newBuilder().setUserId("2431").build();
+                LoadProviderRequest.newBuilder().setProviderNumber("1245356781").build();
         Assertions.assertDoesNotThrow(() -> this.openCDXIAMProviderService.loadProvider(loadProviderRequest));
     }
 
@@ -226,9 +238,10 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
         LoadProviderRequest loadProviderRequest1 =
-                LoadProviderRequest.newBuilder().setUserId("1679736037").build();
+                LoadProviderRequest.newBuilder().setProviderNumber("1245356781").build();
         URL url = mock(URL.class);
         URI uri = mock(URI.class);
         HttpURLConnection connection = mock(HttpURLConnection.class);
@@ -248,9 +261,9 @@ class OpenCDXIAMProviderServiceImplTest {
     void listProvidersTestJsonException() throws JsonProcessingException {
         when(this.openCDXIAMProviderRepository.findAll())
                 .thenReturn(List.of(OpenCDXIAMProviderModel.builder()
-                        .userId(ObjectId.get().toHexString())
+                        .userId(ObjectId.get())
                         .id(ObjectId.get())
-                        .number(ObjectId.get().toHexString())
+                        .npiNumber(ObjectId.get().toHexString())
                         .build()));
         this.objectMapper1 = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
@@ -264,7 +277,8 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
         ListProvidersRequest loadProviderRequest =
                 ListProvidersRequest.newBuilder().build();
         Assertions.assertThrows(
@@ -275,9 +289,9 @@ class OpenCDXIAMProviderServiceImplTest {
     void listProvidersTestNoJsonException() throws JsonProcessingException {
         when(this.openCDXIAMProviderRepository.findAll())
                 .thenReturn(List.of(OpenCDXIAMProviderModel.builder()
-                        .userId(ObjectId.get().toHexString())
+                        .userId(ObjectId.get())
                         .id(ObjectId.get())
-                        .number(ObjectId.get().toHexString())
+                        .npiNumber(ObjectId.get().toHexString())
                         .build()));
         this.objectMapper = Mockito.mock(ObjectMapper.class);
         Mockito.when(this.objectMapper.writeValueAsString(any(OpenCDXIAMProviderModel.class)))
@@ -287,13 +301,13 @@ class OpenCDXIAMProviderServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-        this.openCDXAuditService1 = mock(OpenCDXAuditService.class);
         this.openCDXIAMProviderService1 = new OpenCDXIAMProviderServiceImpl(
                 this.openCDXIAMProviderRepository,
-                this.openCDXAuditService1,
+                this.openCDXAuditService,
                 this.objectMapper,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
         ListProvidersRequest loadProviderRequest =
                 ListProvidersRequest.newBuilder().build();
         Assertions.assertDoesNotThrow(() -> this.openCDXIAMProviderService1.listProviders(loadProviderRequest));
