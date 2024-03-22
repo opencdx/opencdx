@@ -464,14 +464,14 @@ start_docker() {
     fi
 
     handle_info "Starting Docker services using $1..."
-    (cd docker && docker compose --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
+    (cd docker && docker-compose --project-name opencdx -f "$1" up -d) || handle_error "Failed to start Docker services."
 }
 
 # Function to stop Docker services
 # Parameters: $1 (optional) - Docker Compose filename
 stop_docker() {
     handle_info "Stopping Docker services"
-    (cd docker && docker compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
+    (cd docker && docker-compose --project-name opencdx -f "docker-compose.yml" down) || handle_error "Failed to stop Docker services."
     DEPLOYED="NONE"
 }
 
@@ -771,7 +771,7 @@ if ! command -v docker &> /dev/null; then
 fi
 
 # Check for 'open' command (for macOS)
-if [[ "$OSTYPE" != "msys" ]] && ! command -v open &> /dev/null; then
+if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "linux-gnu" ]] && ! command -v open &> /dev/null; then
     handle_error "'open' command is not available. Please install it or use an appropriate alternative."
 fi
 
