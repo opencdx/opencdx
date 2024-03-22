@@ -25,11 +25,13 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiJsonResponse;
+import cdx.opencdx.health.feign.OpenCDXNpiRegistryClient;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -42,6 +44,7 @@ import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -68,6 +71,8 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     private final OpenCDXCountryRepository openCDXCountryRepository;
     private final OpenCDXCurrentUser openCDXCurrentUser;
 
+    private final OpenCDXNpiRegistryClient openCDXNpiRegistryClient;
+
     /**
      * Provider Service
      * @param  openCDXIAMProviderRepository, Database repository for Provider
@@ -75,18 +80,20 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      * @param objectMapper ObjectMapper for converting to JSON
      * @param openCDXCountryRepository Country Repository for looking up countries
      * @param openCDXCurrentUser Current User Service
+     * @param openCDXNpiRegistryClient NPI Registry Client
      */
     public OpenCDXIAMProviderServiceImpl(
             OpenCDXIAMProviderRepository openCDXIAMProviderRepository,
             OpenCDXAuditService openCDXAuditService,
             ObjectMapper objectMapper,
             OpenCDXCountryRepository openCDXCountryRepository,
-            OpenCDXCurrentUser openCDXCurrentUser) {
+            OpenCDXCurrentUser openCDXCurrentUser, OpenCDXNpiRegistryClient openCDXNpiRegistryClient) {
         this.openCDXIAMProviderRepository = openCDXIAMProviderRepository;
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
         this.openCDXCountryRepository = openCDXCountryRepository;
         this.openCDXCurrentUser = openCDXCurrentUser;
+        this.openCDXNpiRegistryClient = openCDXNpiRegistryClient;
     }
 
     /**
@@ -98,9 +105,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     @Override
     public GetProviderResponse getProviderByNumber(GetProviderRequest request) {
         OpenCDXIAMProviderModel model = this.openCDXIAMProviderRepository
-                .findById(new ObjectId(request.getProviderNumber()))
+                .findByNpiNumber(request.getProviderNumber())
                 .orElseThrow(
-                        () -> new OpenCDXNotFound(DOMAIN, 3, "FAILED_TO_FIND_PROVIDER" + request.getProviderNumber()));
+                        () -> new OpenCDXNotFound(DOMAIN, 1, "FAILED_TO_FIND_PROVIDER" + request.getProviderNumber()));
         try {
             OpenCDXIAMUserModel currentUser = this.openCDXCurrentUser.getCurrentUser();
             this.openCDXAuditService.piiAccessed(
@@ -108,13 +115,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     currentUser.getAgentType(),
                     PROVIDER_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    model.getId().toHexString(),
+                    PROVIDER_NUMBER + model.getNpiNumber(),
                     PROVIDER_NUMBER + model.getNpiNumber(),
                     PROVIDER + model.getId().toHexString(),
                     this.objectMapper.writeValueAsString(model));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 2, FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -133,8 +140,8 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
     @Override
     public DeleteProviderResponse deleteProvider(DeleteProviderRequest request) {
         OpenCDXIAMProviderModel providerModel = this.openCDXIAMProviderRepository
-                .findById(new ObjectId(request.getProviderId()))
-                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 5, "FAILED_TO_FIND_USER" + request.getProviderId()));
+                .findByNpiNumber(request.getProviderId())
+                .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 8, "FAILED_TO_FIND_USER" + request.getProviderId()));
 
         providerModel.setStatus(ProviderStatus.DELETED);
 
@@ -148,13 +155,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     currentUser.getAgentType(),
                     "Provider deleted",
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    providerModel.getId().toHexString(),
-                    providerModel.getUserId(),
-                    "PROVIDER" + providerModel.getUserId(),
+                    PROVIDER_NUMBER + providerModel.getNpiNumber(),
+                    PROVIDER_NUMBER + providerModel.getNpiNumber(),
+                    PROVIDER + providerModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(providerModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 6, "FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL", e);
+                    new OpenCDXNotAcceptable(DOMAIN, 3, "FAILED_TO_CONVERT_OPEN_CDXIAM_USER_MODEL", e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;
@@ -178,13 +185,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                         currentUser.getAgentType(),
                         PROVIDER_ACCESSED,
                         SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                        "PROVIDER ID: " + model.getId().toHexString(),
+                        PROVIDER_NUMBER + model.getNpiNumber(),
                         PROVIDER_NUMBER + model.getNpiNumber(),
                         PROVIDER + model.getId().toHexString(),
                         this.objectMapper.writeValueAsString(model));
             } catch (JsonProcessingException e) {
                 OpenCDXNotAcceptable openCDXNotAcceptable =
-                        new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL, e);
+                        new OpenCDXNotAcceptable(DOMAIN, 4, FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL, e);
                 openCDXNotAcceptable.setMetaData(new HashMap<>());
                 openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
                 throw openCDXNotAcceptable;
@@ -214,32 +221,12 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
 
         OpenCDXIAMProviderModel openCDXIAMProviderModel;
         try {
-            String npiNumber = request.getUserId();
-            String apiUrl = "https://npiregistry.cms.hhs.gov/api/";
-            // Construct the URL
-            URL url = URI.create(apiUrl + "?version=2.1&number=" + npiNumber).toURL();
-            // Open connection
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            // Set the request method
-            connection.setRequestMethod("GET");
-            // Get the response code
-            int responseCode = connection.getResponseCode();
+            ResponseEntity<OpenCDXDtoNpiJsonResponse> response = this.openCDXNpiRegistryClient.getProviderInfo(OpenCDXNpiRegistryClient.NPI_VERSION, request.getProviderNumber());
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Read the response
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
+            if(response.getStatusCode().is2xxSuccessful()) {
+                OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse = response.getBody();
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse =
-                        this.objectMapper.readValue(response.toString(), OpenCDXDtoNpiJsonResponse.class);
-                if (openCDXDtoNpiJsonResponse != null) {
-                    log.info("Response: {}", openCDXDtoNpiJsonResponse);
+                if (openCDXDtoNpiJsonResponse != null && openCDXDtoNpiJsonResponse.getResults() != null && !openCDXDtoNpiJsonResponse.getResults().isEmpty()) {
                     openCDXIAMProviderModel = new OpenCDXIAMProviderModel(
                             openCDXDtoNpiJsonResponse.getResults().get(0), openCDXCountryRepository);
                     loadProviderPiiCreated(request, openCDXIAMProviderModel);
@@ -249,14 +236,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                                     .getProtobufMessage())
                             .build();
                 }
-            } else {
-                log.error("Error: " + responseCode);
-                throw new OpenCDXServiceUnavailable(DOMAIN, 1, "FAILED_TO_LOAD_PROVIDER" + responseCode);
             }
-        } catch (Exception e) {
-            throw new OpenCDXServiceUnavailable(DOMAIN, 2, "FAILED_TO_LOAD_PROVIDER" + e.getMessage(), e);
+
+            throw new OpenCDXServiceUnavailable(DOMAIN, 5, "FAILED_TO_LOAD_PROVIDER");
+
+        } catch (FeignException e) {
+            throw new OpenCDXServiceUnavailable(DOMAIN, 5, "FAILED_TO_LOAD_PROVIDER" + e.getMessage(), e);
         }
-        return null;
     }
 
     private void loadProviderPiiCreated(LoadProviderRequest request, OpenCDXIAMProviderModel openCDXIAMProviderModel) {
@@ -267,13 +253,13 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
                     currentUser.getAgentType(),
                     PROVIDER_ACCESSED,
                     SensitivityLevel.SENSITIVITY_LEVEL_HIGH,
-                    openCDXIAMProviderModel.getId().toHexString(),
+                    PROVIDER_NUMBER + openCDXIAMProviderModel.getNpiNumber(),
                     PROVIDER_NUMBER + openCDXIAMProviderModel.getNpiNumber(),
                     PROVIDER + openCDXIAMProviderModel.getId().toHexString(),
                     this.objectMapper.writeValueAsString(openCDXIAMProviderModel));
         } catch (JsonProcessingException e) {
             OpenCDXNotAcceptable openCDXNotAcceptable =
-                    new OpenCDXNotAcceptable(DOMAIN, 6, FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL, e);
+                    new OpenCDXNotAcceptable(DOMAIN, 7, FAILED_TO_CONVERT_OPEN_CDXPROVIDER_USER_MODEL, e);
             openCDXNotAcceptable.setMetaData(new HashMap<>());
             openCDXNotAcceptable.getMetaData().put(OBJECT, request.toString());
             throw openCDXNotAcceptable;

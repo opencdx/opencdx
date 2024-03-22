@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cdx.opencdx.health.service;
+package cdx.opencdx.health.feign;
 
 import cdx.opencdx.health.dto.openfda.Search;
 import org.springframework.cloud.openfeign.FeignClient;

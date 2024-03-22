@@ -59,5 +59,7 @@ public class LogisticsChangeSet {
         mongockTemplate.getCollection(TESTCASES).createIndex(Indexes.ascending(List.of("manufacturerId")));
         mongockTemplate.getCollection(TESTCASES).createIndex(Indexes.ascending(List.of("vendorId")));
         mongockTemplate.getCollection("vendor").createIndex(Indexes.ascending(List.of("countryId")));
+        mongockTemplate.getCollection("shipping").createIndex(Indexes.ascending(List.of("trackingNumber")));
+        mongockTemplate.getCollection("order").createIndex(Indexes.ascending(List.of("patientId")));
     }
 }

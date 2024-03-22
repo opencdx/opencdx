@@ -47,7 +47,7 @@ public class OpenCDXIAMProviderModel {
     @Id
     private ObjectId id;
 
-    private String userId;
+    private ObjectId userId;
     private String created_epoch;
     private String enumeration_type;
     private String last_updated_epoch;
@@ -84,51 +84,97 @@ public class OpenCDXIAMProviderModel {
                             openCDXCountryRepository.findByName(address.getCountryName());
                     byName.ifPresent(openCDXCountryModel ->
                             builder.setCountryId(openCDXCountryModel.getId().toHexString()));
-                    builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
-                    builder.setAddress1(address.getAddress1());
-                    builder.setCity(address.getCity());
-                    builder.setState(address.getState());
-                    builder.setPostalCode(address.getPostalCode());
+                    if(address.getAddressPurpose() != null) {
+                        builder.setAddressPurpose(AddressPurpose.valueOf(address.getAddressPurpose()));
+                    }
+                    if(address.getAddress1() != null) {
+                        builder.setAddress1(address.getAddress1());
+                    }
+                    if(address.getCity() != null) {
+                        builder.setCity(address.getCity());
+                    }
+                    if(address.getState() != null) {
+                        builder.setState(address.getState());
+                    }
+                    if(address.getPostalCode() != null) {
+                        builder.setPostalCode(address.getPostalCode());
+                    }
                     return builder.build();
                 })
                 .toList();
 
         this.practiceLocations = result.getPracticeLocations();
 
-        BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
-        this.basic = basicBuilder
-                .setFirstName(result.getBasic().getFirstName())
-                .setLastName(result.getBasic().getLastName())
-                .setCredential(result.getBasic().getCredential())
-                .setSoleProprietor(result.getBasic().getSoleProprietor())
-                .setGender(result.getBasic().getGender())
-                .setEnumerationDate(result.getBasic().getEnumerationDate())
-                .setStatus(ProviderStatus.VALIDATED)
-                .setNamePrefix(result.getBasic().getNamePrefix())
-                .setNameSuffix(result.getBasic().getNameSuffix())
-                .build();
+        if(result.getBasic() != null) {
+            BasicInfo.Builder basicBuilder = BasicInfo.newBuilder();
+            if(result.getBasic().getFirstName() != null) {
+                basicBuilder.setFirstName(result.getBasic().getFirstName());
+            }
+            if(result.getBasic().getLastName() != null) {
+                basicBuilder.setLastName(result.getBasic().getLastName());
+            }
+            if(result.getBasic().getCredential() != null) {
+                basicBuilder.setCredential(result.getBasic().getCredential());
+            }
+            if(result.getBasic().getSoleProprietor() != null) {
+                basicBuilder.setSoleProprietor(result.getBasic().getSoleProprietor());
+            }
+            if(result.getBasic().getGender() != null) {
+                basicBuilder.setGender(result.getBasic().getGender());
+            }
+            if(result.getBasic().getEnumerationDate() != null) {
+                basicBuilder.setEnumerationDate(result.getBasic().getEnumerationDate());
+            }
+            basicBuilder.setStatus(ProviderStatus.VALIDATED);
+            if(result.getBasic().getNamePrefix() != null) {
+                basicBuilder.setNamePrefix(result.getBasic().getNamePrefix());
+            }
+            if(result.getBasic().getNameSuffix() != null) {
+                basicBuilder.setNameSuffix(result.getBasic().getNameSuffix());
+            }
+            this.basic = basicBuilder.build();
+        }
         this.taxonomies = result.getTaxonomies().stream()
                 .map(taxonomy -> {
                     Taxonomy.Builder builder = Taxonomy.newBuilder();
-                    builder.setCode(builder.getCode());
-                    builder.setTaxonomyGroup(builder.getTaxonomyGroup());
-                    builder.setDesc(builder.getDesc());
-                    builder.setState(builder.getState());
-                    builder.setLicense(builder.getLicense());
-                    builder.setPrimary(builder.getPrimary());
+                    if(taxonomy.getCode() != null) {
+                        builder.setCode(taxonomy.getCode());
+                    }
+                    if(taxonomy.getTaxonomyGroup() != null) {
+                        builder.setTaxonomyGroup(taxonomy.getTaxonomyGroup());
+                    }
+                    if(taxonomy.getDesc() != null) {
+                        builder.setDesc(taxonomy.getDesc());
+                    }
+                    if(taxonomy.getState() != null) {
+                        builder.setState(taxonomy.getState());
+                    }
+                    if(taxonomy.getLicense() != null) {
+                        builder.setLicense(taxonomy.getLicense());
+                    }
+                    builder.setPrimary(taxonomy.isPrimary());
+
                     return builder.build();
                 })
                 .toList();
         this.identifiers = result.getIdentifiers().stream()
                 .map(identifiers -> {
                     Identifier.Builder builder = Identifier.newBuilder();
-                    builder.setCode(identifiers.getCode());
-                    builder.setDesc(identifiers.getDesc());
+                    if(identifiers.getCode() != null) {
+                        builder.setCode(identifiers.getCode());
+                    }
+                    if(identifiers.getDesc() != null) {
+                        builder.setDesc(identifiers.getDesc());
+                    }
                     if (null != identifiers.getIssuer()) {
                         builder.setIssuer(identifiers.getIssuer());
                     }
-                    builder.setIdentifier(identifiers.getIdentifier());
-                    builder.setState(identifiers.getState());
+                    if(identifiers.getIdentifier() != null) {
+                        builder.setIdentifier(identifiers.getIdentifier());
+                    }
+                    if(identifiers.getState() != null) {
+                        builder.setState(identifiers.getState());
+                    }
                     return builder.build();
                 })
                 .toList();
@@ -146,7 +192,7 @@ public class OpenCDXIAMProviderModel {
         Provider.Builder builder = Provider.newBuilder();
         builder.setId(this.id.toHexString());
         if (this.userId != null) {
-            builder.setUserId(this.userId);
+            builder.setUserId(this.userId.toHexString());
         }
         if (this.created_epoch != null) {
             builder.setCreatedEpoch(this.created_epoch);

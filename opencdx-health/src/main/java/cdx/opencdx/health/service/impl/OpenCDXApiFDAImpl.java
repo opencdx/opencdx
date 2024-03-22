@@ -19,7 +19,7 @@ import cdx.opencdx.health.dto.openfda.Result;
 import cdx.opencdx.health.dto.openfda.Search;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import cdx.opencdx.health.service.OpenCDXApiFDA;
-import cdx.opencdx.health.service.OpenCDXOpenFDAClient;
+import cdx.opencdx.health.feign.OpenCDXOpenFDAClient;
 import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
 import java.util.*;

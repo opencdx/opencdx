@@ -15,12 +15,14 @@
  */
 package cdx.opencdx.health.dto.npi;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**
  * DTO for NPI Identifier
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OpenCDXDtoNpiIdentifier {
     private String code;
     private String desc;

@@ -24,6 +24,7 @@ import cdx.opencdx.commons.repository.OpenCDXCountryRepository;
 import cdx.opencdx.commons.service.OpenCDXAuditService;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.provider.*;
+import cdx.opencdx.health.feign.OpenCDXNpiRegistryClient;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
@@ -64,6 +65,9 @@ class OpenCDXIAMProviderRestControllerTest {
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
+
+    @Autowired
+    OpenCDXNpiRegistryClient openCDXNpiRegistryClient;
 
     @MockBean
     OpenCDXIAMProviderService openCDXIAMProviderService;
@@ -109,7 +113,7 @@ class OpenCDXIAMProviderRestControllerTest {
                         ObjectId argument = invocation.getArgument(0);
                         return Optional.of(OpenCDXIAMProviderModel.builder()
                                 .id(argument)
-                                .userId("userId")
+                                .userId(ObjectId.get())
                                 .build());
                     }
                 });
@@ -180,13 +184,14 @@ class OpenCDXIAMProviderRestControllerTest {
                 this.openCDXAuditService,
                 this.objectMapper,
                 this.openCDXCountryRepository,
-                openCDXCurrentUser);
+                openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
         MvcResult mvcResult = this.mockMvc
                 .perform(get("/provider/load")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(LoadProviderRequest.newBuilder()
-                                .setUserId("1679736037")
-                                .setProviderNumber("1679736037")
+                                .setUserId("1245356781")
+                                .setProviderNumber("1245356781")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -202,8 +207,8 @@ class OpenCDXIAMProviderRestControllerTest {
                 .perform(get("/provider/load")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(this.objectMapper.writeValueAsString(LoadProviderRequest.newBuilder()
-                                .setUserId("1679736037")
-                                .setProviderNumber("1679736037")
+                                .setUserId("1245356781")
+                                .setProviderNumber("1245356781")
                                 .build()))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

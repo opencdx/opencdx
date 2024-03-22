@@ -20,6 +20,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -30,6 +31,7 @@ import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.commons.service.OpenCDXDocumentValidator;
 import cdx.opencdx.grpc.provider.*;
 import cdx.opencdx.health.dto.npi.*;
+import cdx.opencdx.health.feign.OpenCDXNpiRegistryClient;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import cdx.opencdx.health.repository.OpenCDXIAMProviderRepository;
 import cdx.opencdx.health.service.OpenCDXIAMProviderService;
@@ -74,6 +76,9 @@ class OpenCDXIAMProviderGrpcControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    OpenCDXNpiRegistryClient openCDXNpiRegistryClient;
 
     @Autowired
     OpenCDXDocumentValidator openCDXDocumentValidator;
@@ -124,6 +129,15 @@ class OpenCDXIAMProviderGrpcControllerTest {
                                 OpenCDXIAMProviderModel.builder().id(argument).build());
                     }
                 });
+        Mockito.when(this.openCDXIAMProviderRepository.findByNpiNumber(Mockito.any(String.class)))
+                .thenAnswer(new Answer<Optional<OpenCDXIAMProviderModel>>() {
+                    @Override
+                    public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
+                        String argument = invocation.getArgument(0);
+                        return Optional.of(
+                                OpenCDXIAMProviderModel.builder().npiNumber(argument).id(ObjectId.get()).build());
+                    }
+                });
         Mockito.when(this.openCDXIAMProviderRepository.existsById(Mockito.any(ObjectId.class)))
                 .thenReturn(true);
 
@@ -146,7 +160,8 @@ class OpenCDXIAMProviderGrpcControllerTest {
                 this.openCDXAuditService,
                 this.objectMapper,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser);
+                this.openCDXCurrentUser,
+                this.openCDXNpiRegistryClient);
 
         this.openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService);
         MockitoAnnotations.openMocks(this);
@@ -162,7 +177,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
         StreamObserver<GetProviderResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.getProviderByNumber(
                 GetProviderRequest.newBuilder(GetProviderRequest.getDefaultInstance())
-                        .setProviderNumber(ObjectId.get().toHexString())
+                        .setProviderNumber("1245356781")
                         .build(),
                 responseObserver);
 
@@ -177,7 +192,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
                 DeleteProviderRequest.newBuilder()
                         .build()
                         .newBuilder(DeleteProviderRequest.getDefaultInstance())
-                        .setProviderId(ObjectId.get().toHexString())
+                        .setProviderId("1245356781")
                         .build(),
                 responseObserver);
 
@@ -202,7 +217,7 @@ class OpenCDXIAMProviderGrpcControllerTest {
         StreamObserver<LoadProviderResponse> responseObserver = mock(StreamObserver.class);
         this.openCDXIAMProviderGrpcController.loadProvider(
                 LoadProviderRequest.newBuilder(LoadProviderRequest.newBuilder()
-                                .setUserId("1679736037")
+                                .setProviderNumber("1245356781")
                                 .build())
                         .build(),
                 responseObserver);
@@ -249,10 +264,11 @@ class OpenCDXIAMProviderGrpcControllerTest {
                 this.openCDXAuditService,
                 this.objectMapper1,
                 this.openCDXCountryRepository,
-                this.openCDXCurrentUser1);
+                this.openCDXCurrentUser1,
+                this.openCDXNpiRegistryClient);
         openCDXIAMProviderGrpcController = new OpenCDXIAMProviderGrpcController(this.openCDXIAMProviderService1);
         LoadProviderRequest request = LoadProviderRequest.newBuilder(
-                        LoadProviderRequest.newBuilder().setUserId("1679736037").build())
+                        LoadProviderRequest.newBuilder().setUserId("1245356781").build())
                 .build();
         Assertions.assertThrows(
                 OpenCDXServiceUnavailable.class,
