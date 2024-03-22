@@ -1,6 +1,7 @@
 package cdx.opencdx.health.feign;
 
 import cdx.opencdx.health.dto.npi.OpenCDXDtoNpiJsonResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,7 @@ public interface OpenCDXNpiRegistryClient {
      * @param providerNumber provider number to load info.
      * @return OpenCDXDtoNpiJsonResponse DTO of the JSON response
      */
+    @Cacheable("npiProviderInfo")
     @GetMapping
     ResponseEntity<OpenCDXDtoNpiJsonResponse> getProviderInfo(@RequestParam("version") String version, @RequestParam("number") String providerNumber);
-
-    @GetMapping
-    ResponseEntity<String> getProviderInfoTest(@RequestParam("version") String version, @RequestParam("number") String providerNumber);
 }
