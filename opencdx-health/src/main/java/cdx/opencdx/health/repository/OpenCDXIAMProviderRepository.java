@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
@@ -27,6 +28,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {
+public interface OpenCDXIAMProviderRepository extends OpenCDXRepository<OpenCDXIAMProviderModel> {
     Optional<OpenCDXIAMProviderModel> findByNpiNumber(String npi);
 }

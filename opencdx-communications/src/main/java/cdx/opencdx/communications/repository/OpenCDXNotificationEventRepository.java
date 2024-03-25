@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXNotificationEventModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXNotificationEventRepository extends MongoRepository<OpenCDXNotificationEventModel, ObjectId> {
+public interface OpenCDXNotificationEventRepository extends OpenCDXRepository<OpenCDXNotificationEventModel> {
     /**
      * Indicates if a Notification Event exists using an EmailTemplate
      * @param emailTemplateId Email Template ID

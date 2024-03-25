@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXMessageModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.List;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXMessageRepository extends MongoRepository<OpenCDXMessageModel, ObjectId> {
+public interface OpenCDXMessageRepository extends OpenCDXRepository<OpenCDXMessageModel> {
     /**
      * Find all messages for a patient.
      * @param patientId Patient ID to find messages for.

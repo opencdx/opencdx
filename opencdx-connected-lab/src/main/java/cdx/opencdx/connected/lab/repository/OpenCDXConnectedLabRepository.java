@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.connected.lab.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.connected.lab.model.OpenCDXConnectedLabModel;
 import java.util.Optional;
 import org.bson.types.ObjectId;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Repository;
  * Repository for interacting the "opencdxconnectedlab" records
  */
 @Repository
-public interface OpenCDXConnectedLabRepository extends MongoRepository<OpenCDXConnectedLabModel, ObjectId> {
+public interface OpenCDXConnectedLabRepository extends OpenCDXRepository<OpenCDXConnectedLabModel> {
 
     /**
      * Find by organization id and workspace id.

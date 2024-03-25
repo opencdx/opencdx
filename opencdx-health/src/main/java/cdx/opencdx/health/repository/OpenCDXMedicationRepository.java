@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXMedicationModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXMedicationRepository extends MongoRepository<OpenCDXMedicationModel, ObjectId> {
+public interface OpenCDXMedicationRepository extends OpenCDXRepository<OpenCDXMedicationModel> {
 
     /**
      * Find all medications by patient id.

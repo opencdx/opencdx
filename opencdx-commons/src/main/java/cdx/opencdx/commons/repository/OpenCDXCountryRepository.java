@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.commons.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import io.micrometer.observation.annotation.Observed;
 import java.util.Optional;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXCountryRepository extends MongoRepository<OpenCDXCountryModel, ObjectId> {
+public interface OpenCDXCountryRepository extends OpenCDXRepository<OpenCDXCountryModel> {
     /**
      * Find a country by its name.
      * @param name Name of the country to find.

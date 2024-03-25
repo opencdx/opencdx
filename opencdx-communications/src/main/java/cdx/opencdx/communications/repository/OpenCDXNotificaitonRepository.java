@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.communications.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.communications.model.OpenCDXNotificationModel;
 import cdx.opencdx.grpc.communication.*;
 import io.micrometer.observation.annotation.Observed;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXNotificaitonRepository extends MongoRepository<OpenCDXNotificationModel, ObjectId> {
+public interface OpenCDXNotificaitonRepository extends OpenCDXRepository<OpenCDXNotificationModel> {
     /**
      * Find all Notificaitons with given priority and email status
      * @param priority NotificaitonPriority to search for

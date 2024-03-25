@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXManufacturerModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 @SuppressWarnings("java:S100")
-public interface OpenCDXManufacturerRepository extends MongoRepository<OpenCDXManufacturerModel, ObjectId> {
+public interface OpenCDXManufacturerRepository extends OpenCDXRepository<OpenCDXManufacturerModel> {
     /**
      * Method to determine if a country is used in an address of an entity.
      * @param countryId Country ID to search for.

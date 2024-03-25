@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXOrderModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXOrderRepository extends MongoRepository<OpenCDXOrderModel, ObjectId> {
+public interface OpenCDXOrderRepository extends OpenCDXRepository<OpenCDXOrderModel> {
     /**
      * Find all orders for a patient.
      * @param patientId The patient to find orders for.

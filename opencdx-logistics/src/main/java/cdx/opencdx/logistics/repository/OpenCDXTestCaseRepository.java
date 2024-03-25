@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXTestCaseModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXTestCaseRepository extends MongoRepository<OpenCDXTestCaseModel, ObjectId> {
+public interface OpenCDXTestCaseRepository extends OpenCDXRepository<OpenCDXTestCaseModel> {
     /**
      * Determine if en entity has a manufacturer ID
      * @param manufacturerId Mandufacturer ID to search for

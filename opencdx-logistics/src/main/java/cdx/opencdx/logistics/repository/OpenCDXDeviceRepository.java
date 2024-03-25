@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.logistics.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.logistics.model.OpenCDXDeviceModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -27,7 +28,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 @SuppressWarnings("java:S100")
 @Observed(name = "opencdx")
-public interface OpenCDXDeviceRepository extends MongoRepository<OpenCDXDeviceModel, ObjectId> {
+public interface OpenCDXDeviceRepository extends OpenCDXRepository<OpenCDXDeviceModel> {
     /**
      * Determine if an entity had a Country code
      * @param manufacturerCountryId Country code to look for

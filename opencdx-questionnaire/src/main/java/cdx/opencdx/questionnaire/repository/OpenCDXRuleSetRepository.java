@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.questionnaire.model.OpenCDXRuleSet;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -29,4 +30,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * uses the OpenCDXRuleSet class as the entity type and ObjectId as the identifier
  * type for MongoDB.
  */
-public interface OpenCDXRuleSetRepository extends MongoRepository<OpenCDXRuleSet, ObjectId> {}
+public interface OpenCDXRuleSetRepository extends OpenCDXRepository<OpenCDXRuleSet> {}

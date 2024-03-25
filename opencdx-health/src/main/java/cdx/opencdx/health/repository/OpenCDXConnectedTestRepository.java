@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.health.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.health.model.OpenCDXConnectedTestModel;
 import io.micrometer.observation.annotation.Observed;
 import org.bson.types.ObjectId;
@@ -29,7 +30,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Observed(name = "opencdx")
 @SuppressWarnings("java:S100")
-public interface OpenCDXConnectedTestRepository extends MongoRepository<OpenCDXConnectedTestModel, ObjectId> {
+public interface OpenCDXConnectedTestRepository extends OpenCDXRepository<OpenCDXConnectedTestModel> {
     /**
      * Lookup ConnectedTests for a user.
      * @param patientId Patient to lookup

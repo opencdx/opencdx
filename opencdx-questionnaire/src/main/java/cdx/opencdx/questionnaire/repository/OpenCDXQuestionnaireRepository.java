@@ -15,6 +15,7 @@
  */
 package cdx.opencdx.questionnaire.repository;
 
+import cdx.opencdx.commons.data.OpenCDXRepository;
 import cdx.opencdx.questionnaire.model.OpenCDXQuestionnaireModel;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -32,4 +33,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * It should be noted that this interface does not provide any example code, and does not
  * contain the @author and @version tags.
  */
-public interface OpenCDXQuestionnaireRepository extends MongoRepository<OpenCDXQuestionnaireModel, ObjectId> {}
+public interface OpenCDXQuestionnaireRepository extends OpenCDXRepository<OpenCDXQuestionnaireModel> {}
