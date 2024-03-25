@@ -153,7 +153,7 @@ public class OpenCDXMedicationModel {
                     medication.getEndDate().getNanos());
         }
         this.providerNumber = medication.getProviderNumber();
-        if(medication.hasPharmacyId()) {
+        if (medication.hasPharmacyId()) {
             this.pharmacyId = new ObjectId(medication.getPharmacyId());
         }
         this.prescription = medication.getIsPrescription();

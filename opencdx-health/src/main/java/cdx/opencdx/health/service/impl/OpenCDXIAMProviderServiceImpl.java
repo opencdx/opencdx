@@ -33,17 +33,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import io.micrometer.observation.annotation.Observed;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +80,8 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
             OpenCDXAuditService openCDXAuditService,
             ObjectMapper objectMapper,
             OpenCDXCountryRepository openCDXCountryRepository,
-            OpenCDXCurrentUser openCDXCurrentUser, OpenCDXNpiRegistryClient openCDXNpiRegistryClient) {
+            OpenCDXCurrentUser openCDXCurrentUser,
+            OpenCDXNpiRegistryClient openCDXNpiRegistryClient) {
         this.openCDXIAMProviderRepository = openCDXIAMProviderRepository;
         this.openCDXAuditService = openCDXAuditService;
         this.objectMapper = objectMapper;
@@ -212,8 +206,9 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
      */
     @Override
     public LoadProviderResponse loadProvider(LoadProviderRequest request) {
-        Optional<OpenCDXIAMProviderModel> provider = this.openCDXIAMProviderRepository.findByNpiNumber(request.getProviderNumber());
-        if(provider.isPresent()) {
+        Optional<OpenCDXIAMProviderModel> provider =
+                this.openCDXIAMProviderRepository.findByNpiNumber(request.getProviderNumber());
+        if (provider.isPresent()) {
             return LoadProviderResponse.newBuilder()
                     .setProvider(provider.get().getProtobufMessage())
                     .build();
@@ -221,12 +216,15 @@ public class OpenCDXIAMProviderServiceImpl implements OpenCDXIAMProviderService 
 
         OpenCDXIAMProviderModel openCDXIAMProviderModel;
         try {
-            ResponseEntity<OpenCDXDtoNpiJsonResponse> response = this.openCDXNpiRegistryClient.getProviderInfo(OpenCDXNpiRegistryClient.NPI_VERSION, request.getProviderNumber());
+            ResponseEntity<OpenCDXDtoNpiJsonResponse> response = this.openCDXNpiRegistryClient.getProviderInfo(
+                    OpenCDXNpiRegistryClient.NPI_VERSION, request.getProviderNumber());
 
-            if(response.getStatusCode().is2xxSuccessful()) {
+            if (response.getStatusCode().is2xxSuccessful()) {
                 OpenCDXDtoNpiJsonResponse openCDXDtoNpiJsonResponse = response.getBody();
 
-                if (openCDXDtoNpiJsonResponse != null && openCDXDtoNpiJsonResponse.getResults() != null && !openCDXDtoNpiJsonResponse.getResults().isEmpty()) {
+                if (openCDXDtoNpiJsonResponse != null
+                        && openCDXDtoNpiJsonResponse.getResults() != null
+                        && !openCDXDtoNpiJsonResponse.getResults().isEmpty()) {
                     openCDXIAMProviderModel = new OpenCDXIAMProviderModel(
                             openCDXDtoNpiJsonResponse.getResults().get(0), openCDXCountryRepository);
                     loadProviderPiiCreated(request, openCDXIAMProviderModel);

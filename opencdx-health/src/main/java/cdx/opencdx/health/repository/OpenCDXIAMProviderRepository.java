@@ -17,11 +17,10 @@ package cdx.opencdx.health.repository;
 
 import cdx.opencdx.health.model.OpenCDXIAMProviderModel;
 import io.micrometer.observation.annotation.Observed;
+import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 /**
  * Interface for the Database provider model.

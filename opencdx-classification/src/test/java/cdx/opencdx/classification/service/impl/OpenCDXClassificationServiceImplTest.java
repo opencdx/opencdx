@@ -676,7 +676,9 @@ public class BloodPressureRules {
                                 .addItem(QuestionnaireItem.newBuilder()
                                         .setLinkId(ruleQuestionId)
                                         .setType("integer")
-                                        .addAllAnswer(List.of(AnswerValue.newBuilder().setValueInteger(bloodPressure).build())))
+                                        .addAllAnswer(List.of(AnswerValue.newBuilder()
+                                                .setValueInteger(bloodPressure)
+                                                .build())))
                                 .build())
                         .build());
 
@@ -739,7 +741,9 @@ public class CovidRule {
                                 .addItem(QuestionnaireItem.newBuilder()
                                         .setLinkId(ruleQuestionId)
                                         .setType("boolean")
-                                        .addAllAnswer(List.of(AnswerValue.newBuilder().setValueBoolean(true).build())))
+                                        .addAllAnswer(List.of(AnswerValue.newBuilder()
+                                                .setValueBoolean(true)
+                                                .build())))
                                 .build())
                         .build());
 
@@ -802,7 +806,9 @@ public class TypeRule {
                                 .addItem(QuestionnaireItem.newBuilder()
                                         .setLinkId(ruleQuestionId)
                                         .setType("choice")
-                                        .addAllAnswer(List.of(AnswerValue.newBuilder().setValueString("true").build())))
+                                        .addAllAnswer(List.of(AnswerValue.newBuilder()
+                                                .setValueString("true")
+                                                .build())))
                                 .build())
                         .build());
 
