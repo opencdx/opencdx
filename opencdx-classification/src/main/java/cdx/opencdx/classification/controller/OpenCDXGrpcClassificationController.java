@@ -62,7 +62,7 @@ public class OpenCDXGrpcClassificationController extends ClassificationServiceGr
      */
     @Secured({})
     @Override
-    public void getRuleSets(ClientRulesRequest request, StreamObserver<RuleSetsResponse> responseObserver) {
+    public void getRuleSets(RuleSetsRequest request, StreamObserver<RuleSetsResponse> responseObserver) {
         log.trace("Received getRuleSets request");
         responseObserver.onNext(classificationService.getRuleSets(request));
         responseObserver.onCompleted();

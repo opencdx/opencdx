@@ -59,7 +59,6 @@ class OpenCDXGrpcShippingControllerTest {
     @Autowired
     OpenCDXAuditService openCDXAuditService;
 
-
     @Mock
     OpenCDXCurrentUser openCDXCurrentUser;
 

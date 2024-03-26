@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 Safe Health Systems, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cdx.opencdx.classification.analyzer.service.impl;
 
 import cdx.opencdx.classification.analyzer.dto.RuleResult;
@@ -14,13 +29,13 @@ import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.inventory.TestCaseListRequest;
 import cdx.opencdx.grpc.inventory.TestCaseListResponse;
 import cdx.opencdx.grpc.media.Media;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClassificationType;
-import cdx.opencdx.grpc.neural.classification.TestKit;
-import cdx.opencdx.grpc.neural.classification.UserAnswer;
+import cdx.opencdx.grpc.neural.classification.*;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import io.micrometer.observation.annotation.Observed;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
@@ -30,10 +45,6 @@ import org.evrete.api.Knowledge;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.Random;
-
 
 /**
  * Demonstration implementation of the OpenCDXAnalysisEngine class. This class is responsible for analyzing the patient's questionnaire and connected test data,
@@ -53,15 +64,41 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      */
     private final Random random;
 
-    public OpenCDXAnalysisEngineImpl(OpenCDXMediaUpDownClient openCDXMediaUpDownClient, OpenCDXTestCaseClient openCDXTestCaseClient, OpenCDXCurrentUser openCDXCurrentUser) {
+    public OpenCDXAnalysisEngineImpl(
+            OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
+            OpenCDXTestCaseClient openCDXTestCaseClient,
+            OpenCDXCurrentUser openCDXCurrentUser) {
         this.openCDXMediaUpDownClient = openCDXMediaUpDownClient;
         this.openCDXTestCaseClient = openCDXTestCaseClient;
         this.openCDXCurrentUser = openCDXCurrentUser;
         this.random = new Random();
     }
 
+    /**
+     * Gets the rule sets for the given client rules request.
+     *
+     * @param request the ClientRulesRequest object containing the request data
+     * @return the RuleSetsResponse object representing the rule sets response
+     */
     @Override
-    public ClassificationResponse analyzeQuestionnaire(OpenCDXProfileModel patient, UserAnswer userAnswer, Media media, UserQuestionnaireData userQuestionnaireData) {
+    public RuleSetsResponse getRuleSets(RuleSetsRequest request) {
+        return RuleSetsResponse.newBuilder()
+                .addAllRuleSets(List.of(RuleSet.newBuilder()
+                        .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
+                        .setCategory("Vitals Checks")
+                        .setType("Questionnaire")
+                        .setDescription("Checks the results of blood pressure questionnaire.")
+                        .setName("Blood Pressure")
+                        .build()))
+                .build();
+    }
+
+    @Override
+    public ClassificationResponse analyzeQuestionnaire(
+            OpenCDXProfileModel patient,
+            UserAnswer userAnswer,
+            Media media,
+            UserQuestionnaireData userQuestionnaireData) {
         log.info("Analyzing User Questionnaire: {}", userQuestionnaireData.getId());
         Resource file = retrieveFile(media);
         if (file != null) {
@@ -80,12 +117,14 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         return null;
     }
 
-
     @Override
-    public ClassificationResponse analyzeConnectedTest(OpenCDXProfileModel patient, UserAnswer userAnswer, Media media, ConnectedTest connectedTest, Media testDetailsMedia) {
-        log.info(
-                "Analyzing Connected Test: {}",
-                connectedTest.getBasicInfo().getId());
+    public ClassificationResponse analyzeConnectedTest(
+            OpenCDXProfileModel patient,
+            UserAnswer userAnswer,
+            Media media,
+            ConnectedTest connectedTest,
+            Media testDetailsMedia) {
+        log.info("Analyzing Connected Test: {}", connectedTest.getBasicInfo().getId());
 
         Resource file = retrieveFile(media);
         if (file != null) {
@@ -174,17 +213,11 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     private void runRules(UserQuestionnaireData userQuestionnaireData, ClassificationResponse.Builder builder) {
         if (userQuestionnaireData != null
                 && userQuestionnaireData.getQuestionnaireDataCount() > 0
-                && !userQuestionnaireData
-                .getQuestionnaireData(0)
-                .getRuleId()
-                .isEmpty()
-                && !userQuestionnaireData
-                .getQuestionnaireData(0)
-                .getRuleId()
-                .isBlank()
+                && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isEmpty()
+                && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isBlank()
                 && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
             KnowledgeService knowledgeService = new KnowledgeService();
-            //Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
+            // Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
             Knowledge knowledge = null;
             RuleResult ruleResult = new RuleResult();
             knowledge.newStatelessSession().insertAndFire(getResponse(userQuestionnaireData), ruleResult);
@@ -205,8 +238,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         if (userQuestionnaireData != null
                 && userQuestionnaireData.getQuestionnaireDataCount() > 0
                 && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
-            String questionId =
-                    userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionId(0);
+            String questionId = userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionId(0);
 
             if (!questionId.isBlank() && !questionId.isEmpty()) {
                 Optional<QuestionnaireItem> question =

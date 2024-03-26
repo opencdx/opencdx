@@ -88,7 +88,7 @@ public class OpenCDXClassificationClientImpl implements OpenCDXClassificationCli
      * @return Message response.
      */
     @Override
-    public RuleSetsResponse getRuleSets(ClientRulesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    public RuleSetsResponse getRuleSets(RuleSetsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException {
         try {
             return classificationServiceBlockingStub

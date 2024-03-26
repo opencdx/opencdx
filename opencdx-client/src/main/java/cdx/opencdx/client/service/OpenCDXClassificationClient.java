@@ -19,7 +19,7 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClientRulesRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 
 /**
@@ -41,6 +41,6 @@ public interface OpenCDXClassificationClient {
      * @param openCDXCallCredentials Call Credentials to use for send.
      * @return Message response.
      */
-    RuleSetsResponse getRuleSets(ClientRulesRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+    RuleSetsResponse getRuleSets(RuleSetsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }

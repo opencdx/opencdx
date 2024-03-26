@@ -94,6 +94,9 @@ message RuleSet {
    * Description or any remarks regarding the rule.
    */
   string description = 4;
+  /**name of the rule
+   */
+  string name = 5;
 }
 
 /*
@@ -199,7 +202,7 @@ message Symptom {
 /*
  * Represents the request to retrieve client-level rules.
  */
-message ClientRulesRequest {
+message RuleSetsRequest {
   /*
    * The ID of the specified organization linked to the Questionnaire data.
    */
@@ -360,7 +363,7 @@ service ClassificationService {
   /*
  * Defines operations for FHIR questionnaires
  */
-  rpc GetRuleSets(ClientRulesRequest) returns (RuleSetsResponse);
+  rpc GetRuleSets(RuleSetsRequest) returns (RuleSetsResponse);
   /*
    * Classify RPC returns a classification result based on UserAnswer input.
    */

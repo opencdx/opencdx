@@ -230,7 +230,6 @@ class OpenCDXGrpcQuestionnaireControllerTest {
         this.openCDXClassificationMessageService = new OpenCDXClassificationMessageServiceImpl(
                 openCDXMessageService, openCDXDocumentValidator, openCDXProfileRepository, openCDXCurrentUser);
 
-
         this.questionnaireService = new OpenCDXQuestionnaireServiceImpl(
                 this.openCDXAuditService,
                 this.objectMapper,

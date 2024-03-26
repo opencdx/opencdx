@@ -17,7 +17,6 @@ package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
-import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
@@ -28,6 +27,7 @@ import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
 import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
+import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.grpc.audit.SensitivityLevel;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.communication.Notification;
@@ -39,7 +39,7 @@ import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClientRulesRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
@@ -135,8 +135,8 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
      * @return Response containing a list of rulesets
      */
     @Override
-    public RuleSetsResponse getRuleSets(ClientRulesRequest request) {
-        return null;
+    public RuleSetsResponse getRuleSets(RuleSetsRequest request) {
+        return this.openCDXAnalysisEngine.getRuleSets(request);
     }
 
     /**
@@ -150,7 +150,7 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
 
         OpenCDXClassificationModel model = creeateOpenCDXClassificationModel(request);
 
-        if(model.getConnectedTest() != null) {
+        if (model.getConnectedTest() != null) {
             model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeConnectedTest(
                     model.getPatient(),
                     model.getUserAnswer(),
@@ -159,15 +159,10 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
                     model.getTestDetailsMedia()));
         } else if (model.getUserQuestionnaireData() != null) {
             model.setClassificationResponse(this.openCDXAnalysisEngine.analyzeQuestionnaire(
-                    model.getPatient(),
-                    model.getUserAnswer(),
-                    model.getMedia(),
-                    model.getUserQuestionnaireData()));
+                    model.getPatient(), model.getUserAnswer(), model.getMedia(), model.getUserQuestionnaireData()));
         } else {
             throw new OpenCDXNotAcceptable(
-                    this.getClass().getName(),
-                    1,
-                    "Failed to classify: No connected test or questionnaire data found");
+                    this.getClass().getName(), 1, "Failed to classify: No connected test or questionnaire data found");
         }
 
         model = this.openCDXClassificationRepository.save(model);

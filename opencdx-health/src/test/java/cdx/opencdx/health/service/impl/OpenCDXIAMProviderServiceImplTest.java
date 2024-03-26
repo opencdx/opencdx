@@ -56,8 +56,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 @ActiveProfiles({"test", "managed"})
 @ExtendWith(SpringExtension.class)
@@ -70,7 +68,6 @@ class OpenCDXIAMProviderServiceImplTest {
 
     @Autowired
     OpenCDXAuditService openCDXAuditService;
-
 
     @Autowired
     ObjectMapper objectMapper;
@@ -102,7 +99,6 @@ class OpenCDXIAMProviderServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
-
 
         when(this.objectMapper1.writeValueAsString(any())).thenThrow(JsonProcessingException.class);
         this.openCDXIAMProviderRepository = mock(OpenCDXIAMProviderRepository.class);
@@ -171,9 +167,8 @@ class OpenCDXIAMProviderServiceImplTest {
     @Test
     void deleteProviderElse() throws JsonProcessingException {
         when(this.openCDXIAMProviderRepository.findById(any(ObjectId.class)))
-                .thenReturn(Optional.of(OpenCDXIAMProviderModel.builder()
-                        .userId(ObjectId.get())
-                        .build()));
+                .thenReturn(Optional.of(
+                        OpenCDXIAMProviderModel.builder().userId(ObjectId.get()).build()));
         DeleteProviderRequest request = DeleteProviderRequest.newBuilder()
                 .setProviderId(ObjectId.get().toHexString())
                 .build();
@@ -191,8 +186,7 @@ class OpenCDXIAMProviderServiceImplTest {
                 this.openCDXCountryRepository,
                 this.openCDXCurrentUser,
                 this.openCDXNpiRegistryClient);
-        Assertions.assertThrows(
-                OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
+        Assertions.assertThrows(OpenCDXNotFound.class, () -> this.openCDXIAMProviderService.deleteProvider(request));
     }
 
     @Test

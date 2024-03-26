@@ -19,6 +19,8 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 
@@ -37,10 +39,11 @@ public interface OpenCDXAnalysisEngine {
      * @param userQuestionnaireData the UserQuestionnaireData object containing the user's questionnaire data
      * @return the ClassificationResponse object representing the classification response
      */
-    ClassificationResponse analyzeQuestionnaire(OpenCDXProfileModel patient,
-                                                UserAnswer userAnswer,
-                                                Media media,
-                                                UserQuestionnaireData userQuestionnaireData);
+    ClassificationResponse analyzeQuestionnaire(
+            OpenCDXProfileModel patient,
+            UserAnswer userAnswer,
+            Media media,
+            UserQuestionnaireData userQuestionnaireData);
 
     /**
      * Analyzes a connected test and returns the classification response.
@@ -52,9 +55,18 @@ public interface OpenCDXAnalysisEngine {
      * @param testDetailsMedia  the Media object containing test details
      * @return the ClassificationResponse object representing the classification response
      */
-    ClassificationResponse analyzeConnectedTest(OpenCDXProfileModel patient,
-                                                UserAnswer userAnswer,
-                                                Media media,
-                                                ConnectedTest connectedTest,
-                                                Media testDetailsMedia);
+    ClassificationResponse analyzeConnectedTest(
+            OpenCDXProfileModel patient,
+            UserAnswer userAnswer,
+            Media media,
+            ConnectedTest connectedTest,
+            Media testDetailsMedia);
+
+    /**
+     * Gets the rule sets for the given client rules request.
+     *
+     * @param request the ClientRulesRequest object containing the request data
+     * @return the RuleSetsResponse object representing the rule sets response
+     */
+    RuleSetsResponse getRuleSets(RuleSetsRequest request);
 }

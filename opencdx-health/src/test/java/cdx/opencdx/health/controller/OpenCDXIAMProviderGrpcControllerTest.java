@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import cdx.opencdx.commons.exceptions.OpenCDXNotAcceptable;
 import cdx.opencdx.commons.exceptions.OpenCDXServiceUnavailable;
 import cdx.opencdx.commons.model.OpenCDXCountryModel;
 import cdx.opencdx.commons.model.OpenCDXIAMUserModel;
@@ -134,8 +133,10 @@ class OpenCDXIAMProviderGrpcControllerTest {
                     @Override
                     public Optional<OpenCDXIAMProviderModel> answer(InvocationOnMock invocation) throws Throwable {
                         String argument = invocation.getArgument(0);
-                        return Optional.of(
-                                OpenCDXIAMProviderModel.builder().npiNumber(argument).id(ObjectId.get()).build());
+                        return Optional.of(OpenCDXIAMProviderModel.builder()
+                                .npiNumber(argument)
+                                .id(ObjectId.get())
+                                .build());
                     }
                 });
         Mockito.when(this.openCDXIAMProviderRepository.existsById(Mockito.any(ObjectId.class)))

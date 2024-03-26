@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hubspot.jackson.datatype.protobuf.ProtobufModule;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,6 @@ class QuestionnaireTest {
         mapper.registerModule(new ProtobufModule());
         mapper.registerModule(new JavaTimeModule());
     }
-
 
     @Test
     void testQuestionnaireRequest() throws JsonProcessingException {

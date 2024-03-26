@@ -17,7 +17,7 @@ package cdx.opencdx.classification.service;
 
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClientRulesRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
 import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 
 /**
@@ -36,5 +36,5 @@ public interface OpenCDXClassificationService {
      * @param request the request to retrieve rules at the client level
      * @return Response containing a list of rulesets
      */
-    RuleSetsResponse getRuleSets(ClientRulesRequest request);
+    RuleSetsResponse getRuleSets(RuleSetsRequest request);
 }

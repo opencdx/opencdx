@@ -22,7 +22,6 @@ import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
-import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
@@ -32,6 +31,7 @@ import cdx.opencdx.commons.model.OpenCDXProfileModel;
 import cdx.opencdx.commons.repository.OpenCDXIAMUserRepository;
 import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
+import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.grpc.common.*;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.TestDetails;
@@ -263,9 +263,7 @@ class OpenCDXClassificationServiceImplTest {
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
         this.openCDXClassifyProcessorService = new OpenCDXAnalysisEngineImpl(
-                this.openCDXMediaUpDownClient,
-                this.openCDXTestCaseClient,
-                this.openCDXCurrentUser);
+                this.openCDXMediaUpDownClient, this.openCDXTestCaseClient, this.openCDXCurrentUser);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,

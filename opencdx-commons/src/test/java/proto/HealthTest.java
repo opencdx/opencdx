@@ -49,10 +49,8 @@ class HealthTest {
     void searchMedicationsRequest() throws JsonProcessingException {
         SearchMedicationsRequest searchMedicationsRequest = SearchMedicationsRequest.newBuilder()
                 .setBrandName("Adipex")
-                .setPagination(Pagination.newBuilder()
-                        .setPageNumber(1)
-                        .setPageSize(10)
-                        .build())
+                .setPagination(
+                        Pagination.newBuilder().setPageNumber(1).setPageSize(10).build())
                 .build();
 
         log.info("SearchMedicationsRequest: \n {}", this.writer.writeValueAsString(searchMedicationsRequest));
