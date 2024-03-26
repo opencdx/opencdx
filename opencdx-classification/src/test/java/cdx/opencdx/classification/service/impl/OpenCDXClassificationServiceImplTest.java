@@ -17,6 +17,7 @@ package cdx.opencdx.classification.service.impl;
 
 import static org.mockito.Mockito.when;
 
+import cdx.opencdx.classification.analyzer.service.impl.OpenCDXAnalysisEngineImpl;
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
@@ -263,9 +264,8 @@ class OpenCDXClassificationServiceImplTest {
 
         this.openCDXClassifyProcessorService = new OpenCDXAnalysisEngineImpl(
                 this.openCDXMediaUpDownClient,
-                this.openCDXCurrentUser,
-                this.openCDXQuestionnaireClient,
-                this.openCDXTestCaseClient);
+                this.openCDXTestCaseClient,
+                this.openCDXCurrentUser);
 
         this.classificationService = new OpenCDXClassificationServiceImpl(
                 this.openCDXAuditService,
