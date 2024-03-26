@@ -39,6 +39,8 @@ import cdx.opencdx.grpc.media.GetMediaRequest;
 import cdx.opencdx.grpc.media.GetMediaResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.ClientRulesRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 import cdx.opencdx.grpc.questionnaire.GetQuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.shipping.Order;
@@ -124,6 +126,17 @@ public class OpenCDXClassificationServiceImpl implements OpenCDXClassificationSe
         this.openCDXCommunicationService = openCDXCommunicationService;
         this.openCDXCDCPayloadService = openCDXCDCPayloadService;
         this.openCDXConnectedLabMessageService = openCDXConnectedLabMessageService;
+    }
+
+    /**
+     * Operation to get rulesets
+     *
+     * @param request the request to retrieve rules at the client level
+     * @return Response containing a list of rulesets
+     */
+    @Override
+    public RuleSetsResponse getRuleSets(ClientRulesRequest request) {
+        return null;
     }
 
     /**

@@ -23,13 +23,6 @@ import cdx.opencdx.grpc.questionnaire.*;
 public interface OpenCDXQuestionnaireService {
 
     /**
-     * Operation to get rulesets
-     * @param request the request to retrieve rules at the client level
-     * @return Response containing a list of rulesets
-     */
-    RuleSetsResponse getRuleSets(ClientRulesRequest request);
-
-    /**
      * Process the QuestionnaireRequest Data
      * @param request request the process
      * @return Message generated for the data submision request.
@@ -157,30 +150,4 @@ public interface OpenCDXQuestionnaireService {
      * @return Message generated for the user questionnaire requests.
      */
     UserQuestionnaireDataResponse getUserQuestionnaireDataList(GetQuestionnaireListRequest request);
-
-    /**
-     * Process the QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the update user questionnaire request.
-     */
-    CreateRuleSetResponse createRuleSet(CreateRuleSetRequest request);
-
-    /**
-     * Process the QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the update user questionnaire request.
-     */
-    UpdateRuleSetResponse updateRuleSet(UpdateRuleSetRequest request);
-    /**
-     * Process the QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the update user questionnaire request.
-     */
-    GetRuleSetResponse getRuleSet(GetRuleSetRequest request);
-    /**
-     * Process the QuestionnaireRequest Data
-     * @param request request the process
-     * @return Message generated for the update user questionnaire request.
-     */
-    DeleteRuleSetResponse deleteRuleSet(DeleteRuleSetRequest request);
 }

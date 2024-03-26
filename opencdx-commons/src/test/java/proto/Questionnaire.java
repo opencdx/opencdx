@@ -15,7 +15,6 @@
  */
 package proto;
 
-import cdx.opencdx.grpc.questionnaire.ClientRulesRequest;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireRequest;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireDataRequest;
@@ -39,45 +38,6 @@ class QuestionnaireTest {
         mapper.registerModule(new JavaTimeModule());
     }
 
-    @Test
-    void testCreateRuleSetRequest() throws JsonProcessingException {
-        cdx.opencdx.grpc.questionnaire.CreateRuleSetRequest request =
-                cdx.opencdx.grpc.questionnaire.CreateRuleSetRequest.newBuilder()
-                        .setRuleSet(cdx.opencdx.grpc.questionnaire.RuleSet.newBuilder()
-                                .setRuleId(ObjectId.get().toHexString())
-                                .setType("User Rule")
-                                .setCategory("Process user response")
-                                .setDescription("Categorize blood pressure")
-                                .setRule(
-                                        """
-                                if (bloodPressure > 140) {
-                                    return "High Blood Pressure";
-                                } else if (bloodPressure < 90) {
-                                    return "Low Blood Pressure";
-                                } else {
-                                    return "Normal Blood Pressure";
-                                }
-                                """)
-                                .setStatus(cdx.opencdx.grpc.questionnaire.QuestionnaireStatus.active)
-                                .build())
-                        .build();
-
-        log.info(
-                "CreateRuleSetRequest: {}",
-                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
-    }
-
-    @Test
-    void testClientRulesRequest() throws JsonProcessingException {
-        ClientRulesRequest request = ClientRulesRequest.newBuilder()
-                .setOrganizationId(ObjectId.get().toHexString())
-                .setWorkspaceId(ObjectId.get().toHexString())
-                .build();
-
-        log.info(
-                "ClientRulesRequest: {}",
-                this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
-    }
 
     @Test
     void testQuestionnaireRequest() throws JsonProcessingException {

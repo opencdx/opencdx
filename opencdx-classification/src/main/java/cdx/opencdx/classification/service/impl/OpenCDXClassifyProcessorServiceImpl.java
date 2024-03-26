@@ -33,7 +33,6 @@ import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationType;
 import cdx.opencdx.grpc.neural.classification.TestKit;
-import cdx.opencdx.grpc.questionnaire.GetRuleSetResponse;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import io.micrometer.observation.annotation.Observed;
 import java.io.IOException;
@@ -169,36 +168,21 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                         .isBlank()
                 && model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
             KnowledgeService knowledgeService = new KnowledgeService();
-            try {
-                Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
-                RuleResult ruleResult = new RuleResult();
-                knowledge.newStatelessSession().insertAndFire(getResponse(model), ruleResult);
-                builder.setNotifyCdc(ruleResult.isNotifyCDC());
-                builder.setFurtherActions(ruleResult.getFurtherActions());
-                if (ruleResult.getType() != null) {
-                    builder.setType(ruleResult.getType());
-                }
-                if (ruleResult.getTestKit() != null) {
-                    builder.setTestKit(ruleResult.getTestKit());
-                }
-            } catch (IOException e) {
-                throw new OpenCDXInternalServerError(
-                        OpenCDXClassifyProcessorServiceImpl.log.getName(), 1, e.getMessage());
+            //Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
+            Knowledge knowledge = null;
+            RuleResult ruleResult = new RuleResult();
+            knowledge.newStatelessSession().insertAndFire(getResponse(model), ruleResult);
+            builder.setNotifyCdc(ruleResult.isNotifyCDC());
+            builder.setFurtherActions(ruleResult.getFurtherActions());
+            if (ruleResult.getType() != null) {
+                builder.setType(ruleResult.getType());
+            }
+            if (ruleResult.getTestKit() != null) {
+                builder.setTestKit(ruleResult.getTestKit());
             }
         } else {
             log.error("No rules to process.");
         }
-    }
-
-    private String getRulesClass(OpenCDXClassificationModel model) {
-        OpenCDXCallCredentials openCDXCallCredentials =
-                new OpenCDXCallCredentials(this.openCDXCurrentUser.getCurrentUserAccessToken());
-        GetRuleSetResponse ruleSetResponse = openCDXQuestionnaireClient.getRuleSet(
-                model.getUserQuestionnaireData().getQuestionnaireData(0).getRuleId(), openCDXCallCredentials);
-
-        String source = ruleSetResponse.getRuleSet().getRule().replace("\\n", "\n");
-        log.debug("RuleSet: {}", source);
-        return source;
     }
 
     private Object getResponse(OpenCDXClassificationModel model) {
