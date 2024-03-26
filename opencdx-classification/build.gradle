@@ -51,6 +51,7 @@ dependencies {
     implementation project(":opencdx-proto")
     implementation project(":opencdx-commons")
     implementation project(":opencdx-client")
+    implementation project(":opencdx-classification-analyzer")
     implementation 'io.micrometer:micrometer-observation'
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
