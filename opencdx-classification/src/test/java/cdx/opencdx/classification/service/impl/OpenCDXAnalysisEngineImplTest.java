@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class OpenCDXClassifyProcessorServiceImplTest {
+class OpenCDXAnalysisEngineImplTest {
 
     OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
     OpenCDXCurrentUser openCDXCurrentUser;
@@ -37,12 +37,12 @@ class OpenCDXClassifyProcessorServiceImplTest {
 
     @Test
     void classifyExceptionOpenCDXInternal() {
-        OpenCDXClassifyProcessorServiceImpl processorService = new OpenCDXClassifyProcessorServiceImpl(
+        OpenCDXAnalysisEngineImpl processorService = new OpenCDXAnalysisEngineImpl(
                 openCDXMediaUpDownClient, openCDXCurrentUser, openCDXQuestionnaireClient, openCDXTestCaseClient);
         OpenCDXClassificationModel model = Mockito.mock(OpenCDXClassificationModel.class);
         Media media = Mockito.mock(Media.class);
         Mockito.when(model.getMedia()).thenReturn(media);
         Mockito.when(media.getMimeType()).thenThrow(OpenCDXInternal.class);
-        Assertions.assertThrows(OpenCDXInternal.class, () -> processorService.classify(model));
+        Assertions.assertThrows(OpenCDXInternal.class, () -> processorService.analyzeQuestionnaire(model));
     }
 }

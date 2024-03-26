@@ -21,7 +21,7 @@ import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.repository.OpenCDXClassificationRepository;
 import cdx.opencdx.classification.service.OpenCDXCDCPayloadService;
 import cdx.opencdx.classification.service.OpenCDXClassificationService;
-import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
+import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.*;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
@@ -117,7 +117,7 @@ class OpenCDXClassificationServiceImplTest {
     @Mock
     OpenCDXTestCaseClient openCDXTestCaseClient;
 
-    OpenCDXClassifyProcessorService openCDXClassifyProcessorService;
+    OpenCDXAnalysisEngine openCDXClassifyProcessorService;
 
     @Mock
     OpenCDXClassificationRepository openCDXClassificationRepository;
@@ -261,7 +261,7 @@ class OpenCDXClassificationServiceImplTest {
         Mockito.when(this.openCDXCurrentUser.getCurrentUser(Mockito.any(OpenCDXIAMUserModel.class)))
                 .thenReturn(OpenCDXIAMUserModel.builder().id(ObjectId.get()).build());
 
-        this.openCDXClassifyProcessorService = new OpenCDXClassifyProcessorServiceImpl(
+        this.openCDXClassifyProcessorService = new OpenCDXAnalysisEngineImpl(
                 this.openCDXMediaUpDownClient,
                 this.openCDXCurrentUser,
                 this.openCDXQuestionnaireClient,

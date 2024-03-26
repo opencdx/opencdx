@@ -17,25 +17,28 @@ package cdx.opencdx.classification.service.impl;
 
 import cdx.opencdx.classification.model.OpenCDXClassificationModel;
 import cdx.opencdx.classification.model.RuleResult;
-import cdx.opencdx.classification.service.OpenCDXClassifyProcessorService;
+import cdx.opencdx.commons.model.OpenCDXProfileModel;
+import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXQuestionnaireClient;
 import cdx.opencdx.client.service.OpenCDXTestCaseClient;
 import cdx.opencdx.commons.exceptions.OpenCDXDataLoss;
 import cdx.opencdx.commons.exceptions.OpenCDXInternal;
-import cdx.opencdx.commons.exceptions.OpenCDXInternalServerError;
 import cdx.opencdx.commons.service.OpenCDXCurrentUser;
 import cdx.opencdx.grpc.common.Pagination;
+import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.inventory.TestCaseListRequest;
 import cdx.opencdx.grpc.inventory.TestCaseListResponse;
 import cdx.opencdx.grpc.media.Media;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
 import cdx.opencdx.grpc.neural.classification.ClassificationType;
 import cdx.opencdx.grpc.neural.classification.TestKit;
+import cdx.opencdx.grpc.neural.classification.UserAnswer;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
+import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import io.micrometer.observation.annotation.Observed;
-import java.io.IOException;
+
 import java.util.Optional;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +61,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Observed(name = "opencdx")
 @SuppressWarnings({"java:S1068", "java:S125", "java:S1172", "java:S1144"})
-public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProcessorService {
+public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
 
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -76,7 +79,7 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
      * @param openCDXQuestionnaireClient service for questionnaire client
      * @param openCDXTestCaseClient service for test case client
      */
-    public OpenCDXClassifyProcessorServiceImpl(
+    public OpenCDXAnalysisEngineImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXCurrentUser openCDXCurrentUser,
             OpenCDXQuestionnaireClient openCDXQuestionnaireClient,
@@ -88,9 +91,9 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
         this.random = new Random();
     }
 
-    @Override
+
     @SuppressWarnings("java:S2119")
-    public void classify(OpenCDXClassificationModel model) {
+    public void analyzeQuestionnaire(OpenCDXClassificationModel model) {
         log.trace("Executing classify operation.");
         Resource file = retrieveFile(model.getMedia());
         if (file != null) {
@@ -256,5 +259,34 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                         .build());
             }
         }
+    }
+
+    /**
+     * Analyzes a questionnaire and returns the classification response.
+     *
+     * @param patient               the OpenCDXProfileModel representing the patient
+     * @param userAnswer            the UserAnswer object containing the user's answer
+     * @param media                 the Media object containing media related to the test
+     * @param userQuestionnaireData the UserQuestionnaireData object containing the user's questionnaire data
+     * @return the ClassificationResponse object representing the classification response
+     */
+    @Override
+    public ClassificationResponse analyzeQuestionnaire(OpenCDXProfileModel patient, UserAnswer userAnswer, Media media, UserQuestionnaireData userQuestionnaireData) {
+        return null;
+    }
+
+    /**
+     * Analyzes a connected test and returns the classification response.
+     *
+     * @param patient          the OpenCDXProfileModel representing the patient
+     * @param userAnswer       the UserAnswer object containing the user's answer
+     * @param media            the Media object containing media related to the test
+     * @param connectedTest    the ConnectedTest object representing the connected test
+     * @param testDetailsMedia the Media object containing test details
+     * @return the ClassificationResponse object representing the classification response
+     */
+    @Override
+    public ClassificationResponse analyzeConnectedTest(OpenCDXProfileModel patient, UserAnswer userAnswer, Media media, ConnectedTest connectedTest, Media testDetailsMedia) {
+        return null;
     }
 }
