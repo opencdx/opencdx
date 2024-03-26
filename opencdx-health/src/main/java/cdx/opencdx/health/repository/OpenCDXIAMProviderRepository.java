@@ -29,5 +29,10 @@ import java.util.Optional;
 @Repository
 @Observed(name = "opencdx")
 public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {
+    /**
+     * Find by NPI number.
+     * @param npi npi
+     * @return provider model
+     */
     Optional<OpenCDXIAMProviderModel> findByNpiNumber(String npi);
 }
