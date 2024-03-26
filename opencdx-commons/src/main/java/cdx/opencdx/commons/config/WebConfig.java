@@ -3,11 +3,13 @@ package cdx.opencdx.commons.config;
 import cdx.opencdx.commons.converters.OpenCDXIdentifierReadConverter;
 import cdx.opencdx.commons.converters.OpenCDXIdentifierWriteConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Slf4j
+@AutoConfiguration
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override

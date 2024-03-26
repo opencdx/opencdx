@@ -40,6 +40,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.types.ObjectId;
 import org.lognet.springboot.grpc.GRpcGlobalInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationRegistryCustomizer;
@@ -51,9 +53,16 @@ import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.core.env.ConfigurablePropertyResolver;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.observability.ContextProviderFactory;
 import org.springframework.data.mongodb.observability.MongoObservationCommandListener;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
@@ -61,6 +70,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
+
+import java.util.Arrays;
 
 /**
  * Autoconfiguraiton class for opencdx-commons.
@@ -75,6 +86,17 @@ public class CommonsConfig {
      */
     public CommonsConfig() {
         // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+
+    @Bean
+    @Primary
+    @Profile("mongo")
+    @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
+    @ExcludeFromJacocoGeneratedReport
+    MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
+        log.trace("Creating Mongo Template");
+        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 
     /**
@@ -246,16 +268,6 @@ public class CommonsConfig {
             OpenCDXDocumentValidator openCDXDocumentValidator) {
         log.trace("Creaging Audit Service for {}", applicationName);
         return new OpenCDXAuditServiceImpl(messageService, applicationName, openCDXDocumentValidator);
-    }
-
-    @Bean
-    @Primary
-    @Profile("mongo")
-    @Description("MongoTemplate to use with Creator/created and Modifier/modified values set.")
-    @ExcludeFromJacocoGeneratedReport
-    MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
-        log.trace("Creating Mongo Template");
-        return new OpenCDXMongoAuditTemplate(mongoDbFactory, mongoConverter);
     }
 
     @Bean
