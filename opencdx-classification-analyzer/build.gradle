@@ -5,7 +5,9 @@ plugins {
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}"
     implementation "com.google.api.grpc:proto-google-common-protos:${protoGoogleCommonLibraryVersion}"
     implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarterVersion}"
 
@@ -19,8 +21,20 @@ dependencies {
     implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
     implementation 'com.hubspot.jackson:jackson-datatype-protobuf:0.9.14'
 
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.1'
+    implementation group: 'io.github.openfeign', name: 'feign-hc5', version: '13.1'
+
+    // Evrete
+    implementation "org.evrete:evrete-core:${evreteVersion}"
+    implementation "org.evrete:evrete-dsl-java:${evreteVersion}"
+
+    // Apache
+    implementation "org.apache.tika:tika-core:${apacheTikaVersion}"
+
+
     implementation project(":opencdx-proto")
     implementation project(":opencdx-client")
+    implementation project(":opencdx-commons")
 
     testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
     testImplementation "org.junit.jupiter:junit-jupiter"
