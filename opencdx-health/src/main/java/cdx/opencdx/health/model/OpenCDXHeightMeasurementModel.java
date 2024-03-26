@@ -55,7 +55,9 @@ public class OpenCDXHeightMeasurementModel {
      * @param heightMeasurement Protobuf message to generate from
      */
     public OpenCDXHeightMeasurementModel(HeightMeasurement heightMeasurement) {
-        this.id = new ObjectId();
+        if (heightMeasurement.hasId()) {
+            this.id = new ObjectId(heightMeasurement.getId());
+        }
         this.patientId = new ObjectId(heightMeasurement.getPatientId());
         this.nationalHealthId = heightMeasurement.getNationalHealthId();
         this.height = heightMeasurement.getHeight();
@@ -88,7 +90,9 @@ public class OpenCDXHeightMeasurementModel {
      */
     public HeightMeasurement getProtobufMessage() {
         HeightMeasurement.Builder builder = HeightMeasurement.newBuilder();
-        builder.setId(this.id.toHexString());
+        if (this.id != null) {
+            builder.setId(this.id.toHexString());
+        }
         builder.setPatientId(this.patientId.toHexString());
 
         if (this.nationalHealthId != null) {

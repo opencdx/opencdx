@@ -198,7 +198,7 @@ public class OpenCDXHeightMeasurementServiceImpl implements OpenCDXHeightMeasure
                 .findById(new ObjectId(request.getId()))
                 .orElseThrow(() -> new OpenCDXNotFound(DOMAIN, 3, FAILED_TO_FIND_HEIGHT + request.getId()));
 
-        model = this.openCDXHeightMeasurementRepository.save(model);
+        this.openCDXHeightMeasurementRepository.deleteById(model.getId());
         log.info("Deleted Height: {}", request.getId());
 
         try {

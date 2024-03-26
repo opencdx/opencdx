@@ -13,41 +13,41 @@ import "google/protobuf/timestamp.proto";
  */
 message HeightMeasurement {
   /*
+   * ID
+   */
+  optional string id = 1;
+  /*
    * Patient ID
    */
-  string patient_id = 1;
+  string patient_id = 2;
   /*
    * National Health Identifier
    */
-  string national_health_id = 2;
+  string national_health_id = 3;
   /*
    * Height of the patient
    */
-  double height = 3;
+  double height = 4;
   /*
    * Timestamp when the vitals were taken.
    */
-  optional google.protobuf.Timestamp time_of_measurement = 4;
+  optional google.protobuf.Timestamp time_of_measurement = 5;
   /*
    * Creation timestamp of the measurement data.
    */
-  optional google.protobuf.Timestamp created = 5;
+  optional google.protobuf.Timestamp created = 6;
   /*
    * Modification timestamp of the measurement data.
    */
-  optional google.protobuf.Timestamp modified = 6;
+  optional google.protobuf.Timestamp modified = 7;
   /*
    * Identifier of the creator of this record.
    */
-  optional string creator = 7;
+  optional string creator = 8;
   /**
    * The user who last modified the Message.
    */
-  optional string modifier = 8;
-  /*
-   * ID
-   */
-  optional string id = 9;
+  optional string modifier = 9;
 
 }
 

@@ -28,6 +28,7 @@ class OpenCDXHeightMeasurementModelTest {
     @Test
     void getProtobufMessage() {
         HeightMeasurement heightMeasurement = HeightMeasurement.newBuilder()
+                .setId(ObjectId.get().toHexString())
                 .setCreated(Timestamp.getDefaultInstance())
                 .setPatientId(ObjectId.get().toHexString())
                 .setNationalHealthId(ObjectId.get().toHexString())
