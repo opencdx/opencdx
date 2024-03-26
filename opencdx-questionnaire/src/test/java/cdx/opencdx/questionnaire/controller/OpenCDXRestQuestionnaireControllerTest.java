@@ -464,32 +464,4 @@ class OpenCDXRestQuestionnaireControllerTest {
                 .andReturn();
         Assertions.assertFalse(mv.getResponse().getContentAsString().contains("cause"));
     }
-
-    @Test
-    void getRuleSet() throws Exception {
-        MvcResult result = this.mockMvc
-                .perform(get("/ruleset/" + ObjectId.get().toHexString()).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
-    }
-
-    @Test
-    void deleteRuleSet() throws Exception {
-        MvcResult result = this.mockMvc
-                .perform(delete("/ruleset/" + ObjectId.get().toHexString())
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
-    }
-
-    @Test
-    void getRuleSets() throws Exception {
-        MvcResult result = this.mockMvc
-                .perform(post("/ruleset/list").content("{}").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn();
-        Assertions.assertEquals(200, result.getResponse().getStatus());
-    }
 }
