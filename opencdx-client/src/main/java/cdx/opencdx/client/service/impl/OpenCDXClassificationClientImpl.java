@@ -18,9 +18,7 @@ package cdx.opencdx.client.service.impl;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.client.service.OpenCDXClassificationClient;
-import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
-import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
-import cdx.opencdx.grpc.neural.classification.ClassificationServiceGrpc;
+import cdx.opencdx.grpc.neural.classification.*;
 import com.google.rpc.Code;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
@@ -70,6 +68,32 @@ public class OpenCDXClassificationClientImpl implements OpenCDXClassificationCli
                     .withCallCredentials(openCDXCallCredentials)
                     .classify(request);
 
+        } catch (StatusRuntimeException e) {
+            com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
+            throw new OpenCDXClientException(
+                    Code.forNumber(status.getCode()),
+                    "OpenCDXClassificationClientImpl",
+                    1,
+                    status.getMessage(),
+                    status.getDetailsList(),
+                    e);
+        }
+    }
+
+    /**
+     * Method to gRPC Call Questionnaire Service getRuleSets() api.
+     *
+     * @param request                Client Rules request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    @Override
+    public RuleSetsResponse getRuleSets(RuleSetsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException {
+        try {
+            return classificationServiceBlockingStub
+                    .withCallCredentials(openCDXCallCredentials)
+                    .getRuleSets(request);
         } catch (StatusRuntimeException e) {
             com.google.rpc.Status status = io.grpc.protobuf.StatusProto.fromThrowable(e);
             throw new OpenCDXClientException(

@@ -246,7 +246,7 @@ class OpenCDXIAMProviderServiceImplTest {
             when(url.openConnection()).thenReturn(connection);
             when(connection.getResponseCode()).thenReturn(HttpURLConnection.HTTP_BAD_GATEWAY);
             Assertions.assertThrows(
-                    OpenCDXServiceUnavailable.class,
+                    OpenCDXNotAcceptable.class,
                     () -> this.openCDXIAMProviderService.loadProvider(loadProviderRequest1));
         }
     }

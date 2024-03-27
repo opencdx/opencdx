@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Data
+@SuppressWarnings("java:S116")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Meta {
     private String disclaimer;

@@ -131,6 +131,7 @@ def exportedProjects = [
         ":opencdx-anf",
         ":opencdx-audit",
         ":opencdx-classification",
+        ":opencdx-classification-analyzer",
         ":opencdx-client",
         ":opencdx-commons",
         ":opencdx-communications",

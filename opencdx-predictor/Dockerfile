@@ -7,7 +7,5 @@ curl
 
 RUN apt-get clean
 
-RUN apt-get clean
-
 COPY build/libs/opencdx-predictor-*.jar app.jar
 ENTRYPOINT ["sh", "-c", "java -jar /app.jar "]

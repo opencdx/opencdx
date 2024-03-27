@@ -181,6 +181,7 @@ public class OpenCDXMedicationModel {
      * Method to convert to protobuf message Medication
      * @return Protobuf message Medication
      */
+    @SuppressWarnings("java:S3776")
     public Medication getProtobufMessage() {
         Medication.Builder builder = Medication.newBuilder();
         if (this.medicationName != null) {

@@ -19,6 +19,8 @@ import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.exceptions.OpenCDXClientException;
 import cdx.opencdx.grpc.neural.classification.ClassificationRequest;
 import cdx.opencdx.grpc.neural.classification.ClassificationResponse;
+import cdx.opencdx.grpc.neural.classification.RuleSetsRequest;
+import cdx.opencdx.grpc.neural.classification.RuleSetsResponse;
 
 /**
  * Interface for communicating with the Classification microservice.
@@ -31,5 +33,14 @@ public interface OpenCDXClassificationClient {
      * @return Classification Response.
      */
     ClassificationResponse classify(ClassificationRequest request, OpenCDXCallCredentials openCDXCallCredentials)
+            throws OpenCDXClientException;
+
+    /**
+     * Method to gRPC Call Questionnaire Service getRuleSets() api.
+     * @param request Client Rules request
+     * @param openCDXCallCredentials Call Credentials to use for send.
+     * @return Message response.
+     */
+    RuleSetsResponse getRuleSets(RuleSetsRequest request, OpenCDXCallCredentials openCDXCallCredentials)
             throws OpenCDXClientException;
 }
