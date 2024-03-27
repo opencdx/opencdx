@@ -57,8 +57,6 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
     private static final String QUESTIONNAIRE = "QUESTIONNAIRE: ";
     private static final String DOMAIN = "OpenCDXQuestionnaireServiceImpl";
     private static final String FAILED_TO_FIND_USER = "FAILED_TO_FIND_USER";
-    private static final String FAILED_TO_CONVERT_OPEN_CDX_RULE_SET = "Failed to convert OpenCDXRuleSet";
-    private static final String RULESET = "RULESET";
     private static final String QUESTION_TYPE_CHOICE = "choice";
     private static final String CODE_TINKAR = "tinkar";
     private final OpenCDXAuditService openCDXAuditService;
@@ -568,6 +566,7 @@ public class OpenCDXQuestionnaireServiceImpl implements OpenCDXQuestionnaireServ
         model.setItems(questions);
     }
 
+    @SuppressWarnings("java:S1172")
     private List<QuestionnaireItemAnswerOption> getAnswerOptions(String id) {
         List<QuestionnaireItemAnswerOption> answerOptions = new ArrayList<>();
 

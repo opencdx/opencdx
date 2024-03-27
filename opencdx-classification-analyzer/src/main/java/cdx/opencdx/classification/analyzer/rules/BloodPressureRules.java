@@ -20,20 +20,45 @@ import org.evrete.dsl.annotation.Fact;
 import org.evrete.dsl.annotation.Rule;
 import org.evrete.dsl.annotation.Where;
 
+/**
+ * Rules for blood pressure classification
+ */
 public class BloodPressureRules {
 
+    /**
+     * Default Constructor
+     */
+    public BloodPressureRules() {
+        // Explicit declaration to prevent this class from inadvertently being made instantiable
+    }
+
+    /**
+     * Rule for normal blood pressure
+     * @param systolic the systolic blood pressure
+     * @param ruleResult the result of the rule
+     */
     @Rule
     @Where("$s < 120")
     public void normalBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
         ruleResult.setFurtherActions("Normal blood pressure. No further actions needed.");
     }
 
+    /**
+     * Rule for elevated blood pressure
+     * @param systolic the systolic blood pressure
+     * @param ruleResult the result of the rule
+     */
     @Rule
     @Where("$s >= 120 && $s <= 129")
     public void elevatedBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {
         ruleResult.setFurtherActions("Elevated blood pressure. Please continue monitoring.");
     }
 
+    /**
+     * Rule for high blood pressure
+     * @param systolic the systolic blood pressure
+     * @param ruleResult the result of the rule
+     */
     @Rule
     @Where("$s > 129")
     public void highBloodPressure(@Fact("$s") int systolic, RuleResult ruleResult) {

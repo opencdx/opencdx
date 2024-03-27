@@ -58,7 +58,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
 
-    public static final String FILE_NAME = "fileName: {}";
+    private static final String FILE_NAME = "fileName: {}";
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
     private final OpenCDXTestCaseClient openCDXTestCaseClient;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -69,6 +69,13 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
 
     private static final String RULE_BLOOD_PRESSURE = "8a75ec67-880b-41cd-a526-a12aa9aef2c1";
 
+    /**
+     * Constructor to initialize the OpenCDXAnalysisEngineImpl with the required clients.
+     *
+     * @param openCDXMediaUpDownClient the OpenCDXMediaUpDownClient object to download media
+     * @param openCDXTestCaseClient the OpenCDXTestCaseClient object to get test cases
+     * @param openCDXCurrentUser the OpenCDXCurrentUser object to get the current user
+     */
     public OpenCDXAnalysisEngineImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
             OpenCDXTestCaseClient openCDXTestCaseClient,

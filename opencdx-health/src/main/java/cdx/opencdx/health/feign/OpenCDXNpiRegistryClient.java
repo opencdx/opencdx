@@ -28,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "npiRegistryClient")
 public interface OpenCDXNpiRegistryClient {
 
+    /**
+     * Version of the NPI API
+     */
     public static final String NPI_VERSION = "2.1";
 
     /**

@@ -417,7 +417,7 @@ class OpenCDXClassificationServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertDoesNotThrow( () -> this.classificationService.classify(request));
+        Assertions.assertDoesNotThrow(() -> this.classificationService.classify(request));
     }
 
     @RepeatedTest(100)
