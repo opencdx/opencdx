@@ -691,4 +691,43 @@ class OpenCDXClassificationServiceImplTest {
 
         Assertions.assertNotNull(this.classificationService.classify(request));
     }
+
+    @Test
+    void testSubmitClassificationBloodPressure() {
+        String ruleId = "8a75ec67-880b-41cd-a526-a12aa9aef2c1";
+        String ruleQuestionId = ObjectId.get().toHexString();
+        int bloodPressure = 120;
+
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
+
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenReturn(UserQuestionnaireData.newBuilder()
+                        .addQuestionnaireData(Questionnaire.newBuilder()
+                                .setRuleId(ruleId)
+                                .addRuleQuestionId(ruleQuestionId)
+                                .addItem(QuestionnaireItem.newBuilder()
+                                        .setLinkId(ruleQuestionId)
+                                        .setType("integer")
+                                        .addAllAnswer(List.of(AnswerValue.newBuilder().setValueInteger(bloodPressure).build())))
+                                .build())
+                        .build());
+
+        ClassificationRequest classificationRequest = ClassificationRequest.newBuilder()
+                .setUserAnswer(UserAnswer.newBuilder()
+                        .setPatientId(ObjectId.get().toHexString())
+                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .build())
+                .build();
+
+        // Verify that the rules executed and set the correct further actions
+        Assertions.assertEquals(
+                "Elevated blood pressure. Please continue monitoring.",
+                classificationService.classify(classificationRequest).getFurtherActions());
+    }
+
 }

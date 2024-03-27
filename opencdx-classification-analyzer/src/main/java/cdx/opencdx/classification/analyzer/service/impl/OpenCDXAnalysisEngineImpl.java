@@ -16,6 +16,7 @@
 package cdx.opencdx.classification.analyzer.service.impl;
 
 import cdx.opencdx.classification.analyzer.dto.RuleResult;
+import cdx.opencdx.classification.analyzer.rules.BloodPressureRules;
 import cdx.opencdx.client.dto.OpenCDXCallCredentials;
 import cdx.opencdx.client.service.OpenCDXMediaUpDownClient;
 import cdx.opencdx.client.service.OpenCDXTestCaseClient;
@@ -33,6 +34,8 @@ import cdx.opencdx.grpc.neural.classification.*;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import io.micrometer.observation.annotation.Observed;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -63,6 +66,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * Random number generator for demonstration purposes to generate random classification responses.
      */
     private final Random random;
+    private static final String RULE_BLOOD_PRESSURE = "8a75ec67-880b-41cd-a526-a12aa9aef2c1";
 
     public OpenCDXAnalysisEngineImpl(
             OpenCDXMediaUpDownClient openCDXMediaUpDownClient,
@@ -84,7 +88,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
     public RuleSetsResponse getRuleSets(RuleSetsRequest request) {
         return RuleSetsResponse.newBuilder()
                 .addAllRuleSets(List.of(RuleSet.newBuilder()
-                        .setRuleId("8a75ec67-880b-41cd-a526-a12aa9aef2c1")
+                        .setRuleId(RULE_BLOOD_PRESSURE)
                         .setCategory("Vitals Checks")
                         .setType("Questionnaire")
                         .setDescription("Checks the results of blood pressure questionnaire.")
@@ -114,6 +118,8 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         builder.setCost(this.random.nextFloat(500.00f));
         builder.setPatientId(patient.getId().toHexString());
         builder.setFurtherActions("Executed classify operation.");
+
+        runRules(userQuestionnaireData, builder);
 
         return builder.build();
     }
@@ -217,21 +223,33 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
                 && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isEmpty()
                 && !userQuestionnaireData.getQuestionnaireData(0).getRuleId().isBlank()
                 && userQuestionnaireData.getQuestionnaireData(0).getRuleQuestionIdCount() > 0) {
+
             KnowledgeService knowledgeService = new KnowledgeService();
-            // Knowledge knowledge = knowledgeService.newKnowledge("JAVA-SOURCE", getRulesClass(model));
             Knowledge knowledge = null;
-            RuleResult ruleResult = new RuleResult();
-            knowledge.newStatelessSession().insertAndFire(getResponse(userQuestionnaireData), ruleResult);
-            builder.setNotifyCdc(ruleResult.isNotifyCDC());
-            builder.setFurtherActions(ruleResult.getFurtherActions());
-            if (ruleResult.getType() != null) {
-                builder.setType(ruleResult.getType());
+
+            try {
+                if (userQuestionnaireData.getQuestionnaireData(0).getRuleId().equals(RULE_BLOOD_PRESSURE)) {
+                    knowledge = knowledgeService.newKnowledge("JAVA-CLASS", BloodPressureRules.class);
+                }
+            } catch (IOException e) {
+                log.error("Unable to create rules knowledge");
             }
-            if (ruleResult.getTestKit() != null) {
-                builder.setTestKit(ruleResult.getTestKit());
+
+            if (knowledge != null) {
+                RuleResult ruleResult = new RuleResult();
+                knowledge.newStatelessSession().insertAndFire(getResponse(userQuestionnaireData), ruleResult);
+
+                builder.setNotifyCdc(ruleResult.isNotifyCDC());
+                builder.setFurtherActions(ruleResult.getFurtherActions());
+                if (ruleResult.getType() != null) {
+                    builder.setType(ruleResult.getType());
+                }
+                if (ruleResult.getTestKit() != null) {
+                    builder.setTestKit(ruleResult.getTestKit());
+                }
+            } else {
+                log.info("No rules to process.");
             }
-        } else {
-            log.error("No rules to process.");
         }
     }
 
