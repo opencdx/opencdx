@@ -34,7 +34,6 @@ import cdx.opencdx.grpc.neural.classification.*;
 import cdx.opencdx.grpc.questionnaire.QuestionnaireItem;
 import cdx.opencdx.grpc.questionnaire.UserQuestionnaireData;
 import io.micrometer.observation.annotation.Observed;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +58,7 @@ import org.springframework.stereotype.Service;
 @Observed(name = "opencdx")
 public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
 
+    public static final String FILE_NAME = "fileName: {}";
     private final OpenCDXMediaUpDownClient openCDXMediaUpDownClient;
     private final OpenCDXTestCaseClient openCDXTestCaseClient;
     private final OpenCDXCurrentUser openCDXCurrentUser;
@@ -66,6 +66,7 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
      * Random number generator for demonstration purposes to generate random classification responses.
      */
     private final Random random;
+
     private static final String RULE_BLOOD_PRESSURE = "8a75ec67-880b-41cd-a526-a12aa9aef2c1";
 
     public OpenCDXAnalysisEngineImpl(
@@ -106,18 +107,16 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         log.info("Analyzing User Questionnaire: {}", userQuestionnaireData.getId());
         Resource file = retrieveFile(media);
         if (file != null) {
-            log.trace("fileName: {}", file.getFilename());
+            log.trace(FILE_NAME, file.getFilename());
         }
 
         ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
-        builder.setMessage("Executed classify operation.");
 
         builder.setConfidence(this.random.nextFloat(100.0f));
         builder.setPositiveProbability(this.random.nextFloat(90.0f));
         builder.setAvailability(this.random.nextBoolean() ? "Not Available" : "Available");
         builder.setCost(this.random.nextFloat(500.00f));
         builder.setPatientId(patient.getId().toHexString());
-        builder.setFurtherActions("Executed classify operation.");
 
         runRules(userQuestionnaireData, builder);
 
@@ -135,11 +134,11 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
 
         Resource file = retrieveFile(media);
         if (file != null) {
-            log.trace("fileName: {}", file.getFilename());
+            log.trace(FILE_NAME, file.getFilename());
         }
         Resource connectedFile = retrieveFile(testDetailsMedia);
         if (connectedFile != null) {
-            log.trace("fileName: {}", connectedFile.getFilename());
+            log.trace(FILE_NAME, connectedFile.getFilename());
         }
         ClassificationResponse.Builder builder = ClassificationResponse.newBuilder();
         builder.setMessage("Executed classify operation.");

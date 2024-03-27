@@ -713,7 +713,9 @@ class OpenCDXClassificationServiceImplTest {
                                 .addItem(QuestionnaireItem.newBuilder()
                                         .setLinkId(ruleQuestionId)
                                         .setType("integer")
-                                        .addAllAnswer(List.of(AnswerValue.newBuilder().setValueInteger(bloodPressure).build())))
+                                        .addAllAnswer(List.of(AnswerValue.newBuilder()
+                                                .setValueInteger(bloodPressure)
+                                                .build())))
                                 .build())
                         .build());
 
@@ -729,5 +731,4 @@ class OpenCDXClassificationServiceImplTest {
                 "Elevated blood pressure. Please continue monitoring.",
                 classificationService.classify(classificationRequest).getFurtherActions());
     }
-
 }
