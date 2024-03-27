@@ -10,11 +10,8 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
 
 	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-	// https://mvnrepository.com/artifact/io.github.openfeign/feign-httpclient
-	implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.1'
-	// https://mvnrepository.com/artifact/io.github.openfeign/feign-hc5
-	implementation group: 'io.github.openfeign', name: 'feign-hc5', version: '13.1'
 
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
 	implementation 'io.micrometer:micrometer-observation'
 	implementation 'io.micrometer:micrometer-tracing'
