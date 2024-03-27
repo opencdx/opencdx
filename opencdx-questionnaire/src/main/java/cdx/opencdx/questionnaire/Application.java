@@ -16,7 +16,6 @@
 package cdx.opencdx.questionnaire;
 
 import cdx.opencdx.commons.annotations.ExcludeFromJacocoGeneratedReport;
-import com.github.cloudyrock.spring.v5.EnableMongock;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -28,7 +27,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableMongock
 @ComponentScan(basePackages = {"cdx.opencdx"})
 @EnableMongoRepositories(basePackages = {"cdx.opencdx"})
 @ExcludeFromJacocoGeneratedReport

@@ -1673,6 +1673,110 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Health- Vitals" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / Create" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/CreateHeightMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;height_Measurement&quot;:{
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+		&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+		&quot;height&quot;:1.4,
+		&quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Height ID" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">height_id_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.height_Measurement.id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / Get" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/GetHeightMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;id&quot;:&quot;${height_id_g}&quot;
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / Update" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/UpdateHeightMeasurement</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;height_Measurement&quot;:{
+		&quot;id&quot;:&quot;${height_id_g}&quot;,
+		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+		&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+		&quot;height&quot;:1.5,
+		&quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / List" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/ListHeightMeasurements</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
+	&quot;start_date&quot;:&quot;2023-09-08T02:45:04Z&quot;,
+	&quot;end_date&quot;:&quot;2023-11-08T02:45:04Z&quot;,
+	&quot;pagination&quot;:{
+		&quot;page_number&quot;:0,
+		&quot;page_size&quot;:10,
+		&quot;sort_ascending&quot;:true
+	}
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Communications Immediate" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
@@ -3497,110 +3601,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Health- Vitals" enabled="true">
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
-            <boolProp name="TransactionController.parent">false</boolProp>
-          </TransactionController>
-          <hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / Create" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/CreateHeightMeasurement</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;height_Measurement&quot;:{
-		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
-		&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
-		&quot;height&quot;:1.4,
-		&quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;
-	}
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Height ID" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">height_id_g</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.height_Measurement.id</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-            </hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / Get" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/GetHeightMeasurement</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;id&quot;:&quot;${height_id_g}&quot;
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / Update" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/UpdateHeightMeasurement</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;height_Measurement&quot;:{
-		&quot;id&quot;:&quot;${height_id_g}&quot;,
-		&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
-		&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
-		&quot;height&quot;:1.5,
-		&quot;time_of_measurement&quot;: &quot;2023-10-08T02:45:04Z&quot;
-	}
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Height / List" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.HeightMeasurementService/ListHeightMeasurements</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;national_health_id&quot;:&quot;15a5fe60-66e3-40b9-9f8c-1232b4e8b31a&quot;,
-	&quot;start_date&quot;:&quot;2023-09-08T02:45:04Z&quot;,
-	&quot;end_date&quot;:&quot;2023-11-08T02:45:04Z&quot;,
-	&quot;pagination&quot;:{
-		&quot;page_number&quot;:0,
-		&quot;page_size&quot;:10,
-		&quot;sort_ascending&quot;:true
-	}
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Provider" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
@@ -4320,131 +4320,13 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / CreateQuerstionnaire" enabled="false">
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Classification / GetRuleSets" enabled="true">
               <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
               <stringProp name="GRPCSampler.libFolder"></stringProp>
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/Classify</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-    &quot;user_answer&quot;: {
-    	   &quot;user_id&quot;: &quot;${user_id_g}&quot;,	
-        &quot;age&quot;: 66609670,
-        &quot;gender&quot;: 4,
-        &quot;language_preference&quot;: &quot;Ut fugiat ullamco et Excepteur&quot;,
-        &quot;medical_conditions&quot;: &quot;Duis aliquip ut&quot;,
-        &quot;pregnancy_status&quot;: false,
-        &quot;symptoms&quot;: [
-            {
-                &quot;duration&quot;: {
-                    &quot;duration&quot;: &quot;14424702&quot;,
-                    &quot;type&quot;: 5
-                },
-                &quot;additional_details&quot;: &quot;nisi occaecat elit&quot;,
-                &quot;onset_date&quot;: &quot;2023-10-04T15:58:24Z&quot;,
-                &quot;severity&quot;: &quot;MEDIUM&quot;,
-                &quot;name&quot;: &quot;eu eiusmod deserunt&quot;
-            }
-        ],
-        &quot;connected_test_id&quot;: &quot;${connectedTestId}&quot;,
-        &quot;text_result&quot;: &quot;dolor exercitation ea Duis sunt&quot;,
-        &quot;user_location&quot;: {
-            &quot;latitude&quot;: &quot;Infinity&quot;,
-            &quot;longitude&quot;: &quot;-Infinity&quot;
-        }
-    }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / CreateRuleSet" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/CreateRuleSet</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;rule_set&quot;:{
-    &quot;type&quot;: &quot;User Rule&quot;,
-    &quot;category&quot;: &quot;Process user response&quot;,
-    &quot;description&quot;: &quot;Categorize blood pressure&quot;,
-    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,
-    &quot;status&quot;: &quot;draft&quot;
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet  ID" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">rulesetId_g</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.rule_set.rule_id</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-            </hashTree>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / UpdateRuleSet" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/UpdateRuleSet</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-  &quot;rule_set&quot;: {
-    &quot;rule_id&quot;: &quot;${rulesetId_g}&quot;,
-    &quot;type&quot;: &quot;User Rule&quot;,
-    &quot;category&quot;: &quot;Process user response&quot;,
-    &quot;description&quot;: &quot;Monitor blood pressure&quot;,
-    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,
-    &quot;status&quot;: &quot;draft&quot;
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / GetRuleSet" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/GetRuleSet</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-	&quot;id&quot;:&quot;${rulesetId_g}&quot;
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Questionnaire / GetRuleSets" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.questionnaire.QuestionnaireService/GetRuleSets</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.neural.classification.ClassificationService/GetRuleSets</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -4453,7 +4335,15 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
               <stringProp name="GRPCSampler.requestJson">{}</stringProp>
             </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet ID" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">rulesetId_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.rule_sets..rule_id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [POST]" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -10965,26 +10855,18 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset [POST]" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset/list[GET]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;ruleSet&quot; : {&#xd;
-    &quot;type&quot; : &quot;User Rule&quot;,&#xd;
-    &quot;category&quot; : &quot;Process user response&quot;,&#xd;
-    &quot;description&quot; : &quot;Categorize blood pressure&quot;,&#xd;
-    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,&#xd;
-    &quot;status&quot;: &quot;draft&quot;&#xd;
-  }&#xd;
-}</stringProp>
+                  <stringProp name="Argument.value">{}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.path">/questionnaire/ruleset</stringProp>
+            <stringProp name="HTTPSampler.path">/classification/ruleset/list</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11000,90 +10882,12 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract RuleSet ID" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">rulesetId_r</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.ruleSet.ruleId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.ruleSets..ruleId</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset [PUT]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;ruleSet&quot; : {&#xd;
-    &quot;ruleId&quot; : &quot;${rulesetId_r}&quot;,&#xd;
-    &quot;type&quot; : &quot;User Rule&quot;,&#xd;
-    &quot;category&quot; : &quot;Process user response&quot;,&#xd;
-    &quot;description&quot; : &quot;Categorize blood pressure&quot;,&#xd;
-    &quot;rule&quot;: &quot;package cdx.opencdx.evrete.rules;\n\nimport org.evrete.dsl.annotation.Fact;\nimport org.evrete.dsl.annotation.Rule;\nimport org.evrete.dsl.annotation.Where;\n\nimport cdx.opencdx.evrete.domain.BloodPressure;\n\npublic class BloodPressureRules {\n\n    @Rule\n    @Where(\&quot;$s \u003c 120\&quot;)\n    public void normalBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Normal\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e\u003d 120 \u0026\u0026 $s \u003c\u003d 129\&quot;)\n    public void elevatedBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;Elevated\&quot;);\n    }\n\n    @Rule\n    @Where(\&quot;$s \u003e 129\&quot;)\n    public void highBloodPressure(@Fact(\&quot;$s\&quot;) int systolic, BloodPressure bp) {\n        bp.setStatus(\&quot;High\&quot;);\n    }\n\n}\n&quot;,&#xd;
-    &quot;status&quot;: &quot;draft&quot;&#xd;
-  }&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/questionnaire/ruleset</stringProp>
-            <stringProp name="HTTPSampler.method">PUT</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset [GET]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/questionnaire/ruleset/${rulesetId_r}</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/ruleset/list[GET]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/questionnaire/ruleset/list</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/questionnaire [POST]" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
