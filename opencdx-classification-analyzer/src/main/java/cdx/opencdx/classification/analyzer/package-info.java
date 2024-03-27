@@ -5,4 +5,4 @@
  * @version 1.0
  * @since 1.0
  */
-package cdx.opencdx.commons;
+package cdx.opencdx.classification.analyzer;

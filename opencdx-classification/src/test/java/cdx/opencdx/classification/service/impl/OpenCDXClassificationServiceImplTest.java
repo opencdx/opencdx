@@ -33,6 +33,7 @@ import cdx.opencdx.commons.repository.OpenCDXProfileRepository;
 import cdx.opencdx.commons.service.*;
 import cdx.opencdx.commons.service.OpenCDXAnalysisEngine;
 import cdx.opencdx.grpc.common.*;
+import cdx.opencdx.grpc.connected.BasicInfo;
 import cdx.opencdx.grpc.connected.ConnectedTest;
 import cdx.opencdx.grpc.connected.TestDetails;
 import cdx.opencdx.grpc.connected.TestIdRequest;
@@ -52,10 +53,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.bson.types.ObjectId;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -134,6 +132,30 @@ class OpenCDXClassificationServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
+        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
+                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<UserQuestionnaireData>() {
+                    @Override
+                    public UserQuestionnaireData answer(InvocationOnMock invocation) throws Throwable {
+                        GetQuestionnaireRequest argument = invocation.getArgument(0);
+                        return UserQuestionnaireData.newBuilder()
+                                .setId(argument.getId())
+                                .build();
+                    }
+                });
+
+        Mockito.when(this.openCDXConnectedTestClient.getTestDetailsById(Mockito.any(TestIdRequest.class),Mockito.any(OpenCDXCallCredentials.class)))
+                .thenAnswer(new Answer<ConnectedTest>() {
+                    @Override
+                    public ConnectedTest answer(InvocationOnMock invocation) throws Throwable {
+                        TestIdRequest argument = invocation.getArgument(0);
+                        return ConnectedTest.newBuilder()
+                                .setBasicInfo(BasicInfo.newBuilder()
+                                        .setId(argument.getTestId())
+                                        .build())
+                                .build();
+                    }
+                });
 
         Mockito.when(this.openCDXTestCaseClient.listTestCase(
                         Mockito.any(TestCaseListRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
@@ -374,14 +396,11 @@ class OpenCDXClassificationServiceImplTest {
                         .build())
                 .build();
 
-        Assertions.assertThrows(OpenCDXDataLoss.class, () -> this.classificationService.classify(request));
+        Assertions.assertThrows(OpenCDXNotAcceptable.class, () -> this.classificationService.classify(request));
     }
 
-    @Test
+    @RepeatedTest(100)
     void testSubmitClassificationRetrieveQuestionnaireNull() {
-        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
-                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
-                .thenReturn(null);
 
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
@@ -403,11 +422,8 @@ class OpenCDXClassificationServiceImplTest {
                 "Executed classify operation.", response.getMessage().toString());
     }
 
-    @Test
+    @RepeatedTest(100)
     void testSubmitClassificationMediaNull() {
-        Mockito.when(this.openCDXQuestionnaireClient.getUserQuestionnaireData(
-                        Mockito.any(GetQuestionnaireRequest.class), Mockito.any(OpenCDXCallCredentials.class)))
-                .thenReturn(null);
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         Authentication authentication = new UsernamePasswordAuthenticationToken("user", "password");
 
@@ -418,7 +434,7 @@ class OpenCDXClassificationServiceImplTest {
                 .setUserAnswer(UserAnswer.newBuilder()
                         .setPatientId(ObjectId.get().toHexString())
                         .setMediaId(ObjectId.get().toHexString())
-                        .setUserQuestionnaireId(ObjectId.get().toHexString())
+                        .setConnectedTestId(ObjectId.get().toHexString())
                         .build())
                 .build();
 

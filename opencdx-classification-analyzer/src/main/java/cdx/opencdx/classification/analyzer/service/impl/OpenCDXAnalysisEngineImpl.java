@@ -113,8 +113,9 @@ public class OpenCDXAnalysisEngineImpl implements OpenCDXAnalysisEngine {
         builder.setAvailability(this.random.nextBoolean() ? "Not Available" : "Available");
         builder.setCost(this.random.nextFloat(500.00f));
         builder.setPatientId(patient.getId().toHexString());
+        builder.setFurtherActions("Executed classify operation.");
 
-        return null;
+        return builder.build();
     }
 
     @Override
