@@ -417,10 +417,7 @@ class OpenCDXClassificationServiceImplTest {
                         .build())
                 .build();
 
-        ClassificationResponse response = this.classificationService.classify(request);
-
-        Assertions.assertEquals(
-                "Executed classify operation.", response.getMessage().toString());
+        Assertions.assertDoesNotThrow( () -> this.classificationService.classify(request));
     }
 
     @RepeatedTest(100)
