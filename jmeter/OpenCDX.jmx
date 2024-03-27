@@ -1281,7 +1281,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/CreateUserProfile</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/CreateUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1445,18 +1445,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
       &quot;notes&quot; : &quot;Christmas Trees&quot;
     } ],
-    &quot;currentMedications&quot; : [ {
-      &quot;name&quot; : &quot;Singular&quot;,
-      &quot;dosage&quot; : &quot;5mg&quot;,
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,
-      &quot;frequency&quot; : &quot;Daily&quot;,
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,
-      &quot;endDate&quot; : &quot;EOL&quot;,
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,
-      &quot;isPrescription&quot; : true
-    } ],
     &quot;isActive&quot; : false,
     &quot;email&quot; : [ ],
     &quot;phone&quot; : [ ],
@@ -1486,7 +1474,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/UpdateUserProfile</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/UpdateUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -1651,18 +1639,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,
       &quot;notes&quot; : &quot;Christmas Trees&quot;
     } ],
-    &quot;currentMedications&quot; : [ {
-      &quot;name&quot; : &quot;Singular&quot;,
-      &quot;dosage&quot; : &quot;5mg&quot;,
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,
-      &quot;frequency&quot; : &quot;Daily&quot;,
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,
-      &quot;endDate&quot; : &quot;EOL&quot;,
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,
-      &quot;isPrescription&quot; : true
-    } ],
     &quot;isActive&quot; : false,
     &quot;email&quot; : [ ],
     &quot;phone&quot; : [ ],
@@ -1684,7 +1660,7 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
               <stringProp name="GRPCSampler.host">localhost</stringProp>
               <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.profile.UserProfileService/GetUserProfile</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.profile.UserProfileService/GetUserProfile</stringProp>
               <stringProp name="GRPCSampler.deadline">1000</stringProp>
               <boolProp name="GRPCSampler.tls">true</boolProp>
               <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
@@ -3341,6 +3317,186 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
             </vn.zalopay.benchmark.GRPCSampler>
             <hashTree/>
           </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Health- Medication" enabled="true">
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
+          </TransactionController>
+          <hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medication / Search" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/SearchMedications</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">2000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson"> {
+  &quot;brand_name&quot; : &quot;Adipex&quot;,
+  &quot;pagination&quot; : {
+    &quot;page_number&quot; : 0,
+    &quot;page_size&quot; : 10,
+    &quot;sort_ascending&quot; : false
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medication / Prescribing" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/Prescribing</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{	
+	&quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+	&quot;national_health_id&quot;:&quot;5870306f-1035-4d01-bacb-a97060e7b4a0&quot;,
+    &quot;medication_name&quot;: &quot;ADIPEX-P&quot;,
+    &quot;dosage_strength&quot;: &quot;37.5MG PHENTERMINE HYDROCHLORIDE&quot;,
+    &quot;dosage_unit&quot;: &quot;&quot;,
+    &quot;dosage_form&quot;: &quot;TABLET&quot;,
+    &quot;quantity&quot;: 0.0,
+    &quot;instructions&quot;: &quot;2 DOSAGE AND ADMINISTRATION Dosage should be individualized to obtain an adequate response with the lowest effective dose. ( 2.1 ) Late evening administration should be avoided (risk of insomnia). ( 2.1 ) ADIPEX-P ® can be taken with or without food. ( 2.1 ) Limit the dosage to 15 mg daily for patients with severe renal impairment (eGFR 15 to 29 mL/min/1.73 m 2 ) ( 2.2 ) 2.1 Exogenous Obesity Dosage should be individualized to obtain an adequate response with the lowest effective dose. The usual adult dose is one capsule (37.5 mg) daily as prescribed by the physician, administered before breakfast or 1 to 2 hours after breakfast for appetite control. The usual adult dose is one tablet (37.5 mg) daily as prescribed by the physician, administered before breakfast or 1 to 2 hours after breakfast. The dosage may be adjusted to the patient’s need. For some patients, half tablet (18.75 mg) daily may be adequate, while in some cases it may be desirable to give half tablets (18.75 mg) two times a day. ADIPEX-P ® is not recommended for use in pediatric patients less than or equal to 16 years of age. Late evening medication should be avoided because of the possibility of resulting insomnia. 2.2 Dosage in Patients With Renal Impairment The recommended maximum dosage of ADIPEX-P ® is 15 mg daily for patients with severe renal impairment (eGFR 15 to 29 mL/min/1.73 m 2 ). Avoid use of ADIPEX-P ® in patients with eGFR less than 15 mL/min/1.73 m 2 or end-stage renal disease requiring dialysis [ see Use in Specific Populations ( 8.6 ) and Clinical Pharmacology ( 12.3 ) ].&quot;,
+    &quot;route_of_administration&quot;: &quot;ORAL&quot;,
+    &quot;frequency&quot;: &quot;UNSPECIFIED_FREQUENCY&quot;,
+    &quot;other_frequency&quot;: &quot;&quot;,
+    &quot;provider_number&quot;: &quot;&quot;,
+    &quot;is_prescription&quot;: true,
+    &quot;is_generic&quot;: false,
+    &quot;product_ndc&quot;: &quot;57844-140&quot;
+  },</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Medicaiton Id" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">medicaiton_id_g</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medicaiton / Current Medicaitons ID" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListCurrentMedications</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+  &quot;pagination&quot; : {
+    &quot;page_number&quot; : 0,
+    &quot;page_size&quot; : 10,
+    &quot;sort_ascending&quot; : false
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medicaiton / Current Medicaitons NHI" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListCurrentMedications</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;national_health_id&quot;:&quot;5870306f-1035-4d01-bacb-a97060e7b4a0&quot;,
+  &quot;pagination&quot; : {
+    &quot;page_number&quot; : 0,
+    &quot;page_size&quot; : 10,
+    &quot;sort_ascending&quot; : false
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medication / Ending" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/Ending</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+	&quot;medication_id&quot;:&quot;${medicaiton_id_g}&quot;,
+	&quot;end_date&quot;:&quot;2024-03-18T00:00:00Z&quot;
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medicaiton / List All Medicaitons ID" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListAllMedications</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;patient_id&quot;:&quot;${patient_id_g}&quot;,
+  &quot;pagination&quot; : {
+    &quot;page_number&quot; : 0,
+    &quot;page_size&quot; : 10,
+    &quot;sort_ascending&quot; : false
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Medicaiton / List All Medicaitons NHI" enabled="true">
+              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
+              <stringProp name="GRPCSampler.libFolder"></stringProp>
+              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
+              <stringProp name="GRPCSampler.host">localhost</stringProp>
+              <stringProp name="GRPCSampler.port">8080</stringProp>
+              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.health.medication.MedicationService/ListAllMedications</stringProp>
+              <stringProp name="GRPCSampler.deadline">1000</stringProp>
+              <boolProp name="GRPCSampler.tls">true</boolProp>
+              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
+              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
+              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
+              <stringProp name="GRPCSampler.requestJson">{
+  &quot;national_health_id&quot;:&quot;5870306f-1035-4d01-bacb-a97060e7b4a0&quot;,
+  &quot;pagination&quot; : {
+    &quot;page_number&quot; : 0,
+    &quot;page_size&quot; : 10,
+    &quot;sort_ascending&quot; : false
+  }
+}</stringProp>
+            </vn.zalopay.benchmark.GRPCSampler>
+            <hashTree/>
+          </hashTree>
           <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Connected Tests Loops" enabled="true">
             <stringProp name="LoopController.loops">${__P(testCount,10)}</stringProp>
           </LoopController>
@@ -3786,30 +3942,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
     &quot;resultId&quot; : &quot;6581e5147e001111d3736b3e&quot;,
     &quot;resultValue&quot; : &quot;Result Value&quot;,
     &quot;resultDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
-    &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
-  }
-}</stringProp>
-            </vn.zalopay.benchmark.GRPCSampler>
-            <hashTree/>
-            <vn.zalopay.benchmark.GRPCSampler guiclass="vn.zalopay.benchmark.GRPCSamplerGui" testclass="vn.zalopay.benchmark.GRPCSampler" testname="Routine / CreateMedication" enabled="true">
-              <stringProp name="GRPCSampler.protoFolder">/tmp/opencdx/proto</stringProp>
-              <stringProp name="GRPCSampler.libFolder"></stringProp>
-              <stringProp name="GRPCSampler.metadata">{&quot;Authorization&quot;:&quot;Bearer ${token_g}&quot;}</stringProp>
-              <stringProp name="GRPCSampler.host">localhost</stringProp>
-              <stringProp name="GRPCSampler.port">8080</stringProp>
-              <stringProp name="GRPCSampler.fullMethod">cdx.opencdx.grpc.routine.RoutineSystemService/CreateMedication</stringProp>
-              <stringProp name="GRPCSampler.deadline">1000</stringProp>
-              <boolProp name="GRPCSampler.tls">true</boolProp>
-              <boolProp name="GRPCSampler.tlsDisableVerification">true</boolProp>
-              <stringProp name="GRPCSampler.channelAwaitTermination">1000</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMessageSize">4194304</stringProp>
-              <stringProp name="GRPCSampler.maxInboundMetadataSize">8192</stringProp>
-              <stringProp name="GRPCSampler.requestJson">{
-  &quot;medication&quot; : {
-    &quot;medicationId&quot; : &quot;6581e5147e001111d3736b41&quot;,
-    &quot;medicationName&quot; : &quot;Medication name&quot;,
-    &quot;administrationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,
     &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,
     &quot;relatedEntities&quot; : [ &quot;${deviceId_g}&quot;, &quot;${testcaseId_g}&quot; ]
   }
@@ -4642,7 +4774,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                         &quot;answerOption&quot;: [],&#xd;
                         &quot;initial&quot;: [],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerInteger&quot;: &quot;87&quot;&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueInteger&quot;: &quot;87&quot;&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;boolean&quot;,&#xd;
@@ -4694,7 +4830,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                             }&#xd;
                         ],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerBoolean&quot;: true&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;choice&quot;,&#xd;
@@ -4769,7 +4909,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                         ],&#xd;
                         &quot;initial&quot;: [],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerString&quot;: &quot;Adult&quot;&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueString&quot;: &quot;Adult&quot;&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;choice&quot;,&#xd;
@@ -4844,7 +4988,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                         ],&#xd;
                         &quot;initial&quot;: [],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerString&quot;: &quot;Right&quot;&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueString&quot;: &quot;Right&quot;&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;boolean&quot;,&#xd;
@@ -4896,7 +5044,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                             }&#xd;
                         ],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerBoolean&quot;: true&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;boolean&quot;,&#xd;
@@ -4948,7 +5100,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                             }&#xd;
                         ],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerBoolean&quot;: true&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ]&#xd;
                     }&#xd;
                 ],&#xd;
                 &quot;ruleId&quot;: &quot;${rulesetId_g}&quot;,&#xd;
@@ -7013,18 +7169,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
       &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
     } ],&#xd;
-    &quot;currentMedications&quot; : [ {&#xd;
-      &quot;name&quot; : &quot;Singular&quot;,&#xd;
-      &quot;dosage&quot; : &quot;5mg&quot;,&#xd;
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,&#xd;
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,&#xd;
-      &quot;frequency&quot; : &quot;Daily&quot;,&#xd;
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,&#xd;
-      &quot;endDate&quot; : &quot;EOL&quot;,&#xd;
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,&#xd;
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,&#xd;
-      &quot;isPrescription&quot; : true&#xd;
-    } ],&#xd;
     &quot;isActive&quot; : false,&#xd;
     &quot;email&quot; : [ ],&#xd;
     &quot;phone&quot; : [ ],&#xd;
@@ -7227,18 +7371,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
       &quot;onsetDate&quot; : &quot;1975/12/20&quot;,&#xd;
       &quot;lastOccurrence&quot; : &quot;1976/12/25&quot;,&#xd;
       &quot;notes&quot; : &quot;Christmas Trees&quot;&#xd;
-    } ],&#xd;
-    &quot;currentMedications&quot; : [ {&#xd;
-      &quot;name&quot; : &quot;Singular&quot;,&#xd;
-      &quot;dosage&quot; : &quot;5mg&quot;,&#xd;
-      &quot;instructions&quot; : &quot;Take 1 pill at night&quot;,&#xd;
-      &quot;routeOfAdministration&quot; : &quot;Oral&quot;,&#xd;
-      &quot;frequency&quot; : &quot;Daily&quot;,&#xd;
-      &quot;startDate&quot; : &quot;1976/12/26&quot;,&#xd;
-      &quot;endDate&quot; : &quot;EOL&quot;,&#xd;
-      &quot;prescribingDoctor&quot; : &quot;Dr. OpenCDX&quot;,&#xd;
-      &quot;pharmacy&quot; : &quot;Pharmacy&quot;,&#xd;
-      &quot;isPrescription&quot; : true&#xd;
     } ],&#xd;
     &quot;isActive&quot; : false,&#xd;
     &quot;email&quot; : [ ],&#xd;
@@ -9399,6 +9531,250 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Health - Medication" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton/search [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"> {&#xd;
+  &quot;brandName&quot; : &quot;Tylenol&quot;,&#xd;
+  &quot;pagination&quot; : {&#xd;
+    &quot;pageNumber&quot; : 0,&#xd;
+    &quot;pageSize&quot; : 10,&#xd;
+    &quot;sortAscending&quot; : false&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication/search</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton [POST]]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+ &quot;patientId&quot;: &quot;${patient_id_r}&quot;,&#xd;
+ &quot;nationalHealthId&quot;: &quot;5870306f-1035-4d01-dccb-a97060e7b4a0&quot;,&#xd;
+ &quot;medicationName&quot;: &quot;ACETAMINOPHEN&quot;,&#xd;
+ &quot;dosageStrength&quot;: &quot;650MG ACETAMINOPHEN&quot;,&#xd;
+ &quot;dosageUnit&quot;: &quot;&quot;,&#xd;
+ &quot;dosageForm&quot;: &quot;OTHER_DOSAGE_FORM&quot;,&#xd;
+ &quot;quantity&quot;: 0,&#xd;
+ &quot;instructions&quot;: &quot;Directions do not take more than directed (see overdose warning ) adults take 2 caplets every 8 hours with water swallow whole; do not crush, chew, split or dissolve do not take more than 6 caplets in 24 hours do not use for more than 10 days unless directed by a doctor under 18 years of age ask a doctor&quot;,&#xd;
+ &quot;routeOfAdministration&quot;: &quot;ORAL&quot;,&#xd;
+ &quot;frequency&quot;: &quot;UNSPECIFIED_FREQUENCY&quot;,&#xd;
+ &quot;otherFrequency&quot;: &quot;&quot;,&#xd;
+ &quot;providerNumber&quot;: &quot;&quot;,&#xd;
+ &quot;isPrescription&quot;: false,&#xd;
+ &quot;isGeneric&quot;: true,&#xd;
+ &quot;otherDosageForm&quot;: &quot;TABLET, EXTENDED RELEASE&quot;,&#xd;
+ &quot;productNdc&quot;: &quot;50580-783&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Medicaiton ID" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">medicaiton_id_r</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">No_Default</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton/current ID [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;patientId&quot;:&quot;${patient_id_r}&quot;,&#xd;
+  &quot;pagination&quot; : {&#xd;
+    &quot;pageNumber&quot; : 0,&#xd;
+    &quot;pageSize&quot; : 10,&#xd;
+    &quot;sortAscending&quot; : false&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication/current</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton/current NHI [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;nationalHealthId&quot;:&quot;5870306f-1035-4d01-dccb-a97060e7b4a0&quot;,&#xd;
+  &quot;pagination&quot; : {&#xd;
+    &quot;pageNumber&quot; : 0,&#xd;
+    &quot;pageSize&quot; : 10,&#xd;
+    &quot;sortAscending&quot; : false&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication/current</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton [PUT]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;medicationId&quot;:&quot;${medicaiton_id_r}&quot;,&#xd;
+	&quot;endDate&quot;:&quot;2024-03-18T00:00:00Z&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton/all ID [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;patientId&quot;:&quot;${patient_id_r}&quot;,&#xd;
+  &quot;pagination&quot; : {&#xd;
+    &quot;pageNumber&quot; : 0,&#xd;
+    &quot;pageSize&quot; : 10,&#xd;
+    &quot;sortAscending&quot; : false&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication/all</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/health/medicaiton/all NHI [POST]" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;nationalHealthId&quot;:&quot;5870306f-1035-4d01-dccb-a97060e7b4a0&quot;,&#xd;
+  &quot;pagination&quot; : {&#xd;
+    &quot;pageNumber&quot; : 0,&#xd;
+    &quot;pageSize&quot; : 10,&#xd;
+    &quot;sortAscending&quot; : false&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.path">/health/medication/all</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+            <boolProp name="HTTPSampler.image_parser">false</boolProp>
+            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+            <boolProp name="HTTPSampler.md5">false</boolProp>
+            <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Health Loops" enabled="true">
           <stringProp name="LoopController.loops">${__P(testCount,10)}</stringProp>
         </LoopController>
@@ -9897,39 +10273,6 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.path">/routine/labResult</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-            <boolProp name="HTTPSampler.image_parser">false</boolProp>
-            <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-            <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-            <boolProp name="HTTPSampler.md5">false</boolProp>
-            <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/routine/medication [POST]]" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&#xd;
-  &quot;medication&quot; : {&#xd;
-    &quot;medicationId&quot; : &quot;6581e5147e001111d3736b41&quot;,&#xd;
-    &quot;medicationName&quot; : &quot;Medication name&quot;,&#xd;
-    &quot;administrationDatetime&quot; : &quot;2023-10-04T15:58:24Z&quot;,&#xd;
-    &quot;matchedValueSet&quot; : &quot;Matched Value Set&quot;,&#xd;
-    &quot;relatedEntities&quot; : [ &quot;${deviceId}&quot;, &quot;${testcaseId}&quot; ]&#xd;
-  }&#xd;
-}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.path">/routine/medication</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -11186,7 +11529,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                         &quot;answerOption&quot;: [],&#xd;
                         &quot;initial&quot;: [],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerInteger&quot;: &quot;87&quot;&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueInteger&quot;: &quot;87&quot;&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;boolean&quot;,&#xd;
@@ -11238,7 +11585,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                             }&#xd;
                         ],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerBoolean&quot;: true&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;choice&quot;,&#xd;
@@ -11313,7 +11664,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                         ],&#xd;
                         &quot;initial&quot;: [],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerString&quot;: &quot;Adult&quot;&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueString&quot;: &quot;Adult&quot;&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;choice&quot;,&#xd;
@@ -11388,7 +11743,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                         ],&#xd;
                         &quot;initial&quot;: [],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerString&quot;: &quot;Right&quot;&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueString&quot;: &quot;Right&quot;&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;boolean&quot;,&#xd;
@@ -11440,7 +11799,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                             }&#xd;
                         ],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerBoolean&quot;: true&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ]&#xd;
                     },&#xd;
                     {&#xd;
                         &quot;type&quot;: &quot;boolean&quot;,&#xd;
@@ -11492,7 +11855,11 @@ vars.put(&quot;userPrefix&quot;,jMUUID.replace(&quot;-&quot;,&quot;&quot;));</st
                             }&#xd;
                         ],&#xd;
                         &quot;anfStatementConnector&quot;: [],&#xd;
-                        &quot;answerBoolean&quot;: true&#xd;
+                        &quot;answer&quot;: [&#xd;
+                            {&#xd;
+                                &quot;valueBoolean&quot;: true&#xd;
+                            }&#xd;
+                        ]&#xd;
                     }&#xd;
                 ],&#xd;
                 &quot;ruleId&quot;: &quot;${rulesetId_r}&quot;,&#xd;

@@ -217,11 +217,11 @@ public class OpenCDXClassifyProcessorServiceImpl implements OpenCDXClassifyProce
                 if (question.isPresent()) {
                     switch (question.get().getType()) {
                         case "integer":
-                            return question.get().getAnswerInteger();
+                            return question.get().getAnswer(0).getValueInteger();
                         case "boolean":
-                            return question.get().getAnswerBoolean();
+                            return question.get().getAnswer(0).getValueBoolean();
                         default:
-                            return question.get().getAnswerString();
+                            return question.get().getAnswer(0).getValueString();
                     }
                 }
             }

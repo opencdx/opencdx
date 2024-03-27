@@ -319,37 +319,7 @@ message LabResult {
   repeated string related_entities = 5;
 }
 
-/*
- * Medication data object.
- * This message type represents the medication data
- * with unique and optional elements.
- */
-message Medication {
-  /*
-  * The unique identifier for each medication.
-  */
-  optional string medication_id = 1;
 
-  /*
-  * Contains the name of the indicated medication.
-  */
-  optional string medication_name = 2;
-
-  /*
-  * Captures the specific time the medication was administered.
-  */
-  google.protobuf.Timestamp administration_datetime = 3;
-
-  /*
-  * Represents the value set that initiated the eICR.
-  */
-  optional string matched_value_set = 4;
-
-  /*
-  * Any associated entities such as patients and practitioners.
-  */
-  repeated string related_entities = 5;
-}
 
 /*
  * gRPC services and operations for managing healthcare data.
@@ -403,14 +373,6 @@ service RoutineSystemService {
    * RPC service for retrieving data about a specific lab result entity.
    */
   rpc GetLabResult(LabResultRequest) returns (LabResultResponse);
-  /*
-   * RPC service for creating a new medication entity.
-   */
-  rpc CreateMedication(MedicationRequest) returns (MedicationResponse);
-  /*
-   * RPC service for retrieving information about a specific medication entity.
-   */
-  rpc GetMedication(MedicationRequest) returns (MedicationResponse);
 }
 
 /*
@@ -533,24 +495,4 @@ message LabResultResponse {
    * Created lab result data
    */
   LabResult lab_result = 1;
-}
-
-/*
- * Medication Request message. Contains all the necessary information to create a new medication record.
- */
-message MedicationRequest {
-  /*
-   * Medication details
-   */
-  Medication medication = 1;
-}
-
-/*
- * Response message for Medication creation operation.
- */
-message MedicationResponse {
-  /*
-   * New medication data
-   */
-  Medication medication = 1;
 }
