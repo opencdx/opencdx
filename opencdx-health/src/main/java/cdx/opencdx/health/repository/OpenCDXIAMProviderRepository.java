@@ -28,7 +28,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Observed(name = "opencdx")
-public interface OpenCDXIAMProviderRepository extends MongoRepository<OpenCDXIAMProviderModel, ObjectId> {
+public interface OpenCDXIAMProviderRepository extends OpenCDXRepository<OpenCDXIAMProviderModel> {
     /**
      * Find the provider by the NPI number.
      *
